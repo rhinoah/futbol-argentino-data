@@ -61,8 +61,8 @@ def nombres_en_el_padron(ps: list[Partido]) -> list[Aviso]:
     Es grave y corta el build a proposito. Un nombre que el padron no conoce es
     casi siempre un club que asciende o un torneo que se suma, y si se deja pasar
     entra al dataset como un equipo nuevo: "Talleres" y "Talleres (C)" pasan a ser
-    dos clubes con media historia cada uno, y nadie lo nota hasta que el modelo
-    da cualquier cosa. Cuesta un renglon en el padron; se avisa una vez.
+    dos clubes con media historia cada uno, y nadie lo nota. Cuesta un renglon en
+    el padron; se avisa una vez.
     """
     raros = sorted({n for p in ps for n in (p.local, p.visita)
                     if n and not equipos.conocido(n)})

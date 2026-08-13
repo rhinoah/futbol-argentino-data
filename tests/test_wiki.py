@@ -6,6 +6,7 @@ Interesa que la cache y el manejo de errores anden, no que Wikipedia responda.
 from __future__ import annotations
 
 import json
+import urllib.error
 
 import pytest
 
@@ -99,6 +100,81 @@ def test_no_existe(cache, monkeypatch):
     monkeypatch.setattr(wiki, "_pedir",
                         lambda url: json.dumps({"error": {"info": "nope"}}))
     assert not wiki.existe("Anexo:X")
+
+
+# --------------------------------------------------------------------------
+# reintentos: esto corre solo todos los dias
+# --------------------------------------------------------------------------
+def test_reintenta_si_se_corta_la_red(monkeypatch):
+    """Un corte de diez segundos no tiene que volverse un dataset sin actualizar
+    y un mail de error."""
+    monkeypatch.setattr(wiki.time, "sleep", lambda _: None)
+    intentos = []
+
+    def flaky(req, timeout=None):
+        intentos.append(1)
+        if len(intentos) < 3:
+            raise urllib.error.URLError("se cayo la red")
+        return _respuesta('{"parse": {"wikitext": "ok"}}')
+
+    monkeypatch.setattr(wiki.urllib.request, "urlopen", flaky)
+    assert wiki._pedir("http://x") == '{"parse": {"wikitext": "ok"}}'
+    assert len(intentos) == 3
+
+
+def test_se_rinde_despues_de_varios_intentos(monkeypatch):
+    monkeypatch.setattr(wiki.time, "sleep", lambda _: None)
+    intentos = []
+
+    def siempre_mal(req, timeout=None):
+        intentos.append(1)
+        raise urllib.error.URLError("nada")
+
+    monkeypatch.setattr(wiki.urllib.request, "urlopen", siempre_mal)
+    with pytest.raises(urllib.error.URLError):
+        wiki._pedir("http://x")
+    assert len(intentos) == wiki.INTENTOS
+
+
+def test_un_404_no_se_reintenta(monkeypatch):
+    """Una pagina que no existe no va a existir en cinco segundos. Reintentarla
+    solo tarda mas en avisar que el titulo cambio."""
+    monkeypatch.setattr(wiki.time, "sleep", lambda _: None)
+    intentos = []
+
+    def no_esta(req, timeout=None):
+        intentos.append(1)
+        raise urllib.error.HTTPError("http://x", 404, "Not Found", {}, None)
+
+    monkeypatch.setattr(wiki.urllib.request, "urlopen", no_esta)
+    with pytest.raises(urllib.error.HTTPError):
+        wiki._pedir("http://x")
+    assert len(intentos) == 1
+
+
+def test_un_500_si_se_reintenta(monkeypatch):
+    """Un error del servidor puede ser pasajero."""
+    monkeypatch.setattr(wiki.time, "sleep", lambda _: None)
+    intentos = []
+
+    def caido(req, timeout=None):
+        intentos.append(1)
+        if len(intentos) < 2:
+            raise urllib.error.HTTPError("http://x", 503, "Unavailable", {}, None)
+        return _respuesta("{}")
+
+    monkeypatch.setattr(wiki.urllib.request, "urlopen", caido)
+    assert wiki._pedir("http://x") == "{}"
+    assert len(intentos) == 2
+
+
+def _respuesta(cuerpo: str):
+    """Un stand-in de lo que devuelve urlopen: context manager con .read()."""
+    class R:
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def read(self): return cuerpo.encode("utf-8")
+    return R()
 
 
 def test_se_identifica():

@@ -54,6 +54,8 @@ def main(argv=None) -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--sin-cache", action="store_true", help="ignora la cache en disco")
     ap.add_argument("--dry-run", action="store_true", help="no escribe el CSV")
+    ap.add_argument("--forzar", action="store_true",
+                    help="escribe aunque el dataset se achique (revisalo antes)")
     args = ap.parse_args(argv)
 
     filas, avisos, fallo = [], [], False
@@ -80,6 +82,19 @@ def main(argv=None) -> int:
     if fallo or any(a.grave for a in avisos):
         print("\nNO se escribio el CSV: hay problemas sin resolver.\n"
               "El dataset anterior queda como estaba.", file=sys.stderr)
+        return 1
+
+    # Ultima guarda, y la que importa cuando esto corre solo: que no se achique.
+    # Un chequeo de `validar` mira los partidos que HAY; este mira los que ya no.
+    perdidos = dataset.regresiones(filas, dataset.read_anterior(SALIDA))
+    if perdidos and not args.forzar:
+        print("\nEl dataset se ACHICO respecto del que ya estaba:", file=sys.stderr)
+        for p in perdidos:
+            print(f"   {p}", file=sys.stderr)
+        print("\nNo se escribio nada. Puede ser real (Wikipedia corrigio algo) o\n"
+              "puede ser que una pagina cambio de forma y el parser se quedo sin\n"
+              "encontrarla. Mirando el detalle de arriba se distingue; si esta\n"
+              "bien, va de nuevo con --forzar.", file=sys.stderr)
         return 1
 
     if args.dry_run:

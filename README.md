@@ -69,7 +69,9 @@ marcador distinto : 0
 python build.py              # baja, parsea, valida y escribe data/partidos.csv
 python build.py --dry-run    # parsea y valida, sin escribir
 python build.py --sin-cache  # vuelve a pedirle todo a Wikipedia
+python build.py --forzar     # escribe aunque el dataset se achique
 pytest                       # la suite
+python mutar.py              # rompe el código a propósito y exige que la suite lo note
 ```
 
 Sin dependencias: Python 3.11+ y la biblioteca estándar. `pandas` no hace falta
@@ -319,19 +321,64 @@ Un club que el padrón no conoce es un **aviso grave**: no se escribe el CSV. Es
 el caso de un ascenso o de un torneo que se suma, y conviene que haga ruido una
 vez en vez de colarse para siempre como un club distinto.
 
+## Correr solo
+
+Dos workflows en `.github/workflows/`:
+
+- **`tests.yml`** — la suite en Python 3.11 y 3.13 en cada push, más el mutation
+  testing en una de las dos.
+- **`actualizar.yml`** — todos los días a las 12:00 UTC (09:00 en Argentina, con
+  los partidos de la noche anterior ya cargados): corre la suite, reconstruye el
+  dataset y commitea **sólo si cambió algo**.
+
+Lo importante no es el cron, es qué lo frena. Un scraper desatendido no falla
+explotando: falla escribiendo algo plausible y equivocado, y nadie lo mira.
+
+| se frena por | y entonces |
+|---|---|
+| un aviso **grave** del validador | no escribe; queda el dataset de ayer |
+| **el dataset se achicó** | no escribe; hay que revisarlo a mano |
+| una página que no se puede bajar | no escribe; el workflow falla y avisa |
+
+### La guarda contra achicarse
+
+Es la única que mira lo que **ya no está**, y es la que hace falta justamente
+cuando nadie está mirando. Si mañana Wikipedia reordena una página y el parser
+saca 40 partidos donde había 240, esos 40 pueden estar perfectos: ningún chequeo
+del validador los ve mal, porque **mirados solos están bien**. Lo único que
+delata la pérdida es compararla contra lo de ayer.
+
+Se cuenta por torneo y no partido por partido, porque durante un torneo en curso
+los partidos se reprograman y cambian de fecha todo el tiempo — comparándolos uno
+a uno habría bajas y altas todos los días. La cantidad, en cambio, sólo baja
+cuando se perdió algo. Si la baja es real, `python build.py --forzar`.
+
+Esa guarda tuvo un bug que vale contar: comparaba `season` como entero de un lado
+(recién salido del parser) y como texto del otro (leído del CSV), así que las
+claves nunca se cruzaban y **todos** los torneos figuraban desaparecidos. Habría
+frenado el primer build real, todos los días. Los tests no lo veían porque usaban
+la misma función de los dos lados; el bug vivía justo en la juntura que no se
+estaba probando.
+
+### Dos detalles de GitHub Actions
+
+- Los workflows programados corren **sólo en la rama por defecto**.
+- GitHub **desactiva** los cron de un repo sin actividad por 60 días y manda un
+  mail. Si el dataset deja de actualizarse de golpe, mirar eso primero.
+
 ## Tests
 
-270 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+289 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 44 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 50 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
 ```
 
-Encontró nueve agujeros reales. Uno resultó ser un **mutante equivalente** —
+Encontró diez agujeros reales. Uno resultó ser un **mutante equivalente** —
 escribir `None` en vez de cadena vacía no cambiaba nada, porque el módulo `csv`
 ya convierte `None` en campo vacío — y ahí lo que sobraba era el código, no el
 test.
@@ -368,7 +415,8 @@ Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos
 - [x] **3.** Histórico 2016-2025 — diez temporadas, siete nombres distintos para el mismo campeonato
 - [x] **4.** Copa Argentina — tercer formato de página, y llevó el padrón de 30 clubes a 64
 - [ ] **5.** Primera Nacional y Federal A
-- [ ] **6.** Actualización automática (GitHub Actions) y publicación
+- [x] **6.** Actualización automática — dos workflows, con guarda contra achicarse
+- [ ] **7.** Publicarlo (GitHub, y donde sirva para que otros lo usen y comenten)
 
 ## Licencia
 

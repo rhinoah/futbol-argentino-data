@@ -63,6 +63,31 @@ MUTANTES = [
      '    sin = [p for p in zonas if not p.zona]',
      "    sin = []"),
 
+    # --- correr solo ---
+    ("fad/dataset.py", "no mirar si el dataset se achico",
+     "        if tenia_ahora < cuantos:",
+     "        if False:"),
+
+    ("fad/dataset.py", "comparar season como entero de un lado y texto del otro",
+     '            clave = (f["tournament"], str(f["season"]))',
+     '            clave = (f["tournament"], f["season"])'),
+
+    ("fad/dataset.py", "no leer el CSV anterior (nunca hay con que comparar)",
+     "    return leer(origen) if origen.exists() else []",
+     "    return []"),
+
+    ("build.py", "escribir igual aunque el dataset se haya achicado",
+     "    if perdidos and not args.forzar:",
+     "    if False:"),
+
+    ("fad/wiki.py", "no reintentar cuando se corta la red",
+     "        except urllib.error.URLError:\n            if intento == INTENTOS - 1:\n                raise",
+     "        except urllib.error.URLError:\n            raise"),
+
+    ("fad/wiki.py", "reintentar tambien los 404 (tarda mas en avisar y no sirve)",
+     "            if e.code < 500 or intento == INTENTOS - 1:\n                raise",
+     "            if intento == INTENTOS - 1:\n                raise"),
+
     # --- el historico ---
     ("fad/parser.py", "pedir tres '=' en el titulo Resultados (9 temporadas en cero)",
      '_SECCION_RESULTADOS = r"==+\\s*Resultados\\s*==+(.*?)(?=\\n==[^=])"',
@@ -251,8 +276,8 @@ def main():
         print(f"{len(sobrevivientes)}/{len(MUTANTES)} mutantes sobrevivieron:")
         for d, a in sobrevivientes:
             print(f"   - {d}  [{a}]")
-    else:
-        print(f"Los {len(MUTANTES)} mutantes murieron.")
+        return 1        # que CI se entere: un sobreviviente es un agujero
+    print(f"Los {len(MUTANTES)} mutantes murieron.")
     return 0
 
 

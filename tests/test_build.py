@@ -70,6 +70,64 @@ def test_un_alias_no_frena_el_build():
     assert not any("padron" in a.que for a in avisos)
 
 
+# --------------------------------------------------------------------------
+# el build entero, que es lo que va a correr solo todos los dias
+# --------------------------------------------------------------------------
+def correr(monkeypatch, tmp_path, pagina: str, argv=()):
+    """`build.main` contra una pagina de mentira y un CSV temporal."""
+    monkeypatch.setattr(build.torneos, "TODOS", [T])
+    monkeypatch.setattr(build.wiki, "wikitexto", lambda *a, **k: pagina)
+    monkeypatch.setattr(build, "SALIDA", tmp_path / "data" / "partidos.csv")
+    return build.main(list(argv))
+
+
+def test_el_build_escribe(monkeypatch, tmp_path):
+    assert correr(monkeypatch, tmp_path,
+                  tabla(("Boca Juniors", "River Plate"), ("Racing Club", "Huracán"))) == 0
+    assert len(build.dataset.leer(tmp_path / "data" / "partidos.csv")) == 2
+
+
+def test_un_club_desconocido_no_escribe_nada(monkeypatch, tmp_path):
+    assert correr(monkeypatch, tmp_path, tabla(("Boca Juniors", "Deportivo Inventado"))) == 1
+    assert not (tmp_path / "data" / "partidos.csv").exists()
+
+
+def test_si_el_dataset_se_achica_no_pisa_el_anterior(monkeypatch, tmp_path):
+    """La guarda que importa cuando esto corre solo. Los 1 partido que quedan
+    pueden estar perfectos: ningun chequeo de `validar` los ve mal, porque
+    mirados solos estan bien. Lo unico que delata la perdida es lo de ayer."""
+    correr(monkeypatch, tmp_path,
+           tabla(("Boca Juniors", "River Plate"), ("Racing Club", "Huracán")))
+    assert correr(monkeypatch, tmp_path, tabla(("Boca Juniors", "River Plate"))) == 1
+    assert len(build.dataset.leer(tmp_path / "data" / "partidos.csv")) == 2, \
+        "pisó el dataset bueno con el achicado"
+
+
+def test_forzar_deja_pasar_el_achicamiento(monkeypatch, tmp_path):
+    """Para cuando la baja es real: Wikipedia saco un partido que no iba."""
+    correr(monkeypatch, tmp_path,
+           tabla(("Boca Juniors", "River Plate"), ("Racing Club", "Huracán")))
+    assert correr(monkeypatch, tmp_path,
+                  tabla(("Boca Juniors", "River Plate")), argv=["--forzar"]) == 0
+    assert len(build.dataset.leer(tmp_path / "data" / "partidos.csv")) == 1
+
+
+def test_dry_run_no_escribe(monkeypatch, tmp_path):
+    assert correr(monkeypatch, tmp_path, tabla(("Boca Juniors", "River Plate")),
+                  argv=["--dry-run"]) == 0
+    assert not (tmp_path / "data" / "partidos.csv").exists()
+
+
+def test_una_pagina_que_no_se_puede_bajar_no_escribe(monkeypatch, tmp_path):
+    def explota(*a, **k):
+        raise LookupError("no existe")
+    monkeypatch.setattr(build.torneos, "TODOS", [T])
+    monkeypatch.setattr(build.wiki, "wikitexto", explota)
+    monkeypatch.setattr(build, "SALIDA", tmp_path / "data" / "partidos.csv")
+    assert build.main([]) == 1
+    assert not (tmp_path / "data" / "partidos.csv").exists()
+
+
 def test_se_normaliza_ANTES_de_validar():
     """El orden de los dos pasos, y por que no da igual.
 

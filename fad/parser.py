@@ -159,8 +159,8 @@ def a_iso(texto: str, anio: int, anio_fin: int | None = None,
     sobreentiende. Para un torneo dentro de un mismo anio alcanza con ponerselo;
     para los que cruzan -- 2016-17, 2017-18, 2018-19, 2019-20 -- hay que decidirlo
     por el mes, y equivocarse ahi no falla: fecha media temporada un anio entero
-    para atras, el partido queda antes de que el torneo empezara, y cualquier
-    modelo que despues filtre por fecha lo usa donde no corresponde.
+    para atras, el partido queda antes de que el torneo empezara, y cualquiera
+    que despues filtre por fecha lo lee donde no corresponde.
     """
     m = re.search(r"(\d{1,2})\s*de\s+([a-záéíóúñ]+)", texto, re.I)
     if not m:

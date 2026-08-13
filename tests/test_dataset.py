@@ -145,6 +145,89 @@ def test_neutral_no_sale_capitalizado(tmp_path):
     assert "True" not in texto and "False" not in texto
 
 
+# --------------------------------------------------------------------------
+# la guarda contra achicarse: la unica que mira lo que YA NO esta
+# --------------------------------------------------------------------------
+def liga(torneo, temporada, n):
+    """`n` partidos de un torneo, para contarlos."""
+    return [dataset.a_fila(
+        Partido(fecha=f"2026-03-{i + 1:02d}", local="Boca", visita="River",
+                goles_local=1, goles_visita=0, fase="zonas"),
+        torneo, temporada, "url") for i in range(n)]
+
+
+def test_si_no_se_perdio_nada_no_dice_nada():
+    antes = liga("Primera", 2025, 100)
+    assert dataset.regresiones(liga("Primera", 2025, 100), antes) == []
+
+
+def test_crecer_esta_bien():
+    """Lo normal: ayer 100 partidos, hoy 110 porque se jugo una fecha."""
+    antes = liga("Primera", 2025, 100)
+    assert dataset.regresiones(liga("Primera", 2025, 110), antes) == []
+
+
+def test_achicarse_avisa():
+    """El caso que importa: Wikipedia reordena una pagina y el parser saca 40
+    partidos donde habia 240. Los 40 pueden estar perfectos y coherentes entre
+    si -- ningun chequeo de `validar` los ve mal, porque mirados solos estan
+    bien. Lo unico que delata la perdida es comparar contra lo de ayer."""
+    avisos = dataset.regresiones(liga("Primera", 2025, 40), liga("Primera", 2025, 240))
+    assert len(avisos) == 1
+    assert "240" in avisos[0] and "40" in avisos[0]
+
+
+def test_un_torneo_que_desaparece_entero():
+    avisos = dataset.regresiones([], liga("Primera", 2025, 240))
+    assert len(avisos) == 1 and "DESAPARECIO" in avisos[0]
+
+
+def test_un_torneo_nuevo_no_es_una_regresion():
+    antes = liga("Primera", 2025, 100)
+    ahora = liga("Primera", 2025, 100) + liga("Copa Argentina", 2026, 49)
+    assert dataset.regresiones(ahora, antes) == []
+
+
+def test_cada_temporada_se_cuenta_aparte():
+    """Si 2016 se cae pero 2025 crece, el total puede subir y aun asi haberse
+    perdido un anio entero."""
+    antes = liga("Primera", 2016, 240) + liga("Primera", 2025, 100)
+    ahora = liga("Primera", 2016, 0) + liga("Primera", 2025, 500)
+    avisos = dataset.regresiones(ahora, antes)
+    assert len(avisos) == 1 and "2016" in avisos[0]
+
+
+def test_bug_comparar_lo_recien_armado_contra_lo_leido_del_csv(tmp_path):
+    """EL caso real, y el que los otros tests de aca no cubrian.
+
+    En produccion no se comparan dos listas armadas igual: se compara lo que
+    acaba de salir del parser contra lo que se lee del CSV commiteado. Y ahi
+    `season` es un entero de un lado y texto del otro, asi que las claves no se
+    cruzaban y TODOS los torneos figuraban desaparecidos. La guarda frenaba cada
+    build, todos los dias.
+
+    Los demas tests no lo veian porque usaban `a_fila` de los dos lados. El bug
+    vivia justo en la juntura que no se estaba probando.
+    """
+    destino = tmp_path / "p.csv"
+    dataset.escribir(liga("Primera", 2025, 3), destino)
+    del_csv = dataset.leer(destino)
+
+    assert isinstance(liga("Primera", 2025, 3)[0]["season"], int)
+    assert isinstance(del_csv[0]["season"], str)
+    assert dataset.regresiones(liga("Primera", 2025, 3), del_csv) == []
+
+
+def test_un_clon_nuevo_no_tiene_contra_que_comparar(tmp_path):
+    assert dataset.read_anterior(tmp_path / "no-existe.csv") == []
+
+
+def test_lee_el_anterior_si_esta(tmp_path):
+    destino = tmp_path / "p.csv"
+    dataset.escribir([fila("2026-03-01", "Boca", "River")], destino)
+    assert len(dataset.read_anterior(destino)) == 1
+
+
 def test_acentos(tmp_path):
     destino = tmp_path / "p.csv"
     dataset.escribir([fila("2026-03-01", "Unión", "Vélez Sarsfield")], destino)

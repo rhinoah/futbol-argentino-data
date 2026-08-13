@@ -16,6 +16,7 @@ por torneo y la pagina cambia unas pocas veces por dia.
 from __future__ import annotations
 
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -32,17 +33,39 @@ _ULTIMO_PEDIDO = 0.0
 PAUSA_MIN = 1.0          # segundos entre pedidos, para no golpear la API
 
 
+INTENTOS = 3
+ESPERA_REINTENTO = 5.0   # segundos; se duplica en cada intento
+
+
 def _pedir(url: str) -> str:
-    """GET con User-Agent propio y una pausa minima entre llamadas."""
+    """GET con User-Agent propio, pausa minima entre llamadas y reintentos.
+
+    Los reintentos son por correr desatendido. Un corte de red de diez segundos
+    no tiene que convertirse en un dataset sin actualizar y un mail de error: se
+    reintenta un par de veces antes de darlo por perdido. Lo que NO se reintenta
+    es un 404 -- una pagina que no existe no va a existir en cinco segundos, y
+    reintentarla solo tarda mas en avisar que el titulo cambio.
+    """
     global _ULTIMO_PEDIDO
-    espera = PAUSA_MIN - (time.monotonic() - _ULTIMO_PEDIDO)
-    if espera > 0:
-        time.sleep(espera)
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        datos = r.read().decode("utf-8")
-    _ULTIMO_PEDIDO = time.monotonic()
-    return datos
+    for intento in range(INTENTOS):
+        espera = PAUSA_MIN - (time.monotonic() - _ULTIMO_PEDIDO)
+        if espera > 0:
+            time.sleep(espera)
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                datos = r.read().decode("utf-8")
+            _ULTIMO_PEDIDO = time.monotonic()
+            return datos
+        except urllib.error.HTTPError as e:
+            if e.code < 500 or intento == INTENTOS - 1:
+                raise                       # 4xx: el problema no se va a arreglar solo
+        except urllib.error.URLError:
+            if intento == INTENTOS - 1:
+                raise
+        _ULTIMO_PEDIDO = time.monotonic()
+        time.sleep(ESPERA_REINTENTO * (2 ** intento))
+    raise RuntimeError("inalcanzable")      # pragma: no cover
 
 
 def wikitexto(titulo: str, usar_cache: bool = True) -> str:

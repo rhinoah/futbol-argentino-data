@@ -74,6 +74,52 @@ def escribir(filas: list[dict], destino: Path) -> int:
     return len(filas)
 
 
+def regresiones(nuevas: list[dict], anteriores: list[dict]) -> list[str]:
+    """Torneos que perdieron partidos respecto del CSV que ya estaba.
+
+    Existe por el modo de fallar de una tarea automatica, que no es explotar. Si
+    manana Wikipedia reordena una pagina y el parser saca 40 partidos donde habia
+    240, los 40 pueden ser correctos y coherentes entre si: ningun chequeo de
+    `validar` los ve mal, porque mirados solos estan bien. Lo unico que delata
+    esa perdida es compararla contra lo de ayer.
+
+    Se cuenta POR TORNEO y no por partido: durante un torneo en curso los
+    partidos se reprograman todo el tiempo y cambian de fecha, asi que
+    compararlos uno a uno da bajas y altas todos los dias. La cantidad, en
+    cambio, solo baja cuando se perdio algo de verdad.
+    """
+    def por_torneo(filas):
+        cuenta: dict[tuple, int] = {}
+        for f in filas:
+            # `str(...)` no es decorativo: las filas recien armadas traen
+            # `season` como entero y las leidas del CSV como texto, asi que
+            # ("Primera Division", 2016) y ("Primera Division", "2016") no se
+            # cruzaban. Con eso, TODOS los torneos figuraban desaparecidos y la
+            # guarda frenaba cada build. Un chequeo que salta siempre es igual de
+            # inutil que uno que no salta nunca, y encima parece que anda.
+            clave = (f["tournament"], str(f["season"]))
+            cuenta[clave] = cuenta.get(clave, 0) + 1
+        return cuenta
+
+    antes, ahora = por_torneo(anteriores), por_torneo(nuevas)
+    avisos = []
+    for clave, cuantos in sorted(antes.items()):
+        tenia_ahora = ahora.get(clave, 0)
+        if tenia_ahora < cuantos:
+            torneo, temporada = clave
+            avisos.append(f"{torneo} {temporada}: tenia {cuantos} partidos y ahora "
+                          f"{tenia_ahora}" + ("  (DESAPARECIO)" if not tenia_ahora else ""))
+    return avisos
+
+
+def read_anterior(origen: Path) -> list[dict]:
+    """El CSV que ya estaba, o vacio si es la primera vez.
+
+    Un clon nuevo no tiene contra que comparar, y eso no es un error.
+    """
+    return leer(origen) if origen.exists() else []
+
+
 def leer(origen: Path) -> list[dict]:
     with origen.open(encoding="utf-8", newline="") as f:
         filas = list(csv.DictReader(f))
