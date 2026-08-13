@@ -269,8 +269,8 @@ MUTANTES = [
      "        if False:"),
 
     ("build.py", "reusar las filas por (torneo, temporada) y no por pagina",
-     "        listas = guardado.get(t.url)",
-     "        listas = guardado.get(t.url) or guardado.get(t.pagina)"),
+     '        guardado.setdefault(f["source"], []).append(f)',
+     '        guardado.setdefault(f["tournament"], []).append(f)'),
 
     ("fad/dataset.py", "escribir el CSV sin encabezado",
      "        w.writeheader()",

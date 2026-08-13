@@ -146,3 +146,52 @@ def test_se_normaliza_ANTES_de_validar():
         tabla(("Newell`s", "Boca Juniors"), ("River Plate", "Newell's Old Boys")), T)
     assert any("dos veces" in a.que for a in avisos), (
         "sin normalizar antes, las dos grafias pasan por dos clubes distintos")
+
+
+# --------------------------------------------------------------------------
+# lo que ya termino no se vuelve a bajar
+# --------------------------------------------------------------------------
+CERRADO_A = Torneo("Anexo:Prueba A", "Prueba", 2016)
+CERRADO_B = Torneo("Anexo:Prueba B", "Prueba", 2016)   # MISMO torneo y temporada
+
+
+def test_un_torneo_cerrado_no_se_vuelve_a_bajar(monkeypatch, tmp_path):
+    """El Apertura 2004 no va a cambiar nunca. Volver a bajarlo todos los dias no
+    solo gasta pedidos: le da a una pagina de hace veinte anios la posibilidad de
+    cambiar un dato que ya esta bien."""
+    salida = tmp_path / "data" / "partidos.csv"
+    bajadas = []
+
+    def espiar(pag, *a, **k):
+        bajadas.append(pag)
+        return tabla(("Boca Juniors", "River Plate"))
+
+    monkeypatch.setattr(build.torneos, "TODOS", [CERRADO_A])
+    monkeypatch.setattr(build.wiki, "wikitexto", espiar)
+    monkeypatch.setattr(build, "SALIDA", salida)
+
+    assert build.main([]) == 0
+    assert len(bajadas) == 1, "la primera vez si hay que bajarla"
+    assert build.main([]) == 0
+    assert len(bajadas) == 1, "la segunda la volvio a bajar"
+    assert len(build.dataset.leer(salida)) == 1
+
+    assert build.main(["--rehacer"]) == 0
+    assert len(bajadas) == 2, "--rehacer tiene que volver a parsear"
+
+
+def test_dos_paginas_del_mismo_torneo_no_se_pisan(monkeypatch, tmp_path):
+    """Varias entradas del catalogo comparten torneo y temporada -- la 2016 y la
+    2016-17 son las dos "Primera Division 2016". Si las filas guardadas se
+    agrupan por (torneo, temporada) en vez de por pagina, cada entrada se lleva
+    las de las DOS y el dataset crece solo: fueron 3284 partidos de la nada."""
+    salida = tmp_path / "data" / "partidos.csv"
+    monkeypatch.setattr(build.torneos, "TODOS", [CERRADO_A, CERRADO_B])
+    monkeypatch.setattr(build.wiki, "wikitexto",
+                        lambda *a, **k: tabla(("Boca Juniors", "River Plate")))
+    monkeypatch.setattr(build, "SALIDA", salida)
+
+    assert build.main([]) == 0
+    assert len(build.dataset.leer(salida)) == 2
+    assert build.main([]) == 0
+    assert len(build.dataset.leer(salida)) == 2, "se duplicaron al reusar"
