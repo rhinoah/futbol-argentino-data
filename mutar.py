@@ -90,8 +90,30 @@ MUTANTES = [
 
     # --- el historico ---
     ("fad/parser.py", "pedir tres '=' en el titulo Resultados (9 temporadas en cero)",
-     '_SECCION_RESULTADOS = r"==+\\s*Resultados\\s*==+(.*?)(?=\\n==[^=])"',
-     '_SECCION_RESULTADOS = r"===+\\s*Resultados\\s*===+(.*?)(?=\\n==[^=])"'),
+     '_TITULO_RESULTADOS = re.compile(r"^(=+)\\s*Resultados\\s*=+\\s*$", re.M)',
+     '_TITULO_RESULTADOS = re.compile(r"^(===+)\\s*Resultados\\s*=+\\s*$", re.M)'),
+
+    ("fad/parser.py", "leer una sola seccion Resultados y no todas",
+     "    fuera, hasta = [], 0",
+     "    fuera, hasta = [], 10**9"),
+
+    ("fad/parser.py", "contar dos veces una seccion Resultados anidada",
+     "        if m.start() < hasta:\n            continue",
+     "        if False:\n            continue"),
+
+    ("fad/parser.py", "confundir la zona con la fase del torneo",
+     "        fuera.append((_contexto(m.start(), nivel, texto),\n"
+     "                      _contexto(m.start(), 3, texto), cuerpo))",
+     "        fuera.append((_contexto(m.start(), nivel, texto),\n"
+     "                      _contexto(m.start(), nivel, texto), cuerpo))"),
+
+    ("fad/parser.py", "arrastrar la ronda de un cuadro al siguiente",
+     "        if donde >= desde:          # solo las rondas de ESTE cuadro",
+     "        if True:"),
+
+    ("fad/validar.py", "no separar la fase al contar quien juega por fecha",
+     "            c = porjornada.setdefault((p.llave, p.zona, p.jornada), Counter())",
+     "            c = porjornada.setdefault((p.zona, p.jornada), Counter())"),
 
     ("fad/parser.py", "ignorar que la temporada cruza de anio",
      "    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin",
@@ -212,7 +234,7 @@ MUTANTES = [
      "    for p in ps:\n"
      "        p.local = equipos.canonizar(p.local)\n"
      "        p.visita = equipos.canonizar(p.visita)\n"
-     "    return ps, validar.revisar(ps)",
+     "    avisos = validar.revisar(ps)",
      "    avisos = validar.revisar(ps)\n"
      "    for p in ps:\n"
      "        p.local = equipos.canonizar(p.local)\n"

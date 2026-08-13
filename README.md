@@ -8,9 +8,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **4836 partidos entre febrero de 2016 y hoy** — once años de Primera
-División, más la Copa Argentina 2026. 69 clubes, cero partidos sin fecha ni
-marcador. Abajo está el plan.
+**Estado:** **10 577 partidos entre febrero de 2016 y hoy** — once años de
+Primera División, tres de Primera Nacional, Primera B, Primera C y Torneo Federal
+A, y la Copa Argentina 2026. **161 clubes**, cero partidos sin fecha, sin marcador
+ni duplicados. Abajo está el plan.
 
 ## Por qué
 
@@ -167,6 +168,28 @@ uno solo es la tanda de ese equipo. Y hay que sacarlos **antes** de limpiar la
 celda, porque la tanda vive dentro de una plantilla y limpiar la borra: leyéndola
 después, el partido queda 1-1 y la definición por penales desaparece sin que nada
 falle.
+
+**6. Una página puede traer varios torneos.** Bajar al ascenso rompió el supuesto
+más silencioso de todos: que hay **una** sección "Resultados" por página.
+
+No la hay. El ascenso pone `== Zona A ==` y `== Zona B ==` de primer nivel, cada
+una con la suya; Primera B y C meten `== Torneo Apertura ==` y
+`== Torneo Clausura ==`, o sea dos torneos completos en la misma página. Leyendo
+una sola sección se perdía **exactamente la mitad**: la Primera Nacional 2025 daba
+26 equipos donde hay 38. Y la mitad que quedaba estaba perfecta, que es lo que lo
+hace difícil de ver.
+
+Arreglarlo destapó tres más:
+
+- si una sección "Resultados" contiene otra, el cuerpo de la de afuera ya incluye
+  a la de adentro — tomándola igual, **cada partido entra dos veces**;
+- la zona y la fase no son lo mismo. La Copa de la Liga 2020 tuvo Fase
+  Clasificatoria, Campeonato y Complementación, y **cada una con su Grupo A y su
+  Fecha 1**, con los mismos equipos. Quedándose sólo con el título de arriba, las
+  tres colapsan en una;
+- una página del ascenso tiene varios cuadros de eliminación (la final del
+  campeonato, el torneo reducido, la definición de un ascenso). Encadenarlos como
+  si fueran uno daba 21 avisos sobre datos correctos.
 
 **5. Ir para atrás rompe supuestos que uno no sabía que tenía.** Diez temporadas,
 y de golpe:
@@ -368,17 +391,17 @@ estaba probando.
 
 ## Tests
 
-289 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+296 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 50 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 55 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
 ```
 
-Encontró diez agujeros reales. Uno resultó ser un **mutante equivalente** —
+Encontró once agujeros reales. Uno resultó ser un **mutante equivalente** —
 escribir `None` en vez de cadena vacía no cambiaba nada, porque el módulo `csv`
 ya convierte `None` en campo vacío — y ahí lo que sobraba era el código, no el
 test.
@@ -414,7 +437,7 @@ Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos
 - [x] **2.** Padrón de clubes con normalización, validado contra el feed de la AFA
 - [x] **3.** Histórico 2016-2025 — diez temporadas, siete nombres distintos para el mismo campeonato
 - [x] **4.** Copa Argentina — tercer formato de página, y llevó el padrón de 30 clubes a 64
-- [ ] **5.** Primera Nacional y Federal A
+- [x] **5.** Primera Nacional, Primera B, Primera C y Federal A — las cuatro divisiones que juegan la Copa Argentina
 - [x] **6.** Actualización automática — dos workflows, con guarda contra achicarse
 - [ ] **7.** Publicarlo (GitHub, y donde sirva para que otros lo usen y comenten)
 

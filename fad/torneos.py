@@ -92,4 +92,31 @@ COPAS = [
            formato="copa", neutral=True),
 ]
 
-TODOS = HISTORICO + PRIMERA + COPAS
+# Las divisiones que juegan la Copa Argentina. Sin ellas, la mitad de los cruces
+# de la Copa tiene un lado del que no se sabe nada: un club de Primera Nacional
+# aparece una vez y desaparece.
+#
+# Cada una trae su propia forma de estar armada, y por eso el parser tuvo que
+# aprender que una pagina puede tener VARIAS secciones "Resultados": el ascenso
+# pone `== Zona A ==` y `== Zona B ==` de primer nivel con una adentro de cada
+# una, y Primera B y C meten `== Torneo Apertura ==` y `== Torneo Clausura ==`,
+# o sea dos torneos en la misma pagina, cada uno con su Fecha 1.
+ASCENSO = [
+    Torneo("Campeonato de Primera Nacional 2024", "Primera Nacional", 2024),
+    Torneo("Campeonato de Primera Nacional 2025", "Primera Nacional", 2025),
+    Torneo("Campeonato de Primera Nacional 2026", "Primera Nacional", 2026),
+
+    Torneo("Campeonato de Primera B 2024 (Argentina)", "Primera B", 2024),
+    Torneo("Campeonato de Primera B 2025 (Argentina)", "Primera B", 2025),
+    Torneo("Campeonato de Primera B 2026 (Argentina)", "Primera B", 2026),
+
+    Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024),
+    Torneo("Campeonato de Primera C 2025 (Argentina)", "Primera C", 2025),
+    Torneo("Campeonato de Primera C 2026 (Argentina)", "Primera C", 2026),
+
+    Torneo("Torneo Federal A 2024", "Torneo Federal A", 2024),
+    Torneo("Torneo Federal A 2025", "Torneo Federal A", 2025),
+    Torneo("Torneo Federal A 2026", "Torneo Federal A", 2026),
+]
+
+TODOS = HISTORICO + PRIMERA + ASCENSO + COPAS

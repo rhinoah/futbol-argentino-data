@@ -46,7 +46,10 @@ def procesar(texto: str, t) -> tuple[list, list]:
     for p in ps:
         p.local = equipos.canonizar(p.local)
         p.visita = equipos.canonizar(p.visita)
-    return ps, validar.revisar(ps)
+    avisos = validar.revisar(ps)
+    # Los sin fecha se van DESPUES de validar, para que el aviso alcance a
+    # nombrarlos: el esquema promete una fecha en cada fila.
+    return [p for p in ps if p.fecha], avisos
 
 
 def main(argv=None) -> int:

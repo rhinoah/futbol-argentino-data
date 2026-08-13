@@ -49,10 +49,30 @@ def campos_completos(ps: list[Partido]) -> list[Aviso]:
         elif not (0 <= p.goles_local <= MAX_GOLES and 0 <= p.goles_visita <= MAX_GOLES):
             avisos.append(Aviso("marcador inverosimil",
                                 f"{p.local} {p.goles_local}-{p.goles_visita} {p.visita}"))
-        if not p.fecha:
-            avisos.append(Aviso("partido sin fecha",
-                                f"{p.local} vs {p.visita} (crudo: {p.fecha_cruda!r})"))
     return avisos
+
+
+def fechas_presentes(ps: list[Partido]) -> list[Aviso]:
+    """Los partidos sin fecha, que NO entran al dataset.
+
+    Un partido que no se puede ubicar en el tiempo no sirve para nada -- y el
+    esquema promete una fecha en cada fila --, asi que se deja afuera. Pero se
+    dice cuales y como venia escrita la celda, porque las dos causas se parecen y
+    no son lo mismo: puede ser una rareza de la fuente (Sansinena se retiro del
+    Federal A 2024 y sus partidos quedaron sin fecha) o puede ser el parser
+    leyendo mal un formato nuevo.
+
+    NO es grave, y es a proposito: ocho filas de cinco mil no justifican frenar
+    el build. Si algun dia son ochocientas, el que avisa es otro -- la guarda de
+    `dataset.regresiones`, que compara contra lo de ayer y no deja escribir un
+    dataset que se achico.
+    """
+    sin = [p for p in ps if not p.fecha]
+    if not sin:
+        return []
+    muestra = "; ".join(f"{p.local} vs {p.visita} (crudo: {p.fecha_cruda!r})"
+                        for p in sin[:3])
+    return [Aviso(f"{len(sin)} partidos sin fecha, quedan afuera", muestra, grave=False)]
 
 
 def nombres_en_el_padron(ps: list[Partido]) -> list[Aviso]:
@@ -143,11 +163,18 @@ def zonas_completas(ps: list[Partido]) -> list[Aviso]:
                 f"{zona}: no todos jugaron la misma cantidad",
                 f"min {raro[0][0]}={raro[0][1]}, max {raro[-1][0]}={raro[-1][1]}",
                 grave=False))          # un torneo en curso lo incumple sin estar mal
-        elif len(partidos) != (n := len(jugados)) * (n - 1) // 2:
-            avisos.append(Aviso(
-                f"{zona}: no es un todos-contra-todos completo",
-                f"{n} equipos deberian jugar {n * (n - 1) // 2} partidos, hay {len(partidos)}",
-                grave=False))
+        else:
+            # Una vuelta o dos: el ascenso juega ida y vuelta, asi que 19 equipos
+            # dan 171 partidos o 342, y las dos cosas estan bien. Lo que no puede
+            # es quedar en el medio.
+            n = len(jugados)
+            una_vuelta = n * (n - 1) // 2
+            if una_vuelta and len(partidos) % una_vuelta:
+                avisos.append(Aviso(
+                    f"{zona}: no es un todos-contra-todos completo",
+                    f"{n} equipos deberian jugar {una_vuelta} partidos (una vuelta) "
+                    f"o {una_vuelta * 2} (ida y vuelta), hay {len(partidos)}",
+                    grave=False))
     return avisos
 
 
@@ -165,25 +192,37 @@ def una_vez_por_jornada(ps: list[Partido]) -> list[Aviso]:
     sobrevive a las reprogramaciones: si un partido se anota en la jornada
     equivocada, alguien aparece dos veces ahi y alguien falta en la de al lado.
     """
-    porjornada: dict[str, Counter] = {}
+    # La clave es (zona, jornada) y no solo la jornada: la "Fecha 1" de la Zona A
+    # no es la misma que la de la Zona B, y la de `== Torneo Apertura ==` no es la
+    # misma que la de `== Torneo Clausura ==` -- Primera B y C meten los dos
+    # torneos en una pagina. Agrupando solo por el numero, todos los equipos
+    # parecian jugar dos veces por fecha, y eran ~90 avisos graves de mentira.
+    # La clave incluye tambien `llave` -- la seccion de nivel 2 -- porque el
+    # encabezado de tabla pisa a la seccion y sin eso se pierden: la Copa de la
+    # Liga 2020 tuvo Fase Campeon y Fase Complementacion, CADA UNA con su Grupo A
+    # y su Fecha 1, y los mismos equipos en las dos.
+    porjornada: dict[tuple[str, str, str], Counter] = {}
     for p in ps:
         if p.fase == "zonas" and p.jornada:
-            c = porjornada.setdefault(p.jornada, Counter())
+            c = porjornada.setdefault((p.llave, p.zona, p.jornada), Counter())
             c[p.local] += 1
             c[p.visita] += 1
 
     avisos = []
-    for jornada, cuenta in sorted(porjornada.items(), key=_nro):
+    for (llave, zona, jornada), cuenta in sorted(porjornada.items(),
+                                                 key=lambda kv: _nro(kv[0])):
         repiten = [e for e, n in cuenta.items() if n > 1]
         if repiten:
-            avisos.append(Aviso(f"{jornada}: alguien juega dos veces",
+            donde = " ".join(x for x in (llave, zona) if x)
+            avisos.append(Aviso(f"{donde + ' ' if donde else ''}{jornada}: alguien juega dos veces",
                                 ", ".join(sorted(repiten)[:4])))
     return avisos
 
 
-def _nro(kv) -> int:
-    m = re.search(r"(\d+)", kv[0])
-    return int(m.group(1)) if m else 0
+def _nro(clave) -> tuple:
+    llave, zona, jornada = clave
+    m = re.search(r"(\d+)", jornada)
+    return (llave, zona, int(m.group(1)) if m else 0)
 
 
 def jornadas_sin_huecos(ps: list[Partido]) -> list[Aviso]:
@@ -268,6 +307,15 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
     elim = [p for p in ps if p.fase == "eliminacion" and p.fecha]
     if len(elim) < 3:
         return []
+    # Cada cuadro por separado. Una pagina del ascenso trae la final del
+    # campeonato, el torneo reducido y a veces la definicion de un ascenso: son
+    # tres eliminaciones que no se encadenan entre si, y mezclandolas el chequeo
+    # tiraba 21 avisos sobre datos correctos.
+    porllave: dict[str, list[Partido]] = {}
+    for p in elim:
+        porllave.setdefault(p.llave, []).append(p)
+    if len(porllave) > 1:
+        return [a for parte in porllave.values() for a in cadena_de_llaves(parte)]
 
     grupos = _por_ronda(elim)
     if grupos is None:
@@ -322,7 +370,7 @@ def _ganador(p: Partido) -> str:
     return ""
 
 
-CHEQUEOS = [campos_completos, nombres_en_el_padron,
+CHEQUEOS = [campos_completos, fechas_presentes, nombres_en_el_padron,
             penales_solo_en_empates, sin_duplicados,
             nadie_juega_contra_si_mismo, todos_tienen_zona, zonas_completas,
             una_vez_por_jornada, jornadas_sin_huecos, anios_bien_asignados,

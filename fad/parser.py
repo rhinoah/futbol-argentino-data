@@ -45,12 +45,14 @@ MESES = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6
 COLUMNAS = ["local", "resultado", "visita", "estadio", "fecha", "hora"]
 
 # El titulo "Resultados" aparece en nivel 2 o en nivel 3 segun la temporada: las
-# de 2016 a 2024 lo ponen como `== Resultados ==` y las de 2025-26 como
-# `=== Resultados ===`. Pidiendo tres `=` o mas, nueve temporadas devolvian CERO
-# partidos -- que no se distingue de "todavia no empezo el torneo".
-# El corte `(?=\n==[^=])` para en el proximo titulo de nivel 2 y no en los de
-# nivel 3, asi que una seccion con subsecciones entra entera.
-_SECCION_RESULTADOS = r"==+\s*Resultados\s*==+(.*?)(?=\n==[^=])"
+# de Primera de 2016 a 2024 lo ponen como `== Resultados ==` y las de 2025-26
+# como `=== Resultados ===`. Pidiendo tres `=` o mas, nueve temporadas devolvian
+# CERO partidos -- que no se distingue de "todavia no empezo el torneo".
+_TITULO_RESULTADOS = re.compile(r"^(=+)\s*Resultados\s*=+\s*$", re.M)
+
+# Un titulo de zona de primer nivel: `== Zona A ==`. En el ascenso la zona no
+# viene en un encabezado de tabla sino en el titulo de la seccion que la contiene.
+_TITULO_ZONA = re.compile(r"^==\s*((?:Zona|Grupo)\b[^=\n]*?)\s*==\s*$", re.M | re.I)
 
 
 @dataclass
@@ -67,6 +69,7 @@ class Partido:
     fase: str = ""               # "zonas" / "eliminacion"
     zona: str = ""
     jornada: str = ""
+    llave: str = ""              # que cuadro de eliminacion: una pagina tiene varios
     estadio: str = ""
     fecha_cruda: str = field(default="", repr=False)   # para diagnosticar
 
@@ -225,10 +228,14 @@ def _cortar_en_tablas(bloque: str) -> str:
 
 
 def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None = None,
-                      mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
+                      mes_inicio: int = MES_INICIO_HABITUAL,
+                      zona_defecto: str = "", llave: str = "") -> list[Partido]:
     partidos: list[Partido] = []
     pendientes: dict[str, list] = {}        # columna -> [valor, filas restantes]
-    jornada = zona = ""
+    # La zona puede venir de un encabezado de tabla (`!colspan=6|Zona A`) o del
+    # titulo de la seccion que contiene a esta tabla, que es como lo hace el
+    # ascenso. Si aparece un encabezado, pisa al de la seccion.
+    jornada, zona = "", zona_defecto
 
     for fila in re.split(r"\n\|-", _cortar_en_tablas(bloque)):
         fila = fila.strip()
@@ -279,7 +286,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             fecha=a_iso(valores["fecha"], anio, anio_fin, mes_inicio), hora=valores["hora"],
             local=valores["local"], visita=valores["visita"],
             goles_local=goles[0], goles_visita=goles[1],
-            torneo=torneo, fase="zonas", zona=zona, jornada=jornada,
+            torneo=torneo, fase="zonas", zona=zona, jornada=jornada, llave=llave,
             estadio=valores["estadio"], fecha_cruda=valores["fecha"]))
     return partidos
 
@@ -291,6 +298,9 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
                            mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
     titulos = _titulos_de_ronda(texto)
     partidos: list[Partido] = []
+    # Una pagina puede traer VARIOS cuadros: la final del campeonato, el torneo
+    # reducido y la definicion de un ascenso son tres eliminaciones distintas que
+    # no se encadenan entre si. Cual es cual lo dice la seccion de nivel 2.
     for m in re.finditer(r"\{\{\s*Partido\s*\n(.*?)\n\s*\}\}", texto, re.S | re.I):
         cuerpo = m.group(1)
         campos = {}
@@ -315,7 +325,8 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
             penales_local=pen[0] if pen else None,
             penales_visita=pen[1] if pen else None,
             torneo=torneo, fase="eliminacion",
-            jornada=_ronda_en(m.start(), titulos),
+            jornada=_ronda_en(m.start(), titulos, _inicio_de_llave(m.start(), texto)),
+            llave=_contexto(m.start(), 3, texto),
             estadio=limpiar(campos.get("estadio", "")),
             fecha_cruda=limpiar(campos.get("fecha", ""))))
     return partidos
@@ -328,14 +339,17 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
 # cual, que en la Copa no se puede deducir de las fechas: las rondas se solapan
 # (los treintaidosavos 2026 se jugaron entre enero y abril, y los dieciseisavos
 # entre abril y julio, con dias compartidos).
-RONDAS = ("Treintaidosavos", "Dieciseisavos", "Octavos", "Cuartos",
+# En orden, de la mas lejana a la final. El ascenso agrega las "fases" del
+# torneo reducido, que van antes de las semis.
+RONDAS = ("Primera fase", "Segunda fase", "Tercera fase",
+          "Treintaidosavos", "Dieciseisavos", "Octavos", "Cuartos",
           "Semifinales", "Final")
 
 # "Semifinal" y "Semifinales" son la misma ronda escrita de dos maneras; si
 # quedan como dos, el orden de las rondas se parte en dos mitades.
 _TITULO_RONDA = re.compile(
-    r"^=+\s*(Treintaidosavos|Dieciseisavos|Octavos|Cuartos|Semifinales|Semifinal|Final)"
-    r"[^=\n]*=+\s*$", re.M | re.I)
+    r"^=+\s*(Primera fase|Segunda fase|Tercera fase|Treintaidosavos|Dieciseisavos"
+    r"|Octavos|Cuartos|Semifinales|Semifinal|Final)[^=\n]*=+\s*$", re.M | re.I)
 
 _COL_COPA = ["fecha", "estadio", "local", "resultado", "visita"]
 
@@ -350,21 +364,35 @@ def _nombre_de_ronda(crudo: str) -> str:
     return "Semifinales" if n == "Semifinal" else n
 
 
-def _ronda_en(pos: int, titulos: list[tuple[int, str]]) -> str:
+def _inicio_de_llave(pos: int, texto: str) -> int:
+    """Donde empieza la seccion de nivel 2 que contiene a `pos`."""
+    inicio = 0
+    for m in _TITULO.finditer(texto[:pos]):
+        if len(m.group(1)) <= 2:
+            inicio = m.start()
+    return inicio
+
+
+def _ronda_en(pos: int, titulos: list[tuple[int, str]], desde: int = 0) -> str:
     """La ronda a la que pertenece lo que esta en `pos`: la del ultimo titulo
     que quedo atras.
 
     Las llaves de liga vienen como plantillas `{{Partido}}` que no dicen a que
-    ronda pertenecen; lo unico que lo dice es bajo que titulo estan. Sin esto,
-    todos los partidos de eliminacion quedan sin ronda y `cadena_de_llaves` tiene
-    que caer al agrupado por fecha, que no distingue dos partidos de octavos
-    jugados en dias distintos de un octavos y un cuartos.
+    ronda pertenecen; lo unico que lo dice es bajo que titulo estan.
+
+    `desde` acota la busqueda al cuadro actual, y hace falta: una pagina del
+    ascenso tiene una seccion `== Final ==` (la del campeonato) y despues un
+    `== Torneo reducido ==` con sus propias fases. Sin acotar, los partidos de la
+    "Primera fase" del reducido se quedaban con el "Final" arrastrado de la
+    seccion anterior, y el chequeo del cuadro encadenaba semifinales con finales
+    que no tenian nada que ver: 21 avisos sobre datos correctos.
     """
     ronda = ""
     for donde, nombre in titulos:
         if donde > pos:
             break
-        ronda = nombre
+        if donde >= desde:          # solo las rondas de ESTE cuadro
+            ronda = nombre
     return ronda
 
 # Los penales de la Copa: `{{small|(5)}} 1 - 1 {{small|(4)}}`, o con la etiqueta
@@ -420,6 +448,65 @@ def partidos_de_rondas(texto: str, anio: int, torneo: str, anio_fin: int | None 
 
 
 # --------------------------------------------------------------------------
+def secciones_de_resultados(texto: str) -> list[tuple[str, str, str]]:
+    """(zona, fase, cuerpo) de CADA seccion "Resultados" de la pagina.
+
+    Son varias, no una, y cada una pertenece a algo distinto:
+
+      * en el ascenso, `== Zona A ==` y `== Zona B ==` son secciones de primer
+        nivel y cada una trae su propio `=== Resultados ===`;
+      * en Primera B y C, lo que hay arriba es `== Torneo Apertura ==` y
+        `== Torneo Clausura ==`, o sea DOS torneos en una pagina, cada uno con su
+        Fecha 1.
+
+    Buscando una sola seccion se leia la mitad: la Primera Nacional 2025 daba 26
+    equipos donde hay 38. Y sin el contexto, las dos "Fecha 1" de Primera B se
+    mezclaban en una y todos los equipos parecian jugar dos veces por fecha.
+
+    El corte va hasta el proximo titulo del MISMO nivel o mas alto, asi que una
+    seccion con subsecciones entra entera pero no se come a su hermana.
+    """
+    fuera, hasta = [], 0
+    for m in _TITULO_RESULTADOS.finditer(texto):
+        # Una seccion "Resultados" ADENTRO de otra ya vino en el cuerpo de la de
+        # afuera. Tomandola igual, cada partido entra dos veces y todos los
+        # equipos parecen jugar dos veces por fecha. Se saltea la de adentro.
+        if m.start() < hasta:
+            continue
+        nivel = len(m.group(1))
+        resto = texto[m.end():]
+        sig = re.search(rf"^={{1,{nivel}}}[^=]", resto, re.M)
+        cuerpo = resto[:sig.start()] if sig else resto
+        hasta = m.end() + len(cuerpo)
+        # Dos contextos, y hacen falta los dos. El PADRE inmediato es la zona
+        # ("Grupo A"); la seccion de nivel 2 es la fase del torneo ("Fase
+        # Campeonato"). La Copa de la Liga 2020 tuvo Fase Clasificatoria, Campeonato
+        # y Complementacion, y CADA UNA con su Grupo A y su Fecha 1: quedandose solo
+        # con el padre, los mismos equipos aparecian jugando dos veces la misma fecha.
+        fuera.append((_contexto(m.start(), nivel, texto),
+                      _contexto(m.start(), 3, texto), cuerpo))
+    return fuera
+
+
+_TITULO = re.compile(r"^(=+)\s*([^=\n]+?)\s*=+\s*$", re.M)
+
+
+def _contexto(pos: int, nivel: int, texto: str) -> str:
+    """El titulo de la seccion que CONTIENE a esta.
+
+    Es el ultimo titulo de nivel MENOR que quedo atras. Que sea menor y no
+    "cualquiera" importa: en las paginas de Primera de 2016 a 2024 el propio
+    `== Resultados ==` es de nivel 2, y tomando el titulo anterior sin mirar el
+    nivel, los 4400 partidos de esas temporadas quedaban agrupados bajo la
+    seccion que estuviera arriba.
+    """
+    ctx = ""
+    for m in _TITULO.finditer(texto[:pos]):
+        if len(m.group(1)) < nivel:
+            ctx = _seccion(limpiar(m.group(2)))
+    return ctx
+
+
 def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
              anio_fin: int | None = None,
              mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
@@ -431,6 +518,8 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
     """
     if formato == "copa":
         return partidos_de_rondas(texto, anio, torneo, anio_fin, mes_inicio)
-    m = re.search(_SECCION_RESULTADOS, texto, re.S)
-    zonas = partidos_de_tabla(m.group(1), anio, torneo, anio_fin, mes_inicio) if m else []
+    zonas = []
+    for zona, fase, cuerpo in secciones_de_resultados(texto):
+        zonas += partidos_de_tabla(cuerpo, anio, torneo, anio_fin, mes_inicio,
+                                   zona_defecto=zona, llave=fase)
     return zonas + partidos_de_plantillas(texto, anio, torneo, anio_fin, mes_inicio)

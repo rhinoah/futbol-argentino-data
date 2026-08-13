@@ -79,8 +79,6 @@ def test_torneo_en_curso_avisa_pero_no_frena():
              goles_visita=0, fase="zonas", zona="Zona A"), "sin equipos"),
     (Partido(fecha="2026-03-01", local="Boca", visita="River",
              fase="zonas", zona="Zona A"), "sin marcador"),
-    (Partido(fecha="", local="Boca", visita="River", goles_local=1,
-             goles_visita=0, fase="zonas", zona="Zona A"), "sin fecha"),
     (Partido(fecha="2026-03-01", local="Boca", visita="River", goles_local=99,
              goles_visita=0, fase="zonas", zona="Zona A"), "inverosimil"),
 ])
@@ -88,6 +86,21 @@ def test_campos_completos_avisa(roto, texto):
     avisos = validar.campos_completos([roto])
     assert avisos and texto in avisos[0].que
     assert avisos[0].grave
+
+
+def test_los_partidos_sin_fecha_avisan_pero_no_frenan():
+    """Se van del dataset -- el esquema promete una fecha en cada fila -- pero el
+    aviso los nombra: ocho filas de cinco mil no justifican frenar el build, y las
+    dos causas (una rareza de la fuente o el parser leyendo mal) se parecen."""
+    sin = Partido(fecha="", local="Boca", visita="River", goles_local=1,
+                  goles_visita=0, fase="zonas", zona="Zona A")
+    avisos = validar.fechas_presentes([sin])
+    assert len(avisos) == 1 and not avisos[0].grave
+    assert "Boca" in avisos[0].detalle and "1 partidos" in avisos[0].que
+
+
+def test_con_fecha_no_dice_nada():
+    assert validar.fechas_presentes(torneo_de(4)) == []
 
 
 def test_campos_completos_calla():
