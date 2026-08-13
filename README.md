@@ -8,9 +8,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **10 577 partidos entre febrero de 2016 y hoy** — once años de
-Primera División, tres de Primera Nacional, Primera B, Primera C y Torneo Federal
-A, y la Copa Argentina 2026. **161 clubes**, cero partidos sin fecha, sin marcador
+**Estado:** **21 820 partidos entre febrero de 2016 y hoy** — once años de
+Primera División y **once de Primera Nacional, Primera B, Primera C y Torneo
+Federal A**, más la Copa Argentina 2026. **182 clubes**, cero partidos sin fecha, sin marcador
 ni duplicados. Abajo está el plan.
 
 ## Por qué
@@ -389,13 +389,38 @@ estaba probando.
 - GitHub **desactiva** los cron de un repo sin actividad por 60 días y manda un
   mail. Si el dataset deja de actualizarse de golpe, mirar eso primero.
 
+## El artículo manda sobre el nombre
+
+El padrón resolvía por nombre, y eso se rompió al bajar al ascenso: **`Estudiantes`
+a secas apunta a tres artículos distintos** según la página. En Primera es el de La
+Plata; en Primera B, el de Caseros. Lo mismo `Talleres`, que en Primera B 2017-18
+es el de Remedios de Escalada y no el de Córdoba. Con el padrón anterior, media
+Primera B entraba en la historia del club equivocado — sin fallar.
+
+Resolverlo *por división* tampoco sirve: los clubes ascienden y descienden, la
+regla no se mueve con ellos. Lo que sí es estable es el **enlace que la propia
+página usa**, específico de esa temporada por construcción — y que el parser
+estaba tirando a la basura al limpiar la celda.
+
+Así que `ARTICULOS` mapea título de artículo → club, y `canonizar()` resuelve
+primero por ahí. El índice se generó recorriendo el catálogo y quedándose sólo con
+los nombres visibles que apuntan a **un único** artículo en todo el corpus. Si
+dentro de una página un nombre apunta a dos, no se devuelve ninguno: ahí no hay
+testigo, y adivinar es justo lo que no hay que hacer.
+
+Tres torneos quedaron **afuera**, comentados en el catálogo con su motivo: Primera
+B 2017-18 (lista dos veces las fechas de la primera rueda), Primera B 2021 (una
+plantilla que mezcla dos resultados) y Primera Nacional 2022 (un partido dice "San
+Martín" a secas y sin enlace, con el (SJ) y el (T) en el mismo torneo). Prefiero
+tres torneos afuera y dicho, que adentro y mal atribuidos.
+
 ## Tests
 
-296 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+301 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 55 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 57 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
@@ -437,7 +462,7 @@ Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos
 - [x] **2.** Padrón de clubes con normalización, validado contra el feed de la AFA
 - [x] **3.** Histórico 2016-2025 — diez temporadas, siete nombres distintos para el mismo campeonato
 - [x] **4.** Copa Argentina — tercer formato de página, y llevó el padrón de 30 clubes a 64
-- [x] **5.** Primera Nacional, Primera B, Primera C y Federal A — las cuatro divisiones que juegan la Copa Argentina
+- [x] **5.** Primera Nacional, Primera B, Primera C y Federal A — 2016-2026, las cuatro divisiones que juegan la Copa Argentina
 - [x] **6.** Actualización automática — dos workflows, con guarda contra achicarse
 - [ ] **7.** Publicarlo (GitHub, y donde sirva para que otros lo usen y comenten)
 

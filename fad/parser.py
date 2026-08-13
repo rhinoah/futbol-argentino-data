@@ -70,6 +70,11 @@ class Partido:
     zona: str = ""
     jornada: str = ""
     llave: str = ""              # que cuadro de eliminacion: una pagina tiene varios
+    # A que ARTICULO de Wikipedia enlaza cada equipo. Es el unico dato que
+    # identifica al club sin ambiguedad: "Estudiantes" a secas es el de La Plata
+    # en Primera y el de Caseros en Primera B, pero los articulos son distintos.
+    local_art: str = field(default="", repr=False)
+    visita_art: str = field(default="", repr=False)
     estadio: str = ""
     fecha_cruda: str = field(default="", repr=False)   # para diagnosticar
 
@@ -89,6 +94,10 @@ def limpiar(texto: str) -> str:
     # esta el dato. Borrarla junto con las demas plantillas hacia desaparecer
     # equipos enteros ("{{nowrap|Gimnasia y Esgrima (LP)}}" quedaba en nada).
     s = re.sub(r"\{\{\s*nowrap\s*\|(.*?)\}\}", r"\1", s, flags=re.I | re.S)
+    # La misma plantilla SIN cerrar tambien existe, y como no cierra no la agarra
+    # ni la de arriba ni el barrido general: un club quedaba llamandose
+    # "{{nowrap|Defensores de Cambaceres".
+    s = re.sub(r"\{\{\s*nowrap\s*\|", "", s, flags=re.I)
     s = re.sub(r"\{\{[^{}]*\}\}", "", s)
     # Un enlace a un archivo NO es texto: `[[Archivo:Copa.svg|15px|Campeón]]` es
     # una imagen. Tratandolo como un wikilink comun queda "15px|Campeón" pegado
@@ -124,6 +133,27 @@ def _seccion(cab: str) -> str:
     if re.match(r"(?i)^interzonal", cab):
         return "Interzonal"
     return cab
+
+
+def articulos_de_la_pagina(texto: str) -> dict[str, str]:
+    """{nombre visible: articulo} para toda la pagina, y SOLO cuando es univoco.
+
+    Las tablas de resultados muchas veces escriben el equipo sin enlace, pero la
+    seccion de equipos participantes si lo enlaza. Con este mapa, un "Estudiantes"
+    pelado en una tabla se resuelve con el enlace que la misma pagina uso en otro
+    lado.
+
+    Si dentro de UNA pagina el mismo nombre visible apunta a dos articulos, no se
+    devuelve ninguno: ahi no hay testigo, y adivinar es justo lo que no hay que
+    hacer.
+    """
+    vistos: dict[str, set] = {}
+    for destino, visible in re.findall(r"\[\[([^\]|]+)\|([^\]]+)\]\]", texto):
+        d = destino.strip()
+        if d.lower().startswith(("estadio", "provincia", "anexo", "archivo", "file")):
+            continue
+        vistos.setdefault(limpiar(visible), set()).add(d)
+    return {v: next(iter(d)) for v, d in vistos.items() if len(d) == 1}
 
 
 def _partir(fila: str) -> list[str]:
@@ -229,7 +259,8 @@ def _cortar_en_tablas(bloque: str) -> str:
 
 def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None = None,
                       mes_inicio: int = MES_INICIO_HABITUAL,
-                      zona_defecto: str = "", llave: str = "") -> list[Partido]:
+                      zona_defecto: str = "", llave: str = "",
+                      arts: dict[str, str] | None = None) -> list[Partido]:
     partidos: list[Partido] = []
     pendientes: dict[str, list] = {}        # columna -> [valor, filas restantes]
     # La zona puede venir de un encabezado de tabla (`!colspan=6|Zona A`) o del
@@ -287,6 +318,8 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             local=valores["local"], visita=valores["visita"],
             goles_local=goles[0], goles_visita=goles[1],
             torneo=torneo, fase="zonas", zona=zona, jornada=jornada, llave=llave,
+            local_art=(arts or {}).get(valores["local"], ""),
+            visita_art=(arts or {}).get(valores["visita"], ""),
             estadio=valores["estadio"], fecha_cruda=valores["fecha"]))
     return partidos
 
@@ -518,8 +551,9 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
     """
     if formato == "copa":
         return partidos_de_rondas(texto, anio, torneo, anio_fin, mes_inicio)
+    arts = articulos_de_la_pagina(texto)
     zonas = []
     for zona, fase, cuerpo in secciones_de_resultados(texto):
         zonas += partidos_de_tabla(cuerpo, anio, torneo, anio_fin, mes_inicio,
-                                   zona_defecto=zona, llave=fase)
+                                   zona_defecto=zona, llave=fase, arts=arts)
     return zonas + partidos_de_plantillas(texto, anio, torneo, anio_fin, mes_inicio)

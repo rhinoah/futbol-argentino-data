@@ -119,4 +119,58 @@ ASCENSO = [
     Torneo("Torneo Federal A 2026", "Torneo Federal A", 2026),
 ]
 
-TODOS = HISTORICO + PRIMERA + ASCENSO + COPAS
+# El historico del ascenso: las mismas cuatro divisiones hacia atras.
+ASCENSO_HISTORICO = [
+    Torneo('Campeonato de Primera B Nacional 2016', 'Primera Nacional', 2016),
+    Torneo('Campeonato de Primera B Nacional 2016-17', 'Primera Nacional', 2016, anio_fin=2017),
+    Torneo('Campeonato de Primera B Nacional 2017-18', 'Primera Nacional', 2017, anio_fin=2018),
+    Torneo('Campeonato de Primera B Nacional 2018-19', 'Primera Nacional', 2018, anio_fin=2019),
+    Torneo('Campeonato de Primera Nacional 2019-20', 'Primera Nacional', 2019, anio_fin=2020),
+
+    Torneo('Campeonato de Primera Nacional 2021', 'Primera Nacional', 2021),
+    # FUERA: un partido dice 'San Martin' a secas y la pagina no lo enlaza; juegan el (SJ) y el (T).
+    # Torneo('Campeonato de Primera Nacional 2022', 'Primera Nacional', 2022),
+    Torneo('Campeonato de Primera Nacional 2023', 'Primera Nacional', 2023),
+
+    Torneo('Campeonato de Primera B 2016 (Argentina)', 'Primera B', 2016),
+    Torneo('Campeonato de Primera B 2016-17 (Argentina)', 'Primera B', 2016, anio_fin=2017),
+    # FUERA: lista dos veces las fechas de la primera rueda con la misma numeracion.
+    # Torneo('Campeonato de Primera B 2017-18 (Argentina)', 'Primera B', 2017, anio_fin=2018),
+    Torneo('Campeonato de Primera B 2018-19 (Argentina)', 'Primera B', 2018, anio_fin=2019),
+    Torneo('Campeonato de Primera B 2019-20 (Argentina)', 'Primera B', 2019, anio_fin=2020),
+
+    # FUERA: una plantilla {{Partido}} sin cerrar bien mezcla el resultado de dos partidos.
+    # Torneo('Campeonato de Primera B 2021 (Argentina)', 'Primera B', 2021),
+    Torneo('Campeonato de Primera B 2022 (Argentina)', 'Primera B', 2022),
+    Torneo('Campeonato de Primera B 2023 (Argentina)', 'Primera B', 2023),
+
+    Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
+    Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),
+    Torneo('Campeonato de Primera C 2017-18 (Argentina)', 'Primera C', 2017, anio_fin=2018),
+    Torneo('Campeonato de Primera C 2018-19 (Argentina)', 'Primera C', 2018, anio_fin=2019),
+    Torneo('Campeonato de Primera C 2019-20 (Argentina)', 'Primera C', 2019, anio_fin=2020),
+
+    Torneo('Campeonato de Primera C 2021 (Argentina)', 'Primera C', 2021),
+    Torneo('Campeonato de Primera C 2022 (Argentina)', 'Primera C', 2022),
+    Torneo('Campeonato de Primera C 2023 (Argentina)', 'Primera C', 2023),
+
+    Torneo('Torneo Federal A 2016', 'Torneo Federal A', 2016),
+    Torneo('Torneo Federal A 2016-17', 'Torneo Federal A', 2016, anio_fin=2017),
+    Torneo('Torneo Federal A 2017-18', 'Torneo Federal A', 2017, anio_fin=2018),
+    Torneo('Torneo Federal A 2018-19', 'Torneo Federal A', 2018, anio_fin=2019),
+    Torneo('Torneo Federal A 2019-20', 'Torneo Federal A', 2019, anio_fin=2020),
+
+    Torneo('Torneo Federal A 2021', 'Torneo Federal A', 2021),
+    Torneo('Torneo Federal A 2022', 'Torneo Federal A', 2022),
+    Torneo('Torneo Federal A 2023', 'Torneo Federal A', 2023),
+
+    # Los torneos de la pandemia: arrancaron en noviembre/diciembre de 2020 y
+    # terminaron en 2021. Sin `anio_fin`, enero de 2021 quedaba once meses
+    # antes del arranque -- lo agarro `validar.anios_bien_asignados`.
+    Torneo('Campeonato Transición de Primera Nacional 2020', 'Primera Nacional', 2020, anio_fin=2021, mes_inicio=11),
+    Torneo('Campeonato Transición de Primera B 2020 (Argentina)', 'Primera B', 2020, anio_fin=2021, mes_inicio=11),
+    Torneo('Campeonato Transición de Primera C 2020 (Argentina)', 'Primera C', 2020, anio_fin=2021, mes_inicio=11),
+    Torneo('Torneo Transición Federal A 2020', 'Torneo Federal A', 2020, anio_fin=2021, mes_inicio=11),
+]
+
+TODOS = HISTORICO + PRIMERA + ASCENSO + ASCENSO_HISTORICO + COPAS

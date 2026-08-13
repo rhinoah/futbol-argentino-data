@@ -115,7 +115,7 @@ PADRON: tuple[Equipo, ...] = (
     # Clubes que jugaron Primera entre 2016 y 2025 y hoy no estan. Sin ellos, el
     # historico no entra: Arsenal, Colon y Patronato solos son ~670 partidos.
     Equipo("Arsenal", alias=("Arsenal de Sarandí",)),
-    Equipo("Chacarita Juniors"),
+    Equipo("Chacarita Juniors", alias=("Chacarita", "Chacarita",)),
     Equipo("Colón", alias=("Colón (SF)", "Colón de Santa Fe")),
     Equipo("Patronato", alias=("Patronato (P)",)),
     Equipo("Quilmes"),
@@ -127,7 +127,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Argentino de Merlo"),
     Equipo("Atenas (RC)"),
     Equipo("Atlanta"),
-    Equipo("Atlético de Rafaela", alias=("Atlético Rafaela",)),
+    Equipo("Atlético de Rafaela", alias=("Atlético Rafaela", "Atlético Rafaela", "Atlético de Rafela")),
     Equipo("Chaco For Ever"),
     Equipo("Ciudad de Bolívar"),
     Equipo("Claypole"),
@@ -138,10 +138,10 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Deportivo Morón", alias=("Deporitvo Morón",)),   # typo en la fuente
     Equipo("Deportivo Rincón"),
     Equipo("Estudiantes (BA)"),
-    Equipo("Ferrocarril Midland"),
+    Equipo("Ferrocarril Midland", alias=("Midland", "Midland",)),
     Equipo("Gimnasia y Esgrima (C)"),
     Equipo("Gimnasia y Esgrima (J)"),
-    Equipo("Gimnasia y Tiro (S)"),
+    Equipo("Gimnasia y Tiro (S)", alias=("Gimnasia y Tiro", "Gimnasia y Tiro",)),
     Equipo("Godoy Cruz"),
     Equipo("Ituzaingó"),
     Equipo("Olimpo"),
@@ -152,9 +152,35 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("San Miguel"),
     Equipo("Sarmiento (LB)"),
     Equipo("Sportivo Barracas"),
-    Equipo("Sportivo Belgrano"),
+    Equipo("Sportivo Belgrano", alias=("Sportivo Belgrano (SF)",)),
     Equipo("Temperley"),
     Equipo("Tristán Suárez"),
+
+    # --- historico del ascenso 2016-2023 ---
+    # "Mitre" a secas va a Mitre (SdE) porque en TODOS los Federal A donde
+    # aparece pelado, el unico Mitre del torneo es ese. El resto son erratas de
+    # la fuente o el nombre acortado.
+    Equipo("Altos Hornos Zapla"),
+    Equipo("Atlético Paraná"),
+    Equipo("Concepción FC"),
+    Equipo("Deportivo Mandiyú"),
+    Equipo("Deportivo Roca"),
+    Equipo("Desamparados"),
+    Equipo("General Belgrano (SR)"),
+    Equipo("Guaraní Antonio Franco"),
+    Equipo("Independiente (N)"),
+    Equipo("Juventud Unida (G)"),
+    Equipo("Libertad (S)"),
+    Equipo("Liniers (BB)"),
+    Equipo("Rivadavia (L)"),
+    Equipo("San Jorge (S)"),
+    Equipo("San Jorge (T)"),
+    Equipo("San Lorenzo de Alem"),
+    Equipo("Sportivo Patria"),
+    Equipo("Sportivo Peñarol (C)"),
+    Equipo("Tiro Federal (BB)"),
+    Equipo("Unión (VK)"),
+    Equipo("Unión Aconquija"),
 
     # --- el ascenso: Primera Nacional, Primera B, Primera C y Federal A ---
     # Sin id de AFA: el feed del que salieron los ids es el de Primera y no los
@@ -195,7 +221,8 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Defensores de Belgrano'),
     Equipo('Defensores de Belgrano (VR)'),
     Equipo('Defensores de Cambaceres'),
-    Equipo('Defensores de Pronunciamiento'),
+    Equipo("Defensores de Pronunciamiento",
+           alias=("Defensores de Pronunciamento", "Def. de Pronunciamiento", "DEPRO")),
     Equipo('Defensores de Vilelas'),
     Equipo('Deportivo Español'),
     Equipo('Deportivo Merlo'),
@@ -213,15 +240,15 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Fénix'),
     Equipo('General Lamadrid'),
     Equipo('Germinal'),
-    Equipo('Guillermo Brown'),
-    Equipo('Gutiérrez'),
+    Equipo("Guillermo Brown", alias=("Guillermon Brown",)),
+    Equipo("Gutiérrez", alias=("Gutiérrez SC",)),
     Equipo('Güemes (SdE)'),
     Equipo('Huracán Las Heras'),
     Equipo('Independiente (C)'),
     Equipo('J. J. de Urquiza'),
     Equipo('Juventud Antoniana'),
     Equipo('Juventud Unida'),
-    Equipo('Juventud Unida Universitario'),
+    Equipo("Juventud Unida Universitario", alias=("Juventud U. U.", "Juventud Unida U.",)),
     Equipo('Kimberley'),
     Equipo('Leandro N. Alem'),
     Equipo('Leones de Rosario'),
@@ -230,7 +257,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Lugano'),
     Equipo('Luján'),
     Equipo('Mercedes'),
-    Equipo('Mitre (SdE)'),
+    Equipo("Mitre (SdE)", alias=("Mitre",)),
     Equipo('Muñiz'),
     Equipo('Nueva Chicago'),
     Equipo('Puerto Nuevo'),
@@ -241,14 +268,14 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('San Telmo'),
     Equipo('Sansinena'),
     Equipo('Sarmiento (R)'),
-    Equipo('Sol de Mayo (V)'),
+    Equipo("Sol de Mayo (V)", alias=("Sol de Mayo",)),
     Equipo('Sportivo Estudiantes (SL)'),
     Equipo('Sportivo Italiano'),
     Equipo('Sportivo Las Parejas'),
     Equipo('Talleres (RdE)'),
     Equipo('Tucumán Central'),
     Equipo('UAI Urquiza'),
-    Equipo('Unión (S)'),
+    Equipo("Unión (S)", alias=("Unión (Sunchales)",)),
     Equipo('Victoriano Arenas'),
     Equipo('Villa Dálmine'),
     Equipo('Villa Mitre'),
@@ -262,10 +289,172 @@ PADRON: tuple[Equipo, ...] = (
     # una sola aparicion contra 37 de "(SM)" en la MISMA pagina del Federal A 2024
     Equipo('San Martín (SM)', alias=('San Martín (M)',)),
     # error de tipeo en la fuente
-    Equipo('Gimnasia y Esgrima (CdU)', alias=('Gimnasia y Esgrisma (CDU)',)),
+    Equipo("Gimnasia y Esgrima (CdU)",
+           alias=("Gimnasia y Esgrisma (CDU)", "Gimmasia y Esgrima (CdU)")),
     # la pagina omite la provincia a veces
     Equipo('Sol de América (F)', alias=('Sol de América',)),
 )
+
+
+# Titulo de articulo de Wikipedia -> club. Es el testigo por temporada: la
+# pagina de cada torneo enlaza a sus clubes, y ese enlace dice CUAL es sin
+# depender de la division ni del anio. "Estudiantes" a secas apunta a tres
+# articulos distintos segun la pagina; el articulo, a uno solo.
+#
+# Se genero recorriendo el catalogo y quedandose SOLO con los nombres visibles
+# que apuntan a un unico articulo en todo el corpus -- los que apuntan a varios
+# no sirven de testigo y quedaron afuera a proposito.
+ARTICULOS: dict[str, str] = {
+    'Arsenal Fútbol Club': 'Arsenal',
+    'Asociación Cultural y Deportiva Altos Hornos Zapla': 'Altos Hornos Zapla',
+    'Asociación Mutual Social y Deportiva Atlético de Rafaela': 'Atlético de Rafaela',
+    'Asociación Social y Deportiva Justo José de Urquiza': 'J. J. de Urquiza',
+    'Atlético Club San Martín': 'San Martín (SM)',
+    'Atlético Escobar Fútbol Club': 'Atlético Escobar',
+    'Cañuelas Fútbol Club': 'Cañuelas',
+    'Centro Juventud Antoniana': 'Juventud Antoniana',
+    'Centro Social y Recreativo Español': 'Centro Español',
+    'Club Agropecuario Argentino': 'Agropecuario',
+    'Club Almagro': 'Almagro',
+    'Club Almirante Brown': 'Almirante Brown',
+    'Club Atlético 9 de Julio (Rafaela)': '9 de Julio (R)',
+    'Club Atlético Acassuso': 'Acassuso',
+    'Club Atlético Aldosivi': 'Aldosivi',
+    'Club Atlético All Boys': 'All Boys',
+    'Club Atlético Alvarado': 'Alvarado',
+    'Club Atlético Argentino (Rosario)': 'Argentino de Rosario',
+    'Club Atlético Argentino de Quilmes': 'Argentino de Quilmes',
+    'Club Atlético Atlanta': 'Atlanta',
+    'Club Atlético Atlas': 'Atlas',
+    'Club Atlético Banfield': 'Banfield',
+    'Club Atlético Barracas Central': 'Barracas Central',
+    'Club Atlético Bartolomé Mitre (Posadas)': 'Bartolomé Mitre (P)',
+    'Club Atlético Belgrano': 'Belgrano',
+    'Club Atlético Boca Juniors': 'Boca Juniors',
+    'Club Atlético Boca Unidos': 'Boca Unidos',
+    'Club Atlético Brown': 'Brown de Adrogué',
+    'Club Atlético Central Córdoba (Rosario)': 'Central Córdoba (R)',
+    'Club Atlético Central Córdoba (Santiago del Estero)': 'Central Córdoba (SdE)',
+    'Club Atlético Central Norte (Salta)': 'Central Norte (S)',
+    'Club Atlético Chacarita Juniors': 'Chacarita Juniors',
+    'Club Atlético Chaco For Ever': 'Chaco For Ever',
+    'Club Atlético Claypole': 'Claypole',
+    'Club Atlético Colegiales (Munro)': 'Colegiales',
+    'Club Atlético Colón': 'Colón',
+    'Club Atlético Defensores Unidos': 'Defensores Unidos',
+    'Club Atlético Defensores de Vilelas': 'Defensores de Vilelas',
+    'Club Atlético Deportivo Paraguayo': 'Deportivo Paraguayo',
+    'Club Atlético Douglas Haig': 'Douglas Haig',
+    'Club Atlético El Linqueño': 'El Linqueño',
+    'Club Atlético Estudiantes': 'Estudiantes (BA)',
+    'Club Atlético Ferrocarril Midland': 'Ferrocarril Midland',
+    'Club Atlético Fénix': 'Fénix',
+    'Club Atlético General Lamadrid': 'General Lamadrid',
+    'Club Atlético Germinal': 'Germinal',
+    'Club Atlético Gimnasia y Esgrima (Jujuy)': 'Gimnasia y Esgrima (J)',
+    'Club Atlético Gimnasia y Esgrima (Mendoza)': 'Gimnasia y Esgrima (M)',
+    'Club Atlético Güemes': 'Güemes (SdE)',
+    'Club Atlético Huracán': 'Huracán',
+    'Club Atlético Huracán Las Heras': 'Huracán Las Heras',
+    'Club Atlético Independiente (Chivilcoy)': 'Independiente (C)',
+    'Club Atlético Independiente (Neuquén)': 'Independiente (N)',
+    'Club Atlético Juventud Unida Universitario': 'Juventud Unida Universitario',
+    'Club Atlético Kimberley': 'Kimberley',
+    'Club Atlético Lanús': 'Lanús',
+    'Club Atlético Liniers': 'Liniers (BB)',
+    'Club Atlético Los Andes': 'Los Andes',
+    'Club Atlético Lugano': 'Lugano',
+    'Club Atlético Mitre (Santiago del Estero)': 'Mitre (SdE)',
+    'Club Atlético Nueva Chicago': 'Nueva Chicago',
+    'Club Atlético Paraná': 'Atlético Paraná',
+    'Club Atlético Patronato de la Juventud Católica': 'Patronato',
+    'Club Atlético Platense': 'Platense',
+    'Club Atlético Puerto Nuevo': 'Puerto Nuevo',
+    'Club Atlético Racing': 'Racing Club',
+    'Club Atlético River Plate': 'River Plate',
+    'Club Atlético Rosario Central': 'Rosario Central',
+    'Club Atlético San Lorenzo de Alem': 'San Lorenzo de Alem',
+    'Club Atlético San Lorenzo de Almagro': 'San Lorenzo',
+    'Club Atlético San Martín (San Juan)': 'San Martín (SJ)',
+    'Club Atlético San Martín (Tucumán)': 'San Martín (T)',
+    'Club Atlético San Telmo': 'San Telmo',
+    'Club Atlético Sansinena Social y Deportivo': 'Sansinena',
+    'Club Atlético Sarmiento (La Banda)': 'Sarmiento (LB)',
+    'Club Atlético Social y Deportivo Camioneros': 'Deportivo Camioneros',
+    'Club Atlético Talleres (Córdoba)': 'Talleres (C)',
+    'Club Atlético Talleres (Remedios de Escalada)': 'Talleres (RdE)',
+    'Club Atlético Temperley': 'Temperley',
+    'Club Atlético Tigre': 'Tigre',
+    'Club Atlético Tucumán': 'Atlético Tucumán',
+    'Club Atlético Tucumán Central': 'Tucumán Central',
+    'Club Atlético Unión (Sunchales)': 'Unión (S)',
+    'Club Atlético Unión (Villa Krause)': 'Unión (VK)',
+    'Club Atlético Victoriano Arenas': 'Victoriano Arenas',
+    'Club Atlético Villa San Carlos': 'Villa San Carlos',
+    'Club Atlético Vélez Sarsfield': 'Vélez Sarsfield',
+    'Club Cipolletti': 'Cipolletti',
+    'Club Ciudad de Bolívar': 'Ciudad de Bolívar',
+    'Club Defensores de Cambaceres': 'Defensores de Cambaceres',
+    'Club Defensores de Pronunciamiento': 'Defensores de Pronunciamiento',
+    'Club Deportivo Argentino (Monte Maíz)': 'Argentino (MM)',
+    'Club Deportivo Armenio': 'Deportivo Armenio',
+    'Club Deportivo Español de Buenos Aires': 'Deportivo Español',
+    'Club Deportivo Godoy Cruz Antonio Tomba': 'Godoy Cruz',
+    'Club Deportivo Guaraní Antonio Franco': 'Guaraní Antonio Franco',
+    'Club Deportivo Juventud Unida': 'Juventud Unida (G)',
+    'Club Deportivo Libertad': 'Libertad (S)',
+    'Club Deportivo Maipú': 'Deportivo Maipú',
+    'Club Deportivo Mandiyú': 'Deportivo Mandiyú',
+    'Club Deportivo Morón': 'Deportivo Morón',
+    'Club Deportivo Riestra': 'Deportivo Riestra',
+    'Club Deportivo UAI Urquiza': 'UAI Urquiza',
+    'Club Deportivo y Mutual Leandro N. Alem': 'Leandro N. Alem',
+    'Club El Porvenir': 'El Porvenir',
+    'Club Estudiantes de La Plata': 'Estudiantes (LP)',
+    'Club Ferro Carril Oeste (General Pico)': 'Ferro Carril Oeste (GP)',
+    'Club General Belgrano': 'General Belgrano (SR)',
+    'Club Gimnasia y Esgrima (Concepción del Uruguay)': 'Gimnasia y Esgrima (CdU)',
+    'Club Mutual Crucero del Norte': 'Crucero del Norte',
+    'Club Rivadavia': 'Rivadavia (L)',
+    'Club Social y Atlético Guillermo Brown': 'Guillermo Brown',
+    'Club Social y Cultural Deportivo Laferrere': 'Deportivo Laferrere',
+    'Club Social y Deportivo Central Ballester': 'Central Ballester',
+    'Club Social y Deportivo Defensa y Justicia': 'Defensa y Justicia',
+    'Club Social y Deportivo Flandria': 'Flandria',
+    'Club Social y Deportivo General Roca': 'Deportivo Roca',
+    'Club Social y Deportivo Madryn': 'Deportivo Madryn',
+    'Club Social y Deportivo Merlo': 'Deportivo Merlo',
+    'Club Social y Deportivo San Jorge': 'San Jorge (T)',
+    'Club Social y Deportivo San Martín': 'San Martín (B)',
+    'Club Social y Deportivo Sol de Mayo': 'Sol de Mayo (V)',
+    'Club Social y Deportivo Yupanqui': 'Yupanqui',
+    'Club Sol de América (Formosa)': 'Sol de América (F)',
+    'Club Sportivo Barracas': 'Sportivo Barracas',
+    'Club Sportivo Ben Hur': 'Ben Hur',
+    'Club Sportivo Desamparados': 'Desamparados',
+    'Club Sportivo Dock Sud': 'Dock Sud',
+    'Club Sportivo General San Martín': 'San Martín (F)',
+    'Club Sportivo Independiente Rivadavia': 'Independiente Rivadavia',
+    'Club Sportivo Italiano': 'Sportivo Italiano',
+    'Club Sportivo Patria': 'Sportivo Patria',
+    'Club Sportivo y Biblioteca Atenas': 'Atenas (RC)',
+    'Club Tiro Federal': 'Tiro Federal (BB)',
+    'Club Unión Aconquija': 'Unión Aconquija',
+    'Club Villa Dálmine': 'Villa Dálmine',
+    'Club Villa Mitre': 'Villa Mitre',
+    'Club de Gimnasia y Esgrima de La Plata': 'Gimnasia y Esgrima (LP)',
+    'Club de Gimnasia y Tiro': 'Gimnasia y Tiro (S)',
+    'Club y Biblioteca Ramón Santamarina': 'Ramón Santamarina',
+    'Concepción Fútbol Club': 'Concepción FC',
+    'Círculo Deportivo de Comandante Nicanor Otamendi': 'Círculo Deportivo',
+    'Fundación Amigos por el Deporte': 'FADEP',
+    'Gregorio de Laferrere (Buenos Aires)': 'Deportivo Laferrere',
+    'Gutiérrez Sport Club': 'Gutiérrez',
+    'Instituto Atlético Central Córdoba': 'Instituto',
+    'Racing Club (Trelew)': 'Racing Club',
+    'Real Pilar Fútbol Club': 'Real Pilar',
+    'Sacachispas Fútbol Club': 'Sacachispas',
+}
 
 
 class EquipoDesconocido(LookupError):
@@ -315,8 +504,37 @@ def _armar_indice() -> dict[str, Equipo]:
 _INDICE = _armar_indice()
 
 
-def buscar(nombre: str) -> Equipo | None:
-    """El club, o None si el padron no lo conoce."""
+def _armar_indice_de_articulos() -> dict[str, Equipo]:
+    """Igual que el de nombres, derivado y con la misma guarda: si un articulo
+    apunta a un club que el padron no tiene, revienta al importar."""
+    indice = {}
+    for articulo, nombre in ARTICULOS.items():
+        eq = _INDICE.get(normalizar(nombre))
+        if eq is None:
+            raise ValueError(f"el articulo {articulo!r} apunta a {nombre!r}, "
+                             "que no esta en el padron")
+        indice[normalizar(articulo)] = eq
+    return indice
+
+
+_POR_ARTICULO = _armar_indice_de_articulos()
+
+
+def buscar(nombre: str, articulo: str = "") -> Equipo | None:
+    """El club, o None si el padron no lo conoce.
+
+    El ARTICULO manda sobre el nombre visible, y esa prioridad es todo el punto.
+    "Estudiantes" a secas apunta a tres articulos distintos segun la pagina: en
+    Primera es el de La Plata, en Primera B el de Caseros. Resolviendo por el
+    nombre, media division termina en la historia del club equivocado -- y no
+    falla, solo miente. Resolviendo por el articulo, cada temporada dice cual es
+    la suya, y los ascensos y descensos dejan de importar: el enlace de la pagina
+    del anio que viene apunta al mismo lugar.
+    """
+    if articulo:
+        eq = _POR_ARTICULO.get(normalizar(articulo))
+        if eq is not None:
+            return eq
     return _INDICE.get(normalizar(nombre))
 
 
@@ -328,11 +546,11 @@ def canonical(nombre: str) -> str:
     return eq.nombre
 
 
-def conocido(nombre: str) -> bool:
-    return buscar(nombre) is not None
+def conocido(nombre: str, articulo: str = "") -> bool:
+    return buscar(nombre, articulo) is not None
 
 
-def canonizar(nombre: str) -> str:
+def canonizar(nombre: str, articulo: str = "") -> str:
     """El canonico si lo conoce; el mismo nombre, intacto, si no.
 
     No levanta: se usa en el pipeline ANTES de validar, y el que no se pudo
@@ -340,7 +558,7 @@ def canonizar(nombre: str) -> str:
     aviso diga como vino escrito de la fuente. Devolver "" o inventar un nombre
     ahi seria esconder justo el dato que hace falta para arreglarlo.
     """
-    eq = buscar(nombre)
+    eq = buscar(nombre, articulo)
     return eq.nombre if eq else nombre
 
 

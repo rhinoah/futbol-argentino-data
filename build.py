@@ -44,8 +44,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato,
                          anio_fin=t.anio_fin, mes_inicio=t.mes_inicio)
     for p in ps:
-        p.local = equipos.canonizar(p.local)
-        p.visita = equipos.canonizar(p.visita)
+        p.local = equipos.canonizar(p.local, p.local_art)
+        p.visita = equipos.canonizar(p.visita, p.visita_art)
     avisos = validar.revisar(ps)
     # Los sin fecha se van DESPUES de validar, para que el aviso alcance a
     # nombrarlos: el esquema promete una fecha en cada fila.

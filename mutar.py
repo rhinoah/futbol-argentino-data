@@ -225,20 +225,28 @@ MUTANTES = [
      "                    if n and not equipos.conocido(n)})",
      "    raros = []"),
 
+    ("fad/equipos.py", "resolver por el nombre visible y no por el articulo",
+     "    if articulo:",
+     "    if False:"),
+
+    ("fad/parser.py", "aceptar un nombre visible que apunta a dos articulos",
+     "    return {v: next(iter(d)) for v, d in vistos.items() if len(d) == 1}",
+     "    return {v: next(iter(d)) for v, d in vistos.items()}"),
+
     ("build.py", "no normalizar los nombres antes de escribir",
-     "        p.local = equipos.canonizar(p.local)\n"
-     "        p.visita = equipos.canonizar(p.visita)",
+     "        p.local = equipos.canonizar(p.local, p.local_art)\n"
+     "        p.visita = equipos.canonizar(p.visita, p.visita_art)",
      "        pass"),
 
     ("build.py", "validar ANTES de normalizar (el orden de los pasos)",
      "    for p in ps:\n"
-     "        p.local = equipos.canonizar(p.local)\n"
-     "        p.visita = equipos.canonizar(p.visita)\n"
+     "        p.local = equipos.canonizar(p.local, p.local_art)\n"
+     "        p.visita = equipos.canonizar(p.visita, p.visita_art)\n"
      "    avisos = validar.revisar(ps)",
      "    avisos = validar.revisar(ps)\n"
      "    for p in ps:\n"
-     "        p.local = equipos.canonizar(p.local)\n"
-     "        p.visita = equipos.canonizar(p.visita)\n"
+     "        p.local = equipos.canonizar(p.local, p.local_art)\n"
+     "        p.visita = equipos.canonizar(p.visita, p.visita_art)\n"
      "    return ps, avisos"),
 
     ("fad/dataset.py", "escribir el CSV sin ordenar",

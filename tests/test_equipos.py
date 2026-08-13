@@ -176,3 +176,40 @@ def test_el_csv_publicado_usa_nombres_canonicos():
     nombres = {f[c] for f in dataset.leer(CSV) for c in ("home_team", "away_team")}
     canonicos = {e.nombre for e in equipos.PADRON}
     assert nombres <= canonicos, f"nombres fuera del padron: {sorted(nombres - canonicos)}"
+
+
+# --------------------------------------------------------------------------
+# el articulo manda sobre el nombre visible
+# --------------------------------------------------------------------------
+def test_el_articulo_desempata_lo_que_el_nombre_no_puede():
+    """"Estudiantes" a secas apunta a TRES articulos distintos segun la pagina:
+    en Primera es el de La Plata, en Primera B el de Caseros. El nombre no
+    alcanza; el articulo si, y ademas no depende de la division ni del anio, asi
+    que los ascensos y descensos dejan de importar."""
+    assert equipos.canonizar("Estudiantes") == "Estudiantes (LP)"
+    assert equipos.canonizar("Estudiantes", "Club Atlético Estudiantes") == "Estudiantes (BA)"
+    assert equipos.canonizar("Talleres", "Club Atlético Talleres (Remedios de Escalada)") \
+        == "Talleres (RdE)"
+
+
+def test_sin_articulo_se_cae_al_nombre():
+    assert equipos.canonizar("Newell`s", "") == "Newell's Old Boys"
+
+
+def test_un_articulo_desconocido_no_pisa_al_nombre():
+    assert equipos.canonizar("Boca Juniors", "Club Inventado") == "Boca Juniors"
+
+
+def test_todo_articulo_apunta_a_un_club_del_padron():
+    """La guarda que evita la desincronizacion: `ARTICULOS` es una segunda
+    estructura, y si apunta a un club que no existe revienta al importar."""
+    nombres = {e.nombre for e in equipos.PADRON}
+    assert set(equipos.ARTICULOS.values()) <= nombres
+
+
+def test_el_mapa_de_la_pagina_no_adivina():
+    """Si dentro de UNA pagina el mismo nombre visible apunta a dos articulos, no
+    hay testigo y no se devuelve ninguno."""
+    from fad import parser
+    texto = "[[Club A|Equipo]] y [[Club B|Equipo]] y [[Club C|Otro]]"
+    assert parser.articulos_de_la_pagina(texto) == {"Otro": "Club C"}
