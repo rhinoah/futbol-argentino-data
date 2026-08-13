@@ -156,6 +156,12 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Temperley"),
     Equipo("Tristán Suárez"),
 
+    # entran por las ediciones viejas de la Copa Argentina, que mezclan mas
+    # divisiones todavia. Ojo: es el TERCER Liniers del padron.
+    Equipo("Liniers (SJ)"),
+    Equipo("Pacífico"),
+    Equipo("Sportivo Rivadavia (VT)"),
+
     # --- historico del ascenso 2016-2023 ---
     # "Mitre" a secas va a Mitre (SdE) porque en TODOS los Federal A donde
     # aparece pelado, el unico Mitre del torneo es ese. El resto son erratas de

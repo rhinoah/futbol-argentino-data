@@ -8,9 +8,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **21 820 partidos entre febrero de 2016 y hoy** — once años de
+**Estado:** **22 270 partidos entre febrero de 2016 y hoy** — once años de
 Primera División y **once de Primera Nacional, Primera B, Primera C y Torneo
-Federal A**, más la Copa Argentina 2026. **182 clubes**, cero partidos sin fecha, sin marcador
+Federal A**, más **diez ediciones de la Copa Argentina**. **185 clubes**, cero partidos sin fecha, sin marcador
 ni duplicados. Abajo está el plan.
 
 ## Por qué
@@ -461,7 +461,7 @@ Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos
 - [x] **1.** Primera División 2026 (Apertura + Clausura)
 - [x] **2.** Padrón de clubes con normalización, validado contra el feed de la AFA
 - [x] **3.** Histórico 2016-2025 — diez temporadas, siete nombres distintos para el mismo campeonato
-- [x] **4.** Copa Argentina — tercer formato de página, y llevó el padrón de 30 clubes a 64
+- [x] **4.** Copa Argentina — 2016-2026, tercer formato de página; es el único torneo donde se cruzan las divisiones
 - [x] **5.** Primera Nacional, Primera B, Primera C y Federal A — 2016-2026, las cuatro divisiones que juegan la Copa Argentina
 - [x] **6.** Actualización automática — dos workflows, con guarda contra achicarse
 - [ ] **7.** Publicarlo (GitHub, y donde sirva para que otros lo usen y comenten)

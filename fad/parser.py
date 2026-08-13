@@ -328,8 +328,10 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
 # eliminacion: plantillas {{Partido}}
 # --------------------------------------------------------------------------
 def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | None = None,
-                           mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
+                           mes_inicio: int = MES_INICIO_HABITUAL,
+                       arts: dict[str, str] | None = None) -> list[Partido]:
     titulos = _titulos_de_ronda(texto)
+    arts = arts or articulos_de_la_pagina(texto)
     partidos: list[Partido] = []
     # Una pagina puede traer VARIOS cuadros: la final del campeonato, el torneo
     # reducido y la definicion de un ascenso son tres eliminaciones distintas que
@@ -359,6 +361,8 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
             penales_visita=pen[1] if pen else None,
             torneo=torneo, fase="eliminacion",
             jornada=_ronda_en(m.start(), titulos, _inicio_de_llave(m.start(), texto)),
+            local_art=arts.get(limpiar(campos.get("local", "")), ""),
+            visita_art=arts.get(limpiar(campos.get("visita", "")), ""),
             llave=_contexto(m.start(), 3, texto),
             estadio=limpiar(campos.get("estadio", "")),
             fecha_cruda=limpiar(campos.get("fecha", ""))))
@@ -448,7 +452,8 @@ def _penales(celda_cruda: str) -> tuple[int, int] | None:
 
 
 def partidos_de_rondas(texto: str, anio: int, torneo: str, anio_fin: int | None = None,
-                       mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
+                       mes_inicio: int = MES_INICIO_HABITUAL,
+                       arts: dict[str, str] | None = None) -> list[Partido]:
     """La Copa Argentina: una tabla por ronda, `Fecha | Estadio | Eq1 | Partido | Eq2`."""
     partidos: list[Partido] = []
     for m in _TITULO_RONDA.finditer(texto):
@@ -476,6 +481,8 @@ def partidos_de_rondas(texto: str, anio: int, torneo: str, anio_fin: int | None 
                 penales_local=pen[0] if pen else None,
                 penales_visita=pen[1] if pen else None,
                 torneo=torneo, fase="eliminacion", jornada=ronda,
+                local_art=(arts or {}).get(v["local"], ""),
+                visita_art=(arts or {}).get(v["visita"], ""),
                 estadio=v["estadio"], fecha_cruda=v["fecha"]))
     return partidos
 
@@ -550,7 +557,8 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
     cero partidos en vez de fallar.
     """
     if formato == "copa":
-        return partidos_de_rondas(texto, anio, torneo, anio_fin, mes_inicio)
+        return partidos_de_rondas(texto, anio, torneo, anio_fin, mes_inicio,
+                                  articulos_de_la_pagina(texto))
     arts = articulos_de_la_pagina(texto)
     zonas = []
     for zona, fase, cuerpo in secciones_de_resultados(texto):

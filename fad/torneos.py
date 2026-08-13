@@ -87,7 +87,29 @@ HISTORICO = [
 # en cancha neutral por reglamento, y la propia pagina lo dice ronda por ronda
 # ("se enfrentaron a partido unico en estadio neutral"). Es el unico caso hasta
 # ahora en que el dato se puede afirmar sin mirar donde queda cada estadio.
+# La temporada es el anio en que se JUGARON, que no siempre coincide con el
+# titulo: la "2016-17" se disputo entera en 2017. No hay edicion 2021 -- la
+# 2019-20 se estiro hasta diciembre de 2020 por la pandemia y la siguiente
+# arranco en febrero de 2022.
 COPAS = [
+    Torneo('Copa Argentina 2015-16', "Copa Argentina", 2016,
+           formato="copa", neutral=True),
+    Torneo('Copa Argentina 2016-17', "Copa Argentina", 2017,
+           formato="copa", neutral=True),
+    Torneo('Copa Argentina 2017-18', "Copa Argentina", 2018,
+           formato="copa", neutral=True),
+    Torneo('Copa Argentina 2018-19', "Copa Argentina", 2019,
+           formato="copa", neutral=True),
+    Torneo('Copa Argentina 2019-20', "Copa Argentina", 2020,
+           formato="copa", neutral=True),
+    Torneo('Copa Argentina 2022', "Copa Argentina", 2022,
+           formato="copa", neutral=True),
+    Torneo('Copa Argentina 2023', "Copa Argentina", 2023,
+           formato="copa", neutral=True),
+    Torneo('Copa Argentina 2024', "Copa Argentina", 2024,
+           formato="copa", neutral=True),
+    Torneo('Copa Argentina 2025', "Copa Argentina", 2025,
+           formato="copa", neutral=True),
     Torneo("Copa Argentina 2026", "Copa Argentina", 2026,
            formato="copa", neutral=True),
 ]
