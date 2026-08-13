@@ -160,6 +160,14 @@ PADRON: tuple[Equipo, ...] = (
     # divisiones todavia. Ojo: es el TERCER Liniers del padron.
     Equipo("Liniers (SJ)"),
     Equipo("Pacífico"),
+    # entran por las primeras ediciones de la Copa Argentina
+    Equipo("Andino"),
+    Equipo("Atlético Policial"),
+    Equipo("Guaymallén"),
+    Equipo("Racing (O)"),
+    Equipo("Racing (T)"),
+    Equipo("La Emilia"),
+    Equipo("Viale FBC"),
     # jugaron Primera en la era Apertura/Clausura y hoy no estan
     Equipo("Huracán (TA)"),
     Equipo("Tiro Federal"),

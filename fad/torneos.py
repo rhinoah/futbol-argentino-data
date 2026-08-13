@@ -99,6 +99,14 @@ HISTORICO = [
 # 2019-20 se estiro hasta diciembre de 2020 por la pandemia y la siguiente
 # arranco en febrero de 2022.
 COPAS = [
+    Torneo("Copa Argentina 2011-12", "Copa Argentina", 2012,
+           formato="copa", neutral=True),
+    Torneo("Copa Argentina 2012-13", "Copa Argentina", 2013,
+           formato="copa", neutral=True),
+    Torneo("Copa Argentina 2013-14", "Copa Argentina", 2014,
+           formato="copa", neutral=True),
+    Torneo("Copa Argentina 2014-15", "Copa Argentina", 2015,
+           formato="copa", neutral=True),
     Torneo('Copa Argentina 2015-16', "Copa Argentina", 2016,
            formato="copa", neutral=True),
     Torneo('Copa Argentina 2016-17', "Copa Argentina", 2017,

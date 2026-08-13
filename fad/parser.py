@@ -461,7 +461,13 @@ def partidos_de_rondas(texto: str, anio: int, torneo: str, anio_fin: int | None 
         # la proxima ronda: la ultima ronda jugada es la ultima seccion de ronda
         # de la pagina, pero abajo siguen "Goleadores", "Referencias" y sus
         # tablas, que sin este corte entran como si fueran partidos.
-        sig = re.search(r"^=+[^=\n]", texto[m.end():], re.M)
+        # Corta en el proximo titulo del MISMO nivel o mas alto, no en cualquiera.
+        # Las ediciones viejas de la Copa parten cada ronda en subsecciones, y
+        # cortando en el primer subtitulo se leia solo la primera tabla: la
+        # 2011-12 daba UN partido de sesenta. Los subtitulos entran en la ronda;
+        # la ronda siguiente, no.
+        nivel = len(re.match(r"=+", m.group(0)).group(0))
+        sig = re.search(rf"^={{1,{nivel}}}[^=]", texto[m.end():], re.M)
         fin = m.end() + (sig.start() if sig else len(texto) - m.end())
         ronda = _nombre_de_ronda(m.group(1))
         for fila in re.split(r"\n\|-", texto[m.end():fin]):

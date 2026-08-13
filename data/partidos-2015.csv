@@ -74,6 +74,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-03-16,20:00,Belgrano,Aldosivi,0,1,,,Primera Division,2015,zonas,,Fecha 5,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-16,21:10,Arsenal,River Plate,3,3,,,Primera Division,2015,zonas,,Fecha 5,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-17,16:00,Gimnasia y Esgrima (LP),Nueva Chicago,2,1,,,Primera Division,2015,zonas,,Fecha 5,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-03-18,,Banfield,Sol de América (F),1,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-03-20,20:30,Newell's Old Boys,Quilmes,1,1,,,Primera Division,2015,zonas,,Fecha 6,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-20,21:10,Lanús,Gimnasia y Esgrima (LP),2,0,,,Primera Division,2015,zonas,,Fecha 6,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-21,17:00,Colón,Tigre,0,1,,,Primera Division,2015,zonas,,Fecha 6,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -89,6 +90,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-03-23,16:00,Nueva Chicago,San Lorenzo,0,1,,,Primera Division,2015,zonas,,Fecha 6,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-23,18:10,Aldosivi,Unión,3,3,,,Primera Division,2015,zonas,,Fecha 6,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-23,21:10,Temperley,Olimpo,0,0,,,Primera Division,2015,zonas,,Fecha 6,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-03-26,,Defensa y Justicia,Andino,3,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-03-26,,Nueva Chicago,Defensores de Belgrano (VR),2,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Tomás Adolfo Ducó,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-03-27,18:00,Quilmes,Sarmiento (J),0,4,,,Primera Division,2015,zonas,,Fecha 7,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-27,21:10,Rosario Central,Colón,1,1,,,Primera Division,2015,zonas,,Fecha 7,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-28,15:00,Olimpo,Atlético de Rafaela,0,0,,,Primera Division,2015,zonas,,Fecha 7,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -119,6 +122,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-04-05,21:30,San Martín (SJ),Tigre,3,1,,,Primera Division,2015,zonas,,Fecha 8,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-06,16:00,Nueva Chicago,Banfield,1,2,,,Primera Division,2015,zonas,,Fecha 8,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-06,21:10,Newell's Old Boys,Unión,2,0,,,Primera Division,2015,zonas,,Fecha 8,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-04-09,,Douglas Haig,All Boys,1,2,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-04-10,18:00,Crucero del Norte,Atlético de Rafaela,1,1,,,Primera Division,2015,zonas,,Fecha 9,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-10,21:10,Temperley,Colón,2,1,,,Primera Division,2015,zonas,,Fecha 9,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-11,15:00,Godoy Cruz,Vélez Sarsfield,2,2,,,Primera Division,2015,zonas,,Fecha 9,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -149,6 +153,12 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-04-20,21:10,Quilmes,Unión,1,3,,,Primera Division,2015,zonas,,Fecha 10,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-21,18:00,Colón,Atlético de Rafaela,2,1,,,Primera Division,2015,zonas,,Fecha 10,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-21,20:30,Newell's Old Boys,Godoy Cruz,2,0,,,Primera Division,2015,zonas,,Fecha 10,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-04-22,,Sarmiento (J),Deportivo Merlo,1,2,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Ciudad de Vicente López,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-04-22,,Vélez Sarsfield,La Emilia,3,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Florencio Sola,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-04-23,,Argentinos Juniors,San Martín (T),3,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Padre Ernesto Martearena,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-04-23,,Tigre,Gimnasia y Esgrima (J),1,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-04-29,,Arsenal,Guaraní Antonio Franco,1,2,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-04-29,,Quilmes,Sportivo Belgrano,2,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-04-30,18:00,Godoy Cruz,Sarmiento (J),1,0,,,Primera Division,2015,zonas,,Fecha 11,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-02,15:00,Olimpo,Estudiantes (LP),0,0,,,Primera Division,2015,zonas,,Fecha 11,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-02,17:15,Gimnasia y Esgrima (LP),Newell's Old Boys,0,0,,,Primera Division,2015,zonas,,Fecha 11,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -164,6 +174,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-05-04,16:00,Arsenal,Quilmes,0,1,,,Primera Division,2015,zonas,,Fecha 11,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-04,21:00,Crucero del Norte,Colón,0,0,,,Primera Division,2015,zonas,,Fecha 11,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-04,21:10,Temperley,San Martín (SJ),0,1,,,Primera Division,2015,zonas,,Fecha 11,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-05-06,,Gimnasia y Esgrima (LP),Altos Hornos Zapla,2,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-05-08,15:00,Nueva Chicago,Rosario Central,0,2,,,Primera Division,2015,zonas,,Fecha 12,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-08,20:00,Lanús,Tigre,1,1,,,Primera Division,2015,zonas,,Fecha 12,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-08,21:10,Estudiantes (LP),Temperley,2,1,,,Primera Division,2015,zonas,,Fecha 12,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -179,6 +190,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-05-10,21:30,Independiente,Boca Juniors,1,1,,,Primera Division,2015,zonas,,Fecha 12,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-11,18:00,Sarmiento (J),Gimnasia y Esgrima (LP),0,0,,,Primera Division,2015,zonas,,Fecha 12,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-11,21:10,Defensa y Justicia,Colón,2,3,,,Primera Division,2015,zonas,,Fecha 12,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-05-13,,Godoy Cruz,Deportivo Español,0,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-05-13,,Rosario Central,Deportivo Riestra,3,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-05-19,,Newell's Old Boys,Chacarita Juniors,0,2,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Florencio Sola,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-05-20,,San Lorenzo,Viale FBC,3,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-05-20,,Unión,Deportivo Armenio,2,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-05-22,18:00,Gimnasia y Esgrima (LP),Quilmes,3,2,,,Primera Division,2015,zonas,,Fecha 13,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-22,20:00,Crucero del Norte,Defensa y Justicia,3,1,,,Primera Division,2015,zonas,,Fecha 13,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-22,21:10,Temperley,Huracán,0,0,,,Primera Division,2015,zonas,,Fecha 13,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -194,6 +210,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-05-24,18:15,Boca Juniors,Aldosivi,0,3,,,Primera Division,2015,zonas,,Fecha 13,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-24,18:20,Godoy Cruz,Belgrano,1,0,,,Primera Division,2015,zonas,,Fecha 13,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-24,21:30,Tigre,River Plate,0,0,,,Primera Division,2015,zonas,,Fecha 13,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-05-27,,Boca Juniors,Huracán Las Heras,2,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-05-27,,Crucero del Norte,Los Andes,0,2,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-05-27,,Lanús,Atlético Tucumán,2,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Padre Ernesto Martearena,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-05-29,21:10,Quilmes,San Lorenzo,1,2,,,Primera Division,2015,zonas,,Fecha 14,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-30,15:00,Nueva Chicago,Temperley,0,2,,,Primera Division,2015,zonas,,Fecha 14,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-30,17:10,Sarmiento (J),Argentinos Juniors,0,0,,,Primera Division,2015,zonas,,Fecha 14,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -209,6 +228,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-06-01,16:00,Arsenal,Crucero del Norte,1,0,,,Primera Division,2015,zonas,,Fecha 14,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-06-01,21:10,Huracán,Atlético de Rafaela,3,2,,,Primera Division,2015,zonas,,Fecha 14,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-06-01,21:10,Lanús,Olimpo,2,0,,,Primera Division,2015,zonas,,Fecha 14,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-06-03,,Racing Club,Independiente (N),2,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-06-03,,River Plate,Liniers (BB),2,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-06-04,,Estudiantes (LP),Ramón Santamarina,2,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-06-05,18:00,Gimnasia y Esgrima (LP),Unión,5,2,,,Primera Division,2015,zonas,,Fecha 15,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-06-05,20:00,Banfield,Sarmiento (J),0,0,,,Primera Division,2015,zonas,,Fecha 15,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-06-05,21:10,Argentinos Juniors,Quilmes,0,2,,,Primera Division,2015,zonas,,Fecha 15,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -224,6 +246,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-06-07,21:30,Olimpo,River Plate,1,1,,,Primera Division,2015,zonas,,Fecha 15,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-06-08,18:00,Tigre,Aldosivi,2,1,,,Primera Division,2015,zonas,,Fecha 15,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-06-08,20:10,Defensa y Justicia,Estudiantes (LP),0,1,,,Primera Division,2015,zonas,,Fecha 15,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-07-01,,Huracán,Independiente Rivadavia,0,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-07-03,,River Plate,Rosario Central,0,2,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-07-10,18:00,Arsenal,Gimnasia y Esgrima (LP),0,1,,,Primera Division,2015,zonas,,Fecha 16,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-10,21:10,Estudiantes (LP),San Martín (SJ),0,0,,,Primera Division,2015,zonas,,Fecha 16,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-11,15:00,Belgrano,Argentinos Juniors,2,1,,,Primera Division,2015,zonas,,Fecha 16,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -254,6 +278,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-07-20,15:15,Gimnasia y Esgrima (LP),Godoy Cruz,2,0,,,Primera Division,2015,zonas,,Fecha 17,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-20,20:00,Crucero del Norte,Estudiantes (LP),1,2,,,Primera Division,2015,zonas,,Fecha 17,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-20,21:10,Argentinos Juniors,Unión,1,2,,,Primera Division,2015,zonas,,Fecha 17,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-07-21,,Chacarita Juniors,All Boys,2,1,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-07-23,,Argentinos Juniors,Guaraní Antonio Franco,0,1,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-07-24,21:10,Aldosivi,Temperley,0,0,,,Primera Division,2015,zonas,,Fecha 18,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-25,15:00,Gimnasia y Esgrima (LP),Crucero del Norte,2,1,,,Primera Division,2015,zonas,,Fecha 18,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-25,16:15,Sarmiento (J),Tigre,0,1,,,Primera Division,2015,zonas,,Fecha 18,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -269,6 +295,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-07-26,21:30,Belgrano,Boca Juniors,0,1,,,Primera Division,2015,zonas,,Fecha 18,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-27,15:00,Nueva Chicago,San Martín (SJ),0,0,,,Primera Division,2015,zonas,,Fecha 18,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-27,18:00,Arsenal,Argentinos Juniors,3,2,,,Primera Division,2015,zonas,,Fecha 18,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-07-29,,Banfield,Boca Juniors,0,3,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-07-30,,Quilmes,Independiente Rivadavia,3,0,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-07-31,18:00,Atlético de Rafaela,Aldosivi,2,1,,,Primera Division,2015,zonas,,Fecha 19,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-31,21:10,Temperley,Vélez Sarsfield,2,1,,,Primera Division,2015,zonas,,Fecha 19,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-01,15:30,Argentinos Juniors,Godoy Cruz,0,0,,,Primera Division,2015,zonas,,Fecha 19,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -282,7 +310,13 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-08-02,18:15,Boca Juniors,Unión,3,4,,,Primera Division,2015,zonas,,Fecha 19,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-03,18:00,Tigre,Quilmes,0,1,,,Primera Division,2015,zonas,,Fecha 19,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-03,21:10,Banfield,Arsenal,4,1,,,Primera Division,2015,zonas,,Fecha 19,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-08-05,,Instituto,San Lorenzo,1,2,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-08-06,,Lanús,Nueva Chicago,3,0,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,Tomás Adolfo Ducó,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-08-07,,Independiente,Deportivo Español,1,0,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-08-07,,Racing Club,Tigre,2,1,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-08-10,,Atlético de Rafaela,Deportivo Merlo,5,1,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,Oscar Carlos Boero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-08-11,21:30,San Martín (SJ),Lanús,1,1,,,Primera Division,2015,zonas,,Fecha 19,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-08-12,,Acassuso,Vélez Sarsfield,0,3,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-08-14,18:00,Sarmiento (J),Olimpo,0,0,,,Primera Division,2015,zonas,,Fecha 20,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-14,20:00,Belgrano,Tigre,1,0,,,Primera Division,2015,zonas,,Fecha 20,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-14,21:10,Independiente,Defensa y Justicia,1,0,,,Primera Division,2015,zonas,,Fecha 20,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -298,6 +332,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-08-16,21:30,Arsenal,Boca Juniors,1,2,,,Primera Division,2015,zonas,,Fecha 20,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-17,18:00,River Plate,San Martín (SJ),0,1,,,Primera Division,2015,zonas,,Fecha 20,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-17,21:10,Quilmes,Rosario Central,3,1,,,Primera Division,2015,zonas,,Fecha 20,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-08-19,,Guaraní Antonio Franco,Boca Juniors,0,4,,,Copa Argentina,2015,eliminacion,,Octavos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-08-19,,Independiente,Lanús,0,2,,,Copa Argentina,2015,eliminacion,,Octavos,Ciudad de La Plata,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-08-20,,Chacarita Juniors,Defensa y Justicia,0,1,,,Copa Argentina,2015,eliminacion,,Octavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-08-21,20:00,Atlético de Rafaela,Newell's Old Boys,1,1,,,Primera Division,2015,zonas,,Fecha 21,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-21,21:10,Banfield,Gimnasia y Esgrima (LP),1,0,,,Primera Division,2015,zonas,,Fecha 21,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-22,15:00,Olimpo,Quilmes,0,1,,,Primera Division,2015,zonas,,Fecha 21,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -313,6 +350,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-08-23,21:30,Estudiantes (LP),River Plate,2,1,,,Primera Division,2015,zonas,,Fecha 21,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-24,20:00,Defensa y Justicia,Aldosivi,4,0,,,Primera Division,2015,zonas,,Fecha 21,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-24,21:10,Temperley,Sarmiento (J),0,0,,,Primera Division,2015,zonas,,Fecha 21,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-08-26,,Atlético de Rafaela,San Lorenzo,0,1,,,Copa Argentina,2015,eliminacion,,Octavos,Brigadier Estanislao López,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-08-28,21:10,Argentinos Juniors,Crucero del Norte,4,0,,,Primera Division,2015,zonas,,Fecha 22,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-29,16:00,Quilmes,Temperley,0,0,,,Primera Division,2015,zonas,,Fecha 22,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-29,17:10,Aldosivi,San Martín (SJ),2,0,,,Primera Division,2015,zonas,,Fecha 22,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -328,6 +366,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-08-30,21:30,Independiente,Estudiantes (LP),1,1,,,Primera Division,2015,zonas,,Fecha 22,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-31,20:10,Belgrano,Olimpo,0,0,,,Primera Division,2015,zonas,,Fecha 22,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-08-31,21:10,Lanús,Nueva Chicago,1,0,,,Primera Division,2015,zonas,,Fecha 22,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-09-02,,Gimnasia y Esgrima (LP),Vélez Sarsfield,0,1,,,Copa Argentina,2015,eliminacion,,Octavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-09-04,19:10,Banfield,Argentinos Juniors,1,1,,,Primera Division,2015,zonas,,Fecha 23,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-04,19:10,Tigre,Godoy Cruz,2,1,,,Primera Division,2015,zonas,,Fecha 23,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-05,15:10,Crucero del Norte,Lanús,1,3,,,Primera Division,2015,zonas,,Fecha 23,Comandante Andrés Guacurari,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -358,6 +397,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-09-13,21:30,Lanús,Banfield,0,1,,,Primera Division,2015,zonas,,Fecha 24,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-14,18:00,Aldosivi,Crucero del Norte,2,0,,,Primera Division,2015,zonas,,Fecha 24,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-14,21:10,Temperley,Quilmes,0,0,,,Primera Division,2015,zonas,,Fecha 24,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-09-17,,Racing Club,San Lorenzo,2,1,,,Copa Argentina,2015,eliminacion,,Cuartos,Ciudad de La Plata,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-09-18,21:10,Sarmiento (J),Defensa y Justicia,2,1,,,Primera Division,2015,zonas,,Fecha 25,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-19,11:00,Aldosivi,Huracán,0,0,,,Primera Division,2015,zonas,,Fecha 25,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-19,16:30,Argentinos Juniors,Boca Juniors,1,3,,,Primera Division,2015,zonas,,Fecha 25,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -373,6 +413,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-09-20,21:30,San Lorenzo,Racing Club,2,1,,,Primera Division,2015,zonas,,Fecha 25,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-21,20:00,Belgrano,Atlético de Rafaela,0,0,,,Primera Division,2015,zonas,,Fecha 25,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-21,21:10,Quilmes,Colón,1,0,,,Primera Division,2015,zonas,,Fecha 25,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-09-23,,Defensa y Justicia,Boca Juniors,1,2,,,Copa Argentina,2015,eliminacion,,Cuartos,Mario Alberto Kempes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-09-23,,Rosario Central,Estudiantes (LP),2,1,,,Copa Argentina,2015,eliminacion,,Cuartos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-09-25,21:10,Olimpo,Godoy Cruz,1,0,,,Primera Division,2015,zonas,,Fecha 26,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-26,16:00,Atlético de Rafaela,Unión,2,3,,,Primera Division,2015,zonas,,Fecha 26,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-26,16:00,Nueva Chicago,Aldosivi,3,1,,,Primera Division,2015,zonas,,Fecha 26,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -419,6 +461,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-10-18,21:30,Racing Club,Boca Juniors,3,1,,,Primera Division,2015,zonas,,Fecha 28,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-10-19,20:15,Defensa y Justicia,Unión,0,0,,,Primera Division,2015,zonas,,Fecha 28,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-10-20,17:00,Temperley,Gimnasia y Esgrima (LP),1,3,,,Primera Division,2015,zonas,,Fecha 28,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-10-23,,Lanús,Boca Juniors,0,2,,,Copa Argentina,2015,eliminacion,,Semifinales,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
+2015-10-23,,Rosario Central,Racing Club,1,0,,,Copa Argentina,2015,eliminacion,,Semifinales,Padre Ernesto Martearena,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-10-30,21:10,Godoy Cruz,Colón,1,3,,,Primera Division,2015,zonas,,Fecha 29,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-10-30,21:10,Sarmiento (J),Nueva Chicago,1,2,,,Primera Division,2015,zonas,,Fecha 29,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-10-31,16:30,Belgrano,Estudiantes (LP),2,1,,,Primera Division,2015,zonas,,Fecha 29,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -434,6 +478,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-11-01,21:30,Aldosivi,Independiente,1,0,,,Primera Division,2015,zonas,,Fecha 29,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-11-02,20:00,Arsenal,Defensa y Justicia,1,0,,,Primera Division,2015,zonas,,Fecha 29,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-11-02,21:10,Argentinos Juniors,Olimpo,0,1,,,Primera Division,2015,zonas,,Fecha 29,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
+2015-11-04,,Rosario Central,Boca Juniors,0,2,,,Copa Argentina,2015,eliminacion,,Final,Mario Alberto Kempes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-11-06,21:10,Lanús,Sarmiento (J),2,1,,,Primera Division,2015,zonas,,Fecha 30,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-11-07,15:30,Defensa y Justicia,Godoy Cruz,1,1,,,Primera Division,2015,zonas,,Fecha 30,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-11-07,18:00,Colón,Gimnasia y Esgrima (LP),2,1,,,Primera Division,2015,zonas,,Fecha 30,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
