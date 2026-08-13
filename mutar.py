@@ -44,8 +44,8 @@ MUTANTES = [
      'pen = (int(_m.group(1)), int(_m.group(2))) if _m else None'),
 
     ("fad/parser.py", "tomar el mes equivocado en la fecha",
-     "    return f\"{anio}-{mes:02d}-{int(m.group(1)):02d}\" if mes else \"\"",
-     "    return f\"{anio}-{(mes % 12) + 1:02d}-{int(m.group(1)):02d}\" if mes else \"\""),
+     '    return f"{y}-{mes:02d}-{int(m.group(1)):02d}"',
+     '    return f"{y}-{(mes % 12) + 1:02d}-{int(m.group(1)):02d}"'),
 
     ("fad/validar.py", "que el ganador de los penales sea el que perdio la tanda",
      "        return p.local if p.penales_local > p.penales_visita else p.visita",
@@ -60,8 +60,42 @@ MUTANTES = [
      "            if False]"),
 
     ("fad/validar.py", "no mirar si falta la zona",
-     '    sin = [p for p in ps if p.fase == "zonas" and not p.zona]',
+     '    sin = [p for p in zonas if not p.zona]',
      "    sin = []"),
+
+    # --- el historico ---
+    ("fad/parser.py", "pedir tres '=' en el titulo Resultados (9 temporadas en cero)",
+     '_SECCION_RESULTADOS = r"==+\\s*Resultados\\s*==+(.*?)(?=\\n==[^=])"',
+     '_SECCION_RESULTADOS = r"===+\\s*Resultados\\s*===+(.*?)(?=\\n==[^=])"'),
+
+    ("fad/parser.py", "ignorar que la temporada cruza de anio",
+     "    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin",
+     "    y = anio"),
+
+    ("fad/parser.py", "corte de temporada fijo en agosto (la 2019-20 arranco en julio)",
+     "    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin",
+     "    y = anio if (anio_fin is None or mes >= 8) else anio_fin"),
+
+    ("fad/parser.py", "no leer la fecha que viene en {{fecha|D|M|Y}}",
+     '            fecha=(_fecha_de_plantilla(campos.get("fecha", ""))\n'
+     '                   or a_iso(limpiar(campos.get("fecha", "")), anio, anio_fin, mes_inicio)),',
+     '            fecha=a_iso(limpiar(campos.get("fecha", "")), anio, anio_fin, mes_inicio),'),
+
+    ("fad/parser.py", "tratar un enlace a archivo como si fuera texto",
+     '    s = re.sub(r"\\[\\[\\s*(?:Archivo|File|Imagen|Image)\\s*:[^\\]]*\\]\\]", "", s, flags=re.I)',
+     "    s = s"),
+
+    ("fad/validar.py", "no mirar si faltan jornadas en el medio",
+     "    faltan = [i for i in range(nums[0], nums[-1] + 1) if i not in nums]",
+     "    faltan = []"),
+
+    ("fad/validar.py", "no mirar si una jornada cae un anio fuera de lugar",
+     "        if previo and _dias(medio, previo[1]) > 180:",
+     "        if False:"),
+
+    ("fad/validar.py", "quejarse de un torneo de zona unica",
+     "    if not sin or len(sin) == len(zonas):",
+     "    if not sin:"),
 
     # --- la copa ---
     ("fad/parser.py", "contar el bgcolor de la fila como si fuera una celda",

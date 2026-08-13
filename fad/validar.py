@@ -95,13 +95,25 @@ def nadie_juega_contra_si_mismo(ps: list[Partido]) -> list[Aviso]:
 
 
 def todos_tienen_zona(ps: list[Partido]) -> list[Aviso]:
-    """Un partido de fase de grupos sin zona quiere decir que su encabezado no se
-    reconocio. El riesgo real no es el vacio sino el vecino: la zona se arrastra
-    de fila en fila, asi que un encabezado ignorado no deja el campo en blanco,
-    lo llena con la etiqueta anterior. Ya paso con los bloques "Interzonal"."""
-    sin = [p for p in ps if p.fase == "zonas" and not p.zona]
-    return [Aviso("partidos de zona sin zona asignada",
-                  f"{len(sin)}, p.ej. {sin[0].fecha} {sin[0].local} vs {sin[0].visita}")] if sin else []
+    """O TODOS los partidos de grupos tienen zona, o ninguno.
+
+    Un encabezado que no se reconocio no deja el campo en blanco: la zona se
+    arrastra de fila en fila, asi que lo llena con la etiqueta anterior. Ya paso
+    con los bloques "Interzonal". Lo que delata ese caso es la MEZCLA -- unos
+    partidos con zona y otros sin -- y no el vacio.
+
+    Un torneo entero sin zonas es perfectamente normal y no se toca: de 2017 a
+    2024 el campeonato fue de zona unica, veintipico de equipos en una sola
+    tabla. Exigirle una zona a eso convertia nueve temporadas correctas en nueve
+    errores graves que no dejaban escribir el dataset.
+    """
+    zonas = [p for p in ps if p.fase == "zonas"]
+    sin = [p for p in zonas if not p.zona]
+    if not sin or len(sin) == len(zonas):
+        return []
+    return [Aviso("hay partidos de zona con zona y otros sin",
+                  f"{len(sin)} de {len(zonas)} sin zona, p.ej. "
+                  f"{sin[0].fecha} {sin[0].local} vs {sin[0].visita}")]
 
 
 _ZONA = re.compile(r"(?i)^(zona|grupo)\b")
@@ -172,6 +184,67 @@ def una_vez_por_jornada(ps: list[Partido]) -> list[Aviso]:
 def _nro(kv) -> int:
     m = re.search(r"(\d+)", kv[0])
     return int(m.group(1)) if m else 0
+
+
+def jornadas_sin_huecos(ps: list[Partido]) -> list[Aviso]:
+    """Si estan la Fecha 1 y la 23, tienen que estar todas las del medio.
+
+    No siempre es culpa del parser. La pagina del campeonato 2019-20 no tiene la
+    Fecha 4: no esta escrita, faltan sus 12 partidos en la fuente. Igual hay que
+    decirlo, porque un hueco en el medio de una temporada es indistinguible de
+    "el modelo no vio esos partidos" para quien use el dataset.
+    """
+    nums = sorted({n for p in ps if p.fase == "zonas" and (n := _numero(p.jornada))})
+    if len(nums) < 2:
+        return []
+    faltan = [i for i in range(nums[0], nums[-1] + 1) if i not in nums]
+    return [Aviso("faltan jornadas en el medio",
+                  f"hay de la {nums[0]} a la {nums[-1]}, faltan: "
+                  f"{', '.join(map(str, faltan))}", grave=False)] if faltan else []
+
+
+def anios_bien_asignados(ps: list[Partido]) -> list[Aviso]:
+    """Una jornada no puede caer medio anio ANTES que la anterior.
+
+    Las paginas escriben el dia y el mes pero no el anio, asi que en una
+    temporada que cruza el calendario hay que decidirlo por el mes. Cuando ese
+    corte esta mal, una jornada entera se va un anio de lugar: con el corte en
+    agosto, la Fecha 1 del campeonato 2019-20 -- que se jugo el 26 de julio de
+    2019 -- quedaba fechada en julio de 2020, al final de la temporada. Los 12
+    partidos coherentes entre si, el marcador bien, y un anio de diferencia.
+
+    El umbral es generoso a proposito. Una jornada postergada se corre semanas o
+    algun mes -- la Fecha 9 del Apertura 2026 se jugo entera dos meses despues de
+    la 10 y esta perfecta --, pero medio anio para atras no es una postergacion,
+    es un anio mal puesto.
+    """
+    porjornada: dict[int, list[str]] = {}
+    for p in ps:
+        if p.fase == "zonas" and p.fecha and (n := _numero(p.jornada)):
+            porjornada.setdefault(n, []).append(p.fecha)
+
+    avisos = []
+    previo = None
+    for n in sorted(porjornada):
+        medio = sorted(porjornada[n])[len(porjornada[n]) // 2]
+        if previo and _dias(medio, previo[1]) > 180:
+            avisos.append(Aviso(
+                "una jornada cae medio anio antes que la anterior",
+                f"Fecha {n} en {medio} contra Fecha {previo[0]} en {previo[1]}; "
+                f"parece un anio mal asignado, no una postergacion"))
+        previo = (n, medio)
+    return avisos
+
+
+def _numero(jornada: str) -> int:
+    m = re.search(r"(\d+)", jornada or "")
+    return int(m.group(1)) if m else 0
+
+
+def _dias(despues: str, antes: str) -> int:
+    """Cuantos dias esta `despues` ANTES de `antes` (positivo = va para atras)."""
+    from datetime import date
+    return (date.fromisoformat(antes) - date.fromisoformat(despues)).days
 
 
 def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
@@ -252,7 +325,8 @@ def _ganador(p: Partido) -> str:
 CHEQUEOS = [campos_completos, nombres_en_el_padron,
             penales_solo_en_empates, sin_duplicados,
             nadie_juega_contra_si_mismo, todos_tienen_zona, zonas_completas,
-            una_vez_por_jornada, cadena_de_llaves]
+            una_vez_por_jornada, jornadas_sin_huecos, anios_bien_asignados,
+            cadena_de_llaves]
 
 
 def revisar(ps: list[Partido]) -> list[Aviso]:

@@ -41,7 +41,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     tratan dos grafias como dos clubes y los chequeos dejan pasar justo lo que
     tenian que agarrar.
     """
-    ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato)
+    ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato,
+                         anio_fin=t.anio_fin, mes_inicio=t.mes_inicio)
     for p in ps:
         p.local = equipos.canonizar(p.local)
         p.visita = equipos.canonizar(p.visita)

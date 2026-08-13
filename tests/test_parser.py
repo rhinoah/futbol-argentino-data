@@ -74,6 +74,109 @@ def test_a_iso_no_inventa(basura):
 
 
 # --------------------------------------------------------------------------
+# temporadas que cruzan el anio
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("texto, iso", [
+    ("26 de agosto", "2016-08-26"),      # arranque: primer anio
+    ("13 de diciembre", "2016-12-13"),
+    ("19 de enero", "2017-01-19"),       # ya cruzo: segundo anio
+    ("27 de junio", "2017-06-27"),
+])
+def test_temporada_que_cruza_el_calendario(texto, iso):
+    """El campeonato 2016-17 fue de agosto de 2016 a junio de 2017, y la pagina
+    escribe el dia y el mes pero nunca el anio."""
+    assert parser.a_iso(texto, 2016, anio_fin=2017) == iso
+
+
+def test_bug_el_mes_de_arranque_no_es_siempre_agosto():
+    """La 2019-20 arrancó el 26 de JULIO de 2019.
+
+    Con el corte habitual en agosto, sus doce partidos de la Fecha 1 quedaban
+    fechados en julio de 2020 -- la primera jornada del torneo, un anio adelante,
+    al final de la temporada. Coherentes entre si, con el marcador bien, y a
+    doce meses de donde iban.
+    """
+    assert parser.a_iso("26 de julio", 2019, anio_fin=2020) == "2020-07-26"
+    assert parser.a_iso("26 de julio", 2019, anio_fin=2020, mes_inicio=7) == "2019-07-26"
+
+
+def test_sin_anio_fin_el_mes_no_cambia_nada():
+    assert parser.a_iso("26 de julio", 2026, mes_inicio=7) == "2026-07-26"
+
+
+# --------------------------------------------------------------------------
+# la fecha en plantilla
+# --------------------------------------------------------------------------
+def test_bug_la_fecha_puede_venir_en_una_plantilla():
+    """`|fecha = {{fecha|17|1|2021}}, 22:10 ([[UTC-3]])`.
+
+    Hay que leerla ANTES de limpiar: limpiar borra las plantillas y deja la celda
+    en ', 22:10 (UTC-3)', o sea un partido sin fecha.
+    """
+    assert parser._fecha_de_plantilla("{{fecha|17|1|2021}}, 22:10 ([[UTC-3]])") == "2021-01-17"
+    assert parser.limpiar("{{fecha|17|1|2021}}, 22:10 ([[UTC-3]])") == ", 22:10 (UTC-3)"
+
+
+def test_la_plantilla_trae_el_anio_y_manda():
+    """La final de la Copa de la Liga 2020 se jugo el 17 de enero de 2021.
+    Cualquier anio deducido del torneo la pondria un anio antes."""
+    texto = """{{Partido
+|local = Boca Juniors
+|resultado = 1:1
+|visita = Banfield
+|fecha = {{fecha|17|1|2021}}, 22:10 ([[UTC-3]])
+}}"""
+    p = parser.partidos_de_plantillas(texto, 2020, "Copa de la Liga")[0]
+    assert p.fecha == "2021-01-17"
+
+
+@pytest.mark.parametrize("crudo", ["{{fecha|17|13|2021}}", "{{fecha|17|1}}", "17 de enero", ""])
+def test_plantilla_de_fecha_no_inventa(crudo):
+    assert parser._fecha_de_plantilla(crudo) == ""
+
+
+# --------------------------------------------------------------------------
+# enlaces a archivos
+# --------------------------------------------------------------------------
+def test_bug_un_enlace_a_archivo_no_es_texto():
+    """`[[Archivo:Copa.svg|15px|Campeón]]` es una imagen, no un nombre.
+
+    Tratandola como un wikilink comun deja el ultimo parametro pegado, y el
+    equipo pasa a llamarse "Boca Juniors 15px|Campeón matemático". Van veinte
+    nombres asi en las temporadas 2016-2024, donde marcaban al campeon y a los
+    descendidos con un iconito.
+    """
+    crudo = "'''Boca Juniors [[Archivo:Trophy.svg|15px|Campeón matemático]]"
+    assert parser.limpiar(crudo) == "Boca Juniors"
+
+
+@pytest.mark.parametrize("etiqueta", ["Archivo", "File", "Imagen", "Image"])
+def test_los_cuatro_nombres_de_archivo(etiqueta):
+    assert parser.limpiar(f"Aldosivi [[{etiqueta}:X.svg|12px|Descendió]]") == "Aldosivi"
+
+
+def test_un_wikilink_comun_sigue_andando():
+    assert parser.limpiar("[[Club Atlético Boca Juniors|Boca Juniors]]") == "Boca Juniors"
+
+
+# --------------------------------------------------------------------------
+# el titulo Resultados, en nivel 2 o 3
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("titulo", ["== Resultados ==", "=== Resultados ==="])
+def test_bug_la_seccion_resultados_puede_ser_de_nivel_2_o_3(titulo):
+    """Las temporadas 2016-2024 lo ponen en nivel 2 y las de 2025-26 en nivel 3.
+    Pidiendo tres `=` o mas, nueve temporadas devolvian CERO partidos -- que no se
+    distingue de "todavia no empezo el torneo"."""
+    pagina = f"""
+{titulo}
+{TABLA}
+
+== Otra cosa ==
+"""
+    assert len(parser.partidos(pagina, 2026, "X")) == 4
+
+
+# --------------------------------------------------------------------------
 # marcadores
 # --------------------------------------------------------------------------
 @pytest.mark.parametrize("texto, goles", [

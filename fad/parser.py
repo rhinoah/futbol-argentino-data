@@ -4,7 +4,7 @@ fad/parser.py
 =============
 Sacar los partidos del wikitexto de una temporada.
 
-Conviven DOS formatos en la misma pagina, y el segundo es mucho mas amable:
+Conviven TRES formatos, y el mismo torneo cambia de uno a otro segun el anio:
 
 1. FASE DE GRUPOS -- una `wikitable` con columnas
    `Local | Resultado | Visitante | Estadio | Fecha | Hora`.
@@ -15,6 +15,11 @@ Conviven DOS formatos en la misma pagina, y el segundo es mucho mas amable:
 
 2. ELIMINACION -- plantillas `{{Partido|local=...|resultado=...}}` con parametros
    nombrados, practicamente un JSON.
+
+3. COPA -- una tabla por ronda, `Fecha | Estadio | Equipo 1 | Partido | Equipo 2`,
+   con las celdas separadas por `||` en un solo renglon. Cual usar lo dice el
+   catalogo (`torneos.Torneo.formato`) y no se adivina: el parser equivocado no
+   falla, devuelve cero partidos.
 
 EL ERROR QUE HAY QUE NO COMETER
 -------------------------------
@@ -38,6 +43,14 @@ MESES = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6
          "noviembre": 11, "diciembre": 12}
 
 COLUMNAS = ["local", "resultado", "visita", "estadio", "fecha", "hora"]
+
+# El titulo "Resultados" aparece en nivel 2 o en nivel 3 segun la temporada: las
+# de 2016 a 2024 lo ponen como `== Resultados ==` y las de 2025-26 como
+# `=== Resultados ===`. Pidiendo tres `=` o mas, nueve temporadas devolvian CERO
+# partidos -- que no se distingue de "todavia no empezo el torneo".
+# El corte `(?=\n==[^=])` para en el proximo titulo de nivel 2 y no en los de
+# nivel 3, asi que una seccion con subsecciones entra entera.
+_SECCION_RESULTADOS = r"==+\s*Resultados\s*==+(.*?)(?=\n==[^=])"
 
 
 @dataclass
@@ -74,6 +87,12 @@ def limpiar(texto: str) -> str:
     # equipos enteros ("{{nowrap|Gimnasia y Esgrima (LP)}}" quedaba en nada).
     s = re.sub(r"\{\{\s*nowrap\s*\|(.*?)\}\}", r"\1", s, flags=re.I | re.S)
     s = re.sub(r"\{\{[^{}]*\}\}", "", s)
+    # Un enlace a un archivo NO es texto: `[[Archivo:Copa.svg|15px|Campeón]]` es
+    # una imagen. Tratandolo como un wikilink comun queda "15px|Campeón" pegado
+    # al nombre, y el equipo pasa a llamarse "Boca Juniors 15px|Campeón
+    # matematico". Van 20 nombres asi en las temporadas 2016-2024, donde se
+    # marcaba al campeon y a los descendidos con un iconito.
+    s = re.sub(r"\[\[\s*(?:Archivo|File|Imagen|Image)\s*:[^\]]*\]\]", "", s, flags=re.I)
     s = re.sub(r"\[\[([^\]|]*\|)?([^\]]*)\]\]", r"\2", s)    # [[destino|texto]] -> texto
     s = s.replace("'''", "").replace("''", "")
     s = re.sub(r"<[^>]+>", " ", s)
@@ -123,14 +142,56 @@ def _partir(fila: str) -> list[str]:
     return [c for c in partes[1:] if c.strip()]
 
 
-def a_iso(texto: str, anio: int) -> str:
-    """'22 de enero' -> '2026-01-22'. Cadena vacia si no se entiende."""
+# Mes en que arranca una temporada que cruza el calendario. Los partidos de ese
+# mes en adelante son del PRIMER anio; los anteriores, del segundo. Es el valor
+# mas comun (agosto), pero NO sirve para todas: la 2019-20 arranco el 26 de julio
+# de 2019, y con el corte en agosto su Fecha 1 entera quedaba fechada en julio de
+# 2020 -- la primera jornada del torneo, un anio adelante, al final de la
+# temporada. Por eso el mes va por temporada en el catalogo.
+MES_INICIO_HABITUAL = 8
+
+
+def a_iso(texto: str, anio: int, anio_fin: int | None = None,
+          mes_inicio: int = MES_INICIO_HABITUAL) -> str:
+    """'22 de enero' -> '2026-01-22'. Cadena vacia si no se entiende.
+
+    Las paginas escriben el dia y el mes pero NO el anio, porque en la pagina se
+    sobreentiende. Para un torneo dentro de un mismo anio alcanza con ponerselo;
+    para los que cruzan -- 2016-17, 2017-18, 2018-19, 2019-20 -- hay que decidirlo
+    por el mes, y equivocarse ahi no falla: fecha media temporada un anio entero
+    para atras, el partido queda antes de que el torneo empezara, y cualquier
+    modelo que despues filtre por fecha lo usa donde no corresponde.
+    """
     m = re.search(r"(\d{1,2})\s*de\s+([a-záéíóúñ]+)", texto, re.I)
     if not m:
         return ""
     mes_txt = unicodedata.normalize("NFKD", m.group(2).lower()).encode("ascii", "ignore").decode()
     mes = MESES.get(mes_txt)
-    return f"{anio}-{mes:02d}-{int(m.group(1)):02d}" if mes else ""
+    if not mes:
+        return ""
+    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin
+    return f"{y}-{mes:02d}-{int(m.group(1)):02d}"
+
+
+_PLANTILLA_FECHA = re.compile(r"\{\{\s*fecha\s*\|\s*(\d{1,2})\s*\|\s*(\d{1,2})\s*\|\s*(\d{4})\s*\}\}",
+                              re.I)
+
+
+def _fecha_de_plantilla(crudo: str) -> str:
+    """`{{fecha|17|1|2021}}` -> '2021-01-17'. Vacio si no es esa forma.
+
+    Hay que leerla ANTES de limpiar, porque limpiar borra las plantillas y deja
+    la celda en ', 22:10 (UTC-3)' -- un partido sin fecha.
+
+    Ademas trae el anio EXPLICITO, que acá no es un lujo: la final de la Copa de
+    la Liga 2020 se jugo el 17 de enero de 2021. Cualquier anio deducido del
+    torneo la habria puesto un anio antes.
+    """
+    m = _PLANTILLA_FECHA.search(crudo)
+    if not m:
+        return ""
+    dia, mes, anio = (int(g) for g in m.groups())
+    return f"{anio}-{mes:02d}-{dia:02d}" if 1 <= mes <= 12 and 1 <= dia <= 31 else ""
 
 
 def _marcador(texto: str) -> tuple[int, int] | None:
@@ -157,13 +218,14 @@ def _cortar_en_tablas(bloque: str) -> str:
     siguiente caen en el mismo pedazo. Como los encabezados se leen antes que las
     celdas, la fila terminaba anotada en la fecha que venia: los 30 interzonales
     (siempre el ultimo bloque de su jornada) quedaron corridos una fecha. No
-    rompia nada, solo mentia. Lo mira `validar.jornadas_en_orden`.
+    rompia nada, solo mentia. Lo mira `validar.una_vez_por_jornada`.
     """
     bloque = re.sub(r"\n\|\}", "\n|-", bloque)          # cierre  |}
     return re.sub(r"\n\{\|[^\n]*", "\n|-", bloque)      # apertura {|class=...
 
 
-def partidos_de_tabla(bloque: str, anio: int, torneo: str) -> list[Partido]:
+def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None = None,
+                      mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
     partidos: list[Partido] = []
     pendientes: dict[str, list] = {}        # columna -> [valor, filas restantes]
     jornada = zona = ""
@@ -214,7 +276,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str) -> list[Partido]:
         if not goles or not valores["local"] or not valores["visita"]:
             continue
         partidos.append(Partido(
-            fecha=a_iso(valores["fecha"], anio), hora=valores["hora"],
+            fecha=a_iso(valores["fecha"], anio, anio_fin, mes_inicio), hora=valores["hora"],
             local=valores["local"], visita=valores["visita"],
             goles_local=goles[0], goles_visita=goles[1],
             torneo=torneo, fase="zonas", zona=zona, jornada=jornada,
@@ -225,7 +287,8 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str) -> list[Partido]:
 # --------------------------------------------------------------------------
 # eliminacion: plantillas {{Partido}}
 # --------------------------------------------------------------------------
-def partidos_de_plantillas(texto: str, anio: int, torneo: str) -> list[Partido]:
+def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | None = None,
+                           mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
     titulos = _titulos_de_ronda(texto)
     partidos: list[Partido] = []
     for m in re.finditer(r"\{\{\s*Partido\s*\n(.*?)\n\s*\}\}", texto, re.S | re.I):
@@ -244,7 +307,8 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str) -> list[Partido]:
         # entretiempo). Ver el docstring del modulo.
         pen = _marcador(limpiar(campos.get("resultado penalti", "")))
         partidos.append(Partido(
-            fecha=a_iso(limpiar(campos.get("fecha", "")), anio),
+            fecha=(_fecha_de_plantilla(campos.get("fecha", ""))
+                   or a_iso(limpiar(campos.get("fecha", "")), anio, anio_fin, mes_inicio)),
             local=limpiar(campos.get("local", "")),
             visita=limpiar(campos.get("visita", "")),
             goles_local=goles[0], goles_visita=goles[1],
@@ -322,7 +386,8 @@ def _penales(celda_cruda: str) -> tuple[int, int] | None:
     return (int(n[0]), int(n[1])) if len(n) == 2 else None
 
 
-def partidos_de_rondas(texto: str, anio: int, torneo: str) -> list[Partido]:
+def partidos_de_rondas(texto: str, anio: int, torneo: str, anio_fin: int | None = None,
+                       mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
     """La Copa Argentina: una tabla por ronda, `Fecha | Estadio | Eq1 | Partido | Eq2`."""
     partidos: list[Partido] = []
     for m in _TITULO_RONDA.finditer(texto):
@@ -345,7 +410,7 @@ def partidos_de_rondas(texto: str, anio: int, torneo: str) -> list[Partido]:
                 continue          # ronda en curso: la fila esta pero sin marcador
             pen = _penales(celdas[_COL_COPA.index("resultado")])
             partidos.append(Partido(
-                fecha=a_iso(v["fecha"], anio), local=v["local"], visita=v["visita"],
+                fecha=a_iso(v["fecha"], anio, anio_fin, mes_inicio), local=v["local"], visita=v["visita"],
                 goles_local=goles[0], goles_visita=goles[1],
                 penales_local=pen[0] if pen else None,
                 penales_visita=pen[1] if pen else None,
@@ -355,7 +420,9 @@ def partidos_de_rondas(texto: str, anio: int, torneo: str) -> list[Partido]:
 
 
 # --------------------------------------------------------------------------
-def partidos(texto: str, anio: int, torneo: str, formato: str = "liga") -> list[Partido]:
+def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
+             anio_fin: int | None = None,
+             mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
     """Todos los partidos de una pagina.
 
     `formato` lo dice el catalogo y no se adivina: una pagina de copa y una de
@@ -363,7 +430,7 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga") -> list[
     cero partidos en vez de fallar.
     """
     if formato == "copa":
-        return partidos_de_rondas(texto, anio, torneo)
-    m = re.search(r"===+\s*Resultados\s*===+(.*?)(?=\n==[^=])", texto, re.S)
-    zonas = partidos_de_tabla(m.group(1), anio, torneo) if m else []
-    return zonas + partidos_de_plantillas(texto, anio, torneo)
+        return partidos_de_rondas(texto, anio, torneo, anio_fin, mes_inicio)
+    m = re.search(_SECCION_RESULTADOS, texto, re.S)
+    zonas = partidos_de_tabla(m.group(1), anio, torneo, anio_fin, mes_inicio) if m else []
+    return zonas + partidos_de_plantillas(texto, anio, torneo, anio_fin, mes_inicio)

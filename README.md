@@ -8,8 +8,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** 364 partidos de 2026 — Primera División (Apertura completo +
-Clausura en curso) y Copa Argentina. Abajo está el plan.
+**Estado:** **4836 partidos entre febrero de 2016 y hoy** — once años de Primera
+División, más la Copa Argentina 2026. 69 clubes, cero partidos sin fecha ni
+marcador. Abajo está el plan.
 
 ## Por qué
 
@@ -87,6 +88,7 @@ que ya lee aquel dataset lee este casi sin tocar nada.
 | `home_score` `away_score` | el marcador de los 90 (más alargue si hubo) |
 | `home_pens` `away_pens` | la tanda de penales, vacío si no hubo |
 | `tournament` `season` | `Primera Division - Apertura`, `Copa Argentina`, `2026` |
+| | ojo: `season` es la **temporada**, no el año del partido. La 2016-17 lleva `season=2016` y sus partidos van de agosto de 2016 a junio de 2017. La fecha real está en `date`. |
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
 | `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales` |
@@ -164,6 +166,50 @@ celda, porque la tanda vive dentro de una plantilla y limpiar la borra: leyéndo
 después, el partido queda 1-1 y la definición por penales desaparece sin que nada
 falle.
 
+**5. Ir para atrás rompe supuestos que uno no sabía que tenía.** Diez temporadas,
+y de golpe:
+
+*El título "Resultados" está en nivel 2, no en 3.* De 2016 a 2024 es
+`== Resultados ==`; recién en 2025 pasa a `=== Resultados ===`. Mi regex pedía
+tres `=` o más, así que **nueve temporadas devolvían cero partidos** — y cero
+partidos no se distingue de "todavía no empezó el torneo".
+
+*Las temporadas cruzan de año, y la página no escribe el año.* Las tablas dicen
+"26 de agosto", nada más; el año se sobreentiende. Para 2016-17 hay que deducirlo
+del mes, y el corte no es siempre el mismo: **la 2019-20 arrancó el 26 de julio**.
+Con el corte habitual en agosto, sus doce partidos de la Fecha 1 quedaban fechados
+en julio de **2020** — la primera jornada del torneo, coherente consigo misma, con
+el marcador correcto, y a doce meses de donde iba.
+
+*Los íconos son enlaces a archivos, no texto.* `[[Archivo:Trophy.svg|15px|Campeón
+matemático]]` marca al campeón y a los descendidos. Tratándolo como un wikilink
+común deja el último parámetro pegado y el club pasa a llamarse
+`Boca Juniors 15px|Campeón matemático`. Veinte nombres así.
+
+*La fecha a veces viene en una plantilla.* `|fecha = {{fecha|17|1|2021}}, 22:10`.
+Como limpiar borra las plantillas, la celda quedaba en `, 22:10 (UTC-3)`: partido
+sin fecha. Y ahí la plantilla trae el año **explícito**, que no es un lujo — la
+final de la Copa de la Liga 2020 se jugó en enero de 2021, así que cualquier año
+deducido del torneo la habría puesto doce meses antes.
+
+*Y un chequeo mío que estaba de más.* Exigir que todo partido de fase de grupos
+tuviera zona convertía nueve temporadas correctas en nueve errores graves: de 2017
+a 2024 el campeonato fue de **zona única**, veintipico de equipos en una sola
+tabla. Lo que delata un encabezado no reconocido es la *mezcla* — unos con zona y
+otros sin —, no el vacío.
+
+### Lo que encontró en la fuente
+
+Dos cosas que no son bugs míos y quedan documentadas porque afectan al dataset:
+
+- **A la temporada 2019-20 le falta la Fecha 4.** No es que no la parsee: el
+  texto "Fecha 4" no aparece en ninguna parte de esa página. Faltan 12 partidos.
+  Esa temporada además quedó trunca — el último partido es del **9 de marzo de
+  2020**, cuando la pandemia la suspendió, y nunca se completó.
+- **Un club se llama `Tallleres (C)`**, con tres eles, en la Copa de la Liga 2022.
+  Va cargado como alias: la alternativa era que el build se frene todos los días
+  por una letra de más en una fuente que no controlamos.
+
 ## Por eso el validador
 
 No se le cree al parser: se le exige que lo que devuelve cumpla cosas que sólo
@@ -174,6 +220,8 @@ automático no es tirar una excepción, es escribir un CSV plausible y equivocad
 | chequeo | qué agarra |
 |---|---|
 | campos completos, marcador verosímil | filas a medias, columnas corridas |
+| no faltan jornadas en el medio | huecos, propios o de la fuente |
+| ninguna jornada cae medio año antes que la anterior | el año mal asignado en temporadas que cruzan |
 | todos los clubes están en el padrón | un ascenso, un torneo nuevo, un alias sin cargar |
 | penales sólo en empates | haber leído el entretiempo como si fuera la tanda |
 | sin duplicados, nadie contra sí mismo | filas leídas dos veces, columnas corridas |
@@ -243,7 +291,9 @@ casos que lo rompen:
 
 Con el padrón escrito a mano, 60 de 60.
 
-La Copa Argentina lo llevó de 30 clubes a 64, y de paso mostró para qué sirve:
+La Copa Argentina lo llevó de 30 clubes a 64, y el histórico a **69** — Arsenal,
+Colón, Patronato, Quilmes y Chacarita jugaron Primera en estos años y ya no
+están; solos son ~670 partidos. De paso mostró para qué sirve el padrón:
 entran **cuatro** Gimnasia y Esgrima (LP, M, C, J) más un Gimnasia y Tiro que es
 otro club, **tres** San Martín (F, SJ, T), **tres** Estudiantes (LP, RC, BA) y
 **dos** Sarmiento (J, LB).
@@ -271,17 +321,17 @@ vez en vez de colarse para siempre como un club distinto.
 
 ## Tests
 
-245 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+270 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 36 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 44 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
 ```
 
-Encontró siete agujeros reales. Uno resultó ser un **mutante equivalente** —
+Encontró nueve agujeros reales. Uno resultó ser un **mutante equivalente** —
 escribir `None` en vez de cadena vacía no cambiaba nada, porque el módulo `csv`
 ya convierte `None` en campo vacío — y ahí lo que sobraba era el código, no el
 test.
@@ -315,7 +365,7 @@ Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos
 
 - [x] **1.** Primera División 2026 (Apertura + Clausura)
 - [x] **2.** Padrón de clubes con normalización, validado contra el feed de la AFA
-- [ ] **3.** Histórico hacia atrás — lo que más falta para predecir: el Poisson se conforma con 1-2 temporadas, pero el Elo necesita años para calibrar, y sin historia no hay backtest posible
+- [x] **3.** Histórico 2016-2025 — diez temporadas, siete nombres distintos para el mismo campeonato
 - [x] **4.** Copa Argentina — tercer formato de página, y llevó el padrón de 30 clubes a 64
 - [ ] **5.** Primera Nacional y Federal A
 - [ ] **6.** Actualización automática (GitHub Actions) y publicación

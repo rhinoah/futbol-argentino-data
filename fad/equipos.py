@@ -93,7 +93,12 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Rosario Central", 18, ("R. Central",)),
     Equipo("San Lorenzo", 19, ("San Lorenzo de Almagro",)),
     Equipo("Sarmiento (J)", 142, ("Sarmiento", "Sarmiento de Junín")),
-    Equipo("Talleres (C)", 135, ("Talleres", "Talleres de Córdoba")),
+    # "Tallleres", con tres eles, es un error de tipeo en la pagina de la Copa de
+    # la Liga 2022 (juega contra Union). Va como alias porque el alias existe
+    # justo para esto: la alternativa era que el build se frene todos los dias
+    # por una letra de mas en una fuente que no controlamos. Si algun dia lo
+    # corrigen, este alias no molesta a nadie.
+    Equipo("Talleres (C)", 135, ("Talleres", "Talleres de Córdoba", "Tallleres (C)")),
     Equipo("Tigre", 136),
     Equipo("Unión", 137, ("Unión (SF)", "Unión de Santa Fe")),
     Equipo("Vélez Sarsfield", 20, ("Vélez", "Vélez Sársfield")),
@@ -107,6 +112,14 @@ PADRON: tuple[Equipo, ...] = (
     # Aca se ve para que sirve todo esto: hay CUATRO Gimnasia y Esgrima (LP, M,
     # C, J) mas un Gimnasia y Tiro que es otro club; TRES San Martin (F, SJ, T);
     # TRES Estudiantes (LP, RC, BA); DOS Sarmiento (J, LB).
+    # Clubes que jugaron Primera entre 2016 y 2025 y hoy no estan. Sin ellos, el
+    # historico no entra: Arsenal, Colon y Patronato solos son ~670 partidos.
+    Equipo("Arsenal", alias=("Arsenal de Sarandí",)),
+    Equipo("Chacarita Juniors"),
+    Equipo("Colón", alias=("Colón (SF)", "Colón de Santa Fe")),
+    Equipo("Patronato", alias=("Patronato (P)",)),
+    Equipo("Quilmes"),
+
     Equipo("Acassuso"),
     Equipo("Agropecuario"),
     Equipo("Argentino (MM)"),

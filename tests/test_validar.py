@@ -161,9 +161,21 @@ def test_avisa_una_vez_por_club_y_no_por_partido():
     assert len(avisos) == 1
 
 
-def test_partido_de_zona_sin_zona():
-    avisos = validar.todos_tienen_zona([zona("Boca", "River", z="")])
+def test_zonas_a_medias():
+    """Lo que delata un encabezado no reconocido es la MEZCLA, no el vacio: la
+    zona se arrastra de fila en fila, asi que unos partidos quedan con etiqueta y
+    otros no."""
+    ps = [zona("Boca", "River", z="Zona A"), zona("Racing", "Independiente", z="")]
+    avisos = validar.todos_tienen_zona(ps)
     assert len(avisos) == 1 and avisos[0].grave
+
+
+def test_un_torneo_entero_sin_zonas_esta_bien():
+    """De 2017 a 2024 el campeonato fue de zona unica: veintipico de equipos en
+    una sola tabla, sin ningun encabezado de zona. Exigirle una zona convertia
+    nueve temporadas correctas en nueve errores graves que frenaban el build."""
+    ps = [zona("Boca", "River", z=""), zona("Racing", "Independiente", z="")]
+    assert validar.todos_tienen_zona(ps) == []
 
 
 def test_eliminacion_sin_zona_esta_bien():
@@ -215,6 +227,42 @@ def test_una_jornada_postergada_no_es_un_error():
     temprano = [zona(p.local, p.visita, fecha="2026-03-10", j="Fecha 10")
                 for p in torneo_de(6)]
     assert validar.una_vez_por_jornada(tarde + temprano) == []
+
+
+# --------------------------------------------------------------------------
+# huecos y anios mal puestos
+# --------------------------------------------------------------------------
+def test_falta_una_jornada_en_el_medio():
+    """La pagina del campeonato 2019-20 no tiene la Fecha 4: no esta escrita,
+    faltan sus 12 partidos en la fuente. No es culpa del parser, pero un hueco en
+    el medio de una temporada es indistinguible de "el modelo no vio esos
+    partidos" para quien use el dataset."""
+    ps = (torneo_de(4, "Fecha 1") + torneo_de(4, "Fecha 2") + torneo_de(4, "Fecha 4"))
+    avisos = validar.jornadas_sin_huecos(ps)
+    assert len(avisos) == 1 and not avisos[0].grave
+    assert "3" in avisos[0].detalle
+
+
+def test_jornadas_seguidas_no_avisan():
+    ps = torneo_de(4, "Fecha 1") + torneo_de(4, "Fecha 2") + torneo_de(4, "Fecha 3")
+    assert validar.jornadas_sin_huecos(ps) == []
+
+
+def test_una_jornada_un_anio_fuera_de_lugar():
+    """El caso de la 2019-20 con el corte en el mes equivocado: la Fecha 1 entera
+    fechada doce meses adelante, coherente consigo misma y con el marcador bien."""
+    ps = ([zona(p.local, p.visita, fecha="2020-07-26", j="Fecha 1") for p in torneo_de(4)]
+          + [zona(p.local, p.visita, fecha="2019-08-02", j="Fecha 2") for p in torneo_de(4)])
+    avisos = validar.anios_bien_asignados(ps)
+    assert len(avisos) == 1 and avisos[0].grave
+
+
+def test_una_postergacion_de_dos_meses_no_es_un_anio_mal_puesto():
+    """La Fecha 9 del Apertura 2026 se jugo entera dos meses despues de la 10 y
+    esta perfecta. El umbral es generoso justamente por esto."""
+    ps = ([zona(p.local, p.visita, fecha="2026-05-02", j="Fecha 9") for p in torneo_de(4)]
+          + [zona(p.local, p.visita, fecha="2026-03-10", j="Fecha 10") for p in torneo_de(4)])
+    assert validar.anios_bien_asignados(ps) == []
 
 
 # --------------------------------------------------------------------------
