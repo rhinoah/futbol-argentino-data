@@ -390,3 +390,82 @@ def test_pagina_junta_las_dos_fases(pagina):
 
 def test_pagina_sin_resultados_no_explota():
     assert parser.partidos("== Nada ==\ntexto suelto\n", 2026, "X") == []
+
+
+# --------------------------------------------------------------------------
+# un titulo corta la jornada
+# --------------------------------------------------------------------------
+TABLA_CON_DESEMPATE = """
+{|class="wikitable"
+!colspan=6|Fecha 25
+|-
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Aldosivi
+|2 - 0
+|Sportivo Estudiantes (SL)
+|José María Minella
+|rowspan=2|30 de abril
+|15:35
+|-
+|Guillermo Brown
+|0 - 0
+|Almagro
+|Raul Conti
+|17:00
+|}
+
+=== Partido de desempate del primer puesto ===
+{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Almagro
+|1 - 3
+|Aldosivi
+|Ciudad de Vicente López
+|4 de mayo
+|21:00
+|}
+"""
+
+
+def test_bug_un_titulo_corta_la_jornada():
+    """El desempate por el titulo NO es un partido de la ultima fecha.
+
+    Cuando dos equipos terminan igualados en el primer puesto juegan una final,
+    y esa final vive bajo su propio titulo despues de la tabla de la ultima
+    jornada. Sin cortar, se quedaba con la etiqueta de arriba: la Fecha 25 de la
+    B Nacional 2017-18 terminaba con TRECE partidos y con Aldosivi y Almagro
+    jugando dos veces la misma fecha, que es imposible.
+    """
+    ps = parser.partidos_de_tabla(TABLA_CON_DESEMPATE, 2018, "X")
+    assert len(ps) == 3
+    de_la_25 = [p for p in ps if p.jornada == "Fecha 25"]
+    assert len(de_la_25) == 2, "el desempate se colo en la jornada"
+    desempate = [p for p in ps if p.jornada == ""][0]
+    assert (desempate.local, desempate.visita) == ("Almagro", "Aldosivi")
+    assert desempate.fecha == "2018-05-04"
+
+
+def test_el_titulo_tampoco_arrastra_el_rowspan():
+    """El `rowspan=2` de la fecha muere con la tabla: el partido de despues tiene
+    la suya, y heredarla lo fecharia cuatro dias antes."""
+    ps = parser.partidos_de_tabla(TABLA_CON_DESEMPATE, 2018, "X")
+    assert [p.fecha for p in ps] == ["2018-04-30", "2018-04-30", "2018-05-04"]
+
+
+def test_sin_titulo_de_por_medio_la_jornada_sigue():
+    """No romper lo de siempre: dentro de una misma tabla la jornada se arrastra
+    de fila en fila, que es como funcionan todas las demas paginas."""
+    ps = parser.partidos_de_tabla(TABLA, 2026, "Apertura")
+    assert [p.jornada for p in ps].count("Fecha 1") == 3

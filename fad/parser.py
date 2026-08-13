@@ -44,11 +44,19 @@ MESES = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6
 
 COLUMNAS = ["local", "resultado", "visita", "estadio", "fecha", "hora"]
 
+# Nombres de columna que a veces vienen con colspan. NO son etiquetas de seccion.
+_COLUMNAS_CONOCIDAS = {"local", "resultado", "visitante", "visita", "estadio",
+                       "fecha", "hora", "partido", "equipo 1", "equipo 2",
+                       "equipo", "arbitro", "árbitro", "ciudad"}
+
 # El titulo "Resultados" aparece en nivel 2 o en nivel 3 segun la temporada: las
 # de Primera de 2016 a 2024 lo ponen como `== Resultados ==` y las de 2025-26
 # como `=== Resultados ===`. Pidiendo tres `=` o mas, nueve temporadas devolvian
 # CERO partidos -- que no se distingue de "todavia no empezo el torneo".
 _TITULO_RESULTADOS = re.compile(r"^(=+)\s*Resultados\s*=+\s*$", re.M)
+# Cualquier titulo de Wikipedia. Sirve para cortar la jornada: lo que viene
+# despues de un titulo no pertenece a la tabla de arriba.
+_TITULO_CUALQUIERA = re.compile(r"^=+[^=\n]+=+\s*$", re.M)
 
 # Un titulo de zona de primer nivel: `== Zona A ==`. En el ascenso la zona no
 # viene en un encabezado de tabla sino en el titulo de la seccion que la contiene.
@@ -280,9 +288,21 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
         # version solo conocia "Zona|Grupo", los bloques "Interzonal" caian al
         # vacio y heredaban en silencio la zona anterior -- 30 partidos quedaron
         # marcados como Zona B. Lo agarro `validar.zonas_completas`.
-        for cab in re.findall(r"!\s*colspan\s*=\s*\"?\d+\"?\s*\|\s*(.+)", fila):
+        # `[^|\n]*` entre el colspan y la barra: el encabezado puede traer mas
+        # atributos, y muchas paginas del ascenso escriben
+        # `!colspan=3 align=center|Fecha 1`. Exigiendo la barra pegada al numero,
+        # esas jornadas no se leian -- los 380 partidos de una temporada quedaban
+        # todos sin `matchday`, sin que nada fallara.
+        for cab in re.findall(r"!\s*colspan\s*=\s*\"?\d+\"?[^|\n]*\|\s*(.+)", fila):
             cab = limpiar(cab)
             if not cab:
+                continue
+            # Un encabezado cuyo texto es el nombre de una COLUMNA no es una
+            # seccion: `!colspan=2 ...|Partido` encabeza la columna del marcador.
+            # Antes no molestaba porque el regex no los veia; al aflojarlo para
+            # leer `!colspan=3 align=center|Fecha 1`, uno de estos se colaba como
+            # zona y dejaba una temporada con 1 partido con zona y 300 sin.
+            if cab.lower() in _COLUMNAS_CONOCIDAS:
                 continue
             pendientes.clear()      # un rowspan no cruza de una seccion a otra
             if re.match(r"(?i)fecha\s*\d+", cab):
@@ -292,9 +312,20 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
         if fila.lstrip().startswith("!"):
             continue                                   # fila de encabezado
 
+        # Un titulo de Wikipedia cierra la jornada. Dentro de la seccion de
+        # resultados puede aparecer `=== Partido de desempate del primer puesto ===`
+        # -- la final del campeonato, cuando dos equipos terminan igualados -- y
+        # ese partido NO es de la ultima fecha: es otra cosa. Sin cortar, se
+        # quedaba con la jornada de la tabla anterior y dejaba a la Fecha 25 con
+        # 13 partidos y dos equipos jugando dos veces, que es imposible.
+        if _TITULO_CUALQUIERA.search(fila):
+            jornada = ""
+            pendientes.clear()
+
         celdas = _partir(fila)
         if len(celdas) < 3:
             continue
+
 
         valores, i = {}, 0
         for col in COLUMNAS:

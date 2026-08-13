@@ -34,6 +34,10 @@ MUTANTES = [
      "    return (int(n.group(1)) if n else 1), limpiar(m.group(2))",
      "    return 1, limpiar(m.group(2))"),
 
+    ("fad/parser.py", "que un titulo NO corte la jornada",
+     "        if _TITULO_CUALQUIERA.search(fila):",
+     "        if False:"),
+
     ("fad/parser.py", "no limpiar el rowspan pendiente entre secciones",
      "            pendientes.clear()      # un rowspan no cruza de una seccion a otra",
      "            pass"),
