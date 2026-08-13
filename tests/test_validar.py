@@ -1,0 +1,223 @@
+#!/usr/bin/env python3
+"""Tests del validador.
+
+Un chequeo que nunca dispara es peor que no tenerlo: da la sensacion de que algo
+se esta mirando. Asi que cada uno se prueba de los dos lados -- que se queje con
+datos rotos y que se calle con datos sanos.
+"""
+from __future__ import annotations
+
+import pytest
+
+from fad import validar
+from fad.parser import Partido
+
+
+def zona(local, visita, gl=1, gv=0, *, fecha="2026-03-01", z="Zona A", j="Fecha 1"):
+    return Partido(fecha=fecha, local=local, visita=visita, goles_local=gl,
+                   goles_visita=gv, fase="zonas", zona=z, jornada=j)
+
+
+def llave(local, visita, gl, gv, fecha, pl=None, pv=None):
+    return Partido(fecha=fecha, local=local, visita=visita, goles_local=gl,
+                   goles_visita=gv, penales_local=pl, penales_visita=pv,
+                   fase="eliminacion")
+
+
+def torneo_de(n: int, jornada="Fecha 1") -> list[Partido]:
+    """UNA jornada de un torneo de `n` equipos (n par): cada uno juega una vez."""
+    eq = [f"Equipo {i}" for i in range(n)]
+    return [zona(eq[i], eq[i + n // 2], j=jornada) for i in range(n // 2)]
+
+
+def zona_entera(n: int) -> list[Partido]:
+    """Un todos-contra-todos terminado, con su calendario: `n-1` jornadas y cada
+    equipo jugando una vez en cada una. Es lo unico que no le debe una
+    explicacion a ningun chequeo, asi que hay que armarlo bien -- el fixture
+    anterior repartia los cruces de cualquier manera y hacia jugar a uno tres
+    veces en la Fecha 1."""
+    eq = [f"Equipo {i}" for i in range(n)]
+    fijo, rueda = eq[0], eq[1:]
+    partidos = []
+    for j in range(n - 1):                      # metodo del circulo
+        vuelta = [fijo] + rueda
+        for i in range(n // 2):
+            local, visita = vuelta[i], vuelta[n - 1 - i]
+            partidos.append(zona(local, visita, fecha=f"2026-03-{j + 1:02d}",
+                                 j=f"Fecha {j + 1}"))
+        rueda = rueda[1:] + rueda[:1]
+    return partidos
+
+
+# --------------------------------------------------------------------------
+def test_sano_no_avisa_nada():
+    assert validar.revisar(zona_entera(4)) == []
+
+
+def test_torneo_en_curso_avisa_pero_no_frena():
+    """Un torneo a mitad de camino incumple el todos-contra-todos y esta bien:
+    el Clausura 2026 va por la Fecha 4. Tiene que avisar SIN gravedad, porque un
+    aviso grave no escribe el CSV y el dataset se quedaria sin actualizar todas
+    las semanas hasta que termine el torneo."""
+    avisos = validar.revisar(torneo_de(4))
+    assert avisos, "algo tiene que decir: la zona no esta completa"
+    assert not any(a.grave for a in avisos)
+
+
+# --------------------------------------------------------------------------
+# campos completos
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("roto, texto", [
+    (Partido(fecha="2026-03-01", local="", visita="Boca", goles_local=1,
+             goles_visita=0, fase="zonas", zona="Zona A"), "sin equipos"),
+    (Partido(fecha="2026-03-01", local="Boca", visita="River",
+             fase="zonas", zona="Zona A"), "sin marcador"),
+    (Partido(fecha="", local="Boca", visita="River", goles_local=1,
+             goles_visita=0, fase="zonas", zona="Zona A"), "sin fecha"),
+    (Partido(fecha="2026-03-01", local="Boca", visita="River", goles_local=99,
+             goles_visita=0, fase="zonas", zona="Zona A"), "inverosimil"),
+])
+def test_campos_completos_avisa(roto, texto):
+    avisos = validar.campos_completos([roto])
+    assert avisos and texto in avisos[0].que
+    assert avisos[0].grave
+
+
+def test_campos_completos_calla():
+    assert validar.campos_completos(torneo_de(4)) == []
+
+
+# --------------------------------------------------------------------------
+# penales
+# --------------------------------------------------------------------------
+def test_penales_en_un_partido_que_no_empato():
+    """La firma de haber leido el entretiempo como si fuera la tanda."""
+    p = llave("River", "San Lorenzo", 2, 0, "2026-05-17", pl=4, pv=3)
+    avisos = validar.penales_solo_en_empates([p])
+    assert len(avisos) == 1 and avisos[0].grave
+
+
+def test_penales_sobre_un_empate_estan_bien():
+    p = llave("River", "San Lorenzo", 1, 1, "2026-05-17", pl=4, pv=3)
+    assert validar.penales_solo_en_empates([p]) == []
+
+
+# --------------------------------------------------------------------------
+# duplicados y contra si mismo
+# --------------------------------------------------------------------------
+def test_duplicados():
+    p = zona("Boca", "River")
+    assert len(validar.sin_duplicados([p, p])) == 1
+    assert validar.sin_duplicados([p]) == []
+
+
+def test_mismo_partido_en_fechas_distintas_no_es_duplicado():
+    """Se juegan dos veces: ida y vuelta."""
+    ida = zona("Boca", "River", fecha="2026-03-01")
+    vuelta = zona("Boca", "River", fecha="2026-08-01")
+    assert validar.sin_duplicados([ida, vuelta]) == []
+
+
+def test_contra_si_mismo():
+    assert len(validar.nadie_juega_contra_si_mismo([zona("Boca", "Boca")])) == 1
+    assert validar.nadie_juega_contra_si_mismo([zona("Boca", "River")]) == []
+
+
+# --------------------------------------------------------------------------
+# zonas
+# --------------------------------------------------------------------------
+def test_partido_de_zona_sin_zona():
+    avisos = validar.todos_tienen_zona([zona("Boca", "River", z="")])
+    assert len(avisos) == 1 and avisos[0].grave
+
+
+def test_eliminacion_sin_zona_esta_bien():
+    """La fase de eliminacion no tiene zonas, y no se le reclama una."""
+    assert validar.todos_tienen_zona([llave("Boca", "River", 1, 0, "2026-05-17")]) == []
+
+
+def test_zona_despareja():
+    eq = ["A", "B", "C", "D"]
+    ps = [zona(eq[0], eq[1]), zona(eq[0], eq[2]), zona(eq[0], eq[3])]
+    avisos = validar.zonas_completas(ps)
+    assert len(avisos) == 1 and not avisos[0].grave
+
+
+def test_zona_todos_contra_todos_completa():
+    eq = ["A", "B", "C", "D"]
+    ps = [zona(a, b) for i, a in enumerate(eq) for b in eq[i + 1:]]
+    assert validar.zonas_completas(ps) == []
+
+
+def test_al_interzonal_no_se_le_pide_que_cierre():
+    """Cruza equipos de zonas distintas: no tiene por que ser un todos-contra-
+    todos, y exigirselo llenaba la salida de ruido."""
+    ps = [zona("A", "B", z="Interzonal"), zona("A", "C", z="Interzonal")]
+    assert validar.zonas_completas(ps) == []
+
+
+# --------------------------------------------------------------------------
+# una vez por jornada -- el que agarra las etiquetas corridas
+# --------------------------------------------------------------------------
+def test_nadie_juega_dos_veces_en_la_misma_fecha():
+    ps = torneo_de(4) + [zona("Equipo 0", "Equipo 3", j="Fecha 1")]
+    avisos = validar.una_vez_por_jornada(ps)
+    assert len(avisos) == 1 and avisos[0].grave
+    assert "Equipo 0" in avisos[0].detalle
+
+
+def test_jugar_una_vez_por_fecha_esta_bien():
+    ps = torneo_de(6, "Fecha 1") + torneo_de(6, "Fecha 2")
+    assert validar.una_vez_por_jornada(ps) == []
+
+
+def test_una_jornada_postergada_no_es_un_error():
+    """La Fecha 9 del Apertura 2026 se jugo entera en mayo, dos meses despues de
+    la 10. Esta bien. El chequeo cronologico que probamos primero se quejaba de
+    eso Y ADEMAS no veia el bug real; este no depende del calendario."""
+    tarde = [zona(p.local, p.visita, fecha="2026-05-02", j="Fecha 9")
+             for p in torneo_de(6)]
+    temprano = [zona(p.local, p.visita, fecha="2026-03-10", j="Fecha 10")
+                for p in torneo_de(6)]
+    assert validar.una_vez_por_jornada(tarde + temprano) == []
+
+
+# --------------------------------------------------------------------------
+# la cadena de llaves
+# --------------------------------------------------------------------------
+def _cuadro():
+    """Semis y final consistentes: los dos ganadores juegan la final."""
+    return [llave("Boca", "River", 0, 1, "2026-05-01"),
+            llave("Racing", "Belgrano", 2, 0, "2026-05-02"),
+            llave("River", "Racing", 1, 0, "2026-05-10")]
+
+
+def test_cadena_de_llaves_consistente():
+    assert validar.cadena_de_llaves(_cuadro()) == []
+
+
+def test_un_ganador_que_no_reaparece():
+    roto = _cuadro()
+    roto[0] = llave("Boca", "River", 1, 0, "2026-05-01")   # ahora gana Boca...
+    avisos = validar.cadena_de_llaves(roto)                 # ...pero juega River
+    assert len(avisos) == 1
+
+
+def test_la_cadena_sigue_al_ganador_de_los_penales():
+    """Si se invierte la comparacion de penales, avanza el que perdio la tanda."""
+    cuadro = [llave("Boca", "River", 1, 1, "2026-05-01", pl=2, pv=4),
+              llave("Racing", "Belgrano", 2, 0, "2026-05-02"),
+              llave("River", "Racing", 1, 0, "2026-05-10")]
+    assert validar.cadena_de_llaves(cuadro) == []
+
+
+def test_cadena_con_muy_pocos_partidos_no_dice_nada():
+    assert validar.cadena_de_llaves([llave("Boca", "River", 1, 0, "2026-05-01")]) == []
+
+
+# --------------------------------------------------------------------------
+def test_revisar_pone_los_graves_primero():
+    ps = [zona("A", "B", z=""),                       # grave
+          zona("A", "C"), zona("A", "D")]             # zona despareja: aviso
+    avisos = validar.revisar(ps)
+    assert [a.grave for a in avisos] == sorted([a.grave for a in avisos], reverse=True)

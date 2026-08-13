@@ -1,0 +1,9 @@
+# wikitexto crudo bajado de la API. Se regenera solo y son cientos de KB por
+# temporada: no va al repo. Lo que se publica es data/partidos.csv, que SI va.
+/.cache/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
