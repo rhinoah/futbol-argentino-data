@@ -195,4 +195,38 @@ ASCENSO_HISTORICO = [
     Torneo('Torneo Transición Federal A 2020', 'Torneo Federal A', 2020, anio_fin=2021, mes_inicio=11),
 ]
 
-TODOS = HISTORICO + PRIMERA + ASCENSO + ASCENSO_HISTORICO + COPAS
+# La era Apertura/Clausura, 2004-2015. El parser no necesito un solo cambio: el
+# formato de tabla es el mismo que el de hoy. Lo unico que crecio fue el padron.
+VIEJO = [
+    Torneo("Anexo:Torneo Apertura 2004 (Argentina)", "Primera Division - Apertura", 2004),
+    Torneo("Anexo:Torneo Apertura 2005 (Argentina)", "Primera Division - Apertura", 2005),
+    Torneo("Anexo:Torneo Apertura 2006 (Argentina)", "Primera Division - Apertura", 2006),
+    Torneo("Anexo:Torneo Apertura 2007 (Argentina)", "Primera Division - Apertura", 2007),
+    Torneo("Anexo:Torneo Apertura 2008 (Argentina)", "Primera Division - Apertura", 2008),
+    Torneo("Anexo:Torneo Apertura 2009 (Argentina)", "Primera Division - Apertura", 2009),
+    Torneo("Anexo:Torneo Apertura 2010 (Argentina)", "Primera Division - Apertura", 2010),
+    Torneo("Anexo:Torneo Apertura 2011 (Argentina)", "Primera Division - Apertura", 2011),
+    Torneo("Anexo:Torneo Clausura 2004 (Argentina)", "Primera Division - Clausura", 2004),
+    Torneo("Anexo:Torneo Clausura 2005 (Argentina)", "Primera Division - Clausura", 2005),
+    Torneo("Anexo:Torneo Clausura 2006 (Argentina)", "Primera Division - Clausura", 2006),
+    Torneo("Anexo:Torneo Clausura 2007 (Argentina)", "Primera Division - Clausura", 2007),
+    Torneo("Anexo:Torneo Clausura 2008 (Argentina)", "Primera Division - Clausura", 2008),
+    Torneo("Anexo:Torneo Clausura 2009 (Argentina)", "Primera Division - Clausura", 2009),
+    Torneo("Anexo:Torneo Clausura 2010 (Argentina)", "Primera Division - Clausura", 2010),
+    Torneo("Anexo:Torneo Clausura 2011 (Argentina)", "Primera Division - Clausura", 2011),
+    Torneo("Anexo:Torneo Clausura 2012 (Argentina)", "Primera Division - Clausura", 2012),
+
+    # 2012-2014: el campeonato se llamo Inicial y Final. Las cuatro paginas
+    # quedan FUERA: no rotulan las jornadas -- los 190 partidos cuelgan de un
+    # unico encabezado --, asi que `matchday` saldria mal en todas las filas.
+    # Los partidos se parsean bien; es la jornada la que no esta en la fuente.
+    # Mejor cuatro torneos afuera y dicho, que dentro con un campo inventado.
+    # Torneo("Anexo:Torneo Inicial 2012 (Argentina)", "Primera Division - Inicial", 2012),
+    # Torneo("Anexo:Torneo Final 2013 (Argentina)", "Primera Division - Final", 2013),
+    # Torneo("Anexo:Torneo Inicial 2013 (Argentina)", "Primera Division - Inicial", 2013),
+    # Torneo("Anexo:Torneo Final 2014 (Argentina)", "Primera Division - Final", 2014),
+    Torneo("Campeonato de Primera División 2014 (Argentina)", "Primera Division", 2014),
+    Torneo("Campeonato de Primera División 2015 (Argentina)", "Primera Division", 2015),
+]
+
+TODOS = VIEJO + HISTORICO + PRIMERA + ASCENSO + ASCENSO_HISTORICO + COPAS

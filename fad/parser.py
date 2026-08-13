@@ -523,8 +523,13 @@ def secciones_de_resultados(texto: str) -> list[tuple[str, str, str]]:
         # Campeonato"). La Copa de la Liga 2020 tuvo Fase Clasificatoria, Campeonato
         # y Complementacion, y CADA UNA con su Grupo A y su Fecha 1: quedandose solo
         # con el padre, los mismos equipos aparecian jugando dos veces la misma fecha.
+        # `min(nivel, 3)`: la fase nunca se busca en un nivel igual o mayor al
+        # del propio titulo "Resultados". Cuando este es de nivel 2 -- como en
+        # los torneos de 2004-2015 -- pedir nivel 3 devolvia la seccion de nivel 2
+        # ANTERIOR, que no lo contiene: los 190 partidos del Inicial 2012
+        # quedaban bajo una fase llamada "Tabla de posiciones final".
         fuera.append((_contexto(m.start(), nivel, texto),
-                      _contexto(m.start(), 3, texto), cuerpo))
+                      _contexto(m.start(), min(nivel, 3), texto), cuerpo))
     return fuera
 
 

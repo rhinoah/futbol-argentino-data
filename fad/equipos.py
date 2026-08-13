@@ -127,7 +127,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Argentino de Merlo"),
     Equipo("Atenas (RC)"),
     Equipo("Atlanta"),
-    Equipo("Atlético de Rafaela", alias=("Atlético Rafaela", "Atlético Rafaela", "Atlético de Rafela")),
+    Equipo("Atlético de Rafaela", alias=("Atlético Rafaela", "Atlético de Rafela", "Alético de Rafaela")),
     Equipo("Chaco For Ever"),
     Equipo("Ciudad de Bolívar"),
     Equipo("Claypole"),
@@ -160,6 +160,9 @@ PADRON: tuple[Equipo, ...] = (
     # divisiones todavia. Ojo: es el TERCER Liniers del padron.
     Equipo("Liniers (SJ)"),
     Equipo("Pacífico"),
+    # jugaron Primera en la era Apertura/Clausura y hoy no estan
+    Equipo("Huracán (TA)"),
+    Equipo("Tiro Federal"),
     Equipo("Sportivo Rivadavia (VT)"),
 
     # --- historico del ascenso 2016-2023 ---

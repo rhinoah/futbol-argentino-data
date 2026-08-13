@@ -1,0 +1,4 @@
+# El CSV lo escriben dos maquinas: la de desarrollo y el runner de CI. Sin
+# esto git normaliza distinto en cada una y el commit diario aparece con el
+# archivo entero cambiado aunque no haya cambiado un dato.
+* text=auto eol=lf

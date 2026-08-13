@@ -67,7 +67,14 @@ def escribir(filas: list[dict], destino: Path) -> int:
     tmp = destino.with_suffix(destino.suffix + ".tmp")
     # newline="" es obligatorio en Windows: sin eso el modulo csv escribe \r\r\n
     with tmp.open("w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=COLUMNAS, extrasaction="raise")
+        # Final de linea EXPLICITO, y no el que csv elige por defecto (CRLF).
+        # Este archivo lo escriben DOS maquinas -- la de quien desarrolla y el
+        # runner de Linux que corre todos los dias -- y si cada una usa uno
+        # distinto, git ve las 26 000 filas cambiadas aunque no haya cambiado un
+        # solo dato. El primer commit automatico fue exactamente eso:
+        # "+22271 -22271" y ninguna diferencia real.
+        w = csv.DictWriter(f, fieldnames=COLUMNAS, extrasaction="raise",
+                           lineterminator="\n")
         w.writeheader()
         w.writerows(filas)
     os.replace(tmp, destino)          # o esta el viejo entero o el nuevo entero
