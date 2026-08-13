@@ -95,6 +95,61 @@ LLAVES = """
 """
 
 
+# La Copa: una tabla por ronda, y todo distinto.
+#   * las celdas van en UN renglon separadas por `||`, no una por linea
+#   * las filas alternan sombreado, y ese `bgcolor` va pegado al `|-`
+#   * los penales son `{{small|(N)}}` a los costados del marcador -- al reves
+#     que en {{Partido}}, donde el parentesis es el entretiempo
+#   * hay filas sin marcador: la ronda esta en curso
+#   * despues de la ultima ronda sigue la pagina, con mas tablas
+COPA = """
+== Fase final ==
+
+=== Treintaidosavos de final ===
+Se enfrentaron a partido unico en estadio neutral.
+{| cellspacing="0" width="80%"
+|- bgcolor="#006699"
+!Fecha
+!Estadio
+!Equipo 1
+!Partido
+!Equipo 2
+|-
+|align=center|18 de enero||align=center|Ciudad de Caseros||align=right|[[Club Atlético Lanús|Lanús]] {{bandera|Provincia de Buenos Aires}}||align=center|4 - 1||{{bandera|Santiago del Estero}} [[Sarmiento (La Banda)|Sarmiento (LB)]]
+
+|- bgcolor="#F5FAFF"
+|align=center|21 de enero||align=center|Ciudad de Lanús||align=right|[[Argentinos Juniors]] {{bandera|Buenos Aires}}||align=center| {{small|(5)}} 1 - 1 {{small|(6)}} ||{{bandera|Provincia de Buenos Aires}} '''[[Ferrocarril Midland]]'''
+
+|- bgcolor="#F5FAFF"
+|align=center|22 de enero||align=center|Once Unidos||align=right|'''{{nowrap|[[Gimnasia y Esgrima (LP)]]}}''' {{bandera|Provincia de Buenos Aires}}||align=center|2 - 0||{{bandera|Provincia de Chubut}} [[Deportivo Madryn]]
+|}
+
+=== Dieciseisavos de final ===
+{| cellspacing="0" width="80%"
+|- bgcolor="#006699"
+!Fecha
+!Estadio
+!Equipo 1
+!Partido
+!Equipo 2
+|-
+|align=center|17 de julio||align=center|Ciudad de Caseros||align=right|'''[[Ferrocarril Midland]]''' {{bandera|Provincia de Buenos Aires}}||align=center|2 - 0||{{bandera|Provincia de Buenos Aires}} [[Club Atlético Lanús|Lanús]]
+
+|- bgcolor="#F5FAFF"
+|align=center| || ||align=right|[[Gimnasia y Esgrima (LP)]] {{bandera|Provincia de Buenos Aires}}||align=center| ||{{bandera|Provincia de Chubut}} [[Deportivo Madryn]]
+|}
+
+== Goleadores ==
+{| class="wikitable"
+!Jugador
+!Equipo
+!Goles
+|-
+|Fulano||[[Club Atlético Lanús|Lanús]]||7 - 0
+|}
+"""
+
+
 @pytest.fixture
 def pagina() -> str:
     """Una pagina de temporada entera, como la devuelve la API."""

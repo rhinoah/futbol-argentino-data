@@ -69,6 +69,10 @@ def limpiar(texto: str) -> str:
     s = texto.strip()
     s = re.sub(r"<ref[^>]*>.*?</ref>", "", s, flags=re.S | re.I)
     s = re.sub(r"<ref[^>]*/>", "", s, flags=re.I)
+    # `{{nowrap|X}}` se DESENVUELVE, no se borra: es puro formato, pero adentro
+    # esta el dato. Borrarla junto con las demas plantillas hacia desaparecer
+    # equipos enteros ("{{nowrap|Gimnasia y Esgrima (LP)}}" quedaba en nada).
+    s = re.sub(r"\{\{\s*nowrap\s*\|(.*?)\}\}", r"\1", s, flags=re.I | re.S)
     s = re.sub(r"\{\{[^{}]*\}\}", "", s)
     s = re.sub(r"\[\[([^\]|]*\|)?([^\]]*)\]\]", r"\2", s)    # [[destino|texto]] -> texto
     s = s.replace("'''", "").replace("''", "")
@@ -98,6 +102,25 @@ def _seccion(cab: str) -> str:
     if re.match(r"(?i)^interzonal", cab):
         return "Interzonal"
     return cab
+
+
+def _partir(fila: str) -> list[str]:
+    """Las celdas crudas de una fila, en los DOS estilos que usa Wikipedia.
+
+    Las tablas de liga ponen una celda por linea (`\\n|`); las de la Copa meten
+    la fila entera en un renglon separando con `||`. Es la misma tabla para
+    MediaWiki, pero un parser que solo conozca un estilo lee la fila de la Copa
+    como una unica celda gigante y no encuentra ningun partido.
+
+    Lo que va ANTES de la primera celda son atributos de la fila, no un dato:
+    `|- bgcolor="#F5FAFF"`. Se descarta. Contarlo como celda corre todas las
+    columnas un lugar, y como la Copa sombrea una fila de cada dos, se perdia
+    exactamente la mitad de los partidos -- 16 de 32 treintaidosavos, 8 de 16
+    dieciseisavos. Nada fallaba: la fila corrida no tenia un marcador donde
+    buscarlo y se descartaba sola.
+    """
+    partes = re.split(r"\n\|", "\n" + fila.replace("||", "\n|"))
+    return [c for c in partes[1:] if c.strip()]
 
 
 def a_iso(texto: str, anio: int) -> str:
@@ -169,7 +192,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str) -> list[Partido]:
         if fila.lstrip().startswith("!"):
             continue                                   # fila de encabezado
 
-        celdas = [c for c in re.split(r"\n\|", "\n" + fila) if c.strip()]
+        celdas = _partir(fila)
         if len(celdas) < 3:
             continue
 
@@ -203,8 +226,10 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str) -> list[Partido]:
 # eliminacion: plantillas {{Partido}}
 # --------------------------------------------------------------------------
 def partidos_de_plantillas(texto: str, anio: int, torneo: str) -> list[Partido]:
+    titulos = _titulos_de_ronda(texto)
     partidos: list[Partido] = []
-    for cuerpo in re.findall(r"\{\{\s*Partido\s*\n(.*?)\n\s*\}\}", texto, re.S | re.I):
+    for m in re.finditer(r"\{\{\s*Partido\s*\n(.*?)\n\s*\}\}", texto, re.S | re.I):
+        cuerpo = m.group(1)
         campos = {}
         for linea in cuerpo.split("\n|"):
             if "=" not in linea:
@@ -226,14 +251,119 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str) -> list[Partido]:
             penales_local=pen[0] if pen else None,
             penales_visita=pen[1] if pen else None,
             torneo=torneo, fase="eliminacion",
+            jornada=_ronda_en(m.start(), titulos),
             estadio=limpiar(campos.get("estadio", "")),
             fecha_cruda=limpiar(campos.get("fecha", ""))))
     return partidos
 
 
 # --------------------------------------------------------------------------
-def partidos(texto: str, anio: int, torneo: str) -> list[Partido]:
-    """Todos los partidos de una pagina de temporada."""
+# copa: una tabla por ronda
+# --------------------------------------------------------------------------
+# En orden. Sirve para encontrar las secciones y para saber cual va despues de
+# cual, que en la Copa no se puede deducir de las fechas: las rondas se solapan
+# (los treintaidosavos 2026 se jugaron entre enero y abril, y los dieciseisavos
+# entre abril y julio, con dias compartidos).
+RONDAS = ("Treintaidosavos", "Dieciseisavos", "Octavos", "Cuartos",
+          "Semifinales", "Final")
+
+# "Semifinal" y "Semifinales" son la misma ronda escrita de dos maneras; si
+# quedan como dos, el orden de las rondas se parte en dos mitades.
+_TITULO_RONDA = re.compile(
+    r"^=+\s*(Treintaidosavos|Dieciseisavos|Octavos|Cuartos|Semifinales|Semifinal|Final)"
+    r"[^=\n]*=+\s*$", re.M | re.I)
+
+_COL_COPA = ["fecha", "estadio", "local", "resultado", "visita"]
+
+
+def _titulos_de_ronda(texto: str) -> list[tuple[int, str]]:
+    """(posicion, ronda) de cada titulo de ronda de la pagina."""
+    return [(m.start(), _nombre_de_ronda(m.group(1))) for m in _TITULO_RONDA.finditer(texto)]
+
+
+def _nombre_de_ronda(crudo: str) -> str:
+    n = crudo.capitalize()
+    return "Semifinales" if n == "Semifinal" else n
+
+
+def _ronda_en(pos: int, titulos: list[tuple[int, str]]) -> str:
+    """La ronda a la que pertenece lo que esta en `pos`: la del ultimo titulo
+    que quedo atras.
+
+    Las llaves de liga vienen como plantillas `{{Partido}}` que no dicen a que
+    ronda pertenecen; lo unico que lo dice es bajo que titulo estan. Sin esto,
+    todos los partidos de eliminacion quedan sin ronda y `cadena_de_llaves` tiene
+    que caer al agrupado por fecha, que no distingue dos partidos de octavos
+    jugados en dias distintos de un octavos y un cuartos.
+    """
+    ronda = ""
+    for donde, nombre in titulos:
+        if donde > pos:
+            break
+        ronda = nombre
+    return ronda
+
+# Los penales de la Copa: `{{small|(5)}} 1 - 1 {{small|(4)}}`, o con la etiqueta
+# HTML `<small>(5)</small>`. OJO que esto es lo OPUESTO a lo que significa un
+# parentesis en una plantilla {{Partido}}, donde `1:1 (0:0)` es el entretiempo.
+# Se distinguen por lo que hay adentro: un solo numero es la tanda de ese equipo,
+# dos numeros separados por `:` son los goles del primer tiempo.
+_PENAL = re.compile(r"(?:\{\{\s*small\s*\||<small>)\s*\((\d+)\)", re.I)
+
+
+def _penales(celda_cruda: str) -> tuple[int, int] | None:
+    """Los penales de una celda de marcador, ANTES de limpiarla.
+
+    Tiene que correr sobre el texto crudo: `limpiar` borra las plantillas, y la
+    tanda vive adentro de una. Limpiando primero, `{{small|(5)}} 1 - 1
+    {{small|(4)}}` queda en `1 - 1` y la definicion desaparece sin que nada falle.
+    """
+    n = _PENAL.findall(celda_cruda)
+    return (int(n[0]), int(n[1])) if len(n) == 2 else None
+
+
+def partidos_de_rondas(texto: str, anio: int, torneo: str) -> list[Partido]:
+    """La Copa Argentina: una tabla por ronda, `Fecha | Estadio | Eq1 | Partido | Eq2`."""
+    partidos: list[Partido] = []
+    for m in _TITULO_RONDA.finditer(texto):
+        # La seccion termina en el proximo titulo, sea del nivel que sea, y no en
+        # la proxima ronda: la ultima ronda jugada es la ultima seccion de ronda
+        # de la pagina, pero abajo siguen "Goleadores", "Referencias" y sus
+        # tablas, que sin este corte entran como si fueran partidos.
+        sig = re.search(r"^=+[^=\n]", texto[m.end():], re.M)
+        fin = m.end() + (sig.start() if sig else len(texto) - m.end())
+        ronda = _nombre_de_ronda(m.group(1))
+        for fila in re.split(r"\n\|-", texto[m.end():fin]):
+            if not fila.strip() or fila.lstrip().startswith("!"):
+                continue
+            celdas = _partir(fila)
+            if len(celdas) < len(_COL_COPA):
+                continue
+            v = dict(zip(_COL_COPA, (_celda(c)[1] for c in celdas)))
+            goles = _marcador(v["resultado"])
+            if not goles or not v["local"] or not v["visita"]:
+                continue          # ronda en curso: la fila esta pero sin marcador
+            pen = _penales(celdas[_COL_COPA.index("resultado")])
+            partidos.append(Partido(
+                fecha=a_iso(v["fecha"], anio), local=v["local"], visita=v["visita"],
+                goles_local=goles[0], goles_visita=goles[1],
+                penales_local=pen[0] if pen else None,
+                penales_visita=pen[1] if pen else None,
+                torneo=torneo, fase="eliminacion", jornada=ronda,
+                estadio=v["estadio"], fecha_cruda=v["fecha"]))
+    return partidos
+
+
+# --------------------------------------------------------------------------
+def partidos(texto: str, anio: int, torneo: str, formato: str = "liga") -> list[Partido]:
+    """Todos los partidos de una pagina.
+
+    `formato` lo dice el catalogo y no se adivina: una pagina de copa y una de
+    liga se parecen lo suficiente como para que una deteccion automatica devuelva
+    cero partidos en vez de fallar.
+    """
+    if formato == "copa":
+        return partidos_de_rondas(texto, anio, torneo)
     m = re.search(r"===+\s*Resultados\s*===+(.*?)(?=\n==[^=])", texto, re.S)
     zonas = partidos_de_tabla(m.group(1), anio, torneo) if m else []
     return zonas + partidos_de_plantillas(texto, anio, torneo)

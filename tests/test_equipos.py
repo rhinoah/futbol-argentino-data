@@ -71,10 +71,15 @@ def test_los_nombres_de_wikipedia_resuelven(nombre):
     assert equipos.canonical(nombre) == nombre, "el canonico es el de Wikipedia"
 
 
-def test_el_padron_cubre_exactamente_los_30():
-    assert len(equipos.PADRON) == 30
-    assert len({e.nombre for e in equipos.PADRON}) == 30
-    assert {e.nombre for e in equipos.PADRON} == set(WIKIPEDIA)
+def test_el_padron_cubre_a_los_30_de_primera():
+    """Los 30 son el piso, no el total: la Copa Argentina mezcla divisiones y
+    trae clubes que no juegan Primera."""
+    assert set(WIKIPEDIA) <= {e.nombre for e in equipos.PADRON}
+
+
+def test_no_hay_dos_clubes_con_el_mismo_nombre():
+    nombres = [e.nombre for e in equipos.PADRON]
+    assert len(nombres) == len(set(nombres))
 
 
 def test_los_ids_de_afa_no_se_repiten():

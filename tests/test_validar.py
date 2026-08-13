@@ -18,10 +18,10 @@ def zona(local, visita, gl=1, gv=0, *, fecha="2026-03-01", z="Zona A", j="Fecha 
                    goles_visita=gv, fase="zonas", zona=z, jornada=j)
 
 
-def llave(local, visita, gl, gv, fecha, pl=None, pv=None):
+def llave(local, visita, gl, gv, fecha, pl=None, pv=None, ronda="Octavos"):
     return Partido(fecha=fecha, local=local, visita=visita, goles_local=gl,
                    goles_visita=gv, penales_local=pl, penales_visita=pv,
-                   fase="eliminacion")
+                   fase="eliminacion", jornada=ronda)
 
 
 # Clubes de verdad: `validar.nombres_en_el_padron` rechaza los inventados, y con
@@ -221,29 +221,57 @@ def test_una_jornada_postergada_no_es_un_error():
 # la cadena de llaves
 # --------------------------------------------------------------------------
 def _cuadro():
-    """Semis y final consistentes: los dos ganadores juegan la final."""
-    return [llave("Boca", "River", 0, 1, "2026-05-01"),
-            llave("Racing", "Belgrano", 2, 0, "2026-05-02"),
-            llave("River", "Racing", 1, 0, "2026-05-10")]
+    """Semis y final consistentes: los dos ganadores juegan la final.
+
+    Las semis van en DOS dias a proposito: es lo normal y es lo que rompia la
+    version anterior, que agrupaba las rondas por fecha y tomaba el segundo dia
+    como una ronda nueva.
+    """
+    return [llave("Boca", "River", 0, 1, "2026-05-01", ronda="Semifinales"),
+            llave("Racing", "Belgrano", 2, 0, "2026-05-02", ronda="Semifinales"),
+            llave("River", "Racing", 1, 0, "2026-05-10", ronda="Final")]
 
 
 def test_cadena_de_llaves_consistente():
     assert validar.cadena_de_llaves(_cuadro()) == []
 
 
-def test_un_ganador_que_no_reaparece():
+def test_juega_la_final_sin_haber_ganado_la_semi():
     roto = _cuadro()
-    roto[0] = llave("Boca", "River", 1, 0, "2026-05-01")   # ahora gana Boca...
-    avisos = validar.cadena_de_llaves(roto)                 # ...pero juega River
-    assert len(avisos) == 1
+    roto[0] = llave("Boca", "River", 1, 0, "2026-05-01", ronda="Semifinales")
+    avisos = validar.cadena_de_llaves(roto)     # gana Boca, pero la final la juega River
+    assert len(avisos) == 1 and "River" in avisos[0].detalle
 
 
 def test_la_cadena_sigue_al_ganador_de_los_penales():
     """Si se invierte la comparacion de penales, avanza el que perdio la tanda."""
-    cuadro = [llave("Boca", "River", 1, 1, "2026-05-01", pl=2, pv=4),
-              llave("Racing", "Belgrano", 2, 0, "2026-05-02"),
-              llave("River", "Racing", 1, 0, "2026-05-10")]
+    cuadro = [llave("Boca", "River", 1, 1, "2026-05-01", pl=2, pv=4, ronda="Semifinales"),
+              llave("Racing", "Belgrano", 2, 0, "2026-05-02", ronda="Semifinales"),
+              llave("River", "Racing", 1, 0, "2026-05-10", ronda="Final")]
     assert validar.cadena_de_llaves(cuadro) == []
+
+
+def test_una_ronda_que_todavia_no_se_jugo_no_es_un_error():
+    """El caso de la Copa en curso. Los 16 ganadores de dieciseisavos todavia no
+    jugaron su octavos: preguntado al reves ("cada ganador reaparece?") eso daba
+    14 avisos por dia hasta noviembre, y un chequeo que grita todos los dias deja
+    de leerse."""
+    cuadro = [llave("Boca", "River", 2, 0, "2026-05-01", ronda="Cuartos"),
+              llave("Racing", "Belgrano", 2, 0, "2026-05-02", ronda="Cuartos"),
+              llave("Huracán", "Tigre", 1, 0, "2026-05-03", ronda="Cuartos"),
+              llave("Platense", "Lanús", 1, 0, "2026-05-03", ronda="Cuartos"),
+              llave("Boca", "Racing", 1, 0, "2026-05-10", ronda="Semifinales")]
+    assert validar.cadena_de_llaves(cuadro) == []
+
+
+def test_sin_rondas_reconocidas_avisa_en_vez_de_saltear_calladito():
+    """Un chequeo salteado en silencio es peor que uno ausente: parece que algo
+    se esta mirando."""
+    sin_ronda = [llave("Boca", "River", 1, 0, "2026-05-01", ronda=""),
+                 llave("Racing", "Belgrano", 2, 0, "2026-05-02", ronda=""),
+                 llave("Boca", "Racing", 1, 0, "2026-05-10", ronda="")]
+    avisos = validar.cadena_de_llaves(sin_ronda)
+    assert len(avisos) == 1 and "salteo" in avisos[0].detalle
 
 
 def test_cadena_con_muy_pocos_partidos_no_dice_nada():

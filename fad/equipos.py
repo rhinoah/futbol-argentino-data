@@ -23,6 +23,22 @@ Adivinar por similitud de texto se probo y falla justo donde importa:
 Emparejando por similitud, 26 de 60 partidos del Clausura 2026 quedaron sin
 pareja. Con el padron escrito a mano, 60 de 60. Por eso va a mano.
 
+UN RIESGO CONOCIDO: LOS ALIAS PELADOS
+-------------------------------------
+Varios alias son el nombre a secas -- "Sarmiento", "Talleres", "Gimnasia",
+"Estudiantes" -- y salen del feed de la AFA, donde el contexto es Primera y ahi
+hay uno solo de cada uno. Fuera de ese contexto son ambiguos: en la Copa
+Argentina juegan tambien Sarmiento (LB), Gimnasia y Esgrima (C) y (J), y
+Estudiantes (BA).
+
+Por que no molesta hoy: la unica fuente que se PARSEA es Wikipedia, que siempre
+los escribe desambiguados, y el CSV sale siempre con el nombre canonico. Los
+alias pelados se usan nada mas para cruzar contra la AFA, que es Primera.
+
+Si algun dia se parsea una fuente de ascenso que escriba "Sarmiento" a secas, hay
+que resolver el alias por contexto y no globalmente. Queda anotado porque es la
+clase de cosa que no falla: le da los partidos al club equivocado.
+
 EL ID DE AFA
 ------------
 `afa` es el numero con el que la AFA identifica al club en su propio feed
@@ -81,6 +97,50 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Tigre", 136),
     Equipo("Unión", 137, ("Unión (SF)", "Unión de Santa Fe")),
     Equipo("Vélez Sarsfield", 20, ("Vélez", "Vélez Sársfield")),
+
+    # --- clubes de otras divisiones, que entran por la Copa Argentina ---
+    # Van SIN alias y sin id de AFA a proposito. El feed del que salieron los ids
+    # y los nombres cortos es el de Primera y no los tiene, y un alias sin una
+    # fuente que lo respalde es exactamente el error que este modulo trata de
+    # evitar. Se agregan cuando alguna fuente los escriba distinto, no antes.
+    #
+    # Aca se ve para que sirve todo esto: hay CUATRO Gimnasia y Esgrima (LP, M,
+    # C, J) mas un Gimnasia y Tiro que es otro club; TRES San Martin (F, SJ, T);
+    # TRES Estudiantes (LP, RC, BA); DOS Sarmiento (J, LB).
+    Equipo("Acassuso"),
+    Equipo("Agropecuario"),
+    Equipo("Argentino (MM)"),
+    Equipo("Argentino de Merlo"),
+    Equipo("Atenas (RC)"),
+    Equipo("Atlanta"),
+    Equipo("Atlético de Rafaela"),
+    Equipo("Chaco For Ever"),
+    Equipo("Ciudad de Bolívar"),
+    Equipo("Claypole"),
+    Equipo("Deportivo Armenio"),
+    Equipo("Deportivo Camioneros"),
+    Equipo("Deportivo Madryn"),
+    Equipo("Deportivo Maipú"),
+    Equipo("Deportivo Morón"),
+    Equipo("Deportivo Rincón"),
+    Equipo("Estudiantes (BA)"),
+    Equipo("Ferrocarril Midland"),
+    Equipo("Gimnasia y Esgrima (C)"),
+    Equipo("Gimnasia y Esgrima (J)"),
+    Equipo("Gimnasia y Tiro (S)"),
+    Equipo("Godoy Cruz"),
+    Equipo("Ituzaingó"),
+    Equipo("Olimpo"),
+    Equipo("Real Pilar"),
+    Equipo("San Martín (F)"),
+    Equipo("San Martín (SJ)"),
+    Equipo("San Martín (T)"),
+    Equipo("San Miguel"),
+    Equipo("Sarmiento (LB)"),
+    Equipo("Sportivo Barracas"),
+    Equipo("Sportivo Belgrano"),
+    Equipo("Temperley"),
+    Equipo("Tristán Suárez"),
 )
 
 

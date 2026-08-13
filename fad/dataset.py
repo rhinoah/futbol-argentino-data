@@ -17,11 +17,14 @@ DOS DECISIONES QUE PARECEN DETALLES Y NO LO SON
    cada commit es un diff ilegible de miles de lineas movidas y no se ve que
    cambio de verdad. Ordenado por fecha, el diff de un dia son las filas de ese
    dia.
-2. **No hay columna `neutral`.** El modelo la quiere (la localia vale), pero de
-   esta fuente no se puede deducir sin un padron de estadios, y una columna
-   booleana inventada es peor que una columna ausente: quien la consuma no tiene
-   como saber que esta mal. Se emite `venue`, que es el dato que si esta, y
-   `neutral` se derivara cuando exista el padron.
+2. **`neutral` sale del reglamento de la competencia, no del estadio.** La Copa
+   Argentina se juega a partido unico en cancha neutral y su pagina lo dice ronda
+   por ronda, asi que ahi el dato se afirma con fundamento. En las ligas es
+   `false` con el alcance que declara el README: el partido se jugo donde dice el
+   fixture. NO detecta mudanzas puntuales -- un partido de liga que se muda de
+   cancha sigue figurando `false`. Se prefirio decir eso y documentarlo antes que
+   deducir la localia comparando el estadio contra un padron que todavia no
+   existe.
 """
 from __future__ import annotations
 
@@ -34,11 +37,12 @@ from fad.parser import Partido
 COLUMNAS = [
     "date", "time", "home_team", "away_team", "home_score", "away_score",
     "home_pens", "away_pens", "tournament", "season", "phase", "group",
-    "matchday", "venue", "source",
+    "matchday", "venue", "neutral", "source",
 ]
 
 
-def a_fila(p: Partido, torneo: str, temporada: int, fuente: str) -> dict:
+def a_fila(p: Partido, torneo: str, temporada: int, fuente: str,
+           neutral: bool = False) -> dict:
     return {
         "date": p.fecha, "time": p.hora,
         "home_team": p.local, "away_team": p.visita,
@@ -48,7 +52,7 @@ def a_fila(p: Partido, torneo: str, temporada: int, fuente: str) -> dict:
         "away_pens": p.penales_visita,
         "tournament": torneo, "season": temporada,
         "phase": p.fase, "group": p.zona, "matchday": p.jornada,
-        "venue": p.estadio, "source": fuente,
+        "venue": p.estadio, "neutral": str(neutral).lower(), "source": fuente,
     }
 
 

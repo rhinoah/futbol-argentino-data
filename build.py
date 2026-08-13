@@ -41,7 +41,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
     tratan dos grafias como dos clubes y los chequeos dejan pasar justo lo que
     tenian que agarrar.
     """
-    ps = parser.partidos(texto, t.temporada, t.torneo)
+    ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato)
     for p in ps:
         p.local = equipos.canonizar(p.local)
         p.visita = equipos.canonizar(p.visita)
@@ -67,9 +67,11 @@ def main(argv=None) -> int:
         ps, propios = procesar(texto, t)
         avisos += propios
         graves = sum(a.grave for a in propios)
-        print(f"  {t.pagina[6:]:<44} {len(ps):>4} partidos"
+        etiqueta = t.pagina.split(":", 1)[-1]      # saca el "Anexo:" si lo tiene
+        print(f"  {etiqueta:<44} {len(ps):>4} partidos"
               f"{'' if not propios else f'   ({len(propios)} avisos, {graves} graves)'}")
-        filas += [dataset.a_fila(p, t.torneo, t.temporada, t.url) for p in ps]
+        filas += [dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral)
+                  for p in ps]
 
     for a in avisos:
         print(f"  {a}", file=sys.stderr)

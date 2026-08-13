@@ -120,6 +120,31 @@ def test_un_campo_de_mas_no_pasa_desapercibido(tmp_path):
         dataset.escribir([mala], tmp_path / "p.csv")
 
 
+def test_neutral_sale_del_torneo(tmp_path):
+    """La Copa Argentina se juega toda en cancha neutral por reglamento; las
+    ligas son local y visitante. El dato es de la competencia, no del partido."""
+    destino = tmp_path / "p.csv"
+    p = Partido(fecha="2026-03-01", local="Boca", visita="River", goles_local=1,
+                goles_visita=0, fase="eliminacion")
+    dataset.escribir([dataset.a_fila(p, "Copa", 2026, "url", neutral=True)], destino)
+    assert dataset.leer(destino)[0]["neutral"] == "true"
+
+
+def test_neutral_por_defecto_es_false(tmp_path):
+    destino = tmp_path / "p.csv"
+    dataset.escribir([fila("2026-03-01", "Boca", "River")], destino)
+    assert dataset.leer(destino)[0]["neutral"] == "false"
+
+
+def test_neutral_no_sale_capitalizado(tmp_path):
+    """`str(True)` en Python es "True" con mayuscula, que no es lo que espera
+    quien lea el CSV con pandas o R."""
+    destino = tmp_path / "p.csv"
+    dataset.escribir([fila("2026-03-01", "Boca", "River")], destino)
+    texto = destino.read_text(encoding="utf-8")
+    assert "True" not in texto and "False" not in texto
+
+
 def test_acentos(tmp_path):
     destino = tmp_path / "p.csv"
     dataset.escribir([fila("2026-03-01", "Unión", "Vélez Sarsfield")], destino)

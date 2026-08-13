@@ -63,6 +63,51 @@ MUTANTES = [
      '    sin = [p for p in ps if p.fase == "zonas" and not p.zona]',
      "    sin = []"),
 
+    # --- la copa ---
+    ("fad/parser.py", "contar el bgcolor de la fila como si fuera una celda",
+     "    return [c for c in partes[1:] if c.strip()]",
+     "    return [c for c in partes if c.strip()]"),
+
+    ("fad/parser.py", "no reconocer '||' como separador de celdas",
+     '    partes = re.split(r"\\n\\|", "\\n" + fila.replace("||", "\\n|"))',
+     '    partes = re.split(r"\\n\\|", "\\n" + fila)'),
+
+    ("fad/parser.py", "sacar los penales DESPUES de limpiar la celda",
+     '        pen = _penales(celdas[_COL_COPA.index("resultado")])',
+     '        pen = _penales(v["resultado"])'),
+
+    ("fad/parser.py", "borrar {{nowrap}} en vez de desenvolverla",
+     '    s = re.sub(r"\\{\\{\\s*nowrap\\s*\\|(.*?)\\}\\}", r"\\1", s, flags=re.I | re.S)',
+     "    s = s"),
+
+    ("fad/parser.py", "no cortar la ronda en el proximo titulo (entra Goleadores)",
+     "        fin = m.end() + (sig.start() if sig else len(texto) - m.end())",
+     "        fin = len(texto)"),
+
+    ("fad/parser.py", "que Semifinal y Semifinales sean dos rondas distintas",
+     '    return "Semifinales" if n == "Semifinal" else n',
+     "    return n"),
+
+    ("fad/parser.py", "tomar la primera ronda de la pagina y no la que corresponde",
+     "    ronda = \"\"\n    for donde, nombre in titulos:",
+     "    return titulos[0][1] if titulos else \"\"\n    for donde, nombre in titulos:"),
+
+    ("fad/parser.py", "ignorar el formato del catalogo y parsear todo como liga",
+     '    if formato == "copa":',
+     "    if False:"),
+
+    ("fad/validar.py", "aceptar en una ronda a cualquiera que jugo la anterior",
+     "        ganadores = {_ganador(p) for p in previa} - {\"\"}",
+     "        ganadores = {p.local for p in previa} | {p.visita for p in previa}"),
+
+    ("fad/validar.py", "saltear el chequeo del cuadro calladito",
+     "    if grupos is None:\n        return [Aviso(",
+     "    if grupos is None:\n        return []\n    if False:\n        return [Aviso("),
+
+    ("fad/dataset.py", "escribir siempre neutral=false",
+     '"neutral": str(neutral).lower()',
+     '"neutral": "false"'),
+
     # --- el padron ---
     ("fad/equipos.py", "darle el alias 'Gimnasia' al club equivocado (el de Mendoza)",
      '    Equipo("Gimnasia y Esgrima (LP)", 8,\n'

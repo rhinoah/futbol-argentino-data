@@ -4,12 +4,12 @@ Un dataset abierto de partidos del fútbol argentino, armado a partir de
 Wikipedia en español y actualizable solo.
 
 ```
-date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,source
-2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,https://es.wikipedia.org/wiki/...
+date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
+2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** 315 partidos de Primera División 2026 (Apertura completo + Clausura
-en curso). Es el primer paso de algo más grande — abajo está el plan.
+**Estado:** 364 partidos de 2026 — Primera División (Apertura completo +
+Clausura en curso) y Copa Argentina. Abajo está el plan.
 
 ## Por qué
 
@@ -86,24 +86,29 @@ que ya lee aquel dataset lee este casi sin tocar nada.
 | `home_team` `away_team` | los equipos |
 | `home_score` `away_score` | el marcador de los 90 (más alargue si hubo) |
 | `home_pens` `away_pens` | la tanda de penales, vacío si no hubo |
-| `tournament` `season` | `Primera Division - Apertura`, `2026` |
+| `tournament` `season` | `Primera Division - Apertura`, `Copa Argentina`, `2026` |
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
-| `matchday` | `Fecha 7` |
+| `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales` |
 | `venue` | el estadio, tal como figura |
+| `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de la que salió esa fila |
 
-**No hay columna `neutral`**, y es deliberado. Un modelo de predicción la
-necesita (jugar de local vale), pero de esta fuente no se puede deducir sin un
-padrón de estadios. Una columna booleana inventada es peor que una ausente:
-quien la consuma no tiene manera de saber que está mal. Va a aparecer cuando
-exista el padrón, no antes.
+Sobre **`neutral`**: sale del **reglamento de la competencia**, no de comparar el
+estadio contra el de cada club. La Copa Argentina se juega a partido único en
+cancha neutral y su propia página lo dice ronda por ronda, así que ahí el dato se
+puede afirmar. En las ligas es `false`, con este alcance exacto: *el partido se
+jugó donde dice el fixture*. **No detecta mudanzas puntuales** — un partido de
+liga que se muda de cancha sigue figurando `false`. Prefiero decir eso y
+documentarlo antes que deducir la localía con un padrón de estadios que todavía
+no existe.
 
 ## Lo que hace difícil esto
 
 El wikitexto es prosa con formato, no una base de datos. **Un parser mal escrito
-no explota: miente.** Los tres errores de abajo estuvieron todos en el código, y
-ninguno tiraba una excepción.
+no explota: miente.** Todos los errores de abajo estuvieron en el código, y
+ninguno tiraba una excepción. Son tres formatos distintos en la misma Wikipedia,
+y el peligro no es que un formato nuevo rompa el parser: es que *no* lo rompa.
 
 **1. El `rowspan`.** Cuando varios partidos comparten día u horario, la celda
 aparece una sola vez y las filas siguientes vienen con menos celdas. Un parser
@@ -136,6 +141,29 @@ siempre el último bloque de su jornada — quedaron anotados una fecha adelante
 Equipos, marcador y fecha del calendario, todos correctos. El único campo mal era
 `matchday`.
 
+**4. Y hay un tercer formato.** La Copa Argentina no usa ninguno de los dos
+anteriores: es una tabla por ronda, con las celdas separadas por `||` en un solo
+renglón. Trajo dos trampas más.
+
+La primera es que sombrea una fila de cada dos, y ese atributo va pegado al
+separador (`|- bgcolor="#F5FAFF"`). Contarlo como celda corre todas las columnas
+un lugar; la fila corrida no tiene marcador donde el parser lo busca y se
+descarta sola. Resultado: **se perdía exactamente la mitad de los partidos** —
+16 de 32 treintaidosavos, 8 de 16 dieciseisavos. Una pérdida del 50% en silencio.
+
+La segunda es que **el mismo paréntesis significa lo contrario según el formato**:
+
+```
+{{Partido|resultado = 2:0''' (1:0)}}   ← (1:0) es el ENTRETIEMPO
+{{small|(5)}} 1 - 1 {{small|(6)}}      ← (5) y (6) son los PENALES
+```
+
+Se distinguen por lo que hay adentro: dos números con `:` es el primer tiempo,
+uno solo es la tanda de ese equipo. Y hay que sacarlos **antes** de limpiar la
+celda, porque la tanda vive dentro de una plantilla y limpiar la borra: leyéndola
+después, el partido queda 1-1 y la definición por penales desaparece sin que nada
+falle.
+
 ## Por eso el validador
 
 No se le cree al parser: se le exige que lo que devuelve cumpla cosas que sólo
@@ -151,14 +179,33 @@ automático no es tirar una excepción, es escribir un CSV plausible y equivocad
 | sin duplicados, nadie contra sí mismo | filas leídas dos veces, columnas corridas |
 | todos los partidos de zona tienen zona | un encabezado que no se reconoció |
 | **cada equipo juega una vez por fecha** | etiquetas corridas |
-| **cada ganador reaparece en la ronda siguiente** | cualquier cosa, en la eliminación |
+| **el que juega una ronda ganó la anterior** | cualquier cosa, en la eliminación |
 | zona = todos contra todos completo | partidos faltantes (aviso, no error) |
 
 Los dos en negrita son los fuertes, y los dos son **autocontenidos**: no
-consultan ninguna fuente externa, salen de cómo está armado un torneo. El de la
-cadena de llaves verificó el cuadro entero del Apertura 2026 sin mirar nada más:
-cada ganador de octavos reaparece en cuartos, cada uno de cuartos en semis, y los
-dos de semis en la final.
+consultan ninguna fuente externa, salen de cómo está armado un torneo.
+
+### La dirección del chequeo de llaves
+
+Al principio preguntaba lo simétrico — *cada ganador, ¿reaparece después?* — y
+sobre un torneo terminado da lo mismo. Sobre uno en curso, no: los 16 ganadores
+de dieciseisavos de la Copa 2026 todavía no jugaron sus octavos, así que tiraba
+**14 avisos por día hasta noviembre**. Un chequeo que grita todos los días deja
+de leerse, y ahí ya no sirve para nada.
+
+Preguntado al revés valida lo que **hay** en vez de exigir lo que todavía no se
+jugó, y no pierde nada: el mismo error que rompe una punta rompe la otra.
+Verificado a mano — invirtiendo el dieciseisavos que clasificó a Atlético
+Tucumán, el aviso salta; con los datos reales, cero.
+
+Las rondas se agrupan por **nombre**, nunca por fecha. Agrupar por fecha parece
+razonable y está mal por los dos lados: la Copa solapa rondas (los treintaidosavos
+2026 van de enero a abril y los dieciseisavos de abril a julio, compartiendo días)
+y una misma ronda se juega en varios días, con lo cual el segundo día parece una
+ronda nueva cuyos participantes "no ganaron la anterior". Si algún partido de
+eliminación no trae ronda reconocida, el chequeo **avisa que se salteó** en vez de
+saltearse callado: un chequeo mudo es peor que uno ausente, porque parece que algo
+se está mirando.
 
 ### El que costó encontrar
 
@@ -196,6 +243,11 @@ casos que lo rompen:
 
 Con el padrón escrito a mano, 60 de 60.
 
+La Copa Argentina lo llevó de 30 clubes a 64, y de paso mostró para qué sirve:
+entran **cuatro** Gimnasia y Esgrima (LP, M, C, J) más un Gimnasia y Tiro que es
+otro club, **tres** San Martín (F, SJ, T), **tres** Estudiantes (LP, RC, BA) y
+**dos** Sarmiento (J, LB).
+
 El riesgo propio de un padrón no es que falte un club: es que **un alias se le
 asigne al club equivocado**. Eso no rompe nada — reparte los partidos de un
 Gimnasia entre los dos y sigue andando. Dos defensas contra eso:
@@ -219,17 +271,17 @@ vez en vez de colarse para siempre como un club distinto.
 
 ## Tests
 
-226 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+245 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 25 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 36 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
 ```
 
-Encontró cinco agujeros reales. Uno resultó ser un **mutante equivalente** —
+Encontró siete agujeros reales. Uno resultó ser un **mutante equivalente** —
 escribir `None` en vez de cadena vacía no cambiaba nada, porque el módulo `csv`
 ya convierte `None` en campo vacío — y ahí lo que sobraba era el código, no el
 test.
@@ -263,8 +315,8 @@ Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos
 
 - [x] **1.** Primera División 2026 (Apertura + Clausura)
 - [x] **2.** Padrón de clubes con normalización, validado contra el feed de la AFA
-- [ ] **3.** Histórico de Primera hacia atrás
-- [ ] **4.** Copa Argentina — se juega en simultáneo, otra estructura de página, y mezcla divisiones (va a hacer crecer el padrón bastante más allá de los 30 de Primera)
+- [ ] **3.** Histórico hacia atrás — lo que más falta para predecir: el Poisson se conforma con 1-2 temporadas, pero el Elo necesita años para calibrar, y sin historia no hay backtest posible
+- [x] **4.** Copa Argentina — tercer formato de página, y llevó el padrón de 30 clubes a 64
 - [ ] **5.** Primera Nacional y Federal A
 - [ ] **6.** Actualización automática (GitHub Actions) y publicación
 

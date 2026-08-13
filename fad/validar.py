@@ -175,38 +175,68 @@ def _nro(kv) -> int:
 
 
 def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
-    """EL chequeo fuerte: cada ganador de la eliminacion reaparece despues.
+    """EL chequeo fuerte: el que juega una ronda gano la anterior.
 
-    Es autocontenido -- no necesita saber cual era el cuadro. Si el parseo corrio
-    una columna o invento un marcador, la cadena se corta enseguida. Se saltea el
-    ultimo dia (la final no tiene ronda siguiente) y los partidos por el tercer
-    puesto, que los juegan los PERDEDORES.
+    Es autocontenido -- no necesita saber cual era el cuadro. Sale de como
+    funciona una eliminacion directa, y si el parseo corrio una columna, invirtio
+    unos penales o invento un marcador, aparece alguien en cuartos que segun los
+    datos perdio en octavos.
+
+    LA DIRECCION IMPORTA. La primera version preguntaba lo simetrico -- "cada
+    ganador, reaparece despues?" -- y sobre un torneo terminado da igual, pero
+    sobre uno en curso no: los 16 ganadores de dieciseisavos de la Copa 2026
+    todavia no jugaron su octavos, asi que tiraba 14 avisos por dia hasta
+    noviembre. Un chequeo que grita todos los dias deja de leerse, y ahi ya no
+    sirve para nada.
+
+    Preguntado al reves valida lo que HAY en vez de exigir lo que todavia no se
+    jugo, y no pierde nada: el mismo error que rompia una punta rompe la otra.
     """
-    elim = sorted([p for p in ps if p.fase == "eliminacion" and p.fecha],
-                  key=lambda p: p.fecha)
+    elim = [p for p in ps if p.fase == "eliminacion" and p.fecha]
     if len(elim) < 3:
         return []
 
-    por_dia: dict[str, list[Partido]] = {}
-    for p in elim:
-        por_dia.setdefault(p.fecha, []).append(p)
-    dias = sorted(por_dia)
-
+    grupos = _por_ronda(elim)
+    if grupos is None:
+        return [Aviso("no se pudo revisar el cuadro de eliminacion",
+                      "hay partidos sin ronda reconocida; el chequeo se salteo",
+                      grave=False)]
     avisos = []
-    for i, dia in enumerate(dias[:-1]):
-        siguientes = {e for d in dias[i + 1:] for p in por_dia[d]
-                      for e in (p.local, p.visita)}
-        if not siguientes:
+    for (_, previa), (ronda, actual) in zip(grupos, grupos[1:]):
+        ganadores = {_ganador(p) for p in previa} - {""}
+        if not ganadores:
             continue
-        for p in por_dia[dia]:
-            gana = _ganador(p)
-            if gana and gana not in siguientes:
-                # puede ser una final, o un 3er puesto: solo se avisa
-                avisos.append(Aviso(
-                    "un ganador de eliminacion no reaparece",
-                    f"{p.fecha} {p.local} {p.goles_local}-{p.goles_visita} {p.visita} "
-                    f"-> gano {gana}, que no juega despues", grave=False))
+        for p in actual:
+            for equipo in (p.local, p.visita):
+                if equipo and equipo not in ganadores:
+                    avisos.append(Aviso(
+                        "juega una ronda sin haber ganado la anterior",
+                        f"{ronda}: {equipo} ({p.fecha} vs "
+                        f"{p.visita if equipo == p.local else p.local})", grave=False))
     return avisos
+
+
+def _por_ronda(elim: list[Partido]) -> list[tuple[str, list[Partido]]] | None:
+    """Agrupa la eliminacion en rondas ordenadas, de la mas lejana a la final.
+
+    Devuelve None si algun partido no trae una ronda reconocida, y NO cae a
+    agrupar por fecha. Ese fallback existio y habia que sacarlo: una ronda se
+    juega en varios dias -- los octavos del Apertura 2026 se jugaron en dos --, y
+    agrupando por dia el segundo dia parece una ronda nueva cuyos participantes
+    "no ganaron la anterior". Inventaba errores en datos perfectos.
+
+    Prefiero no revisar y decirlo. Un chequeo salteado en silencio es peor que
+    uno ausente: parece que algo se esta mirando.
+    """
+    from fad.parser import RONDAS
+
+    orden = {r.lower(): i for i, r in enumerate(RONDAS)}
+    if not all((p.jornada or "").lower() in orden for p in elim):
+        return None
+    grupos: dict[str, list[Partido]] = {}
+    for p in elim:
+        grupos.setdefault(p.jornada, []).append(p)
+    return sorted(grupos.items(), key=lambda kv: orden[kv[0].lower()])
 
 
 def _ganador(p: Partido) -> str:
