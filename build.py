@@ -21,7 +21,7 @@ from pathlib import Path
 
 from fad import dataset, equipos, parser, torneos, validar, wiki
 
-SALIDA = Path(__file__).resolve().parent / "data" / "partidos.csv"
+SALIDA = Path(__file__).resolve().parent / "data"   # una carpeta: un CSV por temporada
 
 
 def _borrar_jornadas_falsas(ps) -> int:
@@ -107,7 +107,7 @@ def main(argv=None) -> int:
                     help="escribe aunque el dataset se achique (revisalo antes)")
     args = ap.parse_args(argv)
 
-    anterior = dataset.read_anterior(SALIDA)
+    anterior = dataset.leer_carpeta(SALIDA)
     # Lo ya jugado se toma del CSV, no se vuelve a bajar. Ver `Torneo.cerrado`.
     # La clave es `source` -- la URL de la pagina -- y no (torneo, temporada).
     # Varias entradas del catalogo comparten torneo y temporada: la 2016 y la
@@ -168,8 +168,13 @@ def main(argv=None) -> int:
         print(f"\n[dry-run] {len(filas)} filas, sin escribir.")
         return 0
 
-    n = dataset.escribir(filas, SALIDA)
-    print(f"\n{n} partidos -> {SALIDA.relative_to(SALIDA.parent.parent)}")
+    cambiados = dataset.escribir_por_temporada(filas, SALIDA)
+    print(f"\n{len(filas)} partidos en {SALIDA.name}/")
+    if cambiados:
+        for archivo, n in sorted(cambiados.items()):
+            print(f"   cambio {archivo} ({n} filas)")
+    else:
+        print("   sin cambios: ningun archivo se reescribio")
     return 0
 
 

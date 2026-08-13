@@ -15,7 +15,7 @@ import pytest
 from fad import dataset, equipos
 from tests.afa_snapshot import AFA, WIKIPEDIA
 
-CSV = Path(__file__).resolve().parent.parent / "data" / "partidos.csv"
+DATOS = Path(__file__).resolve().parent.parent / "data"
 
 
 # --------------------------------------------------------------------------
@@ -171,9 +171,10 @@ def test_por_afa():
 # --------------------------------------------------------------------------
 # el dataset que se publica
 # --------------------------------------------------------------------------
-@pytest.mark.skipif(not CSV.exists(), reason="hay que correr build.py primero")
+@pytest.mark.skipif(not list(DATOS.glob("partidos-*.csv")),
+                    reason="hay que correr build.py primero")
 def test_el_csv_publicado_usa_nombres_canonicos():
-    nombres = {f[c] for f in dataset.leer(CSV) for c in ("home_team", "away_team")}
+    nombres = {f[c] for f in dataset.leer_carpeta(DATOS) for c in ("home_team", "away_team")}
     canonicos = {e.nombre for e in equipos.PADRON}
     assert nombres <= canonicos, f"nombres fuera del padron: {sorted(nombres - canonicos)}"
 

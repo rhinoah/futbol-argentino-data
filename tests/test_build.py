@@ -80,19 +80,19 @@ def correr(monkeypatch, tmp_path, pagina: str, argv=()):
     """`build.main` contra una pagina de mentira y un CSV temporal."""
     monkeypatch.setattr(build.torneos, "TODOS", [T])
     monkeypatch.setattr(build.wiki, "wikitexto", lambda *a, **k: pagina)
-    monkeypatch.setattr(build, "SALIDA", tmp_path / "data" / "partidos.csv")
+    monkeypatch.setattr(build, "SALIDA", tmp_path / "data")
     return build.main(list(argv))
 
 
 def test_el_build_escribe(monkeypatch, tmp_path):
     assert correr(monkeypatch, tmp_path,
                   tabla(("Boca Juniors", "River Plate"), ("Racing Club", "Huracán"))) == 0
-    assert len(build.dataset.leer(tmp_path / "data" / "partidos.csv")) == 2
+    assert len(build.dataset.leer_carpeta(tmp_path / "data")) == 2
 
 
 def test_un_club_desconocido_no_escribe_nada(monkeypatch, tmp_path):
     assert correr(monkeypatch, tmp_path, tabla(("Boca Juniors", "Deportivo Inventado"))) == 1
-    assert not (tmp_path / "data" / "partidos.csv").exists()
+    assert not list((tmp_path / "data").glob("*.csv")) if (tmp_path / "data").exists() else True
 
 
 def test_si_el_dataset_se_achica_no_pisa_el_anterior(monkeypatch, tmp_path):
@@ -102,7 +102,7 @@ def test_si_el_dataset_se_achica_no_pisa_el_anterior(monkeypatch, tmp_path):
     correr(monkeypatch, tmp_path,
            tabla(("Boca Juniors", "River Plate"), ("Racing Club", "Huracán")))
     assert correr(monkeypatch, tmp_path, tabla(("Boca Juniors", "River Plate"))) == 1
-    assert len(build.dataset.leer(tmp_path / "data" / "partidos.csv")) == 2, \
+    assert len(build.dataset.leer_carpeta(tmp_path / "data")) == 2, \
         "pisó el dataset bueno con el achicado"
 
 
@@ -112,13 +112,13 @@ def test_forzar_deja_pasar_el_achicamiento(monkeypatch, tmp_path):
            tabla(("Boca Juniors", "River Plate"), ("Racing Club", "Huracán")))
     assert correr(monkeypatch, tmp_path,
                   tabla(("Boca Juniors", "River Plate")), argv=["--forzar"]) == 0
-    assert len(build.dataset.leer(tmp_path / "data" / "partidos.csv")) == 1
+    assert len(build.dataset.leer_carpeta(tmp_path / "data")) == 1
 
 
 def test_dry_run_no_escribe(monkeypatch, tmp_path):
     assert correr(monkeypatch, tmp_path, tabla(("Boca Juniors", "River Plate")),
                   argv=["--dry-run"]) == 0
-    assert not (tmp_path / "data" / "partidos.csv").exists()
+    assert not list((tmp_path / "data").glob("*.csv")) if (tmp_path / "data").exists() else True
 
 
 def test_una_pagina_que_no_se_puede_bajar_no_escribe(monkeypatch, tmp_path):
@@ -126,9 +126,9 @@ def test_una_pagina_que_no_se_puede_bajar_no_escribe(monkeypatch, tmp_path):
         raise LookupError("no existe")
     monkeypatch.setattr(build.torneos, "TODOS", [T])
     monkeypatch.setattr(build.wiki, "wikitexto", explota)
-    monkeypatch.setattr(build, "SALIDA", tmp_path / "data" / "partidos.csv")
+    monkeypatch.setattr(build, "SALIDA", tmp_path / "data")
     assert build.main([]) == 1
-    assert not (tmp_path / "data" / "partidos.csv").exists()
+    assert not list((tmp_path / "data").glob("*.csv")) if (tmp_path / "data").exists() else True
 
 
 def test_se_normaliza_ANTES_de_validar():
@@ -159,7 +159,7 @@ def test_un_torneo_cerrado_no_se_vuelve_a_bajar(monkeypatch, tmp_path):
     """El Apertura 2004 no va a cambiar nunca. Volver a bajarlo todos los dias no
     solo gasta pedidos: le da a una pagina de hace veinte anios la posibilidad de
     cambiar un dato que ya esta bien."""
-    salida = tmp_path / "data" / "partidos.csv"
+    salida = tmp_path / "data"
     bajadas = []
 
     def espiar(pag, *a, **k):
@@ -174,7 +174,7 @@ def test_un_torneo_cerrado_no_se_vuelve_a_bajar(monkeypatch, tmp_path):
     assert len(bajadas) == 1, "la primera vez si hay que bajarla"
     assert build.main([]) == 0
     assert len(bajadas) == 1, "la segunda la volvio a bajar"
-    assert len(build.dataset.leer(salida)) == 1
+    assert len(build.dataset.leer_carpeta(salida)) == 1
 
     assert build.main(["--rehacer"]) == 0
     assert len(bajadas) == 2, "--rehacer tiene que volver a parsear"
@@ -185,13 +185,13 @@ def test_dos_paginas_del_mismo_torneo_no_se_pisan(monkeypatch, tmp_path):
     2016-17 son las dos "Primera Division 2016". Si las filas guardadas se
     agrupan por (torneo, temporada) en vez de por pagina, cada entrada se lleva
     las de las DOS y el dataset crece solo: fueron 3284 partidos de la nada."""
-    salida = tmp_path / "data" / "partidos.csv"
+    salida = tmp_path / "data"
     monkeypatch.setattr(build.torneos, "TODOS", [CERRADO_A, CERRADO_B])
     monkeypatch.setattr(build.wiki, "wikitexto",
                         lambda *a, **k: tabla(("Boca Juniors", "River Plate")))
     monkeypatch.setattr(build, "SALIDA", salida)
 
     assert build.main([]) == 0
-    assert len(build.dataset.leer(salida)) == 2
+    assert len(build.dataset.leer_carpeta(salida)) == 2
     assert build.main([]) == 0
-    assert len(build.dataset.leer(salida)) == 2, "se duplicaron al reusar"
+    assert len(build.dataset.leer_carpeta(salida)) == 2, "se duplicaron al reusar"

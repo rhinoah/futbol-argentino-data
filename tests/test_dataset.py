@@ -245,3 +245,45 @@ def test_el_csv_sale_con_el_mismo_final_de_linea_en_toda_maquina(tmp_path):
     crudo = destino.read_bytes()
     assert b"\r" not in crudo, "quedo CRLF: el diff diario va a ser el archivo entero"
     assert crudo.count(b"\n") == 3
+
+
+# --------------------------------------------------------------------------
+# un archivo por temporada: lo cerrado no se vuelve a tocar
+# --------------------------------------------------------------------------
+def test_parte_por_temporada(tmp_path):
+    dataset.escribir_por_temporada(
+        liga("Primera", 2016, 3) + liga("Primera", 2026, 2), tmp_path)
+    assert sorted(p.name for p in tmp_path.glob("*.csv")) == [
+        "partidos-2016.csv", "partidos-2026.csv"]
+    assert len(dataset.leer(tmp_path / "partidos-2016.csv")) == 3
+
+
+def test_no_reescribe_el_archivo_que_no_cambio(tmp_path):
+    """LO que hace que esto sirva. Una temporada terminada no se toca nunca mas:
+    2004 quedo como quedo. Un archivo que no se reescribe no se puede corromper
+    -- antes, un bug al escribir se llevaba puesto el historico entero -- y el
+    diff diario toca un solo archivo en vez de las 27 000 filas."""
+    viejas = liga("Primera", 2016, 3)
+    dataset.escribir_por_temporada(viejas, tmp_path)
+    antes = (tmp_path / "partidos-2016.csv").stat().st_mtime_ns
+
+    cambiados = dataset.escribir_por_temporada(viejas + liga("Primera", 2026, 1), tmp_path)
+    assert set(cambiados) == {"partidos-2026.csv"}, "toco una temporada que no cambio"
+    assert (tmp_path / "partidos-2016.csv").stat().st_mtime_ns == antes
+
+
+def test_leer_carpeta_junta_todo_en_orden(tmp_path):
+    dataset.escribir_por_temporada(
+        liga("Primera", 2026, 2) + liga("Primera", 2016, 2), tmp_path)
+    filas = dataset.leer_carpeta(tmp_path)
+    assert len(filas) == 4
+    assert [f["date"] for f in filas] == sorted(f["date"] for f in filas)
+
+
+def test_una_carpeta_vacia_no_es_un_error(tmp_path):
+    assert dataset.leer_carpeta(tmp_path) == []
+
+
+def test_los_archivos_por_temporada_no_llevan_CRLF(tmp_path):
+    dataset.escribir_por_temporada(liga("Primera", 2016, 2), tmp_path)
+    assert b"\r" not in (tmp_path / "partidos-2016.csv").read_bytes()

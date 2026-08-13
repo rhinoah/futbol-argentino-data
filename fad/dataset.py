@@ -119,6 +119,59 @@ def regresiones(nuevas: list[dict], anteriores: list[dict]) -> list[str]:
     return avisos
 
 
+PATRON = "partidos-*.csv"
+
+
+def archivo_de(temporada) -> str:
+    return f"partidos-{temporada}.csv"
+
+
+def escribir_por_temporada(filas: list[dict], carpeta: Path) -> dict[str, int]:
+    """Un archivo por temporada. Devuelve {archivo: filas} de los que CAMBIARON.
+
+    Partido en varios archivos y no en uno solo porque una temporada terminada no
+    se toca nunca mas: 2004 quedo como quedo. Un archivo que no se reescribe no
+    se puede corromper -- hoy, un bug al escribir se llevaba puesto el historico
+    entero aunque nadie lo hubiera reparseado -- y el diff diario pasa a tocar un
+    solo archivo, el del anio en curso, en vez de las 27 000 filas.
+
+    Se reescribe solo el que cambio de contenido. Eso es lo que hace que git no
+    vea nada cuando no paso nada.
+    """
+    por_anio: dict[str, list[dict]] = {}
+    for f in filas:
+        por_anio.setdefault(str(f["season"]), []).append(f)
+
+    cambiados = {}
+    for temporada, suyas in sorted(por_anio.items()):
+        destino = carpeta / archivo_de(temporada)
+        nuevo = _serializar(sorted(suyas, key=_orden))
+        if destino.exists() and destino.read_bytes() == nuevo:
+            continue
+        carpeta.mkdir(parents=True, exist_ok=True)
+        tmp = destino.with_suffix(destino.suffix + ".tmp")
+        tmp.write_bytes(nuevo)
+        os.replace(tmp, destino)
+        cambiados[destino.name] = len(suyas)
+    return cambiados
+
+
+def leer_carpeta(carpeta: Path) -> list[dict]:
+    """Todas las temporadas juntas, en orden."""
+    filas = [f for archivo in sorted(carpeta.glob(PATRON)) for f in leer(archivo)]
+    return sorted(filas, key=_orden)
+
+
+def _serializar(filas: list[dict]) -> bytes:
+    import io
+    buf = io.StringIO(newline="")
+    w = csv.DictWriter(buf, fieldnames=COLUMNAS, extrasaction="raise",
+                       lineterminator="\n")
+    w.writeheader()
+    w.writerows(filas)
+    return buf.getvalue().encode("utf-8")
+
+
 def read_anterior(origen: Path) -> list[dict]:
     """El CSV que ya estaba, o vacio si es la primera vez.
 

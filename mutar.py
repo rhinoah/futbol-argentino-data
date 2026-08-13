@@ -272,6 +272,14 @@ MUTANTES = [
      '        guardado.setdefault(f["source"], []).append(f)',
      '        guardado.setdefault(f["tournament"], []).append(f)'),
 
+    ("fad/dataset.py", "reescribir una temporada que no cambio",
+     "        if destino.exists() and destino.read_bytes() == nuevo:\n            continue",
+     "        if False:\n            continue"),
+
+    ("fad/dataset.py", "meter todas las temporadas en un solo archivo",
+     '        por_anio.setdefault(str(f["season"]), []).append(f)',
+     '        por_anio.setdefault("todo", []).append(f)'),
+
     ("fad/dataset.py", "escribir el CSV sin encabezado",
      "        w.writeheader()",
      "        pass"),

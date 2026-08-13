@@ -3,6 +3,15 @@
 Un dataset abierto de partidos del fútbol argentino, armado a partir de
 Wikipedia en español y actualizable solo.
 
+`data/partidos-2004.csv` … `data/partidos-2026.csv` — **un archivo por
+temporada**. Los de temporadas terminadas no se tocan nunca más; sólo cambia el
+del año en curso.
+
+```python
+import pandas as pd, glob
+df = pd.concat(map(pd.read_csv, sorted(glob.glob("data/partidos-*.csv"))))
+```
+
 ```
 date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
@@ -416,11 +425,11 @@ tres torneos afuera y dicho, que adentro y mal atribuidos.
 
 ## Tests
 
-303 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+310 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 60 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 64 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
