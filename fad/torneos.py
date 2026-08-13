@@ -32,6 +32,12 @@ class Torneo:
     # partido ya se jugo; el dato es duro. `build.py --rehacer` los vuelve a
     # parsear cuando de verdad haga falta.
     cerrado: bool = True
+    # Ids de competencia y temporada en worldfootball, SOLO para los torneos
+    # cuya pagina de Wikipedia no trae fechas (tablas de tres columnas:
+    # Local | Resultado | Visitante). Con esto `fad.fechas` completa la fecha de
+    # esos partidos; todo lo demas -- equipos, marcador, jornada -- sigue
+    # saliendo de Wikipedia. Los ids salen del selector del propio sitio.
+    wf: tuple[str, str] | None = None
 
     @property
     def url(self) -> str:

@@ -92,6 +92,45 @@ MUTANTES = [
      "            if e.code < 500 or intento == INTENTOS - 1:\n                raise",
      "            if intento == INTENTOS - 1:\n                raise"),
 
+    # --- completar fechas desde la segunda fuente ---
+    ("fad/fechas.py", "tomar el UTC sin convertir a hora argentina",
+     "    return t.astimezone(ARGENTINA).date().isoformat()",
+     "    return t.date().isoformat()"),
+
+    ("fad/fechas.py", "no deduplicar los enlaces del mismo equipo",
+     "        vistos.setdefault(id_eq, html.unescape(nombre).strip())",
+     "        vistos[id_eq + str(len(vistos))] = html.unescape(nombre).strip()"),
+
+    ("fad/fechas.py", "usar marcadores repetidos para deducir el padron",
+     "            if cuenta_mia[k] != 1 or cuenta_suya[k] != 1:",
+     "            if False:"),
+
+    ("fad/fechas.py", "alcanzar con un solo voto para fijar un club",
+     "        elif cuenta.most_common(1)[0][1] >= minimo:",
+     "        elif cuenta.most_common(1)[0][1] >= 1:"),
+
+    ("fad/fechas.py", "completar aunque el marcador no coincida",
+     "        if (a.goles_local, a.goles_visita) != (p.goles_local, p.goles_visita):",
+     "        if False:"),
+
+    ("fad/fechas.py", "pisar la fecha de los que ya la tienen",
+     "        if p.fecha:\n            continue",
+     "        if False:\n            continue"),
+
+    ("fad/fechas.py", "no exigir que coincida la jornada",
+     "            indice[(a.jornada, el, ev)] = a",
+     "            indice[(a.jornada, el, ev)] = a\n"
+     "            for _j in range(1, 60):\n"
+     "                indice.setdefault((_j, el, ev), a)"),
+
+    ("fad/fechas.py", "aceptar como temporada cualquier opcion del selector",
+     '        m = _IDS.search(valor)',
+     '        m = _IDS.search(valor) or re.search(r"(cy\d+)()", valor)'),
+
+    ("fad/fechas.py", "confundir una competencia con una temporada",
+     '        m = re.fullmatch(r"/competition/(co\d+)/", valor)',
+     '        m = re.search(r"/(co\d+)/", valor)'),
+
     # --- el historico ---
     ("fad/parser.py", "pedir tres '=' en el titulo Resultados (9 temporadas en cero)",
      '_TITULO_RESULTADOS = re.compile(r"^(=+)\\s*Resultados\\s*=+\\s*$", re.M)',
