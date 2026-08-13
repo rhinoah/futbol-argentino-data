@@ -67,7 +67,9 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Argentinos Juniors", 2, ("Argentinos",)),
     Equipo("Atlético Tucumán", 815, ("Atl. Tucumán",)),
     Equipo("Banfield", 4, ("Club Atlético Banfield",)),
-    Equipo("Barracas Central", 685, ("Barracas C.",)),
+    # "Barracs Centreal" es un error de tipeo de la fuente, con DOS letras
+    # cambiadas de lugar en la misma palabra.
+    Equipo("Barracas Central", 685, ("Barracas C.", "Barracs Centreal")),
     Equipo("Belgrano", 124, ("Belgrano (C)", "Belgrano de Córdoba")),
     Equipo("Boca Juniors", 5, ("Boca",)),
     Equipo("Central Córdoba (SdE)", 1485,
@@ -121,21 +123,21 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Quilmes"),
 
     # la pagina de Primera B 2024 escribe las DOS formas, 24 y 31 veces
-    Equipo("Acassuso", alias=("Acasusso",)),
+    Equipo("Acassuso", alias=("Acasusso", "Accasuso",)),
     Equipo("Agropecuario"),
     Equipo("Argentino (MM)"),
-    Equipo("Argentino de Merlo"),
+    Equipo("Argentino de Merlo", alias=("Argentino (M)",)),
     Equipo("Atenas (RC)"),
     Equipo("Atlanta"),
     Equipo("Atlético de Rafaela", alias=("Atlético Rafaela", "Atlético de Rafela", "Alético de Rafaela")),
     Equipo("Chaco For Ever"),
     Equipo("Ciudad de Bolívar"),
     Equipo("Claypole"),
-    Equipo("Deportivo Armenio"),
+    Equipo("Deportivo Armenio", alias=("Dep. Armenio",)),
     Equipo("Deportivo Camioneros"),
     Equipo("Deportivo Madryn"),
     Equipo("Deportivo Maipú"),
-    Equipo("Deportivo Morón", alias=("Deporitvo Morón",)),   # typo en la fuente
+    Equipo("Deportivo Morón", alias=("Deporitvo Morón", "Dep. Morón",)),   # typo en la fuente
     Equipo("Deportivo Rincón"),
     Equipo("Estudiantes (BA)"),
     Equipo("Ferrocarril Midland", alias=("Midland", "Midland",)),
@@ -162,6 +164,9 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Pacífico"),
     # entran por las primeras ediciones de la Copa Argentina
     Equipo("Andino"),
+    # verificados por el articulo al que enlaza la pagina
+    Equipo("CAI", alias=("C.A.I.", "Comisión de Actividades Infantiles")),
+    Equipo("Unión (MdP)"),
     Equipo("Atlético Policial"),
     Equipo("Guaymallén"),
     Equipo("Racing (O)"),
@@ -170,7 +175,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Viale FBC"),
     # jugaron Primera en la era Apertura/Clausura y hoy no estan
     Equipo("Huracán (TA)"),
-    Equipo("Tiro Federal"),
+    Equipo("Tiro Federal", alias=("Tiro Federal (R)",)),
     Equipo("Sportivo Rivadavia (VT)"),
 
     # --- historico del ascenso 2016-2023 ---
@@ -237,7 +242,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Defensores Unidos'),
     Equipo('Defensores de Belgrano'),
     Equipo('Defensores de Belgrano (VR)'),
-    Equipo('Defensores de Cambaceres'),
+    Equipo("Defensores de Cambaceres", alias=("Cambaceres",)),
     Equipo("Defensores de Pronunciamiento",
            alias=("Defensores de Pronunciamento", "Def. de Pronunciamiento", "DEPRO")),
     Equipo('Defensores de Vilelas'),
@@ -262,7 +267,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Güemes (SdE)'),
     Equipo('Huracán Las Heras'),
     Equipo('Independiente (C)'),
-    Equipo('J. J. de Urquiza'),
+    Equipo("J. J. de Urquiza", alias=("J. J. Urquiza",)),
     Equipo('Juventud Antoniana'),
     Equipo('Juventud Unida'),
     Equipo("Juventud Unida Universitario", alias=("Juventud U. U.", "Juventud Unida U.",)),
@@ -279,7 +284,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Nueva Chicago'),
     Equipo('Puerto Nuevo'),
     Equipo('Racing (C)'),
-    Equipo('Ramón Santamarina'),
+    Equipo("Ramón Santamarina", alias=("Santamarina",)),
     Equipo('Sacachispas'),
     Equipo('San Martín (B)'),
     Equipo('San Telmo'),

@@ -156,6 +156,32 @@ ASCENSO = [
     Torneo("Torneo Federal A 2026", "Torneo Federal A", 2026, cerrado=False),
 ]
 
+# El ascenso 2011-2015. Las temporadas anteriores a 2011 quedan pendientes: la
+# mitad de esas paginas no trae fechas y la otra mitad usa otro formato.
+ASCENSO_VIEJO = [
+    Torneo("Campeonato de Primera B Nacional 2011-12", "Primera Nacional", 2011, anio_fin=2012),
+    Torneo("Campeonato de Primera B Nacional 2012-13", "Primera Nacional", 2012, anio_fin=2013),
+    Torneo("Campeonato de Primera B Nacional 2013-14", "Primera Nacional", 2013, anio_fin=2014),
+    Torneo("Campeonato de Primera B Nacional 2014", "Primera Nacional", 2014),
+    Torneo("Campeonato de Primera B Nacional 2015", "Primera Nacional", 2015),
+
+    Torneo("Campeonato de Primera B 2011-12 (Argentina)", "Primera B", 2011, anio_fin=2012),
+    Torneo("Campeonato de Primera B 2012-13 (Argentina)", "Primera B", 2012, anio_fin=2013),
+    Torneo("Campeonato de Primera B 2013-14 (Argentina)", "Primera B", 2013, anio_fin=2014),
+    Torneo("Campeonato de Primera B 2014 (Argentina)", "Primera B", 2014),
+    Torneo("Campeonato de Primera B 2015 (Argentina)", "Primera B", 2015),
+
+    Torneo("Campeonato de Primera C 2011-12 (Argentina)", "Primera C", 2011, anio_fin=2012),
+    Torneo("Campeonato de Primera C 2012-13 (Argentina)", "Primera C", 2012, anio_fin=2013),
+    Torneo("Campeonato de Primera C 2013-14 (Argentina)", "Primera C", 2013, anio_fin=2014),
+    Torneo("Campeonato de Primera C 2014 (Argentina)", "Primera C", 2014),
+    Torneo("Campeonato de Primera C 2015 (Argentina)", "Primera C", 2015),
+
+    # El Torneo Federal A se llamo "Torneo Argentino A" hasta 2014. Va con su
+    # nombre historico: es la misma categoria pero no el mismo torneo.
+    Torneo("Torneo Argentino A 2013-14", "Torneo Argentino A", 2013, anio_fin=2014),
+]
+
 # El historico del ascenso: las mismas cuatro divisiones hacia atras.
 ASCENSO_HISTORICO = [
     Torneo('Campeonato de Primera B Nacional 2016', 'Primera Nacional', 2016),
@@ -243,4 +269,4 @@ VIEJO = [
     Torneo("Campeonato de Primera División 2015 (Argentina)", "Primera Division", 2015),
 ]
 
-TODOS = VIEJO + HISTORICO + PRIMERA + ASCENSO + ASCENSO_HISTORICO + COPAS
+TODOS = ASCENSO_VIEJO + VIEJO + HISTORICO + PRIMERA + ASCENSO + ASCENSO_HISTORICO + COPAS
