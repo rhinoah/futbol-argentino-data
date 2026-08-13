@@ -10,7 +10,10 @@ from __future__ import annotations
 import build
 from fad.torneos import Torneo
 
-T = Torneo("Anexo:Prueba", "Prueba", 2026)
+# `cerrado=False`: estos tests reconstruyen el torneo en cada corrida. Uno
+# cerrado se reusaria del CSV anterior y la mitad de lo que se prueba aca --
+# volver a parsear, la guarda contra achicarse -- no llegaria a correr.
+T = Torneo("Anexo:Prueba", "Prueba", 2026, cerrado=False)
 
 
 def tabla(*cruces: tuple[str, str]) -> str:

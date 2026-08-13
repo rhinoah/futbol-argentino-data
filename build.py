@@ -101,12 +101,29 @@ def main(argv=None) -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--sin-cache", action="store_true", help="ignora la cache en disco")
     ap.add_argument("--dry-run", action="store_true", help="no escribe el CSV")
+    ap.add_argument("--rehacer", action="store_true",
+                    help="vuelve a parsear TODO, incluso los torneos terminados")
     ap.add_argument("--forzar", action="store_true",
                     help="escribe aunque el dataset se achique (revisalo antes)")
     args = ap.parse_args(argv)
 
-    filas, avisos, fallo = [], [], False
+    anterior = dataset.read_anterior(SALIDA)
+    # Lo ya jugado se toma del CSV, no se vuelve a bajar. Ver `Torneo.cerrado`.
+    # La clave es `source` -- la URL de la pagina -- y no (torneo, temporada).
+    # Varias entradas del catalogo comparten torneo y temporada: la 2016 y la
+    # 2016-17 son las dos "Primera Division 2016". Agrupando por ahi, cada una se
+    # llevaba las filas de las DOS y el dataset crecia 3284 partidos de la nada.
+    guardado: dict[str, list] = {}
+    for f in anterior:
+        guardado.setdefault(f["source"], []).append(f)
+
+    filas, avisos, fallo, reusados = [], [], False, 0
     for t in torneos.TODOS:
+        listas = guardado.get(t.url)
+        if t.cerrado and not args.rehacer and listas is not None:
+            filas += listas
+            reusados += 1
+            continue
         try:
             texto = wiki.wikitexto(t.pagina, usar_cache=not args.sin_cache)
         except Exception as e:                       # red caida, pagina renombrada
@@ -123,6 +140,9 @@ def main(argv=None) -> int:
         filas += [dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral)
                   for p in ps]
 
+    if reusados:
+        print(f"\n  ({reusados} torneos terminados salieron del CSV, sin bajarlos)")
+
     for a in avisos:
         print(f"  {a}", file=sys.stderr)
 
@@ -133,7 +153,7 @@ def main(argv=None) -> int:
 
     # Ultima guarda, y la que importa cuando esto corre solo: que no se achique.
     # Un chequeo de `validar` mira los partidos que HAY; este mira los que ya no.
-    perdidos = dataset.regresiones(filas, dataset.read_anterior(SALIDA))
+    perdidos = dataset.regresiones(filas, anterior)
     if perdidos and not args.forzar:
         print("\nEl dataset se ACHICO respecto del que ya estaba:", file=sys.stderr)
         for p in perdidos:

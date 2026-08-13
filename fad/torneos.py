@@ -25,6 +25,13 @@ class Torneo:
     neutral: bool = False    # si TODA la competencia se juega en cancha neutral
     anio_fin: int | None = None   # si la temporada cruza el calendario (2016-17)
     mes_inicio: int = 8           # mes en que arranca; solo importa si cruza
+    # Un torneo TERMINADO no se vuelve a bajar: sus filas se toman del CSV que ya
+    # esta commiteado. No es solo ahorrar pedidos -- que son 90 de 96 --, es sacar
+    # riesgo: si manana alguien reestructura la pagina del Clausura 2007, no hay
+    # ninguna razon para que eso toque un dato de hace diecinueve anios. El
+    # partido ya se jugo; el dato es duro. `build.py --rehacer` los vuelve a
+    # parsear cuando de verdad haga falta.
+    cerrado: bool = True
 
     @property
     def url(self) -> str:
@@ -37,7 +44,7 @@ class Torneo:
 # empezo el torneo".
 PRIMERA = [
     Torneo("Anexo:Torneo Apertura 2026 (Argentina)", "Primera Division - Apertura", 2026),
-    Torneo("Anexo:Torneo Clausura 2026 (Argentina)", "Primera Division - Clausura", 2026),
+    Torneo("Anexo:Torneo Clausura 2026 (Argentina)", "Primera Division - Clausura", 2026, cerrado=False),
 ]
 
 # El historico. Diez temporadas y siete nombres distintos para el mismo
@@ -111,7 +118,7 @@ COPAS = [
     Torneo('Copa Argentina 2025', "Copa Argentina", 2025,
            formato="copa", neutral=True),
     Torneo("Copa Argentina 2026", "Copa Argentina", 2026,
-           formato="copa", neutral=True),
+           formato="copa", neutral=True, cerrado=False),
 ]
 
 # Las divisiones que juegan la Copa Argentina. Sin ellas, la mitad de los cruces
@@ -126,19 +133,19 @@ COPAS = [
 ASCENSO = [
     Torneo("Campeonato de Primera Nacional 2024", "Primera Nacional", 2024),
     Torneo("Campeonato de Primera Nacional 2025", "Primera Nacional", 2025),
-    Torneo("Campeonato de Primera Nacional 2026", "Primera Nacional", 2026),
+    Torneo("Campeonato de Primera Nacional 2026", "Primera Nacional", 2026, cerrado=False),
 
     Torneo("Campeonato de Primera B 2024 (Argentina)", "Primera B", 2024),
     Torneo("Campeonato de Primera B 2025 (Argentina)", "Primera B", 2025),
-    Torneo("Campeonato de Primera B 2026 (Argentina)", "Primera B", 2026),
+    Torneo("Campeonato de Primera B 2026 (Argentina)", "Primera B", 2026, cerrado=False),
 
     Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024),
     Torneo("Campeonato de Primera C 2025 (Argentina)", "Primera C", 2025),
-    Torneo("Campeonato de Primera C 2026 (Argentina)", "Primera C", 2026),
+    Torneo("Campeonato de Primera C 2026 (Argentina)", "Primera C", 2026, cerrado=False),
 
     Torneo("Torneo Federal A 2024", "Torneo Federal A", 2024),
     Torneo("Torneo Federal A 2025", "Torneo Federal A", 2025),
-    Torneo("Torneo Federal A 2026", "Torneo Federal A", 2026),
+    Torneo("Torneo Federal A 2026", "Torneo Federal A", 2026, cerrado=False),
 ]
 
 # El historico del ascenso: las mismas cuatro divisiones hacia atras.

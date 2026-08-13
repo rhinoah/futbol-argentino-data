@@ -264,6 +264,14 @@ MUTANTES = [
      "        if len(partidos) > len(c) and any(v > 1 for v in c.values()):",
      "        if any(v > 1 for v in c.values()):"),
 
+    ("build.py", "volver a bajar los torneos ya terminados",
+     "        if t.cerrado and not args.rehacer and listas is not None:",
+     "        if False:"),
+
+    ("build.py", "reusar las filas por (torneo, temporada) y no por pagina",
+     "        listas = guardado.get(t.url)",
+     "        listas = guardado.get(t.url) or guardado.get(t.pagina)"),
+
     ("fad/dataset.py", "escribir el CSV sin encabezado",
      "        w.writeheader()",
      "        pass"),
