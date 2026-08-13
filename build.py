@@ -19,9 +19,33 @@ import argparse
 import sys
 from pathlib import Path
 
-from fad import dataset, parser, torneos, validar, wiki
+from fad import dataset, equipos, parser, torneos, validar, wiki
 
 SALIDA = Path(__file__).resolve().parent / "data" / "partidos.csv"
+
+
+def procesar(texto: str, t) -> tuple[list, list]:
+    """Parsea, lleva los nombres al canonico y valida. Devuelve (partidos, avisos).
+
+    Separado de `main` para poder probarlo: es donde vive el orden de los pasos,
+    y el orden importa.
+
+    Normalizar va ANTES de validar, pero no por la razon que parece. No es para
+    que `nombres_en_el_padron` no se queje de los alias -- ese chequeo los acepta,
+    asi que por ese lado da igual el orden. Es por los OTROS chequeos, que
+    comparan nombres entre si: "nadie juega dos veces por fecha", "sin
+    duplicados", "cada ganador reaparece en la ronda siguiente". Todos comparan
+    por igualdad de cadena, y las llaves vienen de plantillas mientras las zonas
+    vienen de tablas, asi que el mismo club perfectamente puede estar escrito de
+    dos maneras en la misma pagina. Sin normalizar antes, esas comparaciones
+    tratan dos grafias como dos clubes y los chequeos dejan pasar justo lo que
+    tenian que agarrar.
+    """
+    ps = parser.partidos(texto, t.temporada, t.torneo)
+    for p in ps:
+        p.local = equipos.canonizar(p.local)
+        p.visita = equipos.canonizar(p.visita)
+    return ps, validar.revisar(ps)
 
 
 def main(argv=None) -> int:
@@ -40,8 +64,7 @@ def main(argv=None) -> int:
             fallo = True
             continue
 
-        ps = parser.partidos(texto, t.temporada, t.torneo)
-        propios = validar.revisar(ps)
+        ps, propios = procesar(texto, t)
         avisos += propios
         graves = sum(a.grave for a in propios)
         print(f"  {t.pagina[6:]:<44} {len(ps):>4} partidos"

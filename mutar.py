@@ -63,6 +63,58 @@ MUTANTES = [
      '    sin = [p for p in ps if p.fase == "zonas" and not p.zona]',
      "    sin = []"),
 
+    # --- el padron ---
+    ("fad/equipos.py", "darle el alias 'Gimnasia' al club equivocado (el de Mendoza)",
+     '    Equipo("Gimnasia y Esgrima (LP)", 8,\n'
+     '           ("Gimnasia", "Gimnasia y Esgrima La Plata", "Gimnasia (LP)")),\n'
+     '    Equipo("Gimnasia y Esgrima (M)", 816,\n'
+     '           ("Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza")),',
+     '    Equipo("Gimnasia y Esgrima (LP)", 8,\n'
+     '           ("Gimnasia y Esgrima La Plata", "Gimnasia (LP)")),\n'
+     '    Equipo("Gimnasia y Esgrima (M)", 816,\n'
+     '           ("Gimnasia", "Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza")),'),
+
+    ("fad/equipos.py", "no detectar un alias peleado por dos clubes",
+     "            if clave in indice and indice[clave] is not eq:",
+     "            if False:"),
+
+    ("fad/equipos.py", "no unificar las comillas raras (Newell`s vs Newell's)",
+     '    s = nombre.replace("`", "\'").replace("’", "\'").replace("´", "\'")',
+     "    s = nombre"),
+
+    ("fad/equipos.py", "no sacar los acentos al comparar",
+     '    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()',
+     "    s = s"),
+
+    ("fad/equipos.py", "que un club desconocido pase como cadena vacia",
+     "    return eq.nombre if eq else nombre",
+     '    return eq.nombre if eq else ""'),
+
+    ("fad/equipos.py", "que canonical devuelva el nombre en vez de levantar",
+     "        raise EquipoDesconocido(nombre)",
+     "        return nombre"),
+
+    ("fad/validar.py", "no chequear que los clubes esten en el padron",
+     "    raros = sorted({n for p in ps for n in (p.local, p.visita)\n"
+     "                    if n and not equipos.conocido(n)})",
+     "    raros = []"),
+
+    ("build.py", "no normalizar los nombres antes de escribir",
+     "        p.local = equipos.canonizar(p.local)\n"
+     "        p.visita = equipos.canonizar(p.visita)",
+     "        pass"),
+
+    ("build.py", "validar ANTES de normalizar (el orden de los pasos)",
+     "    for p in ps:\n"
+     "        p.local = equipos.canonizar(p.local)\n"
+     "        p.visita = equipos.canonizar(p.visita)\n"
+     "    return ps, validar.revisar(ps)",
+     "    avisos = validar.revisar(ps)\n"
+     "    for p in ps:\n"
+     "        p.local = equipos.canonizar(p.local)\n"
+     "        p.visita = equipos.canonizar(p.visita)\n"
+     "    return ps, avisos"),
+
     ("fad/dataset.py", "escribir el CSV sin ordenar",
      "    filas = sorted(filas, key=_orden)",
      "    filas = list(filas)"),

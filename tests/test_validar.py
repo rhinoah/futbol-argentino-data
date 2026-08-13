@@ -24,9 +24,16 @@ def llave(local, visita, gl, gv, fecha, pl=None, pv=None):
                    fase="eliminacion")
 
 
+# Clubes de verdad: `validar.nombres_en_el_padron` rechaza los inventados, y con
+# razon. Van escritos a mano y no sacados de `equipos.PADRON` para no atar estos
+# tests, que son de otra cosa, a la estructura del padron.
+CLUBES = ("Boca Juniors", "River Plate", "Racing Club", "Independiente",
+          "San Lorenzo", "Huracán", "Tigre", "Platense")
+
+
 def torneo_de(n: int, jornada="Fecha 1") -> list[Partido]:
     """UNA jornada de un torneo de `n` equipos (n par): cada uno juega una vez."""
-    eq = [f"Equipo {i}" for i in range(n)]
+    eq = list(CLUBES[:n])
     return [zona(eq[i], eq[i + n // 2], j=jornada) for i in range(n // 2)]
 
 
@@ -36,7 +43,7 @@ def zona_entera(n: int) -> list[Partido]:
     explicacion a ningun chequeo, asi que hay que armarlo bien -- el fixture
     anterior repartia los cruces de cualquier manera y hacia jugar a uno tres
     veces en la Fecha 1."""
-    eq = [f"Equipo {i}" for i in range(n)]
+    eq = list(CLUBES[:n])
     fijo, rueda = eq[0], eq[1:]
     partidos = []
     for j in range(n - 1):                      # metodo del circulo
@@ -126,6 +133,34 @@ def test_contra_si_mismo():
 # --------------------------------------------------------------------------
 # zonas
 # --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# el padron
+# --------------------------------------------------------------------------
+def test_un_club_fuera_del_padron_es_grave():
+    avisos = validar.nombres_en_el_padron([zona("Boca Juniors", "Deportivo Inventado")])
+    assert len(avisos) == 1 and avisos[0].grave
+    assert "Deportivo Inventado" in avisos[0].detalle
+
+
+def test_los_clubes_del_padron_no_avisan():
+    assert validar.nombres_en_el_padron(torneo_de(4)) == []
+
+
+def test_un_alias_conocido_tampoco_avisa():
+    """`canonizar` corre antes, pero el chequeo tiene que aceptar el alias igual:
+    si no, el orden de los pasos se vuelve una trampa silenciosa."""
+    assert validar.nombres_en_el_padron([zona("Newell`s", "Gimnasia")]) == []
+
+
+def test_avisa_una_vez_por_club_y_no_por_partido():
+    """Un club nuevo juega 16 partidos. Dieciseis avisos identicos tapan todo lo
+    demas que el build tenga para decir."""
+    ps = [zona("Deportivo Inventado", "Boca Juniors"),
+          zona("River Plate", "Deportivo Inventado", fecha="2026-03-08")]
+    avisos = validar.nombres_en_el_padron(ps)
+    assert len(avisos) == 1
+
+
 def test_partido_de_zona_sin_zona():
     avisos = validar.todos_tienen_zona([zona("Boca", "River", z="")])
     assert len(avisos) == 1 and avisos[0].grave
@@ -160,10 +195,10 @@ def test_al_interzonal_no_se_le_pide_que_cierre():
 # una vez por jornada -- el que agarra las etiquetas corridas
 # --------------------------------------------------------------------------
 def test_nadie_juega_dos_veces_en_la_misma_fecha():
-    ps = torneo_de(4) + [zona("Equipo 0", "Equipo 3", j="Fecha 1")]
+    ps = torneo_de(4) + [zona(CLUBES[0], CLUBES[3], j="Fecha 1")]
     avisos = validar.una_vez_por_jornada(ps)
     assert len(avisos) == 1 and avisos[0].grave
-    assert "Equipo 0" in avisos[0].detalle
+    assert CLUBES[0] in avisos[0].detalle
 
 
 def test_jugar_una_vez_por_fecha_esta_bien():

@@ -21,6 +21,7 @@ from __future__ import annotations
 import re
 from collections import Counter
 
+from fad import equipos
 from fad.parser import Partido
 
 MAX_GOLES = 20          # marcador mas alto plausible en un partido profesional
@@ -52,6 +53,22 @@ def campos_completos(ps: list[Partido]) -> list[Aviso]:
             avisos.append(Aviso("partido sin fecha",
                                 f"{p.local} vs {p.visita} (crudo: {p.fecha_cruda!r})"))
     return avisos
+
+
+def nombres_en_el_padron(ps: list[Partido]) -> list[Aviso]:
+    """Todo club tiene que estar en `equipos.PADRON`.
+
+    Es grave y corta el build a proposito. Un nombre que el padron no conoce es
+    casi siempre un club que asciende o un torneo que se suma, y si se deja pasar
+    entra al dataset como un equipo nuevo: "Talleres" y "Talleres (C)" pasan a ser
+    dos clubes con media historia cada uno, y nadie lo nota hasta que el modelo
+    da cualquier cosa. Cuesta un renglon en el padron; se avisa una vez.
+    """
+    raros = sorted({n for p in ps for n in (p.local, p.visita)
+                    if n and not equipos.conocido(n)})
+    return [Aviso("club que no esta en el padron",
+                  f"{len(raros)}: {', '.join(raros[:6])}"
+                  f"{' ...' if len(raros) > 6 else ''}")] if raros else []
 
 
 def penales_solo_en_empates(ps: list[Partido]) -> list[Aviso]:
@@ -202,7 +219,8 @@ def _ganador(p: Partido) -> str:
     return ""
 
 
-CHEQUEOS = [campos_completos, penales_solo_en_empates, sin_duplicados,
+CHEQUEOS = [campos_completos, nombres_en_el_padron,
+            penales_solo_en_empates, sin_duplicados,
             nadie_juega_contra_si_mismo, todos_tienen_zona, zonas_completas,
             una_vez_por_jornada, cadena_de_llaves]
 
