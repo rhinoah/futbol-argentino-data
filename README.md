@@ -8,9 +8,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **26 143 partidos entre febrero de 2004 y hoy** — veintidós años de
+**Estado:** **26 903 partidos entre febrero de 2004 y hoy** — veintidós años de
 Primera División, once de Primera Nacional, Primera B, Primera C y Torneo Federal
-A, y diez ediciones de la Copa Argentina. **187 clubes**, 92 torneos, cero
+A, y diez ediciones de la Copa Argentina. **187 clubes**, 96 torneos, cero
 partidos sin fecha, sin marcador ni duplicados. Se actualiza solo, todos los días.
 
 ## Por qué
@@ -416,11 +416,11 @@ tres torneos afuera y dicho, que adentro y mal atribuidos.
 
 ## Tests
 
-301 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+303 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 57 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 60 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

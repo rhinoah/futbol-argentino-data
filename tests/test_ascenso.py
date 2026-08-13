@@ -139,3 +139,21 @@ def test_una_ronda_desconocida_queda_vacia_y_no_hereda_la_de_al_lado():
 """
     ps = parser.partidos_de_plantillas(texto, 2026, "X")
     assert [p.jornada for p in ps] == ["Final", ""], "heredo la ronda del cuadro anterior"
+
+
+def test_la_fase_no_se_busca_en_el_nivel_del_propio_titulo():
+    """Cuando `== Resultados ==` es de NIVEL 2 -- como en todos los torneos de
+    2004-2015 -- no hay seccion que lo contenga, y la fase tiene que quedar
+    vacia. Buscandola en nivel 2 se toma la seccion ANTERIOR, que no lo contiene:
+    los 190 partidos del Inicial 2012 quedaban bajo una fase llamada "Tabla de
+    posiciones final"."""
+    pagina = f"""
+== Tabla de posiciones final ==
+texto
+
+== Resultados ==
+{tabla(("Boca Juniors", "River Plate"))}
+== Goleadores ==
+"""
+    zona, fase, _ = parser.secciones_de_resultados(pagina)[0]
+    assert fase == "", f"tomo la seccion anterior como fase: {fase!r}"

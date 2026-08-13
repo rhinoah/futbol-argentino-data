@@ -232,3 +232,16 @@ def test_acentos(tmp_path):
     destino = tmp_path / "p.csv"
     dataset.escribir([fila("2026-03-01", "Unión", "Vélez Sarsfield")], destino)
     assert dataset.leer(destino)[0]["home_team"] == "Unión"
+
+
+def test_el_csv_sale_con_el_mismo_final_de_linea_en_toda_maquina(tmp_path):
+    """Lo escriben dos maquinas: la de desarrollo y el runner de Linux del cron.
+    Si cada una elige un final de linea distinto, git ve el archivo entero
+    cambiado aunque no haya cambiado un dato -- el primer commit automatico salio
+    "+22271 -22271" por esto."""
+    destino = tmp_path / "p.csv"
+    dataset.escribir([fila("2026-03-01", "Boca", "River"),
+                      fila("2026-03-02", "Racing", "Union")], destino)
+    crudo = destino.read_bytes()
+    assert b"\r" not in crudo, "quedo CRLF: el diff diario va a ser el archivo entero"
+    assert crudo.count(b"\n") == 3

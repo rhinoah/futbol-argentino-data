@@ -216,15 +216,14 @@ VIEJO = [
     Torneo("Anexo:Torneo Clausura 2011 (Argentina)", "Primera Division - Clausura", 2011),
     Torneo("Anexo:Torneo Clausura 2012 (Argentina)", "Primera Division - Clausura", 2012),
 
-    # 2012-2014: el campeonato se llamo Inicial y Final. Las cuatro paginas
-    # quedan FUERA: no rotulan las jornadas -- los 190 partidos cuelgan de un
-    # unico encabezado --, asi que `matchday` saldria mal en todas las filas.
-    # Los partidos se parsean bien; es la jornada la que no esta en la fuente.
-    # Mejor cuatro torneos afuera y dicho, que dentro con un campo inventado.
-    # Torneo("Anexo:Torneo Inicial 2012 (Argentina)", "Primera Division - Inicial", 2012),
-    # Torneo("Anexo:Torneo Final 2013 (Argentina)", "Primera Division - Final", 2013),
-    # Torneo("Anexo:Torneo Inicial 2013 (Argentina)", "Primera Division - Inicial", 2013),
-    # Torneo("Anexo:Torneo Final 2014 (Argentina)", "Primera Division - Final", 2014),
+    # 2012-2014: el campeonato se llamo Inicial y Final. Tres de las cuatro
+    # paginas rotulan sus 19 jornadas sin problema; la del Inicial 2012 no, y
+    # cuelga los 190 partidos de un unico "Fecha 1". Esos entran igual, con
+    # `matchday` vacio -- ver `build._borrar_jornadas_falsas`.
+    Torneo("Anexo:Torneo Inicial 2012 (Argentina)", "Primera Division - Inicial", 2012),
+    Torneo("Anexo:Torneo Final 2013 (Argentina)", "Primera Division - Final", 2013),
+    Torneo("Anexo:Torneo Inicial 2013 (Argentina)", "Primera Division - Inicial", 2013),
+    Torneo("Anexo:Torneo Final 2014 (Argentina)", "Primera Division - Final", 2014),
     Torneo("Campeonato de Primera División 2014 (Argentina)", "Primera Division", 2014),
     Torneo("Campeonato de Primera División 2015 (Argentina)", "Primera Division", 2015),
 ]

@@ -103,9 +103,13 @@ MUTANTES = [
 
     ("fad/parser.py", "confundir la zona con la fase del torneo",
      "        fuera.append((_contexto(m.start(), nivel, texto),\n"
-     "                      _contexto(m.start(), 3, texto), cuerpo))",
+     "                      _contexto(m.start(), min(nivel, 3), texto), cuerpo))",
      "        fuera.append((_contexto(m.start(), nivel, texto),\n"
      "                      _contexto(m.start(), nivel, texto), cuerpo))"),
+
+    ("fad/parser.py", "buscar la fase en un nivel igual o mayor al propio titulo",
+     "                      _contexto(m.start(), min(nivel, 3), texto), cuerpo))",
+     "                      _contexto(m.start(), 3, texto), cuerpo))"),
 
     ("fad/parser.py", "arrastrar la ronda de un cuadro al siguiente",
      "        if donde >= desde:          # solo las rondas de ESTE cuadro",
@@ -242,7 +246,7 @@ MUTANTES = [
      "    for p in ps:\n"
      "        p.local = equipos.canonizar(p.local, p.local_art)\n"
      "        p.visita = equipos.canonizar(p.visita, p.visita_art)\n"
-     "    avisos = validar.revisar(ps)",
+     "    borradas = _borrar_jornadas_falsas(ps)\n    avisos = validar.revisar(ps)",
      "    avisos = validar.revisar(ps)\n"
      "    for p in ps:\n"
      "        p.local = equipos.canonizar(p.local, p.local_art)\n"
@@ -256,13 +260,21 @@ MUTANTES = [
     # el mutante "escribir None en vez de cadena vacia" se saco: resulto
     # EQUIVALENTE. El modulo csv ya escribe None como campo vacio, asi que la
     # rama `"" if ... is None` no cambiaba el archivo. Se simplifico el codigo.
+    ("build.py", "borrar la jornada de una fecha con solo un partido de mas",
+     "        if len(partidos) > len(c) and any(v > 1 for v in c.values()):",
+     "        if any(v > 1 for v in c.values()):"),
+
     ("fad/dataset.py", "escribir el CSV sin encabezado",
      "        w.writeheader()",
      "        pass"),
 
     ("fad/dataset.py", "aceptar campos de mas en silencio",
-     'w = csv.DictWriter(f, fieldnames=COLUMNAS, extrasaction="raise")',
-     'w = csv.DictWriter(f, fieldnames=COLUMNAS, extrasaction="ignore")'),
+     'extrasaction="raise",\n                           lineterminator',
+     'extrasaction="ignore",\n                           lineterminator'),
+
+    ("fad/dataset.py", "dejar que csv elija el final de linea (CRLF en Windows)",
+     '                           lineterminator="\\n")',
+     '                           )'),
 
     ("fad/dataset.py", "no validar el encabezado al leer",
      "    if filas and list(filas[0]) != COLUMNAS:",

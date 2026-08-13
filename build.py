@@ -24,6 +24,44 @@ from fad import dataset, equipos, parser, torneos, validar, wiki
 SALIDA = Path(__file__).resolve().parent / "data" / "partidos.csv"
 
 
+def _borrar_jornadas_falsas(ps) -> int:
+    """Saca la jornada cuando no puede ser una jornada, y devuelve cuantas.
+
+    Una etiqueta bajo la cual un equipo aparece DOS VECES no es una fecha del
+    calendario: es un encabezado que el parser tomo por tal. La pagina del Torneo
+    Inicial 2012 cuelga sus 190 partidos de un unico "Fecha 1", asi que los 20
+    equipos figuran diecinueve veces cada uno ahi adentro.
+
+    Se borra en vez de dejarla, y no es esconder nada: la etiqueta equivocada ES
+    la mentira. Sin ella el partido entra completo -- fecha, equipos y marcador --
+    con `matchday` vacio, que es exactamente lo que la fuente dice. Queda avisado
+    cuantos fueron.
+    """
+    from collections import Counter
+    grupos = {}
+    for p in ps:
+        if p.fase == "zonas" and p.jornada:
+            grupos.setdefault((p.llave, p.zona, p.jornada), []).append(p)
+    n = 0
+    for partidos in grupos.values():
+        c = Counter()
+        for p in partidos:
+            c[p.local] += 1
+            c[p.visita] += 1
+        # El umbral importa, y ajustarlo mal desactiva un chequeo. Una jornada
+        # real no puede tener MAS partidos que equipos: con 20 equipos son 10
+        # como maximo. Los 190 del Inicial 2012 bajo un solo rotulo lo superan
+        # por lejos y se limpian. En cambio una jornada con UN partido de mas --
+        # la firma de una etiqueta corrida, que es lo que paso con los
+        # interzonales del Apertura 2026 -- no lo supera, y sigue siendo el
+        # error grave que tiene que ser.
+        if len(partidos) > len(c) and any(v > 1 for v in c.values()):
+            for p in partidos:
+                p.jornada = ""
+                n += 1
+    return n
+
+
 def procesar(texto: str, t) -> tuple[list, list]:
     """Parsea, lleva los nombres al canonico y valida. Devuelve (partidos, avisos).
 
@@ -46,7 +84,13 @@ def procesar(texto: str, t) -> tuple[list, list]:
     for p in ps:
         p.local = equipos.canonizar(p.local, p.local_art)
         p.visita = equipos.canonizar(p.visita, p.visita_art)
+    borradas = _borrar_jornadas_falsas(ps)
     avisos = validar.revisar(ps)
+    if borradas:
+        avisos.append(validar.Aviso(
+            f"{borradas} partidos sin numero de jornada",
+            "la pagina no la rotula; el partido entra igual, con `matchday` vacio",
+            grave=False))
     # Los sin fecha se van DESPUES de validar, para que el aviso alcance a
     # nombrarlos: el esquema promete una fecha en cada fila.
     return [p for p in ps if p.fecha], avisos
