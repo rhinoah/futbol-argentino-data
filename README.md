@@ -17,7 +17,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **32 959 partidos entre febrero de 2004 y hoy** — veintidós años de
+**Estado:** **32 960 partidos entre febrero de 2004 y hoy** — veintidós años de
 Primera División, once de Primera Nacional, Primera B, Primera C y Torneo Federal
 A, y diez ediciones de la Copa Argentina. **196 clubes**, 116 torneos, cero
 partidos sin fecha, sin marcador ni duplicados. Se actualiza solo, todos los días.
@@ -107,7 +107,7 @@ repositorio.
 ## Cómo se usa
 
 ```bash
-python build.py              # baja, parsea, valida y escribe data/partidos.csv
+python build.py              # baja, parsea, valida y escribe data/partidos-AAAA.csv
 python build.py --dry-run    # parsea y valida, sin escribir
 python build.py --sin-cache  # vuelve a pedirle todo a Wikipedia
 python build.py --forzar     # escribe aunque el dataset se achique
@@ -116,7 +116,7 @@ python mutar.py              # rompe el código a propósito y exige que la suit
 ```
 
 Sin dependencias: Python 3.11+ y la biblioteca estándar. `pandas` no hace falta
-para *armar* el dataset — si lo vas a *usar*, `pd.read_csv("data/partidos.csv")`
+para *armar* el dataset — si lo vas a *usar*, el `glob` de arriba
 y listo.
 
 ## El esquema
