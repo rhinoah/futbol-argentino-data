@@ -73,6 +73,37 @@ equipos: AFA 30, Wikipedia 30
 marcador distinto : 0
 ```
 
+## Fuentes y atribución
+
+**Wikipedia en español** es la fuente de todo: equipos, marcadores, jornadas,
+estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
+`source` de cada fila lleva la URL exacta de la página de la que salió, así que
+la atribución viaja con el dato.
+
+**[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
+sólo en algunas filas: la **fecha del calendario** de partidos que Wikipedia
+publica sin fecha — el ascenso de 2004 a 2010 usa tablas de tres columnas
+(`Local | Resultado | Visitante`) y nada más. El partido, los equipos, el
+marcador y la jornada siguen saliendo de Wikipedia.
+
+Cuando una fila usa esa segunda fuente, **su `source` nombra las dos**:
+
+```
+https://es.wikipedia.org/wiki/... + https://www.worldfootball.net/
+```
+
+Fila por fila, y sólo en las que de verdad la usaron. Nombrarla donde no se usó
+sería tan incorrecto como omitirla donde sí.
+
+Sus términos limitan el uso a fines personales y no comerciales, y este proyecto
+no tiene ninguno: es un dataset abierto hecho por gusto. **Si worldfootball pide
+que se retire ese aporte, se retira** — los partidos seguirían estando, sin la
+fecha, como estaban antes.
+
+El acceso es respetuoso por diseño: caché en disco para no volver a pedir lo
+mismo, pausa mínima entre pedidos, y User-Agent identificado con el link a este
+repositorio.
+
 ## Cómo se usa
 
 ```bash

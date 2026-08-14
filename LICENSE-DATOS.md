@@ -35,3 +35,21 @@ con cobertura del ascenso argentino cuya licencia permite justamente esto.
 Es la razón por la que el parser existe en vez de un `requests.get` a un endpoint
 JSON: el laburo de sacar los partidos del wikitexto es el precio de poder
 compartir el resultado.
+
+
+## Una segunda fuente, para un solo campo
+
+La **fecha del calendario** de algunos partidos del ascenso 2004-2010 no está en
+Wikipedia: esas páginas publican los resultados en tablas de tres columnas, sin
+fecha. Ese campo, y sólo ese, se completa consultando
+[worldfootball.net](https://www.worldfootball.net/).
+
+La columna `source` de esas filas nombra las dos fuentes. Todo lo demás de la
+fila —equipos, marcador, jornada, estadio— viene de Wikipedia y está cubierto
+por CC BY-SA.
+
+Sus términos de uso limitan el aprovechamiento a fines personales y no
+comerciales. Este proyecto no persigue ninguno. Si worldfootball considera que
+ese aporte no corresponde, alcanza con [abrir un
+issue](https://github.com/rhinoah/futbol-argentino-data/issues) y se retira: los
+partidos quedan igual, sin la fecha.
