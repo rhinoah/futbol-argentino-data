@@ -17,10 +17,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **32 960 partidos entre febrero de 2004 y hoy** — veintidós años de
-Primera División, once de Primera Nacional, Primera B, Primera C y Torneo Federal
-A, y diez ediciones de la Copa Argentina. **196 clubes**, 116 torneos, cero
-partidos sin fecha, sin marcador ni duplicados. Se actualiza solo, todos los días.
+**Estado:** **34 468 partidos entre febrero de 2004 y hoy** — veintitrés años de
+Primera División, quince de Primera Nacional, once de Primera B, Primera C y
+Torneo Federal A, y diez ediciones de la Copa Argentina. **196 clubes**, 120
+torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
+todos los días.
 
 ## Por qué
 
@@ -81,10 +82,23 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 la atribución viaja con el dato.
 
 **[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en algunas filas: la **fecha del calendario** de partidos que Wikipedia
-publica sin fecha — el ascenso de 2004 a 2010 usa tablas de tres columnas
-(`Local | Resultado | Visitante`) y nada más. El partido, los equipos, el
-marcador y la jornada siguen saliendo de Wikipedia.
+sólo en **1 508 filas de 34 468** (4,4 %): la **fecha del calendario** de partidos
+que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
+entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
+nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
+Wikipedia.
+
+Sin ese campo esas cuatro temporadas no entrarían: el esquema promete una fecha en
+cada fila, así que los 1 520 partidos se descartaban enteros. La diferencia no es
+"peor calidad", es que el torneo no existe.
+
+El cruce no empareja por nombre. Dentro de una jornada, **un marcador que aparece
+una sola vez de cada lado identifica el partido sin ambigüedad**, y de paso dice
+quién es cada equipo: así se deduce el padrón de ids de la otra fuente sin
+depender de cómo escriba los nombres. Después la fecha se copia sólo si las dos
+fuentes coinciden en equipos, jornada **y marcador**. Los 12 partidos donde no
+coinciden quedaron sin fecha a propósito — un partido que dos fuentes cuentan
+distinto es información sobre los datos, no algo para tapar.
 
 Cuando una fila usa esa segunda fuente, **su `source` nombra las dos**:
 
@@ -274,6 +288,40 @@ Dos cosas que no son bugs míos y quedan documentadas porque afectan al dataset:
 - **Un club se llama `Tallleres (C)`**, con tres eles, en la Copa de la Liga 2022.
   Va cargado como alias: la alternativa era que el build se frene todos los días
   por una letra de más en una fuente que no controlamos.
+- **`Aldovisi` por Aldosivi**, una vez en la B Nacional 2008-09. No lo encontró
+  nadie leyendo: el padrón que se deduce del cruce vio 17 partidos de un mismo id
+  llamados *Aldosivi* y uno *Aldovisi*, y avisó que ese id tenía votos
+  contradictorios.
+- **Una localía al revés.** Wikipedia pone a Ferro de local contra Unión en las
+  fechas 6 **y** 25 de la B Nacional 2009-10. En un torneo de ida y vuelta eso es
+  imposible, y no hace falta ninguna fuente externa para saberlo. Está sin
+  corregir: el dataset dice lo que dice la fuente, y queda anotado acá.
+
+### La única corrección a mano
+
+Hay **una** fila del dataset que no dice lo que dice Wikipedia, y vive en
+[`fad/correcciones.py`](fad/correcciones.py) con su evidencia escrita.
+
+La página de la B Nacional 2009-10 pone a **Belgrano dos veces en la Fecha 12** —
+contra All Boys y contra CAI — y deja a Gimnasia y Esgrima (J) sin jugar. En una
+fecha de veinte equipos eso es imposible, y lo agarra `una_vez_por_jornada` sin
+mirar nada de afuera. *Cuál* de los dos está mal lo dice la segunda fuente, que
+trae los mismos diez partidos con los mismos diez marcadores y el primero como
+**All Boys 0-0 GyE Jujuy**.
+
+Un lugar donde se puede escribir "este partido en realidad fue así" es la puerta
+por la que se cuela un dataset que dice lo que a uno le gustaría. Por eso el
+módulo es más estricto que el resto:
+
+- una corrección **identifica el partido por completo** — jornada, los dos equipos
+  y el marcador. Si algo no coincide, no se aplica;
+- si engancha con **más de un** partido, no se aplica con ninguno;
+- si **deja de enganchar** — porque alguien arregló la página — el build para y
+  avisa que hay que sacarla. Una corrección vieja que nadie borró es una mentira
+  dormida;
+- y sin evidencia escrita no entra: hay un test que lo exige.
+
+La alternativa era dejar afuera los 380 partidos de la temporada por una celda.
 
 ## Por eso el validador
 
@@ -294,6 +342,7 @@ automático no es tirar una excepción, es escribir un CSV plausible y equivocad
 | **cada equipo juega una vez por fecha** | etiquetas corridas |
 | **el que juega una ronda ganó la anterior** | cualquier cosa, en la eliminación |
 | zona = todos contra todos completo | partidos faltantes (aviso, no error) |
+| **la localía se reparte entre los dos cruces** | una localía al revés, o un club escrito de dos formas |
 
 Los dos en negrita son los fuertes, y los dos son **autocontenidos**: no
 consultan ninguna fuente externa, salen de cómo está armado un torneo.

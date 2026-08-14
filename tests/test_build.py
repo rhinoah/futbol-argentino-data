@@ -195,3 +195,160 @@ def test_dos_paginas_del_mismo_torneo_no_se_pisan(monkeypatch, tmp_path):
     assert len(build.dataset.leer_carpeta(salida)) == 2
     assert build.main([]) == 0
     assert len(build.dataset.leer_carpeta(salida)) == 2, "se duplicaron al reusar"
+
+
+# --------------------------------------------------------------------------
+# la segunda fuente, enchufada al pipeline
+# --------------------------------------------------------------------------
+def _sin_fecha() -> str:
+    """Una pagina como las de la B Nacional 2007-2011: tres columnas, sin fecha."""
+    return """
+== Resultados ==
+{|class="wikitable"
+!colspan=3|Fecha 1
+|-
+!Equipo Local
+!Resultado
+!Equipo Visitante
+|-align=center
+|Boca Juniors
+|2 - 1
+|River Plate
+|}
+"""
+
+
+def _la_otra_fuente(gl=2, gv=1) -> str:
+    return ('<div class="hs-head round-head">Matchday 1</div>'
+            '<div data-match_id="1" data-datetime="2007-08-09T22:00:00Z" '
+            'class="odd finished match">'
+            '<div class="team-name team-name-home">'
+            '<a href="/teams/te1/x/">Boca Juniors</a></div>'
+            '<div class="match-time">19:00</div>'
+            f'<div class="match-result match-result-0"><a href="/x/">{gl}:{gv}</a></div>'
+            '<div class="team-name team-name-away">'
+            '<a href="/teams/te2/y/">River Plate</a></div></div>')
+
+
+CON_WF = Torneo("Anexo:Prueba", "Prueba", 2007, cerrado=False, wf=("co1", "se1"))
+
+
+def test_sin_la_segunda_fuente_el_partido_no_entra(monkeypatch):
+    """El estado de hoy sin este paso: la pagina no trae fecha, el esquema exige
+    una, y el partido se descarta. Es la linea de base contra la que se mide."""
+    T_SIN = Torneo("Anexo:Prueba", "Prueba", 2007, cerrado=False)
+    ps, _ = build.procesar(_sin_fecha(), T_SIN)
+    assert ps == []
+
+
+def test_la_segunda_fuente_le_pone_la_fecha(monkeypatch):
+    from fad import fechas
+    monkeypatch.setattr(fechas, "descargar", lambda *a, **k: _la_otra_fuente())
+    ps, avisos = build.procesar(_sin_fecha(), CON_WF)
+    assert len(ps) == 1
+    assert ps[0].fecha == "2007-08-09"
+    assert ps[0].fuente_fecha == fechas.CREDITO, "el credito viaja con el dato"
+    assert not any(a.grave for a in avisos)
+
+
+def test_el_credito_llega_hasta_la_fila_del_csv(monkeypatch):
+    """De nada sirve completar la fecha si despues el CSV dice que salio de
+    Wikipedia: la fila estaria mintiendo sobre su propio origen."""
+    from fad import dataset, fechas
+    monkeypatch.setattr(fechas, "descargar", lambda *a, **k: _la_otra_fuente())
+    ps, _ = build.procesar(_sin_fecha(), CON_WF)
+    fila = dataset.a_fila(ps[0], CON_WF.torneo, CON_WF.temporada, CON_WF.url, False)
+    assert "wikipedia" in fila["source"] and "worldfootball" in fila["source"]
+
+
+def test_si_la_segunda_fuente_no_esta_el_build_sigue(monkeypatch):
+    """El sitio es de terceros y hoy nos devuelve 403. Que se caiga no puede
+    frenar el build de todos los dias: se avisa, los partidos quedan sin fecha y
+    no entran, que es exactamente lo que pasaba antes de que existiera."""
+    from fad import fechas
+
+    def explota(*a, **k):
+        raise OSError("HTTP Error 403: Forbidden")
+
+    monkeypatch.setattr(fechas, "descargar", explota)
+    ps, avisos = build.procesar(_sin_fecha(), CON_WF)
+    assert ps == []
+    assert not any(a.grave for a in avisos), "un sitio caido no es un error grave"
+    assert any("segunda fuente" in a.que for a in avisos)
+
+
+def test_no_se_consulta_a_la_segunda_fuente_sin_wf(monkeypatch):
+    """Los otros 92 torneos del catalogo no la tocan ni de casualidad."""
+    from fad import fechas
+
+    def explota(*a, **k):
+        raise AssertionError("no se tenia que llamar")
+
+    monkeypatch.setattr(fechas, "descargar", explota)
+    build.procesar(tabla(("Boca Juniors", "River Plate")), T)
+
+
+def test_un_marcador_distinto_no_trae_la_fecha(monkeypatch):
+    """La regla de `completar`: los equipos identifican y el marcador verifica.
+    Si las dos fuentes no coinciden en el resultado, no se completa nada."""
+    from fad import fechas
+    monkeypatch.setattr(fechas, "descargar", lambda *a, **k: _la_otra_fuente(3, 0))
+    ps, avisos = build.procesar(_sin_fecha(), CON_WF)
+    assert ps == []
+    assert any("marcador distinto" in a.detalle for a in avisos)
+
+
+# --------------------------------------------------------------------------
+# el catalogo
+# --------------------------------------------------------------------------
+def test_solo_las_paginas_sin_fecha_llevan_wf():
+    """`wf` es una dependencia de un sitio de terceros: va donde hace falta y en
+    ningun otro lado. Hoy son las cuatro B Nacional de 2007-2011."""
+    from fad import torneos
+    con_wf = [t for t in torneos.TODOS if t.wf]
+    assert len(con_wf) == 4
+    assert all(t.torneo == "Primera Nacional" for t in con_wf)
+    assert {t.temporada for t in con_wf} == {2007, 2008, 2009, 2010}
+    assert len({t.wf for t in con_wf}) == 4, "cada temporada con su id"
+    assert all(t.cerrado for t in con_wf), \
+        "si no fueran cerrados se consultaria el sitio todos los dias"
+
+
+# --------------------------------------------------------------------------
+# las correcciones a mano, enchufadas al pipeline
+# --------------------------------------------------------------------------
+def _tabla_con_error() -> str:
+    """La Fecha 12 de la B Nacional 2009-10 en chiquito: un club repetido en la
+    misma jornada, que es lo que la hace imposible."""
+    return tabla(("Boca Juniors", "River Plate"), ("Racing Club", "River Plate"))
+
+
+def _correccion(monkeypatch, dice, debe=("Racing Club", "Independiente")):
+    from fad import correcciones
+    from fad.correcciones import Correccion
+    monkeypatch.setattr(correcciones, "CORRECCIONES", (
+        Correccion(pagina=T.pagina, jornada="Fecha 1", dice=dice, debe=debe,
+                   porque="x" * 90),))
+
+
+def test_una_correccion_arregla_lo_que_el_chequeo_agarro(monkeypatch):
+    """Sin la correccion, `una_vez_por_jornada` marca grave y el torneo entero se
+    queda afuera. Con ella entra, y el aviso dice que se toco algo."""
+    ps, avisos = build.procesar(_tabla_con_error(), T)
+    assert any(a.grave for a in avisos), "sin corregir, tiene que ser grave"
+
+    _correccion(monkeypatch, ("Racing Club", "River Plate", 2, 1))
+    ps, avisos = build.procesar(_tabla_con_error(), T)
+    assert not any(a.grave for a in avisos)
+    assert {p.visita for p in ps} == {"River Plate", "Independiente"}
+    assert any("corregidos a mano" in a.que for a in avisos), \
+        "corregir en silencio seria peor que no corregir"
+
+
+def test_una_correccion_que_quedo_sin_efecto_frena_el_build(monkeypatch):
+    """Si Wikipedia arregla la pagina, esta entrada deja de enganchar. Eso es
+    GRAVE: o se saca, o esta apuntando a otra cosa. Las dos se miran a mano."""
+    _correccion(monkeypatch, ("Racing Club", "Boca Juniors", 9, 9))
+    _, avisos = build.procesar(_tabla_con_error(), T)
+    graves = [a for a in avisos if a.grave]
+    assert any("correccion que no aplica" in a.que for a in graves)

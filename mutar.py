@@ -117,6 +117,38 @@ MUTANTES = [
      "        if contra:",
      "        if False:"),
 
+    ("build.py", "consultar la segunda fuente para todos los torneos",
+     "    avisos = _completar_fechas(ps, t) if t.wf else []",
+     "    avisos = _completar_fechas(ps, t) if True else []"),
+
+    ("build.py", "no completar las fechas de la segunda fuente",
+     "    avisos = _completar_fechas(ps, t) if t.wf else []",
+     "    avisos = []"),
+
+    ("build.py", "frenar el build entero si la segunda fuente esta caida",
+     '            f"{e}. Los partidos quedan sin fecha y no entran al dataset", grave=False)]',
+     '            f"{e}. Los partidos quedan sin fecha y no entran al dataset")]'),
+
+    ("build.py", "aplicar las correcciones a mano DESPUES de validar",
+     "    arregladas, dudas = correcciones.aplicar(ps, t.pagina)",
+     "    arregladas, dudas = 0, []"),
+
+    ("build.py", "no avisar de una correccion que quedo sin efecto",
+     '    avisos += [validar.Aviso("correccion que no aplica", d) for d in dudas]',
+     "    avisos += []"),
+
+    ("fad/correcciones.py", "corregir sin mirar el marcador",
+     "                      and (p.goles_local, p.goles_visita) == (gl, gv)]",
+     "                      ]"),
+
+    ("fad/correcciones.py", "corregir sin mirar de que pagina es",
+     "        if c.pagina != pagina:",
+     "        if False:"),
+
+    ("fad/correcciones.py", "corregir el primero cuando engancha con varios",
+     "        if len(candidatos) > 1:",
+     "        if False:"),
+
     ("fad/fechas.py", "leer el marcador de cualquier lado del bloque",
      "    celda = _CELDA_RESULTADO.search(bloque)",
      "    celda = re.match(r'(.*)', bloque, re.S)"),
@@ -321,16 +353,18 @@ MUTANTES = [
      "        p.visita = equipos.canonizar(p.visita, p.visita_art)",
      "        pass"),
 
+    # Simula el orden equivocado sin reordenar medio `procesar`: valida con los
+    # nombres crudos y deja `revisar` devolviendo ESE resultado, que es lo que se
+    # veria si el paso de normalizar corriera despues.
     ("build.py", "validar ANTES de normalizar (el orden de los pasos)",
      "    for p in ps:\n"
      "        p.local = equipos.canonizar(p.local, p.local_art)\n"
-     "        p.visita = equipos.canonizar(p.visita, p.visita_art)\n"
-     "    borradas = _borrar_jornadas_falsas(ps)\n    avisos = validar.revisar(ps)",
-     "    avisos = validar.revisar(ps)\n"
+     "        p.visita = equipos.canonizar(p.visita, p.visita_art)\n",
+     "    _antes = validar.revisar(ps)\n"
      "    for p in ps:\n"
      "        p.local = equipos.canonizar(p.local, p.local_art)\n"
      "        p.visita = equipos.canonizar(p.visita, p.visita_art)\n"
-     "    return ps, avisos"),
+     "    validar.revisar = lambda _ps, _a=_antes: _a\n"),
 
     ("fad/dataset.py", "escribir el CSV sin ordenar",
      "    filas = sorted(filas, key=_orden)",

@@ -165,6 +165,25 @@ ASCENSO = [
 # El ascenso 2011-2015. Las temporadas anteriores a 2011 quedan pendientes: la
 # mitad de esas paginas no trae fechas y la otra mitad usa otro formato.
 ASCENSO_VIEJO = [
+    # Las cuatro mas viejas son las UNICAS del catalogo que necesitan una segunda
+    # fuente. Sus paginas publican los resultados en tablas de tres columnas
+    # -- Local | Resultado | Visitante -- sin ninguna columna de fecha, asi que
+    # el parser saca los 1520 partidos completos y ninguno con dia. Como el
+    # esquema promete una fecha en cada fila, sin eso los 1520 se descartan
+    # enteros: la diferencia no es "peor calidad", es que el torneo no existe.
+    #
+    # `wf` son los ids de worldfootball, de donde sale ese unico campo. El resto
+    # -- equipos, marcador, jornada -- sigue siendo de Wikipedia, y la columna
+    # `source` de esas filas nombra a las dos.
+    Torneo("Campeonato de Primera B Nacional 2007-08", "Primera Nacional", 2007,
+           anio_fin=2008, wf=("co1787", "se19981")),
+    Torneo("Campeonato de Primera B Nacional 2008-09", "Primera Nacional", 2008,
+           anio_fin=2009, wf=("co1787", "se19980")),
+    Torneo("Campeonato de Primera B Nacional 2009-10", "Primera Nacional", 2009,
+           anio_fin=2010, wf=("co1787", "se19979")),
+    Torneo("Campeonato de Primera B Nacional 2010-11", "Primera Nacional", 2010,
+           anio_fin=2011, wf=("co1787", "se6101")),
+
     Torneo("Campeonato de Primera B Nacional 2011-12", "Primera Nacional", 2011, anio_fin=2012),
     Torneo("Campeonato de Primera B Nacional 2012-13", "Primera Nacional", 2012, anio_fin=2013),
     Torneo("Campeonato de Primera B Nacional 2013-14", "Primera Nacional", 2013, anio_fin=2014),

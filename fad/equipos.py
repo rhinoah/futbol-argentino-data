@@ -74,7 +74,7 @@ PADRON: tuple[Equipo, ...] = (
     # "Barracs Centreal" es un error de tipeo de la fuente, con DOS letras
     # cambiadas de lugar en la misma palabra.
     Equipo("Barracas Central", 685, ("Barracas C.", "Barracs Centreal")),
-    Equipo("Belgrano", 124, ("Belgrano (C)", "Belgrano de Córdoba")),
+    Equipo("Belgrano", 124, ("Belgrano (C)", "Belgrano de Córdoba", "Belgrano (Cba)")),
     Equipo("Boca Juniors", 5, ("Boca",)),
     Equipo("Central Córdoba (SdE)", 1485,
            ("Central Córdoba (SE)", "C.Córdoba (SE)", "Central Córdoba")),
@@ -110,7 +110,8 @@ PADRON: tuple[Equipo, ...] = (
     # justo para esto: la alternativa era que el build se frene todos los dias
     # por una letra de mas en una fuente que no controlamos. Si algun dia lo
     # corrigen, este alias no molesta a nadie.
-    Equipo("Talleres (C)", 135, ("Talleres", "Talleres de Córdoba", "Tallleres (C)")),
+    Equipo("Talleres (C)", 135, ("Talleres", "Talleres de Córdoba", "Tallleres (C)",
+                                "Talleres (Cba)")),
     Equipo("Tigre", 136),
     Equipo("Unión", 137, ("Unión (SF)", "Unión de Santa Fe")),
     Equipo("Vélez Sarsfield", 20, ("Vélez", "Vélez Sársfield")),
@@ -139,7 +140,8 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Argentino de Merlo", alias=("Argentino (M)",)),
     Equipo("Atenas (RC)"),
     Equipo("Atlanta"),
-    Equipo("Atlético de Rafaela", alias=("Atlético Rafaela", "Atlético de Rafela", "Alético de Rafaela")),
+    Equipo("Atlético de Rafaela", alias=("Atlético Rafaela", "Atlético de Rafela",
+                                        "Alético de Rafaela", "Atl. Rafaela")),
     Equipo("Chaco For Ever"),
     Equipo("Ciudad de Bolívar"),
     Equipo("Claypole"),
@@ -152,7 +154,9 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Estudiantes (BA)"),
     Equipo("Ferrocarril Midland", alias=("Midland", "Midland",)),
     Equipo("Gimnasia y Esgrima (C)"),
-    Equipo("Gimnasia y Esgrima (J)"),
+    # La B Nacional 2007-2011 lo escribe "Gimnasia (J)", sin enlace. Lo
+    # confirma la segunda fuente: el id te930 es "Gimnasia de Jujuy".
+    Equipo("Gimnasia y Esgrima (J)", alias=("Gimnasia (J)",)),
     Equipo("Gimnasia y Tiro (S)", alias=("Gimnasia y Tiro", "Gimnasia y Tiro",)),
     Equipo("Godoy Cruz"),
     Equipo("Ituzaingó"),
@@ -275,7 +279,20 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Estrella del Sur'),
     Equipo('Excursionistas'),
     Equipo('FADEP'),
-    Equipo('Ferro Carril Oeste'),
+    # "Ferro" a secas es un alias PELADO, de los que este modulo dice arriba que
+    # hay que mirar con desconfianza: hay dos Ferro Carril Oeste. Antes de
+    # ponerlo se midio donde aparece, y por eso esta:
+    #   * pelado sale en UNA sola pagina de las 96 del catalogo -- la B Nacional
+    #     2008-09 -- y son sus 38 partidos.
+    #   * el de General Pico se escribe "Ferro Carril Oeste (GP)" en las 235
+    #     veces que juega. Pelado, nunca.
+    #   * y aunque algun dia lo escribieran asi, `buscar` resuelve primero por el
+    #     ARTICULO, y el de General Pico tiene el suyo en ARTICULOS. El alias
+    #     solo decide cuando el nombre viene sin enlace, que es el caso de esta
+    #     pagina: no enlaza ningun equipo.
+    # "Ferro CO" es el nombre corto de la segunda fuente, y el usuario confirmo
+    # que es el de Caballito.
+    Equipo('Ferro Carril Oeste', alias=("Ferro", "Ferro CO")),
     Equipo('Ferro Carril Oeste (GP)'),
     Equipo('Flandria'),
     Equipo('Fénix'),

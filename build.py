@@ -19,7 +19,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from fad import dataset, equipos, parser, torneos, validar, wiki
+from fad import correcciones, dataset, equipos, parser, torneos, validar, wiki
 
 SALIDA = Path(__file__).resolve().parent / "data"   # una carpeta: un CSV por temporada
 
@@ -62,6 +62,55 @@ def _borrar_jornadas_falsas(ps) -> int:
     return n
 
 
+def _completar_fechas(ps, t) -> list:
+    """Le pide a la segunda fuente el unico campo que Wikipedia no publica.
+
+    Corre solo para las entradas del catalogo que tienen `wf`, que hoy son las
+    cuatro temporadas de B Nacional 2007-2011: sus paginas traen los resultados
+    en tablas de tres columnas, sin fecha, y sin este paso los 1520 partidos se
+    descartan enteros en el filtro final.
+
+    SI LA FUENTE NO ESTA, NO PASA NADA GRAVE. Se avisa y se sigue: los partidos
+    quedan sin fecha y el filtro los deja afuera, que es exactamente lo que pasa
+    hoy. Un aviso grave seria peor -- frenaria el build entero de todos los dias
+    por un sitio de terceros que no controlamos.
+
+    Y no se consulta todos los dias. Los cuatro torneos son `cerrado=True`: una
+    vez que sus filas con fecha estan en `data/`, `main` las reusa por `t.url` y
+    no vuelve a pasar por aca. La enriquecida es de una sola vez; despues el dato
+    es del CSV. Por eso CI, que no tiene la cache ni puede salir a ese sitio,
+    igual arma el dataset completo.
+    """
+    from fad import fechas
+
+    try:
+        pagina = fechas.descargar(*t.wf)
+    # `OSError` y no `Exception`: URLError y HTTPError lo heredan, asi que cubre
+    # el 403, la red caida y el timeout, que es lo que este `try` viene a
+    # tolerar. Atrapando todo se tragaba tambien los errores de programacion --
+    # un `wf` mal escrito en el catalogo pasaba como "el sitio no responde" y el
+    # torneo se quedaba sin fechas sin que nadie se enterara de por que.
+    except OSError as e:                         # 403, sin red, sin cache
+        return [validar.Aviso(
+            f"{t.pagina}: no se pudo consultar la segunda fuente",
+            f"{e}. Los partidos quedan sin fecha y no entran al dataset", grave=False)]
+
+    ajenos = fechas.partidos_de(pagina)
+    if not ajenos:
+        return [validar.Aviso(f"{t.pagina}: la segunda fuente no devolvio partidos",
+                              "la pagina cambio de forma?", grave=False)]
+
+    mapa, avisos = fechas.derivar_padron(ps, ajenos)
+    puestos, mas = fechas.completar(ps, ajenos, mapa)
+    faltan = sum(1 for p in ps if not p.fecha)
+    return [validar.Aviso(f"{t.pagina}: {puestos} fechas de la segunda fuente",
+                          f"{len(mapa)} clubes cruzados"
+                          + (f"; quedan {faltan} partidos sin fecha" if faltan else ""),
+                          grave=False)] + \
+           [validar.Aviso(f"{t.pagina}: segunda fuente", a, grave=False)
+            for a in avisos + mas]
+
+
 def procesar(texto: str, t) -> tuple[list, list]:
     """Parsea, lleva los nombres al canonico y valida. Devuelve (partidos, avisos).
 
@@ -84,13 +133,40 @@ def procesar(texto: str, t) -> tuple[list, list]:
     for p in ps:
         p.local = equipos.canonizar(p.local, p.local_art)
         p.visita = equipos.canonizar(p.visita, p.visita_art)
+    # Las correcciones a mano van despues de canonizar y antes de todo lo demas,
+    # porque lo que arreglan -- un club mal escrito -- es justamente lo que los
+    # chequeos van a mirar. Ver `fad/correcciones.py`: hay una sola y esta ahi
+    # documentada con su evidencia.
+    arregladas, dudas = correcciones.aplicar(ps, t.pagina)
     borradas = _borrar_jornadas_falsas(ps)
-    avisos = validar.revisar(ps)
+    # La segunda fuente va DESPUES de borrar las jornadas falsas y ANTES de
+    # validar, y las dos mitades del sandwich importan.
+    #
+    # Despues de borrarlas, porque `fechas.completar` empareja por (jornada,
+    # local, visitante). Una etiqueta que el parser tomo por jornada y no lo es
+    # -- los 190 partidos del Inicial 2012 colgando de un unico "Fecha 1" --
+    # mandaria a buscar la Fecha 1 del otro lado para partidos de cualquier
+    # ronda. El marcador tendria que coincidir tambien, asi que la chance es
+    # baja, pero no hay ninguna razon para correrla: una vez borradas, esos
+    # partidos no emparejan con nada y se quedan sin fecha, que es lo correcto.
+    #
+    # Antes de validar, porque si no `fechas_presentes` se queja de los mismos
+    # partidos que este paso viene a arreglar.
+    avisos = _completar_fechas(ps, t) if t.wf else []
+    avisos += validar.revisar(ps)
     if borradas:
         avisos.append(validar.Aviso(
             f"{borradas} partidos sin numero de jornada",
             "la pagina no la rotula; el partido entra igual, con `matchday` vacio",
             grave=False))
+    if arregladas:
+        avisos.append(validar.Aviso(
+            f"{arregladas} partidos corregidos a mano",
+            "ver fad/correcciones.py, que dice cual y con que evidencia", grave=False))
+    # Una correccion que ya no engancha es GRAVE: o la fuente cambio y hay que
+    # sacarla, o cambio de otra forma y esta tocando lo que no es. Las dos cosas
+    # se miran antes de escribir nada.
+    avisos += [validar.Aviso("correccion que no aplica", d) for d in dudas]
     # Los sin fecha se van DESPUES de validar, para que el aviso alcance a
     # nombrarlos: el esquema promete una fecha en cada fila.
     return [p for p in ps if p.fecha], avisos
