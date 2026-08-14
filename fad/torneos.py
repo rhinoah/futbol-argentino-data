@@ -227,8 +227,11 @@ ASCENSO_HISTORICO = [
     Torneo('Campeonato de Primera B 2018-19 (Argentina)', 'Primera B', 2018, anio_fin=2019),
     Torneo('Campeonato de Primera B 2019-20 (Argentina)', 'Primera B', 2019, anio_fin=2020),
 
-    # FUERA: una plantilla {{Partido}} sin cerrar bien mezcla el resultado de dos partidos.
-    # Torneo('Campeonato de Primera B 2021 (Argentina)', 'Primera B', 2021),
+    # Estuvo FUERA un tiempo, con el cartel "una plantilla {{Partido}} sin cerrar
+    # bien mezcla el resultado de dos partidos". La culpa no era de la pagina: sus
+    # doce plantillas cierran perfecto. Era el parser, que buscaba el cierre con un
+    # regex y se comia las del medio. Ver `_plantillas_partido`.
+    Torneo('Campeonato de Primera B 2021 (Argentina)', 'Primera B', 2021),
     Torneo('Campeonato de Primera B 2022 (Argentina)', 'Primera B', 2022),
     Torneo('Campeonato de Primera B 2023 (Argentina)', 'Primera B', 2023),
 
