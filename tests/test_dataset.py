@@ -287,3 +287,33 @@ def test_una_carpeta_vacia_no_es_un_error(tmp_path):
 def test_los_archivos_por_temporada_no_llevan_CRLF(tmp_path):
     dataset.escribir_por_temporada(liga("Primera", 2016, 2), tmp_path)
     assert b"\r" not in (tmp_path / "partidos-2016.csv").read_bytes()
+
+
+# --------------------------------------------------------------------------
+# el `source` compuesto y el reuso
+# --------------------------------------------------------------------------
+def test_la_pagina_se_recupera_de_un_source_compuesto():
+    """Es el ida y vuelta que faltaba: `a_fila` ESCRIBE las dos fuentes juntas y
+    `build.main` tiene que poder volver a sacar la pagina para reusar el torneo.
+    Sin esto, los cuatro torneos con segunda fuente no reusaban NUNCA -- se
+    reparseaban todos los dias y le volvian a pedir la pagina al sitio de
+    terceros, que es lo unico que `cerrado=True` estaba puesto para evitar."""
+    from fad import dataset
+    from fad.parser import Partido
+    url = "https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08"
+    p = Partido(fecha="2007-08-10", local="Aldosivi", visita="Almagro",
+                goles_local=1, goles_visita=0, fase="zonas", jornada="Fecha 1")
+    p.fuente_fecha = "https://www.worldfootball.net/"
+    fila = dataset.a_fila(p, "Primera Nacional", 2007, url, False)
+    assert fila["source"] != url, "el credito de la segunda fuente tiene que estar"
+    assert dataset.pagina_de(fila) == url
+
+
+def test_una_fila_de_una_sola_fuente_no_cambia():
+    from fad import dataset
+    from fad.parser import Partido
+    url = "https://es.wikipedia.org/wiki/X"
+    p = Partido(fecha="2026-01-01", local="Boca Juniors", visita="River Plate",
+                goles_local=1, goles_visita=0, fase="zonas", jornada="Fecha 1")
+    fila = dataset.a_fila(p, "Primera Division", 2026, url, False)
+    assert fila["source"] == url and dataset.pagina_de(fila) == url

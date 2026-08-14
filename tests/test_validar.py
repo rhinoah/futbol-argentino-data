@@ -413,3 +413,20 @@ def test_cada_zona_se_mira_aparte():
 
 def test_esta_en_la_lista_de_chequeos():
     assert validar.localias_repartidas in validar.CHEQUEOS
+
+
+def test_un_partido_sin_fecha_no_duplica_a_otro():
+    """Los partidos sin fecha se descartan antes de llegar al CSV, asi que no
+    pueden duplicar nada. Contandolos, comparten la clave vacia y cualquier par
+    que la fuente escriba dos veces con el mismo local colapsa en "duplicado":
+    eso convertia la caida de la segunda fuente -- un aviso leve -- en tres
+    errores GRAVES que frenaban el build entero."""
+    ps = [zona("Boca Juniors", "River Plate", fecha=""),
+          zona("Boca Juniors", "River Plate", fecha="", j="Fecha 20")]
+    assert validar.sin_duplicados(ps) == []
+
+
+def test_el_duplicado_de_verdad_se_sigue_viendo():
+    ps = [zona("Boca Juniors", "River Plate", fecha="2026-03-01"),
+          zona("Boca Juniors", "River Plate", fecha="2026-03-01")]
+    assert len(validar.sin_duplicados(ps)) == 1

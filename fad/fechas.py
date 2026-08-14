@@ -53,13 +53,25 @@ import time
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from fad import wiki
 
-# Argentina no tiene horario de verano desde 2009 y las temporadas que nos
-# interesan son anteriores; UTC-3 fijo alcanza y evita depender de tzdata.
-ARGENTINA = timezone(timedelta(hours=-3))
+# Dos husos, y hace falta distinguirlos.
+#
+# `data-datetime` es un instante UTC de verdad. El sitio es aleman y lo MUESTRA
+# en su propio huso: se comprobo sobre los 1520 partidos cacheados que la fecha
+# visible al lado de cada partido coincide con la de Berlin en el 100%, y su
+# `match-time` tambien (18:30Z se muestra 20:30, que es Berlin, no las 15:30 de
+# Buenos Aires). O sea que la hora que se ve NO es la del partido.
+#
+# Argentina va con tzdata y no con UTC-3 a mano. La razon por la que estaba fijo
+# -- "no hay horario de verano desde 2009 y las temporadas que interesan son
+# anteriores" -- esta al reves: las que tuvieron DST son justamente las de antes
+# de 2009, y hay 191 instantes cacheados dentro de esas ventanas.
+ARGENTINA = ZoneInfo("America/Argentina/Buenos_Aires")
+BERLIN = ZoneInfo("Europe/Berlin")
 
 # La URL canonica lleva el id de la COMPETENCIA y el de la TEMPORADA, y los dos
 # los publica el propio sitio en sus selectores. Los slugs legibles del estilo
@@ -113,13 +125,28 @@ def descargar(co: str, se: str, usar_cache: bool = True) -> str:
         time.sleep(espera)
     req = urllib.request.Request(BASE.format(co=co, se=se),
                                  headers={"User-Agent": wiki.UA})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        crudo = r.read()
-        tipo = r.headers.get("Content-Type", "")
-    _ULTIMO = time.monotonic()
+    # El reloj de la pausa se toca en `finally`, no despues del pedido exitoso.
+    # Estando afuera, un pedido que fallaba no registraba su hora y el siguiente
+    # salia sin esperar: cuatro 403 seguidos con 0.000 s entre uno y otro. O sea
+    # que la autolimitacion se desactivaba justo en el escenario en que el sitio
+    # esta diciendo que no, que es el peor momento para insistir rapido.
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            crudo = r.read()
+            tipo = r.headers.get("Content-Type", "")
+    finally:
+        _ULTIMO = time.monotonic()
     m = re.search(r"charset=([\w-]+)", tipo, re.I)
     texto = crudo.decode(m.group(1) if m else "utf-8", errors="replace")
 
+    # No se cachea cualquier cosa que venga con status 200. Un interstitial de
+    # firewall, un "access denied" o una pagina de mantenimiento se sirven con
+    # 200 igual que la buena, y guardado queda para siempre: todas las corridas
+    # siguientes leen ESE archivo y devuelven cero partidos sin dar ningun error,
+    # que es la forma de fallar que este proyecto trata de no tener.
+    if "data-match_id" not in texto:
+        raise OSError(f"{co}/{se}: la respuesta no parece una pagina de temporada "
+                      f"({len(texto)} caracteres, sin un solo partido); no se cachea")
     CACHE.mkdir(parents=True, exist_ok=True)
     archivo.write_text(texto, encoding="utf-8")
     return texto
@@ -132,6 +159,9 @@ _JORNADA = re.compile(r'class="[^"]*round-head[^"]*"[^>]*>\s*Matchday\s*(\d+)', 
 # 113 partidos de 380, y los 267 que faltaban no daban ningun error.
 _PARTIDO = re.compile(r'<div\s+data-match_id="\d+"(.*?)(?=<div\s+data-match_id=|\Z)', re.S)
 _ATRIBUTO_FECHA = re.compile(r'data-datetime="([^"]+)"')
+# `<div class="match-time match-time-unknown"></div>`: el sitio no sabe a que
+# hora se jugo, y entonces su `data-datetime` es un relleno. Ver `_a_hora_local`.
+_HORA_DESCONOCIDA = re.compile(r'class="[^"]*match-time-unknown')
 _CLASE = re.compile(r'class="([^"]*)"')
 # Los equipos salen de sus ENLACES, no de la clase del div que los envuelve.
 # Pedir `class="team-name team-name-home"` exacto leia un solo equipo en 267 de
@@ -191,7 +221,8 @@ def partidos_de(pagina: str) -> list[Ajeno]:
             continue
         (id_l, local), (id_v, visita) = equipos
         fuera.append(Ajeno(
-            fecha=_a_hora_local(cuando.group(1)),
+            fecha=_a_hora_local(cuando.group(1),
+                                not _HORA_DESCONOCIDA.search(bloque)),
             jornada=_jornada_en(m.start(), jornadas),
             local=local, visita=visita,
             goles_local=goles[0], goles_visita=goles[1],
@@ -199,16 +230,28 @@ def partidos_de(pagina: str) -> list[Ajeno]:
     return fuera
 
 
-def _a_hora_local(iso_utc: str) -> str:
-    """`2007-08-09T22:00:00Z` -> `2007-08-09`, en hora argentina.
+def _a_hora_local(iso_utc: str, hora_conocida: bool = True) -> str:
+    """El dia en que se jugo el partido. `2010-08-07T18:30:00Z` -> `2010-08-07`.
 
-    Sin convertir, un partido de las 19:00 del 9 figura el 10: son las 22 UTC.
+    CUANDO EL SITIO SABE LA HORA, el instante es real y la fecha que vale es la
+    argentina: 18:30 UTC son las 15:30 de un sabado a la tarde. Sin convertir, un
+    partido de las 21:00 figura al dia siguiente.
+
+    CUANDO NO LA SABE (`match-time-unknown`), `data-datetime` no es un instante:
+    es un relleno: la medianoche de ese dia en Berlin. Se nota porque toma DOS
+    valores nada mas -- 22:00Z en verano europeo y 23:00Z en invierno -- en las
+    dos temporadas enteras donde aparece. Restarle tres horas a una medianoche
+    cae en el dia anterior, y asi quedaron corridos los 760 partidos de 2007-08 y
+    2008-09: cada uno un dia antes del que el propio sitio publica al lado.
+
+    Por eso el huso depende de si hay hora. No es una preferencia: es que en un
+    caso el dato es un instante y en el otro es una fecha disfrazada de instante.
     """
     try:
         t = datetime.fromisoformat(iso_utc.replace("Z", "+00:00"))
     except ValueError:
         return ""
-    return t.astimezone(ARGENTINA).date().isoformat()
+    return t.astimezone(ARGENTINA if hora_conocida else BERLIN).date().isoformat()
 
 
 def _jornada_en(pos: int, jornadas: list[tuple[int, int]]) -> int:
@@ -321,14 +364,27 @@ def completar(nuestros: list, ajenos: list[Ajeno],
         eq = equipos.buscar(nombre)
         return eq.nombre if eq else None
 
-    indice, sin_padron = {}, set()
+    indice, sin_padron, chocados = {}, set(), set()
     for a in ajenos:
         el, ev = club(a.id_local, a.local), club(a.id_visita, a.visita)
         for nombre, c in ((a.local, el), (a.visita, ev)):
             if c is None:
                 sin_padron.add(nombre)
         if el and ev:
-            indice[(a.jornada, el, ev)] = a
+            # Si dos ajenos caen en la misma casilla se sacan los dos. Antes el
+            # segundo pisaba al primero en silencio, y eso da las dos formas de
+            # equivocarse: con otro marcador el partido perdia la fecha y el
+            # aviso mentia sobre lo que dice la otra fuente; con el mismo, se
+            # importaba la fecha del partido equivocado sin decir nada. Es el
+            # mismo criterio que `derivar_padron` usa con los marcadores
+            # repetidos: lo que no identifica uno solo, no identifica nada.
+            k = (a.jornada, el, ev)
+            if k in indice:
+                chocados.add(k)
+            indice[k] = a
+
+    for k in chocados:
+        del indice[k]
 
     puestos, sin_par, avisos = 0, 0, []
     for p in nuestros:
@@ -347,6 +403,10 @@ def completar(nuestros: list, ajenos: list[Ajeno],
         p.fuente_fecha = CREDITO
         puestos += 1
 
+    if chocados:
+        avisos.append(f"{len(chocados)} cruces de la otra fuente aparecen dos veces en la "
+                      f"misma jornada y no identifican nada: "
+                      + "; ".join(f"F{j} {l} vs {v}" for j, l, v in sorted(chocados)[:3]))
     if sin_padron:
         avisos.append(f"{len(sin_padron)} nombres de la otra fuente que el padron no "
                       f"conoce: {', '.join(sorted(sin_padron)[:6])}")

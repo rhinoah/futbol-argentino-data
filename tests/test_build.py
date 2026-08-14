@@ -352,3 +352,113 @@ def test_una_correccion_que_quedo_sin_efecto_frena_el_build(monkeypatch):
     _, avisos = build.procesar(_tabla_con_error(), T)
     graves = [a for a in avisos if a.grave]
     assert any("correccion que no aplica" in a.que for a in graves)
+
+
+def test_un_torneo_con_segunda_fuente_no_se_le_pide_dos_veces(monkeypatch, tmp_path):
+    """El test que faltaba, y el que habria agarrado el bug.
+
+    `a_fila` escribe `source` con las DOS fuentes cuando la fecha vino de afuera,
+    y `main` buscaba las filas guardadas por la URL pelada: no las encontraba
+    nunca. Los cuatro torneos con `wf` se reparseaban todos los dias y se le
+    volvia a pedir la pagina a un sitio de terceros -- lo unico que `cerrado=True`
+    esta puesto para evitar. Y como ese sitio hoy contesta 403, el build
+    terminaba con esas cuatro temporadas en cero y frenaba por regresion.
+
+    Los dos asserts de una sola corrida no alcanzaban: `cerrado=True` en el
+    catalogo y "el sitio se consulta una sola vez" parecen la misma afirmacion y
+    no lo son. Hace falta pasar dos veces.
+    """
+    from fad import fechas
+    salida = tmp_path / "data"
+    pedidos = []
+
+    def espiar(co, se, **k):
+        pedidos.append((co, se))
+        return _la_otra_fuente()
+
+    CERRADO_WF = Torneo("Anexo:Prueba", "Prueba", 2007, cerrado=True, wf=("co1", "se1"))
+    monkeypatch.setattr(build.torneos, "TODOS", [CERRADO_WF])
+    monkeypatch.setattr(build.wiki, "wikitexto", lambda *a, **k: _sin_fecha())
+    monkeypatch.setattr(fechas, "descargar", espiar)
+    monkeypatch.setattr(build, "SALIDA", salida)
+
+    assert build.main([]) == 0
+    assert len(pedidos) == 1, "la primera vez si hay que pedirla"
+    filas = build.dataset.leer_carpeta(salida)
+    assert len(filas) == 1 and "worldfootball" in filas[0]["source"]
+
+    assert build.main([]) == 0
+    assert pedidos == [("co1", "se1")], \
+        "la segunda corrida volvio a pedirle la pagina al sitio de terceros"
+    assert len(build.dataset.leer_carpeta(salida)) == 1
+
+
+def test_si_el_sitio_se_cae_las_filas_guardadas_no_se_pierden(monkeypatch, tmp_path):
+    """Una vez que las fechas estan en el CSV, que el sitio deje de contestar no
+    puede borrarlas. Con el reuso funcionando el torneo ni se procesa, asi que el
+    403 no llega a tocar nada."""
+    from fad import fechas
+    salida = tmp_path / "data"
+    CERRADO_WF = Torneo("Anexo:Prueba", "Prueba", 2007, cerrado=True, wf=("co1", "se1"))
+    monkeypatch.setattr(build.torneos, "TODOS", [CERRADO_WF])
+    monkeypatch.setattr(build.wiki, "wikitexto", lambda *a, **k: _sin_fecha())
+    monkeypatch.setattr(build, "SALIDA", salida)
+
+    monkeypatch.setattr(fechas, "descargar", lambda *a, **k: _la_otra_fuente())
+    assert build.main([]) == 0
+
+    def bloqueado(*a, **k):
+        raise OSError("HTTP Error 403: Forbidden")
+
+    monkeypatch.setattr(fechas, "descargar", bloqueado)
+    assert build.main([]) == 0, "el 403 no tiene que frenar el build"
+    filas = build.dataset.leer_carpeta(salida)
+    # 22:00Z con la hora conocida son las 19:00 del 9 en Buenos Aires.
+    assert len(filas) == 1 and filas[0]["date"] == "2007-08-09"
+
+
+def test_un_mapa_declarado_inservible_no_se_usa(monkeypatch):
+    """`derivar_padron` puede terminar diciendo que su propio mapa no sirve --
+    dos ids apuntando al mismo club. Antes ese aviso se emitia y el mapa se usaba
+    igual en la linea siguiente, que es la peor combinacion: queda dicho que el
+    dato no es confiable y se lo usa lo mismo."""
+    from fad import fechas
+    visto = {}
+
+    def espiar(nuestros, ajenos, mapa=None):
+        visto["mapa"] = mapa
+        return 0, []
+
+    monkeypatch.setattr(fechas, "descargar", lambda *a, **k: _la_otra_fuente())
+    monkeypatch.setattr(fechas, "derivar_padron",
+                        lambda *a, **k: ({"te1": "Boca Juniors", "te2": "Boca Juniors"},
+                                         ["HAY DOS IDS APUNTANDO AL MISMO CLUB: el mapa no sirve"]))
+    monkeypatch.setattr(fechas, "completar", espiar)
+    _, avisos = build.procesar(_sin_fecha(), CON_WF)
+    assert visto["mapa"] == {}, "se cruzo con un mapa que la propia derivacion descarto"
+    assert any("no sirve" in a.que for a in avisos)
+
+
+def test_una_fecha_fuera_de_la_temporada_no_entra(monkeypatch):
+    """Nadie mas lo mira: `anios_bien_asignados` compara la MEDIANA de cada
+    jornada, asi que un partido suelto tres anios afuera lo absorbe sin quejarse.
+    Aca esta el Torneo a mano, que es lo que hace falta para saber el rango."""
+    from fad import fechas
+    monkeypatch.setattr(fechas, "descargar", lambda *a, **k: _la_otra_fuente().replace(
+        "2007-08-09T22:00:00Z", "2013-08-09T22:00:00Z"))
+    ps, avisos = build.procesar(_sin_fecha(), CON_WF)
+    assert ps == [], "el partido tiene que quedar sin fecha, y sin fecha no entra"
+    assert any("caen fuera" in a.que for a in avisos)
+
+
+def test_una_fecha_del_anio_siguiente_si_entra(monkeypatch):
+    """La temporada 2007-08 cruza el calendario: junio de 2008 es de esa
+    temporada y tiene que pasar. El rango sale de `anio_fin`, no del anio a secas
+    -- si no, la mitad de cada temporada del ascenso quedaria afuera."""
+    from fad import fechas
+    cruzado = Torneo("Anexo:Prueba", "Prueba", 2007, cerrado=False,
+                     anio_fin=2008, wf=("co1", "se1"))
+    monkeypatch.setattr(fechas, "descargar", lambda *a, **k: _la_otra_fuente().replace(
+        "2007-08-09T22:00:00Z", "2008-06-13T22:00:00Z"))
+    ps, _ = build.procesar(_sin_fecha(), cruzado)
+    assert len(ps) == 1 and ps[0].fecha == "2008-06-13"

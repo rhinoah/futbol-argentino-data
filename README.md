@@ -109,6 +109,31 @@ https://es.wikipedia.org/wiki/... + https://www.worldfootball.net/
 Fila por fila, y sólo en las que de verdad la usaron. Nombrarla donde no se usó
 sería tan incorrecto como omitirla donde sí.
 
+#### Un instante y una fecha disfrazada de instante
+
+Cada partido de esa fuente trae un `data-datetime` en UTC. Parece un campo y son
+dos cosas distintas, y confundirlas corrió **760 fechas un día entero**.
+
+Cuando el sitio conoce la hora del partido, el instante es real y lo que vale es
+la fecha **argentina**: `18:30Z` son las 15:30 de un sábado a la tarde. Cuando no
+la conoce —el bloque dice `match-time-unknown`— `data-datetime` no es un instante:
+es la **medianoche de ese día en Berlín**, que es donde vive el sitio. Se nota
+porque en dos temporadas enteras toma **dos valores nada más**, `22:00Z` en verano
+europeo y `23:00Z` en invierno. Restarle tres horas a una medianoche cae en el día
+anterior.
+
+Eso son las temporadas 2007-08 y 2008-09 completas. Y no fallaba: escribía una
+fecha plausible, contigua a las demás, un día antes de la que el propio sitio
+publica al lado del partido. Se vio comparando las 1 520 fechas calculadas contra
+la fecha visible de la página: 0 % de coincidencia en esas dos, 100 % en las otras
+dos.
+
+De paso quedó al descubierto una premisa al revés. El código usaba UTC-3 fijo
+"porque Argentina no tiene horario de verano desde 2009 y las temporadas que
+interesan son anteriores". Las que tuvieron horario de verano son **justamente**
+las anteriores a 2009 — 191 de estos partidos caen dentro de esas ventanas. Ahora
+va con `zoneinfo`.
+
 Sus términos limitan el uso a fines personales y no comerciales, y este proyecto
 no tiene ninguno: es un dataset abierto hecho por gusto. **Si worldfootball pide
 que se retire ese aporte, se retira** — los partidos seguirían estando, sin la

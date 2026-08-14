@@ -94,8 +94,48 @@ MUTANTES = [
 
     # --- completar fechas desde la segunda fuente ---
     ("fad/fechas.py", "tomar el UTC sin convertir a hora argentina",
-     "    return t.astimezone(ARGENTINA).date().isoformat()",
+     "    return t.astimezone(ARGENTINA if hora_conocida else BERLIN).date().isoformat()",
      "    return t.date().isoformat()"),
+
+    ("fad/fechas.py", "usar el mismo huso sepa o no sepa la hora",
+     "    return t.astimezone(ARGENTINA if hora_conocida else BERLIN).date().isoformat()",
+     "    return t.astimezone(ARGENTINA).date().isoformat()"),
+
+    ("fad/fechas.py", "no mirar si el sitio conoce la hora del partido",
+     "                                not _HORA_DESCONOCIDA.search(bloque)),",
+     "                                True),"),
+
+    ("fad/fechas.py", "volver a UTC-3 fijo, sin horario de verano",
+     'ARGENTINA = ZoneInfo("America/Argentina/Buenos_Aires")',
+     'from datetime import timedelta, timezone as _tz; ARGENTINA = _tz(timedelta(hours=-3))'),
+
+    ("fad/fechas.py", "dejar que el ultimo ajeno pise al anterior",
+     "            if k in indice:\n                chocados.add(k)",
+     "            if False:\n                chocados.add(k)"),
+
+    ("fad/fechas.py", "cachear cualquier respuesta, sea o no la pagina",
+     '    if "data-match_id" not in texto:',
+     "    if False:"),
+
+    ("fad/fechas.py", "no contar el pedido que fallo para la pausa de cortesia",
+     "    finally:\n        _ULTIMO = time.monotonic()",
+     "    _ULTIMO = time.monotonic()"),
+
+    ("fad/dataset.py", "buscar la pagina sin sacar el credito de la segunda fuente",
+     '    return fila["source"].split(SEPARADOR, 1)[0]',
+     '    return fila["source"]'),
+
+    ("fad/validar.py", "contar como duplicados los partidos sin fecha",
+     "    c = Counter((p.fecha, p.local, p.visita) for p in ps if p.fecha)",
+     "    c = Counter((p.fecha, p.local, p.visita) for p in ps)"),
+
+    ("build.py", "usar el mapa que la derivacion declaro inservible",
+     "    puestos, mas = fechas.completar(ps, ajenos, {} if roto else mapa)",
+     "    puestos, mas = fechas.completar(ps, ajenos, mapa)"),
+
+    ("build.py", "aceptar una fecha importada fuera de la temporada",
+     "    fuera = [p for p in ps if p.fuente_fecha and int(p.fecha[:4]) not in validos]",
+     "    fuera = []"),
 
     ("fad/fechas.py", "no deduplicar los enlaces del mismo equipo",
      "        vistos.setdefault(id_eq, html.unescape(nombre).strip())",
@@ -178,8 +218,8 @@ MUTANTES = [
      "        if False:\n            continue"),
 
     ("fad/fechas.py", "no exigir que coincida la jornada",
-     "            indice[(a.jornada, el, ev)] = a",
-     "            indice[(a.jornada, el, ev)] = a\n"
+     "            k = (a.jornada, el, ev)",
+     "            k = (a.jornada, el, ev)\n"
      "            for _j in range(1, 60):\n"
      "                indice.setdefault((_j, el, ev), a)"),
 
@@ -196,7 +236,7 @@ MUTANTES = [
      "        pass"),
 
     ("fad/dataset.py", "no nombrar la segunda fuente en source",
-     '        "source": f"{fuente} + {p.fuente_fecha}" if p.fuente_fecha else fuente,',
+     '        "source": fuente + SEPARADOR + p.fuente_fecha if p.fuente_fecha else fuente,',
      '        "source": fuente,'),
 
     # --- el historico ---
@@ -382,7 +422,7 @@ MUTANTES = [
      "        if False:"),
 
     ("build.py", "reusar las filas por (torneo, temporada) y no por pagina",
-     '        guardado.setdefault(f["source"], []).append(f)',
+     '        guardado.setdefault(dataset.pagina_de(f), []).append(f)',
      '        guardado.setdefault(f["tournament"], []).append(f)'),
 
     ("fad/dataset.py", "reescribir una temporada que no cambio",

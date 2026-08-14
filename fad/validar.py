@@ -103,7 +103,13 @@ def penales_solo_en_empates(ps: list[Partido]) -> list[Aviso]:
 
 def sin_duplicados(ps: list[Partido]) -> list[Aviso]:
     """El mismo cruce dos veces en la misma fecha es una fila leida dos veces."""
-    c = Counter((p.fecha, p.local, p.visita) for p in ps)
+    # Solo los que tienen fecha. Los que no la tienen se descartan antes de
+    # llegar al CSV, asi que no pueden duplicar nada -- pero comparten la clave
+    # vacia, y entonces cualquier par que la fuente escriba dos veces con el
+    # mismo local colapsa en "partido duplicado". Eso convertia la caida de la
+    # segunda fuente, que es un aviso leve, en tres errores GRAVES que frenaban
+    # el build entero: la B Nacional 2009-10 tiene tres pares asi.
+    c = Counter((p.fecha, p.local, p.visita) for p in ps if p.fecha)
     return [Aviso("partido duplicado", f"{f} {l} vs {v} ({n} veces)")
             for (f, l, v), n in c.items() if n > 1]
 

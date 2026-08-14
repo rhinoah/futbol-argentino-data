@@ -41,6 +41,26 @@ COLUMNAS = [
 ]
 
 
+# Lo que separa las dos fuentes en `source` cuando la fila usa las dos. Es una
+# constante y no un literal suelto porque hay que ESCRIBIRLO y despues volver a
+# LEERLO: `build.py` agrupa las filas guardadas por su pagina para reusar los
+# torneos ya terminados, y si lee la cadena entera no encuentra ninguna.
+SEPARADOR = " + "
+
+
+def pagina_de(fila) -> str:
+    """La URL de Wikipedia de una fila, sin el credito de la segunda fuente.
+
+    Existe por un bug que no rompia nada visible: los cuatro torneos cuya fecha
+    viene de una segunda fuente llevan un `source` compuesto, y el reuso los
+    buscaba por la URL pelada. No los encontraba NUNCA, asi que se reparseaban
+    todos los dias y se le volvia a pedir la pagina al sitio de terceros -- justo
+    lo que el `cerrado=True` estaba puesto para evitar. Y como el sitio hoy
+    contesta 403, el build terminaba con esas cuatro temporadas en cero.
+    """
+    return fila["source"].split(SEPARADOR, 1)[0]
+
+
 def a_fila(p: Partido, torneo: str, temporada: int, fuente: str,
            neutral: bool = False) -> dict:
     return {
@@ -55,7 +75,7 @@ def a_fila(p: Partido, torneo: str, temporada: int, fuente: str,
         "venue": p.estadio, "neutral": str(neutral).lower(),
         # Si la fecha vino de otra fuente, las DOS quedan nombradas. La fila es
         # de Wikipedia salvo ese campo, y asi se lee.
-        "source": f"{fuente} + {p.fuente_fecha}" if p.fuente_fecha else fuente,
+        "source": fuente + SEPARADOR + p.fuente_fecha if p.fuente_fecha else fuente,
     }
 
 

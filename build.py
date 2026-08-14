@@ -101,9 +101,29 @@ def _completar_fechas(ps, t) -> list:
                               "la pagina cambio de forma?", grave=False)]
 
     mapa, avisos = fechas.derivar_padron(ps, ajenos)
-    puestos, mas = fechas.completar(ps, ajenos, mapa)
+    # `derivar_padron` puede terminar diciendo que su propio mapa no sirve --
+    # dos ids apuntando al mismo club --. Antes ese aviso se emitia y el mapa se
+    # usaba igual en la linea siguiente, que es la peor combinacion: queda dicho
+    # que el dato no es confiable y se lo usa lo mismo. Si pasa, se cruza solo
+    # con el padron hecho a mano, que no depende de esta derivacion.
+    roto = [a for a in avisos if "no sirve" in a]
+    puestos, mas = fechas.completar(ps, ajenos, {} if roto else mapa)
+
+    # La fecha importada tiene que caer dentro de la temporada declarada. Es
+    # barato y no lo mira nadie mas: `anios_bien_asignados` compara la MEDIANA de
+    # cada jornada, asi que un partido suelto tres anios afuera lo absorbe sin
+    # una queja. Aca esta el Torneo a mano, que es lo que hace falta para saber
+    # cual seria el rango.
+    validos = {t.temporada, t.anio_fin or t.temporada}
+    fuera = [p for p in ps if p.fuente_fecha and int(p.fecha[:4]) not in validos]
+    for p in fuera[:3]:
+        p.fecha, p.fuente_fecha = "", ""
+
     faltan = sum(1 for p in ps if not p.fecha)
-    return [validar.Aviso(f"{t.pagina}: {puestos} fechas de la segunda fuente",
+    return [validar.Aviso(f"{t.pagina}: el mapa de ids no sirve, se cruzo solo con "
+                         f"el padron", "; ".join(roto)) for _ in roto[:1]] +            [validar.Aviso(f"{t.pagina}: {len(fuera)} fechas importadas caen fuera de "
+                          f"{sorted(validos)}", "se descartan; el partido queda sin fecha")
+            for _ in fuera[:1]] +            [validar.Aviso(f"{t.pagina}: {puestos} fechas de la segunda fuente",
                           f"{len(mapa)} clubes cruzados"
                           + (f"; quedan {faltan} partidos sin fecha" if faltan else ""),
                           grave=False)] + \
@@ -191,7 +211,7 @@ def main(argv=None) -> int:
     # llevaba las filas de las DOS y el dataset crecia 3284 partidos de la nada.
     guardado: dict[str, list] = {}
     for f in anterior:
-        guardado.setdefault(f["source"], []).append(f)
+        guardado.setdefault(dataset.pagina_de(f), []).append(f)
 
     filas, avisos, fallo, reusados = [], [], False, 0
     for t in torneos.TODOS:

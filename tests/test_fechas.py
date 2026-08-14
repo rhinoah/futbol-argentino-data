@@ -399,3 +399,122 @@ def test_una_mayoria_ajustada_no_alcanza():
     mapa, avisos = fechas.derivar_padron(mios, suyos)
     assert "teX" not in mapa
     assert any("contradictorios" in a for a in avisos)
+
+
+# --------------------------------------------------------------------------
+# el huso depende de si el sitio sabe la hora
+# --------------------------------------------------------------------------
+def _sin_hora(bloque_html: str) -> str:
+    return bloque_html.replace('<div class="match-time">20:30</div>',
+                               '<div class="match-time match-time-unknown"></div>')
+
+
+def test_cuando_hay_hora_vale_la_fecha_argentina():
+    """`18:30Z` son las 15:30 de Buenos Aires: un sabado a la tarde. El sitio lo
+    muestra como 20:30 porque es aleman, pero la hora que se ve no es la del
+    partido."""
+    p, = fechas.partidos_de(pagina(bloque(
+        "1", "2010-08-07T18:30:00Z", "A", "te1", "B", "te2", 1, 0)))
+    assert p.fecha == "2010-08-07"
+
+
+def test_un_partido_de_noche_no_se_va_al_dia_siguiente():
+    """22:10Z del 7 son las 19:10 del 7, no del 8."""
+    p, = fechas.partidos_de(pagina(bloque(
+        "1", "2010-08-07T22:10:00Z", "A", "te1", "B", "te2", 1, 0)))
+    assert p.fecha == "2010-08-07"
+
+
+def test_sin_hora_el_instante_es_un_relleno_y_no_se_convierte():
+    """Cuando el sitio no sabe la hora, `data-datetime` no es un instante: es la
+    medianoche de ese dia en Berlin. Se nota porque toma DOS valores en toda la
+    temporada, 22:00Z y 23:00Z. Restarle tres horas cae en el dia anterior, y asi
+    quedaron corridos los 760 partidos de 2007-08 y 2008-09 -- cada uno un dia
+    antes del que el propio sitio publica al lado."""
+    p, = fechas.partidos_de(pagina(_sin_hora(bloque(
+        "1", "2007-08-09T22:00:00Z", "A", "te1", "B", "te2", 1, 0))))
+    assert p.fecha == "2007-08-10", "22:00Z es medianoche del 10 en Berlin"
+
+
+def test_sin_hora_en_invierno_europeo_tambien():
+    """En invierno el relleno es 23:00Z, porque Berlin pasa a UTC+1."""
+    p, = fechas.partidos_de(pagina(_sin_hora(bloque(
+        "1", "2007-12-09T23:00:00Z", "A", "te1", "B", "te2", 1, 0))))
+    assert p.fecha == "2007-12-10"
+
+
+def test_el_horario_de_verano_argentino_se_respeta():
+    """Argentina tuvo horario de verano hasta 2009 -- justo en las temporadas que
+    se cargan, al reves de lo que decia el comentario que justificaba el UTC-3
+    fijo. En enero de 2008 el pais estaba en UTC-2.
+
+    El instante esta elegido para que los dos husos den DIAS distintos, que es lo
+    unico que se ve en el dataset: 02:30Z son las 00:30 del 15 en UTC-2 y las
+    23:30 del 14 en UTC-3. Con cualquier otro horario los dos dan el mismo dia y
+    el test no distingue nada."""
+    p, = fechas.partidos_de(pagina(bloque(
+        "1", "2008-01-15T02:30:00Z", "A", "te1", "B", "te2", 1, 0)))
+    assert p.fecha == "2008-01-15", "UTC-2 en enero de 2008: 00:30 del 15"
+
+
+def test_fuera_del_horario_de_verano_vale_el_UTC_menos_3():
+    """En julio de 2008 Argentina estaba en UTC-3: el mismo instante cae el 14."""
+    p, = fechas.partidos_de(pagina(bloque(
+        "1", "2008-07-15T02:30:00Z", "A", "te1", "B", "te2", 1, 0)))
+    assert p.fecha == "2008-07-14"
+
+
+# --------------------------------------------------------------------------
+# la cache no se envenena
+# --------------------------------------------------------------------------
+def test_no_se_cachea_una_respuesta_que_no_es_la_pagina(monkeypatch, tmp_path):
+    """Un interstitial de firewall o un "access denied" se sirven con status 200
+    igual que la pagina buena. Guardado, queda para siempre: todas las corridas
+    siguientes leen ESE archivo y devuelven cero partidos sin dar ningun error.
+    """
+    import urllib.request
+
+    class Respuesta:
+        headers = {"Content-Type": "text/html; charset=utf-8"}
+        def read(self): return b"<html>Access denied</html>"
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+
+    monkeypatch.setattr(fechas, "CACHE", tmp_path)
+    monkeypatch.setattr(fechas, "PAUSA_MIN", 0)
+    monkeypatch.setattr(urllib.request, "urlopen", lambda *a, **k: Respuesta())
+    with pytest.raises(OSError, match="no parece una pagina"):
+        fechas.descargar("co1", "se1")
+    assert list(tmp_path.glob("*.html")) == [], "no tiene que quedar nada guardado"
+
+
+def test_la_pausa_cuenta_tambien_los_pedidos_que_fallan(monkeypatch, tmp_path):
+    """La autolimitacion se desactivaba justo cuando el sitio dice que no: el
+    reloj se tocaba despues del pedido exitoso, asi que cuatro 403 salian uno
+    atras del otro sin esperar nada."""
+    import urllib.request
+    monkeypatch.setattr(fechas, "CACHE", tmp_path)
+    monkeypatch.setattr(fechas, "_ULTIMO", 0.0)
+
+    def bloqueado(*a, **k):
+        raise OSError("HTTP Error 403: Forbidden")
+
+    monkeypatch.setattr(urllib.request, "urlopen", bloqueado)
+    with pytest.raises(OSError):
+        fechas.descargar("co1", "se1")
+    assert fechas._ULTIMO > 0, "un pedido que fallo tambien es un pedido"
+
+
+# --------------------------------------------------------------------------
+# dos partidos indistinguibles no identifican a ninguno
+# --------------------------------------------------------------------------
+def test_dos_ajenos_con_la_misma_clave_se_descartan_los_dos():
+    """Si dos partidos de la otra fuente comparten jornada y los dos equipos, no
+    hay forma de saber cual es cual. Antes el segundo pisaba al primero en
+    silencio y se importaba la fecha del partido equivocado."""
+    p = nuestro("Aldosivi", "Almagro", 3, 1, 1)
+    ajenos = [ajeno("Aldosivi", "Almagro", 3, 1, 1, fecha="2007-08-09"),
+              ajeno("Aldosivi", "Almagro", 3, 1, 1, fecha="2007-11-30")]
+    n, avisos = fechas.completar([p], ajenos)
+    assert (n, p.fecha) == (0, "")
+    assert any("no identifican nada" in a for a in avisos)
