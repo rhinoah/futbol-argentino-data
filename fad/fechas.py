@@ -68,6 +68,11 @@ ARGENTINA = timezone(timedelta(hours=-3))
 # servidor diciendo que no se hace asi.
 BASE = "https://www.worldfootball.net/competition/{co}/{se}/all-matches/"
 
+# Lo que se escribe en `source` de las filas cuya fecha salio de aca. El credito
+# va fila por fila y no en una nota al pie: quien lea el CSV tiene que poder ver
+# de donde vino cada dato sin abrir el README.
+CREDITO = "https://www.worldfootball.net/"
+
 
 @dataclass(frozen=True)
 class Ajeno:
@@ -300,6 +305,7 @@ def completar(nuestros: list, ajenos: list[Ajeno],
                           f"la otra fuente {a.goles_local}-{a.goles_visita}; no se completo")
             continue
         p.fecha = a.fecha
+        p.fuente_fecha = CREDITO
         puestos += 1
 
     if sin_padron:

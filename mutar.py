@@ -131,6 +131,14 @@ MUTANTES = [
      '        m = re.fullmatch(r"/competition/(co\d+)/", valor)',
      '        m = re.search(r"/(co\d+)/", valor)'),
 
+    ("fad/fechas.py", "completar sin dejar el credito de la fuente",
+     "        p.fuente_fecha = CREDITO",
+     "        pass"),
+
+    ("fad/dataset.py", "no nombrar la segunda fuente en source",
+     '        "source": f"{fuente} + {p.fuente_fecha}" if p.fuente_fecha else fuente,',
+     '        "source": fuente,'),
+
     # --- el historico ---
     ("fad/parser.py", "pedir tres '=' en el titulo Resultados (9 temporadas en cero)",
      '_TITULO_RESULTADOS = re.compile(r"^(=+)\\s*Resultados\\s*=+\\s*$", re.M)',

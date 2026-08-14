@@ -85,6 +85,10 @@ class Partido:
     visita_art: str = field(default="", repr=False)
     estadio: str = ""
     fecha_cruda: str = field(default="", repr=False)   # para diagnosticar
+    # De donde salio la FECHA, cuando no salio de la pagina de Wikipedia. El
+    # credito viaja con el dato: si una fila usa una segunda fuente, su `source`
+    # lo dice. Un dataset que atribuye mal es un dataset que miente sobre si mismo.
+    fuente_fecha: str = field(default="", repr=False)
 
 
 # --------------------------------------------------------------------------

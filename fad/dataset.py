@@ -52,7 +52,10 @@ def a_fila(p: Partido, torneo: str, temporada: int, fuente: str,
         "away_pens": p.penales_visita,
         "tournament": torneo, "season": temporada,
         "phase": p.fase, "group": p.zona, "matchday": p.jornada,
-        "venue": p.estadio, "neutral": str(neutral).lower(), "source": fuente,
+        "venue": p.estadio, "neutral": str(neutral).lower(),
+        # Si la fecha vino de otra fuente, las DOS quedan nombradas. La fila es
+        # de Wikipedia salvo ese campo, y asi se lee.
+        "source": f"{fuente} + {p.fuente_fecha}" if p.fuente_fecha else fuente,
     }
 
 

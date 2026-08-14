@@ -270,3 +270,42 @@ def test_una_opcion_que_no_es_competencia_no_entra():
 def test_la_url_lleva_competencia_y_temporada():
     assert fechas.BASE.format(co="co1787", se="se19981").endswith(
         "/competition/co1787/se19981/all-matches/")
+
+
+# --------------------------------------------------------------------------
+# el credito
+# --------------------------------------------------------------------------
+def test_la_fila_dice_de_donde_salio_la_fecha():
+    """El credito va fila por fila, no en una nota al pie del README.
+
+    Una fila cuya fecha vino de otra fuente lo dice en `source`, junto a la
+    pagina de Wikipedia de la que salio todo lo demas. Un dataset que atribuye
+    mal es un dataset que miente sobre si mismo, y eso es un problema de datos
+    antes que de licencia.
+    """
+    from fad import dataset
+    p = nuestro("Aldosivi", "Almagro", 3, 1, 1)
+    fechas.completar([p], [ajeno("A", "B", 3, 1, 1, fecha="2007-08-09")],
+                     {"teA": "Aldosivi", "teB": "Almagro"})
+    fila = dataset.a_fila(p, "Primera Nacional", 2007, "https://es.wikipedia.org/wiki/X")
+    assert fila["date"] == "2007-08-09"
+    assert "es.wikipedia.org" in fila["source"]
+    assert "worldfootball" in fila["source"]
+
+
+def test_la_fila_que_no_uso_la_segunda_fuente_no_la_nombra():
+    """La atribucion tiene que ser precisa: nombrar a worldfootball en filas que
+    no lo usaron seria tan incorrecto como no nombrarlo en las que si."""
+    from fad import dataset
+    p = nuestro("Aldosivi", "Almagro", 3, 1, 1, fecha="2007-08-09")
+    fila = dataset.a_fila(p, "Primera Nacional", 2007, "https://es.wikipedia.org/wiki/X")
+    assert fila["source"] == "https://es.wikipedia.org/wiki/X"
+
+
+def test_el_credito_no_se_pone_si_no_se_completo():
+    """Si el marcador no coincide no se completa la fecha, asi que tampoco hay
+    nada que acreditar."""
+    p = nuestro("Aldosivi", "Almagro", 0, 1, 1)
+    fechas.completar([p], [ajeno("A", "B", 1, 0, 1)],
+                     {"teA": "Aldosivi", "teB": "Almagro"})
+    assert p.fuente_fecha == ""
