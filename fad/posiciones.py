@@ -106,6 +106,10 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None) -> list
     if not publicada:
         return []
     contada = sumar(ps)
+    # Cuantos clubes se desvian en total. Sirve para decir DE QUE LADO esta el
+    # error, que es la mitad util del aviso -- ver `_de_quien_es_la_culpa`.
+    desviados = sum(1 for c, (pj, gf, gc) in publicada.items()
+                    if c in contada and contada[c][0] == pj and contada[c][1:] != (gf, gc))
     fuera = []
     for club, (pj, gf, gc) in sorted(publicada.items()):
         if club not in contada:
@@ -120,5 +124,26 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None) -> list
             continue
         if (gf, gc) != (gf2, gc2):
             fuera.append(f"{club}: la tabla dice GF{gf} GC{gc} en {pj} partidos y "
-                         f"sumandolos dan GF{gf2} GC{gc2}")
+                         f"sumandolos dan GF{gf2} GC{gc2}. "
+                         + _de_quien_es_la_culpa(desviados))
     return fuera
+
+
+def _de_quien_es_la_culpa(desviados: int) -> str:
+    """De que lado esta el error, deducido de cuantos clubes se desvian.
+
+    Un marcador mal leido toca siempre a DOS clubes: si a uno le sobra un gol a
+    favor, al rival le sobra uno en contra. Asi que un club solo, desviado y sin
+    pareja, no puede venir de un partido -- tiene que ser su fila de la tabla.
+
+    Es lo que paso con Platense en la B Nacional 2009-10: la tabla le pone
+    GF39 GC40 y sus 38 partidos dan 40 y 41, con las otras diecinueve filas
+    cerrando perfecto. El error de tipeo es doble y por eso es tan dificil de
+    ver: al estar los dos numeros bajos por uno, quedan intactos la diferencia
+    de gol, los puntos y el ganados-empatados-perdidos, y hasta la suma de toda
+    la liga sigue dando GF total == GC total.
+    """
+    if desviados == 1:
+        return ("Es el unico club desviado, y un marcador mal leido tocaria a dos: "
+                "lo mas probable es que la fila de la tabla este mal transcripta")
+    return "Hay mas clubes desviados, asi que puede venir de un partido mal leido"

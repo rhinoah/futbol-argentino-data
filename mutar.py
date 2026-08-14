@@ -38,6 +38,10 @@ MUTANTES = [
      "    return a == b",
      "    return True"),
 
+    ("fad/posiciones.py", "no decir de que lado esta el error",
+     "    if desviados == 1:",
+     "    if False:"),
+
     ("fad/posiciones.py", "usar filas de la tabla que no cierran solas",
      "        if gf - gc != dif or pg + pe + pp != pj:",
      "        if False:"),

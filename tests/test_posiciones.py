@@ -134,3 +134,32 @@ def test_los_arbitrados_se_pueden_buscar_por_pagina():
     clave = correcciones.arbitrados("Campeonato de Primera B Nacional 2010-11")
     assert ("Fecha 22", "San Martín (T)", "Patronato") in clave
     assert correcciones.arbitrados("Una Pagina Cualquiera") == set()
+
+
+# --------------------------------------------------------------------------
+# de que lado esta el error
+# --------------------------------------------------------------------------
+def test_un_club_solo_desviado_acusa_a_la_tabla():
+    """Un marcador mal leido toca siempre a DOS clubes: al que hizo el gol de mas
+    y al que lo recibio. Un club solo, sin pareja, no puede venir de un partido.
+
+    Es el caso de Platense en la B Nacional 2009-10, y el error de tipeo es doble
+    -- los dos numeros bajos por uno --, asi que deja intactos la diferencia de
+    gol, los puntos y el ganados-empatados-perdidos."""
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 2, 0),      # los DOS bajos por uno
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 3))
+    avisos = posiciones.contrastar(ps, p)
+    assert len(avisos) == 1
+    assert "la fila de la tabla este mal transcripta" in avisos[0]
+
+
+def test_dos_clubes_desviados_no_acusan_a_la_tabla():
+    """Con dos, la explicacion del partido mal leido vuelve a estar sobre la mesa
+    y el aviso no se pronuncia."""
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 4, 1),
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 4))
+    avisos = posiciones.contrastar(ps, p)
+    assert len(avisos) == 2
+    assert all("puede venir de un partido mal leido" in a for a in avisos)

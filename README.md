@@ -351,9 +351,26 @@ mismo conjunto. Sobre los 121 torneos, 19 publican una tabla usable: 10 cierran
 perfecto y 9 tienen algo que no. Va como **aviso**, no como error: lo que denuncia
 es una contradicción de la fuente consigo misma.
 
-Encontró además algo que nadie buscaba: **Platense 2009-10 no cierra con ninguna de
-las dos fuentes**, que coinciden entre sí en sus 38 partidos. O la tabla tiene un
-error, o las dos fuentes comparten uno. Queda anotado.
+#### Y encontró un error en la tabla
+
+**Platense 2009-10 no cierra con ninguna de las dos fuentes**, que coinciden entre
+sí en sus 38 partidos. La tabla le pone GF39 GC40 y los partidos dan 40 y 41.
+
+El árbitro se puede arbitrar a sí mismo. Un marcador mal leído toca siempre a
+**dos** clubes: si a uno le sobra un gol a favor, al rival le sobra uno en contra.
+Acá **ningún otro club se desvía** — las otras diecinueve filas cierran perfecto —,
+así que la diferencia no puede venir de un partido. Está mal la fila.
+
+Es un error de tipeo difícil de ver, porque los dos números están bajos por uno y
+eso deja intactos la diferencia de gol (−1), los puntos (47) y el
+ganados-empatados-perdidos (11-14-13). Incluso la suma de toda la liga sigue dando
+**GF total = GC total = 878**, que es el chequeo obvio para una tabla. La
+[Wikipedia en inglés](https://en.wikipedia.org/wiki/2009%E2%80%9310_Primera_B_Nacional)
+publica los mismos números, así que el error viene de más atrás.
+
+Por eso el aviso ahora dice **de qué lado** está el problema: si el club desviado
+está solo, acusa a la tabla; si hay más de uno, deja abierta la posibilidad de un
+partido mal leído.
 
 ### Las cuatro correcciones a mano
 
