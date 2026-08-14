@@ -17,9 +17,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **34 755 partidos entre febrero de 2004 y hoy** — veintitrés años de
+**Estado:** **35 048 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
-Torneo Federal A, y diez ediciones de la Copa Argentina. **196 clubes**, 120
+Torneo Federal A, y diez ediciones de la Copa Argentina. **196 clubes**, 121
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
@@ -82,7 +82,7 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 la atribución viaja con el dato.
 
 **[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en **1 511 filas de 34 755** (4,4 %): la **fecha del calendario** de partidos
+sólo en **1 511 filas de 35 048** (4,4 %): la **fecha del calendario** de partidos
 que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
 entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
 nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
