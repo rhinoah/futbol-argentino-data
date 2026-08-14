@@ -17,7 +17,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **34 468 partidos entre febrero de 2004 y hoy** — veintitrés años de
+**Estado:** **34 471 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
 Torneo Federal A, y diez ediciones de la Copa Argentina. **196 clubes**, 120
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
@@ -82,7 +82,7 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 la atribución viaja con el dato.
 
 **[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en **1 508 filas de 34 468** (4,4 %): la **fecha del calendario** de partidos
+sólo en **1 511 filas de 34 471** (4,4 %): la **fecha del calendario** de partidos
 que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
 entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
 nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
@@ -96,7 +96,7 @@ El cruce no empareja por nombre. Dentro de una jornada, **un marcador que aparec
 una sola vez de cada lado identifica el partido sin ambigüedad**, y de paso dice
 quién es cada equipo: así se deduce el padrón de ids de la otra fuente sin
 depender de cómo escriba los nombres. Después la fecha se copia sólo si las dos
-fuentes coinciden en equipos, jornada **y marcador**. Los 12 partidos donde no
+fuentes coinciden en equipos, jornada **y marcador**. Los 9 partidos donde no
 coinciden quedaron sin fecha a propósito — un partido que dos fuentes cuentan
 distinto es información sobre los datos, no algo para tapar.
 
@@ -317,22 +317,31 @@ Dos cosas que no son bugs míos y quedan documentadas porque afectan al dataset:
   nadie leyendo: el padrón que se deduce del cruce vio 17 partidos de un mismo id
   llamados *Aldosivi* y uno *Aldovisi*, y avisó que ese id tenía votos
   contradictorios.
-- **Una localía al revés.** Wikipedia pone a Ferro de local contra Unión en las
-  fechas 6 **y** 25 de la B Nacional 2009-10. En un torneo de ida y vuelta eso es
-  imposible, y no hace falta ninguna fuente externa para saberlo. Está sin
-  corregir: el dataset dice lo que dice la fuente, y queda anotado acá.
+### Las cuatro correcciones a mano
 
-### La única corrección a mano
+Hay **cuatro** filas del dataset que no dicen lo que dice Wikipedia, y viven en
+[`fad/correcciones.py`](fad/correcciones.py) con su evidencia escrita. Las cuatro
+son de la misma página, la B Nacional 2009-10, y las cuatro salen de que **la
+fuente se contradice sola**.
 
-Hay **una** fila del dataset que no dice lo que dice Wikipedia, y vive en
-[`fad/correcciones.py`](fad/correcciones.py) con su evidencia escrita.
+**Un club que juega dos veces la misma fecha.** La página pone a Belgrano dos
+veces en la Fecha 12 —contra All Boys y contra CAI— y deja a Gimnasia y Esgrima (J)
+sin jugar. En una fecha de veinte equipos eso es imposible, y lo agarra
+`una_vez_por_jornada` sin mirar nada de afuera. *Cuál* de los dos está mal lo dice
+la segunda fuente, que trae los mismos diez partidos con los mismos diez
+marcadores y el primero como **All Boys 0-0 GyE Jujuy**.
 
-La página de la B Nacional 2009-10 pone a **Belgrano dos veces en la Fecha 12** —
-contra All Boys y contra CAI — y deja a Gimnasia y Esgrima (J) sin jugar. En una
-fecha de veinte equipos eso es imposible, y lo agarra `una_vez_por_jornada` sin
-mirar nada de afuera. *Cuál* de los dos está mal lo dice la segunda fuente, que
-trae los mismos diez partidos con los mismos diez marcadores y el primero como
-**All Boys 0-0 GyE Jujuy**.
+**Tres localías al revés.** Belgrano–Instituto, Ferro–Unión y Merlo–Platense
+figuran con **el mismo local en las dos ruedas**. En un ida y vuelta cada par
+juega una vez en cada cancha, así que una de las dos está invertida — lo agarra
+`localias_repartidas`, también sin fuentes externas.
+
+Los tres son **empates**, y ahí está lo interesante: como el marcador es
+simétrico, las dos fuentes coinciden en todo salvo en quién jugaba en su casa. Por
+eso el cruce no los emparejaba —busca `(jornada, local, visitante)` y del otro
+lado están al revés—, se quedaban sin fecha y **se caían del dataset**. O sea que
+el error de la fuente no producía un dato malo: producía tres partidos que no
+existían.
 
 Un lugar donde se puede escribir "este partido en realidad fue así" es la puerta
 por la que se cuela un dataset que dice lo que a uno le gustaría. Por eso el

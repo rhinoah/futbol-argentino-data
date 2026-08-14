@@ -45,7 +45,45 @@ class Correccion:
     porque: str                      # la evidencia, para que se pueda auditar
 
 
+def _localia_al_reves(jornada: str, local: str, visita: str, g: int,
+                      otra_jornada: str) -> Correccion:
+    """Un partido que la pagina anota con los equipos cambiados de lado.
+
+    Los tres que hay son de la B Nacional 2009-10 y salen del mismo invariante:
+    en un torneo de ida y vuelta cada par juega UNA vez en cada cancha, y estos
+    tres figuran con el mismo local en las dos ruedas. Eso no es raro, es
+    imposible, y no hace falta ninguna fuente externa para verlo.
+
+    Los tres son EMPATES, y ahi esta la gracia: como el marcador es simetrico,
+    las dos fuentes coinciden en todo salvo en quien jugaba en su casa. Por eso
+    `fechas.completar` no los emparejaba -- busca (jornada, local, visitante) y
+    del otro lado estan al reves --, se quedaban sin fecha y se caian del
+    dataset. O sea que el error no producia un dato malo: producia tres partidos
+    que no existian.
+
+    Cual de las dos ruedas esta mal lo dice worldfootball, que da la otra
+    orientacion para esta y coincide con Wikipedia en la otra.
+    """
+    return Correccion(
+        pagina="Campeonato de Primera B Nacional 2009-10",
+        jornada=jornada,
+        dice=(local, visita, g, g),
+        debe=(visita, local),
+        porque=(f"La pagina pone a {local} de local contra {visita} en la {otra_jornada} "
+                f"Y en la {jornada}. En un torneo de ida y vuelta cada par juega una vez "
+                f"en cada cancha, asi que una de las dos esta al reves; lo agarra "
+                f"`validar.localias_repartidas` sin mirar ninguna fuente externa. "
+                f"Cual es la mala la dice worldfootball, que para la {jornada} da "
+                f"{visita} {g}-{g} {local} y para la {otra_jornada} coincide con "
+                f"Wikipedia. Como el marcador es un empate, las dos fuentes dicen "
+                f"exactamente lo mismo salvo la localia."))
+
+
 CORRECCIONES: tuple[Correccion, ...] = (
+    _localia_al_reves("Fecha 25", "Belgrano", "Instituto", 1, "Fecha 6"),
+    _localia_al_reves("Fecha 25", "Ferro Carril Oeste", "Unión", 2, "Fecha 6"),
+    _localia_al_reves("Fecha 35", "Deportivo Merlo", "Platense", 2, "Fecha 16"),
+
     Correccion(
         pagina="Campeonato de Primera B Nacional 2009-10",
         jornada="Fecha 12",
