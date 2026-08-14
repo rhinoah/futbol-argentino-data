@@ -38,6 +38,34 @@ MUTANTES = [
      "    return a == b",
      "    return True"),
 
+    ("fad/posiciones.py", "usar filas de la tabla que no cierran solas",
+     "        if gf - gc != dif or pg + pe + pp != pj:",
+     "        if False:"),
+
+    ("fad/posiciones.py", "comparar goles aunque no coincidan los partidos jugados",
+     "        if pj != pj2:",
+     "        if False:"),
+
+    ("fad/posiciones.py", "sumar tambien los partidos de eliminacion",
+     '        if p.fase != "zonas" or p.goles_local is None or p.goles_visita is None:',
+     "        if p.goles_local is None or p.goles_visita is None:"),
+
+    ("fad/posiciones.py", "denunciar a un club de la tabla que no jugo",
+     "        if club not in contada:",
+     "        if False:"),
+
+    ("fad/fechas.py", "tomar la fecha de cualquier marcador distinto",
+     "            if (p.jornada, p.local, p.visita) not in (arbitrados or ()):",
+     "            if False:"),
+
+    ("build.py", "no cruzar contra la tabla de posiciones",
+     "               for d in posiciones.contrastar(ps, texto)]",
+     "               for d in []]"),
+
+    ("fad/correcciones.py", "aplicar un marcador arbitrado que ya no engancha",
+     "        if len(candidatos) != 1:",
+     "        if False:"),
+
     ("fad/parser.py", "no cortar en el cierre |} de tabla",
      'bloque = re.sub(r"\\n\\|\\}", "\\n|-", bloque)',
      'bloque = bloque'),
@@ -150,8 +178,8 @@ MUTANTES = [
      "    c = Counter((p.fecha, p.local, p.visita) for p in ps)"),
 
     ("build.py", "usar el mapa que la derivacion declaro inservible",
-     "    puestos, mas = fechas.completar(ps, ajenos, {} if roto else mapa)",
-     "    puestos, mas = fechas.completar(ps, ajenos, mapa)"),
+     "    puestos, mas = fechas.completar(ps, ajenos, {} if roto else mapa,",
+     "    puestos, mas = fechas.completar(ps, ajenos, mapa,"),
 
     ("build.py", "aceptar una fecha importada fuera de la temporada",
      "    fuera = [p for p in ps if p.fuente_fecha and int(p.fecha[:4]) not in validos]",

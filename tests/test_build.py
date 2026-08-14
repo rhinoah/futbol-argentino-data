@@ -425,7 +425,7 @@ def test_un_mapa_declarado_inservible_no_se_usa(monkeypatch):
     from fad import fechas
     visto = {}
 
-    def espiar(nuestros, ajenos, mapa=None):
+    def espiar(nuestros, ajenos, mapa=None, arbitrados=None):
         visto["mapa"] = mapa
         return 0, []
 
@@ -462,3 +462,31 @@ def test_una_fecha_del_anio_siguiente_si_entra(monkeypatch):
         "2007-08-09T22:00:00Z", "2008-06-13T22:00:00Z"))
     ps, _ = build.procesar(_sin_fecha(), cruzado)
     assert len(ps) == 1 and ps[0].fecha == "2008-06-13"
+
+
+def test_el_build_cruza_contra_la_tabla_de_posiciones():
+    """La pagina dice que Boca hizo 5 goles y su unico partido tiene 2. Es una
+    contradiccion de la fuente consigo misma, asi que avisa sin frenar nada."""
+    pagina = tabla(("Boca Juniors", "River Plate")) + """
+== Tabla de posiciones ==
+{| class="wikitable"
+|- style="background:#dddddd;"
+! Pos
+! Equipo
+! Pts
+! PJ
+! PG
+! PE
+! PP
+! GF
+! GC
+! DIF
+|-
+||'''1º'''||align="left"|[[Boca Juniors]]
+||'''3'''||1||1||0||0||5||1||4
+|}
+"""
+    _, avisos = build.procesar(pagina, T)
+    tabla_avisos = [a for a in avisos if "tabla de posiciones" in a.que]
+    assert len(tabla_avisos) == 1
+    assert not tabla_avisos[0].grave, "es un error de la fuente, no frena el build"

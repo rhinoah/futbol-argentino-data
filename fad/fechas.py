@@ -342,7 +342,8 @@ def derivar_padron(nuestros: list, ajenos: list[Ajeno],
 
 
 def completar(nuestros: list, ajenos: list[Ajeno],
-              mapa: dict[str, str] | None = None) -> tuple[int, list[str]]:
+              mapa: dict[str, str] | None = None,
+              arbitrados: set | None = None) -> tuple[int, list[str]]:
     """Le pone fecha a los partidos que no la tienen. Devuelve (cuantos, avisos).
 
     LA REGLA: los equipos y la jornada IDENTIFICAN el partido, y el marcador lo
@@ -355,6 +356,13 @@ def completar(nuestros: list, ajenos: list[Ajeno],
     Los nombres del otro lado pasan por el mismo padron que todo lo demas. Los
     que no resuelven se informan en vez de emparejarse por parecido: es lo que
     evito que "Estudiantes" terminara siendo el club equivocado.
+
+    `arbitrados` son los partidos cuyo desacuerdo de marcador YA se resolvio por
+    otro camino -- la tabla de posiciones de la propia pagina, ver
+    `fad/correcciones.py`. Para esos el marcador ya no hace falta como
+    verificacion, porque el emparejamiento esta confirmado, y la fecha se toma
+    igual. Es una excepcion nombrada partido por partido y no un aflojamiento de
+    la regla: sin la lista, un desacuerdo sigue frenando la fecha.
     """
     from fad import equipos
 
@@ -395,10 +403,15 @@ def completar(nuestros: list, ajenos: list[Ajeno],
             sin_par += 1
             continue
         if (a.goles_local, a.goles_visita) != (p.goles_local, p.goles_visita):
-            avisos.append(f"marcador distinto en {p.jornada} {p.local} vs {p.visita}: "
-                          f"nosotros {p.goles_local}-{p.goles_visita}, "
-                          f"la otra fuente {a.goles_local}-{a.goles_visita}; no se completo")
-            continue
+            if (p.jornada, p.local, p.visita) not in (arbitrados or ()):
+                avisos.append(f"marcador distinto en {p.jornada} {p.local} vs {p.visita}: "
+                              f"nosotros {p.goles_local}-{p.goles_visita}, "
+                              f"la otra fuente {a.goles_local}-{a.goles_visita}; no se completo")
+                continue
+            avisos.append(f"marcador distinto en {p.jornada} {p.local} vs {p.visita} "
+                          f"({p.goles_local}-{p.goles_visita} contra "
+                          f"{a.goles_local}-{a.goles_visita}), pero el partido ya esta "
+                          f"arbitrado: se toma la fecha y se deja el marcador nuestro")
         p.fecha = a.fecha
         p.fuente_fecha = CREDITO
         puestos += 1

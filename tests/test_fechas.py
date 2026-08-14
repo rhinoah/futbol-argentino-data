@@ -518,3 +518,27 @@ def test_dos_ajenos_con_la_misma_clave_se_descartan_los_dos():
     n, avisos = fechas.completar([p], ajenos)
     assert (n, p.fecha) == (0, "")
     assert any("no identifican nada" in a for a in avisos)
+
+
+def test_un_partido_arbitrado_toma_la_fecha_igual():
+    """`completar` usa el marcador para verificar que las dos fuentes hablan del
+    mismo partido. Cuando el emparejamiento ya se confirmo por otro lado -- la
+    tabla de posiciones de la propia pagina -- el marcador ya no hace falta como
+    verificacion, y la fecha se toma. Es el caso de Talleres 0-4 Atlético
+    Tucumán, donde la tabla le da la razon a Wikipedia y no a la otra fuente."""
+    p = nuestro("Aldosivi", "Almagro", 0, 4, 36)
+    ajenos = [ajeno("Aldosivi", "Almagro", 1, 4, 36, fecha="2009-06-06")]
+    n, avisos = fechas.completar([p], ajenos,
+                                 arbitrados={("Fecha 36", "Aldosivi", "Almagro")})
+    assert (n, p.fecha) == (1, "2009-06-06")
+    assert (p.goles_local, p.goles_visita) == (0, 4), "el marcador nuestro no se toca"
+    assert any("ya esta arbitrado" in a for a in avisos)
+
+
+def test_sin_arbitrar_el_marcador_distinto_sigue_frenando():
+    """La excepcion se nombra partido por partido. Sin la lista, la regla vale."""
+    p = nuestro("Aldosivi", "Almagro", 0, 4, 36)
+    ajenos = [ajeno("Aldosivi", "Almagro", 1, 4, 36, fecha="2009-06-06")]
+    n, avisos = fechas.completar([p], ajenos)
+    assert (n, p.fecha) == (0, "")
+    assert any("no se completo" in a for a in avisos)

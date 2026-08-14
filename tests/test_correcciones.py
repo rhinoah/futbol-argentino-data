@@ -101,3 +101,26 @@ def test_las_correcciones_usan_nombres_del_padron():
     for c in correcciones.CORRECCIONES:
         for n in c.debe:
             assert equipos.buscar(n) is not None, f"{n!r} no esta en el padron"
+
+
+def test_un_marcador_arbitrado_que_ya_no_engancha_avisa(monkeypatch):
+    """Si Wikipedia corrige el marcador, el arbitraje queda sin efecto. Tiene que
+    decirlo en vez de reventar o de tocar el partido que no es."""
+    from fad.correcciones import Marcador
+    monkeypatch.setattr(correcciones, "MARCADORES", (
+        Marcador(pagina="Una Pagina", jornada="Fecha 1", local="All Boys",
+                 visita="Belgrano", dice=(0, 1), debe=(1, 0), porque="x" * 90),))
+    ps = [partido("All Boys", "Belgrano", 1, 0, jornada="Fecha 1")]   # ya esta bien
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 0
+    assert any("no se aplica" in a for a in avisos)
+
+
+def test_un_marcador_arbitrado_se_aplica(monkeypatch):
+    from fad.correcciones import Marcador
+    monkeypatch.setattr(correcciones, "MARCADORES", (
+        Marcador(pagina="Una Pagina", jornada="Fecha 1", local="All Boys",
+                 visita="Belgrano", dice=(0, 1), debe=(1, 0), porque="x" * 90),))
+    ps = [partido("All Boys", "Belgrano", 0, 1, jornada="Fecha 1")]
+    n, _ = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 1 and (ps[0].goles_local, ps[0].goles_visita) == (1, 0)

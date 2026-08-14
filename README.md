@@ -17,7 +17,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **35 048 partidos entre febrero de 2004 y hoy** — veintitrés años de
+**Estado:** **35 057 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
 Torneo Federal A, y diez ediciones de la Copa Argentina. **196 clubes**, 121
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
@@ -82,7 +82,7 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 la atribución viaja con el dato.
 
 **[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en **1 511 filas de 35 048** (4,4 %): la **fecha del calendario** de partidos
+sólo en **1 520 filas de 35 057** (4,4 %): la **fecha del calendario** de partidos
 que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
 entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
 nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
@@ -97,7 +97,7 @@ una sola vez de cada lado identifica el partido sin ambigüedad**, y de paso dic
 quién es cada equipo: así se deduce el padrón de ids de la otra fuente sin
 depender de cómo escriba los nombres. Después la fecha se copia sólo si las dos
 fuentes coinciden en equipos, jornada **y marcador**. Los 9 partidos donde no
-coinciden quedaron sin fecha a propósito — un partido que dos fuentes cuentan
+coincidían se resolvieron con un árbitro que no es ninguna de las dos (ver abajo) — un partido que dos fuentes cuentan
 distinto es información sobre los datos, no algo para tapar.
 
 Cuando una fila usa esa segunda fuente, **su `source` nombra las dos**:
@@ -317,6 +317,44 @@ Dos cosas que no son bugs míos y quedan documentadas porque afectan al dataset:
   nadie leyendo: el padrón que se deduce del cruce vio 17 partidos de un mismo id
   llamados *Aldosivi* y uno *Aldovisi*, y avisó que ese id tenía votos
   contradictorios.
+### El árbitro: la tabla de posiciones
+
+Nueve partidos del ascenso 2007-2011 tenían un problema que parecía irresoluble:
+Wikipedia y worldfootball coincidían en los equipos y en la jornada, y **discrepaban
+en el marcador**. Como el marcador es lo que usa el cruce para *verificar* que las
+dos fuentes hablan del mismo partido, no emparejaban, se quedaban sin fecha y se
+caían del dataset.
+
+La salida no fue elegir "la fuente que suele tener razón". La misma página de
+Wikipedia publica, aparte de los resultados, su **tabla de posiciones**: partidos
+jugados, goles a favor y en contra de cada club. Es una afirmación *independiente*
+sobre la misma temporada, y sumar los marcadores tiene que dar exactamente eso.
+
+Uno de los dos candidatos hace cerrar la tabla y el otro no:
+
+```
+Aldosivi      tabla GF44 GC54  |  con Wikipedia GF44 GC58  |  con la otra fuente GF44 GC54  ✓
+Boca Unidos   tabla GF42 GC48  |  con Wikipedia GF45 GC48  |  con la otra fuente GF42 GC48  ✓
+```
+
+Los nueve quedaron resueltos. Y lo que muestra que el método mide algo es que **no
+contesta siempre lo mismo**: ocho le dan la razón a worldfootball y uno a Wikipedia
+(Talleres 0-4 Atlético Tucumán, donde el 1-4 de worldfootball rompe a los dos
+clubes). Si el árbitro dijera siempre lo mismo, sería indistinguible de haber
+elegido una fuente de antemano.
+
+El cruce quedó como chequeo permanente en
+[`fad/posiciones.py`](fad/posiciones.py), y **se calla cuando no puede opinar**: una
+fila que no cierra consigo misma (`GF − GC ≠ DIF`) no desmiente a nadie, y si la
+cantidad de partidos jugados no coincide, las dos partes no están hablando del
+mismo conjunto. Sobre los 121 torneos, 19 publican una tabla usable: 10 cierran
+perfecto y 9 tienen algo que no. Va como **aviso**, no como error: lo que denuncia
+es una contradicción de la fuente consigo misma.
+
+Encontró además algo que nadie buscaba: **Platense 2009-10 no cierra con ninguna de
+las dos fuentes**, que coinciden entre sí en sus 38 partidos. O la tabla tiene un
+error, o las dos fuentes comparten uno. Queda anotado.
+
 ### Las cuatro correcciones a mano
 
 Hay **cuatro** filas del dataset que no dicen lo que dice Wikipedia, y viven en
@@ -377,6 +415,7 @@ automático no es tirar una excepción, es escribir un CSV plausible y equivocad
 | **el que juega una ronda ganó la anterior** | cualquier cosa, en la eliminación |
 | zona = todos contra todos completo | partidos faltantes (aviso, no error) |
 | **la localía se reparte entre los dos cruces** | una localía al revés, o un club escrito de dos formas |
+| **los goles suman lo que dice la tabla de posiciones** | un marcador mal leído, o mal publicado (aviso, no error) |
 
 Los dos en negrita son los fuertes, y los dos son **autocontenidos**: no
 consultan ninguna fuente externa, salen de cómo está armado un torneo.

@@ -19,7 +19,8 @@ import argparse
 import sys
 from pathlib import Path
 
-from fad import correcciones, dataset, equipos, parser, torneos, validar, wiki
+from fad import (correcciones, dataset, equipos, parser, posiciones, torneos,
+                 validar, wiki)
 
 SALIDA = Path(__file__).resolve().parent / "data"   # una carpeta: un CSV por temporada
 
@@ -107,7 +108,8 @@ def _completar_fechas(ps, t) -> list:
     # que el dato no es confiable y se lo usa lo mismo. Si pasa, se cruza solo
     # con el padron hecho a mano, que no depende de esta derivacion.
     roto = [a for a in avisos if "no sirve" in a]
-    puestos, mas = fechas.completar(ps, ajenos, {} if roto else mapa)
+    puestos, mas = fechas.completar(ps, ajenos, {} if roto else mapa,
+                                    correcciones.arbitrados(t.pagina))
 
     # La fecha importada tiene que caer dentro de la temporada declarada. Es
     # barato y no lo mira nadie mas: `anios_bien_asignados` compara la MEDIANA de
@@ -174,6 +176,14 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # partidos que este paso viene a arreglar.
     avisos = _completar_fechas(ps, t) if t.wf else []
     avisos += validar.revisar(ps)
+    # La tabla de posiciones de la propia pagina, contra la suma de los partidos.
+    # Va como aviso: lo que denuncia es una contradiccion DE LA FUENTE consigo
+    # misma, y frenar el build de todos los dias por eso seria desproporcionado.
+    # Sirve igual, y para algo que ningun otro chequeo puede hacer: decidir cual
+    # de dos fuentes tiene razon sobre un marcador, sin traer una tercera.
+    avisos += [validar.Aviso(f"{t.pagina}: no cierra con su tabla de posiciones", d,
+                             grave=False)
+               for d in posiciones.contrastar(ps, texto)]
     if borradas:
         avisos.append(validar.Aviso(
             f"{borradas} partidos sin numero de jornada",

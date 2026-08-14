@@ -101,6 +101,90 @@ CORRECCIONES: tuple[Correccion, ...] = (
 )
 
 
+@dataclass(frozen=True)
+class Marcador:
+    """Un partido que las dos fuentes cuentan distinto, arbitrado por la tabla.
+
+    No se elige "la fuente que suele tener razon". Se le pregunta a la TABLA DE
+    POSICIONES de la propia pagina de Wikipedia, que publica los partidos jugados
+    y los goles a favor y en contra de cada club: sumar los marcadores tiene que
+    dar exactamente eso. Uno de los dos candidatos hace cerrar la tabla y el otro
+    no, y ahi termina la discusion sin traer una tercera fuente.
+
+    Que el metodo mide algo se ve en que no contesta siempre lo mismo: de los
+    nueve, ocho le dan la razon a worldfootball y uno a Wikipedia.
+
+    `debe` puede ser igual a `dice`. Eso quiere decir que la pagina ya tenia
+    razon y que lo unico que se toma de la otra fuente es la FECHA.
+    """
+    pagina: str
+    jornada: str
+    local: str
+    visita: str
+    dice: tuple[int, int]
+    debe: tuple[int, int]
+    porque: str
+
+
+def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
+    return Marcador(
+        pagina={"2007": "Campeonato de Primera B Nacional 2007-08",
+                "2008": "Campeonato de Primera B Nacional 2008-09",
+                "2009": "Campeonato de Primera B Nacional 2009-10",
+                "2010": "Campeonato de Primera B Nacional 2010-11"}[jornada[:4]],
+        jornada=jornada[5:], local=local, visita=visita, dice=dice, debe=debe,
+        porque=(f"Wikipedia dice {dice[0]}-{dice[1]} y worldfootball "
+                f"{debe[0]}-{debe[1]}. La tabla de posiciones de la propia pagina "
+                f"le da la razon a {quien}: {detalle}."))
+
+
+MARCADORES: tuple[Marcador, ...] = (
+    _arbitrado("2007 Fecha 1", "Independiente Rivadavia", "Tiro Federal", (0, 1), (1, 0),
+               "worldfootball",
+               "con 0-1 los dos clubes quedan fuera de sus totales publicados y con 1-0 cierran"),
+    # El unico donde gana Wikipedia. `debe` == `dice`: no se cambia el marcador,
+    # solo se acepta la fecha de la otra fuente.
+    _arbitrado("2008 Fecha 36 (6/06/2009)", "Talleres (C)", "Atlético Tucumán", (0, 4), (0, 4),
+               "Wikipedia",
+               "con el 0-4 de Wikipedia los veinte clubes cierran, y con el 1-4 de "
+               "worldfootball se rompen Talleres y Atlético Tucumán"),
+    _arbitrado("2009 Fecha 1", "Defensa y Justicia", "Tiro Federal", (2, 2), (2, 0),
+               "worldfootball",
+               "Defensa y Justicia figura con GC53 y sumando los partidos daba 55; "
+               "Tiro Federal con GF52 y daba 54"),
+    _arbitrado("2009 Fecha 17", "Platense", "Aldosivi", (1, 0), (0, 0),
+               "worldfootball",
+               "junto con la Fecha 38, es lo que le deja a Aldosivi los GC54 que publica "
+               "la tabla en vez de los 58 que daban"),
+    _arbitrado("2009 Fecha 23", "Gimnasia y Esgrima (J)", "Quilmes", (0, 1), (1, 2),
+               "worldfootball",
+               "a los cuatro totales de los dos clubes les faltaba exactamente un gol"),
+    _arbitrado("2009 Fecha 38", "San Martín (SJ)", "Ferro Carril Oeste", (1, 0), (1, 1),
+               "worldfootball",
+               "a San Martín le faltaba un gol en contra y a Ferro uno a favor"),
+    _arbitrado("2009 Fecha 38", "Aldosivi", "Boca Unidos", (3, 4), (3, 1),
+               "worldfootball",
+               "Boca Unidos publica GF42 y sumando daba 45; con este marcador cierra"),
+    _arbitrado("2010 Fecha 22", "Ferro Carril Oeste", "Defensa y Justicia", (0, 3), (0, 0),
+               "worldfootball",
+               "Defensa y Justicia publica GF37 y daba 40; Ferro publica GC47 y daba 50"),
+    _arbitrado("2010 Fecha 22", "San Martín (T)", "Patronato", (1, 3), (1, 2),
+               "worldfootball",
+               "a Patronato le sobraba un gol a favor y a San Martín uno en contra"),
+)
+
+
+def arbitrados(pagina: str) -> set[tuple[str, str, str]]:
+    """(jornada, local, visitante) de los partidos ya arbitrados de `pagina`.
+
+    `fechas.completar` usa el marcador para VERIFICAR que las dos fuentes hablan
+    del mismo partido, y se niega a completar cuando no coincide. Para estos el
+    emparejamiento ya se confirmo por otro lado, asi que una diferencia que
+    quede no tiene que frenar la fecha.
+    """
+    return {(m.jornada, m.local, m.visita) for m in MARCADORES if m.pagina == pagina}
+
+
 def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
     """Corrige los partidos de `pagina`. Devuelve (cuantas se aplicaron, avisos).
 
@@ -128,5 +212,20 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
                           f"no identifica uno solo")
             continue
         candidatos[0].local, candidatos[0].visita = c.debe
+        aplicadas += 1
+
+    for m in MARCADORES:
+        if m.pagina != pagina or m.debe == m.dice:
+            continue                      # `debe == dice`: la pagina ya esta bien
+        candidatos = [p for p in ps
+                      if p.jornada == m.jornada and p.local == m.local
+                      and p.visita == m.visita
+                      and (p.goles_local, p.goles_visita) == m.dice]
+        if len(candidatos) != 1:
+            avisos.append(f"el marcador arbitrado de {m.jornada} ({m.local} vs "
+                          f"{m.visita}) engancha con {len(candidatos)} partidos y no se "
+                          f"aplica: si la fuente se corrigio, sacalo de fad/correcciones.py")
+            continue
+        candidatos[0].goles_local, candidatos[0].goles_visita = m.debe
         aplicadas += 1
     return aplicadas, avisos
