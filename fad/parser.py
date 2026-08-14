@@ -369,6 +369,50 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
 # --------------------------------------------------------------------------
 # eliminacion: plantillas {{Partido}}
 # --------------------------------------------------------------------------
+# El arranque de una `{{Partido}}`. `Partidos?` en plural TAMBIEN, porque
+# `Plantilla:Partidos` es literalmente `#REDIRECCION [[Plantilla:Partido]]`:
+# misma plantilla, mismos parametros, se renderiza igual. Pidiendo el singular
+# la `s` no matchea -- no es whitespace -- y la plantilla no se ve. Eran 27
+# paginas del catalogo y 284 partidos de eliminacion que se caian en silencio,
+# la mayoria de ellas con la fase eliminatoria ENTERA afuera.
+_ARRANQUE_PARTIDO = re.compile(r"\{\{\s*Partidos?\s*\n", re.I)
+
+
+def _plantillas_partido(texto: str):
+    r"""(posicion, cuerpo) de cada `{{Partido}}`, cerrando por balance de llaves.
+
+    El cierre NO se puede buscar con un regex. Pidiendo `\n\s*\}\}` se exige
+    que el `}}` este solo en su renglon, y la forma mas comun en es.wikipedia es
+    cerrarla pegada al ultimo parametro (`|árbitro=[[Fulano]]}}`). Cuando cierra
+    asi, el `.*?` no para donde termina la plantilla: sigue hasta el proximo `}}`
+    que si este solo, y se COME las plantillas del medio.
+
+    Y no se rompe: como los campos van a un diccionario, el ultimo `local` pisa
+    al primero. En la Primera B 2021 las tres plantillas de la fase eliminatoria
+    colapsaban en una sola, que salia con los equipos y el marcador de la final
+    (Talleres 2-4 Comunicaciones), los penales de la semifinal (4-2, porque ese
+    parametro estaba solo en la primera) y el rotulo de ronda de la primera.
+    Un partido que nunca existio, con todos los campos llenos.
+
+    Contar llaves ademas es lo unico que sirve con las anidadas: el cuerpo trae
+    `{{sin negrita|(0:0)}}` y `{{gol|43}}`, asi que frenar en el primer `}}`
+    dejaria el partido sin visitante.
+    """
+    for m in _ARRANQUE_PARTIDO.finditer(texto):
+        i, hondo = m.end(), 1
+        while i < len(texto) and hondo:
+            if texto.startswith("{{", i):
+                hondo, i = hondo + 1, i + 2
+            elif texto.startswith("}}", i):
+                hondo, i = hondo - 1, i + 2
+            else:
+                i += 1
+        # Una plantilla que no cierra se descarta. Adivinar donde termina es
+        # exactamente lo que hacia el regex, y es de donde salio el problema.
+        if hondo == 0:
+            yield m.start(), texto[m.end():i - 2]
+
+
 def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | None = None,
                            mes_inicio: int = MES_INICIO_HABITUAL,
                        arts: dict[str, str] | None = None) -> list[Partido]:
@@ -378,8 +422,7 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
     # Una pagina puede traer VARIOS cuadros: la final del campeonato, el torneo
     # reducido y la definicion de un ascenso son tres eliminaciones distintas que
     # no se encadenan entre si. Cual es cual lo dice la seccion de nivel 2.
-    for m in re.finditer(r"\{\{\s*Partido\s*\n(.*?)\n\s*\}\}", texto, re.S | re.I):
-        cuerpo = m.group(1)
+    for pos, cuerpo in _plantillas_partido(texto):
         campos = {}
         for linea in cuerpo.split("\n|"):
             if "=" not in linea:
@@ -402,10 +445,10 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
             penales_local=pen[0] if pen else None,
             penales_visita=pen[1] if pen else None,
             torneo=torneo, fase="eliminacion",
-            jornada=_ronda_en(m.start(), titulos, _inicio_de_llave(m.start(), texto)),
+            jornada=_ronda_en(pos, titulos, _inicio_de_llave(pos, texto)),
             local_art=arts.get(limpiar(campos.get("local", "")), ""),
             visita_art=arts.get(limpiar(campos.get("visita", "")), ""),
-            llave=_contexto(m.start(), 3, texto),
+            llave=_contexto(pos, 3, texto),
             estadio=limpiar(campos.get("estadio", "")),
             fecha_cruda=limpiar(campos.get("fecha", ""))))
     return partidos

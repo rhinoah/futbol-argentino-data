@@ -91,14 +91,42 @@ def nombres_en_el_padron(ps: list[Partido]) -> list[Aviso]:
                   f"{' ...' if len(raros) > 6 else ''}")] if raros else []
 
 
+def _serie_igualada(p: Partido, ps: list[Partido]) -> bool:
+    """Si `p` es una pata de una serie a dos partidos empatada en el global."""
+    par = frozenset((p.local, p.visita))
+    serie = [q for q in ps
+             if q.fase == "eliminacion" and q.llave == p.llave
+             and q.jornada == p.jornada and frozenset((q.local, q.visita)) == par]
+    if len(serie) != 2:
+        return False
+    a = sum(q.goles_local if q.local == p.local else q.goles_visita for q in serie)
+    b = sum(q.goles_local if q.local == p.visita else q.goles_visita for q in serie)
+    return a == b
+
+
 def penales_solo_en_empates(ps: list[Partido]) -> list[Aviso]:
     """Una tanda de penales sobre un partido que no termino empatado es la firma
-    de haber leido el entretiempo como si fuera la tanda."""
+    de haber leido el entretiempo como si fuera la tanda.
+
+    SALVO en una serie a dos partidos. Ahi la tanda no es del partido sino de la
+    SERIE, y se patea al final de la vuelta, que no tiene por que haber quedado
+    empatada: la final de la Primera C 2021 fue Argentino de Merlo 2-0 Ituzaingo
+    y despues Ituzaingo 2-0 Argentino de Merlo, 2-2 global, penales 4-2. La
+    plantilla cuelga la tanda de la pata donde se pateo, y esta bien.
+
+    El caso no era hipotetico ni nuevo: eran once partidos, y todos aparecieron
+    de golpe cuando el parser empezo a leer las plantillas que antes se le
+    escapaban. Once de once quedaron explicados por su serie; ninguno era el bug
+    del entretiempo. Por eso la excepcion se pide ESTRECHA -- la serie tiene que
+    existir, ser de exactamente dos partidos y estar igualada -- en vez de
+    aflojar el chequeo para los partidos de eliminacion en general.
+    """
     return [Aviso("penales en un partido que no fue empate",
                   f"{p.local} {p.goles_local}-{p.goles_visita} {p.visita} "
                   f"(pen {p.penales_local}-{p.penales_visita})")
             for p in ps
-            if p.penales_local is not None and p.goles_local != p.goles_visita]
+            if p.penales_local is not None and p.goles_local != p.goles_visita
+            and not (p.fase == "eliminacion" and _serie_igualada(p, ps))]
 
 
 def sin_duplicados(ps: list[Partido]) -> list[Aviso]:

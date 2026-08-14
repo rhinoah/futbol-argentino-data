@@ -430,3 +430,34 @@ def test_el_duplicado_de_verdad_se_sigue_viendo():
     ps = [zona("Boca Juniors", "River Plate", fecha="2026-03-01"),
           zona("Boca Juniors", "River Plate", fecha="2026-03-01")]
     assert len(validar.sin_duplicados(ps)) == 1
+
+
+# --------------------------------------------------------------------------
+# los penales de una serie a dos partidos
+# --------------------------------------------------------------------------
+def pata(local, visita, gl, gv, pl=None, pv=None):
+    return llave(local, visita, gl, gv, "2021-12-13", pl, pv, ronda="Final")
+
+
+def test_la_tanda_de_una_serie_igualada_no_es_un_error():
+    """La final de la Primera C 2021: Argentino de Merlo 2-0 Ituzaingo y despues
+    Ituzaingo 2-0 Argentino de Merlo, 2-2 global, penales 4-2. La tanda es de la
+    SERIE y la plantilla la cuelga de la pata donde se pateo, que no tiene por
+    que haber empatado."""
+    ps = [pata("Boca Juniors", "River Plate", 2, 0),
+          pata("River Plate", "Boca Juniors", 2, 0, 4, 2)]
+    assert validar.penales_solo_en_empates(ps) == []
+
+
+def test_una_serie_que_no_esta_igualada_si_es_un_error():
+    """La excepcion es estrecha a proposito: si el global no empata, la tanda no
+    se explica y vuelve a ser la firma del entretiempo leido como penales."""
+    ps = [pata("Boca Juniors", "River Plate", 3, 0),
+          pata("River Plate", "Boca Juniors", 1, 0, 4, 2)]
+    assert len(validar.penales_solo_en_empates(ps)) == 1
+
+
+def test_un_partido_unico_con_penales_sigue_siendo_grave():
+    ps = [pata("Boca Juniors", "River Plate", 2, 0, 4, 2)]
+    avisos = validar.penales_solo_en_empates(ps)
+    assert len(avisos) == 1 and avisos[0].grave

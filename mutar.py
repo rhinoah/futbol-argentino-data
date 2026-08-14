@@ -18,6 +18,26 @@ MUTANTES = [
      'for fila in re.split(r"\\n\\|-", _cortar_en_tablas(bloque)):',
      'for fila in re.split(r"\\n\\|-", bloque):'),
 
+    ("fad/parser.py", "no ver la plantilla en plural {{Partidos}}",
+     'r"\\{\\{\\s*Partidos?\\s*\\n"',
+     'r"\\{\\{\\s*Partido\\s*\\n"'),
+
+    ("fad/parser.py", "cerrar la plantilla en el primer cierre y no por balance",
+     '            if texto.startswith("{{", i):\n                hondo, i = hondo + 1, i + 2',
+     '            if False:\n                hondo, i = hondo + 1, i + 2'),
+
+    ("fad/parser.py", "quedarse con una plantilla que nunca cierra",
+     "        if hondo == 0:",
+     "        if True:"),
+
+    ("fad/validar.py", "aceptar penales en cualquier partido de eliminacion",
+     '            and not (p.fase == "eliminacion" and _serie_igualada(p, ps))]',
+     '            and p.fase != "eliminacion"]'),
+
+    ("fad/validar.py", "dar por igualada una serie sin mirar el global",
+     "    return a == b",
+     "    return True"),
+
     ("fad/parser.py", "no cortar en el cierre |} de tabla",
      'bloque = re.sub(r"\\n\\|\\}", "\\n|-", bloque)',
      'bloque = bloque'),
@@ -60,8 +80,8 @@ MUTANTES = [
      "        repiten = []"),
 
     ("fad/validar.py", "aceptar penales en partidos que no empataron",
-     "            if p.penales_local is not None and p.goles_local != p.goles_visita]",
-     "            if False]"),
+     "            if p.penales_local is not None and p.goles_local != p.goles_visita",
+     "            if False"),
 
     ("fad/validar.py", "no mirar si falta la zona",
      '    sin = [p for p in zonas if not p.zona]',

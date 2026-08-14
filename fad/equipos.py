@@ -149,6 +149,10 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Deportivo Camioneros"),
     Equipo("Deportivo Madryn"),
     Equipo("Deportivo Maipú"),
+    # Entro con la fase eliminatoria de la Primera C 2025, que estaba
+    # invisible: su pagina usa `{{Partidos}}` y el parser solo miraba el
+    # singular.
+    Equipo("Deportivo Metalúrgico"),
     Equipo("Deportivo Morón", alias=("Deporitvo Morón", "Dep. Morón",)),   # typo en la fuente
     Equipo("Deportivo Rincón"),
     Equipo("Estudiantes (BA)"),
@@ -463,6 +467,7 @@ ARTICULOS: dict[str, str] = {
     'Club Deportivo Libertad': 'Libertad (S)',
     'Club Deportivo Maipú': 'Deportivo Maipú',
     'Club Deportivo Mandiyú': 'Deportivo Mandiyú',
+    'Club Deportivo Metalúrgico': 'Deportivo Metalúrgico',
     'Club Deportivo Morón': 'Deportivo Morón',
     'Club Deportivo Riestra': 'Deportivo Riestra',
     'Club Deportivo UAI Urquiza': 'UAI Urquiza',

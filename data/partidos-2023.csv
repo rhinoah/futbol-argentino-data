@@ -2327,6 +2327,13 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-10-10,20:00,Belgrano,Boca Juniors,4,3,,,Copa de la Liga,2023,zonas,Zona B,Fecha 8,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-10-13,15:00,Ciudad de Bolívar,Atenas (RC),0,2,,,Torneo Federal A,2023,zonas,Zona B,Fecha 35,Municipal Eva Perón,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-13,20:30,9 de Julio (R),Boca Unidos,2,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 35,Germán Solterman,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
+2023-10-14,,Argentino de Merlo,Los Andes,2,2,,,Primera B,2023,eliminacion,,Primera fase,Estadio Juan Carlos Brieva,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
+2023-10-14,,Atlas,Ferrocarril Midland,1,1,,,Primera C,2023,eliminacion,,Cuartos,Estadio Ricardo Puga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-10-14,,Claypole,J. J. de Urquiza,1,3,,,Primera C,2023,eliminacion,,Cuartos,Estadio Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-10-14,,Deportivo Armenio,Comunicaciones,0,0,,,Primera B,2023,eliminacion,,Primera fase,Estadio Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
+2023-10-14,,Excursionistas,San Martín (B),1,0,,,Primera C,2023,eliminacion,,,Estadio Único Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-10-14,,General Lamadrid,Sportivo Italiano,1,1,,,Primera C,2023,eliminacion,,Cuartos,Estadio Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-10-14,,Real Pilar,Liniers,1,2,,,Primera C,2023,eliminacion,,Cuartos,Estadio Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-10-14,15:30,Sol de Mayo (V),Cipolletti,1,2,,,Torneo Federal A,2023,zonas,Zona A,Fecha 35,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-14,16:00,Círculo Deportivo,Villa Mitre,1,4,,,Torneo Federal A,2023,zonas,Zona A,Fecha 35,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-14,16:00,Sansinena,Liniers (BB),1,0,,,Torneo Federal A,2023,zonas,Zona A,Fecha 35,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
@@ -2351,6 +2358,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-10-15,17:00,San Martín (F),Gimnasia y Tiro (S),3,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 35,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-15,18:00,Sportivo Las Parejas,Independiente (C),4,1,,,Torneo Federal A,2023,zonas,Zona C,Fecha 35,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-15,18:30,Central Norte (S),Juventud Antoniana,1,3,,,Torneo Federal A,2023,zonas,Zona D,Fecha 35,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
+2023-10-16,,Acassuso,Argentino de Quilmes,1,1,,,Primera B,2023,eliminacion,,Primera fase,Estadio Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-10-16,15:30,Almirante Brown,Temperley,2,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 38,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-16,15:30,Alvarado,Defensores Unidos,4,2,,,Primera Nacional,2023,zonas,Zona A,Fecha 38,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-16,15:30,Defensores de Belgrano,San Martín (T),2,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 38,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
@@ -2391,11 +2399,18 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-10-27,,San Martín (T),Deportivo Riestra,0,1,,,Primera Nacional,2023,eliminacion,,Primera fase,Estadio La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-28,,Agropecuario,Ferro Carril Oeste,0,2,,,Primera Nacional,2023,eliminacion,,Primera fase,Estadio Ofelia Rosenzuaig,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-28,,Chacarita Juniors,Temperley,1,2,,,Primera Nacional,2023,eliminacion,,Primera fase,Estadio de Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-10-28,,Comunicaciones,Deportivo Armenio,0,3,,,Primera B,2023,eliminacion,,Primera fase,Estadio Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
+2023-10-28,,Los Andes,Argentino de Merlo,1,0,,,Primera B,2023,eliminacion,,Primera fase,Estadio Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-10-28,,Quilmes,Gimnasia y Esgrima (M),1,0,,,Primera Nacional,2023,eliminacion,,Primera fase,Estadio Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-10-28,,Sportivo Italiano,General Lamadrid,2,2,5,4,Primera C,2023,eliminacion,,Cuartos,Estadio República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-10-28,19:00,Boca Juniors,Estudiantes (LP),0,0,,,Copa de la Liga,2023,zonas,Zona B,Fecha 11,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-10-28,21:30,Instituto,Vélez Sarsfield,0,1,,,Copa de la Liga,2023,zonas,Zona A,Fecha 11,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
+2023-10-29,,Argentino de Quilmes,Acassuso,1,1,4,3,Primera B,2023,eliminacion,,Primera fase,Estadio Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-10-29,,Deportivo Maipú,San Martín (SJ),1,0,,,Primera Nacional,2023,eliminacion,,Primera fase,Estadio Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-29,,Estudiantes (RC),Mitre (SdE),1,0,,,Primera Nacional,2023,eliminacion,,Primera fase,Estadio Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-10-29,,Ferrocarril Midland,Atlas,5,0,,,Primera C,2023,eliminacion,,Cuartos,Estadio Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-10-29,,J. J. de Urquiza,Claypole,4,0,,,Primera C,2023,eliminacion,,Cuartos,Estadio Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-10-29,,Liniers,Real Pilar,1,1,,,Primera C,2023,eliminacion,,Cuartos,Estadio Juan Antonio Arias,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-10-29,14:00,Atenas (RC),Sportivo Peñarol (C),8,2,,,Torneo Federal A,2023,zonas,Zona B,Fecha 36,9 de Julio,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-29,14:00,Colón,Atlético Tucumán,1,0,,,Copa de la Liga,2023,zonas,Zona A,Fecha 11,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-10-29,14:00,Huracán Las Heras,Juventud Unida Universitario,1,1,,,Torneo Federal A,2023,zonas,Zona B,Fecha 36,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
@@ -2427,10 +2442,14 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-11-01,20:00,Defensa y Justicia,Racing Club,2,2,,,Copa de la Liga,2023,zonas,Zona B,Fecha 11,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-03,19:00,Arsenal,Gimnasia y Esgrima (LP),0,0,,,Copa de la Liga,2023,zonas,Zona A,Fecha 12,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-03,21:00,River Plate,Huracán,1,2,,,Copa de la Liga,2023,zonas,Zona A,Fecha 12,Monumental,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
+2023-11-04,,Los Andes,Argentino de Quilmes,0,1,,,Primera B,2023,eliminacion,,Semifinales,Estadio Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-11-04,15:00,Argentinos Juniors,Instituto,1,2,,,Copa de la Liga,2023,zonas,Zona A,Fecha 12,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-04,20:00,Villa Mitre,Boca Unidos,1,0,,,Torneo Federal A,2023,zonas,Primera ronda,,El Fortín (BB),false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-11-04,21:00,Atlético Tucumán,Independiente,1,2,,,Copa de la Liga,2023,zonas,Zona A,Fecha 12,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
+2023-11-05,,Deportivo Armenio,San Miguel,0,1,,,Primera B,2023,eliminacion,,Semifinales,Estadio Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-11-05,,Ferro Carril Oeste,Almirante Brown,1,1,,,Primera Nacional,2023,eliminacion,,Segunda fase,Estadio Arquitecto Ricardo Echeverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-11-05,,J. J. de Urquiza,Liniers,0,1,,,Primera C,2023,eliminacion,,Semifinales,Estadio Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-11-05,,Sportivo Italiano,Ferrocarril Midland,0,1,,,Primera C,2023,eliminacion,,Semifinales,Estadio República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-11-05,,Temperley,Deportivo Maipú,2,1,,,Primera Nacional,2023,eliminacion,,Segunda fase,Estadio Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-11-05,15:00,Ciudad de Bolívar,Sol de América (F),3,1,,,Torneo Federal A,2023,zonas,Primera ronda,,Municipal Eva Perón,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-11-05,16:00,Argentino (MM),Cipolletti,4,0,,,Torneo Federal A,2023,zonas,Primera ronda,,Modesto Marrone,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
@@ -2454,11 +2473,15 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-11-10,19:00,Central Córdoba (SdE),Estudiantes (LP),0,1,,,Copa de la Liga,2023,zonas,Zona B,Fecha 13,Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-10,21:00,Gimnasia y Esgrima (LP),Atlético Tucumán,1,2,,,Copa de la Liga,2023,zonas,Zona A,Fecha 13,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-11,,Almirante Brown,Ferro Carril Oeste,0,0,,,Primera Nacional,2023,eliminacion,,Segunda fase,Estadio Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-11-11,,Argentino de Quilmes,Los Andes,2,0,,,Primera B,2023,eliminacion,,Semifinales,Estadio Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
+2023-11-11,,San Miguel,Deportivo Armenio,0,0,,,Primera B,2023,eliminacion,,Semifinales,Estadio Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-11-11,16:00,Argentinos Juniors,Vélez Sarsfield,1,1,,,Copa de la Liga,2023,zonas,Zona A,Fecha 13,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-11,18:30,Rosario Central,River Plate,3,1,,,Copa de la Liga,2023,zonas,Zona A,Fecha 13,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-11,20:00,Lanús,Racing Club,0,2,,,Copa de la Liga,2023,zonas,Zona B,Fecha 13,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-11,21:00,Huracán,Arsenal,1,0,,,Copa de la Liga,2023,zonas,Zona A,Fecha 13,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-12,,Deportivo Maipú,Temperley,2,0,,,Primera Nacional,2023,eliminacion,,Segunda fase,Estadio Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-11-12,,Ferrocarril Midland,Sportivo Italiano,1,0,,,Primera C,2023,eliminacion,,Semifinales,Estadio Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-11-12,,Liniers,J. J. de Urquiza,1,1,,,Primera C,2023,eliminacion,,Semifinales,Estadio Juan Antonio Arias,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-11-12,14:30,Colón,Talleres (C),3,0,,,Copa de la Liga,2023,zonas,Zona A,Fecha 13,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-12,14:30,Defensa y Justicia,San Lorenzo,0,1,,,Copa de la Liga,2023,zonas,Zona B,Fecha 13,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-12,15:00,Ciudad de Bolívar,Argentino (MM),1,1,,,Torneo Federal A,2023,zonas,Segunda ronda,,Municipal Eva Perón,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
@@ -2473,9 +2496,13 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-11-13,,Quilmes,Deportivo Riestra,0,1,,,Primera Nacional,2023,eliminacion,,Segunda fase,Estadio Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-11-13,19:00,Sarmiento (J),Godoy Cruz,0,0,,,Copa de la Liga,2023,zonas,Zona B,Fecha 13,Eva Perón,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-13,21:00,Instituto,Barracas Central,0,0,,,Copa de la Liga,2023,zonas,Zona A,Fecha 13,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
+2023-11-20,,Argentino de Quilmes,San Miguel,0,0,,,Primera B,2023,eliminacion,,Final,Estadio de Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-11-20,,Deportivo Riestra,Almirante Brown,2,0,,,Primera Nacional,2023,eliminacion,,Semifinales,Estadio Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-11-20,,Ferrocarril Midland,Liniers,2,0,,,Primera C,2023,eliminacion,,Final,Estadio Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-11-22,,Estudiantes (RC),Deportivo Maipú,0,0,,,Primera Nacional,2023,eliminacion,,Semifinales,Estadio Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-11-23,,Defensa y Justicia,San Lorenzo,1,0,,,Copa Argentina,2023,eliminacion,,Semifinales,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
+2023-11-25,,Liniers,Ferrocarril Midland,1,3,,,Primera C,2023,eliminacion,,Final,Estadio Juan Antonio Arias,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-11-25,,San Miguel,Argentino de Quilmes,1,1,4,2,Primera B,2023,eliminacion,,Final,Estadio Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-11-25,18:00,Banfield,Gimnasia y Esgrima (LP),2,0,,,Copa de la Liga,2023,zonas,Zona A,Fecha 14,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-25,18:00,Platense,Sarmiento (J),1,0,,,Copa de la Liga,2023,zonas,Zona B,Fecha 14,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-11-25,18:00,Unión,Tigre,1,0,,,Copa de la Liga,2023,zonas,Zona B,Fecha 14,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023

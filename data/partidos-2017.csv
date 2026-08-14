@@ -1613,6 +1613,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-05-05,20:00,Atlético Tucumán,Olimpo,1,1,,,Primera Division,2017,zonas,,Fecha 26,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
 2018-05-05,20:30,Estudiantes (RC),Crucero del Norte,0,0,,,Torneo Federal A,2017,zonas,Partidos de vuelta,,Ciudad de Río Cuarto Antonio Candini,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2017-18
 2018-05-05,21:00,Gimnasia y Esgrima (M),Deportivo Madryn,3,0,,,Torneo Federal A,2017,zonas,Partidos de vuelta,,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2017-18
+2018-05-06,,Brown de Adrogué,Atlético de Rafaela,0,0,,,Primera Nacional,2017,eliminacion,,Cuartos,Estadio Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
+2018-05-06,,San Martín (T),Villa Dálmine,3,3,,,Primera Nacional,2017,eliminacion,,Cuartos,Estadio La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
+2018-05-06,,Sarmiento (J),Instituto,0,0,,,Primera Nacional,2017,eliminacion,,Cuartos,Estadio Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
 2018-05-06,11:00,Temperley,Patronato,1,2,,,Primera Division,2017,zonas,,Fecha 26,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
 2018-05-06,13:15,Independiente,Gimnasia y Esgrima (LP),2,2,,,Primera Division,2017,zonas,,Fecha 26,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
 2018-05-06,15:30,Tigre,Lanús,0,0,,,Primera Division,2017,zonas,,Fecha 26,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
@@ -1620,6 +1623,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-05-06,20:00,Estudiantes (LP),Racing Club,1,2,,,Primera Division,2017,zonas,,Fecha 26,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
 2018-05-07,19:15,Banfield,Chacarita Juniors,2,1,,,Primera Division,2017,zonas,,Fecha 26,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
 2018-05-07,21:15,Colón,River Plate,0,0,,,Primera Division,2017,zonas,,Fecha 26,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
+2018-05-08,,Almagro,Agropecuario,0,2,,,Primera Nacional,2017,eliminacion,,Cuartos,Estadio Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
 2018-05-08,15:30,Berazategui,Deportivo Merlo,2,2,,,Primera C,2017,zonas,,Fecha 37,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
 2018-05-08,15:30,Cañuelas,Excursionistas,3,0,,,Primera C,2017,zonas,,Fecha 37,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
 2018-05-08,15:30,Central Córdoba (R),Leandro N. Alem,2,1,,,Primera C,2017,zonas,,Fecha 37,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
@@ -1641,6 +1645,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-05-12,15:30,Olimpo,Talleres (C),2,2,,,Primera Division,2017,zonas,,Fecha 27,Roberto N. Carminati,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
 2018-05-12,17:45,Unión,Independiente,1,0,,,Primera Division,2017,zonas,,Fecha 27,15 de abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
 2018-05-12,20:00,Belgrano,Temperley,2,3,,,Primera Division,2017,zonas,,Fecha 27,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
+2018-05-13,,Agropecuario,San Martín (T),0,0,,,Primera Nacional,2017,eliminacion,,Semifinales,Estadio Ofelia Rosenzuaig,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
+2018-05-13,,Sarmiento (J),Brown de Adrogué,1,1,,,Primera Nacional,2017,eliminacion,,Semifinales,Estadio Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
 2018-05-13,16:30,Estudiantes (RC),Defensores de Belgrano (VR),1,1,,,Torneo Federal A,2017,zonas,Partidos de vuelta,,Ciudad de Río Cuarto Antonio Candini,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2017-18
 2018-05-13,17:45,Godoy Cruz,Tigre,2,0,,,Primera Division,2017,zonas,,Fecha 27,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
 2018-05-13,20:00,Vélez Sarsfield,Argentinos Juniors,1,1,,,Primera Division,2017,zonas,,Fecha 27,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
@@ -1659,5 +1665,19 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-05-19,15:30,J. J. de Urquiza,El Porvenir,2,0,,,Primera C,2017,zonas,,Fecha 38,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
 2018-05-19,15:30,Leandro N. Alem,Ituzaingó,0,0,,,Primera C,2017,zonas,,Fecha 38,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
 2018-05-19,15:30,San Martín (B),Luján,0,0,,,Primera C,2017,zonas,,Fecha 38,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-05-20,,Brown de Adrogué,Sarmiento (J),2,4,,,Primera Nacional,2017,eliminacion,,Semifinales,Estadio Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
+2018-05-20,,San Martín (T),Agropecuario,3,0,,,Primera Nacional,2017,eliminacion,,Semifinales,Estadio La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
 2018-05-20,16:00,Defensores de Belgrano (VR),Gimnasia y Esgrima (M),0,0,,,Torneo Federal A,2017,zonas,Partido de ida,,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2017-18
+2018-05-22,,Argentino de Quilmes,Deportivo Merlo,2,0,,,Primera C,2017,eliminacion,,Cuartos,Estadio Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-05-22,,Central Córdoba (R),Cañuelas,0,0,,,Primera C,2017,eliminacion,,Cuartos,Estadio Jose Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-05-22,,J. J. de Urquiza,Leandro N. Alem,2,0,,,Primera C,2017,eliminacion,,Cuartos,Estadio Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-05-22,,Luján,Ferrocarril Midland,2,1,,,Primera C,2017,eliminacion,,Cuartos,Estadio Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-05-26,,J. J. de Urquiza,Central Córdoba (R),1,2,,,Primera C,2017,eliminacion,,Semifinales,Estadio Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-05-26,,Luján,Argentino de Quilmes,1,0,,,Primera C,2017,eliminacion,,Semifinales,Estadio Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-05-27,,Sarmiento (J),San Martín (T),1,0,,,Primera Nacional,2017,eliminacion,,Final,Estadio Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
 2018-05-27,19:00,Gimnasia y Esgrima (M),Defensores de Belgrano (VR),1,0,,,Torneo Federal A,2017,zonas,Partido de vuelta,,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2017-18
+2018-05-30,,Argentino de Quilmes,Luján,2,1,5,4,Primera C,2017,eliminacion,,Semifinales,Estadio Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-05-30,,Central Córdoba (R),J. J. de Urquiza,0,2,,,Primera C,2017,eliminacion,,Semifinales,Estadio Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-06-02,,J. J. de Urquiza,Argentino de Quilmes,1,0,,,Primera C,2017,eliminacion,,Final,Estadio Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
+2018-06-03,,San Martín (T),Sarmiento (J),5,1,,,Primera Nacional,2017,eliminacion,,Final,Estadio La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
+2018-06-09,,Argentino de Quilmes,J. J. de Urquiza,2,1,1,3,Primera C,2017,eliminacion,,Final,Estadio Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)

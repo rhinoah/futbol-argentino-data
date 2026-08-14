@@ -2162,6 +2162,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-09-19,20:00,Argentino de Quilmes,Deportivo Laferrere,0,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 14,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-09-19,21:15,Lanús,Platense,2,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 9,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-20,,Deportivo Rincón,Sportivo Belgrano,2,1,,,Torneo Federal A,2025,eliminacion,,Tercera fase,Estadio Elías Moisés Gómez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-09-20,,Ituzaingó,Deportivo Camioneros,2,1,,,Primera C,2025,eliminacion,,Final,Estadio Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-09-20,13:10,Atlanta,Tristán Suárez,1,0,,,Primera Nacional,2025,zonas,Zona A,Fecha 32,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-09-20,14:30,Barracas Central,Sarmiento (J),0,1,,,Primera Division - Clausura,2025,zonas,Interzonal,Fecha 9,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-20,15:00,Brown de Adrogué,Comunicaciones,0,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 14,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2180,6 +2181,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-09-20,21:15,Atlético Tucumán,River Plate,2,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 9,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-21,,Gimnasia y Esgrima (C),Argentino (MM),0,1,,,Torneo Federal A,2025,eliminacion,,Tercera fase,Estadio José María Paz,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-09-21,,Olimpo,Atlético de Rafaela,0,0,,,Torneo Federal A,2025,eliminacion,,Tercera fase,Estadio Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-09-21,,Puerto Nuevo,Central Ballester,0,2,,,Primera C,2025,eliminacion,,,Estadio Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-09-21,,San Martín (F),Ciudad de Bolívar,0,1,,,Torneo Federal A,2025,eliminacion,,Tercera fase,Estadio 17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-09-21,14:30,Independiente,San Lorenzo,1,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 9,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-21,15:00,Almirante Brown,Defensores de Belgrano,1,2,,,Primera Nacional,2025,zonas,Zona B,Fecha 32,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
@@ -2202,11 +2204,15 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-09-22,21:00,Belgrano,Newell's Old Boys,3,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 9,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-22,21:05,All Boys,Deportivo Madryn,0,0,,,Primera Nacional,2025,zonas,Zona A,Fecha 32,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-09-22,21:05,Quilmes,Güemes (SdE),0,0,,,Primera Nacional,2025,zonas,Zona A,Fecha 32,Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-09-26,,Deportivo Paraguayo,Mercedes,0,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio Deportivo Paraguayo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-09-26,15:30,Sacachispas,Sportivo Italiano,0,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 15,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-09-26,19:00,Banfield,Unión,0,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 10,Florencio Sola,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-26,19:00,Platense,San Martín (SJ),2,2,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 10,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-26,21:15,Central Córdoba (SdE),Tigre,0,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 10,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-26,22:00,Gimnasia y Tiro (S),Atlanta,2,2,,,Primera Nacional,2025,zonas,Zona A,Fecha 33,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-09-27,,Deportivo Camioneros,Ituzaingó,3,1,,,Primera C,2025,eliminacion,,Final,Estadio Hugo Moyano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-09-27,,El Porvenir,Luján,1,1,,,Primera C,2025,eliminacion,,Primera fase,Estadio Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-09-27,,Lugano,Cañuelas,0,2,,,Primera C,2025,eliminacion,,Primera fase,Estadio José María Moraños,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-09-27,13:05,San Telmo,Gimnasia y Esgrima (J),3,2,,,Primera Nacional,2025,zonas,Zona B,Fecha 33,Doctor Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-09-27,14:30,Aldosivi,Argentinos Juniors,0,2,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 10,José María Minella,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-27,14:30,Gimnasia y Esgrima (LP),Rosario Central,0,3,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 10,Del Bosque,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
@@ -2225,7 +2231,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-09-28,,Argentino (MM),Gimnasia y Esgrima (C),3,1,,,Torneo Federal A,2025,eliminacion,,Tercera fase,Estadio Modesto Marrone,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-09-28,,Atlético de Rafaela,Olimpo,2,1,,,Torneo Federal A,2025,eliminacion,,Tercera fase,Estadio Nuevo Monumental,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-09-28,,Ciudad de Bolívar,San Martín (F),4,1,,,Torneo Federal A,2025,eliminacion,,Tercera fase,Estadio Municipal Eva Perón,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-09-28,,Defensores de Cambaceres,Atlas,1,1,,,Primera C,2025,eliminacion,,Primera fase,Estadio 12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-09-28,,General Lamadrid,Berazategui,2,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-09-28,,Juventud Unida,Central Córdoba (R),1,2,,,Primera C,2025,eliminacion,,Primera fase,Estadio Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-09-28,,Sportivo Belgrano,Deportivo Rincón,1,0,,,Torneo Federal A,2025,eliminacion,,Tercera fase,Estadio Juan Pablo Francia,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-09-28,,Yupanqui,Muñiz,2,1,,,Primera C,2025,eliminacion,,Primera fase,Estadio Ciudad Evita,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-09-28,15:15,Chacarita Juniors,Gimnasia y Esgrima (M),1,1,,,Primera Nacional,2025,zonas,Zona B,Fecha 33,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-09-28,15:15,Racing Club,Independiente,0,0,,,Primera Division - Clausura,2025,zonas,Interzonal,Fecha 10,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-28,15:30,Alvarado,All Boys,0,0,,,Primera Nacional,2025,zonas,Zona A,Fecha 33,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
@@ -2241,6 +2251,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-09-28,20:15,Independiente Rivadavia,Huracán,0,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 10,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-28,20:15,Instituto,Lanús,0,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 10,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-28,20:30,San Martín (T),Quilmes,1,1,,,Primera Nacional,2025,zonas,Zona A,Fecha 33,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-09-29,,Central Ballester,Claypole,1,3,,,Primera C,2025,eliminacion,,Primera fase,Estadio Rubén Carlos Vallejos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-09-29,,Leandro N. Alem,Argentino de Rosario,3,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio de Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-09-29,,Sportivo Barracas,J. J. de Urquiza,3,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-09-29,,Victoriano Arenas,Centro Español,0,1,,,Primera C,2025,eliminacion,,Primera fase,Estadio Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-09-29,15:05,Dock Sud,Real Pilar,0,2,,,Primera B,2025,zonas,Torneo Clausura,Fecha 15,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-09-29,15:30,Barracas Central,Belgrano,1,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 10,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-29,15:30,Flandria,Villa Dálmine,2,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 15,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2248,8 +2262,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-09-29,20:00,Deportivo Merlo,UAI Urquiza,1,2,,,Primera B,2025,zonas,Torneo Clausura,Fecha 15,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-09-29,20:00,Vélez Sarsfield,Atlético Tucumán,3,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 10,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-09-29,21:10,San Martín (B),Ferrocarril Midland,1,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 15,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
+2025-09-30,,Deportivo Español,Estrella del Sur,1,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-09-30,19:00,Newell's Old Boys,Estudiantes (LP),1,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 10,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-02,,Racing Club,River Plate,0,1,,,Copa Argentina,2025,eliminacion,,Cuartos,Gigante de Arroyito,true,https://es.wikipedia.org/wiki/Copa_Argentina_2025
+2025-10-03,,Luján,El Porvenir,1,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio 1.º de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-03,,Mercedes,Deportivo Paraguayo,2,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio de la Liga Mercedina,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-03,15:30,Kimberley,Cipolletti,1,0,,,Torneo Federal A,2025,zonas,Partidos de ida,,José Alberto Valle,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-03,19:00,Tigre,Defensa y Justicia,1,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 11,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-03,20:00,Argentino de Merlo,Fénix,1,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 16,Juan Carlos Brieva,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2257,6 +2274,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-03,21:15,Argentinos Juniors,Central Córdoba (SdE),0,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 11,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-03,21:15,Unión,Aldosivi,0,2,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 11,15 de Abril,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-03,21:30,San Martín (SM),Sarmiento (LB),0,0,,,Torneo Federal A,2025,zonas,Partidos de ida,,Libertador General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-10-04,,Argentino de Rosario,Leandro N. Alem,2,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio José Martín Olaeta,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-04,,Cañuelas,Lugano,3,1,,,Primera C,2025,eliminacion,,Primera fase,Estadio Jorge Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-04,,Central Córdoba (R),Juventud Unida,1,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-04,,Muñiz,Yupanqui,1,4,,,Primera C,2025,eliminacion,,Primera fase,Estadio Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-04,14:30,Sarmiento (J),Gimnasia y Esgrima (LP),0,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 11,Eva Perón,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-04,15:00,Brown de Adrogué,Deportivo Laferrere,1,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 16,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-10-04,15:30,Acassuso,Liniers,0,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 16,La Quema,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2277,6 +2298,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-04,21:15,Lanús,San Lorenzo,2,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 11,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-05,,Argentino (MM),Ciudad de Bolívar,1,0,,,Torneo Federal A,2025,eliminacion,,,Estadio Modesto Marrone,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-05,,Atlético de Rafaela,Sportivo Belgrano,3,0,,,Torneo Federal A,2025,eliminacion,,,Estadio Nuevo Monumental,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-10-05,,Berazategui,General Lamadrid,2,0,6,5,Primera C,2025,eliminacion,,Primera fase,Estadio Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-05,,Claypole,Central Ballester,3,1,,,Primera C,2025,eliminacion,,Primera fase,Estadio Rodolfo Vicente Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-05,,J. J. de Urquiza,Sportivo Barracas,0,3,,,Primera C,2025,eliminacion,,Primera fase,Estadio Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-05,14:30,Godoy Cruz,Independiente,1,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 11,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-05,15:00,Bartolomé Mitre (P),Costa Brava,1,1,,,Torneo Federal A,2025,zonas,Partidos de ida,,Ernesto Cucchiaroni,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-05,15:00,Germinal,9 de Julio (R),1,1,,,Torneo Federal A,2025,zonas,Partidos de ida,,El Fortín (R),false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
@@ -2301,6 +2325,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-05,18:00,Boca Unidos,Juventud Antoniana,2,0,,,Torneo Federal A,2025,zonas,Partidos de ida,,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-05,19:00,Boca Juniors,Newell's Old Boys,5,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 11,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-05,21:15,Rosario Central,River Plate,2,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 11,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-10-06,,Atlas,Defensores de Cambaceres,2,0,,,Primera C,2025,eliminacion,,Primera fase,Estadio Ricardo Puga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-06,,Centro Español,Victoriano Arenas,3,1,,,Primera C,2025,eliminacion,,Primera fase,Estadio Carlos Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-06,,Estrella del Sur,Deportivo Español,1,1,,,Primera C,2025,eliminacion,,Primera fase,Estadio Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-06,15:30,UAI Urquiza,Sacachispas,1,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 16,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-10-06,19:00,Deportivo Riestra,Vélez Sarsfield,2,2,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 11,Guillermo Laza,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-06,20:00,All Boys,Los Andes,3,0,,,Primera Nacional,2025,zonas,Zona A,Fecha 34,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
@@ -2314,8 +2341,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-10,18:30,Newell's Old Boys,Tigre,1,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 12,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-10,22:00,Juventud Antoniana,Boca Unidos,3,0,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-11,,Atlanta,Chaco For Ever,3,0,,,Primera Nacional,2025,eliminacion,,Primera fase,Estadio Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-10-11,,Cañuelas,Claypole,1,2,,,Primera C,2025,eliminacion,,Segunda fase,Estadio Jorge Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-11,,Deportivo Madryn,Gimnasia y Esgrima (M),1,1,0,3,Primera Nacional,2025,eliminacion,,Final,Estadio Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-10-11,,Gimnasia y Tiro (S),Temperley,2,0,,,Primera Nacional,2025,eliminacion,,Primera fase,Estadio Gigante del Norte,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-10-11,,Yupanqui,Centro Español,0,1,,,Primera C,2025,eliminacion,,Segunda fase,Estadio Ciudad Evita,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-11,14:30,Barracas Central,Boca Juniors,1,3,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 12,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-11,15:30,Cipolletti,Kimberley,0,0,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-11,15:30,Flandria,Argentino de Merlo,1,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 17,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2330,10 +2359,12 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-11,21:15,Belgrano,Estudiantes (LP),1,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 12,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-11,22:15,Vélez Sarsfield,Rosario Central,1,2,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 12,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-12,,Ciudad de Bolívar,Argentino (MM),3,0,,,Torneo Federal A,2025,eliminacion,,,Estadio Municipal Eva Perón,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-10-12,,Deportivo Metalúrgico,Puerto Nuevo,2,1,,,Primera C,2025,eliminacion,,,Estadio Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-12,,Deportivo Morón,San Martín (T),0,0,,,Primera Nacional,2025,eliminacion,,Primera fase,Estadio Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-10-12,,Estudiantes (BA),Deportivo Maipú,1,0,,,Primera Nacional,2025,eliminacion,,Primera fase,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-10-12,,Estudiantes (RC),Patronato,2,1,,,Primera Nacional,2025,eliminacion,,Primera fase,Estadio Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-10-12,,Gimnasia y Esgrima (J),San Miguel,0,0,,,Primera Nacional,2025,eliminacion,,Primera fase,Estadio 23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-10-12,,Leandro N. Alem,Berazategui,1,0,,,Primera C,2025,eliminacion,,Segunda fase,Estadio de Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-12,,Sportivo Belgrano,Atlético de Rafaela,0,0,,,Torneo Federal A,2025,eliminacion,,,Estadio Juan Pablo Francia,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-12,,Tristán Suárez,Agropecuario,2,1,,,Primera Nacional,2025,eliminacion,,Primera fase,Estadio 20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-10-12,11:00,Deportivo Rincón,Sportivo Las Parejas,5,0,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,Elías Moisés Gómez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
@@ -2352,6 +2383,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-12,19:00,Costa Brava,Bartolomé Mitre (P),0,0,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,Nuevo Pacaembú,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-12,19:15,River Plate,Sarmiento (J),0,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 12,Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-12,21:15,Independiente,Lanús,0,2,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 12,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-10-13,,Atlas,Mercedes,1,2,,,Primera C,2025,eliminacion,,Segunda fase,Estadio Ricardo Puga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-13,,Deportivo Español,Central Córdoba (R),1,2,,,Primera C,2025,eliminacion,,Segunda fase,Estadio Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-13,,Sportivo Barracas,Luján,0,0,,,Primera C,2025,eliminacion,,Segunda fase,Estadio Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-13,15:30,Sacachispas,Real Pilar,1,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 17,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-10-13,18:30,Platense,Deportivo Riestra,1,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 12,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-17,19:00,Racing Club,Aldosivi,1,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 13,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
@@ -2359,6 +2393,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-17,21:15,Argentinos Juniors,Newell's Old Boys,3,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 13,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-17,21:15,Lanús,Godoy Cruz,2,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 13,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-17,22:00,Juventud Antoniana,Gimnasia y Esgrima (C),0,0,,,Torneo Federal A,2025,zonas,Partidos de ida,,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-10-18,,Berazategui,Leandro N. Alem,1,2,,,Primera C,2025,eliminacion,,Segunda fase,Estadio Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-18,,Central Córdoba (R),Deportivo Español,0,3,,,Primera C,2025,eliminacion,,Segunda fase,Estadio Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-18,,Centro Español,Yupanqui,4,2,,,Primera C,2025,eliminacion,,Segunda fase,Estadio Carlos Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-18,,Gimnasia y Tiro (S),Estudiantes (RC),0,0,,,Primera Nacional,2025,eliminacion,,Segunda fase,Estadio Gigante del Norte,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-10-18,,Luján,Sportivo Barracas,1,1,4,5,Primera C,2025,eliminacion,,Segunda fase,Estadio 1.º de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-18,15:00,Brown de Adrogué,Flandria,1,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 18,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-10-18,15:30,Acassuso,Fénix,3,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 18,La Quema,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-10-18,15:30,Dock Sud,Deportivo Merlo,1,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 18,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2371,6 +2410,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-18,20:30,Douglas Haig,Argentino (MM),2,0,,,Torneo Federal A,2025,zonas,Partidos de ida,,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-18,20:30,Talleres (C),River Plate,0,2,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 13,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-19,,Ciudad de Bolívar,Atlético de Rafaela,0,0,5,4,Torneo Federal A,2025,eliminacion,,,Estadio Único,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-10-19,,Claypole,Cañuelas,1,1,,,Primera C,2025,eliminacion,,Segunda fase,Estadio Rodolfo Vicente Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-19,,Deportivo Morón,Atlanta,1,0,,,Primera Nacional,2025,eliminacion,,Segunda fase,Estadio Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-10-19,,Gimnasia y Esgrima (J),Deportivo Madryn,0,3,,,Primera Nacional,2025,eliminacion,,Segunda fase,Estadio 23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-10-19,,Mercedes,Atlas,1,1,,,Primera C,2025,eliminacion,,Segunda fase,Estadio de la Liga Mercedina,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-19,,Puerto Nuevo,Deportivo Metalúrgico,3,0,,,Primera C,2025,eliminacion,,,Estadio Carlos Vallejos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-19,11:00,9 de Julio (R),Deportivo Rincón,2,1,,,Torneo Federal A,2025,zonas,Partidos de ida,,Germán Solterman,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-19,15:00,Estudiantes (LP),Gimnasia y Esgrima (LP),2,0,,,Primera Division - Clausura,2025,zonas,Interzonal,Fecha 13,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-19,15:00,Sarmiento (J),Vélez Sarsfield,0,2,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 13,Eva Perón,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
@@ -2380,6 +2424,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-19,18:00,Atenas (RC),Sarmiento (LB),1,0,,,Torneo Federal A,2025,zonas,Partidos de ida,,9 de Julio,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-19,18:00,Rosario Central,Platense,1,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 13,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-19,18:00,San Martín (SJ),Independiente,1,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 13,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-10-20,,Tristán Suárez,Estudiantes (BA),0,0,,,Primera Nacional,2025,eliminacion,,Segunda fase,Estadio 20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-10-20,15:30,Kimberley,Olimpo,1,1,,,Torneo Federal A,2025,zonas,Partidos de ida,,José Alberto Valle,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-10-20,19:00,Deportivo Riestra,Instituto,1,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 13,Guillermo Laza,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-20,19:00,Tigre,Barracas Central,2,2,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 13,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
@@ -2388,11 +2433,17 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-10-21,19:15,Unión,Defensa y Justicia,3,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 13,15 de Abril,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-22,19:30,Huracán,Central Córdoba (SdE),0,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 13,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-23,,Belgrano,Argentinos Juniors,1,2,,,Copa Argentina,2025,eliminacion,,Semifinales,Gigante de Arroyito,true,https://es.wikipedia.org/wiki/Copa_Argentina_2025
+2025-10-23,,Deportivo Español,Ituzaingó,0,1,,,Primera C,2025,eliminacion,,Semifinales,Estadio Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-23,,Leandro N. Alem,Sportivo Barracas,0,1,,,Primera C,2025,eliminacion,,Semifinales,Estadio de Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-10-24,,Independiente Rivadavia,River Plate,0,0,4,3,Copa Argentina,2025,eliminacion,,Semifinales,Mario Alberto Kempes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2025
+2025-10-29,,Ituzaingó,Deportivo Español,2,2,,,Primera C,2025,eliminacion,,Semifinales,Estadio Carlos Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-29,,Sportivo Barracas,Leandro N. Alem,1,0,,,Primera C,2025,eliminacion,,Semifinales,Estadio Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-10-31,,Estudiantes (RC),Gimnasia y Tiro (S),2,0,,,Primera Nacional,2025,eliminacion,,Segunda fase,Estadio Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-10-31,19:00,San Lorenzo,Deportivo Riestra,1,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 14,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-31,21:15,Instituto,Rosario Central,1,3,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 14,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-31,21:15,Newell's Old Boys,Unión,0,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 14,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-10-31,21:15,Sportivo Belgrano,Guillermo Brown,1,0,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,Juan Pablo Francia,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-11-01,,Atlanta,Deportivo Morón,0,0,,,Primera Nacional,2025,eliminacion,,Segunda fase,Estadio Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-11-01,14:45,Aldosivi,Independiente Rivadavia,3,1,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 14,José María Minella,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-01,15:30,Flandria,Acassuso,1,2,,,Primera B,2025,zonas,Torneo Clausura,Fecha 19,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-01,15:30,San Martín (B),Villa San Carlos,1,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 19,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2402,6 +2453,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-11-01,16:30,Argentino (MM),Douglas Haig,1,1,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,Modesto Marrone,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-11-01,17:00,Vélez Sarsfield,Talleres (C),0,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 14,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-01,20:00,Independiente,Atlético Tucumán,3,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 14,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-02,,Deportivo Madryn,Gimnasia y Esgrima (J),1,0,,,Primera Nacional,2025,eliminacion,,Segunda fase,Estadio Abel Sastre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-11-02,,Estudiantes (BA),Tristán Suárez,1,0,,,Primera Nacional,2025,eliminacion,,Segunda fase,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-11-02,11:00,Deportivo Rincón,9 de Julio (R),0,0,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,Elías Moisés Gómez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-11-02,15:00,San Martín (F),Costa Brava,2,1,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-11-02,15:30,Fénix,Excursionistas,1,5,,,Primera B,2025,zonas,Torneo Clausura,Fecha 19,Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2413,6 +2466,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-11-02,18:00,Sarmiento (LB),Atenas (RC),0,1,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,Ciudad de La Banda,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-11-02,18:30,Godoy Cruz,San Martín (SJ),0,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 14,Feliciano Gambarte,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-02,20:30,River Plate,Gimnasia y Esgrima (LP),0,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 14,Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-03,,Sportivo Barracas,Ituzaingó,0,1,,,Primera C,2025,eliminacion,,Final,Estadio Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-11-03,15:30,Sacachispas,Dock Sud,1,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 19,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-03,16:45,Defensa y Justicia,Huracán,1,3,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 14,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-03,16:45,Platense,Sarmiento (J),1,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 14,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
@@ -2420,9 +2474,13 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-11-03,21:10,Comunicaciones,UAI Urquiza,0,3,,,Primera B,2025,zonas,Torneo Clausura,Fecha 19,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-03,21:15,Banfield,Lanús,2,1,,,Primera Division - Clausura,2025,zonas,Interzonal,Fecha 14,Florencio Sola,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-03,21:15,Belgrano,Tigre,0,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 14,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-04,,Deportivo Español,Leandro N. Alem,2,1,,,Primera C,2025,eliminacion,,,Estadio Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-11-04,15:30,Argentino de Quilmes,Argentino de Merlo,1,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 19,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-05,,Independiente Rivadavia,Argentinos Juniors,2,2,5,3,Copa Argentina,2025,eliminacion,,Final,Monumental Presidente Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2025
 2025-11-07,21:00,Rosario Central,San Lorenzo,0,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 15,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-08,,Deportivo Morón,Deportivo Madryn,1,0,,,Primera Nacional,2025,eliminacion,,Semifinales,Estadio Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-11-08,,Estudiantes (BA),Estudiantes (RC),1,0,,,Primera Nacional,2025,eliminacion,,Semifinales,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-11-08,,Ituzaingó,Sportivo Barracas,0,1,5,3,Primera C,2025,eliminacion,,Final,Estadio Carlos Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-11-08,12:00,Excursionistas,Flandria,0,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 20,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-08,15:00,Brown de Adrogué,Argentino de Quilmes,1,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 20,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-08,15:30,Ferrocarril Midland,Fénix,4,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 20,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2435,6 +2493,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-11-08,19:15,Talleres (C),Platense,1,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 15,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-08,21:30,San Martín (SJ),Lanús,1,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 15,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-08,21:30,Unión,Barracas Central,0,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 15,15 de Abril,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-09,,Leandro N. Alem,Deportivo Español,1,1,,,Primera C,2025,eliminacion,,,Estadio de Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-11-09,11:00,Guillermo Brown,Atlético de Rafaela,1,2,,,Torneo Federal A,2025,zonas,Partidos de ida,,Raúl Conti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-11-09,15:30,Deportivo Merlo,Sacachispas,0,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 20,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-09,15:30,Dock Sud,San Martín (B),1,2,,,Primera B,2025,zonas,Torneo Clausura,Fecha 20,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2451,7 +2510,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-11-10,19:00,Deportivo Riestra,Independiente,0,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 15,Guillermo Laza,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-10,21:15,Argentinos Juniors,Belgrano,1,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 15,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-10,21:15,Independiente Rivadavia,Central Córdoba (SdE),0,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 15,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-14,,Mercedes,Deportivo Español,0,0,,,Primera C,2025,eliminacion,,Semifinales,Estadio de la Liga Mercedina,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-11-14,20:00,Lanús,Atlético Tucumán,3,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 16,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-15,,Centro Español,Claypole,1,1,,,Primera C,2025,eliminacion,,Semifinales,Estadio Carlos Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-11-15,,Estudiantes (RC),Estudiantes (BA),1,0,,,Primera Nacional,2025,eliminacion,,Semifinales,Estadio Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-11-15,17:00,Aldosivi,San Martín (SJ),4,2,,,Primera Division - Clausura,2025,zonas,Interzonal,Fecha 16,José María Minella,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-15,17:00,Comunicaciones,Villa San Carlos,2,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 21,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-15,17:00,Deportivo Armenio,Dock Sud,1,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 21,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2463,6 +2525,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-11-15,18:00,Atlético de Rafaela,Guillermo Brown,1,0,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-11-15,19:15,San Lorenzo,Sarmiento (J),1,1,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 16,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-15,21:30,Independiente,Rosario Central,1,0,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 16,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-16,,Deportivo Madryn,Deportivo Morón,1,0,,,Primera Nacional,2025,eliminacion,,Semifinales,Estadio Abel Sastre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-11-16,17:00,Argentino de Merlo,Brown de Adrogué,2,4,,,Primera B,2025,zonas,Torneo Clausura,Fecha 21,Juan Carlos Brieva,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-16,17:00,Argentino de Quilmes,Acassuso,2,0,,,Primera B,2025,zonas,Torneo Clausura,Fecha 21,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-16,17:00,Deportivo Laferrere,UAI Urquiza,1,1,,,Primera B,2025,zonas,Torneo Clausura,Fecha 21,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
@@ -2480,24 +2543,44 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2025-11-17,17:00,Belgrano,Unión,0,0,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 16,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-17,17:00,Defensa y Justicia,Independiente Rivadavia,0,2,,,Primera Division - Clausura,2025,zonas,Zona A,Fecha 16,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-17,19:30,Platense,Gimnasia y Esgrima (LP),0,3,,,Primera Division - Clausura,2025,zonas,Zona B,Fecha 16,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-21,,Excursionistas,Argentino de Merlo,1,3,,,Primera B,2025,eliminacion,,Primera fase,Estadio Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-22,,Central Córdoba (SdE),San Lorenzo,2,1,,,Primera Division - Clausura,2025,eliminacion,,Octavos,Estadio Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-22,,Deportivo Español,Mercedes,2,1,,,Primera C,2025,eliminacion,,Semifinales,Estadio Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-11-22,,Estudiantes (RC),Deportivo Madryn,2,0,,,Primera Nacional,2025,eliminacion,,Final,Estadio Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
+2025-11-22,,Flandria,Real Pilar,1,1,,,Primera B,2025,eliminacion,,Primera fase,Estadio Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
+2025-11-22,,Sportivo Italiano,Deportivo Armenio,0,1,,,Primera B,2025,eliminacion,,Primera fase,Estadio República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
+2025-11-22,,Villa San Carlos,Acassuso,0,0,,,Primera B,2025,eliminacion,,Primera fase,Estadio Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-22,,Vélez Sarsfield,Argentinos Juniors,0,2,,,Primera Division - Clausura,2025,eliminacion,,Octavos,Estadio José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-22,17:00,9 de Julio (R),San Martín (F),2,1,,,Torneo Federal A,2025,zonas,Partidos de ida,,Germán Solterman,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-11-23,,Boca Juniors,Talleres (C),2,0,,,Primera Division - Clausura,2025,eliminacion,,Octavos,Estadio La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-23,,Claypole,Centro Español,3,1,,,Primera C,2025,eliminacion,,Semifinales,Estadio Rodolfo Vicente Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-11-23,,Rosario Central,Estudiantes (LP),0,1,,,Primera Division - Clausura,2025,eliminacion,,Octavos,Estadio Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-23,20:05,Douglas Haig,Atlético de Rafaela,1,2,,,Torneo Federal A,2025,zonas,Partidos de ida,,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-11-24,,Deportivo Riestra,Barracas Central,0,1,,,Primera Division - Clausura,2025,eliminacion,,Octavos,Estadio Guillermo Laza,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-24,,Racing Club,River Plate,3,2,,,Primera Division - Clausura,2025,eliminacion,,Octavos,Estadio El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-24,,Unión,Gimnasia y Esgrima (LP),1,2,,,Primera Division - Clausura,2025,eliminacion,,Octavos,Estadio 15 de Abril,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-11-26,,Lanús,Tigre,0,1,,,Primera Division - Clausura,2025,eliminacion,,Octavos,Estadio Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-28,,Argentino de Merlo,Excursionistas,4,0,,,Primera B,2025,eliminacion,,Primera fase,Estadio Juan Carlos Brieva,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
+2025-11-29,,Acassuso,Villa San Carlos,1,0,,,Primera B,2025,eliminacion,,Primera fase,Estadio La Quema,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-29,,Central Córdoba (SdE),Estudiantes (LP),0,1,,,Primera Division - Clausura,2025,eliminacion,,Cuartos,Estadio Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-29,,Deportivo Armenio,Sportivo Italiano,1,1,,,Primera B,2025,eliminacion,,Primera fase,Estadio Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
+2025-11-29,,Real Pilar,Flandria,2,0,,,Primera B,2025,eliminacion,,Primera fase,Estadio Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-11-30,,Boca Juniors,Argentinos Juniors,1,0,,,Primera Division - Clausura,2025,eliminacion,,Cuartos,Estadio La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-11-30,,Claypole,Deportivo Español,0,0,,,Primera C,2025,eliminacion,,Final,Estadio Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
+2025-11-30,,Deportivo Madryn,Estudiantes (RC),1,1,,,Primera Nacional,2025,eliminacion,,Final,Estadio Abel Sastre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2025
 2025-11-30,17:00,San Martín (F),9 de Julio (R),4,1,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-11-30,18:15,Atlético de Rafaela,Douglas Haig,2,1,,,Torneo Federal A,2025,zonas,Partidos de vuelta,,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-12-01,,Barracas Central,Gimnasia y Esgrima (LP),0,2,,,Primera Division - Clausura,2025,eliminacion,,Cuartos,Estadio Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-12-01,,Racing Club,Tigre,0,0,4,2,Primera Division - Clausura,2025,eliminacion,,Cuartos,Estadio El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-12-06,,Acassuso,Real Pilar,0,0,,,Primera B,2025,eliminacion,,Semifinales,Estadio La Quema,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
+2025-12-06,,Deportivo Armenio,Argentino de Merlo,0,0,,,Primera B,2025,eliminacion,,Semifinales,Estadio Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
+2025-12-06,,Deportivo Español,Claypole,0,0,3,5,Primera C,2025,eliminacion,,Final,Estadio Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2025_(Argentina)
 2025-12-07,,Boca Juniors,Racing Club,0,1,,,Primera Division - Clausura,2025,eliminacion,,Semifinales,Estadio La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
 2025-12-07,17:05,San Martín (F),Atlético de Rafaela,0,1,,,Torneo Federal A,2025,zonas,Partido de ida,,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
 2025-12-08,,Gimnasia y Esgrima (LP),Estudiantes (LP),0,1,,,Primera Division - Clausura,2025,eliminacion,,Semifinales,Estadio del Bosque,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-12-10,,Argentino de Merlo,Deportivo Armenio,1,1,1,4,Primera B,2025,eliminacion,,Semifinales,Estadio Juan Carlos Brieva,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
+2025-12-10,,Real Pilar,Acassuso,1,1,1,3,Primera B,2025,eliminacion,,Semifinales,Estadio Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-12-13,,Racing Club,Estudiantes (LP),1,1,4,5,Primera Division - Clausura,2025,eliminacion,,Final,Estadio Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2025_(Argentina)
+2025-12-14,,Acassuso,Deportivo Armenio,1,0,,,Primera B,2025,eliminacion,,Final,Estadio La Quema,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)
 2025-12-14,18:30,Atlético de Rafaela,San Martín (F),1,0,,,Torneo Federal A,2025,zonas,Partido de vuelta,,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2025
+2025-12-21,,Deportivo Armenio,Acassuso,1,1,,,Primera B,2025,eliminacion,,Final,Estadio Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2025_(Argentina)

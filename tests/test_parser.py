@@ -486,3 +486,63 @@ def test_el_superindice_de_una_nota_no_es_parte_del_nombre(crudo, limpio):
 def test_un_numero_pegado_al_final_si_es_parte_del_nombre():
     """Se borran los superindices, no los digitos: hay clubes con numero."""
     assert parser.limpiar("Douglas Haig 9") == "Douglas Haig 9"
+
+
+# --------------------------------------------------------------------------
+# donde termina una {{Partido}}
+# --------------------------------------------------------------------------
+def _plantilla(local, visita, resultado, cierre="\n}}", pen=""):
+    """Una plantilla como las escribe Wikipedia. `cierre` es lo que la termina."""
+    penal = f"\n|resultado penalti = {pen}" if pen else ""
+    return (f"{{{{Partido\n|local = {local}\n|resultado = {resultado}"
+            f"\n|visita = {visita}\n|fecha = 12 de diciembre, 17:00{penal}"
+            f"\n|árbitro=[[Alguien]]{cierre}")
+
+
+def test_una_plantilla_que_cierra_pegada_al_ultimo_parametro():
+    """`|árbitro=[[Fulano]]}}` es la forma mas comun en es.wikipedia. Pidiendo
+    que el `}}` este solo en su renglon, esta plantilla no cerraba nunca."""
+    ps = parser.partidos_de_plantillas(
+        _plantilla("Boca Juniors", "River Plate", "2:1", cierre="}}"), 2021, "x")
+    assert len(ps) == 1
+    assert (ps[0].local, ps[0].goles_local, ps[0].goles_visita) == ("Boca Juniors", 2, 1)
+
+
+def test_una_plantilla_que_cierra_asi_no_se_come_a_la_siguiente():
+    """El bug que dejo afuera a la Primera B 2021. Cuando la primera no cierra
+    donde el regex espera, el `.*?` sigue hasta el proximo `}}` que si este solo
+    y se traga las del medio. Como los campos van a un dict, el ultimo `local`
+    pisa al primero y el `resultado penalti` del primero sobrevive pegado al
+    marcador del ultimo: un partido que nunca se jugo, con todo lleno."""
+    texto = (_plantilla("Racing Club", "Huracán", "1:1", cierre="}}", pen="4:2")
+             + "\n\n" + _plantilla("Boca Juniors", "River Plate", "2:4", cierre="}}"))
+    ps = parser.partidos_de_plantillas(texto, 2021, "x")
+    assert len(ps) == 2, "se comio una"
+    assert [(p.local, p.visita) for p in ps] == [
+        ("Racing Club", "Huracán"), ("Boca Juniors", "River Plate")]
+    assert (ps[0].penales_local, ps[0].penales_visita) == (4, 2)
+    assert ps[1].penales_local is None, "los penales del primero se pegaron al segundo"
+
+
+def test_la_plantilla_en_plural_es_la_misma():
+    """`{{Partidos}}` es `#REDIRECCION [[Plantilla:Partido]]`: misma plantilla,
+    mismos parametros. Pidiendo el singular la `s` no matchea -- no es
+    whitespace -- y no se veia: 27 paginas del catalogo y 284 partidos de
+    eliminacion se caian en silencio, la mayoria con la fase ENTERA afuera."""
+    texto = _plantilla("Boca Juniors", "River Plate", "2:1").replace("{{Partido", "{{Partidos")
+    ps = parser.partidos_de_plantillas(texto, 2021, "x")
+    assert len(ps) == 1 and ps[0].local == "Boca Juniors"
+
+
+def test_una_plantilla_adentro_no_corta_el_partido():
+    """El cuerpo trae `{{sin negrita|(0:0)}}` y `{{gol|43}}`. Frenando en el
+    primer `}}` el partido queda sin visitante."""
+    texto = _plantilla("Boca Juniors", "River Plate", "1:1 {{sin negrita|(0:0)}}")
+    ps = parser.partidos_de_plantillas(texto, 2021, "x")
+    assert len(ps) == 1 and ps[0].visita == "River Plate"
+
+
+def test_una_plantilla_sin_cerrar_se_descarta():
+    """Adivinar donde termina es exactamente lo que hacia el regex."""
+    texto = "{{Partido\n|local = Boca Juniors\n|resultado = 2:1\n|visita = River Plate\n"
+    assert parser.partidos_de_plantillas(texto, 2021, "x") == []

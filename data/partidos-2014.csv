@@ -978,12 +978,20 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-11-24,21:00,Guaraní Antonio Franco,Douglas Haig,3,1,,,Primera Nacional,2014,zonas,Zona A,Fecha 20,Clemente A. F. de Oliveira,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-24,21:30,Argentinos Juniors,San Martín (SJ),1,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 20,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-24,21:30,Newell's Old Boys,Arsenal,2,4,,,Primera Division,2014,zonas,,Fecha 17,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
+2014-11-25,,Barracas Central,Villa Dálmine,1,1,2,4,Primera B,2014,eliminacion,,Primera fase,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
+2014-11-25,,Tristán Suárez,Deportivo Morón,0,0,3,0,Primera B,2014,eliminacion,,Primera fase,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
+2014-11-26,,Dock Sud,San Telmo,1,0,,,Primera C,2014,eliminacion,,Semifinales,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
+2014-11-26,,Excursionistas,Deportivo Riestra,2,2,,,Primera C,2014,eliminacion,,Semifinales,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-11-28,18:10,Gimnasia y Esgrima (LP),Quilmes,3,0,,,Primera Division,2014,zonas,,Fecha 18,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-28,20:30,Defensa y Justicia,Vélez Sarsfield,0,2,,,Primera Division,2014,zonas,,Fecha 18,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
+2014-11-29,,Acassuso,Tristán Suárez,1,3,,,Primera B,2014,eliminacion,,Semifinales,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
+2014-11-29,,Estudiantes (BA),Villa Dálmine,0,0,5,6,Primera B,2014,eliminacion,,Semifinales,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-11-29,17:00,Douglas Haig,Colón,1,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 21,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-29,17:00,San Lorenzo,Estudiantes (LP),4,0,,,Primera Division,2014,zonas,,Fecha 18,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-29,20:00,Ramón Santamarina,Sportivo Belgrano,0,0,,,Primera Nacional,2014,zonas,Zona B,Fecha 21,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-29,21:30,Independiente,Newell's Old Boys,1,0,,,Primera Division,2014,zonas,,Fecha 18,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
+2014-11-30,,Deportivo Riestra,Excursionistas,0,0,2,1,Primera C,2014,eliminacion,,Semifinales,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
+2014-11-30,,San Telmo,Dock Sud,0,2,,,Primera C,2014,eliminacion,,Semifinales,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-11-30,17:00,Boca Unidos,Guaraní Antonio Franco,1,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 21,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-30,17:00,Crucero del Norte,Patronato,3,0,,,Primera Nacional,2014,zonas,Zona B,Fecha 21,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-30,17:00,Instituto,Aldosivi,3,2,,,Primera Nacional,2014,zonas,Zona A,Fecha 21,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
@@ -999,6 +1007,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-12-01,18:10,Godoy Cruz,Olimpo,0,3,,,Primera Division,2014,zonas,,Fecha 18,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-12-01,20:10,All Boys,Huracán,0,3,,,Primera Nacional,2014,zonas,Zona B,Fecha 21,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-12-01,20:30,Arsenal,Belgrano,0,2,,,Primera Division,2014,zonas,,Fecha 18,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
+2014-12-03,,Dock Sud,Deportivo Riestra,0,2,,,Primera C,2014,eliminacion,,Final,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
+2014-12-03,,Villa Dálmine,Tristán Suárez,0,1,,,Primera B,2014,eliminacion,,Final,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-12-05,18:10,Estudiantes (LP),Tigre,4,2,,,Primera Division,2014,zonas,,Fecha 19,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-12-05,20:30,Vélez Sarsfield,San Lorenzo,0,2,,,Primera Division,2014,zonas,,Fecha 19,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-12-05,21:00,Patronato,Unión,1,3,,,Primera Nacional,2014,zonas,Zona B,Fecha 22,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
@@ -1015,6 +1025,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-12-07,17:00,Newell's Old Boys,Lanús,0,0,,,Primera Division,2014,zonas,,Fecha 19,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-12-07,17:00,San Martín (SJ),Ferro Carril Oeste,3,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 22,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-12-07,20:30,Boca Juniors,Gimnasia y Esgrima (LP),0,2,,,Primera Division,2014,zonas,,Fecha 19,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
+2014-12-08,,Deportivo Riestra,Dock Sud,2,1,,,Primera C,2014,eliminacion,,Final,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
+2014-12-08,,Tristán Suárez,Villa Dálmine,0,2,,,Primera B,2014,eliminacion,,Final,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-12-08,18:10,Atlético Tucumán,Ramón Santamarina,4,1,,,Primera Nacional,2014,zonas,Zona B,Fecha 22,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-12-08,18:10,Huracán,Independiente Rivadavia,4,0,,,Primera Nacional,2014,zonas,Zona B,Fecha 22,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-12-14,20:30,Quilmes,River Plate,0,1,,,Primera Division,2014,zonas,,Fecha 19,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)

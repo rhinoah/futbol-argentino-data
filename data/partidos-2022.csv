@@ -1683,6 +1683,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2022-10-06,19:00,Huracán,Talleres (C),1,0,,,Primera Division,2022,zonas,,Fecha 23,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-06,19:00,Lanús,Argentinos Juniors,0,4,,,Primera Division,2022,zonas,,Fecha 23,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-06,21:30,Gimnasia y Esgrima (LP),Boca Juniors,1,2,,,Primera Division,2022,zonas,,Fecha 23,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
+2022-10-08,,Cañuelas,Defensores Unidos,0,0,3,4,Primera B,2022,eliminacion,,Primera fase,Estadio Jorge Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
+2022-10-08,,Ituzaingó,Fénix,0,0,2,3,Primera B,2022,eliminacion,,Primera fase,Estadio Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
+2022-10-08,,Villa San Carlos,Talleres (RdE),0,0,4,3,Primera B,2022,eliminacion,,Primera fase,Estadio Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
 2022-10-08,13:00,Barracas Central,Sarmiento (J),1,1,,,Primera Division,2022,zonas,,Fecha 24,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-08,15:30,Central Córdoba (R),Deportivo Español,1,3,,,Primera C,2022,zonas,Torneo Clausura,Fecha 18,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
 2022-10-08,15:30,General Lamadrid,Victoriano Arenas,1,2,,,Primera C,2022,zonas,Torneo Clausura,Fecha 18,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
@@ -1691,6 +1694,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2022-10-08,18:15,Unión,Arsenal,1,0,,,Primera Division,2022,zonas,,Fecha 24,15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-08,19:00,Atlético Paraná,Juventud Unida (G),2,0,,,Torneo Federal A,2022,zonas,Zona Norte,Fecha 33,Pedro Mutio,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
 2022-10-08,20:30,Platense,Colón,1,2,,,Primera Division,2022,zonas,,Fecha 24,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
+2022-10-09,,Colegiales,Acassuso,1,1,4,5,Primera B,2022,eliminacion,,Primera fase,Estadio de Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
 2022-10-09,13:00,Tigre,Independiente,2,1,,,Primera Division,2022,zonas,,Fecha 24,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-09,15:30,Argentino de Merlo,Deportivo Laferrere,0,1,,,Primera C,2022,zonas,Torneo Clausura,Fecha 18,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
 2022-10-09,15:30,Banfield,Gimnasia y Esgrima (LP),0,2,,,Primera Division,2022,zonas,,Fecha 24,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
@@ -1738,6 +1742,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2022-10-14,19:00,Huracán,Estudiantes (LP),3,1,,,Primera Division,2022,zonas,,Fecha 25,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-14,21:00,Sportivo Estudiantes (SL),Círculo Deportivo,1,0,,,Torneo Federal A,2022,zonas,Zona Sur,Fecha 34,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
 2022-10-14,21:30,Arsenal,Central Córdoba (SdE),2,0,,,Primera Division,2022,zonas,,Fecha 25,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
+2022-10-15,,Defensores Unidos,Fénix,1,0,,,Primera B,2022,eliminacion,,Segunda fase,Estadio Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
+2022-10-15,,Villa San Carlos,Acassuso,2,1,,,Primera B,2022,eliminacion,,Segunda fase,Estadio Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
 2022-10-15,13:00,Deportivo Camioneros,Liniers (BB),2,2,,,Torneo Federal A,2022,zonas,Zona Sur,Fecha 34,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
 2022-10-15,15:30,Deportivo Laferrere,Berazategui,2,3,,,Primera C,2022,zonas,Torneo Clausura,Fecha 19,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
 2022-10-15,15:30,Excursionistas,Leandro N. Alem,3,0,,,Primera C,2022,zonas,Torneo Clausura,Fecha 19,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
@@ -1775,6 +1781,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2022-10-18,19:00,Lanús,Racing Club,0,1,,,Primera Division,2022,zonas,,Fecha 26,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-18,21:30,Central Córdoba (SdE),Tigre,1,2,,,Primera Division,2022,zonas,,Fecha 26,Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-18,21:30,Huracán,Platense,2,0,,,Primera Division,2022,zonas,,Fecha 26,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
+2022-10-21,,Excursionistas,Deportivo Laferrere,1,2,,,Primera C,2022,eliminacion,,Primera fase,Estadio de Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
+2022-10-22,,Claypole,Sportivo Italiano,2,0,,,Primera C,2022,eliminacion,,Primera fase,Estadio Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
+2022-10-22,,Comunicaciones,Villa San Carlos,0,1,,,Primera B,2022,eliminacion,,Semifinales,Estadio Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
+2022-10-22,,Deportivo Armenio,Defensores Unidos,0,1,,,Primera B,2022,eliminacion,,Semifinales,Estadio Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
+2022-10-22,,Real Pilar,Berazategui,3,1,,,Primera C,2022,eliminacion,,Primera fase,Estadio Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
 2022-10-22,14:00,Unión,Central Córdoba (SdE),1,4,,,Primera Division,2022,zonas,,Fecha 27,15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-22,16:30,Defensa y Justicia,Atlético Tucumán,3,1,,,Primera Division,2022,zonas,,Fecha 27,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-22,16:30,Estudiantes (LP),Godoy Cruz,2,0,,,Primera Division,2022,zonas,,Fecha 27,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
@@ -1793,6 +1804,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2022-10-23,17:00,Racing Club,Sportivo Las Parejas,2,0,,,Torneo Federal A,2022,zonas,Octavos de final,,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
 2022-10-23,18:00,Central Norte (S),Sol de Mayo (V),2,0,,,Torneo Federal A,2022,zonas,Octavos de final,,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
 2022-10-23,19:30,Sarmiento (R),Juventud Unida Universitario,1,0,,,Torneo Federal A,2022,zonas,Octavos de final,,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
+2022-10-24,,Deportivo Español,Atlas,0,0,7,6,Primera C,2022,eliminacion,,Primera fase,Estadio Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
 2022-10-24,15:30,Barracas Central,Newell's Old Boys,1,1,,,Primera Division,2022,zonas,,Fecha 27,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-24,16:30,Rosario Central,Colón,1,1,,,Primera Division,2022,zonas,,Fecha 27,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
 2022-10-24,20:30,Tigre,Arsenal,1,4,,,Primera Division,2022,zonas,,Fecha 27,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2022_(Argentina)
@@ -1800,9 +1812,17 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2022-10-26,,Banfield,Talleres (C),0,1,,,Copa Argentina,2022,eliminacion,,Semifinales,Marcelo Bielsa,true,https://es.wikipedia.org/wiki/Copa_Argentina_2022
 2022-10-26,,Patronato,Boca Juniors,1,1,3,2,Copa Argentina,2022,eliminacion,,Semifinales,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2022
 2022-10-29,16:00,Villa Mitre,San Martín (F),2,0,,,Torneo Federal A,2022,zonas,Cuartos de final,,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
+2022-10-30,,Claypole,Real Pilar,1,1,4,2,Primera C,2022,eliminacion,,Segunda fase,Estadio Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
+2022-10-30,,Defensores Unidos,Villa San Carlos,2,1,,,Primera B,2022,eliminacion,,Final,Estadio Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
+2022-10-30,,Deportivo Español,Deportivo Laferrere,1,3,,,Primera C,2022,eliminacion,,Segunda fase,Estadio Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
 2022-10-30,,Talleres (C),Patronato,0,1,,,Copa Argentina,2022,eliminacion,,Final,Malvinas Argentinas,true,https://es.wikipedia.org/wiki/Copa_Argentina_2022
 2022-10-30,16:00,Olimpo,Independiente (C),2,1,,,Torneo Federal A,2022,zonas,Cuartos de final,,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
 2022-10-30,17:00,Racing Club,Central Norte (S),1,0,,,Torneo Federal A,2022,zonas,Cuartos de final,,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
 2022-10-30,19:30,Sarmiento (R),Ciudad de Bolívar,0,0,,,Torneo Federal A,2022,zonas,Cuartos de final,,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
+2022-11-04,,Argentino de Merlo,Deportivo Laferrere,2,0,,,Primera C,2022,eliminacion,,Semifinales,Estadio Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
+2022-11-05,,Ferrocarril Midland,Claypole,4,1,,,Primera C,2022,eliminacion,,Semifinales,Estadio Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
+2022-11-06,,Villa San Carlos,Defensores Unidos,0,0,,,Primera B,2022,eliminacion,,Final,Estadio Juan Carmelo Zerillo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2022_(Argentina)
 2022-11-06,15:00,Olimpo,Villa Mitre,0,0,,,Torneo Federal A,2022,zonas,Semifinales,,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
 2022-11-06,18:00,Racing Club,Sarmiento (R),2,0,,,Torneo Federal A,2022,zonas,Semifinales,,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2022
+2022-11-13,,Ferrocarril Midland,Argentino de Merlo,1,0,,,Primera C,2022,eliminacion,,Final,Estadio Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
+2022-11-19,,Argentino de Merlo,Ferrocarril Midland,1,0,6,5,Primera C,2022,eliminacion,,Final,Estadio Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2022_(Argentina)
