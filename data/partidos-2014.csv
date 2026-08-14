@@ -963,6 +963,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-11-22,17:00,Sarmiento (J),Crucero del Norte,1,1,,,Primera Nacional,2014,zonas,Zona B,Fecha 20,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-22,18:00,Olimpo,Rosario Central,1,1,,,Primera Division,2014,zonas,,Fecha 17,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-22,19:10,Vélez Sarsfield,Godoy Cruz,1,4,,,Primera Division,2014,zonas,,Fecha 17,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
+2014-11-22,20:30,Flandria,San Telmo,3,1,,,Primera C,2014,eliminacion,,Desempate,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-11-22,20:30,Lanús,Gimnasia y Esgrima (LP),2,0,,,Primera Division,2014,zonas,,Fecha 17,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-23,17:00,Belgrano,Tigre,1,2,,,Primera Division,2014,zonas,,Fecha 17,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-23,17:00,Colón,Ferro Carril Oeste,1,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 20,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
@@ -1029,5 +1030,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-12-08,,Tristán Suárez,Villa Dálmine,0,2,,,Primera B,2014,eliminacion,,Final,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-12-08,18:10,Atlético Tucumán,Ramón Santamarina,4,1,,,Primera Nacional,2014,zonas,Zona B,Fecha 22,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-12-08,18:10,Huracán,Independiente Rivadavia,4,0,,,Primera Nacional,2014,zonas,Zona B,Fecha 22,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
+2014-12-11,17:00,Nueva Chicago,Aldosivi,0,0,,,Primera Nacional,2014,eliminacion,,Partido 1,Juan Carmelo Zerillo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
+2014-12-14,17:15,Huracán,Atlético Tucumán,4,1,,,Primera Nacional,2014,eliminacion,,Desempate,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-12-14,20:30,Quilmes,River Plate,0,1,,,Primera Division,2014,zonas,,Fecha 19,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-12-14,20:30,Racing Club,Godoy Cruz,1,0,,,Primera Division,2014,zonas,,Fecha 19,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
+2014-12-15,20:15,Aldosivi,Gimnasia y Esgrima (J),1,0,,,Primera Nacional,2014,eliminacion,,Partido 2,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
+2014-12-19,20:15,Gimnasia y Esgrima (J),Nueva Chicago,0,1,,,Primera Nacional,2014,eliminacion,,Partido 3,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014

@@ -222,8 +222,12 @@ ASCENSO_HISTORICO = [
 
     Torneo('Campeonato de Primera B 2016 (Argentina)', 'Primera B', 2016),
     Torneo('Campeonato de Primera B 2016-17 (Argentina)', 'Primera B', 2016, anio_fin=2017),
-    # FUERA: lista dos veces las fechas de la primera rueda con la misma numeracion.
-    # Torneo('Campeonato de Primera B 2017-18 (Argentina)', 'Primera B', 2017, anio_fin=2018),
+    # Estuvo FUERA con el cartel "lista dos veces las fechas de la primera rueda",
+    # que era falso. Lo que la frenaba era UN partido: el desempate que definio el
+    # campeonato colgaba de un encabezado `!colspan=12|Desempate`, el parser lo
+    # tomaba por zona, y `todos_tienen_zona` saltaba por la mezcla de 306 partidos
+    # sin zona y uno con. Ver `parser._ES_RONDA`.
+    Torneo('Campeonato de Primera B 2017-18 (Argentina)', 'Primera B', 2017, anio_fin=2018),
     Torneo('Campeonato de Primera B 2018-19 (Argentina)', 'Primera B', 2018, anio_fin=2019),
     Torneo('Campeonato de Primera B 2019-20 (Argentina)', 'Primera B', 2019, anio_fin=2020),
 

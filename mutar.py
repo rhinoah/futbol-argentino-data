@@ -75,8 +75,8 @@ MUTANTES = [
      'bloque = bloque'),
 
     ("fad/parser.py", "no reconocer 'Interzonal' como etiqueta de seccion",
-     '            else:\n                zona = _seccion(cab)',
-     '            elif re.match(r"(?i)(zona|grupo)\\b", cab):\n                zona = _seccion(cab)'),
+     '                zona, ronda = _seccion(cab), ""',
+     '                zona, ronda = (cab if re.match(r"(?i)(zona|grupo)", cab) else ""), ""'),
 
     ("fad/parser.py", "no unificar Interzonal/Interzonales",
      '    if re.match(r"(?i)^interzonal", cab):\n        return "Interzonal"',
@@ -305,9 +305,9 @@ MUTANTES = [
      "        if False:\n            continue"),
 
     ("fad/parser.py", "confundir la zona con la fase del torneo",
-     "        fuera.append((_contexto(m.start(), nivel, texto),\n"
+     "                      _contexto(m.start(), nivel, texto),\n"
      "                      _contexto(m.start(), min(nivel, 3), texto), cuerpo))",
-     "        fuera.append((_contexto(m.start(), nivel, texto),\n"
+     "                      _contexto(m.start(), nivel, texto),\n"
      "                      _contexto(m.start(), nivel, texto), cuerpo))"),
 
     ("fad/parser.py", "buscar la fase en un nivel igual o mayor al propio titulo",

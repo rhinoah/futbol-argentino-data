@@ -452,6 +452,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-01-12,17:10,Excursionistas,Luján,2,1,,,Primera C,2020,zonas,Grupo B,Fecha 4,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-12,17:10,Ituzaingó,Victoriano Arenas,3,1,,,Primera C,2020,zonas,Grupo A,Fecha 4,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-12,17:10,Sportivo Italiano,San Martín (B),0,0,,,Primera C,2020,zonas,Grupo A,Fecha 4,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
+2021-01-15,17:10,Cañuelas,Real Pilar,0,0,,,Primera C,2020,eliminacion,,,Jorge Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-16,,Rosario Central,Vélez Sarsfield,1,3,,,Copa de la Liga,2020,eliminacion,,Final,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2021-01-16,,Sarmiento (J),Estudiantes (RC),1,1,4,3,Primera Nacional,2020,eliminacion,,Final,Estadio 15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2021-01-17,,Agropecuario,Quilmes,0,1,,,Primera Nacional,2020,eliminacion,,,Estadio Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
@@ -495,8 +496,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-01-27,,Dock Sud,Ituzaingó,1,0,,,Primera C,2020,eliminacion,,Semifinales,Estadio Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-27,,Estudiantes (RC),Estudiantes (BA),1,0,,,Primera Nacional,2020,eliminacion,,Semifinales,Estadio Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2021-01-27,,General Lamadrid,Deportivo Merlo,2,2,6,7,Primera C,2020,eliminacion,,Semifinales,Estadio Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-27,17:30,Deportivo Maipú,Sarmiento (R),2,0,,,Torneo Federal A,2020,zonas,Semifinales,,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
+2021-01-27,17:30,Deportivo Maipú,Sarmiento (R),2,0,,,Torneo Federal A,2020,eliminacion,,Semifinales,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
 2021-01-31,,Dock Sud,Deportivo Merlo,1,2,,,Primera C,2020,eliminacion,,Final,Estadio Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-31,,Estudiantes (RC),Platense,1,1,2,4,Primera Nacional,2020,eliminacion,,Final,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-31,17:15,Deportivo Maipú,Deportivo Madryn,2,0,,,Torneo Federal A,2020,zonas,Final,,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
+2021-01-31,17:15,Deportivo Maipú,Deportivo Madryn,2,0,,,Torneo Federal A,2020,eliminacion,,Final,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
 2021-02-04,,San Telmo,Deportivo Madryn,0,0,3,1,Primera B,2020,eliminacion,,,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
+2021-02-04,21:30,San Telmo,Deportivo Madryn,0,0,,,Torneo Federal A,2020,eliminacion,,Tercer ascenso,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020

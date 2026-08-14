@@ -546,3 +546,192 @@ def test_una_plantilla_sin_cerrar_se_descarta():
     """Adivinar donde termina es exactamente lo que hacia el regex."""
     texto = "{{Partido\n|local = Boca Juniors\n|resultado = 2:1\n|visita = River Plate\n"
     assert parser.partidos_de_plantillas(texto, 2021, "x") == []
+
+
+# --------------------------------------------------------------------------
+# una ronda no es una zona
+# --------------------------------------------------------------------------
+def _tabla_con(encabezado, local="Boca Juniors", visita="River Plate"):
+    return f"""
+== Resultados ==
+{{|class="wikitable"
+!colspan=6|{encabezado}
+|-
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|{local}
+|2 - 1
+|{visita}
+|Un Estadio
+|23 de enero
+|20:00
+|}}
+"""
+
+
+def test_una_fecha_del_calendario_va_a_la_jornada():
+    p, = parser.partidos(_tabla_con("Fecha 7"), 2018, "x")
+    assert (p.fase, p.zona, p.jornada) == ("zonas", "", "Fecha 7")
+
+
+def test_una_zona_va_a_la_zona():
+    p, = parser.partidos(_tabla_con("Zona A"), 2018, "x")
+    assert (p.fase, p.zona) == ("zonas", "Zona A")
+
+
+@pytest.mark.parametrize("ronda", [
+    "Desempate", "Octavos de final", "Cuartos", "Semifinales", "Final",
+    "Ronda de desempate", "Partidos de ida", "Primera ronda", "Reducido"])
+def test_una_ronda_no_es_una_zona(ronda):
+    """La tabla de una fecha y la de una llave se escriben igual; el encabezado
+    es lo unico que las distingue. Tratando la ronda como zona pasan dos cosas:
+    la etiqueta va a parar a la columna `group` del CSV, que promete una zona y
+    dice "Octavos de final", y el partido queda como fase de grupos. Eso ultimo
+    dejo a la Primera B 2017-18 entera afuera del dataset: 306 partidos sin zona
+    y uno -- el desempate que definio el campeonato -- con "Desempate"."""
+    p, = parser.partidos(_tabla_con(ronda), 2018, "x")
+    assert p.zona == "", f"{ronda!r} quedo como zona"
+    assert p.fase == "eliminacion"
+    assert p.jornada == ronda
+
+
+def test_una_fase_de_grupos_del_federal_sigue_siendo_zona():
+    """La lista de rondas es corta a proposito. En el Federal A, "Primera fase" y
+    "Nonagonal final" son fases de GRUPOS: meterlas las sacaria de donde van."""
+    for etiqueta in ("Primera fase", "Nonagonal final"):
+        p, = parser.partidos(_tabla_con(etiqueta), 2018, "x")
+        assert p.fase == "zonas", f"{etiqueta!r} se fue a eliminacion"
+
+
+# --------------------------------------------------------------------------
+# tablas que no cuelgan de un "Resultados"
+# --------------------------------------------------------------------------
+def test_una_tabla_fuera_de_resultados_se_lee():
+    """Los reducidos, las promociones y las finales de ascenso viven bajo titulos
+    propios, asi que la busqueda por seccion nunca se las pasaba al parser y se
+    perdian enteras aunque tuvieran fecha y estadio."""
+    texto = _tabla_con("Fecha 1") + """
+== Final por el primer ascenso ==
+{|class="wikitable"
+!colspan=6|Partido 1
+|-
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Racing Club
+|1 - 0
+|Huracán
+|Otro Estadio
+|22 de junio
+|19:00
+|}
+"""
+    ps = parser.partidos(texto, 2018, "x")
+    assert len(ps) == 2
+    final = [p for p in ps if p.local == "Racing Club"][0]
+    assert final.fecha == "2018-06-22" and final.estadio == "Otro Estadio"
+    assert final.fase == "eliminacion", "afuera de la liga no hay fechas del calendario"
+    assert final.zona == "", "'Partido 1' no es una zona"
+
+
+def test_una_lista_de_goleadores_no_es_una_tabla_de_partidos():
+    """La guarda que hace seguro leer fuera de la seccion. Corriendo el parser
+    sobre la pagina entera se miden 34 paginas alteradas y 117 filas nuevas, y
+    una es un partido que NO existe: la caja de detalle trae
+    `44'|| Elías Torres|| 2 - 0` y el encabezado de las tarjetas dice
+    `Amonestaciones`, asi que salia un `Talleres 2-1 Rafaela` inventado."""
+    texto = _tabla_con("Fecha 1") + """
+== Detalle ==
+{|class="wikitable"
+!colspan=3|Amonestaciones
+|-
+!Minuto
+!Jugador
+!Parcial
+|-
+|44'
+|Elías Torres
+|2 - 0
+|}
+"""
+    assert len(parser.partidos(texto, 2018, "x")) == 1
+
+
+def test_un_partido_publicado_dos_veces_entra_una():
+    """La final suele estar en la ultima fecha de los resultados Y en su seccion
+    propia. Entrando por las dos, `validar.sin_duplicados` frena el build."""
+    texto = _tabla_con("Fecha 19", local="Racing Club", visita="Huracán") + """
+== Final ==
+{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Racing Club
+|2 - 1
+|Huracán
+|Un Estadio
+|23 de enero
+|20:00
+|}
+"""
+    ps = parser.partidos(texto, 2018, "x")
+    assert len(ps) == 1
+
+
+def test_una_tabla_adentro_de_otra_no_corta_la_de_afuera():
+    """Las paginas del ascenso arman dos columnas de resultados con un
+    `{| width=100%` que envuelve a las tablas de cada fecha. Buscando el `|}`
+    mas cercano, la de afuera se cierra en el primer cierre de una de adentro y
+    la mitad de los partidos queda fuera de la tabla."""
+    texto = """
+== Final por el primer ascenso ==
+{| width=100%
+| valign=top width=50% |
+{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Racing Club
+|1 - 0
+|Huracán
+|Un Estadio
+|22 de junio
+|19:00
+|}
+| valign=top width=50% |
+{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Huracán
+|2 - 2
+|Racing Club
+|Otro Estadio
+|29 de junio
+|19:00
+|}
+|}
+"""
+    ps = parser.partidos(texto, 2018, "x")
+    assert len(ps) == 2, "se perdio la tabla de la segunda columna"

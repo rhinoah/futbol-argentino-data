@@ -1632,17 +1632,17 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-03-31,15:30,Almirante Brown,Talleres (RdE),1,0,,,Primera B,2018,zonas,,Fecha 31,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-03-31,16:00,All Boys,Deportivo Español,1,0,,,Primera B,2018,zonas,,Fecha 31,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-03-31,16:00,Deportivo Armenio,Villa San Carlos,1,0,,,Primera C,2018,zonas,,Fecha 30,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-03-31,16:00,Deportivo Camioneros,Deportivo Maipú,0,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-03-31,16:00,Deportivo Camioneros,Deportivo Maipú,0,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-31,16:00,Ferro Carril Oeste,Quilmes,1,1,,,Primera Nacional,2018,zonas,,Fecha 22,Arquitecto Ricardo Echeverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-03-31,16:00,Gimnasia y Esgrima (M),Defensores de Belgrano,1,0,,,Primera Nacional,2018,zonas,,Fecha 22,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-03-31,16:00,Guillermo Brown,Deportivo Morón,3,1,,,Primera Nacional,2018,zonas,,Fecha 22,Raul Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-03-31,16:00,Olimpo,Chacarita Juniors,2,1,,,Primera Nacional,2018,zonas,,Fecha 22,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-03-31,16:00,Sacachispas,Tristán Suárez,3,2,,,Primera B,2018,zonas,,Fecha 31,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-03-31,16:00,Sol de Mayo (V),Unión (S),3,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-03-31,16:00,Sol de Mayo (V),Unión (S),3,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-31,17:00,Defensores de Belgrano (VR),Estudiantes (RC),0,1,,,Torneo Federal A,2018,zonas,Tabla de posiciones final,Fecha 1,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-31,18:10,Defensa y Justicia,Unión,1,1,,,Primera Division,2018,zonas,,Fecha 24,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-03-31,18:10,Tigre,Racing Club,1,1,,,Primera Division,2018,zonas,,Fecha 24,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
-2019-03-31,19:00,Boca Unidos,Desamparados,0,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-03-31,19:00,Boca Unidos,Desamparados,0,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-31,19:30,Sarmiento (R),San Jorge (T),3,1,,,Torneo Federal A,2018,zonas,Tabla de posiciones final,Fecha 1,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-31,20:00,Atlético de Rafaela,Mitre (SdE),0,1,,,Primera Nacional,2018,zonas,,Fecha 22,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-04-01,15:30,Barracas Central,Acassuso,1,0,,,Primera B,2018,zonas,,Fecha 31,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
@@ -1655,7 +1655,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-04-02,15:30,J. J. de Urquiza,Colegiales,0,1,,,Primera B,2018,zonas,,Fecha 31,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-04-02,15:30,Luján,Sportivo Italiano,1,1,,,Primera C,2018,zonas,,Fecha 31,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-02,15:30,San Telmo,Deportivo Riestra,1,1,,,Primera B,2018,zonas,,Fecha 31,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-04-03,15:00,San Martín (F),Gimnasia y Tiro (S),2,2,,,Torneo Federal A,2018,zonas,Ronda de desempate,Fecha 1,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-03,15:00,San Martín (F),Gimnasia y Tiro (S),2,2,,,Torneo Federal A,2018,eliminacion,,Fecha 1,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-03,15:30,Argentino de Quilmes,San Martín (B),1,0,,,Primera C,2018,zonas,,Fecha 31,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-03,15:30,El Porvenir,Victoriano Arenas,1,0,,,Primera C,2018,zonas,,Fecha 31,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-03,15:30,General Lamadrid,Cañuelas,1,4,,,Primera C,2018,zonas,,Fecha 31,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
@@ -1685,7 +1685,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-04-07,11:00,Temperley,Central Córdoba (SdE),1,2,,,Primera Nacional,2018,zonas,,Fecha 23,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-04-07,12:00,Leandro N. Alem,Luján,2,2,,,Primera C,2018,zonas,,Fecha 32,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-07,13:00,Rosario Central,Independiente,1,2,,,Primera Division,2018,zonas,,Fecha 25,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
-2019-04-07,15:00,Juventud Antoniana,Gimnasia y Tiro (S),0,0,,,Torneo Federal A,2018,zonas,Ronda de desempate,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-07,15:00,Juventud Antoniana,Gimnasia y Tiro (S),0,0,,,Torneo Federal A,2018,eliminacion,,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-07,15:15,Belgrano,Godoy Cruz,1,0,,,Primera Division,2018,zonas,,Fecha 25,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-04-07,15:15,Patronato,Argentinos Juniors,2,1,,,Primera Division,2018,zonas,,Fecha 25,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-04-07,15:15,River Plate,Tigre,2,3,,,Primera Division,2018,zonas,,Fecha 25,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
@@ -1695,13 +1695,13 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-04-07,15:30,Deportivo Español,Fénix,0,3,,,Primera B,2018,zonas,,Fecha 32,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-04-07,15:30,Ferrocarril Midland,Argentino de Quilmes,0,1,,,Primera C,2018,zonas,,Fecha 32,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-07,16:00,San Jorge (T),Defensores de Belgrano (VR),1,0,,,Torneo Federal A,2018,zonas,Tabla de posiciones final,Fecha 2,Ángel Pascual Sáez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-04-07,16:00,Unión (S),Sol de Mayo (V),1,1,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Fortaleza del Bicho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-07,16:00,Unión (S),Sol de Mayo (V),1,1,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Fortaleza del Bicho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-07,16:30,Estudiantes (RC),Alvarado,2,1,,,Torneo Federal A,2018,zonas,Tabla de posiciones final,Fecha 2,Ciudad de Río Cuarto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-04-07,16:45,Deportivo Maipú,Deportivo Camioneros,0,0,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-07,16:45,Deportivo Maipú,Deportivo Camioneros,0,0,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-07,17:00,Gimnasia y Esgrima (J),Gimnasia y Esgrima (M),1,2,,,Primera Nacional,2018,zonas,,Fecha 23,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-04-07,18:30,Racing Club,Defensa y Justicia,1,1,,,Primera Division,2018,zonas,,Fecha 25,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-04-07,19:00,Independiente Rivadavia,Guillermo Brown,1,0,,,Primera Nacional,2018,zonas,,Fecha 23,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
-2019-04-07,21:00,Desamparados,Boca Unidos,1,1,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-07,21:00,Desamparados,Boca Unidos,1,1,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-08,15:30,Central Córdoba (R),Ituzaingó,1,1,,,Primera C,2018,zonas,,Fecha 32,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-08,15:30,Deportivo Laferrere,Villa San Carlos,6,3,,,Primera C,2018,zonas,,Fecha 32,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-08,15:30,Flandria,Barracas Central,1,0,,,Primera B,2018,zonas,,Fecha 32,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
@@ -1714,7 +1714,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-04-08,21:05,Quilmes,Nueva Chicago,3,2,,,Primera Nacional,2018,zonas,,Fecha 23,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-04-09,15:30,Victoriano Arenas,Deportivo Merlo,0,1,,,Primera C,2018,zonas,,Fecha 32,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-09,21:05,Acassuso,San Telmo,0,2,,,Primera B,2018,zonas,,Fecha 32,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-04-11,15:00,Juventud Antoniana,San Martín (F),1,1,,,Torneo Federal A,2018,zonas,Ronda de desempate,Fecha 3,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-11,15:00,Juventud Antoniana,San Martín (F),1,1,,,Torneo Federal A,2018,eliminacion,,Fecha 3,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-12,15:30,El Porvenir,Central Córdoba (R),2,2,,,Primera C,2018,zonas,,Fecha 33,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-12,15:30,Luján,Excursionistas,3,0,,,Primera C,2018,zonas,,Fecha 33,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-13,11:00,Dock Sud,Sportivo Italiano,1,0,,,Primera C,2018,zonas,,Fecha 33,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
@@ -1749,10 +1749,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-04-15,15:30,Sportivo Barracas,Victoriano Arenas,2,1,,,Primera C,2018,zonas,,Fecha 33,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-15,15:35,Nueva Chicago,Sarmiento (J),1,0,,,Primera Nacional,2018,zonas,,Fecha 24,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-04-15,21:05,Atlético de Rafaela,Deportivo Morón,0,1,,,Primera Nacional,2018,zonas,,Fecha 24,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
-2019-04-16,16:00,Deportivo Madryn,Villa Mitre,2,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-04-16,17:00,San Martín (F),Huracán Las Heras,1,1,,,Torneo Federal A,2018,zonas,Partidos de ida,,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-04-16,20:00,Sportivo Las Parejas,Sansinena,0,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-04-16,21:30,Sportivo Estudiantes (SL),Chaco For Ever,0,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-16,16:00,Deportivo Madryn,Villa Mitre,2,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-16,17:00,San Martín (F),Huracán Las Heras,1,1,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-16,20:00,Sportivo Las Parejas,Sansinena,0,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-16,21:30,Sportivo Estudiantes (SL),Chaco For Ever,0,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-18,15:30,Ituzaingó,El Porvenir,0,1,,,Primera C,2018,zonas,,Fecha 34,Ituzaingó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-18,15:30,San Martín (B),Villa San Carlos,0,0,,,Primera C,2018,zonas,,Fecha 34,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-19,15:30,Acassuso,Fénix,1,1,,,Primera B,2018,zonas,,Fecha 34,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
@@ -1780,10 +1780,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-04-21,15:10,Sarmiento (J),Guillermo Brown,3,1,,,Primera Nacional,2018,zonas,,Fecha 25,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-04-21,15:30,Cañuelas,Deportivo Armenio,3,2,,,Primera C,2018,zonas,,Fecha 34,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-04-21,15:30,Flandria,All Boys,0,0,,,Primera B,2018,zonas,,Fecha 34,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-04-21,16:00,Huracán Las Heras,San Martín (F),1,0,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-04-21,16:00,Sansinena,Sportivo Las Parejas,0,0,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-04-21,16:30,Chaco For Ever,Sportivo Estudiantes (SL),1,0,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-04-21,20:00,Villa Mitre,Deportivo Madryn,1,1,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-21,16:00,Huracán Las Heras,San Martín (F),1,0,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-21,16:00,Sansinena,Sportivo Las Parejas,0,0,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-21,16:30,Chaco For Ever,Sportivo Estudiantes (SL),1,0,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-21,20:00,Villa Mitre,Deportivo Madryn,1,1,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-21,21:30,Mitre (SdE),Almagro,2,4,,,Primera Nacional,2018,zonas,,Fecha 25,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-04-22,15:30,Deportivo Riestra,Sacachispas,1,0,,,Primera B,2018,zonas,,Fecha 34,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-04-22,15:30,UAI Urquiza,San Telmo,1,0,,,Primera B,2018,zonas,,Fecha 34,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
@@ -1804,10 +1804,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-04-28,15:00,Sarmiento (J),Arsenal,0,1,,,Primera Nacional,2018,zonas,,,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-04-28,15:30,Colegiales,Tristán Suárez,3,1,,,Primera B,2018,zonas,,Fecha 35,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-04-28,15:30,Defensores Unidos,Deportivo Español,1,1,,,Primera B,2018,zonas,,Fecha 35,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-04-28,15:30,Sol de Mayo (V),Huracán Las Heras,1,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-28,15:30,Sol de Mayo (V),Huracán Las Heras,1,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-28,15:30,Villa San Carlos,El Porvenir,1,0,,,Primera C,2018,zonas,,Fecha 35,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-04-28,16:00,Deportivo Madryn,Chaco For Ever,1,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-04-28,16:00,Deportivo Maipú,Desamparados,1,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-28,16:00,Deportivo Madryn,Chaco For Ever,1,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-28,16:00,Deportivo Maipú,Desamparados,1,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-28,16:00,San Jorge (T),Estudiantes (RC),0,2,,,Torneo Federal A,2018,zonas,Tabla de posiciones final,Fecha 4,Ángel Pascual Sáez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-28,19:00,Sarmiento (R),Alvarado,2,1,,,Torneo Federal A,2018,zonas,Tabla de posiciones final,Fecha 4,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-04-29,15:30,Deportivo Laferrere,Cañuelas,1,1,,,Primera C,2018,zonas,,Fecha 35,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
@@ -1815,7 +1815,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-04-29,15:30,Sacachispas,Acassuso,0,3,,,Primera B,2018,zonas,,Fecha 35,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-04-29,15:30,San Telmo,Estudiantes (BA),2,1,,,Primera B,2018,zonas,,Fecha 35,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-04-29,15:35,San Miguel,Barracas Central,1,1,,,Primera B,2018,zonas,,Fecha 35,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-04-29,20:00,Sportivo Las Parejas,Gimnasia y Esgrima (CdU),0,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-04-29,20:00,Sportivo Las Parejas,Gimnasia y Esgrima (CdU),0,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-03,15:30,Ituzaingó,Sportivo Barracas,1,0,,,Primera C,2018,zonas,,Fecha 36,Ituzaingó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-03,15:35,Deportivo Riestra,Defensores Unidos,1,1,,,Primera B,2018,zonas,,Fecha 36,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-04,,Central Córdoba (SdE),Platense,0,0,,,Primera Nacional,2018,eliminacion,,Cuartos,Estadio Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
@@ -1832,16 +1832,16 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-05-04,15:30,Tristán Suárez,Comunicaciones,0,1,,,Primera B,2018,zonas,,Fecha 36,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-05,,Brown de Adrogué,Sarmiento (J),0,1,,,Primera Nacional,2018,eliminacion,,Cuartos,Estadio Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-05-05,12:00,El Porvenir,Deportivo Merlo,1,0,,,Primera C,2018,zonas,,Fecha 36,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-05-05,15:00,Gimnasia y Esgrima (CdU),Sportivo Las Parejas,1,0,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-05,15:00,Gimnasia y Esgrima (CdU),Sportivo Las Parejas,1,0,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-05,15:30,Barracas Central,San Telmo,0,0,,,Primera B,2018,zonas,,Fecha 36,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-05,15:30,Cañuelas,San Martín (B),1,1,,,Primera C,2018,zonas,,Fecha 36,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-05,15:30,Sportivo Italiano,Deportivo Laferrere,1,4,,,Primera C,2018,zonas,,Fecha 36,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-05,15:30,Talleres (RdE),San Miguel,0,3,,,Primera B,2018,zonas,,Fecha 36,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-05,16:00,Alvarado,Defensores de Belgrano (VR),1,0,,,Torneo Federal A,2018,zonas,Tabla de posiciones final,Fecha 5,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-05-05,16:00,Chaco For Ever,Deportivo Madryn,0,0,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-05-05,16:00,Desamparados,Deportivo Maipú,3,1,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-05,16:00,Chaco For Ever,Deportivo Madryn,0,0,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-05,16:00,Desamparados,Deportivo Maipú,3,1,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-05,16:00,Estudiantes (RC),Sarmiento (R),2,0,,,Torneo Federal A,2018,zonas,Tabla de posiciones final,Fecha 5,Ciudad de Río Cuarto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-05-05,16:00,Huracán Las Heras,Sol de Mayo (V),1,2,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-05,16:00,Huracán Las Heras,Sol de Mayo (V),1,2,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-06,,Gimnasia y Esgrima (M),Almagro,1,1,,,Primera Nacional,2018,eliminacion,,Cuartos,Estadio Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-05-06,15:30,UAI Urquiza,Fénix,1,0,,,Primera B,2018,zonas,,Fecha 36,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-06,20:00,Acassuso,Almirante Brown,0,1,,,Primera B,2018,zonas,,Fecha 36,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
@@ -1855,14 +1855,14 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-05-12,,Platense,Central Córdoba (SdE),0,1,,,Primera Nacional,2018,eliminacion,,Cuartos,Estadio Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-05-12,12:00,San Miguel,San Telmo,0,1,,,Primera B,2018,zonas,,Fecha 37,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-12,13:00,Argentino de Quilmes,Victoriano Arenas,1,0,,,Primera C,2018,zonas,,Fecha 37,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-05-12,15:00,Gimnasia y Esgrima (CdU),Defensores de Belgrano (VR),2,3,,,Torneo Federal A,2018,zonas,Partidos de ida,,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-12,15:00,Gimnasia y Esgrima (CdU),Defensores de Belgrano (VR),2,3,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-12,15:05,Almirante Brown,Flandria,2,0,,,Primera B,2018,zonas,,Fecha 37,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-12,15:30,Ferrocarril Midland,Cañuelas,2,0,,,Primera C,2018,zonas,,Fecha 37,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-12,15:30,Luján,Ituzaingó,0,0,,,Primera C,2018,zonas,,Fecha 37,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-05-12,15:30,Sol de Mayo (V),Alvarado,1,1,,,Torneo Federal A,2018,zonas,Partidos de ida,,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-12,15:30,Sol de Mayo (V),Alvarado,1,1,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-12,15:30,Villa San Carlos,Deportivo Merlo,1,1,,,Primera C,2018,zonas,,Fecha 37,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-05-12,16:00,Deportivo Madryn,Sarmiento (R),3,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-05-12,16:00,Desamparados,San Jorge (T),0,3,,,Torneo Federal A,2018,zonas,Partidos de ida,,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-12,16:00,Deportivo Madryn,Sarmiento (R),3,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-12,16:00,Desamparados,San Jorge (T),0,3,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-13,,Almagro,Gimnasia y Esgrima (M),2,2,,,Primera Nacional,2018,eliminacion,,Cuartos,Estadio Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-05-13,15:30,Deportivo Armenio,Excursionistas,3,0,,,Primera C,2018,zonas,,Fecha 37,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-13,15:30,Deportivo Laferrere,Leandro N. Alem,2,2,,,Primera C,2018,zonas,,Fecha 37,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
@@ -1888,18 +1888,19 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-05-19,15:00,Deportivo Merlo,Sportivo Barracas,1,1,,,Primera C,2018,zonas,,Fecha 38,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-19,15:00,Leandro N. Alem,San Martín (B),1,1,,,Primera C,2018,zonas,,Fecha 38,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-19,15:30,Cañuelas,Villa San Carlos,1,0,,,Primera C,2018,zonas,,Fecha 38,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-05-19,15:30,Defensores de Belgrano (VR),Gimnasia y Esgrima (CdU),1,1,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-19,15:30,Defensores de Belgrano (VR),Gimnasia y Esgrima (CdU),1,1,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-19,15:30,El Porvenir,Luján,1,1,,,Primera C,2018,zonas,,Fecha 38,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-19,15:30,Sportivo Italiano,Ferrocarril Midland,0,2,,,Primera C,2018,zonas,,Fecha 38,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-05-19,16:00,San Jorge (T),Desamparados,3,1,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Ángel Pascual Sáez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-05-19,19:00,Sarmiento (R),Deportivo Madryn,2,1,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-19,16:00,San Jorge (T),Desamparados,3,1,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Ángel Pascual Sáez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-19,19:00,Sarmiento (R),Deportivo Madryn,2,1,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-20,,Central Córdoba (SdE),Almagro,2,1,,,Primera Nacional,2018,eliminacion,,Semifinales,Estadio Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-05-20,15:30,Ituzaingó,General Lamadrid,1,1,,,Primera C,2018,zonas,,Fecha 38,Ituzaingó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-20,15:35,Acassuso,J. J. de Urquiza,0,0,,,Primera B,2018,zonas,,Fecha 38,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-20,15:35,Deportivo Riestra,Colegiales,0,1,,,Primera B,2018,zonas,,Fecha 38,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-20,15:35,San Telmo,All Boys,2,2,,,Primera B,2018,zonas,,Fecha 38,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-20,15:35,UAI Urquiza,Almirante Brown,0,1,,,Primera B,2018,zonas,,Fecha 38,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-05-20,21:00,Alvarado,Sol de Mayo (V),1,0,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-20,21:00,Alvarado,Sol de Mayo (V),1,0,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-23,14:00,Berazategui,Sportivo Barracas,2,0,,,Primera C,2018,eliminacion,,,Julio Humberto Grondona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-25,,Colegiales,San Telmo,0,1,,,Primera B,2018,eliminacion,,Semifinales,Estadio de Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-05-25,,Sarmiento (J),Independiente Rivadavia,2,0,,,Primera Nacional,2018,eliminacion,,Semifinales,Estadio Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-05-26,,Almagro,Central Córdoba (SdE),1,2,,,Primera Nacional,2018,eliminacion,,Semifinales,Estadio Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
@@ -1907,22 +1908,22 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-05-26,,Dock Sud,Berazategui,2,1,,,Primera C,2018,eliminacion,,Cuartos,Estadio De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-26,,Excursionistas,Luján,1,1,,,Primera C,2018,eliminacion,,Cuartos,Estadio Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-05-26,,Ferrocarril Midland,Villa San Carlos,1,2,,,Primera C,2018,eliminacion,,Cuartos,Estadio Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-05-26,15:00,Deportivo Madryn,Alvarado,0,0,,,Torneo Federal A,2018,zonas,Partidos de ida,,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-05-26,15:30,Defensores de Belgrano (VR),San Jorge (T),0,3,,,Torneo Federal A,2018,zonas,Partidos de ida,,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-26,15:00,Deportivo Madryn,Alvarado,0,0,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-05-26,15:30,Defensores de Belgrano (VR),San Jorge (T),0,3,,,Torneo Federal A,2018,eliminacion,,Partidos de ida,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-05-28,,All Boys,Acassuso,1,1,,,Primera B,2018,eliminacion,,Semifinales,Estadio Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-06-01,,Central Córdoba (SdE),Sarmiento (J),1,1,,,Primera Nacional,2018,eliminacion,,Final,Estadio Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-06-01,,San Telmo,Colegiales,1,1,,,Primera B,2018,eliminacion,,Semifinales,Estadio Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-06-02,,Excursionistas,Deportivo Laferrere,1,1,,,Primera C,2018,eliminacion,,Semifinales,Estadio Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-06-02,,Villa San Carlos,Dock Sud,2,0,,,Primera C,2018,eliminacion,,Semifinales,Estadio Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-06-02,15:45,San Jorge (T),Defensores de Belgrano (VR),1,2,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,Ángel Pascual Sáez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-06-02,16:00,Alvarado,Deportivo Madryn,4,2,,,Torneo Federal A,2018,zonas,Partidos de vuelta,,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-06-02,15:45,San Jorge (T),Defensores de Belgrano (VR),1,2,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,Ángel Pascual Sáez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-06-02,16:00,Alvarado,Deportivo Madryn,4,2,,,Torneo Federal A,2018,eliminacion,,Partidos de vuelta,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-06-03,,Acassuso,All Boys,1,2,,,Primera B,2018,eliminacion,,Semifinales,Estadio República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-06-08,,Deportivo Laferrere,Excursionistas,1,1,7,8,Primera C,2018,eliminacion,,Semifinales,Estadio Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-06-08,,Dock Sud,Villa San Carlos,0,3,,,Primera C,2018,eliminacion,,Semifinales,Estadio De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2019-06-08,,Sarmiento (J),Central Córdoba (SdE),0,0,3,5,Primera Nacional,2018,eliminacion,,Final,Estadio Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-06-09,,All Boys,San Telmo,3,1,,,Primera B,2018,eliminacion,,Final,Estadio Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-06-15,,Villa San Carlos,Excursionistas,3,2,,,Primera C,2018,eliminacion,,Final,Estadio Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
-2019-06-16,16:00,San Jorge (T),Alvarado,0,0,,,Torneo Federal A,2018,zonas,Partido de ida,,Ángel Pascual Sáez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-06-16,16:00,San Jorge (T),Alvarado,0,0,,,Torneo Federal A,2018,eliminacion,,Partido de ida,Ángel Pascual Sáez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-06-20,,San Telmo,All Boys,2,1,,,Primera B,2018,eliminacion,,Final,Estadio Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-06-23,19:30,Alvarado,San Jorge (T),1,0,,,Torneo Federal A,2018,zonas,Partido de vuelta,,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-06-23,19:30,Alvarado,San Jorge (T),1,0,,,Torneo Federal A,2018,eliminacion,,Partido de vuelta,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-06-30,,Excursionistas,Villa San Carlos,1,0,3,4,Primera C,2018,eliminacion,,Final,Estadio Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)

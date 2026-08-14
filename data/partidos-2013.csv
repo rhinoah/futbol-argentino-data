@@ -1877,15 +1877,15 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-04,15:05,Gimnasia y Esgrima (J),Independiente,1,0,,,Primera Nacional,2013,zonas,,Fecha 36,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-04,15:30,Acassuso,Colegiales,2,1,,,Primera B,2013,zonas,,Fecha 38,Jorge Rubén Varela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-04,15:30,Barracas Central,Temperley,0,0,,,Primera B,2013,zonas,,Fecha 38,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
-2014-05-04,15:30,Central Córdoba (SdE),Juventud Unida Universitario,0,2,,,Torneo Argentino A,2013,zonas,Partidos de ida,,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-04,15:30,Central Córdoba (SdE),Juventud Unida Universitario,0,2,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-04,15:30,Deportivo Español,Deportivo Laferrere,0,3,,,Primera C,2013,zonas,,Fecha 35,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
-2014-05-04,16:00,Cipolletti,Tiro Federal,2,0,,,Torneo Argentino A,2013,zonas,Partidos de ida,,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
-2014-05-04,16:00,Sportivo Estudiantes (SL),Defensores de Belgrano (VR),1,2,,,Torneo Argentino A,2013,zonas,Partidos de ida,,Héctor Odicino - Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
-2014-05-04,18:00,Gimnasia y Tiro (S),Guillermo Brown,2,1,,,Torneo Argentino A,2013,zonas,Partidos de ida,,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-04,16:00,Cipolletti,Tiro Federal,2,0,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-04,16:00,Sportivo Estudiantes (SL),Defensores de Belgrano (VR),1,2,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,Héctor Odicino - Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-04,18:00,Gimnasia y Tiro (S),Guillermo Brown,2,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-04,18:00,San Martín (SJ),Ferro Carril Oeste,2,0,,,Primera Nacional,2013,zonas,,Fecha 36,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-04,18:30,Libertad (S),San Martín (T),1,2,,,Torneo Argentino A,2013,zonas,Partidos de ida,,Hogar de los Tigres,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-04,18:30,Libertad (S),San Martín (T),1,2,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,Hogar de los Tigres,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-04,19:00,Sportivo Belgrano,Defensa y Justicia,4,2,,,Primera Nacional,2013,zonas,,Fecha 36,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-04,19:30,Chaco For Ever,Juventud Unida (G),1,1,,,Torneo Argentino A,2013,zonas,Partidos de ida,,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-04,19:30,Chaco For Ever,Juventud Unida (G),1,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-05,15:30,Berazategui,Luján,1,0,,,Primera C,2013,zonas,,Fecha 35,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-05-05,15:30,Dock Sud,Ferrocarril Midland,3,4,,,Primera C,2013,zonas,,Fecha 35,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-05-05,15:30,Flandria,Atlanta,0,0,,,Primera B,2013,zonas,,Fecha 38,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
@@ -1895,7 +1895,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-07,15:45,Acassuso,Almagro,1,1,,,Primera B,2013,zonas,,Fecha 32,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-09,13:30,Brown de Adrogué,Almirante Brown,0,2,,,Primera Nacional,2013,zonas,,Fecha 37,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-09,16:00,Independiente Rivadavia,Villa San Carlos,2,0,,,Primera Nacional,2013,zonas,,Fecha 37,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-09,20:00,Defensores de Belgrano (VR),Sportivo Estudiantes (SL),2,4,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-09,20:00,Defensores de Belgrano (VR),Sportivo Estudiantes (SL),2,4,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-09,20:10,Independiente,San Martín (SJ),2,0,,,Primera Nacional,2013,zonas,,Fecha 37,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-09,20:30,Defensa y Justicia,Gimnasia y Esgrima (J),3,1,,,Primera Nacional,2013,zonas,,Fecha 37,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-09,20:30,Instituto,Sportivo Belgrano,1,0,,,Primera Nacional,2013,zonas,,Fecha 37,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
@@ -1906,21 +1906,21 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-10,11:00,Deportivo Merlo,Almagro,1,2,,,Primera B,2013,zonas,,Fecha 39,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-10,11:00,Estudiantes (BA),Defensores de Belgrano,2,2,,,Primera B,2013,zonas,,Fecha 39,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-10,11:00,Fénix,Villa Dálmine,2,1,,,Primera B,2013,zonas,,Fecha 39,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
-2014-05-10,11:05,Tiro Federal,Cipolletti,3,0,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-10,11:05,Tiro Federal,Cipolletti,3,0,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-10,13:05,UAI Urquiza,Deportivo Morón,2,0,,,Primera B,2013,zonas,,Fecha 39,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-10,15:00,Aldosivi,Talleres (C),1,0,,,Primera Nacional,2013,zonas,,Fecha 37,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-10,15:00,Douglas Haig,Ferro Carril Oeste,0,0,,,Primera Nacional,2013,zonas,,Fecha 37,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-10,15:00,Guillermo Brown,Gimnasia y Tiro (S),2,1,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,Raúl Conti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-10,15:00,Guillermo Brown,Gimnasia y Tiro (S),2,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Raúl Conti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-10,15:00,Huracán,Banfield,3,0,,,Primera Nacional,2013,zonas,,Fecha 37,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-10,15:05,Juventud Unida (G),Chaco For Ever,4,1,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,De los Eucaliptus,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-10,15:05,Juventud Unida (G),Chaco For Ever,4,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,De los Eucaliptus,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-10,15:30,Comunicaciones,Acassuso,1,1,,,Primera B,2013,zonas,,Fecha 39,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-10,15:30,Deportivo Armenio,Flandria,0,0,,,Primera B,2013,zonas,,Fecha 39,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-10,15:30,Sacachispas,Dock Sud,2,1,,,Primera C,2013,zonas,,Fecha 36,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-05-10,15:30,Tristán Suárez,Barracas Central,1,1,,,Primera B,2013,zonas,,Fecha 39,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
-2014-05-10,16:00,Juventud Unida Universitario,Central Córdoba (SdE),1,0,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,Juan Gilberto Funes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-10,16:00,Juventud Unida Universitario,Central Córdoba (SdE),1,0,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Juan Gilberto Funes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-10,17:05,Atlanta,Los Andes,1,0,,,Primera B,2013,zonas,,Fecha 39,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-10,18:00,Patronato,Crucero del Norte,2,0,,,Primera Nacional,2013,zonas,,Fecha 37,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-10,20:15,San Martín (T),Libertad (S),2,1,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-10,20:15,San Martín (T),Libertad (S),2,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-11,12:00,Defensores de Cambaceres,General Lamadrid,1,1,,,Primera C,2013,zonas,,Fecha 36,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-05-11,14:10,Temperley,Nueva Chicago,2,0,,,Primera B,2013,zonas,,Fecha 39,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-11,15:30,Ferrocarril Midland,Argentino de Merlo,0,1,,,Primera C,2013,zonas,,Fecha 36,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
@@ -1936,14 +1936,14 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-13,15:40,Barracas Central,Colegiales,3,0,,,Primera B,2013,zonas,,Fecha 40,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-13,15:45,Los Andes,Deportivo Armenio,1,1,,,Primera B,2013,zonas,,Fecha 40,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-13,21:10,Platense,Comunicaciones,4,1,,,Primera B,2013,zonas,,Fecha 40,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
-2014-05-14,11:05,Tiro Federal,Guillermo Brown,1,0,,,Torneo Argentino A,2013,zonas,Partidos de ida,,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
-2014-05-14,14:00,Juventud Unida (G),Guaraní Antonio Franco,3,1,,,Torneo Argentino A,2013,zonas,Partidos de ida,,De los Eucaliptus,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-14,11:05,Tiro Federal,Guillermo Brown,1,0,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-14,14:00,Juventud Unida (G),Guaraní Antonio Franco,3,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,De los Eucaliptus,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-14,15:10,Nueva Chicago,Tristán Suárez,0,0,,,Primera B,2013,zonas,,Fecha 40,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-14,15:30,Almirante Brown,Boca Unidos,1,0,,,Primera Nacional,2013,zonas,,Fecha 38,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-14,15:35,Acassuso,Atlanta,0,1,,,Primera B,2013,zonas,,Fecha 40,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-14,15:35,Villa Dálmine,Temperley,1,2,,,Primera B,2013,zonas,,Fecha 40,Jorge Rubén Varela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-14,15:35,Villa San Carlos,Huracán,0,0,,,Primera Nacional,2013,zonas,,Fecha 38,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-14,16:05,Sportivo Estudiantes (SL),CAI,2,1,,,Torneo Argentino A,2013,zonas,Partidos de ida,,Héctor Odicino - Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-14,16:05,Sportivo Estudiantes (SL),CAI,2,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,Héctor Odicino - Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-14,19:35,Ferro Carril Oeste,Independiente,1,1,,,Primera Nacional,2013,zonas,,Fecha 38,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-14,20:00,Talleres (C),Atlético Tucumán,1,2,,,Primera Nacional,2013,zonas,,Fecha 38,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-14,20:00,Unión,Aldosivi,1,1,,,Primera Nacional,2013,zonas,,Fecha 38,15 de abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
@@ -1951,7 +1951,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-14,21:00,Crucero del Norte,Brown de Adrogué,1,3,,,Primera Nacional,2013,zonas,,Fecha 38,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-14,21:00,Sarmiento (J),Independiente Rivadavia,1,1,,,Primera Nacional,2013,zonas,,Fecha 38,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-14,21:00,Sportivo Belgrano,Patronato,1,0,,,Primera Nacional,2013,zonas,,Fecha 38,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-14,21:30,Juventud Unida Universitario,San Martín (T),1,0,,,Torneo Argentino A,2013,zonas,Partidos de ida,,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-14,21:30,Juventud Unida Universitario,San Martín (T),1,0,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-14,21:45,San Martín (SJ),Defensa y Justicia,0,1,,,Primera Nacional,2013,zonas,,Fecha 38,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-14,22:15,Gimnasia y Esgrima (J),Instituto,1,1,,,Primera Nacional,2013,zonas,,Fecha 38,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-15,20:30,Banfield,Douglas Haig,1,1,,,Primera Nacional,2013,zonas,,Fecha 38,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
@@ -1973,9 +1973,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-17,15:45,Deportivo Morón,Defensores de Belgrano,0,1,,,Primera B,2013,zonas,,Fecha 41,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-17,17:10,Atlanta,Platense,0,1,,,Primera B,2013,zonas,,Fecha 41,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-18,11:00,Huracán,Sarmiento (J),3,1,,,Primera Nacional,2013,zonas,,Fecha 39,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-18,15:00,CAI,Sportivo Estudiantes (SL),3,2,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,Municipal de Comodoro Rivadavia,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
-2014-05-18,15:00,Guillermo Brown,Tiro Federal,1,1,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,Raúl Conti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
-2014-05-18,15:30,Guaraní Antonio Franco,Juventud Unida (G),4,0,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,Clemente A. F. de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-18,15:00,CAI,Sportivo Estudiantes (SL),3,2,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Municipal de Comodoro Rivadavia,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-18,15:00,Guillermo Brown,Tiro Federal,1,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Raúl Conti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-18,15:30,Guaraní Antonio Franco,Juventud Unida (G),4,0,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Clemente A. F. de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-18,15:35,Central Córdoba (R),Deportivo Laferrere,0,0,,,Primera C,2013,zonas,,Fecha 37,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-05-18,17:00,Atlético Tucumán,Unión,1,1,,,Primera Nacional,2013,zonas,,Fecha 39,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-18,20:00,Patronato,Gimnasia y Esgrima (J),1,1,,,Primera Nacional,2013,zonas,,Fecha 39,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
@@ -1988,7 +1988,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-19,21:00,Fénix,Chacarita Juniors,1,0,,,Primera B,2013,zonas,,Fecha 41,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-19,21:00,Instituto,San Martín (SJ),3,0,,,Primera Nacional,2013,zonas,,Fecha 39,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-19,21:15,Defensa y Justicia,Ferro Carril Oeste,0,1,,,Primera Nacional,2013,zonas,,Fecha 39,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-19,21:15,San Martín (T),Juventud Unida Universitario,1,1,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-19,21:15,San Martín (T),Juventud Unida Universitario,1,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-20,20:30,Banfield,Villa San Carlos,4,2,,,Primera Nacional,2013,zonas,,Fecha 39,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-23,15:30,Argentino de Quilmes,Argentino de Merlo,5,0,,,Primera C,2013,zonas,,Fecha 38,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-05-23,15:30,J. J. de Urquiza,Sportivo Italiano,1,1,,,Primera C,2013,zonas,,Fecha 38,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
@@ -1999,7 +1999,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-23,15:40,Defensores Unidos,Dock Sud,0,1,,,Primera C,2013,zonas,,Fecha 38,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-05-23,15:45,Ferrocarril Midland,Berazategui,0,0,,,Primera C,2013,zonas,,Fecha 38,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-05-23,15:45,Luján,Defensores de Cambaceres,1,0,,,Primera C,2013,zonas,,Fecha 38,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
-2014-05-24,11:00,Tiro Federal,Guaraní Antonio Franco,1,2,,,Torneo Argentino A,2013,zonas,Partidos de ida,,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-24,11:00,Tiro Federal,Guaraní Antonio Franco,1,2,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-24,13:20,Nueva Chicago,Comunicaciones,0,1,,,Primera B,2013,zonas,,Fecha 42,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-24,15:30,Acassuso,Estudiantes (BA),1,3,,,Primera B,2013,zonas,,Fecha 42,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-24,15:30,Almirante Brown,Atlético Tucumán,2,0,,,Primera Nacional,2013,zonas,,Fecha 40,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
@@ -2019,7 +2019,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-25,16:00,San Martín (SJ),Patronato,0,2,,,Primera Nacional,2013,zonas,,Fecha 40,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-25,16:00,Unión,Independiente Rivadavia,1,1,,,Primera Nacional,2013,zonas,,Fecha 40,15 de abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-25,18:00,Sportivo Belgrano,Boca Unidos,1,0,,,Primera Nacional,2013,zonas,,Fecha 40,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
-2014-05-25,20:20,Juventud Unida Universitario,CAI,2,1,,,Torneo Argentino A,2013,zonas,Partidos de ida,,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-25,20:20,Juventud Unida Universitario,CAI,2,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de ida,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-26,15:30,Almagro,Tristán Suárez,1,1,,,Primera B,2013,zonas,,Fecha 42,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-26,15:30,Villa San Carlos,Douglas Haig,0,2,,,Primera Nacional,2013,zonas,,Fecha 40,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-26,16:10,Talleres (C),Huracán,0,0,,,Primera Nacional,2013,zonas,,Fecha 40,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
@@ -2027,8 +2027,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-27,,Deportivo Laferrere,Deportivo Español,3,3,,,Primera C,2013,eliminacion,,Semifinales,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-05-28,,Fénix,Temperley,0,0,,,Primera B,2013,eliminacion,,Semifinales,Estadio Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-05-28,,Platense,Atlanta,0,0,,,Primera B,2013,eliminacion,,Semifinales,Estadio Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
-2014-05-28,21:00,Guaraní Antonio Franco,Tiro Federal,1,2,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,Clemente A. F. de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
-2014-05-29,15:05,CAI,Juventud Unida Universitario,1,1,,,Torneo Argentino A,2013,zonas,Partidos de vuelta,,Municipal de Comodoro Rivadavia,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-28,21:00,Guaraní Antonio Franco,Tiro Federal,1,2,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Clemente A. F. de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
+2014-05-29,15:05,CAI,Juventud Unida Universitario,1,1,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Municipal de Comodoro Rivadavia,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-05-31,15:00,Aldosivi,Sportivo Belgrano,0,0,,,Primera Nacional,2013,zonas,,Fecha 41,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-31,15:00,Boca Unidos,Gimnasia y Esgrima (J),1,1,,,Primera Nacional,2013,zonas,,Fecha 41,José Antonio Romero Feris,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-05-31,15:00,Brown de Adrogué,San Martín (SJ),1,2,,,Primera Nacional,2013,zonas,,Fecha 41,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
@@ -2044,6 +2044,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-06-01,16:00,Patronato,Ferro Carril Oeste,0,0,,,Primera Nacional,2013,zonas,,Fecha 41,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-06-01,17:00,Instituto,Independiente,1,2,,,Primera Nacional,2013,zonas,,Fecha 41,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-06-01,18:00,Atlético Tucumán,Crucero del Norte,1,0,,,Primera Nacional,2013,zonas,,Fecha 41,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
+2014-06-02,21:30,Juventud Unida Universitario,Guaraní Antonio Franco,2,1,,,Torneo Argentino A,2013,eliminacion,,Partido de ida,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-06-04,,Deportivo Español,Defensores de Cambaceres,1,0,,,Primera C,2013,eliminacion,,Final,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
 2014-06-05,,Platense,Temperley,1,0,,,Primera B,2013,eliminacion,,Final,Estadio Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina)
 2014-06-06,16:00,Talleres (C),Villa San Carlos,3,2,,,Primera Nacional,2013,zonas,,Fecha 42,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
@@ -2058,4 +2059,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-06-08,15:00,Gimnasia y Esgrima (J),Aldosivi,3,1,,,Primera Nacional,2013,zonas,,Fecha 42,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-06-08,15:00,Independiente,Patronato,0,0,,,Primera Nacional,2013,zonas,,Fecha 42,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
 2014-06-08,16:00,Sportivo Belgrano,Atlético Tucumán,0,1,,,Primera Nacional,2013,zonas,,Fecha 42,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14
+2014-06-08,19:00,Guaraní Antonio Franco,Juventud Unida Universitario,1,0,,,Torneo Argentino A,2013,eliminacion,,Partido de vuelta,Clemente A. F. de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14
 2014-06-09,,Defensores de Cambaceres,Deportivo Español,0,0,,,Primera C,2013,eliminacion,,Final,Juan Carmelo Zerrillo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina)
+2014-06-11,14:00,Independiente,Huracán,2,0,,,Primera Nacional,2013,eliminacion,,Desempate,Estadio Ciudad de la Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14

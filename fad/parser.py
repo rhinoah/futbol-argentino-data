@@ -276,16 +276,48 @@ def _cortar_en_tablas(bloque: str) -> str:
     return re.sub(r"\n\{\|[^\n]*", "\n|-", bloque)      # apertura {|class=...
 
 
+# Un encabezado `colspan` que nombra una RONDA no es una zona. La tabla de
+# resultados y la de una llave se escriben igual, y el encabezado es lo unico que
+# las distingue: `!colspan=12|Fecha 7` contra `!colspan=12|Desempate`.
+#
+# Tratando la ronda como zona pasan dos cosas malas a la vez. La etiqueta va a
+# parar a la columna `group` del CSV, que promete una zona y termina diciendo
+# "Octavos de final"; y el partido queda como fase de grupos, que es lo que hizo
+# saltar `todos_tienen_zona` en la Primera B 2017-18 -- 306 partidos sin zona y
+# uno, el desempate que definio el campeonato, con "Desempate".
+#
+# La lista es corta y explicita a proposito. "Primera fase" y "Nonagonal final"
+# NO estan: en el Federal A son fases de grupos, no llaves, y meterlas aca las
+# sacaria de la fase de zonas que es donde van.
+_ES_RONDA = re.compile(
+    r"(?i)^(desempate|ronda de desempate|reducido"
+    r"|(octavos|cuartos|dieciseisavos|treintaidosavos)( de final)?"
+    r"|semifinal(es)?|final\b|primera ronda|segunda ronda|tercera ronda"
+    r"|partidos? de (ida|vuelta)|promoci[oó]n)")
+
+
 def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None = None,
                       mes_inicio: int = MES_INICIO_HABITUAL,
                       zona_defecto: str = "", llave: str = "",
-                      arts: dict[str, str] | None = None) -> list[Partido]:
+                      arts: dict[str, str] | None = None,
+                      fuera_de_la_liga: bool = False) -> list[Partido]:
+    """`fuera_de_la_liga` marca las tablas que NO cuelgan de un "Resultados".
+
+    Ahi no hay fechas del calendario: son reducidos, promociones, finales y
+    desempates. Sus encabezados dicen "Partido 1", "Cuarta ronda", "Tercer
+    ascenso" -- etiquetas que no son zonas y que crecen sin fin, asi que en vez
+    de irlas agregando a una lista se decide por el lugar: si la tabla esta
+    afuera de la seccion de resultados, su encabezado es una ronda y el partido
+    es de eliminacion.
+    """
     partidos: list[Partido] = []
     pendientes: dict[str, list] = {}        # columna -> [valor, filas restantes]
     # La zona puede venir de un encabezado de tabla (`!colspan=6|Zona A`) o del
     # titulo de la seccion que contiene a esta tabla, que es como lo hace el
     # ascenso. Si aparece un encabezado, pisa al de la seccion.
-    jornada, zona = "", zona_defecto
+    jornada, zona, ronda = "", zona_defecto, ""
+    if fuera_de_la_liga:
+        ronda = llave          # sin encabezado propio, la ronda es la seccion
 
     for fila in re.split(r"\n\|-", _cortar_en_tablas(bloque)):
         fila = fila.strip()
@@ -316,10 +348,12 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             if cab.lower() in _COLUMNAS_CONOCIDAS:
                 continue
             pendientes.clear()      # un rowspan no cruza de una seccion a otra
-            if re.match(r"(?i)fecha\s*\d+", cab):
-                jornada = cab
+            if re.match(r"(?i)fecha\s*\d+", cab) and not fuera_de_la_liga:
+                jornada, ronda = cab, ""
+            elif fuera_de_la_liga or _ES_RONDA.match(cab):
+                jornada, ronda = cab, cab
             else:
-                zona = _seccion(cab)
+                zona, ronda = _seccion(cab), ""
         if fila.lstrip().startswith("!"):
             continue                                   # fila de encabezado
 
@@ -359,7 +393,8 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             fecha=a_iso(valores["fecha"], anio, anio_fin, mes_inicio), hora=valores["hora"],
             local=valores["local"], visita=valores["visita"],
             goles_local=goles[0], goles_visita=goles[1],
-            torneo=torneo, fase="zonas", zona=zona, jornada=jornada, llave=llave,
+            torneo=torneo, fase="eliminacion" if ronda else "zonas",
+            zona="" if ronda else zona, jornada=jornada, llave=llave,
             local_art=(arts or {}).get(valores["local"], ""),
             visita_art=(arts or {}).get(valores["visita"], ""),
             estadio=valores["estadio"], fecha_cruda=valores["fecha"]))
@@ -597,6 +632,12 @@ def secciones_de_resultados(texto: str) -> list[tuple[str, str, str]]:
     El corte va hasta el proximo titulo del MISMO nivel o mas alto, asi que una
     seccion con subsecciones entra entera pero no se come a su hermana.
     """
+    return [(_como_zona(z), f, c) for _, _, z, f, c in _secciones_con_span(texto)]
+
+
+def _secciones_con_span(texto: str):
+    """Lo mismo que `secciones_de_resultados` pero diciendo tambien DONDE cae cada
+    seccion. El span lo necesita `partidos()` para no volver a leer lo mismo."""
     fuera, hasta = [], 0
     for m in _TITULO_RESULTADOS.finditer(texto):
         # Una seccion "Resultados" ADENTRO de otra ya vino en el cuerpo de la de
@@ -619,9 +660,31 @@ def secciones_de_resultados(texto: str) -> list[tuple[str, str, str]]:
         # los torneos de 2004-2015 -- pedir nivel 3 devolvia la seccion de nivel 2
         # ANTERIOR, que no lo contiene: los 190 partidos del Inicial 2012
         # quedaban bajo una fase llamada "Tabla de posiciones final".
-        fuera.append((_contexto(m.start(), nivel, texto),
+        fuera.append((m.start(), hasta,
+                      _contexto(m.start(), nivel, texto),
                       _contexto(m.start(), min(nivel, 3), texto), cuerpo))
     return fuera
+
+
+def _como_zona(titulo: str) -> str:
+    """El titulo de la seccion que contiene los resultados, si es una zona.
+
+    No siempre lo es: un `=== Resultados ===` puede colgar de `== Final ==`, y
+    entonces "Final" termina en la columna `group`, que promete una zona. Cuando
+    el titulo nombra una RONDA esta funcion lo vacia, y `partidos()` manda esa
+    seccion por el camino de las llaves, que le pone la ronda en la jornada y la
+    marca como eliminacion. El dato no se pierde: se muda a la columna que le
+    corresponde.
+
+    QUE NO HACE, Y POR QUE. Tambien hay secciones tituladas `== Tabla de
+    posiciones ==` con los resultados adentro, y su nombre queda igual como zona
+    en 44 filas. Se probo vaciarlas y no alcanza: a diferencia de una ronda, ahi
+    no hay ningun valor correcto con que reemplazarlo, asi que esos partidos
+    quedan SIN zona, mezclados con los que si tienen, y `todos_tienen_zona` salta
+    -- con razon -- en cuatro torneos. Cambiar una etiqueta equivocada por una
+    faltante no es una mejora. Queda como problema conocido.
+    """
+    return "" if _ES_RONDA.match(titulo) else titulo
 
 
 _TITULO = re.compile(r"^(=+)\s*([^=\n]+?)\s*=+\s*$", re.M)
@@ -643,6 +706,64 @@ def _contexto(pos: int, nivel: int, texto: str) -> str:
     return ctx
 
 
+# Una tabla se declara a si misma. Estas tres columnas juntas no aparecen en una
+# tabla de posiciones, ni en una de promedios, ni en una lista de goleadores.
+_COLUMNAS_DE_PARTIDO = ({"local", "resultado", "visitante"},
+                        {"local", "resultado", "visita"},
+                        {"equipo 1", "resultado", "equipo 2"})
+
+_ABRE_TABLA = re.compile(r"\{\|")
+
+
+def _tablas(texto: str):
+    """(posicion, cuerpo) de cada tabla de la pagina, cerrando por balance.
+
+    Las tablas se anidan: las paginas del ascenso arman dos columnas de
+    resultados con un `{| width=100%` que envuelve a las de cada fecha. Contando
+    llaves, la de afuera sale entera; buscando el `|}` mas cercano, sale cortada
+    en el primer cierre de una de adentro.
+
+    QUE TANTO IMPORTA, MEDIDO. Cambia que tablas se reconocen en 10 paginas del
+    catalogo (38 tablas), y NO cambia ni un partido: cada `{|` se escanea por su
+    cuenta, asi que las de adentro se encuentran igual, y las repetidas las
+    descarta el filtro de duplicados. O sea que el balance mantiene el cuerpo
+    completo -- que es sobre lo que decide `_es_tabla_de_partidos` -- pero hoy
+    ninguna pagina depende de eso para que un partido entre. Va escrito porque
+    la primera version de este comentario decia que sin balance "se pierde la
+    mitad de los partidos", y al medirlo resulto que no.
+    """
+    for m in _ABRE_TABLA.finditer(texto):
+        i, hondo = m.end(), 1
+        while i < len(texto) and hondo:
+            if texto.startswith("{|", i):
+                hondo, i = hondo + 1, i + 2
+            elif texto.startswith("|}", i):
+                hondo, i = hondo - 1, i + 2
+            else:
+                i += 1
+        if hondo == 0:
+            yield m.start(), texto[m.start():i]
+
+
+def _es_tabla_de_partidos(tabla: str) -> bool:
+    """Si el ENCABEZADO de la tabla declara las columnas de un partido.
+
+    Es la guarda que hace seguro leer tablas fuera de la seccion "Resultados".
+    Sin ella -- corriendo el parser sobre la pagina entera -- se miden 34 paginas
+    del catalogo alteradas y 117 filas nuevas de calidad mixta, y una de ellas es
+    un partido que NO existe: en la caja de detalle de un partido, la lista de
+    goleadores trae `44'|| Elías Torres|| 2 - 0` y el encabezado de las tarjetas
+    dice `!colspan=3|Amonestaciones`, asi que salia
+    `Talleres (RdE) 2-1 Atlético de Rafaela` con zona "Amonestaciones".
+    Una lista de goleadores no declara `Local | Resultado | Visitante`.
+    """
+    columnas = set()
+    for linea in re.findall(r"^!(.+)$", tabla, re.M):
+        for celda in linea.split("!!"):
+            columnas.add(_celda(celda.lstrip("!"))[1].lower())
+    return any(pedidas <= columnas for pedidas in _COLUMNAS_DE_PARTIDO)
+
+
 def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
              anio_fin: int | None = None,
              mes_inicio: int = MES_INICIO_HABITUAL) -> list[Partido]:
@@ -656,8 +777,47 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
         return partidos_de_rondas(texto, anio, torneo, anio_fin, mes_inicio,
                                   articulos_de_la_pagina(texto))
     arts = articulos_de_la_pagina(texto)
-    zonas = []
-    for zona, fase, cuerpo in secciones_de_resultados(texto):
+    zonas, leido = [], []
+    for ini, fin, titulo, fase, cuerpo in _secciones_con_span(texto):
+        leido.append((ini, fin))
+        # Un `=== Resultados ===` que cuelga de `== Ronda de desempate ==` no
+        # trae fechas de la liga: trae una definicion. Vaciarle la zona y dejarlo
+        # en fase de grupos lo deja mezclado con los demas y hace saltar
+        # `todos_tienen_zona`, asi que va por el mismo camino que las tablas de
+        # afuera: es una ronda.
         zonas += partidos_de_tabla(cuerpo, anio, torneo, anio_fin, mes_inicio,
-                                   zona_defecto=zona, llave=fase, arts=arts)
-    return zonas + partidos_de_plantillas(texto, anio, torneo, anio_fin, mes_inicio)
+                                   zona_defecto=_como_zona(titulo), llave=fase,
+                                   arts=arts,
+                                   fuera_de_la_liga=bool(_ES_RONDA.match(titulo)))
+
+    # Las tablas de partidos que NO cuelgan de un "Resultados". Los reducidos,
+    # las promociones y las finales de ascenso viven bajo titulos propios --
+    # `== Final por el primer ascenso ==`, `== Permanencia ==` --, asi que la
+    # busqueda por seccion nunca se las pasaba y se perdian enteras aunque
+    # tuvieran fecha y estadio.
+    llaves = partidos_de_plantillas(texto, anio, torneo, anio_fin, mes_inicio)
+
+    # Una final suele estar DOS o TRES veces en la misma pagina: en la ultima
+    # fecha de la seccion de resultados, en su seccion propia, y ademas como
+    # `{{Partido}}`. Tomandola de todos lados queda duplicada y
+    # `validar.sin_duplicados` frena el build -- pasa con la final del
+    # Transicion 2020, que esta como tabla y como plantilla, con el estadio
+    # escrito distinto en cada una.
+    #
+    # La copia que se conserva es la de las otras dos vias, que son mas ricas:
+    # la plantilla trae la ronda y los penales. Es un partido repetido en la
+    # FUENTE, no una fila que se esconde.
+    ya = {(p.fecha, p.local, p.visita, p.goles_local, p.goles_visita)
+          for p in zonas + llaves}
+    for pos, tabla in _tablas(texto):
+        if any(ini <= pos < fin for ini, fin in leido) or not _es_tabla_de_partidos(tabla):
+            continue
+        for p in partidos_de_tabla(tabla, anio, torneo, anio_fin, mes_inicio,
+                                   llave=_contexto(pos, 3, texto), arts=arts,
+                                   fuera_de_la_liga=True):
+            k = (p.fecha, p.local, p.visita, p.goles_local, p.goles_visita)
+            if k in ya:
+                continue
+            ya.add(k)
+            zonas.append(p)
+    return zonas + llaves
