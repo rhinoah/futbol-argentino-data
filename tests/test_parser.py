@@ -469,3 +469,20 @@ def test_sin_titulo_de_por_medio_la_jornada_sigue():
     de fila en fila, que es como funcionan todas las demas paginas."""
     ps = parser.partidos_de_tabla(TABLA, 2026, "Apertura")
     assert [p.jornada for p in ps].count("Fecha 1") == 3
+
+
+@pytest.mark.parametrize("crudo, limpio", [
+    ("Atlético Tucumán¹", "Atlético Tucumán"),      # B Nacional 2008-09
+    ("Boca Juniors²", "Boca Juniors"),
+    ("River Plate ³", "River Plate"),
+])
+def test_el_superindice_de_una_nota_no_es_parte_del_nombre(crudo, limpio):
+    """Wikipedia marca con un superindice a los equipos que tienen una aclaracion
+    al pie. Como cadena, "Atlético Tucumán¹" es otro club: entra al padron como
+    desconocido y se lleva un partido del verdadero."""
+    assert parser.limpiar(crudo) == limpio
+
+
+def test_un_numero_pegado_al_final_si_es_parte_del_nombre():
+    """Se borran los superindices, no los digitos: hay clubes con numero."""
+    assert parser.limpiar("Douglas Haig 9") == "Douglas Haig 9"

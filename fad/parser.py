@@ -120,7 +120,14 @@ def limpiar(texto: str) -> str:
     s = re.sub(r"\[\[([^\]|]*\|)?([^\]]*)\]\]", r"\2", s)    # [[destino|texto]] -> texto
     s = s.replace("'''", "").replace("''", "")
     s = re.sub(r"<[^>]+>", " ", s)
-    return re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\s+", " ", s).strip()
+    # Un superindice de nota al pie no es parte del nombre: "Atlético Tucumán¹"
+    # es el mismo club que "Atlético Tucumán", pero como cadena es otro, y entra
+    # al padron como un club nuevo con un solo partido.
+    # Va con escapes y no con los caracteres pelados porque `¹²³` viven fuera del
+    # bloque ⁰-₟ donde estan los demas superindices, y escritos a mano
+    # el rango parece un error de tipeo.
+    return re.sub(r"[\u00b9\u00b2\u00b3\u2070-\u209f]+$", "", s).strip()
 
 
 def _celda(bruta: str) -> tuple[int, str]:

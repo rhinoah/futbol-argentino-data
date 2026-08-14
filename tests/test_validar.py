@@ -345,3 +345,71 @@ def test_revisar_pone_los_graves_primero():
           zona("A", "C"), zona("A", "D")]             # zona despareja: aviso
     avisos = validar.revisar(ps)
     assert [a.grave for a in avisos] == sorted([a.grave for a in avisos], reverse=True)
+
+
+# --------------------------------------------------------------------------
+# localias_repartidas
+# --------------------------------------------------------------------------
+def ida_y_vuelta(local, visita, *, local_de_vuelta=None):
+    """Los dos cruces de un par en un torneo de ida y vuelta."""
+    return [zona(local, visita, j="Fecha 1"),
+            zona(local_de_vuelta or visita,
+                 local if not local_de_vuelta or local_de_vuelta == visita else visita,
+                 j="Fecha 10")]
+
+
+def test_la_vuelta_se_juega_en_la_otra_cancha():
+    """El caso sano: nadie se queja de un fixture normal."""
+    assert validar.localias_repartidas(ida_y_vuelta("Boca Juniors", "River Plate")) == []
+
+
+def test_el_mismo_local_las_dos_veces_no_puede_ser():
+    """Wikipedia da a Ferro de local contra Union en las fechas 6 y 25 de la B
+    Nacional 2009-10. En un ida y vuelta eso es imposible: una de las dos tiene
+    la localia al reves."""
+    ps = [zona("Boca Juniors", "River Plate", j="Fecha 1"),
+          zona("Boca Juniors", "River Plate", j="Fecha 10")]
+    avisos = validar.localias_repartidas(ps)
+    assert len(avisos) == 1
+    assert "Boca Juniors de local 2" in avisos[0].detalle
+    assert not avisos[0].grave, "es un error de la fuente, no frena el build"
+
+
+def test_una_rueda_y_media_no_se_reparte_y_esta_bien():
+    """Con un numero impar de cruces el reparto no puede ser parejo. Quejarse
+    seria inventar un problema en todos los torneos de tres ruedas."""
+    ps = [zona("Boca Juniors", "River Plate", j=f"Fecha {i}") for i in (1, 10)]
+    ps.append(zona("River Plate", "Boca Juniors", j="Fecha 20"))
+    assert validar.localias_repartidas(ps) == []
+
+
+def test_cuatro_cruces_van_dos_y_dos():
+    """El Federal A 2016-17 jugaba cuadruple rueda: dos de local cada uno."""
+    sano = [zona("Boca Juniors", "River Plate", j="Fecha 4"),
+            zona("River Plate", "Boca Juniors", j="Fecha 9"),
+            zona("Boca Juniors", "River Plate", j="Fecha 14"),
+            zona("River Plate", "Boca Juniors", j="Fecha 19")]
+    assert validar.localias_repartidas(sano) == []
+    roto = sano[:3] + [zona("Boca Juniors", "River Plate", j="Fecha 19")]
+    assert len(validar.localias_repartidas(roto)) == 1
+
+
+def test_el_reducido_no_cuenta():
+    """Arsenal y Sarmiento se cruzaron dos veces en 2018 con el mismo local, y
+    esta bien: una fue por la fecha 10 y la otra un desempate del Reducido, en
+    cancha neutral. Los del todos-contra-todos tienen jornada y esos no."""
+    ps = [zona("Boca Juniors", "River Plate", j="Fecha 10"),
+          zona("Boca Juniors", "River Plate", j="")]
+    assert validar.localias_repartidas(ps) == []
+
+
+def test_cada_zona_se_mira_aparte():
+    """Dos zonas distintas no arman un par: la Zona A y la Zona B tienen cada
+    una su fixture, y un club puede jugar en las dos (pasa en el Federal)."""
+    ps = [zona("Boca Juniors", "River Plate", z="Zona A", j="Fecha 1"),
+          zona("Boca Juniors", "River Plate", z="Zona B", j="Fecha 1")]
+    assert validar.localias_repartidas(ps) == []
+
+
+def test_esta_en_la_lista_de_chequeos():
+    assert validar.localias_repartidas in validar.CHEQUEOS

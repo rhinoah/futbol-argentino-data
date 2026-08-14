@@ -63,7 +63,11 @@ class Equipo:
 # Los alias salen de fuentes reales, no de la imaginacion: el nombre largo y el
 # corto del feed de la AFA, mas las variantes con las que Wikipedia titula.
 PADRON: tuple[Equipo, ...] = (
-    Equipo("Aldosivi", 122),
+    # "Aldovisi" es un error de tipeo de Wikipedia en la B Nacional 2008-09, con
+    # la `s` y la `v` cambiadas de lugar. No lo encontro nadie leyendo: el padron
+    # derivado del cruce con la segunda fuente vio 17 partidos de un id llamados
+    # "Aldosivi" y uno "Aldovisi", y avisó que el id tenia votos contradictorios.
+    Equipo("Aldosivi", 122, ("Aldovisi", "CA Aldosivi")),
     Equipo("Argentinos Juniors", 2, ("Argentinos",)),
     Equipo("Atlético Tucumán", 815, ("Atl. Tucumán",)),
     Equipo("Banfield", 4, ("Club Atlético Banfield",)),
@@ -74,7 +78,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Boca Juniors", 5, ("Boca",)),
     Equipo("Central Córdoba (SdE)", 1485,
            ("Central Córdoba (SE)", "C.Córdoba (SE)", "Central Córdoba")),
-    Equipo("Defensa y Justicia", 129, ("Defensa",)),
+    Equipo("Defensa y Justicia", 129, alias=("Defensa", "Def. Y Justicia", "Def. y Justicia",)),
     Equipo("Deportivo Riestra", 788, ("Dep. Riestra", "Riestra")),
     Equipo("Estudiantes (LP)", 7, ("Estudiantes", "Estudiantes de La Plata")),
     Equipo("Estudiantes (RC)", 834, ("Estudiantes RC", "Estudiantes de Río Cuarto")),
@@ -84,8 +88,14 @@ PADRON: tuple[Equipo, ...] = (
            ("Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza")),
     Equipo("Huracán", 100),
     Equipo("Independiente", 10),
+    # "Independiente M." es Independiente de MENDOZA, y hay que tener cuidado:
+    # "Independiente" a secas es otro club. Que sean el mismo no se dedujo por
+    # parecido, que es justo lo que este modulo no hace. Lo confirmo la segunda
+    # fuente, que le da a los 19 partidos un unico id llamado "CSIR" = Club
+    # Sportivo Independiente Rivadavia, el titulo exacto del articulo.
     Equipo("Independiente Rivadavia", 664,
-           ("Independiente Riv. (M)", "Indep.Mza.", "Independiente Rivadavia (M)")),
+           ("Independiente Riv. (M)", "Indep.Mza.", "Independiente Rivadavia (M)",
+            "Independiente M.", "Independiente M", "CSIR")),
     Equipo("Instituto", 11, ("Instituto (C)",)),
     Equipo("Lanús", 12),
     Equipo("Newell's Old Boys", 13, ("Newell`s", "Newell's", "Newells Old Boys")),
@@ -195,8 +205,17 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Libertad (S)"),
     Equipo("Liniers (BB)"),
     Equipo("Rivadavia (L)"),
-    Equipo("San Jorge (S)"),
-    Equipo("San Jorge (T)"),
+    # "San Jorge (S)" NO es un club: es "San Jorge (T)" con la letra equivocada en
+    # 2 de sus 16 partidos del Federal A 2016-17 (la pagina enlaza un solo
+    # articulo, [[Club Social y Deportivo San Jorge]], de Tucuman).
+    #
+    # Estuvo un tiempo aca arriba como club propio, y vale la pena decir por que:
+    # el nombre no estaba en el padron, `nombres_en_el_padron` lo marcaba, y
+    # agregarlo callaba el aviso. Se agrego. Asi es como un typo de la fuente se
+    # convierte en un club fantasma con dos partidos, y ningun chequeo protesta
+    # porque el padron es justamente el que dice que clubes existen.
+    # Lo encontro `localias_repartidas`, que no le pregunta al padron nada.
+    Equipo("San Jorge (T)", alias=("San Jorge (S)",)),
     Equipo("San Lorenzo de Alem"),
     Equipo("Sportivo Patria"),
     Equipo("Sportivo Peñarol (C)"),
@@ -292,7 +311,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Sarmiento (R)'),
     Equipo("Sol de Mayo (V)", alias=("Sol de Mayo",)),
     Equipo('Sportivo Estudiantes (SL)'),
-    Equipo('Sportivo Italiano'),
+    Equipo("Sportivo Italiano", alias=("Deportivo Italiano",)),
     Equipo('Sportivo Las Parejas'),
     Equipo('Talleres (RdE)'),
     Equipo('Tucumán Central'),

@@ -219,6 +219,56 @@ def una_vez_por_jornada(ps: list[Partido]) -> list[Aviso]:
     return avisos
 
 
+def localias_repartidas(ps: list[Partido]) -> list[Aviso]:
+    """En un todos-contra-todos, un par que se cruza N veces (N par) juega N/2 de
+    local cada uno.
+
+    Es una propiedad del fixture, no de los datos: si Ferro visita a Union, en la
+    otra rueda Union visita a Ferro. Que los dos partidos figuren con el mismo
+    local es imposible, y por eso el chequeo no necesita ninguna fuente externa.
+
+    Agarra DOS cosas distintas, y la segunda es la que no esperaba:
+
+    1. Una localia dada vuelta en la fuente. Wikipedia pone a Ferro de local
+       contra Union en las fechas 6 y 25 de la B Nacional 2009-10; worldfootball
+       dice que la 25 la jugo Union en su cancha, y el fixture le da la razon.
+    2. Un club escrito de dos formas. Si la mitad de los partidos de un club se
+       anotan bajo otro nombre, cada mitad queda con un solo local y las dos
+       saltan. Asi aparecio que "San Jorge (S)" era "San Jorge (T)" mal tipeado
+       -- y ese estaba EN el padron como club propio, o sea que
+       `nombres_en_el_padron` lo daba por bueno. Este chequeo no le pregunta al
+       padron nada, y por eso lo vio.
+
+    Va como aviso y no como error: lo que denuncia suele estar mal en la fuente,
+    y no es razon para frenar el build de todos los dias. Sobre los 32.960
+    partidos ya cargados da 2 avisos, los dos del mismo typo.
+    """
+    # Solo la fase regular: en el Reducido de la Primera Nacional 2018 Arsenal y
+    # Sarmiento se cruzaron dos veces con el mismo local, y esta perfecto -- una
+    # fue por la fecha 10 y la otra un desempate en cancha neutral. Se distinguen
+    # porque los partidos del todos-contra-todos tienen jornada y esos no.
+    locales: dict[tuple, Counter] = {}
+    for p in ps:
+        if p.fase != "zonas" or not p.jornada or not p.local or not p.visita:
+            continue
+        k = (p.llave, p.zona, tuple(sorted((p.local, p.visita))))
+        locales.setdefault(k, Counter())[p.local] += 1
+
+    avisos = []
+    for (llave, zona, par), cuenta in sorted(locales.items(), key=lambda kv: kv[0][2]):
+        n = sum(cuenta.values())
+        # Con un numero impar de cruces el reparto no puede ser parejo y no hay
+        # nada que denunciar: pasa en los torneos de rueda y media.
+        if n % 2 or all(v == n // 2 for v in cuenta.values()) and len(cuenta) == 2:
+            continue
+        donde = " ".join(x for x in (llave, zona) if x)
+        avisos.append(Aviso(f"{donde + ': ' if donde else ''}"
+                            f"{par[0]} y {par[1]} se cruzan {n} veces y la localia no se reparte",
+                            ", ".join(f"{e} de local {v}" for e, v in sorted(cuenta.items())),
+                            grave=False))
+    return avisos
+
+
 def _nro(clave) -> tuple:
     llave, zona, jornada = clave
     m = re.search(r"(\d+)", jornada)
@@ -374,7 +424,7 @@ CHEQUEOS = [campos_completos, fechas_presentes, nombres_en_el_padron,
             penales_solo_en_empates, sin_duplicados,
             nadie_juega_contra_si_mismo, todos_tienen_zona, zonas_completas,
             una_vez_por_jornada, jornadas_sin_huecos, anios_bien_asignados,
-            cadena_de_llaves]
+            localias_repartidas, cadena_de_llaves]
 
 
 def revisar(ps: list[Partido]) -> list[Aviso]:

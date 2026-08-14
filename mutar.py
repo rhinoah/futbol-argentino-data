@@ -106,8 +106,36 @@ MUTANTES = [
      "            if False:"),
 
     ("fad/fechas.py", "alcanzar con un solo voto para fijar un club",
-     "        elif cuenta.most_common(1)[0][1] >= minimo:",
-     "        elif cuenta.most_common(1)[0][1] >= 1:"),
+     "        if favor < minimo:",
+     "        if favor < 1:"),
+
+    ("fad/fechas.py", "aceptar un club con una mayoria apenas ajustada",
+     "        if contra * 4 > favor:",
+     "        if contra > favor:"),
+
+    ("fad/fechas.py", "no avisar cuando hubo votos en minoria",
+     "        if contra:",
+     "        if False:"),
+
+    ("fad/fechas.py", "leer el marcador de cualquier lado del bloque",
+     "    celda = _CELDA_RESULTADO.search(bloque)",
+     "    celda = re.match(r'(.*)', bloque, re.S)"),
+
+    ("fad/validar.py", "no chequear que la localia se reparta",
+     "            localias_repartidas, cadena_de_llaves]",
+     "            cadena_de_llaves]"),
+
+    ("fad/validar.py", "mirar la localia sin separar por zona",
+     "        k = (p.llave, p.zona, tuple(sorted((p.local, p.visita))))",
+     "        k = (p.llave, tuple(sorted((p.local, p.visita))))"),
+
+    ("fad/validar.py", "contar tambien los partidos sin jornada",
+     "        if p.fase != \"zonas\" or not p.jornada or not p.local or not p.visita:",
+     "        if p.fase != \"zonas\" or not p.local or not p.visita:"),
+
+    ("fad/parser.py", "dejar el superindice de la nota al pie pegado al nombre",
+     "    return re.sub(r\"[\\u00b9\\u00b2\\u00b3\\u2070-\\u209f]+$\", \"\", s).strip()",
+     "    return s"),
 
     ("fad/fechas.py", "completar aunque el marcador no coincida",
      "        if (a.goles_local, a.goles_visita) != (p.goles_local, p.goles_visita):",
