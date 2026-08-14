@@ -16,14 +16,29 @@ from fad import fechas
 from fad.parser import Partido
 
 
-def bloque(id_m, cuando, local, id_local, visita, id_visita, gl, gv, estado="finished"):
+def bloque(id_m, cuando, local, id_local, visita, id_visita, gl, gv, estado="finished",
+           hora="20:30"):
+    """Un partido con la estructura REAL de la fuente, no una parecida.
+
+    La version anterior de este helper inventaba `<div class="resultado">` y no
+    ponia el horario. Los tests pasaban y el parser estaba roto: leia el `20:30`
+    del `match-time` como si fuera el marcador, y devolvia partidos 20-30.
+    Ninguno de los tests podia verlo, porque en la fixture ese div no existia.
+
+    Una fixture escrita de memoria prueba el parser contra lo que uno cree que
+    manda la fuente. Esta esta copiada de un bloque de verdad -- Aldosivi 0:1
+    C.A.I., B Nacional 2010-11 -- con el `match-time` ANTES del `match-result`,
+    que es el orden que causaba el problema.
+    """
     return (f'<div data-match_id="{id_m}" data-datetime="{cuando}" '
             f'class="odd {estado} match">'
             f'<div class="team-name team-name-home">'
             f'<a href="/teams/{id_local}/x/">{local}</a></div>'
             f'<div class="team-shortname team-shortname-home">'
             f'<a href="/teams/{id_local}/x/">{local[:4]}</a></div>'
-            f'<div class="resultado"><a href="/report/x/">{gl}:{gv}</a></div>'
+            f'<div class="match-time">{hora}</div>'
+            f'<div class="match-result match-result-0">'
+            f'<a href="/match-report/x/">{gl}:{gv}</a></div>'
             f'<div class="team-name team-name-away">'
             f'<a href="/teams/{id_visita}/y/">{visita}</a></div></div>')
 
@@ -309,3 +324,78 @@ def test_el_credito_no_se_pone_si_no_se_completo():
     fechas.completar([p], [ajeno("A", "B", 1, 0, 1)],
                      {"teA": "Aldosivi", "teB": "Almagro"})
     assert p.fuente_fecha == ""
+
+
+# --------------------------------------------------------------------------
+# el marcador y el horario tienen la misma forma
+# --------------------------------------------------------------------------
+def test_el_horario_no_es_el_marcador():
+    """`20:30` y `2:0` se escriben igual, y el horario viene primero.
+
+    Este es el bug que las fixtures inventadas no podian ver. El parser tomaba
+    el primer `N:N` del bloque, que es la hora de comienzo, y cargaba partidos
+    terminados 20 a 30. Lo peor no era el dato absurdo: era que el cruce contra
+    Wikipedia reportaba "las dos fuentes dicen marcadores distintos" en 800
+    partidos, y la que decia cualquier cosa era esta.
+    """
+    p, = fechas.partidos_de(pagina(bloque(
+        "1", "2010-08-07T18:30:00Z", "Aldosivi", "te21683",
+        "CAI", "te20759", 0, 1, hora="20:30")))
+    assert (p.goles_local, p.goles_visita) == (0, 1)
+
+
+def test_sin_marcador_no_hay_partido():
+    """Un partido sin `match-result` no se inventa: se saltea.
+
+    Los que todavia no se jugaron traen el div del horario y no el del
+    resultado. Si el parser cayera de vuelta en el primer `N:N` del bloque, un
+    partido a jugarse el sabado a las 20:30 entraria como 20-30."""
+    sin = bloque("1", "2026-08-15T23:30:00Z", "A", "te1", "B", "te2", 0, 0)
+    sin = sin.replace('<div class="match-result match-result-0">'
+                      '<a href="/match-report/x/">0:0</a></div>', "")
+    assert fechas.partidos_de(pagina(sin)) == []
+
+
+# --------------------------------------------------------------------------
+# la derivacion del padron tolera un voto suelto en contra
+# --------------------------------------------------------------------------
+def _cruce(jornada, gl, gv, local, visita, id_local, id_visita):
+    mio = Partido(jornada=f"Fecha {jornada}", local=local, visita=visita,
+                  goles_local=gl, goles_visita=gv, fase="zonas")
+    suyo = fechas.Ajeno(jornada=jornada, fecha="2010-01-01", goles_local=gl,
+                        goles_visita=gv, local=local, visita=visita,
+                        id_local=id_local, id_visita=id_visita)
+    return mio, suyo
+
+
+def test_una_localia_al_reves_no_tira_abajo_al_club():
+    """Un voto en contra entre muchos a favor no invalida el id.
+
+    En la B Nacional 2009-10 Wikipedia anota Ferro 2-2 Union en la fecha 25 y la
+    otra fuente lo da Union 2-2 Ferro. Como el marcador es simetrico, el cruce
+    empareja bien el partido y mal los equipos, y quedaba un voto contradictorio
+    para cada uno de los dos ids. Exigiendo unanimidad, los dos clubes se caian
+    del mapa y con ellos 22 fechas que estaban perfectas.
+    """
+    mios, suyos = [], []
+    for j in range(1, 11):                      # diez votos limpios de cada uno
+        m, s = _cruce(j, j, 0, "Ferro", f"Rival {j}", "teF", f"te{j}")
+        mios.append(m); suyos.append(s)
+    m, s = _cruce(11, 2, 2, "Ferro", "Unión", "teU", "teF")   # el cruzado
+    mios.append(m); suyos.append(s)
+
+    mapa, avisos = fechas.derivar_padron(mios, suyos)
+    assert mapa["teF"] == "Ferro"
+    assert any("minoria" in a for a in avisos)
+
+
+def test_una_mayoria_ajustada_no_alcanza():
+    """Diez a nueve no es un club identificado, es una moneda al aire."""
+    mios, suyos = [], []
+    for j in range(1, 21):
+        quien = "Ferro" if j % 2 else "Unión"
+        m, s = _cruce(j, j, 0, quien, f"Rival {j}", "teX", f"te{j}")
+        mios.append(m); suyos.append(s)
+    mapa, avisos = fechas.derivar_padron(mios, suyos)
+    assert "teX" not in mapa
+    assert any("contradictorios" in a for a in avisos)

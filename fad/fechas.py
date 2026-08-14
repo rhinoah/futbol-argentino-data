@@ -141,8 +141,27 @@ _CLASE = re.compile(r'class="([^"]*)"')
 # Cada equipo aparece varias veces en su bloque (nombre largo, nombre corto,
 # escudo) SIEMPRE con el mismo id, asi que se deduplica por id y se toman los dos
 # primeros: local y visitante, en el orden en que estan escritos.
-_EQUIPO = re.compile(r'href="/teams/(te\d+)/[^"]*"[^>]*>([^<]+)</a>')
+# El `[^"]*?` antes de /teams/ acepta el enlace relativo Y el absoluto. Cuando
+# la pagina se guarda desde el navegador, este reescribe `/teams/te123/` como
+# `https://www.worldfootball.net/teams/te123/`, y pidiendo que empiece en `/` se
+# leen CERO equipos: los 380 partidos se descartan por "menos de dos equipos"
+# sin dar ningun error.
+_EQUIPO = re.compile(r'href="[^"]*?/teams/(te\d+)/[^"]*"[^>]*>([^<]+)</a>')
+# El marcador sale de SU elemento, no del primer `N:N` del bloque. Al lado vive
+# `<div class="match-time">20:30</div>` con el horario, que tiene exactamente la
+# misma forma: tomando el primero, los partidos con hora cargada quedaban con
+# marcador 20-30 o 19-0, y el cruce los reportaba como "las dos fuentes dicen
+# cosas distintas" cuando el que decia cualquier cosa era este parser.
+_CELDA_RESULTADO = re.compile(r'class="match-result[^"]*"[^>]*>(.*?)</div>', re.S)
 _MARCADOR = re.compile(r">\s*(\d+):(\d+)\s*<")
+
+
+def _goles(bloque: str) -> tuple[int, int] | None:
+    celda = _CELDA_RESULTADO.search(bloque)
+    if not celda:
+        return None
+    m = _MARCADOR.search(celda.group(1))
+    return (int(m.group(1)), int(m.group(2))) if m else None
 
 
 def _dos_equipos(bloque: str) -> list[tuple[str, str]]:
@@ -167,7 +186,7 @@ def partidos_de(pagina: str) -> list[Ajeno]:
         if not cuando or not clase or "finished" not in clase.group(1):
             continue                       # suspendido, aplazado o por jugarse
         equipos = _dos_equipos(bloque)
-        goles = _MARCADOR.search(bloque)
+        goles = _goles(bloque)
         if len(equipos) < 2 or not goles:
             continue
         (id_l, local), (id_v, visita) = equipos
@@ -175,7 +194,7 @@ def partidos_de(pagina: str) -> list[Ajeno]:
             fecha=_a_hora_local(cuando.group(1)),
             jornada=_jornada_en(m.start(), jornadas),
             local=local, visita=visita,
-            goles_local=int(goles.group(1)), goles_visita=int(goles.group(2)),
+            goles_local=goles[0], goles_visita=goles[1],
             id_local=id_l, id_visita=id_v))
     return fuera
 
@@ -240,17 +259,37 @@ def derivar_padron(nuestros: list, ajenos: list[Ajeno],
             votos[a.id_local][p.local] += 1
             votos[a.id_visita][p.visita] += 1
 
-    mapa, dudosos = {}, []
+    mapa, dudosos, minoria = {}, [], []
     for id_eq, cuenta in votos.items():
-        if len(cuenta) > 1:
+        (club, favor), = cuenta.most_common(1)
+        contra = sum(cuenta.values()) - favor
+        if favor < minimo:
+            continue
+        # Pedir unanimidad era demasiado. Un solo voto en contra entre veinte
+        # basta para que el club quede sin id, y con el se van sus 38 partidos:
+        # asi se perdieron 22 fechas de la B Nacional 2009-10 por UN partido que
+        # Wikipedia anota con la localia al reves (Ferro 2-2 Union en la fecha
+        # 25; la otra fuente lo da Union 2-2 Ferro, y como el marcador es
+        # simetrico el cruce empareja los equipos cambiados).
+        #
+        # Alcanza con exigir una mayoria amplia -- cuatro a uno -- en vez de
+        # perfecta. {19 a 1} entra; {10 a 9} no, que es lo que hay que evitar.
+        # Y el voto disidente igual se informa: casi siempre esta senalando algo
+        # de verdad, aunque este afuera del mapa.
+        if contra * 4 > favor:
             dudosos.append(f"{id_eq}: {dict(cuenta)}")
-        elif cuenta.most_common(1)[0][1] >= minimo:
-            mapa[id_eq] = cuenta.most_common(1)[0][0]
+            continue
+        if contra:
+            minoria.append(f"{id_eq} ({club}): {dict(cuenta)}")
+        mapa[id_eq] = club
 
     avisos = []
     if dudosos:
         avisos.append(f"{len(dudosos)} ids con votos contradictorios, se dejan afuera: "
                       + "; ".join(dudosos[:3]))
+    if minoria:
+        avisos.append(f"{len(minoria)} ids con algun voto en minoria, se acepta la mayoria: "
+                      + "; ".join(minoria[:3]))
     flojos = len(votos) - len(mapa) - len(dudosos)
     if flojos:
         avisos.append(f"{flojos} ids con menos de {minimo} votos, se dejan afuera")
