@@ -892,6 +892,35 @@ juega cada club. La fuente se contradice sola y no hay que traer nada de afuera.
 Cuando *no* se resuelve así, no entra. El aviso queda abierto y listo: este repo no
 inventa canchas.
 
+### Y los dos que sí eran alquileres
+
+Los otros dos no se podían resolver desde la página, así que fue a buscar prensa —
+con una regla: **una crónica anterior al partido**, que no puede haber copiado de
+Wikipedia.
+
+| | |
+|---|---|
+| **Argentino de Quilmes** en el Centenario, Primera C 2018-19 | Solo Ascenso, cuatro días antes: «El Mate será local en un estadio de primer nivel como el Centenario, la cancha de Quilmes». Y el presidente del club, en El Sol de Quilmes: «Hemos hecho un esfuerzo enorme para poder llevar el partido al estadio de Quilmes». |
+| **Huracán Las Heras** en Malvinas Argentinas, Federal A 2023 | Los Andes, cuatro días antes: «Se jugará el domingo desde las 16 en el estadio Malvinas Argentinas, con ambos públicos». Y la revancha del mismo cruce, esa misma temporada, figura en General San Martín: la página distingue las dos canchas. |
+
+Los dos van a `dataset.ALQUILERES`, con la evidencia y el link. Un chequeo que grita
+todos los días por algo que ya se miró deja de leerse, y ahí se pierde el único aviso
+que importaba — pero silenciar es peligroso, así que se le pide lo mismo que a una
+corrección: evidencia escrita y citada.
+
+El alquiler verificado **no se silencia después: no entra al recuento**. Es lo mismo
+en el resultado y más conservador — si ese club tuviera *otro* problema en esa cancha,
+seguiría apareciendo.
+
+Con eso, los cuatro avisos quedaron en **cero**: dos eran errores de la fuente y se
+corrigieron, dos eran alquileres y están documentados.
+
+Queda una cosa dicha y no hecha. El Desempate de 2014 va con `neutral=false` porque
+ese campo es del **torneo**, no del partido, y ese partido sí fue en cancha neutral —
+la propia página titula sus columnas «Equipo 1 / Equipo 2» y no Local/Visitante.
+Cambiarlo pide que `neutral` pase a ser por partido, que es una decisión de esquema y
+no un arreglo al pasar.
+
 ### Los otros dos, que miran otra cosa
 
 Un club mal atribuido deja tres rastros distintos, y cada uno se ve con un chequeo
@@ -939,11 +968,11 @@ propiedad que tiene el cruce contra la tabla de posiciones.
 
 ## Tests
 
-488 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+491 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 145 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 146 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

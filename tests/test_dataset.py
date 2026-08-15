@@ -448,3 +448,37 @@ def test_el_visitante_tambien_cuenta():
              {"home_team": "Almagro X", "away_team": "Estudiantes (LP)",
               "tournament": "Primera B", "season": "2015"}]
     assert len(dataset.categorias_incompatibles(filas)) == 1
+
+
+def test_un_alquiler_verificado_no_cuenta_como_casa(monkeypatch):
+    """Un chequeo que grita todos los dias por algo que ya se miro deja de
+    leerse, y ahi se pierde el aviso que importaba. Pero el alquiler verificado
+    no se silencia DESPUES: directamente no entra al recuento, que es lo mismo
+    pero mas conservador."""
+    monkeypatch.setattr(dataset, "ALQUILERES",
+                        {("Ciudad de Caseros", "Estudiantes (LP)"): "verificado"})
+    filas = (_local("Estudiantes (BA)", "Ciudad de Caseros", 20)
+             + _local("Estudiantes (LP)", "Ciudad de Caseros", 5))
+    assert dataset.casas_compartidas(filas) == []
+
+
+def test_el_alquiler_verificado_es_de_UNA_cancha_y_UN_club(monkeypatch):
+    """Silenciar de mas es el riesgo de este mecanismo. La entrada vale para el
+    par exacto: el mismo club en otra cancha, o el mismo estadio con otro club,
+    siguen avisando."""
+    monkeypatch.setattr(dataset, "ALQUILERES",
+                        {("Ciudad de Caseros", "Estudiantes (LP)"): "verificado"})
+    otra = (_local("Estudiantes (BA)", "Otro Estadio", 20)
+            + _local("Estudiantes (LP)", "Otro Estadio", 5))
+    assert len(dataset.casas_compartidas(otra)) == 1
+
+
+def test_los_alquileres_estan_documentados_y_citados():
+    """La misma exigencia que `correcciones.py`: sin evidencia escrita y con link,
+    esto es una lista de cosas barridas bajo la alfombra."""
+    for (cancha, club), porque in dataset.ALQUILERES.items():
+        assert len(porque) > 120, f"{cancha}/{club}: la evidencia es muy flaca"
+        assert "http" in porque, f"{cancha}/{club}: falta el link a la fuente"
+        assert "ANTES" in porque, (
+            f"{cancha}/{club}: la regla es una cronica anterior al partido, que no "
+            f"puede haber copiado de Wikipedia")

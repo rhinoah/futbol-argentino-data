@@ -38,6 +38,10 @@ MUTANTES = [
      "    return a == b",
      "    return True"),
 
+    ("fad/dataset.py", "silenciar un alquiler verificado en cualquier cancha",
+     '        if (cancha, f["home_team"]) in ALQUILERES:',
+     '        if f["home_team"] in {c for _, c in ALQUILERES}:'),
+
     ("fad/correcciones.py", "corregir la cancha sin mirar cual dice la pagina",
      '                      and p.visita == c.visita and p.estadio == c.dice]',
      '                      and p.visita == c.visita]'),

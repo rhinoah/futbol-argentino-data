@@ -172,6 +172,37 @@ def _confundibles(a: str, b: str) -> bool:
             or x.endswith(" " + y) or y.endswith(" " + x))
 
 
+# Clubes que jugaron de local en la cancha de otro, verificado con prensa.
+#
+# Un chequeo que grita todos los dias por algo que ya se miro deja de leerse, y
+# ahi se pierde el unico aviso que importaba. Pero silenciar es peligroso, asi que
+# se pide lo mismo que en `correcciones.py`: la evidencia escrita y citada. La
+# regla que se uso en los dos es la misma -- una cronica ANTERIOR al partido que
+# nombre el estadio, porque una nota previa no puede haber copiado de Wikipedia.
+#
+# Un alquiler verificado no cuenta como casa del club: no se lo silencia despues,
+# directamente no entra al recuento. Es lo correcto y ademas es lo mas conservador
+# -- si ese club tuviera OTRO problema en esa cancha, seguiria apareciendo.
+ALQUILERES = {
+    ("Centenario", "Argentino de Quilmes"):
+        "Primera C 2018-19, Fecha 19 contra Berazategui. El Centenario es de "
+        "Quilmes AC, que en 2018 jugaba la Primera Nacional. Solo Ascenso, cuatro "
+        "dias ANTES del partido: 'El Mate sera local en un estadio de primer nivel "
+        "como el Centenario, la cancha de Quilmes'. Y el presidente de Argentino, "
+        "Cesar Sosa, en El Sol de Quilmes: 'Hemos hecho un esfuerzo enorme para "
+        "poder llevar el partido al estadio de Quilmes'. "
+        "https://www.soloascenso.com.ar/notas/berazategui/clasico-con-visitantes/128095",
+    ("Malvinas Argentinas", "Huracán Las Heras"):
+        "Federal A 2023, Fecha 1 contra San Martin (SM). El Malvinas Argentinas es "
+        "el municipal de Mendoza donde juega Godoy Cruz. Los Andes, cuatro dias "
+        "ANTES: 'Se jugara el domingo desde las 16 en el estadio Malvinas "
+        "Argentinas, con ambos publicos'. Ademas la revancha del mismo cruce, en "
+        "la misma temporada, figura en General San Martin: la pagina distingue las "
+        "dos canchas, asi que no es un error de transcripcion. "
+        "https://www.losandes.com.ar/mas-deportes/federal-a-todo-lo-que-hay-que-saber-para-el-partido-entre-huracan-las-heras-y-san-martin",
+}
+
+
 def casas_compartidas(filas: list[dict]) -> list[str]:
     """Dos clubes de nombre confundible que juegan de local en la misma cancha.
 
@@ -208,7 +239,10 @@ def casas_compartidas(filas: list[dict]) -> list[str]:
     for f in filas:
         if str(f.get("neutral", "")).lower() == "true" or not str(f.get("venue", "")).strip():
             continue
-        de_local.setdefault(str(f["venue"]).strip(), Counter())[f["home_team"]] += 1
+        cancha = str(f["venue"]).strip()
+        if (cancha, f["home_team"]) in ALQUILERES:
+            continue        # verificado con prensa: no dice nada sobre su casa
+        de_local.setdefault(cancha, Counter())[f["home_team"]] += 1
     avisos = []
     for cancha, clubes in sorted(de_local.items()):
         nombres = sorted(clubes)
