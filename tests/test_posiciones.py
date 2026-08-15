@@ -163,3 +163,52 @@ def test_dos_clubes_desviados_no_acusan_a_la_tabla():
     avisos = posiciones.contrastar(ps, p)
     assert len(avisos) == 2
     assert all("puede venir de un partido mal leido" in a for a in avisos)
+
+
+# --------------------------------------------------------------------------
+# la tabla escrita con plantillas
+# --------------------------------------------------------------------------
+def _plantillas(*equipos_, titulo="Tabla de posiciones final"):
+    filas = "\n".join(
+        "{{Tabla de posiciones equipo|pos=%02d|g=%d|e=%d|p=%d|gf=%d|gc=%d|eq=[[%s|%s]]}}"
+        % (i + 1, g, e, pe, gf, gc, f"Club Atlético {n}", n)
+        for i, (n, g, e, pe, gf, gc) in enumerate(equipos_))
+    return f"== {titulo} ==\n{{{{Tabla de posiciones inicio}}}}\n{filas}\n{{{{Tabla de posiciones fin}}}}\n"
+
+
+def test_lee_la_tabla_escrita_con_plantillas():
+    """Varias paginas no usan una wikitable sino una lista de plantillas, una por
+    club. Buscando solo `{|` se perdian enteras, y con ellas el arbitro."""
+    t = posiciones.tabla(_plantillas(("Boca Juniors", 1, 1, 0, 3, 1)))
+    assert t == {"Boca Juniors": (2, 3, 1)}
+
+
+def test_el_wikilink_del_equipo_no_parte_el_nombre():
+    """`eq=[[Club Atlético San Telmo|San Telmo]]` lleva un `|` adentro. Partiendo
+    los parametros por `|` a secas, el club queda llamandose
+    "[[Club Atlético San Telmo" y no lo reconoce nadie."""
+    t = posiciones.tabla(_plantillas(("San Telmo", 1, 0, 1, 2, 2)))
+    assert list(t) == ["San Telmo"]
+
+
+def test_solo_la_tabla_final_y_no_la_de_la_primera_rueda():
+    """Varias paginas publican tambien la parcial de la primera rueda, con los
+    mismos clubes y la mitad de los partidos. Escaneando la pagina entera, esa
+    pisaba a la final y los clubes quedaban con la mitad del PJ."""
+    texto = (_plantillas(("Boca Juniors", 10, 5, 4, 30, 20))
+             + "\n== Tabla de posiciones parcial de la primera rueda ==\n"
+             + _plantillas(("Boca Juniors", 5, 2, 2, 15, 10), titulo="Otra cosa"))
+    assert posiciones.tabla(texto)["Boca Juniors"] == (19, 30, 20)
+
+
+def test_el_color_no_se_lee_como_nombre():
+    texto = ("== Tabla de posiciones ==\n"
+             "{{Tabla de posiciones equipo|pos=01|g=1|e=1|p=0|gf=3|gc=1"
+             "|eq=[[Club Atlético Boca Juniors|Boca Juniors]]|color=#cfc}}\n")
+    assert posiciones.tabla(texto) == {"Boca Juniors": (2, 3, 1)}
+
+
+def test_una_plantilla_a_la_que_le_faltan_campos_no_entra():
+    texto = ("== Tabla de posiciones ==\n"
+             "{{Tabla de posiciones equipo|pos=01|g=1|eq=[[Boca Juniors]]}}\n")
+    assert posiciones.tabla(texto) == {}

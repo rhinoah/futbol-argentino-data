@@ -424,8 +424,15 @@ El cruce quedó como chequeo permanente en
 [`fad/posiciones.py`](fad/posiciones.py), y **se calla cuando no puede opinar**: una
 fila que no cierra consigo misma (`GF − GC ≠ DIF`) no desmiente a nadie, y si la
 cantidad de partidos jugados no coincide, las dos partes no están hablando del
-mismo conjunto. Sobre los 128 torneos, 19 publican una tabla usable: 10 cierran
-perfecto y 9 tienen algo que no. Va como **aviso**, no como error: lo que denuncia
+mismo conjunto.
+
+**Y la tabla se escribe de dos formas.** Además de la `wikitable` habitual, muchas
+páginas la arman con plantillas —`{{Tabla de posiciones equipo|g=23|e=12|p=3|gf=59|gc=15|eq=…}}`—
+y buscando sólo `{|` se perdían enteras. Leyendo las dos, el árbitro pasó de
+**19 torneos a 113**: 91 cierran perfecto y 22 tienen algo que no.
+
+Que 91 temporadas cierren al gol contra una tabla que escribió otra mano es la
+corroboración más fuerte que tiene el dataset. Va como **aviso**, no como error: lo que denuncia
 es una contradicción de la fuente consigo misma.
 
 #### Y encontró un error en la tabla
@@ -449,9 +456,9 @@ Por eso el aviso ahora dice **de qué lado** está el problema: si el club desvi
 está solo, acusa a la tabla; si hay más de uno, deja abierta la posibilidad de un
 partido mal leído.
 
-### Las cinco correcciones a mano
+### Las seis correcciones a mano
 
-Hay **cinco** filas del dataset que no dicen lo que dice Wikipedia, y viven en
+Hay **seis** filas del dataset que no dicen lo que dice Wikipedia, y viven en
 [`fad/correcciones.py`](fad/correcciones.py) con su evidencia escrita. Las cinco
 salen de que **la fuente se contradice sola**.
 

@@ -42,6 +42,22 @@ MUTANTES = [
      "    if desviados == 1:",
      "    if False:"),
 
+    ("fad/posiciones.py", 'no leer la tabla escrita con plantillas',
+     '    por_plantillas = _por_plantillas(texto, arts)',
+     '    por_plantillas = {}'),
+
+    ("fad/posiciones.py", 'partir los parametros por | y romper el wikilink',
+     '        eq = _CAMPO_EQUIPO.search(cuerpo)',
+     '        eq = re.match(r"(.*)", cuerpo.split("|")[-1], re.S)'),
+
+    ("fad/posiciones.py", 'leer tambien la tabla de la primera rueda',
+     '    m = _SECCION_FINAL.search(texto)\n    if not m:\n        return {}',
+     '    m = None\n    if False:\n        return {}'),
+
+    ("fad/posiciones.py", 'aceptar una plantilla a la que le faltan campos',
+     '        if len(nums) < 5 or not eq:',
+     '        if not eq:'),
+
     ("fad/posiciones.py", "usar filas de la tabla que no cierran solas",
      "        if gf - gc != dif or pg + pe + pp != pj:",
      "        if False:"),

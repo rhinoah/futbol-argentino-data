@@ -154,6 +154,18 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 
 MARCADORES: tuple[Marcador, ...] = (
+    Marcador(
+        pagina="Campeonato de Primera B 2018-19 (Argentina)",
+        jornada="Fecha 15", local="San Telmo", visita="UAI Urquiza",
+        dice=(1, 0), debe=(0, 1),
+        porque=(
+            "Wikipedia dice 1-0 y worldfootball 0-1. La tabla de posiciones de la "
+            "propia pagina le da la razon a worldfootball: con el 0-1 los veinte "
+            "clubes cierran, y con el 1-0 fallan San Telmo (45/33 publicados contra "
+            "46/32 sumados) y UAI Urquiza (26/33 contra 25/34). Aparecio cruzando la "
+            "temporada contra la pagina de worldfootball, que coincide en los otros "
+            "379 partidos."),
+    ),
     _arbitrado("2007 Fecha 1", "Independiente Rivadavia", "Tiro Federal", (0, 1), (1, 0),
                "worldfootball",
                "con 0-1 los dos clubes quedan fuera de sus totales publicados y con 1-0 cierran"),

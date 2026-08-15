@@ -46,15 +46,62 @@ _SECCION = re.compile(r"==+\s*Tabla de posiciones[^=]*==+[^{]*(\{\|.*?\n\|\})", 
 _COLUMNAS = 8
 
 
+# La tabla se escribe de DOS formas, y la segunda no es una tabla: es una lista
+# de plantillas, una por club.
+#
+#   {{Tabla de posiciones equipo|pos=01|g=23|e=12|p=3|gf=59|gc=15|eq=[[...|Barracas Central]]}}
+#
+# Buscando solo `{|` se pierden esas paginas enteras -- y con ellas el arbitro, que
+# es lo unico que decide cual de dos fuentes tiene razon sobre un marcador.
+_FILA_PLANTILLA = re.compile(r"\{\{\s*Tabla de posiciones equipo\s*\|(.*?)\}\}", re.I | re.S)
+# El nombre NO se saca partiendo por `|`: el wikilink de adentro tambien lleva
+# uno, asi que "eq=[[Club Atlético San Telmo|San Telmo]]" se parte al medio y el
+# club queda llamandose "[[Club Atlético San Telmo".
+_CAMPO_EQUIPO = re.compile(r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*color\s*=|$)", re.S)
+_NUMEROS = {k: re.compile(rf"(?<![a-zA-Z]){k}\s*=\s*(\d+)") for k in ("g", "e", "p", "gf", "gc")}
+# Y solo la tabla FINAL. Varias paginas publican tambien la "parcial de la primera
+# rueda", con los mismos clubes y la mitad de los partidos: escaneando la pagina
+# entera, esa pisaba a la otra y los veinte clubes quedaban con PJ 19.
+_SECCION_FINAL = re.compile(r"^==+[^=\n]*Tabla de posiciones[^=\n]*==+[^\n]*$", re.M | re.I)
+
+
+def _por_plantillas(texto: str, arts: dict[str, str]) -> dict[str, tuple[int, int, int]]:
+    """Las filas escritas como `{{Tabla de posiciones equipo|...}}`."""
+    m = _SECCION_FINAL.search(texto)
+    if not m:
+        return {}
+    sig = re.search(r"^==+[^=\n]+==+", texto[m.end():], re.M)
+    bloque = texto[m.end():m.end() + sig.start()] if sig else texto[m.end():]
+
+    fuera = {}
+    for fila in _FILA_PLANTILLA.finditer(bloque):
+        cuerpo = fila.group(1)
+        nums = {}
+        for k, rx in _NUMEROS.items():
+            hit = rx.search(cuerpo)
+            if hit:
+                nums[k] = int(hit.group(1))
+        eq = _CAMPO_EQUIPO.search(cuerpo)
+        if len(nums) < 5 or not eq:
+            continue
+        club = parser.limpiar(eq.group(1))
+        fuera[equipos.canonizar(club, arts.get(club, ""))] = (
+            nums["g"] + nums["e"] + nums["p"], nums["gf"], nums["gc"])
+    return fuera
+
+
 def tabla(texto: str, arts: dict[str, str] | None = None) -> dict[str, tuple[int, int, int]]:
     """{club canonico: (PJ, GF, GC)} segun la tabla que publica la pagina.
 
     Devuelve solo las filas que cierran consigo mismas. Vacio si no hay tabla.
     """
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    por_plantillas = _por_plantillas(texto, arts)
+    if por_plantillas:
+        return por_plantillas
     m = _SECCION.search(texto)
     if not m:
         return {}
-    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
     fuera: dict[str, tuple[int, int, int]] = {}
     for fila in m.group(1).split("\n|-"):
         # Las celdas van separadas por `||` o por `\n|`, y arrancan con un `|`
