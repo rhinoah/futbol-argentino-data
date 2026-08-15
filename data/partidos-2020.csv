@@ -501,4 +501,4 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-01-31,,Estudiantes (RC),Platense,1,1,2,4,Primera Nacional,2020,eliminacion,,Final,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2021-01-31,17:15,Deportivo Maipú,Deportivo Madryn,2,0,,,Torneo Federal A,2020,eliminacion,,Final,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
 2021-02-04,,San Telmo,Deportivo Madryn,0,0,3,1,Primera B,2020,eliminacion,,,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-02-04,21:30,San Telmo,Deportivo Madryn,0,0,,,Torneo Federal A,2020,eliminacion,,Tercer ascenso,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
+2021-02-04,21:30,San Telmo,Deportivo Madryn,0,0,,,Torneo Federal A,2020,eliminacion,,Tercer ascenso,Marcelo Bielsa,true,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020

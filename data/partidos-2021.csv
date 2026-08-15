@@ -1997,7 +1997,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-11-01,21:10,Nueva Chicago,Tigre,2,4,,,Primera Nacional,2021,zonas,Zona A,Fecha 32,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-11-01,21:15,Central Córdoba (SdE),Aldosivi,0,0,,,Primera Division,2021,zonas,,Fecha 19,Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-02,20:05,Chacarita Juniors,Alvarado,0,2,,,Primera Nacional,2021,zonas,Zona A,Fecha 32,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-11-04,17:00,Deportivo Madryn,Racing (C),1,0,,,Torneo Federal A,2021,eliminacion,,Etapa final,El Viaducto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-11-04,17:00,Deportivo Madryn,Racing (C),1,0,,,Torneo Federal A,2021,eliminacion,,Etapa final,El Viaducto,true,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-11-05,15:00,Atlas,Sportivo Italiano,0,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 18,Ricardo Puga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-11-05,15:00,Claypole,Berazategui,3,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 18,Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-11-05,15:00,Luján,Deportivo Español,0,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 18,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
@@ -2101,14 +2101,14 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-11-21,17:00,Argentino de Quilmes,San Miguel,0,1,,,Primera B,2021,zonas,,Fecha 1,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-21,17:00,Arsenal,Newell's Old Boys,3,1,,,Primera Division,2021,zonas,,Fecha 21,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-21,17:00,Fénix,UAI Urquiza,1,2,,,Primera B,2021,zonas,,Fecha 1,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
-2021-11-21,17:00,Gimnasia y Tiro (S),Defensores de Pronunciamiento,3,2,,,Torneo Federal A,2021,eliminacion,,Segunda ronda,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-11-21,17:00,Racing (C),Defensores de Belgrano (VR),2,0,,,Torneo Federal A,2021,eliminacion,,Segunda ronda,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-11-21,17:00,Gimnasia y Tiro (S),Defensores de Pronunciamiento,3,2,,,Torneo Federal A,2021,eliminacion,,Segunda ronda,Juan Alberto García,true,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-11-21,17:00,Racing (C),Defensores de Belgrano (VR),2,0,,,Torneo Federal A,2021,eliminacion,,Segunda ronda,Nuevo Monumental,true,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-11-21,17:00,Villa San Carlos,Deportivo Armenio,0,0,,,Primera B,2021,zonas,,Fecha 1,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-21,19:15,Racing Club,Colón,1,2,,,Primera Division,2021,zonas,,Fecha 21,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-21,21:30,Platense,River Plate,0,1,,,Primera Division,2021,zonas,,Fecha 21,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-22,,Independiente Rivadavia,Almirante Brown,1,1,,,Primera Nacional,2021,eliminacion,,Primera fase,Estadio Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-11-22,,San Martín (T),Ferro Carril Oeste,1,3,,,Primera Nacional,2021,eliminacion,,Primera fase,Estadio La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-11-22,21:10,Tigre,Barracas Central,1,0,,,Primera Nacional,2021,eliminacion,,Final,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
+2021-11-22,21:10,Tigre,Barracas Central,1,0,,,Primera Nacional,2021,eliminacion,,Final,Florencio Sola,true,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-11-23,17:00,Gimnasia y Esgrima (LP),Talleres (C),5,2,,,Primera Division,2021,zonas,,Fecha 22,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-23,17:00,Huracán,Patronato,1,0,,,Primera Division,2021,zonas,,Fecha 22,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-23,19:15,Aldosivi,San Lorenzo,2,0,,,Primera Division,2021,zonas,,Fecha 22,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
@@ -2134,7 +2134,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-11-28,,Almirante Brown,Independiente Rivadavia,1,0,,,Primera Nacional,2021,eliminacion,,Primera fase,Estadio Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-11-28,17:00,Dock Sud,Berazategui,2,0,,,Primera C,2021,eliminacion,,Partidos,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-11-28,17:00,Rosario Central,River Plate,2,2,,,Primera Division,2021,zonas,,Fecha 23,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
-2021-11-28,18:00,Gimnasia y Tiro (S),Central Norte (S),2,1,,,Torneo Federal A,2021,eliminacion,,Tercera ronda,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-11-28,18:00,Gimnasia y Tiro (S),Central Norte (S),2,1,,,Torneo Federal A,2021,eliminacion,,Tercera ronda,Padre Ernesto Martearena,true,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-11-28,19:15,Argentinos Juniors,Gimnasia y Esgrima (LP),3,0,,,Primera Division,2021,zonas,,Fecha 23,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-28,19:15,Defensa y Justicia,Colón,1,1,,,Primera Division,2021,zonas,,Fecha 23,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-28,21:30,Boca Juniors,Newell's Old Boys,0,0,,,Primera Division,2021,zonas,,Fecha 23,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
@@ -2161,7 +2161,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-12-05,,Colegiales,Los Andes,1,0,3,1,Primera B,2021,eliminacion,,Semifinales,Estadio Libertarios Unidos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-12-05,,Sacachispas,J. J. de Urquiza,1,0,,,Primera B,2021,eliminacion,,Semifinales,Estadio Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-12-05,17:00,Gimnasia y Esgrima (LP),Estudiantes (LP),4,4,,,Primera Division,2021,zonas,,Fecha 24,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
-2021-12-05,18:00,Gimnasia y Tiro (S),Chaco For Ever,0,1,,,Torneo Federal A,2021,eliminacion,,Cuarta ronda,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-12-05,18:00,Gimnasia y Tiro (S),Chaco For Ever,0,1,,,Torneo Federal A,2021,eliminacion,,Cuarta ronda,Doctores José y Antonio Castiglione,true,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-12-05,19:15,Independiente,San Lorenzo,1,1,,,Primera Division,2021,zonas,,Fecha 24,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-12-05,21:30,River Plate,Defensa y Justicia,2,3,,,Primera Division,2021,zonas,,Fecha 24,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-12-06,,Almirante Brown,Barracas Central,0,0,,,Primera Nacional,2021,eliminacion,,Semifinales,Estadio Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021

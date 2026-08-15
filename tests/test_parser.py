@@ -801,3 +801,50 @@ def test_una_fase_de_grupos_con_el_mismo_nombre_sigue_siendo_zona():
 """
     p, = parser.partidos(texto, 2021, "x")
     assert p.fase == "zonas" and p.jornada == "Fecha 1"
+
+
+# --------------------------------------------------------------------------
+# cancha neutral: la pagina lo dice rotulando la columna
+# --------------------------------------------------------------------------
+def _tabla(rotulo, **kw):
+    return (f'{{|class="wikitable"\n'
+            f'|-\n!width="150"|{rotulo}\n!Resultado\n!{"Equipo 2" if rotulo != "Local" else "Visitante"}\n'
+            f'!Estadio\n!Fecha\n!Hora\n'
+            f'|-\n|Huracán\n|4 - 1\n|Atlético Tucumán\n|Malvinas Argentinas\n'
+            f'|14 de diciembre\n|17:15\n|}}')
+
+
+def test_una_tabla_sin_local_marca_el_partido_neutral():
+    """Cuando no hay local, la tabla rotula "Equipo 1 / Equipo 2" en vez de
+    "Local / Visitante". No es una interpretacion nuestra: es la unica forma que
+    tiene una tabla de decir que los dos son visitantes, y la usa siempre para lo
+    mismo -- desempates, reducidos y definiciones, en cancha de un tercero.
+
+    El testigo es el Desempate por el ascenso de 2014: Huracan 4-1 Atletico
+    Tucuman en el Malvinas Argentinas de Mendoza, que no es de ninguno."""
+    ps = parser.partidos_de_tabla(_tabla("Equipo 1"), 2014, "Primera Nacional")
+    assert len(ps) == 1 and ps[0].neutral is True
+
+
+def test_una_tabla_con_local_no_opina():
+    """`None` y no `False`: la tabla no esta diciendo que la cancha NO sea
+    neutral, solo esta rotulando su columna. Quien decide entonces es el torneo,
+    que es el que sabe si es una liga o una copa."""
+    ps = parser.partidos_de_tabla(_tabla("Local"), 2014, "Primera Nacional")
+    assert len(ps) == 1 and ps[0].neutral is None
+
+
+def test_el_rotulo_vale_por_tabla_y_no_por_pagina():
+    """Un bloque puede traer la fecha 38 con "Local" y abajo el desempate con
+    "Equipo 1". Si el rotulo se leyera una vez por bloque, o se perderia el
+    desempate o se marcaria neutral media temporada."""
+    ida = parser.partidos_de_tabla(_tabla("Local") + "\n" + _tabla("Equipo 1"),
+                                   2014, "Primera Nacional")
+    assert [p.neutral for p in ida] == [None, True]
+    # Y sobre todo AL REVES, que es el orden que discrimina: si el rotulo no se
+    # RESETEA al ver "Local", el desempate de arriba deja marcada como neutral a
+    # la tabla de abajo, que no lo es. En el otro orden el bug no se ve, porque
+    # `sin_local` ya arranca en False.
+    vuelta = parser.partidos_de_tabla(_tabla("Equipo 1") + "\n" + _tabla("Local"),
+                                      2014, "Primera Nacional")
+    assert [p.neutral for p in vuelta] == [True, None]

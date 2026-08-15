@@ -482,3 +482,34 @@ def test_los_alquileres_estan_documentados_y_citados():
         assert "ANTES" in porque, (
             f"{cancha}/{club}: la regla es una cronica anterior al partido, que no "
             f"puede haber copiado de Wikipedia")
+
+
+# --------------------------------------------------------------------------
+# neutral: el torneo lo dice para todos, el partido para si mismo
+# --------------------------------------------------------------------------
+def _p(neutral=None):
+    p = Partido(fecha="2014-12-14", local="Huracán", visita="Atlético Tucumán",
+                goles_local=4, goles_visita=1, fase="eliminacion", jornada="Desempate")
+    p.neutral = neutral
+    return p
+
+
+def test_si_el_partido_no_opina_manda_el_torneo():
+    assert dataset.a_fila(_p(), "Primera Nacional", 2014, "u", False)["neutral"] == "false"
+    assert dataset.a_fila(_p(), "Copa Argentina", 2014, "u", True)["neutral"] == "true"
+
+
+def test_un_partido_neutral_dentro_de_un_torneo_que_no_lo_es():
+    """El caso que abrio esto: el Desempate por el ascenso de 2014 se jugo en el
+    Malvinas Argentinas de Mendoza, que no es de ninguno de los dos. El torneo no
+    es neutral; ese partido si."""
+    assert dataset.a_fila(_p(True), "Primera Nacional", 2014, "u", False)["neutral"] == "true"
+
+
+def test_el_desempate_neutral_deja_de_contar_como_casa():
+    """Y por eso `casas_compartidas` se calla: una cancha neutral no dice nada
+    sobre la casa de nadie. Es el mismo motivo por el que el chequeo saltea las
+    filas neutrales desde que existe."""
+    filas = ([{"home_team": "Huracán", "venue": "Malvinas Argentinas", "neutral": "true"}]
+             + _local("Huracán Las Heras", "Malvinas Argentinas", 5))
+    assert dataset.casas_compartidas(filas) == []

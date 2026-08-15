@@ -75,7 +75,12 @@ def a_fila(p: Partido, torneo: str, temporada: int, fuente: str,
         "away_pens": p.penales_visita,
         "tournament": torneo, "season": temporada,
         "phase": p.fase, "group": p.zona, "matchday": p.jornada,
-        "venue": p.estadio, "neutral": str(neutral).lower(),
+        # El torneo dice si TODOS sus partidos son en cancha neutral (la Copa
+        # Argentina lo es); el partido puede decirlo por si mismo cuando la pagina
+        # rotula su tabla "Equipo 1 / Equipo 2" en vez de "Local / Visitante".
+        # Gana el partido cuando opina, porque es el dato mas especifico.
+        "venue": p.estadio,
+        "neutral": str(neutral if p.neutral is None else p.neutral).lower(),
         # Si la fecha vino de otra fuente, las DOS quedan nombradas. La fila es
         # de Wikipedia salvo ese campo, y asi se lee.
         "source": fuente + SEPARADOR + p.fuente_fecha if p.fuente_fecha else fuente,
@@ -183,6 +188,13 @@ def _confundibles(a: str, b: str) -> bool:
 # Un alquiler verificado no cuenta como casa del club: no se lo silencia despues,
 # directamente no entra al recuento. Es lo correcto y ademas es lo mas conservador
 # -- si ese club tuviera OTRO problema en esa cancha, seguiria apareciendo.
+#
+# Y una entrada que deja de hacer falta SE SACA. Aca hubo dos, y la de Huracan
+# Las Heras en el Malvinas Argentinas quedo inerte cuando el Desempate de 2014
+# paso a marcarse neutral: la pareja que hacia saltar el aviso desaparecio sola.
+# Una entrada que no silencia nada hoy no es gratis -- es un permiso abierto para
+# tapar el aviso de manana. La evidencia de esa queda en el README y en el
+# historial; la lista se queda solo con lo que sostiene algo.
 ALQUILERES = {
     ("Centenario", "Argentino de Quilmes"):
         "Primera C 2018-19, Fecha 19 contra Berazategui. El Centenario es de "
@@ -192,14 +204,6 @@ ALQUILERES = {
         "Cesar Sosa, en El Sol de Quilmes: 'Hemos hecho un esfuerzo enorme para "
         "poder llevar el partido al estadio de Quilmes'. "
         "https://www.soloascenso.com.ar/notas/berazategui/clasico-con-visitantes/128095",
-    ("Malvinas Argentinas", "Huracán Las Heras"):
-        "Federal A 2023, Fecha 1 contra San Martin (SM). El Malvinas Argentinas es "
-        "el municipal de Mendoza donde juega Godoy Cruz. Los Andes, cuatro dias "
-        "ANTES: 'Se jugara el domingo desde las 16 en el estadio Malvinas "
-        "Argentinas, con ambos publicos'. Ademas la revancha del mismo cruce, en "
-        "la misma temporada, figura en General San Martin: la pagina distingue las "
-        "dos canchas, asi que no es un error de transcripcion. "
-        "https://www.losandes.com.ar/mas-deportes/federal-a-todo-lo-que-hay-que-saber-para-el-partido-entre-huracan-las-heras-y-san-martin",
 }
 
 

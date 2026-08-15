@@ -96,6 +96,15 @@ class Partido:
     # credito viaja con el dato: si una fila usa una segunda fuente, su `source`
     # lo dice. Un dataset que atribuye mal es un dataset que miente sobre si mismo.
     fuente_fecha: str = field(default="", repr=False)
+    # Si el partido se jugo en cancha NEUTRAL. `None` quiere decir "la pagina no
+    # dijo", y entonces manda lo que diga el torneo -- la Copa Argentina es toda
+    # neutral, una liga no.
+    #
+    # Que una pagina lo diga no es una suposicion: cuando no hay local, la tabla
+    # rotula sus columnas "Equipo 1 / Equipo 2" en vez de "Local / Visitante".
+    # Son los desempates, los reducidos y las definiciones, que se juegan en
+    # cancha de un tercero. Ver `_ENCABEZADO_SIN_LOCAL`.
+    neutral: bool | None = field(default=None, repr=False)
 
 
 # --------------------------------------------------------------------------
@@ -335,6 +344,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
     # titulo de la seccion que contiene a esta tabla, que es como lo hace el
     # ascenso. Si aparece un encabezado, pisa al de la seccion.
     jornada, zona, ronda = "", zona_defecto, ""
+    sin_local = False       # hasta que un encabezado diga "Equipo 1"
     if fuera_de_la_liga:
         # Sin encabezado propio, la ronda es el titulo de la seccion. Se prefiere
         # el mas cercano (`zona_defecto`, que es el padre inmediato) sobre la fase
@@ -378,6 +388,14 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             else:
                 zona, ronda = _seccion(cab), ""
         if fila.lstrip().startswith("!"):
+            # El encabezado tambien dice si hay local. Se mira aca, en el bucle, y
+            # no una vez por bloque, porque un bloque puede traer varias tablas:
+            # la de la fecha 38 con "Local" y abajo la del desempate con
+            # "Equipo 1". Vale hasta que otra tabla diga otra cosa.
+            if _ENCABEZADO_SIN_LOCAL.search(fila):
+                sin_local = True
+            elif _ENCABEZADO_CON_LOCAL.search(fila):
+                sin_local = False
             continue                                   # fila de encabezado
 
         # Un titulo de Wikipedia cierra la jornada. Dentro de la seccion de
@@ -420,7 +438,12 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             zona="" if ronda else zona, jornada=jornada, llave=llave,
             local_art=(arts or {}).get(valores["local"], ""),
             visita_art=(arts or {}).get(valores["visita"], ""),
-            estadio=valores["estadio"], fecha_cruda=valores["fecha"]))
+            estadio=valores["estadio"], fecha_cruda=valores["fecha"],
+            # Solo se MARCA neutral, nunca se desmarca. Un torneo declarado
+            # neutral entero -- la Copa Argentina -- sigue siendolo aunque alguna
+            # de sus tablas rotule "Local", que es una etiqueta de la columna y no
+            # una afirmacion sobre la cancha.
+            neutral=True if sin_local else None))
     return partidos
 
 
@@ -745,6 +768,17 @@ def _contexto(pos: int, nivel: int, texto: str) -> str:
 _COLUMNAS_DE_PARTIDO = ({"local", "resultado", "visitante"},
                         {"local", "resultado", "visita"},
                         {"equipo 1", "resultado", "equipo 2"})
+
+# Como la pagina dice que un partido NO tiene local: rotulando la columna
+# "Equipo 1" en vez de "Local". No es una interpretacion nuestra -- es la unica
+# forma que tiene una tabla de decir que los dos son visitantes, y la usa siempre
+# para lo mismo: desempates, reducidos y definiciones, que se juegan en cancha de
+# un tercero. Van 232 tablas en 51 paginas.
+#
+#   Desempate B Nacional 2014: Huracan 4-1 Atletico Tucuman en el Malvinas
+#   Argentinas de Mendoza, que no es de ninguno de los dos.
+_ENCABEZADO_SIN_LOCAL = re.compile(r"(?i)\bequipos?\s*1\b")
+_ENCABEZADO_CON_LOCAL = re.compile(r"(?i)\blocal\b")
 
 _ABRE_TABLA = re.compile(r"\{\|")
 

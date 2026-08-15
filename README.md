@@ -903,23 +903,57 @@ Wikipedia.
 | **Argentino de Quilmes** en el Centenario, Primera C 2018-19 | Solo Ascenso, cuatro días antes: «El Mate será local en un estadio de primer nivel como el Centenario, la cancha de Quilmes». Y el presidente del club, en El Sol de Quilmes: «Hemos hecho un esfuerzo enorme para poder llevar el partido al estadio de Quilmes». |
 | **Huracán Las Heras** en Malvinas Argentinas, Federal A 2023 | Los Andes, cuatro días antes: «Se jugará el domingo desde las 16 en el estadio Malvinas Argentinas, con ambos públicos». Y la revancha del mismo cruce, esa misma temporada, figura en General San Martín: la página distingue las dos canchas. |
 
-Los dos van a `dataset.ALQUILERES`, con la evidencia y el link. Un chequeo que grita
-todos los días por algo que ya se miró deja de leerse, y ahí se pierde el único aviso
-que importaba — pero silenciar es peligroso, así que se le pide lo mismo que a una
-corrección: evidencia escrita y citada.
+El alquiler verificado va a `dataset.ALQUILERES`, con la evidencia y el link. Un
+chequeo que grita todos los días por algo que ya se miró deja de leerse, y ahí se
+pierde el único aviso que importaba — pero silenciar es peligroso, así que se le pide
+lo mismo que a una corrección: evidencia escrita y citada, y hay un test que lo exige.
 
-El alquiler verificado **no se silencia después: no entra al recuento**. Es lo mismo
-en el resultado y más conservador — si ese club tuviera *otro* problema en esa cancha,
-seguiría apareciendo.
+Y **no se silencia después: no entra al recuento**. Es lo mismo en el resultado y más
+conservador — si ese club tuviera *otro* problema en esa cancha, seguiría apareciendo.
 
-Con eso, los cuatro avisos quedaron en **cero**: dos eran errores de la fuente y se
-corrigieron, dos eran alquileres y están documentados.
+Con eso los cuatro avisos quedaron en **cero**. Pero de los dos alquileres sólo uno
+sigue en la lista, y el motivo es lo que viene.
 
-Queda una cosa dicha y no hecha. El Desempate de 2014 va con `neutral=false` porque
-ese campo es del **torneo**, no del partido, y ese partido sí fue en cancha neutral —
-la propia página titula sus columnas «Equipo 1 / Equipo 2» y no Local/Visitante.
-Cambiarlo pide que `neutral` pase a ser por partido, que es una decisión de esquema y
-no un arreglo al pasar.
+## `neutral` dejó de ser del torneo
+
+El Desempate de 2014 iba con `neutral=false` siendo que se jugó en cancha neutral,
+porque el campo era del **torneo**: la Copa Argentina entera es neutral, una liga no,
+y no había forma de que un partido dijera lo suyo.
+
+Lo interesante es que **la fuente sí lo dice, y de una forma que se puede leer**.
+Cuando no hay local, la tabla rotula sus columnas «Equipo 1 / Equipo 2» en vez de
+«Local / Visitante». No es una interpretación: es la única manera que tiene una tabla
+de decir que los dos son visitantes, y la usa siempre para lo mismo. Son **232 tablas
+en 51 páginas**.
+
+Así que `neutral` pasó a resolverse en dos niveles: el torneo lo dice para todos sus
+partidos, el partido puede decirlo por sí mismo, y **gana el partido cuando opina**.
+Sólo puede *marcar* neutral, nunca desmarcar — una tabla que rotula «Local» está
+etiquetando su columna, no afirmando nada sobre la cancha.
+
+**36 partidos** cambiaron de `false` a `true`, y son exactamente lo que uno esperaría:
+34 de fase eliminación —finales, desempates, reducidos, definiciones de ascenso y
+descenso— más dos que la página llama «partido de desempate» con todas las letras.
+Ninguno es de temporada regular.
+
+```
+2006-12-13  Boca Juniors  1-2  Estudiantes (LP)      Desempate    José Amalfitani
+2014-12-14  Huracán       4-1  Atlético Tucumán      Desempate    Malvinas Argentinas
+2021-11-22  Tigre         1-0  Barracas Central      Final        Florencio Sola
+2024-11-03  Aldosivi      2-0  San Martín (T)        Final        Gigante de Arroyito
+```
+
+Ninguno se juega en cancha de los que juegan, que es el punto.
+
+### Y una entrada de la lista se volvió inerte
+
+Con el Desempate marcado neutral, `casas_compartidas` dejó de contarlo como casa de
+nadie — y con eso desapareció la pareja que hacía saltar el aviso de Huracán Las
+Heras. Su entrada en `ALQUILERES` pasó a no silenciar nada.
+
+**Se sacó.** Una entrada que hoy no sostiene nada no es gratis: es un permiso abierto
+para tapar el aviso de mañana. Es la misma regla que ya tenían las correcciones —
+cuando dejan de enganchar, el build avisa para que se borren.
 
 ### Los otros dos, que miran otra cosa
 
@@ -968,11 +1002,11 @@ propiedad que tiene el cruce contra la tabla de posiciones.
 
 ## Tests
 
-491 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+497 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 146 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 149 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

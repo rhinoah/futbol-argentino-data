@@ -38,6 +38,18 @@ MUTANTES = [
      "    return a == b",
      "    return True"),
 
+    ("fad/parser.py", "no ver que la tabla no tiene columna de local",
+     '            if _ENCABEZADO_SIN_LOCAL.search(fila):\n                sin_local = True',
+     '            if False:\n                sin_local = True'),
+
+    ("fad/parser.py", "que el rotulo de una tabla se pegue a las siguientes",
+     '            elif _ENCABEZADO_CON_LOCAL.search(fila):\n                sin_local = False',
+     '            elif False:\n                sin_local = False'),
+
+    ("fad/dataset.py", "que el torneo pise lo que dice el partido sobre la cancha",
+     '        "neutral": str(neutral if p.neutral is None else p.neutral).lower(),',
+     '        "neutral": str(neutral).lower(),'),
+
     ("fad/dataset.py", "silenciar un alquiler verificado en cualquier cancha",
      '        if (cancha, f["home_team"]) in ALQUILERES:',
      '        if f["home_team"] in {c for _, c in ALQUILERES}:'),
@@ -522,7 +534,7 @@ MUTANTES = [
      "    if grupos is None:\n        return []\n    if False:\n        return [Aviso("),
 
     ("fad/dataset.py", "escribir siempre neutral=false",
-     '"neutral": str(neutral).lower()',
+     '"neutral": str(neutral if p.neutral is None else p.neutral).lower()',
      '"neutral": "false"'),
 
     # --- el padron ---

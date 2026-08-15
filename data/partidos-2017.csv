@@ -1907,9 +1907,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-05-02,15:30,J. J. de Urquiza,Sportivo Italiano,1,0,,,Primera C,2017,zonas,,Fecha 36,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
 2018-05-02,15:30,Leandro N. Alem,Defensores Unidos,0,3,,,Primera C,2017,zonas,,Fecha 36,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
 2018-05-02,15:30,San Martín (B),Ituzaingó,2,4,,,Primera C,2017,zonas,,Fecha 36,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2017-18_(Argentina)
-2018-05-02,19:40,Platense,Estudiantes (BA),1,0,,,Primera B,2017,eliminacion,,Desempate,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2017-18_(Argentina)
+2018-05-02,19:40,Platense,Estudiantes (BA),1,0,,,Primera B,2017,eliminacion,,Desempate,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2017-18_(Argentina)
 2018-05-04,19:00,San Martín (SJ),Vélez Sarsfield,0,2,,,Primera Division,2017,zonas,,Fecha 26,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
-2018-05-04,19:10,Almagro,Aldosivi,1,3,,,Primera Nacional,2017,zonas,,,Julio Humberto Grondona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
+2018-05-04,19:10,Almagro,Aldosivi,1,3,,,Primera Nacional,2017,zonas,,,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2017-18
 2018-05-04,21:15,San Lorenzo,Belgrano,2,0,,,Primera Division,2017,zonas,,Fecha 26,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2017-18_(Argentina)
 2018-05-05,,Atlanta,Tristán Suárez,0,1,,,Primera B,2017,eliminacion,,Cuartos,Estadio Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2017-18_(Argentina)
 2018-05-05,,Defensores de Belgrano,Barracas Central,0,0,,,Primera B,2017,eliminacion,,Cuartos,Estadio Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2017-18_(Argentina)
