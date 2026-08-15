@@ -45,6 +45,16 @@ cruzando con [worldfootball.net](https://www.worldfootball.net/) para sacar de a
 worldfootball lista para Argentina únicamente Primera División, Primera Nacional,
 Primera B Metropolitana, Copa Argentina y Supercopa. Primera C no figura.
 
+### Qué se descartó, y para no volver a mirarlo
+
+**Primera B Metropolitana en worldfootball no llega tan atrás.** Su selector lista
+25 temporadas y la más vieja es **2018/2019** — contra las 55 de Primera Nacional,
+que llegan hasta 2002. Así que esa vía tampoco sirve para las temporadas viejas de
+Primera B, que es la otra categoría con partidos sin fecha esperando
+(2010-11, 474 partidos).
+
+Medido sobre el selector de `co5199`, no deducido.
+
 ## Si aparece una fuente de fechas
 
 El plan es completarlas y mudarlas a `data/`. Mientras tanto quedan parseadas y
