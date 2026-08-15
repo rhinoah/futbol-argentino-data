@@ -193,4 +193,8 @@ def _de_quien_es_la_culpa(desviados: int) -> str:
     if desviados == 1:
         return ("Es el unico club desviado, y un marcador mal leido tocaria a dos: "
                 "lo mas probable es que la fila de la tabla este mal transcripta")
-    return "Hay mas clubes desviados, asi que puede venir de un partido mal leido"
+    return ("Hay mas clubes desviados, asi que puede venir de un partido mal leido. "
+            "OJO: que exista un unico ajuste de un gol que haga cerrar todo NO "
+            "alcanza para corregirlo. Se probo en dos casos y acerto en uno solo -- "
+            "en el otro (Primera C 2026, Centro Español 2-3 Juventud Unida) la "
+            "prensa confirma el marcador de Wikipedia y la equivocada era la tabla")

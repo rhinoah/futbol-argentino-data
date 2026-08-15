@@ -432,7 +432,26 @@ y buscando sólo `{|` se perdían enteras. Leyendo las dos, el árbitro pasó de
 **19 torneos a 113**: 91 cierran perfecto y 22 tienen algo que no.
 
 Que 91 temporadas cierren al gol contra una tabla que escribió otra mano es la
-corroboración más fuerte que tiene el dataset. Va como **aviso**, no como error: lo que denuncia
+corroboración más fuerte que tiene el dataset.
+
+#### Localizar no es arbitrar
+
+De los 22 que no cierran, los deltas por club **localizan** el partido: si a uno le
+sobra un gol a favor y a otro le sobra uno en contra, el error está entre esos dos.
+Y en algunos casos hay **un único** ajuste de un gol que hace cerrar el torneo
+entero, lo que parece una prueba.
+
+No lo es. Se probaron los dos casos con solución única contra la prensa, y
+**acertó uno solo**:
+
+| caso | ajuste único | lo que dicen las fuentes |
+|---|---|---|
+| Federal A 2019-20 | San Martín (F) 2-0 → **3-0** Unión (S) | 3-0, confirmado — **corregido** |
+| Primera C 2026 | Centro Español 2-3 → 1-2 Juventud Unida | **2-3**, o sea que Wikipedia estaba bien |
+
+En el segundo la equivocada era la tabla, igual que con Platense. Así que la
+aritmética dice *dónde* mirar, no *quién* tiene razón: para eso hace falta salir a
+buscar afuera, partido por partido. Va como **aviso**, no como error: lo que denuncia
 es una contradicción de la fuente consigo misma.
 
 #### Y encontró un error en la tabla
@@ -456,9 +475,9 @@ Por eso el aviso ahora dice **de qué lado** está el problema: si el club desvi
 está solo, acusa a la tabla; si hay más de uno, deja abierta la posibilidad de un
 partido mal leído.
 
-### Las seis correcciones a mano
+### Las siete correcciones a mano
 
-Hay **seis** filas del dataset que no dicen lo que dice Wikipedia, y viven en
+Hay **siete** filas del dataset que no dicen lo que dice Wikipedia, y viven en
 [`fad/correcciones.py`](fad/correcciones.py) con su evidencia escrita. Las cinco
 salen de que **la fuente se contradice sola**.
 

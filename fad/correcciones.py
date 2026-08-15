@@ -155,6 +155,19 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 MARCADORES: tuple[Marcador, ...] = (
     Marcador(
+        pagina="Torneo Federal A 2019-20",
+        jornada="Fecha 14", local="San Martín (F)", visita="Unión (S)",
+        dice=(2, 0), debe=(3, 0),
+        porque=(
+            "La tabla de posiciones de la propia pagina le pone a San Martin (F) un "
+            "gol a favor mas y a Union (S) uno en contra mas de los que dan sus "
+            "partidos, y el unico ajuste de un gol que hace cerrar el torneo entero "
+            "es este. Como la tabla sola no alcanza -- se equivoca, ver Platense en "
+            "la B Nacional 2009-10 --, se busco afuera: varias fuentes dan "
+            "San Martin (Formosa) 3-0 Union (Sunchales) el 1 de diciembre de 2019, "
+            "misma fecha que tiene el partido aca, incluido un video de los goles."),
+    ),
+    Marcador(
         pagina="Campeonato de Primera B 2018-19 (Argentina)",
         jornada="Fecha 15", local="San Telmo", visita="UAI Urquiza",
         dice=(1, 0), debe=(0, 1),
