@@ -82,7 +82,7 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 la atribución viaja con el dato.
 
 **[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en **1 520 filas de 35 057** (4,4 %): la **fecha del calendario** de partidos
+sólo en **1 520 filas de 35 478** (4,3 %): la **fecha del calendario** de partidos
 que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
 entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
 nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
@@ -393,7 +393,7 @@ El cruce quedó como chequeo permanente en
 [`fad/posiciones.py`](fad/posiciones.py), y **se calla cuando no puede opinar**: una
 fila que no cierra consigo misma (`GF − GC ≠ DIF`) no desmiente a nadie, y si la
 cantidad de partidos jugados no coincide, las dos partes no están hablando del
-mismo conjunto. Sobre los 121 torneos, 19 publican una tabla usable: 10 cierran
+mismo conjunto. Sobre los 122 torneos, 19 publican una tabla usable: 10 cierran
 perfecto y 9 tienen algo que no. Va como **aviso**, no como error: lo que denuncia
 es una contradicción de la fuente consigo misma.
 
