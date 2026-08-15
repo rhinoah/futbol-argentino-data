@@ -749,13 +749,20 @@ def _es_tabla_de_partidos(tabla: str) -> bool:
     """Si el ENCABEZADO de la tabla declara las columnas de un partido.
 
     Es la guarda que hace seguro leer tablas fuera de la seccion "Resultados".
-    Sin ella -- corriendo el parser sobre la pagina entera -- se miden 34 paginas
-    del catalogo alteradas y 117 filas nuevas de calidad mixta, y una de ellas es
-    un partido que NO existe: en la caja de detalle de un partido, la lista de
-    goleadores trae `44'|| Elías Torres|| 2 - 0` y el encabezado de las tarjetas
-    dice `!colspan=3|Amonestaciones`, asi que salia
-    `Talleres (RdE) 2-1 Atlético de Rafaela` con zona "Amonestaciones".
-    Una lista de goleadores no declara `Local | Resultado | Visitante`.
+
+    MEDIDO, y no es lo que yo creia. Corriendo el parser sobre la pagina entera
+    entran 117 filas nuevas; con la guarda, 108. Las 9 de diferencia NO son
+    partidos inventados: son partidos reales con el nombre roto -- uno queda como
+    `San Martín (F) {{Tabla de posiciones`, con el nombre comiendose el arranque
+    de una plantilla -- o sin fecha, o sin canonizar. Un club asi entra al padron
+    como desconocido y frena el build; nueve filas rotas alcanzan para justificar
+    la guarda, sin necesidad de inventar que se inventan partidos.
+
+    Lo otro que evita, y que no se cuenta en esas nueve, es el ARRASTRE de
+    etiquetas: parseando la pagina como un solo bloque, la zona se hereda de una
+    tabla a la siguiente, asi que un partido real de la definicion del descenso
+    salia con zona "Amonestaciones" -- el ultimo encabezado que el parser habia
+    visto, en la caja de goleadores. El partido existe; la etiqueta no.
     """
     columnas = set()
     for linea in re.findall(r"^!(.+)$", tabla, re.M):

@@ -248,6 +248,52 @@ celda, porque la tanda vive dentro de una plantilla y limpiar la borra: leyéndo
 después, el partido queda 1-1 y la definición por penales desaparece sin que nada
 falle.
 
+**5b. Una `s` que borraba 284 partidos.** `{{Partido}}` es la plantilla de un
+partido de eliminación, y el parser la buscaba pidiendo `Partido` seguido de
+`\s*\n`. Resulta que **`{{Partidos}}`, en plural, es una redirección a la misma
+plantilla**: se renderiza igual y trae los mismos parámetros. Pero la `s` no es
+whitespace, así que el regex no la veía. **27 páginas del catálogo la usan**, y en
+24 de ellas el singular no aparece ni una vez: tenían la fase eliminatoria
+completa afuera del dataset, sin un solo aviso.
+
+El cierre tenía el mismo problema de fondo. Pidiendo `\n\s*\}\}` se exige que el
+`}}` esté solo en su renglón, cuando lo más común es cerrarla pegada al último
+parámetro (`|árbitro=[[Fulano]]}}`). Cuando cierra así, el `.*?` **sigue de largo y
+se come las plantillas del medio** — y como los campos van a un diccionario, el
+último `local` pisa al primero. En la Primera B 2021 tres plantillas colapsaban en
+una: los equipos y el marcador de la final, los penales de la semifinal, el rótulo
+de ronda de la primera. Un partido que nunca se jugó, con todos los campos llenos.
+Ahora el cierre se cuenta por balance de llaves.
+
+**5c. Una ronda no es una zona.** La tabla de una fecha y la de una llave se
+escriben igual; el encabezado es lo único que las distingue: `!colspan=12|Fecha 7`
+contra `!colspan=12|Desempate`. El parser tomaba cualquiera como **zona**, así que
+las rondas terminaban en la columna `group` —que promete una zona y decía
+`Octavos de final`— y los partidos quedaban como fase de grupos.
+
+Eso dejó a la **Primera B 2017-18 entera afuera**, con un cartel en el catálogo
+que culpaba a la numeración de fechas y era falso. Lo que la frenaba era **un**
+partido: el desempate que definió el campeonato, contra 306 sin zona. Son 317
+filas reetiquetadas y 317 partidos que entran.
+
+**5d. Los partidos que no cuelgan de «Resultados».** Los reducidos, las
+promociones y las finales de ascenso viven bajo títulos propios, y la búsqueda por
+sección nunca se los pasaba al parser: **109 partidos** con fecha y estadio que se
+perdían enteros.
+
+Leerlos exige una guarda: **la tabla tiene que declararse a sí misma**, o sea traer
+`Local | Resultado | Visitante` en su encabezado. Lo que evita, medido: sin la
+guarda entran 117 filas y con ella 108. Las 9 de diferencia **no son partidos
+inventados** —eso lo afirmé primero y era falso— sino partidos reales con el
+nombre roto: uno sale como `San Martín (F) {{Tabla de posiciones`, comiéndose el
+arranque de una plantilla. Un club así entra al padrón como desconocido y frena el
+build.
+
+Y evita el **arrastre de etiquetas**: parseando la página como un solo bloque, la
+zona se hereda de una tabla a la siguiente, así que el partido por el tercer
+descenso de la Primera Nacional 2024 salía con `zona='Amonestaciones'` —el último
+encabezado visto, en la caja de goleadores—. El partido existe; la etiqueta no.
+
 **6. Una página puede traer varios torneos.** Bajar al ascenso rompió el supuesto
 más silencioso de todos: que hay **una** sección "Resultados" por página.
 
