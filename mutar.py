@@ -245,9 +245,21 @@ MUTANTES = [
      "    celda = _CELDA_RESULTADO.search(bloque)",
      "    celda = re.match(r'(.*)', bloque, re.S)"),
 
+    ("fad/validar.py", "no chequear que un club juegue en una sola zona",
+     "            una_zona_por_club, localias_repartidas, cadena_de_llaves]",
+     "            localias_repartidas, cadena_de_llaves]"),
+
+    ("fad/validar.py", "contar las fechas interzonales como si fueran una zona",
+     '        if p.fase != "zonas" or not _ES_ZONA.match(p.zona or ""):',
+     '        if p.fase != "zonas" or not (p.zona or ""):'),
+
+    ("fad/validar.py", "mezclar las zonas de llaves distintas",
+     "            donde.setdefault((p.llave, club), Counter())[p.zona] += 1",
+     "            donde.setdefault(((), club), Counter())[p.zona] += 1"),
+
     ("fad/validar.py", "no chequear que la localia se reparta",
-     "            localias_repartidas, cadena_de_llaves]",
-     "            cadena_de_llaves]"),
+     "            una_zona_por_club, localias_repartidas, cadena_de_llaves]",
+     "            una_zona_por_club, cadena_de_llaves]"),
 
     ("fad/validar.py", "mirar la localia sin separar por zona",
      "        k = (p.llave, p.zona, tuple(sorted((p.local, p.visita))))",

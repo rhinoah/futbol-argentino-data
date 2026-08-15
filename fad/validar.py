@@ -253,6 +253,50 @@ def una_vez_por_jornada(ps: list[Partido]) -> list[Aviso]:
     return avisos
 
 
+_ES_ZONA = re.compile(r"(?i)^(zona|grupo)\b")
+
+
+def una_zona_por_club(ps: list[Partido]) -> list[Aviso]:
+    """Un club juega en UNA sola zona de cada fase.
+
+    Es la definicion de zona: los equipos se reparten y cada uno juega contra los
+    de la suya. Que un club aparezca en dos no es raro, es imposible.
+
+    ES EL UNICO CHEQUEO QUE VE UN NOMBRE VALIDO PERO EQUIVOCADO. Todos los demas
+    controlan que los clubes esten en el padron, y contra este error no sirven:
+    en el Torneo Argentino A 2010-11 hay cuatro partidos de Union de Mar del
+    Plata escritos "Union (S)", que es Union de SUNCHALES -- un club real, con su
+    articulo enlazado, que ademas jugaba ese mismo torneo en otra zona. Pasa por
+    el padron sin una queja, y los cuatro partidos quedan asignados al club
+    equivocado.
+
+    Lo delata el reparto: a Union (MdP) le quedan 24 partidos en su zona cuando
+    los demas tienen 27 o 28, y a Union (S) le sobran exactamente esos cuatro en
+    una zona que no es la suya.
+
+    SOLO cuenta las zonas de verdad, las que se llaman "Zona X" o "Grupo X".
+    "Interzonal" es una fecha CRUZADA a proposito -- Primera juega una por rueda
+    contra el clasico de la otra zona -- y contarla daba 344 avisos falsos, uno
+    por cada club de cada torneo con interzonales.
+    """
+    donde: dict[tuple[str, str], Counter] = {}
+    for p in ps:
+        if p.fase != "zonas" or not _ES_ZONA.match(p.zona or ""):
+            continue
+        for club in (p.local, p.visita):
+            donde.setdefault((p.llave, club), Counter())[p.zona] += 1
+
+    avisos = []
+    for (llave, club), zonas in sorted(donde.items()):
+        if len(zonas) > 1:
+            donde_dice = " ".join(f"{z} ({n})" for z, n in sorted(zonas.items()))
+            avisos.append(Aviso(f"{club} juega en dos zonas de la misma fase",
+                                f"{llave + ': ' if llave else ''}{donde_dice}. "
+                                f"La zona con menos partidos suele ser el club "
+                                f"equivocado, escrito con un nombre que existe"))
+    return avisos
+
+
 def localias_repartidas(ps: list[Partido]) -> list[Aviso]:
     """En un todos-contra-todos, un par que se cruza N veces (N par) juega N/2 de
     local cada uno.
@@ -458,7 +502,7 @@ CHEQUEOS = [campos_completos, fechas_presentes, nombres_en_el_padron,
             penales_solo_en_empates, sin_duplicados,
             nadie_juega_contra_si_mismo, todos_tienen_zona, zonas_completas,
             una_vez_por_jornada, jornadas_sin_huecos, anios_bien_asignados,
-            localias_repartidas, cadena_de_llaves]
+            una_zona_por_club, localias_repartidas, cadena_de_llaves]
 
 
 def revisar(ps: list[Partido]) -> list[Aviso]:

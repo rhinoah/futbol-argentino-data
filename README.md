@@ -478,6 +478,7 @@ automático no es tirar una excepción, es escribir un CSV plausible y equivocad
 | **el que juega una ronda ganó la anterior** | cualquier cosa, en la eliminación |
 | zona = todos contra todos completo | partidos faltantes (aviso, no error) |
 | **la localía se reparte entre los dos cruces** | una localía al revés, o un club escrito de dos formas |
+| **cada club juega en una sola zona** | un club escrito con el nombre de OTRO club que existe |
 | **los goles suman lo que dice la tabla de posiciones** | un marcador mal leído, o mal publicado (aviso, no error) |
 
 Los dos en negrita son los fuertes, y los dos son **autocontenidos**: no

@@ -461,3 +461,46 @@ def test_un_partido_unico_con_penales_sigue_siendo_grave():
     ps = [pata("Boca Juniors", "River Plate", 2, 0, 4, 2)]
     avisos = validar.penales_solo_en_empates(ps)
     assert len(avisos) == 1 and avisos[0].grave
+
+
+# --------------------------------------------------------------------------
+# un club juega en una sola zona
+# --------------------------------------------------------------------------
+def test_un_club_en_dos_zonas_es_imposible():
+    """El unico chequeo que ve un nombre VALIDO pero equivocado. En el Argentino A
+    2010-11 hay cuatro partidos de Union de Mar del Plata escritos "Union (S)",
+    que es Union de Sunchales: un club real, enlazado, que jugaba ese mismo torneo
+    en otra zona. El padron no puede verlo; el reparto de zonas si."""
+    ps = ([zona("Boca Juniors", "River Plate", z="Zona A") for _ in range(3)]
+          + [zona("Boca Juniors", "Racing Club", z="Zona B")])
+    avisos = validar.una_zona_por_club(ps)
+    assert any("Boca Juniors" in a.que for a in avisos)
+    assert any("Zona A (3)" in a.detalle and "Zona B (1)" in a.detalle for a in avisos)
+
+
+def test_un_club_en_una_sola_zona_no_dice_nada():
+    ps = [zona("Boca Juniors", "River Plate", z="Zona A"),
+          zona("Racing Club", "Huracán", z="Zona B")]
+    assert validar.una_zona_por_club(ps) == []
+
+
+def test_una_fecha_interzonal_no_cuenta():
+    """Primera juega una fecha CRUZADA por rueda, contra el clasico de la otra
+    zona. Contandola, cada club de cada torneo con interzonales daba un aviso:
+    fueron 344 falsos."""
+    ps = [zona("Boca Juniors", "River Plate", z="Zona A"),
+          zona("Boca Juniors", "Racing Club", z="Interzonal")]
+    assert validar.una_zona_por_club(ps) == []
+
+
+def test_las_zonas_de_llaves_distintas_no_se_mezclan():
+    """La Copa de la Liga 2020 tuvo Fase Campeon y Fase Complementacion, cada una
+    con su Grupo A y los mismos equipos en las dos."""
+    a = zona("Boca Juniors", "River Plate", z="Grupo A")
+    b = zona("Boca Juniors", "River Plate", z="Grupo B")
+    a.llave, b.llave = "Fase Campeón", "Fase Complementación"
+    assert validar.una_zona_por_club([a, b]) == []
+
+
+def test_esta_en_la_lista_de_chequeos_tambien():
+    assert validar.una_zona_por_club in validar.CHEQUEOS
