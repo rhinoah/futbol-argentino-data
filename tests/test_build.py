@@ -490,3 +490,86 @@ def test_el_build_cruza_contra_la_tabla_de_posiciones():
     tabla_avisos = [a for a in avisos if "tabla de posiciones" in a.que]
     assert len(tabla_avisos) == 1
     assert not tabla_avisos[0].grave, "es un error de la fuente, no frena el build"
+
+
+# --------------------------------------------------------------------------
+# los partidos sin fecha, guardados aparte
+# --------------------------------------------------------------------------
+SIN_FECHA = Torneo("Anexo:Prueba", "Prueba", 2008, cerrado=False, sin_fecha=True)
+
+
+def _tres_columnas() -> str:
+    """Una pagina como las de Primera C 2008-2011: sin columna de fecha."""
+    return """
+== Resultados ==
+{|class="wikitable"
+!colspan=3|Fecha 1
+|-
+!Equipo Local
+!Resultado
+!Equipo Visitante
+|-align=center
+|Boca Juniors
+|2 - 1
+|River Plate
+|}
+"""
+
+
+def test_un_torneo_sin_fecha_conserva_sus_partidos():
+    """El dataset principal descarta los partidos sin fecha, y esta bien: el
+    esquema promete una. Pero que falte la fecha no es lo mismo que no tener el
+    partido, y tirar mil partidos reales por un campo seria peor."""
+    ps, avisos = build.procesar(_tres_columnas(), SIN_FECHA)
+    assert len(ps) == 1
+    assert ps[0].fecha == "" and ps[0].local == "Boca Juniors"
+    assert not any(a.grave for a in avisos)
+    assert not any("sin fecha" in a.que for a in avisos), \
+        "en esta carpeta la fecha vacia es el estado esperado, no una falla"
+
+
+def test_sin_la_marca_el_mismo_partido_se_descarta():
+    """La marca va en el catalogo y no se adivina: en cualquier otro torneo, un
+    partido sin fecha sigue siendo algo que hay que mirar."""
+    normal = Torneo("Anexo:Prueba", "Prueba", 2008, cerrado=False)
+    ps, avisos = build.procesar(_tres_columnas(), normal)
+    assert ps == []
+    assert any("sin fecha" in a.que for a in avisos)
+
+
+def test_van_a_su_propia_carpeta(monkeypatch, tmp_path):
+    """Y NO al dataset principal, que no puede tener filas sin fecha."""
+    salida = tmp_path / "data"
+    monkeypatch.setattr(build.torneos, "TODOS", [SIN_FECHA])
+    monkeypatch.setattr(build.wiki, "wikitexto", lambda *a, **k: _tres_columnas())
+    monkeypatch.setattr(build, "SALIDA", salida)
+
+    assert build.main([]) == 0
+    assert build.dataset.leer_carpeta(salida) == [], "no puede haber entrado al principal"
+    guardados = build.dataset.leer_carpeta(build.sin_fecha_en(salida))
+    assert len(guardados) == 1 and guardados[0]["date"] == ""
+    assert guardados[0]["home_team"] == "Boca Juniors"
+
+
+def test_no_se_vuelven_a_parsear(monkeypatch, tmp_path):
+    """El punto de guardarlos: probar una fuente de fechas no obliga a releer
+    tres temporadas enteras desde Wikipedia."""
+    salida = tmp_path / "data"
+    bajadas = []
+    cerrado = Torneo("Anexo:Prueba", "Prueba", 2008, sin_fecha=True)
+    monkeypatch.setattr(build.torneos, "TODOS", [cerrado])
+    monkeypatch.setattr(build.wiki, "wikitexto",
+                        lambda *a, **k: (bajadas.append(1), _tres_columnas())[1])
+    monkeypatch.setattr(build, "SALIDA", salida)
+
+    assert build.main([]) == 0 and len(bajadas) == 1
+    assert build.main([]) == 0 and len(bajadas) == 1, "lo volvio a bajar"
+    assert len(build.dataset.leer_carpeta(build.sin_fecha_en(salida))) == 1
+
+
+def test_el_catalogo_marca_solo_las_que_no_tienen_fecha():
+    from fad import torneos
+    marcados = [t for t in torneos.TODOS if t.sin_fecha]
+    assert len(marcados) == 3
+    assert all(t.torneo == "Primera C" for t in marcados)
+    assert {t.temporada for t in marcados} == {2008, 2009, 2010}

@@ -23,6 +23,16 @@ from fad import (correcciones, dataset, equipos, parser, posiciones, torneos,
                  validar, wiki)
 
 SALIDA = Path(__file__).resolve().parent / "data"   # una carpeta: un CSV por temporada
+# Los partidos que la fuente publica SIN fecha. Van aparte y no al dataset
+# principal, que promete una fecha en cada fila. Que falte la fecha no es lo
+# mismo que no tener el partido: el resto del dato -- equipos, marcador, jornada,
+# estadio -- esta completo y verificado, y guardarlo evita volver a parsear tres
+# temporadas cada vez que aparezca un candidato a fuente de fechas.
+def sin_fecha_en(salida: Path) -> Path:
+    """La subcarpeta de los sin fecha. Se deriva de `SALIDA` y NO se guarda en una
+    constante: si no, un test que cambia `SALIDA` sigue leyendo la carpeta real y
+    se lleva los partidos de verdad adentro de su carpeta temporal."""
+    return salida / "sin-fecha"
 
 
 def _borrar_jornadas_falsas(ps) -> int:
@@ -197,6 +207,10 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # sacarla, o cambio de otra forma y esta tocando lo que no es. Las dos cosas
     # se miran antes de escribir nada.
     avisos += [validar.Aviso("correccion que no aplica", d) for d in dudas]
+    # Un torneo marcado `sin_fecha` entra entero: sus partidos van a la carpeta
+    # aparte, donde la fecha vacia es el estado esperado y no una falla.
+    if t.sin_fecha:
+        return ps, [a for a in avisos if "sin fecha" not in a.que]
     # Los sin fecha se van DESPUES de validar, para que el aviso alcance a
     # nombrarlos: el esquema promete una fecha en cada fila.
     return [p for p in ps if p.fecha], avisos
@@ -214,20 +228,22 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
 
     anterior = dataset.leer_carpeta(SALIDA)
+    sf_dir = sin_fecha_en(SALIDA)
+    anterior_sf = dataset.leer_carpeta(sf_dir) if sf_dir.exists() else []
     # Lo ya jugado se toma del CSV, no se vuelve a bajar. Ver `Torneo.cerrado`.
     # La clave es `source` -- la URL de la pagina -- y no (torneo, temporada).
     # Varias entradas del catalogo comparten torneo y temporada: la 2016 y la
     # 2016-17 son las dos "Primera Division 2016". Agrupando por ahi, cada una se
     # llevaba las filas de las DOS y el dataset crecia 3284 partidos de la nada.
     guardado: dict[str, list] = {}
-    for f in anterior:
+    for f in anterior + anterior_sf:
         guardado.setdefault(dataset.pagina_de(f), []).append(f)
 
-    filas, avisos, fallo, reusados = [], [], False, 0
+    filas, sin_fecha, avisos, fallo, reusados = [], [], [], False, 0
     for t in torneos.TODOS:
         listas = guardado.get(t.url)
         if t.cerrado and not args.rehacer and listas is not None:
-            filas += listas
+            (sin_fecha if t.sin_fecha else filas).extend(listas)
             reusados += 1
             continue
         try:
@@ -243,8 +259,8 @@ def main(argv=None) -> int:
         etiqueta = t.pagina.split(":", 1)[-1]      # saca el "Anexo:" si lo tiene
         print(f"  {etiqueta:<44} {len(ps):>4} partidos"
               f"{'' if not propios else f'   ({len(propios)} avisos, {graves} graves)'}")
-        filas += [dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral)
-                  for p in ps]
+        (sin_fecha if t.sin_fecha else filas).extend(
+            dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps)
 
     if reusados:
         print(f"\n  ({reusados} torneos terminados salieron del CSV, sin bajarlos)")
@@ -259,7 +275,8 @@ def main(argv=None) -> int:
 
     # Ultima guarda, y la que importa cuando esto corre solo: que no se achique.
     # Un chequeo de `validar` mira los partidos que HAY; este mira los que ya no.
-    perdidos = dataset.regresiones(filas, anterior)
+    perdidos = (dataset.regresiones(filas, anterior)
+                + dataset.regresiones(sin_fecha, anterior_sf))
     if perdidos and not args.forzar:
         print("\nEl dataset se ACHICO respecto del que ya estaba:", file=sys.stderr)
         for p in perdidos:
@@ -275,6 +292,9 @@ def main(argv=None) -> int:
         return 0
 
     cambiados = dataset.escribir_por_temporada(filas, SALIDA)
+    if sin_fecha:
+        cambiados |= {f"sin-fecha/{k}": v
+                      for k, v in dataset.escribir_por_temporada(sin_fecha, sf_dir).items()}
     print(f"\n{len(filas)} partidos en {SALIDA.name}/")
     if cambiados:
         for archivo, n in sorted(cambiados.items()):

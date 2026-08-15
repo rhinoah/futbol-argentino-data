@@ -23,6 +23,11 @@ Torneo Federal A, y diez ediciones de la Copa Argentina. **196 clubes**, 122
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
+Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **1 154 partidos que están
+completos salvo por el día en que se jugaron** — tres temporadas de Primera C que
+la fuente publica sin fecha. Van separados justamente para que el dataset
+principal pueda seguir prometiendo una fecha en cada fila.
+
 ## Por qué
 
 Para selecciones existe

@@ -38,6 +38,11 @@ class Torneo:
     # esos partidos; todo lo demas -- equipos, marcador, jornada -- sigue
     # saliendo de Wikipedia. Los ids salen del selector del propio sitio.
     wf: tuple[str, str] | None = None
+    # La pagina trae los partidos completos y NO trae las fechas. Sus filas van a
+    # `data/sin-fecha/` en vez de al dataset principal, que promete una fecha en
+    # cada fila. Ver el LEEME de esa carpeta: el partido esta, lo que falta es
+    # cuando se jugo, y son dos cosas distintas.
+    sin_fecha: bool = False
 
     @property
     def url(self) -> str:
@@ -238,6 +243,18 @@ ASCENSO_HISTORICO = [
     Torneo('Campeonato de Primera B 2021 (Argentina)', 'Primera B', 2021),
     Torneo('Campeonato de Primera B 2022 (Argentina)', 'Primera B', 2022),
     Torneo('Campeonato de Primera B 2023 (Argentina)', 'Primera B', 2023),
+
+    # Sin fecha en la fuente: sus tablas son de tres columnas
+    # Local | Resultado | Visitante. Los partidos estan completos y verificados
+    # -- los goles coinciden con la ficha de cada pagina --, asi que se guardan en
+    # `data/sin-fecha/` a la espera de una fuente de fechas. worldfootball no
+    # sirve: su selector no lista Primera C para Argentina.
+    Torneo('Campeonato de Primera C 2008-09 (Argentina)', 'Primera C', 2008,
+           anio_fin=2009, sin_fecha=True),
+    Torneo('Campeonato de Primera C 2009-10 (Argentina)', 'Primera C', 2009,
+           anio_fin=2010, sin_fecha=True),
+    Torneo('Campeonato de Primera C 2010-11 (Argentina)', 'Primera C', 2010,
+           anio_fin=2011, sin_fecha=True),
 
     Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),

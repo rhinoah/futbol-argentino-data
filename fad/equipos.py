@@ -146,6 +146,9 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Ciudad de Bolívar"),
     Equipo("Claypole"),
     Equipo("Deportivo Armenio", alias=("Dep. Armenio",)),
+    # Primera C lo escribe de TRES formas en dos temporadas: con acento agudo,
+    # sin acento, y con acento grave -- "Bolìvar", que en castellano no existe.
+    Equipo("Barracas Bolívar", alias=("Barracas Bolivar", "Barracas Bolìvar")),
     Equipo("Deportivo Camioneros"),
     Equipo("Deportivo Madryn"),
     Equipo("Deportivo Maipú"),
@@ -156,7 +159,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Deportivo Morón", alias=("Deporitvo Morón", "Dep. Morón",)),   # typo en la fuente
     Equipo("Deportivo Rincón"),
     Equipo("Estudiantes (BA)"),
-    Equipo("Ferrocarril Midland", alias=("Midland", "Midland",)),
+    Equipo("Ferrocarril Midland", alias=("Midland", "FC Midland")),
     Equipo("Gimnasia y Esgrima (C)"),
     # La B Nacional 2007-2011 lo escribe "Gimnasia (J)", sin enlace. Lo
     # confirma la segunda fuente: el id te930 es "Gimnasia de Jujuy".
@@ -334,7 +337,9 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Sportivo Estudiantes (SL)'),
     Equipo("Sportivo Italiano", alias=("Deportivo Italiano",)),
     Equipo('Sportivo Las Parejas'),
-    Equipo('Talleres (RdE)'),
+    # Remedios de Escalada. La Primera C 2009-10 lo abrevia "(RE)" y el resto del
+    # catalogo "(RdE)"; es el mismo club y el mismo articulo.
+    Equipo('Talleres (RdE)', alias=("Talleres (RE)",)),
     Equipo('Tucumán Central'),
     Equipo('UAI Urquiza'),
     Equipo("Unión (S)", alias=("Unión (Sunchales)",)),

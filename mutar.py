@@ -62,6 +62,22 @@ MUTANTES = [
      "            if (p.jornada, p.local, p.visita) not in (arbitrados or ()):",
      "            if False:"),
 
+    ("build.py", 'descartar igual los partidos de un torneo sin fecha',
+     '    if t.sin_fecha:\n        return ps, [a for a in avisos if "sin fecha" not in a.que]',
+     '    if False:\n        return ps, avisos'),
+
+    ("build.py", 'meter los partidos sin fecha en el dataset principal',
+     '        (sin_fecha if t.sin_fecha else filas).extend(\n            dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps)',
+     '        filas.extend(\n            dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps)'),
+
+    ("build.py", 'reusar los sin fecha desde el dataset principal',
+     '            (sin_fecha if t.sin_fecha else filas).extend(listas)',
+     '            filas.extend(listas)'),
+
+    ("build.py", 'guardar la carpeta sin-fecha en una constante',
+     '    sf_dir = sin_fecha_en(SALIDA)',
+     '    sf_dir = Path(__file__).resolve().parent / "data" / "sin-fecha"'),
+
     ("build.py", "no cruzar contra la tabla de posiciones",
      "               for d in posiciones.contrastar(ps, texto)]",
      "               for d in []]"),
