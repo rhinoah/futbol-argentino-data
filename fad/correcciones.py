@@ -295,6 +295,58 @@ MARCADORES: tuple[Marcador, ...] = (
 )
 
 
+@dataclass(frozen=True)
+class Cancha:
+    """Un partido al que la pagina le pone el estadio de otro club.
+
+    Es la tercera forma de contradecirse que tiene la fuente, y la encontro
+    `dataset.casas_compartidas` buscando otra cosa: fue a buscar clubes mal
+    atribuidos y aparecieron partidos bien atribuidos con la cancha del vecino.
+
+    El testigo es la MISMA PAGINA. Las dos que hay salen de su tabla de
+    participantes, que dice en que estadio juega cada club -- o sea que la
+    pagina se contradice sola, sin traer nada de afuera. Cuando no se resuelve
+    asi, no entra: el aviso queda abierto y listo.
+    """
+    pagina: str
+    jornada: str
+    local: str
+    visita: str
+    dice: str
+    debe: str
+    porque: str
+
+
+CANCHAS: tuple[Cancha, ...] = (
+    Cancha(
+        pagina="Campeonato de Primera Nacional 2022",
+        jornada="Fecha 36", local="Gimnasia y Esgrima (J)", visita="San Martín (T)",
+        dice="Víctor Antonio Legrotaglie", debe="23 de Agosto",
+        porque=(
+            "El Legrotaglie es de Gimnasia y Esgrima de MENDOZA -- la tabla de "
+            "participantes de la misma pagina lo dice, y las otras diecinueve veces "
+            "que ese estadio aparece en el fixture el local es el de Mendoza. "
+            "Que el equivocado sea el estadio y no el club lo decide el fixture: "
+            "San Martin (T) ya habia jugado contra el de Mendoza en la Fecha 29, y "
+            "en un torneo de una sola rueda no se cruzan dos veces. Asi que el de "
+            "la Fecha 36 es el de Jujuy, en su cancha, el 23 de Agosto."),
+    ),
+    Cancha(
+        pagina="Torneo Federal A 2025",
+        jornada="Partidos de vuelta", local="Sarmiento (LB)", visita="San Martín (SM)",
+        dice="Centenario", debe="Ciudad de La Banda",
+        porque=(
+            "El Centenario es de Sarmiento de RESISTENCIA. La tabla de participantes "
+            "de la misma pagina pone a los dos clubes con sus canchas: Sarmiento de "
+            "La Banda en el Ciudad de La Banda y Sarmiento de Resistencia en el "
+            "Estadio Centenario (Resistencia). "
+            "Que el local sea Sarmiento (LB) esta bien: la ida fue San Martin (SM) "
+            "0-0 Sarmiento (LB) en el Libertador General San Martin, asi que la "
+            "vuelta le toca de local, y el cuadro de la llave lo confirma."),
+    ),
+)
+
+
 def arbitrados(pagina: str) -> set[tuple[str, str, str]]:
     """(jornada, local, visitante) de los partidos ya arbitrados de `pagina`.
 
@@ -348,5 +400,20 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
                           f"aplica: si la fuente se corrigio, sacalo de fad/correcciones.py")
             continue
         candidatos[0].goles_local, candidatos[0].goles_visita = m.debe
+        aplicadas += 1
+
+    for c in CANCHAS:
+        if c.pagina != pagina:
+            continue
+        candidatos = [p for p in ps
+                      if p.jornada == c.jornada and p.local == c.local
+                      and p.visita == c.visita and p.estadio == c.dice]
+        if len(candidatos) != 1:
+            avisos.append(f"la cancha corregida de {c.jornada} ({c.local} vs "
+                          f"{c.visita}) engancha con {len(candidatos)} partidos y no "
+                          f"se aplica: si la fuente se corrigio, sacala de "
+                          f"fad/correcciones.py")
+            continue
+        candidatos[0].estadio = c.debe
         aplicadas += 1
     return aplicadas, avisos

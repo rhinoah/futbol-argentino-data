@@ -872,12 +872,25 @@ Bajando el umbral a un solo partido aparecieron cuatro casos más, y uno era rea
 |---|---|
 | **Ferro Carril Oeste** en el Federal A 2016 | la página se olvida el `(GP)` en **una** fila de diez, y el partido se juega en El Coloso del Barrio Talleres — el estadio que ella misma declara de Ferro de General Pico. El de Caballito jugaba la Primera Nacional ese año. **Corregido.** |
 
-Los otros tres son alquileres plausibles. Y hay un cuarto que resultó ser un error de
-Wikipedia **en la otra columna**: la Primera Nacional 2022 pone a Gimnasia y Esgrima
-(J) jugando en el Legrotaglie, que es de Gimnasia de Mendoza. Ahí el fixture arbitra
-—San Martín (T) ya había jugado con el de Mendoza en la Fecha 29, así que el de la
-Fecha 36 es el de Jujuy— y lo que está mal es el estadio, no el club. Queda dicho, no
-corregido: este repo no inventa canchas.
+### Los otros avisos, y una tercera forma de contradecirse
+
+Los tres restantes salieron distintos, y dos de ellos revelaron algo que no
+estábamos buscando: **partidos bien atribuidos con la cancha del vecino**.
+
+| | qué resultó ser |
+|---|---|
+| **Gimnasia y Esgrima (J)** en el Legrotaglie, Primera Nacional 2022 | el Legrotaglie es de Gimnasia de **Mendoza**. Y el equivocado es el estadio, no el club: San Martín (T) ya había jugado contra el de Mendoza en la Fecha 29, y en un torneo de una sola rueda no se cruzan dos veces. **Corregido a 23 de Agosto.** |
+| **Sarmiento (LB)** en el Centenario, Federal A 2025 | el Centenario es de Sarmiento de **Resistencia**; la tabla de participantes de la misma página pone a La Banda en el Ciudad de La Banda. El local sí es Sarmiento (LB) — la ida fue de visitante y el cuadro de la llave lo confirma. **Corregido.** |
+| **Huracán 4-1 Atlético Tucumán** en Malvinas Argentinas | no es un error: es el **Desempate por el ascenso** de 2014, en cancha neutral de Mendoza y ganado en tiempo suplementario. El dato está bien. |
+
+Así que `correcciones.py` aprendió una tercera cosa. Antes sabía arreglar **nombres**
+(un club escrito mal) y **marcadores** (un gol de más); ahora también **canchas**. Con
+la misma condición de siempre, y en estos dos casos se cumple de la forma más limpia:
+el testigo es la propia página, que en su tabla de participantes dice en qué estadio
+juega cada club. La fuente se contradice sola y no hay que traer nada de afuera.
+
+Cuando *no* se resuelve así, no entra. El aviso queda abierto y listo: este repo no
+inventa canchas.
 
 ### Los otros dos, que miran otra cosa
 
@@ -926,11 +939,11 @@ propiedad que tiene el cruce contra la tabla de posiciones.
 
 ## Tests
 
-483 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+488 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 144 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 145 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

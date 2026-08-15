@@ -124,3 +124,61 @@ def test_un_marcador_arbitrado_se_aplica(monkeypatch):
     ps = [partido("All Boys", "Belgrano", 0, 1, jornada="Fecha 1")]
     n, _ = correcciones.aplicar(ps, "Una Pagina")
     assert n == 1 and (ps[0].goles_local, ps[0].goles_visita) == (1, 0)
+
+
+# --------------------------------------------------------------------------
+# la cancha: la tercera forma que tiene la fuente de contradecirse
+# --------------------------------------------------------------------------
+from fad.correcciones import Cancha
+
+UNA_CANCHA = Cancha(pagina="Una Pagina", jornada="Fecha 36",
+                    local="Gimnasia y Esgrima (J)", visita="San Martín (T)",
+                    dice="Víctor Antonio Legrotaglie", debe="23 de Agosto",
+                    porque="de prueba")
+
+
+def _con_cancha(estadio, jornada="Fecha 36", local="Gimnasia y Esgrima (J)"):
+    p = partido(local, "San Martín (T)", jornada=jornada)
+    p.estadio = estadio
+    return p
+
+
+def test_corrige_la_cancha(monkeypatch):
+    monkeypatch.setattr(correcciones, "CANCHAS", (UNA_CANCHA,))
+    ps = [_con_cancha("Víctor Antonio Legrotaglie")]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert (n, avisos) == (1, [])
+    assert ps[0].estadio == "23 de Agosto"
+
+
+def test_la_cancha_vieja_es_parte_de_la_identificacion(monkeypatch):
+    """Si la pagina ya dice otra cosa, la correccion no se aplica a ciegas: o la
+    arreglaron, o esta parada sobre un partido que no es."""
+    monkeypatch.setattr(correcciones, "CANCHAS", (UNA_CANCHA,))
+    ps = [_con_cancha("23 de Agosto")]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 0 and len(avisos) == 1 and "engancha con 0" in avisos[0]
+
+
+def test_una_cancha_corregida_que_ya_no_engancha_avisa(monkeypatch):
+    """Cuando alguien arregle la pagina, esta entrada queda sin efecto y el build
+    lo dice. Una correccion vieja que nadie saco es una mentira dormida."""
+    monkeypatch.setattr(correcciones, "CANCHAS", (UNA_CANCHA,))
+    n, avisos = correcciones.aplicar([_con_cancha("Otra", jornada="Fecha 1")], "Una Pagina")
+    assert n == 0 and avisos and "sacala de fad/correcciones.py" in avisos[0]
+
+
+def test_no_toca_las_canchas_de_otra_pagina(monkeypatch):
+    monkeypatch.setattr(correcciones, "CANCHAS", (UNA_CANCHA,))
+    ps = [_con_cancha("Víctor Antonio Legrotaglie")]
+    assert correcciones.aplicar(ps, "Otra Pagina") == (0, [])
+    assert ps[0].estadio == "Víctor Antonio Legrotaglie"
+
+
+def test_las_canchas_corregidas_estan_justificadas():
+    """La condicion del modulo: la fuente se contradice sola y se dice donde. Las
+    dos que hay salen de la tabla de participantes de la propia pagina."""
+    for c in correcciones.CANCHAS:
+        assert len(c.porque) > 80, f"{c.jornada} {c.local}: la evidencia es muy flaca"
+        assert "participantes" in c.porque, "hay que nombrar al testigo"
+        assert c.dice != c.debe

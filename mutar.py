@@ -38,6 +38,10 @@ MUTANTES = [
      "    return a == b",
      "    return True"),
 
+    ("fad/correcciones.py", "corregir la cancha sin mirar cual dice la pagina",
+     '                      and p.visita == c.visita and p.estadio == c.dice]',
+     '                      and p.visita == c.visita]'),
+
     ("fad/dataset.py", "avisar por un salto de una sola division (todos los ascensos)",
      '            if max(niveles) - min(niveles) < 2:',
      '            if len(niveles) < 2:'),
