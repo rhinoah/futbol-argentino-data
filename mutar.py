@@ -38,6 +38,19 @@ MUTANTES = [
      "    return a == b",
      "    return True"),
 
+    ("fad/dataset.py", "avisar por cualquier cancha compartida, se parezcan o no",
+     '                if _confundibles(a, b):',
+     '                if True:'),
+
+    ("fad/dataset.py", "contar la cancha neutral como casa del local",
+     '        if str(f.get("neutral", "")).lower() == "true" or not str(f.get("venue", "")).strip():',
+     '        if not str(f.get("venue", "")).strip():'),
+
+    ("fad/dataset.py", "tomar por confundibles dos clubes que comparten una palabra suelta",
+     '    return (x.startswith(y + " ") or y.startswith(x + " ")\n'
+     '            or x.endswith(" " + y) or y.endswith(" " + x))',
+     '    return bool(set(x.split()) & set(y.split()))'),
+
     ("fad/parser.py", "que una tilde de menos parezca un desacuerdo de articulos",
      '        vistos.setdefault(limpiar(visible), {})[equipos.normalizar(d)] = d',
      '        vistos.setdefault(limpiar(visible), {})[d] = d'),

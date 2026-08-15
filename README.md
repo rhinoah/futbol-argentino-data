@@ -17,7 +17,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **36 935 partidos entre febrero de 2004 y hoy** — veintitrés años de
+**Estado:** **36 939 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
 Torneo Federal A, y diez ediciones de la Copa Argentina. **198 clubes**, 128
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
@@ -87,7 +87,7 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 la atribución viaja con el dato.
 
 **[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en **1 520 filas de 36 935** (4,1 %): la **fecha del calendario** de partidos
+sólo en **1 520 filas de 36 939** (4,1 %): la **fecha del calendario** de partidos
 que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
 entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
 nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
@@ -827,18 +827,65 @@ nadie miraba. Los 23 partidos de local de ese «Estudiantes» se jugaron en
 **Ciudad de Caseros**; Estudiantes de La Plata juega en el Ciudad de La Plata, el
 Jorge Luis Hirschi y el Centenario. Cero superposición, sin ambigüedad posible.
 
-Queda anotado como chequeo pendiente: **cruzar `venue` contra el club local**. Un
-club que de golpe juega de local en otra cancha es la misma señal que un club que
-de golpe juega otra categoría — y las dos formas de mentir que aparecieron acá la
-habrían disparado.
+Así que la cancha pasó a ser un chequeo: `dataset.casas_compartidas`.
+
+### El chequeo de la cancha, y las cuatro versiones que no funcionaron
+
+La primera idea era la obvia — *comparar las canchas del club en un torneo contra
+las que usa en el resto* — y se hundió en algo que no tiene arreglo por cadenas:
+**los nombres de los estadios**. «Ciudad de Río Cuarto» y «Antonio Candini» son el
+mismo estadio y no comparten una letra. «Kolbowsky» aparece escrito de tres formas.
+«Coloso Marcelo Bielsa» y «Coloso del Parque» también son uno solo. Cada intento de
+unificarlos —contención de tokens, quitar palabras vacías, atribuir cada cancha a su
+dueño— movía el ruido de lugar: 21 avisos, después 120, después 34.
+
+La cuarta versión falló distinto y es la más instructiva. Comparar un torneo contra
+el resto **no encuentra un error sistemático**: como Racing estaba mal en nueve
+temporadas, «Miguel Sancho» también aparecía en el resto y el chequeo lo daba por
+normal. Un error repetido se vuelve la norma contra la que se lo compara. Estudiantes
+se agarraba sólo porque era una temporada suelta.
+
+Lo que funciona es no comparar canchas entre sí, sino preguntar otra cosa:
+
+> **¿Hay dos clubes de nombre confundible que juegan de local en la misma cancha?**
+
+```
+Ciudad de Caseros   Estudiantes (BA) (248)  vs  Estudiantes (LP) (21)
+Miguel Sancho       Racing Club (119)       vs  Racing (C) (19)
+```
+
+La cancha se compara por **cadena exacta**, a propósito: dos clubes que aparecen bajo
+el mismo string son sospechosos justamente *porque* comparten la grafía, que es lo que
+pasa cuando en realidad son uno. Y la condición de los nombres es lo que lo deja sin
+ruido — compartir estadio es normal (Argentinos y Chacarita, los municipales de
+provincia), compartirlo *además de llamarse igual* no lo es. Medido: **8 avisos sin
+esa condición, 2 con ella, y los 2 eran los dos bugs**.
+
+Corrido contra el dataset como estaba **antes** de los dos arreglos, el chequeo los
+señala a los dos. Contra el de ahora, cero.
+
+### Y encontró un tercero
+
+Bajando el umbral a un solo partido aparecieron cuatro casos más, y uno era real:
+
+| | |
+|---|---|
+| **Ferro Carril Oeste** en el Federal A 2016 | la página se olvida el `(GP)` en **una** fila de diez, y el partido se juega en El Coloso del Barrio Talleres — el estadio que ella misma declara de Ferro de General Pico. El de Caballito jugaba la Primera Nacional ese año. **Corregido.** |
+
+Los otros tres son alquileres plausibles. Y hay un cuarto que resultó ser un error de
+Wikipedia **en la otra columna**: la Primera Nacional 2022 pone a Gimnasia y Esgrima
+(J) jugando en el Legrotaglie, que es de Gimnasia de Mendoza. Ahí el fixture arbitra
+—San Martín (T) ya había jugado con el de Mendoza en la Fecha 29, así que el de la
+Fecha 36 es el de Jujuy— y lo que está mal es el estadio, no el club. Queda dicho, no
+corregido: este repo no inventa canchas.
 
 ## Tests
 
-465 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+472 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 136 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 139 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

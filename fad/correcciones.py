@@ -85,6 +85,23 @@ CORRECCIONES: tuple[Correccion, ...] = (
     _localia_al_reves("Fecha 35", "Deportivo Merlo", "Platense", 2, "Fecha 16"),
 
     Correccion(
+        pagina="Torneo Federal A 2016-17",
+        jornada="Fecha 5",
+        dice=("Ferro Carril Oeste", "Deportivo Roca", 2, 1),
+        debe=("Ferro Carril Oeste (GP)", "Deportivo Roca"),
+        porque=(
+            "Es el de General Pico, y la pagina se olvida el (GP) en esta fila y "
+            "solo en esta: las otras nueve veces que ese club aparece lo escribe "
+            "'Ferro Carril Oeste (GP)'. El de Caballito jugaba la Primera Nacional "
+            "ese anio, no el Federal A. "
+            "Lo delato la CANCHA, que es el testigo que el dataset ya traia: el "
+            "partido se juega en El Coloso del Barrio Talleres, que la propia "
+            "pagina declara como estadio de Ferro Carril Oeste (General Pico) en "
+            "su tabla de participantes, y donde el de Caballito no jugo nunca. "
+            "Ver `dataset.casas_compartidas`."),
+    ),
+
+    Correccion(
         pagina="Campeonato de Primera Nacional 2022",
         jornada="Fecha 5",
         dice=("Alvarado", "San Martín", 3, 1),

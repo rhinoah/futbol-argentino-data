@@ -273,7 +273,16 @@ def main(argv=None) -> int:
               "El dataset anterior queda como estaba.", file=sys.stderr)
         return 1
 
-    # Ultima guarda, y la que importa cuando esto corre solo: que no se achique.
+    # Los dos chequeos que miran el dataset ENTERO, y que por eso van aca y no en
+    # `validar`: lo que buscan es invisible desde una pagina sola.
+    #
+    # La cancha va como aviso y no frena nada -- un club puede alquilar la de otro
+    # --, pero es lo unico que ve un club mal atribuido: ese error no rompe
+    # ninguna regla del fixture y adentro de su pagina es coherente.
+    for a in dataset.casas_compartidas(filas):
+        print(f"  aviso: {a}", file=sys.stderr)
+
+    # Y la que importa cuando esto corre solo: que el dataset no se achique.
     # Un chequeo de `validar` mira los partidos que HAY; este mira los que ya no.
     perdidos = (dataset.regresiones(filas, anterior)
                 + dataset.regresiones(sin_fecha, anterior_sf))

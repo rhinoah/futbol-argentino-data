@@ -30,6 +30,9 @@ from __future__ import annotations
 
 import csv
 import os
+import re
+import unicodedata
+from collections import Counter
 from pathlib import Path
 
 from fad.parser import Partido
@@ -139,6 +142,85 @@ def regresiones(nuevas: list[dict], anteriores: list[dict]) -> list[str]:
             torneo, temporada = clave
             avisos.append(f"{torneo} {temporada}: tenia {cuantos} partidos y ahora "
                           f"{tenia_ahora}" + ("  (DESAPARECIO)" if not tenia_ahora else ""))
+    return avisos
+
+
+_RUIDO_CLUB = {"club", "atletico", "atlantico", "social", "deportivo", "sportivo",
+               "asociacion", "de", "del", "la", "el", "y", "los", "las"}
+
+
+def _nucleo(nombre: str) -> str:
+    """El nombre sin el desambiguador, que es lo que dos clubes confundibles comparten.
+
+    "Estudiantes (LP)" y "Estudiantes (BA)" son el mismo nucleo; "Racing Club" y
+    "Racing (C)" tambien, porque uno arranca con el otro.
+    """
+    s = unicodedata.normalize("NFKD", nombre).encode("ascii", "ignore").decode().lower()
+    s = re.sub(r"\(.*?\)", " ", s)
+    s = re.sub(r"[^a-z0-9 ]+", " ", s)
+    return " ".join(s.split())
+
+
+def _confundibles(a: str, b: str) -> bool:
+    """Si los dos nombres podrian ser el mismo club escrito de dos formas."""
+    x, y = _nucleo(a), _nucleo(b)
+    if not x or not y:
+        return False
+    if x == y:
+        return True
+    return (x.startswith(y + " ") or y.startswith(x + " ")
+            or x.endswith(" " + y) or y.endswith(" " + x))
+
+
+def casas_compartidas(filas: list[dict]) -> list[str]:
+    """Dos clubes de nombre confundible que juegan de local en la misma cancha.
+
+    Es la contracara de `regresiones`: los dos miran el dataset ENTERO porque lo
+    que buscan es invisible desde una pagina sola. Un club mal atribuido no rompe
+    ninguna regla del fixture -- juega sus partidos, gana y pierde, no se repite
+    en una fecha --, asi que ningun chequeo de `validar` lo puede ver. Y adentro
+    de su pagina es perfectamente coherente: el falso "Estudiantes (LP)" de la
+    Primera B 2015 jugaba SIEMPRE en Ciudad de Caseros. La mentira solo se ve
+    comparando contra el resto.
+
+    La cancha es el testigo, y el dataset ya la traia. Los dos errores de
+    atribucion que apareceron en este repo se ven de una:
+
+        Ciudad de Caseros   Estudiantes (BA) (248)  vs  Estudiantes (LP) (21)
+        Miguel Sancho       Racing Club (119)       vs  Racing (C) (19)
+
+    Se compara la cancha por cadena EXACTA a proposito. Intentar unificar
+    "Coloso Marcelo Bielsa" con "Coloso del Parque", o las tres grafias de
+    Kolbowsky, es un pozo sin fondo y no hace falta: dos clubes distintos que
+    aparecen bajo el MISMO string son sospechosos justamente porque comparten la
+    grafia, que es lo que pasa cuando en realidad son uno.
+
+    Lo que deja el aviso casi sin ruido es la condicion de los nombres.
+    Compartir estadio es normal -- Argentinos y Chacarita, los municipales de
+    provincia --, pero compartirlo ADEMAS de llamarse igual es la firma del
+    error. Medido sobre el dataset: 8 avisos sin esa condicion, 2 con ella, y los
+    2 eran los dos bugs.
+
+    No es grave y no frena el build: un club puede alquilar la cancha de otro, y
+    de hecho pasa. Lo que dice el aviso es "mira esto", no "esto esta mal".
+    """
+    de_local: dict[str, Counter] = {}
+    for f in filas:
+        if str(f.get("neutral", "")).lower() == "true" or not str(f.get("venue", "")).strip():
+            continue
+        de_local.setdefault(str(f["venue"]).strip(), Counter())[f["home_team"]] += 1
+    avisos = []
+    for cancha, clubes in sorted(de_local.items()):
+        nombres = sorted(clubes)
+        for i, a in enumerate(nombres):
+            for b in nombres[i + 1:]:
+                if _confundibles(a, b):
+                    na, nb = clubes[a], clubes[b]
+                    avisos.append(
+                        f"{cancha}: juegan de local {a} ({na} partido"
+                        f"{'' if na == 1 else 's'}) y {b} ({nb}). Se llaman parecido "
+                        f"y comparten cancha: puede ser un alquiler, o puede ser el "
+                        f"mismo club escrito de dos formas")
     return avisos
 
 

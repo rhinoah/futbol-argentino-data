@@ -317,3 +317,66 @@ def test_una_fila_de_una_sola_fuente_no_cambia():
                 goles_local=1, goles_visita=0, fase="zonas", jornada="Fecha 1")
     fila = dataset.a_fila(p, "Primera Division", 2026, url, False)
     assert fila["source"] == url and dataset.pagina_de(fila) == url
+
+
+# --------------------------------------------------------------------------
+# la cancha como testigo: dos clubes de nombre confundible, misma casa
+# --------------------------------------------------------------------------
+def _local(club, cancha, n=1, neutral="false"):
+    return [{"home_team": club, "venue": cancha, "neutral": neutral} for _ in range(n)]
+
+
+def test_dos_clubes_confundibles_en_la_misma_cancha():
+    """El caso Estudiantes, en chico. Estudiantes de La Plata nunca jugo la
+    Primera B: esos 44 partidos eran de Estudiantes de Caseros, y la cancha lo
+    decia -- los 23 de local fueron en Ciudad de Caseros."""
+    filas = (_local("Estudiantes (BA)", "Ciudad de Caseros", 20)
+             + _local("Estudiantes (LP)", "Ciudad de Caseros", 5))
+    avisos = dataset.casas_compartidas(filas)
+    assert len(avisos) == 1
+    assert "Estudiantes (BA)" in avisos[0] and "Estudiantes (LP)" in avisos[0]
+
+
+def test_el_caso_racing_tambien():
+    """Y el otro, donde uno de los dos nombres no lleva parentesis: "Racing Club"
+    y "Racing (C)" comparten Miguel Sancho."""
+    filas = _local("Racing Club", "Miguel Sancho", 10) + _local("Racing (C)", "Miguel Sancho", 3)
+    assert len(dataset.casas_compartidas(filas)) == 1
+
+
+def test_compartir_cancha_sin_parecerse_no_es_aviso():
+    """Compartir estadio es normal -- los municipales de provincia, Argentinos y
+    Chacarita. Lo que hace la firma es que ADEMAS se llamen igual, y sin esa
+    condicion el chequeo pasa de 2 avisos a 8 y deja de servir."""
+    filas = (_local("Argentinos Juniors", "Diego Armando Maradona", 20)
+             + _local("Chacarita Juniors", "Diego Armando Maradona", 5))
+    assert dataset.casas_compartidas(filas) == []
+
+
+def test_dos_clubes_que_comparten_una_palabra_suelta_no_alcanzan():
+    """"San Jorge (T)" y "San Martin (T)" comparten "San" y no son confundibles:
+    el nucleo tiene que ser el mismo o uno tiene que contener al otro."""
+    filas = (_local("San Martín (T)", "La Ciudadela", 20)
+             + _local("San Jorge (T)", "La Ciudadela", 4))
+    assert dataset.casas_compartidas(filas) == []
+
+
+def test_la_cancha_neutral_no_dice_nada_de_nadie():
+    """Una final o un desempate se juegan en cancha de un tercero. Contar eso
+    como 'juega de local ahi' inventa parejas que no existen."""
+    filas = (_local("Estudiantes (BA)", "Ciudad de Caseros", 20)
+             + _local("Estudiantes (LP)", "Ciudad de Caseros", 5, neutral="true"))
+    assert dataset.casas_compartidas(filas) == []
+
+
+def test_sin_cancha_no_opina():
+    filas = (_local("Estudiantes (BA)", "", 20) + _local("Estudiantes (LP)", "", 5))
+    assert dataset.casas_compartidas(filas) == []
+
+
+def test_el_mismo_club_en_dos_canchas_no_es_aviso():
+    """Un club que se muda, o que alquila, no tiene nada de raro. El aviso es
+    sobre DOS clubes en una cancha, no sobre un club en dos canchas."""
+    filas = (_local("Boca Juniors", "La Bombonera", 20)
+             + _local("Boca Juniors", "El Cilindro", 5))
+    assert dataset.casas_compartidas(filas) == []
