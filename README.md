@@ -19,7 +19,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 
 **Estado:** **36 255 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
-Torneo Federal A, y diez ediciones de la Copa Argentina. **197 clubes**, 124
+Torneo Federal A, y diez ediciones de la Copa Argentina. **198 clubes**, 127
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
@@ -424,7 +424,7 @@ El cruce quedó como chequeo permanente en
 [`fad/posiciones.py`](fad/posiciones.py), y **se calla cuando no puede opinar**: una
 fila que no cierra consigo misma (`GF − GC ≠ DIF`) no desmiente a nadie, y si la
 cantidad de partidos jugados no coincide, las dos partes no están hablando del
-mismo conjunto. Sobre los 124 torneos, 19 publican una tabla usable: 10 cierran
+mismo conjunto. Sobre los 127 torneos, 19 publican una tabla usable: 10 cierran
 perfecto y 9 tienen algo que no. Va como **aviso**, no como error: lo que denuncia
 es una contradicción de la fuente consigo misma.
 
