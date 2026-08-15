@@ -214,3 +214,34 @@ def test_el_mapa_de_la_pagina_no_adivina():
     from fad import parser
     texto = "[[Club A|Equipo]] y [[Club B|Equipo]] y [[Club C|Otro]]"
     assert parser.articulos_de_la_pagina(texto) == {"Otro": "Club C"}
+
+
+def test_una_tilde_de_menos_no_es_un_desacuerdo():
+    """La Primera B 2015 enlaza a Estudiantes de Caseros ocho veces bien y dos
+    veces como "Club Atletico Estudiantes", sin la tilde. Es el mismo articulo y
+    un typo, pero comparando por igualdad de cadena la guarda lo tomaba por un
+    desacuerdo: "Estudiantes" pelado se quedaba sin testigo y caia al nombre
+    solo, que en Primera es el de La Plata. Cuarenta y cuatro partidos de Caseros
+    quedaron en la historia de un club que nunca jugo esa categoria.
+
+    O sea que la guarda contra adivinar terminaba forzando la adivinanza."""
+    from fad import parser
+    texto = ("[[Club Atlético Estudiantes|Estudiantes]] "
+             "[[Club Atletico Estudiantes|Estudiantes]]")
+    assert parser.articulos_de_la_pagina(texto)["Estudiantes"] in (
+        "Club Atlético Estudiantes", "Club Atletico Estudiantes")
+    # y el club sale bien con cualquiera de las dos grafias
+    mapa = parser.articulos_de_la_pagina(texto)
+    assert equipos.canonizar("Estudiantes", mapa["Estudiantes"]) == "Estudiantes (BA)"
+
+
+def test_dos_articulos_de_verdad_distintos_siguen_sin_testigo():
+    """El arreglo de arriba no puede aflojar la guarda. La Copa Argentina 2019-20
+    tiene un enlace mal puesto -- `[[Club Atlético San Martín (Tucumán)|San Martín
+    (SJ)]]`, con la bandera de San Juan al lado -- junto con el correcto. Son dos
+    articulos genuinamente distintos, asi que el mapa se tiene que seguir
+    callando y dejar que resuelva el nombre, que ahi es el que tiene razon."""
+    from fad import parser
+    texto = ("[[Club Atlético San Martín (Tucumán)|San Martín (SJ)]] "
+             "[[Club Atlético San Martín (San Juan)|San Martín (SJ)]]")
+    assert "San Martín (SJ)" not in parser.articulos_de_la_pagina(texto)

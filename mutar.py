@@ -38,6 +38,10 @@ MUTANTES = [
      "    return a == b",
      "    return True"),
 
+    ("fad/parser.py", "que una tilde de menos parezca un desacuerdo de articulos",
+     '        vistos.setdefault(limpiar(visible), {})[equipos.normalizar(d)] = d',
+     '        vistos.setdefault(limpiar(visible), {})[d] = d'),
+
     ("fad/posiciones.py", "no decir de que lado esta el error",
      "    if desviados == 1:",
      "    if False:"),
@@ -521,8 +525,8 @@ MUTANTES = [
      "    if False:"),
 
     ("fad/parser.py", "aceptar un nombre visible que apunta a dos articulos",
-     "    return {v: next(iter(d)) for v, d in vistos.items() if len(d) == 1}",
-     "    return {v: next(iter(d)) for v, d in vistos.items()}"),
+     "    return {v: next(iter(d.values())) for v, d in vistos.items() if len(d) == 1}",
+     "    return {v: next(iter(d.values())) for v, d in vistos.items()}"),
 
     ("build.py", "no normalizar los nombres antes de escribir",
      "        p.local = equipos.canonizar(p.local, p.local_art)\n"

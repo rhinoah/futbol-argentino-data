@@ -775,13 +775,70 @@ La lección no es «revisar el índice». Es que un índice generado
 automáticamente hereda la ambigüedad de la fuente, y **una entrada mal apuntada no
 falla: miente en silencio**, en la escala de todos los partidos de un club.
 
+### Y como no falla, hay que ir a buscarlo
+
+Un error así no se encuentra esperando a que salte. Salieron dos detectores de la
+forma que tenía el de Racing, y los dos son baratos:
+
+**El nombre visible contra el artículo.** Cuando la página escribe
+`[[Club Atlético Racing|Racing (C)]]`, el `(C)` lo puso un editor a propósito. Si
+el nombre ya viene desambiguado y el artículo dice otro club —y los dos existen en
+el padrón— uno de los dos está mal. Sobre las 279 páginas, **un solo caso** además
+de Racing: `[[Club Atlético San Martín (Tucumán)|San Martín (SJ)]]`, con la bandera
+de San Juan al lado, en la Copa Argentina 2019-20. Ahí el equivocado es el enlace,
+no el nombre — y no ensucia nada, porque la misma página también usa el enlace
+correcto y la guarda del mapa se abstiene, que es justo para lo que está.
+
+**Un club en dos categorías incompatibles.** Sin mirar nombres: si un club aparece
+la misma temporada en dos divisiones, o asciende —y entonces el salto es de un
+nivel y ocurre una vez— o hay un error. De 46 casos, 45 son ascensos y descensos
+legítimos (la temporada argentina cruza dos años calendario, así que un club
+promovido figura en las dos). **Uno saltaba dos divisiones**: Estudiantes de La
+Plata en la Primera B 2015.
+
+### La tilde que mandó 44 partidos al club equivocado
+
+Estudiantes de La Plata nunca jugó la Primera B. Esos 44 partidos son de
+Estudiantes de Caseros, y el mecanismo es distinto al de Racing — más fino, y
+peor.
+
+El mapa por página existe porque las tablas de resultados escriben el club **sin
+enlace**: un «Estudiantes» pelado se resuelve con el enlace que la misma página usó
+en la lista de participantes. Y tiene una guarda deliberada: *si un nombre apunta a
+dos artículos, no devuelve ninguno*, porque ahí no hay testigo.
+
+La página enlaza a Caseros ocho veces bien y **dos veces sin la tilde**, como
+`Club Atletico Estudiantes`. Son el mismo artículo y un typo — pero la guarda
+comparaba por igualdad de cadena, vio dos, se abstuvo, y el «Estudiantes» pelado
+cayó al nombre solo: que en Primera es el de La Plata.
+
+O sea que **la guarda contra adivinar terminó forzando la adivinanza**. El padrón
+ya toleraba el typo —`buscar()` normaliza el artículo antes de buscarlo—; el único
+eslabón que comparaba en crudo era ése.
+
+Comparando normalizado: **44 ambigüedades falsas** en el corpus, de las cuales una
+sola cambiaba de club. Y la guarda sigue firme donde tiene que estarlo — los dos
+San Martín siguen sin testigo, porque ahí los artículos son distintos de verdad.
+
+#### El testigo estaba en el CSV
+
+Lo mejor del caso es que el dataset venía diciendo la verdad en una columna que
+nadie miraba. Los 23 partidos de local de ese «Estudiantes» se jugaron en
+**Ciudad de Caseros**; Estudiantes de La Plata juega en el Ciudad de La Plata, el
+Jorge Luis Hirschi y el Centenario. Cero superposición, sin ambigüedad posible.
+
+Queda anotado como chequeo pendiente: **cruzar `venue` contra el club local**. Un
+club que de golpe juega de local en otra cancha es la misma señal que un club que
+de golpe juega otra categoría — y las dos formas de mentir que aparecieron acá la
+habrían disparado.
+
 ## Tests
 
-463 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+465 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 135 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 136 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

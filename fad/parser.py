@@ -38,6 +38,13 @@ import re
 import unicodedata
 from dataclasses import dataclass, field
 
+# Solo por `normalizar`, que es una funcion de cadenas y nada mas. El parser no
+# traduce nombres -- eso lo hace `build` despues, a proposito --, pero para
+# decidir si dos titulos de articulo son el mismo hace falta la MISMA regla que
+# usa el padron para buscarlos. Escribir una segunda regla aca es exactamente el
+# diccionario paralelo que este proyecto ya pago una vez.
+from fad import equipos
+
 MESES = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
          "julio": 7, "agosto": 8, "septiembre": 9, "setiembre": 9, "octubre": 10,
          "noviembre": 11, "diciembre": 12}
@@ -165,14 +172,26 @@ def articulos_de_la_pagina(texto: str) -> dict[str, str]:
     Si dentro de UNA pagina el mismo nombre visible apunta a dos articulos, no se
     devuelve ninguno: ahi no hay testigo, y adivinar es justo lo que no hay que
     hacer.
+
+    Pero "dos articulos" se compara NORMALIZADO, y esa no es una sutileza. La
+    Primera B 2015 enlaza a Estudiantes de Caseros ocho veces bien y dos veces
+    escrito "Club Atletico Estudiantes", sin la tilde. Son el mismo articulo y un
+    typo, no un desacuerdo -- pero comparando por igualdad de cadena la guarda se
+    disparaba, "Estudiantes" pelado se quedaba sin testigo, y el fallback lo
+    resolvia por el nombre solo: el de La Plata, que nunca jugo la Primera B.
+    Cuarenta y cuatro partidos en la historia del club equivocado, por una tilde.
+    O sea que la guarda contra adivinar terminaba forzando la adivinanza.
     """
-    vistos: dict[str, set] = {}
+    vistos: dict[str, dict[str, str]] = {}
     for destino, visible in re.findall(r"\[\[([^\]|]+)\|([^\]]+)\]\]", texto):
         d = destino.strip()
         if d.lower().startswith(("estadio", "provincia", "anexo", "archivo", "file")):
             continue
-        vistos.setdefault(limpiar(visible), set()).add(d)
-    return {v: next(iter(d)) for v, d in vistos.items() if len(d) == 1}
+        # La clave es la forma normalizada y el valor una de las grafias. Cual de
+        # las dos se devuelve da igual: `equipos.buscar` normaliza el articulo
+        # antes de buscarlo, asi que las dos resuelven al mismo club.
+        vistos.setdefault(limpiar(visible), {})[equipos.normalizar(d)] = d
+    return {v: next(iter(d.values())) for v, d in vistos.items() if len(d) == 1}
 
 
 def _partir(fila: str) -> list[str]:

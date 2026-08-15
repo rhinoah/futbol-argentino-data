@@ -40,7 +40,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-02-15,21:30,Sarmiento (J),River Plate,1,4,,,Primera Division,2015,zonas,,Fecha 1,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-02-16,17:00,Almagro,Flandria,0,1,,,Primera B,2015,zonas,,Fecha 1,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-02-16,17:00,Deportivo Laferrere,Argentino de Quilmes,1,1,,,Primera C,2015,zonas,,Fecha 1,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-02-16,17:00,Villa San Carlos,Estudiantes (LP),0,0,,,Primera B,2015,zonas,,Fecha 1,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-02-16,17:00,Villa San Carlos,Estudiantes (BA),0,0,,,Primera B,2015,zonas,,Fecha 1,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-02-16,18:00,Arsenal,Estudiantes (LP),0,1,,,Primera Division,2015,zonas,,Fecha 1,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-02-16,21:10,Belgrano,Nueva Chicago,3,1,,,Primera Division,2015,zonas,,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-02-17,17:00,Dock Sud,San Martín (B),1,4,,,Primera C,2015,zonas,,Fecha 1,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
@@ -88,7 +88,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-02-23,17:00,UAI Urquiza,Deportivo Morón,1,1,,,Primera B,2015,zonas,,Fecha 2,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-02-23,18:00,Lanús,Belgrano,0,0,,,Primera Division,2015,zonas,,Fecha 2,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-02-23,21:10,Defensa y Justicia,San Lorenzo,1,2,,,Primera Division,2015,zonas,,Fecha 2,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
-2015-02-24,17:00,Estudiantes (LP),Platense,1,1,,,Primera B,2015,zonas,,Fecha 2,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-02-24,17:00,Estudiantes (BA),Platense,1,1,,,Primera B,2015,zonas,,Fecha 2,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-02-24,17:00,Ferrocarril Midland,Luján,0,0,,,Primera C,2015,zonas,,Fecha 2,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-02-24,17:00,Sacachispas,Cañuelas,0,0,,,Primera C,2015,zonas,,Fecha 2,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-02-24,17:00,San Martín (B),Deportivo Laferrere,0,0,,,Primera C,2015,zonas,,Fecha 2,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
@@ -106,7 +106,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-02-28,17:00,General Lamadrid,Argentino de Quilmes,1,2,,,Primera C,2015,zonas,,Fecha 3,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-02-28,17:00,Talleres (RdE),J. J. de Urquiza,1,0,,,Primera C,2015,zonas,,Fecha 3,Talleres de Remedios de Escalada,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-02-28,17:00,Tigre,Olimpo,1,0,,,Primera Division,2015,zonas,,Fecha 3,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
-2015-02-28,17:00,Tristán Suárez,Estudiantes (LP),3,1,,,Primera B,2015,zonas,,Fecha 3,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-02-28,17:00,Tristán Suárez,Estudiantes (BA),3,1,,,Primera B,2015,zonas,,Fecha 3,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-02-28,18:00,Crucero del Norte,Rosario Central,0,1,,,Primera Division,2015,zonas,,Fecha 3,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-02-28,19:05,Gimnasia y Esgrima (M),Instituto,2,2,,,Primera Nacional,2015,zonas,,Fecha 3,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-02-28,19:15,Unión,Lanús,1,1,,,Primera Division,2015,zonas,,Fecha 3,15 de abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -161,7 +161,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-03-07,17:00,San Martín (B),General Lamadrid,2,2,,,Primera C,2015,zonas,,Fecha 4,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-03-07,17:00,UAI Urquiza,Sportivo Italiano,3,0,,,Primera B,2015,zonas,,Fecha 4,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-07,18:00,Olimpo,Rosario Central,1,3,,,Primera Division,2015,zonas,,Fecha 4,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
-2015-03-07,18:05,Estudiantes (LP),Deportivo Morón,2,1,,,Primera B,2015,zonas,,Fecha 4,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-03-07,18:05,Estudiantes (BA),Deportivo Morón,2,1,,,Primera B,2015,zonas,,Fecha 4,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-07,19:05,All Boys,Gimnasia y Esgrima (J),0,0,,,Primera Nacional,2015,zonas,,Fecha 4,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-03-07,19:15,Aldosivi,Quilmes,1,1,,,Primera Division,2015,zonas,,Fecha 4,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-07,20:00,Instituto,Central Córdoba (SdE),0,0,,,Primera Nacional,2015,zonas,,Fecha 4,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -192,7 +192,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-03-10,16:00,Villa San Carlos,Defensores de Belgrano,1,2,,,Primera B,2015,zonas,,Fecha 5,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-10,21:05,Atlanta,Colegiales,2,1,,,Primera B,2015,zonas,,Fecha 5,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-11,16:00,Deportivo Español,Deportivo Merlo,2,0,,,Primera B,2015,zonas,,Fecha 5,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-03-11,16:00,Fénix,Estudiantes (LP),1,1,,,Primera B,2015,zonas,,Fecha 5,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-03-11,16:00,Fénix,Estudiantes (BA),1,1,,,Primera B,2015,zonas,,Fecha 5,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-11,16:00,Tristán Suárez,Acassuso,1,1,,,Primera B,2015,zonas,,Fecha 5,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-11,17:00,Deportivo Morón,Deportivo Riestra,4,2,,,Primera B,2015,zonas,,Fecha 5,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-11,17:05,Platense,Barracas Central,0,0,,,Primera B,2015,zonas,,Fecha 5,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -208,7 +208,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-03-14,16:00,Boca Unidos,Guaraní Antonio Franco,0,0,,,Primera Nacional,2015,zonas,,Fecha 5,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-03-14,16:00,Deportivo Merlo,Comunicaciones,4,2,,,Primera B,2015,zonas,,Fecha 6,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-14,16:00,Deportivo Riestra,Fénix,2,1,,,Primera B,2015,zonas,,Fecha 6,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-03-14,16:00,Estudiantes (LP),Sportivo Italiano,1,4,,,Primera B,2015,zonas,,Fecha 6,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-03-14,16:00,Estudiantes (BA),Sportivo Italiano,1,4,,,Primera B,2015,zonas,,Fecha 6,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-14,16:00,General Lamadrid,Dock Sud,0,1,,,Primera C,2015,zonas,,Fecha 5,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-03-14,16:00,Gimnasia y Esgrima (M),Chacarita Juniors,2,1,,,Primera Nacional,2015,zonas,,Fecha 5,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-03-14,16:00,San Telmo,Ferrocarril Midland,1,0,,,Primera C,2015,zonas,,Fecha 5,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
@@ -256,7 +256,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-03-20,21:10,Lanús,Gimnasia y Esgrima (LP),2,0,,,Primera Division,2015,zonas,,Fecha 6,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-20,21:30,Gimnasia y Esgrima (J),Atlético Paraná,2,3,,,Primera Nacional,2015,zonas,,Fecha 6,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-03-20,21:30,Independiente Rivadavia,Boca Unidos,0,0,,,Primera Nacional,2015,zonas,,Fecha 6,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
-2015-03-21,13:30,Almagro,Estudiantes (LP),0,0,,,Primera B,2015,zonas,,Fecha 7,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-03-21,13:30,Almagro,Estudiantes (BA),0,0,,,Primera B,2015,zonas,,Fecha 7,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-21,14:00,Argentino de Quilmes,Luján,0,0,,,Primera C,2015,zonas,,Fecha 6,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-03-21,14:00,Sportivo Italiano,Deportivo Riestra,0,0,,,Primera B,2015,zonas,,Fecha 7,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-21,14:15,Deportivo Morón,Barracas Central,3,2,,,Primera B,2015,zonas,,Fecha 7,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -306,7 +306,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-03-26,17:00,Los Andes,Patronato,2,1,,,Primera Nacional,2015,zonas,,Fecha 7,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-03-26,21:30,Atlético Tucumán,Instituto,3,1,,,Primera Nacional,2015,zonas,,Fecha 7,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-03-27,16:00,Almirante Brown,Comunicaciones,1,1,,,Primera B,2015,zonas,,Fecha 8,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-03-27,16:00,Estudiantes (LP),Deportivo Español,2,0,,,Primera B,2015,zonas,,Fecha 8,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-03-27,16:00,Estudiantes (BA),Deportivo Español,2,0,,,Primera B,2015,zonas,,Fecha 8,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-03-27,16:00,Talleres (RdE),Sacachispas,3,1,,,Primera C,2015,zonas,,Fecha 7,Talleres de Remedios de Escalada,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-03-27,18:00,Quilmes,Sarmiento (J),0,4,,,Primera Division,2015,zonas,,Fecha 7,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-03-27,21:10,Rosario Central,Colón,1,1,,,Primera Division,2015,zonas,,Fecha 7,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -394,7 +394,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-04-06,15:30,San Martín (B),Cañuelas,3,3,,,Primera C,2015,zonas,,Fecha 8,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-04-06,16:00,Nueva Chicago,Banfield,1,2,,,Primera Division,2015,zonas,,Fecha 8,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-06,21:10,Newell's Old Boys,Unión,2,0,,,Primera Division,2015,zonas,,Fecha 8,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
-2015-04-07,15:30,Comunicaciones,Estudiantes (LP),1,0,,,Primera B,2015,zonas,,Fecha 9,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-04-07,15:30,Comunicaciones,Estudiantes (BA),1,0,,,Primera B,2015,zonas,,Fecha 9,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-04-07,15:30,Defensores de Cambaceres,San Telmo,0,1,,,Primera C,2015,zonas,,Fecha 8,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-04-07,15:30,Deportivo Español,Deportivo Riestra,3,2,,,Primera B,2015,zonas,,Fecha 9,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-04-07,15:30,Deportivo Laferrere,Defensores Unidos,2,1,,,Primera C,2015,zonas,,Fecha 8,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
@@ -436,7 +436,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-04-12,19:00,Sportivo Belgrano,Atlético Paraná,0,0,,,Primera Nacional,2015,zonas,,Fecha 10,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-04-12,19:30,Patronato,Central Córdoba (SdE),2,0,,,Primera Nacional,2015,zonas,,Fecha 10,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-04-12,21:30,Argentinos Juniors,River Plate,1,2,,,Primera Division,2015,zonas,,Fecha 9,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
-2015-04-13,15:00,Estudiantes (LP),Atlanta,2,2,,,Primera B,2015,zonas,,Fecha 10,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-04-13,15:00,Estudiantes (BA),Atlanta,2,2,,,Primera B,2015,zonas,,Fecha 10,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-04-13,15:30,Deportivo Riestra,Comunicaciones,1,2,,,Primera B,2015,zonas,,Fecha 10,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-04-13,16:00,Arsenal,Newell's Old Boys,3,0,,,Primera Division,2015,zonas,,Fecha 9,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-13,18:00,All Boys,Gimnasia y Esgrima (M),2,0,,,Primera Nacional,2015,zonas,,Fecha 10,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -471,7 +471,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-04-18,20:30,Vélez Sarsfield,Gimnasia y Esgrima (LP),0,1,,,Primera Division,2015,zonas,,Fecha 10,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-18,21:00,Belgrano,Crucero del Norte,1,0,,,Primera Division,2015,zonas,,Fecha 10,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-04-19,11:00,Argentino de Quilmes,J. J. de Urquiza,5,2,,,Primera C,2015,zonas,,Fecha 10,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-04-19,12:00,Flandria,Estudiantes (LP),1,0,,,Primera B,2015,zonas,,Fecha 11,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-04-19,12:00,Flandria,Estudiantes (BA),1,0,,,Primera B,2015,zonas,,Fecha 11,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-04-19,13:00,Deportivo Armenio,Deportivo Merlo,1,2,,,Primera B,2015,zonas,,Fecha 11,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-04-19,13:00,San Martín (B),San Telmo,2,0,,,Primera C,2015,zonas,,Fecha 10,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-04-19,14:10,Los Andes,Sportivo Estudiantes (SL),1,1,,,Primera Nacional,2015,zonas,,Fecha 11,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -527,7 +527,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-04-27,15:30,Deportivo Riestra,Flandria,1,0,,,Primera B,2015,zonas,,Fecha 12,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-04-27,21:00,Gimnasia y Esgrima (J),Gimnasia y Esgrima (M),2,1,,,Primera Nacional,2015,zonas,,Fecha 12,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-04-28,15:30,Sacachispas,Defensores de Cambaceres,2,1,,,Primera C,2015,zonas,,Fecha 11,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-04-28,15:45,Estudiantes (LP),Colegiales,1,0,,,Primera B,2015,zonas,,Fecha 12,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-04-28,15:45,Estudiantes (BA),Colegiales,1,0,,,Primera B,2015,zonas,,Fecha 12,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-04-28,21:05,Defensores de Belgrano,Deportivo Español,2,1,,,Primera B,2015,zonas,,Fecha 12,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-04-29,,Arsenal,Guaraní Antonio Franco,1,2,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-04-29,,Quilmes,Sportivo Belgrano,2,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
@@ -547,7 +547,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-05-02,15:00,Guillermo Brown,Juventud Unida (G),2,1,,,Primera Nacional,2015,zonas,,Fecha 13,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-05-02,15:00,Olimpo,Estudiantes (LP),0,0,,,Primera Division,2015,zonas,,Fecha 11,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-02,15:30,Boca Unidos,Sportivo Belgrano,1,0,,,Primera Nacional,2015,zonas,,Fecha 13,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
-2015-05-02,15:30,Brown de Adrogué,Estudiantes (LP),0,1,,,Primera B,2015,zonas,,Fecha 13,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-05-02,15:30,Brown de Adrogué,Estudiantes (BA),0,1,,,Primera B,2015,zonas,,Fecha 13,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-02,15:30,Comunicaciones,Defensores de Belgrano,0,1,,,Primera B,2015,zonas,,Fecha 13,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-02,16:00,Gimnasia y Esgrima (M),Sportivo Estudiantes (SL),2,0,,,Primera Nacional,2015,zonas,,Fecha 13,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-05-02,16:10,Atlético Paraná,Chacarita Juniors,3,1,,,Primera Nacional,2015,zonas,,Fecha 13,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -579,7 +579,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-05-04,21:10,Temperley,San Martín (SJ),0,1,,,Primera Division,2015,zonas,,Fecha 11,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-05-05,15:00,Argentino de Merlo,Luján,1,1,,,Primera C,2015,zonas,,Fecha 12,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-05-05,15:00,Dock Sud,J. J. de Urquiza,2,0,,,Primera C,2015,zonas,,Fecha 12,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-05-05,15:00,Estudiantes (LP),Deportivo Merlo,3,1,,,Primera B,2015,zonas,,Fecha 14,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-05-05,15:00,Estudiantes (BA),Deportivo Merlo,3,1,,,Primera B,2015,zonas,,Fecha 14,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-05,15:00,Platense,Deportivo Español,0,0,,,Primera B,2015,zonas,,Fecha 14,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-05,15:05,Deportivo Riestra,Brown de Adrogué,1,0,,,Primera B,2015,zonas,,Fecha 14,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-05,21:10,Defensores de Belgrano,Atlanta,1,0,,,Primera B,2015,zonas,,Fecha 14,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -623,7 +623,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-05-10,11:00,Ferrocarril Midland,Argentino de Quilmes,1,2,,,Primera C,2015,zonas,,Fecha 13,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-05-10,11:00,Juventud Unida,Dock Sud,1,0,,,Primera C,2015,zonas,,Fecha 13,Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-05-10,11:00,Talleres (RdE),Excursionistas,3,0,,,Primera C,2015,zonas,,Fecha 13,Talleres de Remedios de Escalada,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-05-10,11:00,UAI Urquiza,Estudiantes (LP),1,1,,,Primera B,2015,zonas,,Fecha 15,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-05-10,11:00,UAI Urquiza,Estudiantes (BA),1,1,,,Primera B,2015,zonas,,Fecha 15,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-10,12:00,Luján,Defensores Unidos,1,3,,,Primera C,2015,zonas,,Fecha 13,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-05-10,13:30,Guillermo Brown,All Boys,1,0,,,Primera Nacional,2015,zonas,,Fecha 15,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-05-10,15:00,Ferro Carril Oeste,Sportivo Estudiantes (SL),0,3,,,Primera Nacional,2015,zonas,,Fecha 15,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -652,7 +652,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-05-12,15:00,J. J. de Urquiza,Deportivo Laferrere,1,1,,,Primera C,2015,zonas,,Fecha 13,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-05-13,,Godoy Cruz,Deportivo Español,0,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-05-13,,Rosario Central,Deportivo Riestra,3,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
-2015-05-16,15:00,Estudiantes (LP),Acassuso,1,0,,,Primera B,2015,zonas,,Fecha 19,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-05-16,15:00,Estudiantes (BA),Acassuso,1,0,,,Primera B,2015,zonas,,Fecha 19,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-19,,Newell's Old Boys,Chacarita Juniors,0,2,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Florencio Sola,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-05-20,,San Lorenzo,Viale FBC,3,0,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-05-20,,Unión,Deportivo Armenio,2,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
@@ -661,7 +661,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-05-21,15:00,Dock Sud,Sacachispas,2,0,,,Primera C,2015,zonas,,Fecha 14,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-05-21,15:00,Luján,Talleres (RdE),2,2,,,Primera C,2015,zonas,,Fecha 14,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-05-21,20:35,Douglas Haig,Guillermo Brown,1,1,,,Primera Nacional,2015,zonas,,Fecha 16,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
-2015-05-22,14:00,Estudiantes (LP),Almirante Brown,2,1,,,Primera B,2015,zonas,,Fecha 16,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-05-22,14:00,Estudiantes (BA),Almirante Brown,2,1,,,Primera B,2015,zonas,,Fecha 16,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-22,15:00,Acassuso,Deportivo Merlo,0,1,,,Primera B,2015,zonas,,Fecha 16,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-22,15:00,Fénix,Almagro,1,2,,,Primera B,2015,zonas,,Fecha 16,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-22,15:00,Villa San Carlos,Flandria,1,0,,,Primera B,2015,zonas,,Fecha 16,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -722,7 +722,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-05-31,11:00,Deportivo Merlo,Barracas Central,2,2,,,Primera B,2015,zonas,,Fecha 17,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-31,11:00,Flandria,Platense,2,3,,,Primera B,2015,zonas,,Fecha 17,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-31,11:00,San Telmo,Argentino de Merlo,1,0,,,Primera C,2015,zonas,,Fecha 15,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-05-31,13:00,Deportivo Armenio,Estudiantes (LP),0,3,,,Primera B,2015,zonas,,Fecha 17,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-05-31,13:00,Deportivo Armenio,Estudiantes (BA),0,3,,,Primera B,2015,zonas,,Fecha 17,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-31,15:00,Atlético Paraná,Independiente Rivadavia,2,1,,,Primera Nacional,2015,zonas,,Fecha 17,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-05-31,15:30,Almagro,Sportivo Italiano,1,2,,,Primera B,2015,zonas,,Fecha 17,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-05-31,15:30,Central Córdoba (R),San Martín (B),2,1,,,Primera C,2015,zonas,,Fecha 15,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
@@ -750,7 +750,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-06-04,,Estudiantes (LP),Ramón Santamarina,2,1,,,Copa Argentina,2015,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-06-05,13:00,San Martín (B),Excursionistas,2,0,,,Primera C,2015,zonas,,Fecha 16,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-06-05,15:00,Barracas Central,UAI Urquiza,3,3,,,Primera B,2015,zonas,,Fecha 18,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-06-05,15:30,Deportivo Riestra,Estudiantes (LP),1,1,,,Primera B,2015,zonas,,Fecha 18,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-06-05,15:30,Deportivo Riestra,Estudiantes (BA),1,1,,,Primera B,2015,zonas,,Fecha 18,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-06-05,18:00,Gimnasia y Esgrima (LP),Unión,5,2,,,Primera Division,2015,zonas,,Fecha 15,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-06-05,20:00,Banfield,Sarmiento (J),0,0,,,Primera Division,2015,zonas,,Fecha 15,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-06-05,21:10,Argentinos Juniors,Quilmes,0,2,,,Primera Division,2015,zonas,,Fecha 15,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -847,7 +847,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-06-20,12:00,Villa San Carlos,UAI Urquiza,1,0,,,Primera B,2015,zonas,,Fecha 20,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-06-20,14:00,Los Andes,Atlético Tucumán,1,0,,,Primera Nacional,2015,zonas,,Fecha 20,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-06-20,14:30,Deportivo Español,Deportivo Armenio,1,0,,,Primera B,2015,zonas,,Fecha 20,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-06-20,15:30,Barracas Central,Estudiantes (LP),1,1,,,Primera B,2015,zonas,,Fecha 20,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-06-20,15:30,Barracas Central,Estudiantes (BA),1,1,,,Primera B,2015,zonas,,Fecha 20,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-06-20,15:30,Defensores de Belgrano,Almirante Brown,1,0,,,Primera B,2015,zonas,,Fecha 20,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-06-20,15:30,Tristán Suárez,Brown de Adrogué,1,1,,,Primera B,2015,zonas,,Fecha 20,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-06-20,16:00,Unión (MdP),Guillermo Brown,1,1,,,Primera Nacional,2015,zonas,,Fecha 20,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -892,7 +892,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-06-28,15:00,San Martín (B),Dock Sud,4,2,,,Primera C,2015,zonas,,Fecha 20,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-06-28,15:00,San Telmo,Talleres (RdE),1,1,,,Primera C,2015,zonas,,Fecha 20,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-06-28,15:30,Atlanta,Almagro,2,0,,,Primera B,2015,zonas,,Fecha 21,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-06-28,15:30,Estudiantes (LP),Defensores de Belgrano,1,1,,,Primera B,2015,zonas,,Fecha 21,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-06-28,15:30,Estudiantes (BA),Defensores de Belgrano,1,1,,,Primera B,2015,zonas,,Fecha 21,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-06-28,16:00,Guaraní Antonio Franco,Gimnasia y Esgrima (J),0,2,,,Primera Nacional,2015,zonas,,Fecha 21,C. A. Fernández de Oliveira,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-06-28,16:00,Instituto,Unión (MdP),1,1,,,Primera Nacional,2015,zonas,,Fecha 21,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-06-28,16:10,Atlético Paraná,Patronato,0,2,,,Primera Nacional,2015,zonas,,Fecha 21,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -937,7 +937,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-07-05,11:00,UAI Urquiza,Tristán Suárez,0,2,,,Primera B,2015,zonas,,Fecha 22,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-05,12:20,Deportivo Merlo,Deportivo Morón,2,0,,,Primera B,2015,zonas,,Fecha 22,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-05,15:00,Defensores Unidos,Central Córdoba (R),2,0,,,Primera C,2015,zonas,,Fecha 21,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-07-05,15:30,Estudiantes (LP),Villa San Carlos,2,0,,,Primera B,2015,zonas,,Fecha 22,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-07-05,15:30,Estudiantes (BA),Villa San Carlos,2,0,,,Primera B,2015,zonas,,Fecha 22,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-06,15:00,Deportivo Laferrere,San Martín (B),2,1,,,Primera C,2015,zonas,,Fecha 21,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-07-07,15:00,Berazategui,Juventud Unida,2,1,,,Primera C,2015,zonas,,Fecha 21,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-07-08,14:00,Gimnasia y Esgrima (M),Guillermo Brown,2,1,,,Primera Nacional,2015,zonas,,Fecha 23,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -956,7 +956,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-07-08,20:35,Defensores de Belgrano,Acassuso,0,0,,,Primera B,2015,zonas,,Fecha 23,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-08,21:30,Central Córdoba (SdE),Atlético Tucumán,3,2,,,Primera Nacional,2015,zonas,,Fecha 23,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-07-08,21:30,Gimnasia y Esgrima (J),Juventud Unida (G),1,4,,,Primera Nacional,2015,zonas,,Fecha 23,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
-2015-07-09,11:00,Platense,Estudiantes (LP),0,2,,,Primera B,2015,zonas,,Fecha 23,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-07-09,11:00,Platense,Estudiantes (BA),0,2,,,Primera B,2015,zonas,,Fecha 23,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-09,15:00,Deportivo Armenio,Barracas Central,1,0,,,Primera B,2015,zonas,,Fecha 23,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-09,15:00,Deportivo Morón,UAI Urquiza,2,0,,,Primera B,2015,zonas,,Fecha 23,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-09,15:00,Los Andes,Ramón Santamarina,0,0,,,Primera Nacional,2015,zonas,,Fecha 23,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -986,7 +986,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-07-12,15:00,UAI Urquiza,Fénix,0,1,,,Primera B,2015,zonas,,Fecha 24,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-12,15:00,Villa Dálmine,Atlético Paraná,2,1,,,Primera Nacional,2015,zonas,,Fecha 24,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-07-12,15:30,Atlanta,Deportivo Armenio,2,0,,,Primera B,2015,zonas,,Fecha 24,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-07-12,15:30,Estudiantes (LP),Tristán Suárez,2,1,,,Primera B,2015,zonas,,Fecha 24,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-07-12,15:30,Estudiantes (BA),Tristán Suárez,2,1,,,Primera B,2015,zonas,,Fecha 24,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-12,16:00,Guaraní Antonio Franco,Unión (MdP),1,0,,,Primera Nacional,2015,zonas,,Fecha 24,C. A. Fernández de Oliveira,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-07-12,16:00,Instituto,Gimnasia y Esgrima (M),2,0,,,Primera Nacional,2015,zonas,,Fecha 24,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-07-12,17:00,All Boys,Douglas Haig,2,2,,,Primera Nacional,2015,zonas,,Fecha 24,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -1025,7 +1025,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-07-17,19:00,San Lorenzo,Arsenal,3,0,,,Primera Division,2015,zonas,,Fecha 17,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-17,19:20,Gimnasia y Esgrima (J),All Boys,0,0,,,Primera Nacional,2015,zonas,,Fecha 25,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-07-17,21:30,Banfield,Belgrano,1,2,,,Primera Division,2015,zonas,,Fecha 17,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
-2015-07-18,11:00,Deportivo Morón,Estudiantes (LP),0,0,,,Primera B,2015,zonas,,Fecha 25,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-07-18,11:00,Deportivo Morón,Estudiantes (BA),0,0,,,Primera B,2015,zonas,,Fecha 25,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-18,11:00,Luján,Excursionistas,2,1,,,Primera C,2015,zonas,,Fecha 23,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-07-18,11:00,Tristán Suárez,Deportivo Riestra,1,1,,,Primera B,2015,zonas,,Fecha 25,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-18,14:00,Los Andes,Guaraní Antonio Franco,2,0,,,Primera Nacional,2015,zonas,,Fecha 25,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -1062,7 +1062,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-07-21,15:00,Brown de Adrogué,Comunicaciones,3,2,,,Primera B,2015,zonas,,Fecha 26,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-21,15:00,Colegiales,Atlanta,0,2,,,Primera B,2015,zonas,,Fecha 26,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-21,15:00,Deportivo Riestra,Deportivo Morón,1,1,,,Primera B,2015,zonas,,Fecha 26,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-07-21,15:00,Estudiantes (LP),Fénix,1,1,,,Primera B,2015,zonas,,Fecha 26,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-07-21,15:00,Estudiantes (BA),Fénix,1,1,,,Primera B,2015,zonas,,Fecha 26,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-21,15:00,Flandria,Deportivo Armenio,1,1,,,Primera B,2015,zonas,,Fecha 26,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-21,15:30,Barracas Central,Platense,2,1,,,Primera B,2015,zonas,,Fecha 26,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-21,15:30,Defensores de Belgrano,Villa San Carlos,1,0,,,Primera B,2015,zonas,,Fecha 26,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -1114,7 +1114,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-07-26,21:30,Belgrano,Boca Juniors,0,1,,,Primera Division,2015,zonas,,Fecha 18,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-27,15:00,Defensores de Cambaceres,Luján,1,0,,,Primera C,2015,zonas,,Fecha 24,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-07-27,15:00,Nueva Chicago,San Martín (SJ),0,0,,,Primera Division,2015,zonas,,Fecha 18,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
-2015-07-27,15:00,Sportivo Italiano,Estudiantes (LP),0,2,,,Primera B,2015,zonas,,Fecha 27,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-07-27,15:00,Sportivo Italiano,Estudiantes (BA),0,2,,,Primera B,2015,zonas,,Fecha 27,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-07-27,18:00,Arsenal,Argentinos Juniors,3,2,,,Primera Division,2015,zonas,,Fecha 18,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-07-29,,Banfield,Boca Juniors,0,3,,,Copa Argentina,2015,eliminacion,,Dieciseisavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-07-29,15:00,Fénix,Deportivo Riestra,0,1,,,Primera B,2015,zonas,,Fecha 27,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -1142,7 +1142,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-08-02,11:00,Argentino de Merlo,Dock Sud,2,0,,,Primera C,2015,zonas,,Fecha 25,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-08-02,11:00,Brown de Adrogué,Flandria,1,0,,,Primera B,2015,zonas,,Fecha 28,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-08-02,12:00,Sportivo Estudiantes (SL),Douglas Haig,1,2,,,Primera Nacional,2015,zonas,,Fecha 27,El Coliseo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
-2015-08-02,14:35,Estudiantes (LP),Almagro,3,2,,,Primera B,2015,zonas,,Fecha 28,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-08-02,14:35,Estudiantes (BA),Almagro,3,2,,,Primera B,2015,zonas,,Fecha 28,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-08-02,15:00,Atlético Paraná,Gimnasia y Esgrima (J),3,0,,,Primera Nacional,2015,zonas,,Fecha 27,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-08-02,15:30,Boca Unidos,Independiente Rivadavia,0,0,,,Primera Nacional,2015,zonas,,Fecha 27,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-08-02,15:30,Olimpo,Newell's Old Boys,2,0,,,Primera Division,2015,zonas,,Fecha 19,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -1228,7 +1228,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-08-18,15:00,Deportivo Armenio,Platense,0,0,,,Primera B,2015,zonas,,Fecha 29,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-08-18,15:00,Deportivo Laferrere,Argentino de Merlo,1,1,,,Primera C,2015,zonas,,Fecha 26,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-08-18,15:00,Ferrocarril Midland,Juventud Unida,0,0,,,Primera C,2015,zonas,,Fecha 26,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-08-18,21:10,Deportivo Español,Estudiantes (LP),0,0,,,Primera B,2015,zonas,,Fecha 29,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-08-18,21:10,Deportivo Español,Estudiantes (BA),0,0,,,Primera B,2015,zonas,,Fecha 29,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-08-19,,Guaraní Antonio Franco,Boca Juniors,0,4,,,Copa Argentina,2015,eliminacion,,Octavos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-08-19,,Independiente,Lanús,0,2,,,Copa Argentina,2015,eliminacion,,Octavos,Ciudad de La Plata,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-08-20,,Chacarita Juniors,Defensa y Justicia,0,1,,,Copa Argentina,2015,eliminacion,,Octavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
@@ -1277,7 +1277,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-08-25,15:00,Acassuso,Almagro,1,1,,,Primera B,2015,zonas,,Fecha 30,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-08-25,15:00,Argentino de Merlo,San Miguel,1,2,,,Primera C,2015,zonas,,Fecha 27,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-08-25,15:00,Berazategui,Argentino de Quilmes,1,0,,,Primera C,2015,zonas,,Fecha 27,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-08-25,15:00,Estudiantes (LP),Comunicaciones,1,2,,,Primera B,2015,zonas,,Fecha 30,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-08-25,15:00,Estudiantes (BA),Comunicaciones,1,2,,,Primera B,2015,zonas,,Fecha 30,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-08-25,20:35,Defensores de Belgrano,Fénix,1,0,,,Primera B,2015,zonas,,Fecha 30,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-08-26,,Atlético de Rafaela,San Lorenzo,0,1,,,Copa Argentina,2015,eliminacion,,Octavos,Brigadier Estanislao López,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-08-26,15:00,Flandria,Deportivo Merlo,0,0,,,Primera B,2015,zonas,,Fecha 29,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -1325,7 +1325,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-08-31,21:10,Lanús,Nueva Chicago,1,0,,,Primera Division,2015,zonas,,Fecha 22,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-01,15:00,San Martín (B),Berazategui,2,0,,,Primera C,2015,zonas,,Fecha 28,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-09-01,15:00,Sportivo Italiano,Defensores de Belgrano,1,0,,,Primera B,2015,zonas,,Fecha 31,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-09-01,21:10,Atlanta,Estudiantes (LP),1,2,,,Primera B,2015,zonas,,Fecha 31,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-09-01,21:10,Atlanta,Estudiantes (BA),1,2,,,Primera B,2015,zonas,,Fecha 31,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-02,,Gimnasia y Esgrima (LP),Vélez Sarsfield,0,1,,,Copa Argentina,2015,eliminacion,,Octavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-09-04,19:10,Banfield,Argentinos Juniors,1,1,,,Primera Division,2015,zonas,,Fecha 23,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-04,19:10,Tigre,Godoy Cruz,2,1,,,Primera Division,2015,zonas,,Fecha 23,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -1351,7 +1351,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-09-06,13:00,Juventud Unida (G),Villa Dálmine,0,0,,,Primera Nacional,2015,zonas,,Fecha 32,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-09-06,14:00,San Telmo,San Martín (B),1,0,,,Primera C,2015,zonas,,Fecha 29,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-09-06,15:00,Sportivo Estudiantes (SL),Los Andes,3,1,,,Primera Nacional,2015,zonas,,Fecha 32,El Coliseo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
-2015-09-06,15:30,Estudiantes (LP),Flandria,1,0,,,Primera B,2015,zonas,,Fecha 32,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-09-06,15:30,Estudiantes (BA),Flandria,1,0,,,Primera B,2015,zonas,,Fecha 32,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-06,16:00,Douglas Haig,Gimnasia y Esgrima (M),2,0,,,Primera Nacional,2015,zonas,,Fecha 32,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-09-06,16:00,Guaraní Antonio Franco,Guillermo Brown,2,1,,,Primera Nacional,2015,zonas,,Fecha 32,C. A. Fernández de Oliveira,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-09-06,16:00,Nueva Chicago,River Plate,1,4,,,Primera Division,2015,zonas,,Fecha 23,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -1407,7 +1407,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-09-13,16:40,Colón,Unión,0,0,,,Primera Division,2015,zonas,,Fecha 24,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-13,18:15,River Plate,Boca Juniors,0,1,,,Primera Division,2015,zonas,,Fecha 24,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-13,21:30,Lanús,Banfield,0,1,,,Primera Division,2015,zonas,,Fecha 24,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
-2015-09-14,15:00,Colegiales,Estudiantes (LP),1,2,,,Primera B,2015,zonas,,Fecha 33,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-09-14,15:00,Colegiales,Estudiantes (BA),1,2,,,Primera B,2015,zonas,,Fecha 33,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-14,15:00,Comunicaciones,Barracas Central,0,0,,,Primera B,2015,zonas,,Fecha 33,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-14,15:00,Deportivo Merlo,UAI Urquiza,0,2,,,Primera B,2015,zonas,,Fecha 33,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-14,15:00,Flandria,Deportivo Riestra,2,0,,,Primera B,2015,zonas,,Fecha 33,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -1445,7 +1445,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-09-19,15:00,Defensores de Belgrano,Comunicaciones,0,0,,,Primera B,2015,zonas,,Fecha 34,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-19,15:00,Deportivo Riestra,Colegiales,2,4,,,Primera B,2015,zonas,,Fecha 34,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-19,15:00,Juventud Unida (G),Guillermo Brown,1,0,,,Primera Nacional,2015,zonas,,Fecha 34,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
-2015-09-19,15:10,Estudiantes (LP),Brown de Adrogué,1,0,,,Primera B,2015,zonas,,Fecha 34,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-09-19,15:10,Estudiantes (BA),Brown de Adrogué,1,0,,,Primera B,2015,zonas,,Fecha 34,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-19,15:30,Central Córdoba (R),Excursionistas,4,1,,,Primera C,2015,zonas,,Fecha 31,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-09-19,15:45,Tristán Suárez,Sportivo Italiano,2,1,,,Primera B,2015,zonas,,Fecha 34,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-19,16:30,Argentinos Juniors,Boca Juniors,1,3,,,Primera Division,2015,zonas,,Fecha 25,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -1486,7 +1486,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-09-23,14:30,Flandria,Barracas Central,1,0,,,Primera B,2015,zonas,,Fecha 35,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-23,14:30,Sportivo Italiano,Deportivo Morón,2,0,,,Primera B,2015,zonas,,Fecha 35,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-23,15:15,Brown de Adrogué,Deportivo Riestra,3,0,,,Primera B,2015,zonas,,Fecha 35,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-09-23,15:30,Deportivo Merlo,Estudiantes (LP),0,2,,,Primera B,2015,zonas,,Fecha 35,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-09-23,15:30,Deportivo Merlo,Estudiantes (BA),0,2,,,Primera B,2015,zonas,,Fecha 35,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-23,16:00,Boca Unidos,Unión (MdP),3,0,,,Primera Nacional,2015,zonas,,Fecha 35,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-09-23,16:10,Chacarita Juniors,Guaraní Antonio Franco,3,1,,,Primera Nacional,2015,zonas,,Fecha 35,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-09-23,18:20,Atlético Paraná,Los Andes,2,1,,,Primera Nacional,2015,zonas,,Fecha 35,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -1535,7 +1535,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-09-28,21:10,Estudiantes (LP),Newell's Old Boys,0,2,,,Primera Division,2015,zonas,,Fecha 26,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-09-28,21:10,Patronato,Instituto,3,1,,,Primera Nacional,2015,zonas,,Fecha 36,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-09-29,15:00,Argentino de Quilmes,Ferrocarril Midland,1,1,,,Primera C,2015,zonas,,Fecha 32,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-09-29,15:00,Estudiantes (LP),UAI Urquiza,1,1,,,Primera B,2015,zonas,,Fecha 36,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-09-29,15:00,Estudiantes (BA),UAI Urquiza,1,1,,,Primera B,2015,zonas,,Fecha 36,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-09-29,15:15,General Lamadrid,Berazategui,1,1,,,Primera C,2015,zonas,,Fecha 32,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-09-29,15:15,San Miguel,San Telmo,2,2,,,Primera C,2015,zonas,,Fecha 32,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-09-29,21:10,Defensores de Belgrano,Flandria,2,1,,,Primera B,2015,zonas,,Fecha 36,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -1561,7 +1561,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-10-03,20:45,Atlanta,Platense,1,0,,,Primera B,2015,zonas,,Fecha 37,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-10-03,21:00,Guaraní Antonio Franco,Independiente Rivadavia,2,0,,,Primera Nacional,2015,zonas,,Fecha 37,C. A. Fernández de Oliveira,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-10-04,12:00,Colegiales,Defensores de Belgrano,1,1,,,Primera B,2015,zonas,,Fecha 37,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-10-04,12:05,Almirante Brown,Estudiantes (LP),0,1,,,Primera B,2015,zonas,,Fecha 37,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-10-04,12:05,Almirante Brown,Estudiantes (BA),0,1,,,Primera B,2015,zonas,,Fecha 37,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-10-04,13:00,Almagro,Fénix,0,1,,,Primera B,2015,zonas,,Fecha 37,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-10-04,14:00,San Telmo,General Lamadrid,4,0,,,Primera C,2015,zonas,,Fecha 33,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-10-04,14:00,Vélez Sarsfield,Nueva Chicago,1,2,,,Primera Division,2015,zonas,,Fecha 27,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -1592,7 +1592,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-10-10,15:00,Barracas Central,Deportivo Merlo,0,0,,,Primera B,2015,zonas,,Fecha 38,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-10-10,15:00,Los Andes,Central Córdoba (SdE),1,1,,,Primera Nacional,2015,zonas,,Fecha 38,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-10-10,15:30,Defensores Unidos,Berazategui,0,0,,,Primera C,2015,zonas,,Fecha 34,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-10-10,15:30,Estudiantes (LP),Deportivo Armenio,2,0,,,Primera B,2015,zonas,,Fecha 38,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-10-10,15:30,Estudiantes (BA),Deportivo Armenio,2,0,,,Primera B,2015,zonas,,Fecha 38,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-10-10,15:30,General Lamadrid,J. J. de Urquiza,1,3,,,Primera C,2015,zonas,,Fecha 34,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-10-10,17:00,All Boys,Ramón Santamarina,2,1,,,Primera Nacional,2015,zonas,,Fecha 38,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-10-10,18:00,Independiente Rivadavia,Atlético Paraná,0,0,,,Primera Nacional,2015,zonas,,Fecha 38,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -1665,7 +1665,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-10-20,15:05,Juventud Unida,General Lamadrid,3,0,,,Primera C,2015,zonas,,Fecha 35,Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-10-20,15:30,Comunicaciones,Fénix,0,0,,,Primera B,2015,zonas,,Fecha 39,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-10-20,17:00,Temperley,Gimnasia y Esgrima (LP),1,3,,,Primera Division,2015,zonas,,Fecha 28,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
-2015-10-21,15:30,Estudiantes (LP),Deportivo Riestra,4,1,,,Primera B,2015,zonas,,Fecha 39,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-10-21,15:30,Estudiantes (BA),Deportivo Riestra,4,1,,,Primera B,2015,zonas,,Fecha 39,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-10-23,,Lanús,Boca Juniors,0,2,,,Copa Argentina,2015,eliminacion,,Semifinales,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-10-23,,Rosario Central,Racing Club,1,0,,,Copa Argentina,2015,eliminacion,,Semifinales,Padre Ernesto Martearena,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15
 2015-10-23,21:30,Gimnasia y Esgrima (J),Villa Dálmine,1,0,,,Primera Nacional,2015,zonas,,Fecha 36,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -1693,7 +1693,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-10-31,21:10,Newell's Old Boys,Lanús,1,1,,,Primera Division,2015,zonas,,Fecha 29,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-10-31,21:30,Unión (MdP),Atlético Tucumán,1,2,,,Primera Nacional,2015,zonas,,Fecha 40,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-11-01,12:00,Dock Sud,Excursionistas,2,0,,,Primera C,2015,zonas,,Fecha 36,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-11-01,12:35,Acassuso,Estudiantes (LP),0,1,,,Primera B,2015,zonas,,Fecha 40,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-11-01,12:35,Acassuso,Estudiantes (BA),0,1,,,Primera B,2015,zonas,,Fecha 40,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-01,15:00,Fénix,Atlanta,2,2,,,Primera B,2015,zonas,,Fecha 40,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-01,15:30,Quilmes,Huracán,2,1,,,Primera Division,2015,zonas,,Fecha 29,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-11-01,15:45,Douglas Haig,Chacarita Juniors,2,1,,,Primera Nacional,2015,zonas,,Fecha 40,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -1743,7 +1743,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-11-08,11:05,Flandria,Fénix,1,0,,,Primera B,2015,zonas,,Fecha 41,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-08,12:05,Almirante Brown,Defensores de Belgrano,0,0,,,Primera B,2015,zonas,,Fecha 41,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-08,12:05,Brown de Adrogué,Tristán Suárez,0,0,,,Primera B,2015,zonas,,Fecha 41,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-11-08,12:10,Estudiantes (LP),Barracas Central,1,2,,,Primera B,2015,zonas,,Fecha 41,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-11-08,12:10,Estudiantes (BA),Barracas Central,1,2,,,Primera B,2015,zonas,,Fecha 41,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-08,16:00,Juventud Unida (G),Patronato,1,1,,,Primera Nacional,2015,zonas,,Fecha 41,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-11-08,16:00,River Plate,Newell's Old Boys,0,2,,,Primera Division,2015,zonas,,Fecha 30,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-11-08,17:00,Atlético Paraná,Central Córdoba (SdE),1,1,,,Primera Nacional,2015,zonas,,Fecha 41,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
@@ -1781,7 +1781,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-11-14,17:00,Luján,Juventud Unida,3,1,,,Primera C,2015,zonas,,Fecha 38,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-11-14,17:00,Platense,UAI Urquiza,2,0,,,Primera B,2015,zonas,,Fecha 42,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-14,17:00,Tristán Suárez,Deportivo Merlo,2,0,,,Primera B,2015,zonas,,Fecha 42,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-11-14,17:30,Defensores de Belgrano,Estudiantes (LP),0,0,,,Primera B,2015,zonas,,Fecha 42,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-11-14,17:30,Defensores de Belgrano,Estudiantes (BA),0,0,,,Primera B,2015,zonas,,Fecha 42,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-14,17:30,Deportivo Morón,Brown de Adrogué,1,2,,,Primera B,2015,zonas,,Fecha 42,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-14,21:30,Patronato,Atlético Paraná,2,1,,,Primera Nacional,2015,zonas,,Fecha 42,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-11-15,17:00,Acassuso,Deportivo Armenio,1,0,,,Primera B,2015,zonas,,Fecha 42,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
@@ -1800,7 +1800,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-11-18,,Atlanta,Almagro,1,2,,,Primera B,2015,eliminacion,,Cuartos,Estadio Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-18,,Barracas Central,Deportivo Morón,0,2,,,Primera B,2015,eliminacion,,Cuartos,Estadio Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-18,,Defensores de Belgrano,Tristán Suárez,1,1,3,2,Primera B,2015,eliminacion,,Cuartos,Estadio Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
-2015-11-18,,Estudiantes (LP),Platense,2,0,,,Primera B,2015,eliminacion,,Cuartos,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-11-18,,Estudiantes (BA),Platense,2,0,,,Primera B,2015,eliminacion,,Cuartos,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-18,17:00,Argentino de Merlo,Ferrocarril Midland,0,1,,,Primera C,2015,zonas,,Fecha 38,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-11-19,19:00,Instituto,Patronato,1,1,,,Primera Nacional,2015,eliminacion,,Semifinal 1,Juan D. Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-11-19,19:00,Tigre,Colón,1,4,,,Primera Division,2015,eliminacion,,Llave 2,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
@@ -1814,7 +1814,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-11-24,,Central Córdoba (R),Deportivo Laferrere,0,1,,,Primera C,2015,eliminacion,,Semifinales,Estadio Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
 2015-11-24,,Defensores de Belgrano,Deportivo Morón,1,2,,,Primera B,2015,eliminacion,,Semifinales,Estadio Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-24,,Dock Sud,Talleres (RdE),0,0,,,Primera C,2015,eliminacion,,Semifinales,Estadio De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina)
-2015-11-24,,Estudiantes (LP),Almagro,1,3,,,Primera B,2015,eliminacion,,Semifinales,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
+2015-11-24,,Estudiantes (BA),Almagro,1,3,,,Primera B,2015,eliminacion,,Semifinales,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina)
 2015-11-24,21:15,Banfield,Argentinos Juniors,1,0,,,Primera Division,2015,eliminacion,,Llave 1,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina)
 2015-11-25,,Gimnasia y Esgrima (M),Guillermo Brown,1,1,,,Primera Nacional,2015,eliminacion,,Desempate,Diego A. Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
 2015-11-25,19:00,Ferro Carril Oeste,Ramón Santamarina,0,2,,,Primera Nacional,2015,eliminacion,,Semifinal 2,Arq. Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015
