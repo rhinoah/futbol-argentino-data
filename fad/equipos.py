@@ -643,3 +643,52 @@ def canonizar(nombre: str, articulo: str = "") -> str:
 
 def por_afa(id_afa: int) -> Equipo | None:
     return next((e for e in PADRON if e.afa == id_afa), None)
+
+
+# `[[Articulo|Nombre visible]]`, que es la unica forma que importa aca: si el
+# enlace no tiene nombre visible, no hay dos testigos que puedan contradecirse.
+_ENLACE_CON_NOMBRE = re.compile(r"\[\[\s*([^\]|#]+?)\s*\|\s*([^\]]+?)\s*\]\]")
+_CALIFICADOR = re.compile(r"\(")
+
+
+def articulos_que_contradicen(texto: str) -> list[str]:
+    """Enlaces donde el nombre visible y el articulo apuntan a clubes distintos.
+
+    El indice de articulos existe para desambiguar un nombre pelado, asi que que
+    los dos testigos difieran es lo NORMAL: `[[Club Atlético Estudiantes|Estudiantes]]`
+    dice "de los tres Estudiantes, este". No hay nada que avisar ahi.
+
+    Lo que si es un error es cuando el nombre visible YA viene desambiguado y aun
+    asi difiere. `[[Club Atlético Racing|Racing (C)]]`: ese "(C)" lo escribio un
+    editor a proposito para decir Cordoba, y el indice contestaba Avellaneda. Uno
+    de los dos esta mal, y mientras nadie mirara, 248 partidos de Racing de
+    Cordoba quedaron a nombre del otro.
+
+    Las tres condiciones juntas son lo que lo deja casi sin ruido, y hacen falta
+    las tres:
+      - el nombre visible trae su propio parentesis (desambiguacion explicita)
+      - el articulo esta en el indice
+      - el nombre SOLO tambien resuelve a un club del padron
+    Sin la tercera entran 8 casos donde el nombre no lo conoce nadie y el
+    articulo lo esta traduciendo, que es justo para lo que el indice existe.
+
+    Sobre las 279 paginas de la cache queda UN caso, y es real: la Copa Argentina
+    2019-20 escribe `[[Club Atlético San Martín (Tucumán)|San Martín (SJ)]]` con
+    la bandera de San Juan al lado. Ahi el equivocado es el enlace. No ensucia el
+    dataset porque la misma pagina usa tambien el correcto y
+    `parser.articulos_de_la_pagina` se abstiene, pero el aviso corresponde igual.
+    """
+    fuera = []
+    for m in _ENLACE_CON_NOMBRE.finditer(texto):
+        articulo, visible = m.group(1), m.group(2)
+        if not _CALIFICADOR.search(visible) or articulo not in ARTICULOS:
+            continue
+        solo = buscar(visible, "")
+        if solo is None:
+            continue
+        con = canonizar(visible, articulo)
+        if con != solo.nombre:
+            fuera.append(f"[[{articulo}|{visible}]]: el articulo dice {con} y el "
+                         f"nombre dice {solo.nombre}. El nombre ya viene "
+                         f"desambiguado, asi que uno de los dos esta mal")
+    return sorted(set(fuera))

@@ -224,6 +224,65 @@ def casas_compartidas(filas: list[dict]) -> list[str]:
     return avisos
 
 
+# En que division juega cada torneo. Dos torneos del MISMO nivel en una temporada
+# son normales -- el Apertura y el Clausura son los dos de Primera --, y un salto
+# de UN nivel tambien: la temporada argentina cruza dos anios calendario, asi que
+# un club que asciende en junio figura en las dos categorias del mismo anio.
+#
+# Las copas quedan afuera a proposito: la Copa Argentina cruza divisiones por
+# diseno y ahi un club de Primera C contra uno de Primera no dice nada raro.
+_NIVEL = {
+    "Primera Division": 1, "Primera Division - Apertura": 1,
+    "Primera Division - Clausura": 1, "Primera Division - Inicial": 1,
+    "Primera Division - Final": 1, "Copa de la Liga": 1,
+    "Primera Nacional": 2,
+    "Primera B": 3, "Torneo Argentino A": 3, "Torneo Federal A": 3,
+    "Primera C": 4,
+    "Primera D": 5,
+}
+
+
+def categorias_incompatibles(filas: list[dict]) -> list[str]:
+    """Un club en dos divisiones que no se pueden encadenar, la misma temporada.
+
+    El otro chequeo de dataset entero que no mira nombres ni canchas: mira DONDE
+    juega cada club. Un club mal atribuido termina jugando torneos que su club de
+    verdad nunca jugo, y eso se ve sin saber nada de futbol.
+
+    Lo que hace que esto no sea ruido es el SALTO. Un club aparece en dos
+    categorias el mismo anio todo el tiempo, porque la temporada argentina cruza
+    dos anios calendario: el que desciende en junio juega el Clausura en Primera
+    y desde agosto la Primera Nacional, y las dos filas dicen el mismo anio. Eso
+    es un salto de uno y es normal -- son 45 de los 46 casos del dataset.
+
+    Dos niveles no se puede. Para ir de Primera a Primera B en un anio calendario
+    habria que descender dos veces, y no hay calendario donde eso entre. El unico
+    caso que aparecio fue Estudiantes de La Plata en la Primera B 2015, que era
+    Estudiantes de Caseros mal atribuido por una tilde.
+    """
+    por_club: dict[str, dict[str, set]] = {}
+    for f in filas:
+        n = _NIVEL.get(f["tournament"])
+        if n is None:
+            continue
+        for lado in ("home_team", "away_team"):
+            por_club.setdefault(f[lado], {}).setdefault(str(f["season"]), set()).add(
+                (n, f["tournament"]))
+    avisos = []
+    for club, temporadas in sorted(por_club.items()):
+        for temporada, tors in sorted(temporadas.items()):
+            niveles = {n for n, _ in tors}
+            if max(niveles) - min(niveles) < 2:
+                continue
+            cuales = ", ".join(t for _, t in sorted(tors))
+            avisos.append(
+                f"{club} figura en {temporada} jugando {cuales}. Entre esas hay "
+                f"{max(niveles) - min(niveles)} divisiones de diferencia, y en un "
+                f"anio calendario no se baja ni se sube mas de una: casi seguro "
+                f"que uno de los dos es otro club con el mismo nombre")
+    return avisos
+
+
 PATRON = "partidos-*.csv"
 
 

@@ -194,6 +194,12 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: no cierra con su tabla de posiciones", d,
                              grave=False)
                for d in posiciones.contrastar(ps, texto)]
+    # Un enlace donde el nombre visible y el articulo se contradicen. Mira el
+    # wikitexto y no los partidos, asi que no puede ir en `validar`: lo que
+    # denuncia es que la fuente se contradice al NOMBRAR, antes de que eso llegue
+    # a ningun partido.
+    avisos += [validar.Aviso(f"{t.pagina}: el enlace se contradice", d, grave=False)
+               for d in equipos.articulos_que_contradicen(texto)]
     if borradas:
         avisos.append(validar.Aviso(
             f"{borradas} partidos sin numero de jornada",
@@ -273,13 +279,15 @@ def main(argv=None) -> int:
               "El dataset anterior queda como estaba.", file=sys.stderr)
         return 1
 
-    # Los dos chequeos que miran el dataset ENTERO, y que por eso van aca y no en
-    # `validar`: lo que buscan es invisible desde una pagina sola.
+    # Los chequeos que miran el dataset ENTERO, y que por eso van aca y no en
+    # `validar`: lo que buscan es invisible desde una pagina sola. Un club mal
+    # atribuido no rompe ninguna regla del fixture y adentro de su pagina es
+    # perfectamente coherente; se lo ve por donde juega y por donde es local.
     #
-    # La cancha va como aviso y no frena nada -- un club puede alquilar la de otro
-    # --, pero es lo unico que ve un club mal atribuido: ese error no rompe
-    # ninguna regla del fixture y adentro de su pagina es coherente.
-    for a in dataset.casas_compartidas(filas):
+    # Los dos van como aviso y no frenan nada: un club puede alquilar la cancha
+    # de otro, y una categoria rara puede ser un torneo que el catalogo rotula
+    # distinto. Dicen "mira esto", no "esto esta mal".
+    for a in dataset.casas_compartidas(filas) + dataset.categorias_incompatibles(filas):
         print(f"  aviso: {a}", file=sys.stderr)
 
     # Y la que importa cuando esto corre solo: que el dataset no se achique.

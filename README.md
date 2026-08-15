@@ -879,13 +879,58 @@ Wikipedia **en la otra columna**: la Primera Nacional 2022 pone a Gimnasia y Esg
 Fecha 36 es el de Jujuy— y lo que está mal es el estadio, no el club. Queda dicho, no
 corregido: este repo no inventa canchas.
 
+### Los otros dos, que miran otra cosa
+
+Un club mal atribuido deja tres rastros distintos, y cada uno se ve con un chequeo
+que no comparte nada con los otros dos.
+
+**Dónde juega** — [`dataset.categorias_incompatibles`](fad/dataset.py). Un club en
+dos divisiones el mismo año es normal y pasa todo el tiempo: la temporada argentina
+cruza dos años calendario, así que el que desciende en junio juega el Clausura en
+Primera y desde agosto la Primera Nacional, con el mismo año en las dos filas. Son
+45 de los 46 casos del dataset.
+
+Lo que no existe es un **salto de dos**. Para ir de Primera a Primera B en un año
+calendario habría que descender dos veces, y no hay calendario donde eso entre. Eso
+lo vuelve un invariante y no un umbral elegido a dedo.
+
+**Cómo se lo nombra** — [`equipos.articulos_que_contradicen`](fad/equipos.py). Que
+el nombre visible y el artículo digan clubes distintos es lo *normal*: para eso está
+el índice. `[[Club Atlético Estudiantes|Estudiantes]]` significa «de los tres
+Estudiantes, éste». Avisar ahí sería avisar en cada página del ascenso.
+
+Lo que sí es un error es cuando el nombre visible **ya viene desambiguado** y aun
+así difiere. `[[Club Atlético Racing|Racing (C)]]`: ese `(C)` lo escribió alguien a
+propósito, así que no hay ambigüedad que resolver. Hacen falta las tres condiciones
+juntas —el nombre trae paréntesis, el artículo está en el índice, y el nombre solo
+también resuelve a un club conocido—; sin la tercera entran ocho casos donde el
+artículo no contradice nada, sólo traduce.
+
+Los tres, corridos contra el dataset **tal como estaba antes** de los dos arreglos:
+
+| chequeo | antes | ahora |
+|---|---|---|
+| `casas_compartidas` (la cancha) | Estudiantes **y** Racing | 4 avisos, ninguno resuelto |
+| `categorias_incompatibles` (la división) | Estudiantes **y** Racing, en 6 temporadas | 0 |
+| `articulos_que_contradicen` (el enlace) | 1 | 1, y es real |
+
+Que se solapen no es redundancia: **la cancha se le escapaba a Racing** en las
+temporadas donde las dos grafías no convivían bajo el mismo estadio, y la división
+no ve nada cuando el club mal atribuido juega la categoría que le corresponde. Cada
+uno tapa el agujero del otro.
+
+Uno de los tres tiene una limitación que conviene decir: el del enlace mira el
+wikitexto, así que **sólo corre cuando la página se re-parsea**. Un torneo terminado
+sale del CSV sin bajarse, y ahí no opina hasta el próximo `--rehacer`. Es la misma
+propiedad que tiene el cruce contra la tabla de posiciones.
+
 ## Tests
 
-472 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+483 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 139 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 144 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

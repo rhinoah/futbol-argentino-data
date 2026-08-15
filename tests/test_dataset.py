@@ -380,3 +380,71 @@ def test_el_mismo_club_en_dos_canchas_no_es_aviso():
     filas = (_local("Boca Juniors", "La Bombonera", 20)
              + _local("Boca Juniors", "El Cilindro", 5))
     assert dataset.casas_compartidas(filas) == []
+
+
+# --------------------------------------------------------------------------
+# donde juega cada club: un salto de dos divisiones no existe
+# --------------------------------------------------------------------------
+_RIVALES = iter(range(10_000))
+
+
+def _en(club, torneo, temporada="2015"):
+    # Un rival distinto por fila. Reusando el mismo, el rival queda el tambien en
+    # las dos categorias y el chequeo lo denuncia -- con razon, pero ensuciando
+    # el test.
+    return {"home_team": club, "away_team": f"Rival {next(_RIVALES)}",
+            "tournament": torneo, "season": temporada}
+
+
+def test_dos_divisiones_de_salto_es_aviso():
+    """Estudiantes de La Plata en la Primera B 2015. Para ir de Primera a Primera
+    B en un anio calendario habria que descender dos veces, y no hay calendario
+    donde eso entre."""
+    filas = [_en("Estudiantes (LP)", "Primera Division"),
+             _en("Estudiantes (LP)", "Primera B")]
+    avisos = dataset.categorias_incompatibles(filas)
+    assert len(avisos) == 1 and "Estudiantes (LP)" in avisos[0]
+
+
+def test_el_caso_racing_lo_agarra_este_y_no_el_de_la_cancha():
+    """Racing de Cordoba a nombre de Avellaneda: Primera y Federal A el mismo
+    anio. Los dos chequeos son complementarios -- al de la cancha se le escapaba
+    en las temporadas donde las dos grafias no convivian."""
+    filas = [_en("Racing Club", "Primera Division", "2018"),
+             _en("Racing Club", "Torneo Federal A", "2018")]
+    assert len(dataset.categorias_incompatibles(filas)) == 1
+
+
+def test_un_ascenso_no_es_aviso():
+    """El caso normal, y son 45 de los 46 del dataset: la temporada argentina
+    cruza dos anios calendario, asi que el que desciende en junio juega el
+    Clausura en Primera y desde agosto la Primera Nacional, con el mismo anio en
+    las dos filas."""
+    filas = [_en("Belgrano", "Primera Division - Clausura", "2007"),
+             _en("Belgrano", "Primera Nacional", "2007")]
+    assert dataset.categorias_incompatibles(filas) == []
+
+
+def test_apertura_y_clausura_son_el_mismo_nivel():
+    filas = [_en("Boca Juniors", "Primera Division - Apertura", "2010"),
+             _en("Boca Juniors", "Primera Division - Clausura", "2010")]
+    assert dataset.categorias_incompatibles(filas) == []
+
+
+def test_la_copa_argentina_no_cuenta():
+    """Cruza divisiones por diseno: ahi un club de Primera C contra uno de
+    Primera es el torneo funcionando, no un error."""
+    filas = [_en("Boca Juniors", "Primera Division"),
+             _en("Boca Juniors", "Copa Argentina"),
+             _en("Deportivo Armenio", "Primera C"),
+             _en("Deportivo Armenio", "Copa Argentina")]
+    assert dataset.categorias_incompatibles(filas) == []
+
+
+def test_el_visitante_tambien_cuenta():
+    """Un club mal atribuido puede aparecer solo de visitante en la categoria que
+    no le toca."""
+    filas = [_en("Estudiantes (LP)", "Primera Division"),
+             {"home_team": "Almagro X", "away_team": "Estudiantes (LP)",
+              "tournament": "Primera B", "season": "2015"}]
+    assert len(dataset.categorias_incompatibles(filas)) == 1

@@ -38,6 +38,26 @@ MUTANTES = [
      "    return a == b",
      "    return True"),
 
+    ("fad/dataset.py", "avisar por un salto de una sola division (todos los ascensos)",
+     '            if max(niveles) - min(niveles) < 2:',
+     '            if len(niveles) < 2:'),
+
+    ("fad/dataset.py", "contar las copas, que cruzan divisiones por diseno",
+     '        n = _NIVEL.get(f["tournament"])\n        if n is None:\n            continue',
+     '        n = _NIVEL.get(f["tournament"], 9)'),
+
+    ("fad/dataset.py", "mirar solo al local y perder al club mal atribuido de visitante",
+     '        for lado in ("home_team", "away_team"):',
+     '        for lado in ("home_team",):'),
+
+    ("fad/equipos.py", "avisar aunque el nombre visible no venga desambiguado",
+     '        if not _CALIFICADOR.search(visible) or articulo not in ARTICULOS:',
+     '        if articulo not in ARTICULOS:'),
+
+    ("fad/equipos.py", "avisar cuando el padron no conoce el nombre visible",
+     '        solo = buscar(visible, "")\n        if solo is None:\n            continue',
+     '        solo = buscar(visible, "") or Equipo(nombre=visible)'),
+
     ("fad/dataset.py", "avisar por cualquier cancha compartida, se parezcan o no",
      '                if _confundibles(a, b):',
      '                if True:'),

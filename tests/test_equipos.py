@@ -245,3 +245,45 @@ def test_dos_articulos_de_verdad_distintos_siguen_sin_testigo():
     texto = ("[[Club Atlético San Martín (Tucumán)|San Martín (SJ)]] "
              "[[Club Atlético San Martín (San Juan)|San Martín (SJ)]]")
     assert "San Martín (SJ)" not in parser.articulos_de_la_pagina(texto)
+
+
+# --------------------------------------------------------------------------
+# cuando el enlace se contradice con el nombre que muestra
+# --------------------------------------------------------------------------
+def test_un_nombre_ya_desambiguado_que_no_coincide_con_el_articulo():
+    """`[[Club Atlético San Martín (Tucumán)|San Martín (SJ)]]`, tal cual esta en
+    la Copa Argentina 2019-20 y con la bandera de San Juan al lado. El "(SJ)" lo
+    escribio alguien a proposito, asi que no hay ambiguedad que el articulo venga
+    a resolver: uno de los dos esta mal.
+
+    Es la firma del bug de Racing, que costo 248 partidos."""
+    texto = "algo [[Club Atlético San Martín (Tucumán)|San Martín (SJ)]] mas"
+    avisos = equipos.articulos_que_contradicen(texto)
+    assert len(avisos) == 1
+    assert "San Martín (T)" in avisos[0] and "San Martín (SJ)" in avisos[0]
+
+
+def test_el_articulo_desambiguando_un_nombre_pelado_no_es_aviso():
+    """Que los dos testigos difieran es lo NORMAL y es para lo que el indice
+    existe: "Estudiantes" a secas apunta al de La Plata y el articulo dice que
+    este es el de Caseros. Avisar ahi seria avisar en cada pagina del ascenso."""
+    texto = "[[Club Atlético Estudiantes|Estudiantes]]"
+    assert equipos.articulos_que_contradicen(texto) == []
+
+
+def test_un_nombre_que_el_padron_no_conoce_no_es_una_contradiccion():
+    """Sin esta condicion entran 8 casos como `[[Club Atlético Brown|Brown (A)]]`,
+    donde "Brown (A)" no esta en el padron: el articulo no lo esta contradiciendo,
+    lo esta traduciendo."""
+    texto = "[[Club Atlético Brown|Brown (A)]]"
+    assert equipos.articulos_que_contradicen(texto) == []
+
+
+def test_un_articulo_desconocido_no_es_una_contradiccion():
+    texto = "[[Club Inventado de Prueba|San Martín (SJ)]]"
+    assert equipos.articulos_que_contradicen(texto) == []
+
+
+def test_el_enlace_sin_nombre_visible_no_tiene_dos_testigos():
+    texto = "[[Club Atlético San Martín (Tucumán)]]"
+    assert equipos.articulos_que_contradicen(texto) == []
