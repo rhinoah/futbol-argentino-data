@@ -139,6 +139,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Argentino (MM)"),
     Equipo("Argentino de Merlo", alias=("Argentino (M)",)),
     Equipo("Atenas (RC)"),
+    Equipo("Alumni (VM)"),      # Villa María, Córdoba
     Equipo("Atlanta"),
     Equipo("Atlético de Rafaela", alias=("Atlético Rafaela", "Atlético de Rafela",
                                         "Alético de Rafaela", "Atl. Rafaela")),
@@ -210,7 +211,8 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Deportivo Roca"),
     Equipo("Desamparados"),
     Equipo("General Belgrano (SR)"),
-    Equipo("Guaraní Antonio Franco"),
+    # "Anotonio" es un typo del Argentino A 2012-13, en un solo partido.
+    Equipo("Guaraní Antonio Franco", alias=("Guaraní Anotonio Franco",)),
     Equipo("Independiente (N)"),
     Equipo("Juventud Unida (G)"),
     Equipo("Libertad (S)"),
@@ -467,6 +469,7 @@ ARTICULOS: dict[str, str] = {
     'Club Deportivo Armenio': 'Deportivo Armenio',
     'Club Deportivo Español de Buenos Aires': 'Deportivo Español',
     'Club Deportivo Godoy Cruz Antonio Tomba': 'Godoy Cruz',
+    'Club Atlético Alumni': 'Alumni (VM)',
     'Club Deportivo Guaraní Antonio Franco': 'Guaraní Antonio Franco',
     'Club Deportivo Juventud Unida': 'Juventud Unida (G)',
     'Club Deportivo Libertad': 'Libertad (S)',
