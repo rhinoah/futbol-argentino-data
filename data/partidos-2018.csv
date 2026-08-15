@@ -204,7 +204,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-09-09,16:00,San Jorge (T),San Martín (F),0,2,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 1,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-09,16:00,Villa Mitre,Cipolletti,1,0,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 1,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-09,16:30,Chaco For Ever,Boca Unidos,0,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 1,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-09-09,16:30,Deportivo Maipú,Racing Club,2,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 1,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-09-09,16:30,Deportivo Maipú,Racing (C),2,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 1,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-09,16:30,Estudiantes (RC),Huracán Las Heras,1,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 1,Ciudad de Río Cuarto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-09,16:30,Juventud Antoniana,Altos Hornos Zapla,1,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 1,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-09,16:30,San Lorenzo de Alem,Desamparados,0,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 1,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -230,7 +230,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-09-14,21:00,Atlético Tucumán,Tigre,3,0,,,Primera Division,2018,zonas,,Fecha 5,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-09-14,21:00,Boca Unidos,Crucero del Norte,2,1,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 2,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-14,21:00,Cipolletti,Alvarado,0,1,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 2,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-09-14,21:00,Racing Club,Juventud Unida Universitario,0,2,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-09-14,21:00,Racing (C),Juventud Unida Universitario,0,2,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-14,21:00,Sportivo Belgrano,Estudiantes (RC),0,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 2,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-14,21:30,Gimnasia y Tiro (S),San Jorge (T),0,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 2,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-14,22:00,Central Córdoba (SdE),Quilmes,1,0,,,Primera Nacional,2018,zonas,,Fecha 3,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
@@ -349,7 +349,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-09-23,17:45,Boca Juniors,River Plate,0,2,,,Primera Division,2018,zonas,,Fecha 6,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-09-23,20:00,Villa Mitre,Deportivo Roca,1,0,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 4,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-23,20:15,Sportivo Belgrano,Deportivo Maipú,0,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 4,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-09-23,20:30,Desamparados,Racing Club,1,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 4,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-09-23,20:30,Desamparados,Racing (C),1,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 4,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-23,21:00,Boca Unidos,Juventud Antoniana,2,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 4,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-23,21:00,Mitre (SdE),Agropecuario,2,1,,,Primera Nacional,2018,zonas,,Fecha 4,Dres. José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-09-24,15:30,Barracas Central,Talleres (RdE),1,0,,,Primera B,2018,zonas,,Fecha 7,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
@@ -413,7 +413,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-09-30,17:45,Belgrano,Huracán,0,1,,,Primera Division,2018,zonas,,Fecha 7,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-09-30,18:00,Altos Hornos Zapla,Gimnasia y Tiro (S),2,1,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 5,Emilio Fabrizzi,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-30,18:00,Ferro Carril Oeste (GP),Villa Mitre,0,1,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 5,El Coloso de Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-09-30,18:00,Racing Club,Huracán Las Heras,0,2,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 5,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-09-30,18:00,Racing (C),Huracán Las Heras,0,2,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 5,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-09-30,20:00,Boca Juniors,Colón,3,1,,,Primera Division,2018,zonas,,Fecha 7,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-10-01,15:30,San Martín (B),Sportivo Barracas,0,0,,,Primera C,2018,zonas,,Fecha 8,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2018-10-01,15:30,Victoriano Arenas,Villa San Carlos,5,0,,,Primera C,2018,zonas,,Fecha 8,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
@@ -441,7 +441,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-10-05,21:00,Alvarado,Ferro Carril Oeste (GP),2,1,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 6,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-05,21:05,Instituto,Ramón Santamarina,1,2,,,Primera Nacional,2018,zonas,,Fecha 6,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-10-05,21:15,Estudiantes (RC),Deportivo Maipú,2,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 6,Ciudad de Río Cuarto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-10-05,21:15,Sportivo Belgrano,Racing Club,2,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 6,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-10-05,21:15,Sportivo Belgrano,Racing (C),2,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 6,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-05,21:30,Cipolletti,Sansinena,1,1,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 6,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-05,21:30,Crucero del Norte,Juventud Antoniana,1,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 6,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-05,21:30,Gimnasia y Tiro (S),San Martín (F),2,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 6,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -502,7 +502,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-10-10,21:15,Deportivo Maipú,San Lorenzo de Alem,3,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 7,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-10,21:15,Gimnasia y Esgrima (CdU),Deportivo Camioneros,1,0,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 7,Manuel y Ramón Nuñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-10,21:30,Juventud Unida Universitario,Estudiantes (RC),2,2,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 7,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-10-10,21:30,Racing Club,Sportivo Estudiantes (SL),0,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 7,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-10-10,21:30,Racing (C),Sportivo Estudiantes (SL),0,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 7,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-10,21:45,Desamparados,Sportivo Belgrano,1,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 7,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-10,22:00,Juventud Antoniana,San Jorge (T),3,3,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 7,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-11,21:00,Sarmiento (R),Crucero del Norte,2,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 7,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -521,7 +521,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-10-14,16:00,Defensores de Pronunciamiento,Unión (S),3,3,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 8,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-14,16:00,Deportivo Camioneros,Atlético Paraná,0,0,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 8,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-14,16:00,Deportivo Roca,Deportivo Madryn,2,2,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 8,Luis Maiolino,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-10-14,16:30,Estudiantes (RC),Racing Club,2,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 8,Ciudad de Río Cuarto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-10-14,16:30,Estudiantes (RC),Racing (C),2,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 8,Ciudad de Río Cuarto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-14,16:30,Villa Mitre,Sol de Mayo (V),0,1,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 8,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-14,17:00,San Lorenzo de Alem,Juventud Unida Universitario,1,2,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 8,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-14,18:00,Cipolletti,Independiente (N),0,0,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 8,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -590,7 +590,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-10-21,17:45,Independiente,Huracán,3,1,,,Primera Division,2018,zonas,,Fecha 9,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-10-21,20:00,Desamparados,Estudiantes (RC),1,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 9,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-21,20:00,Juventud Unida Universitario,Deportivo Maipú,1,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 9,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-10-21,20:00,Racing Club,San Lorenzo de Alem,1,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 9,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-10-21,20:00,Racing (C),San Lorenzo de Alem,1,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 9,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-21,20:00,San Martín (T),Racing Club,2,1,,,Primera Division,2018,zonas,,Fecha 9,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-10-22,15:30,Dock Sud,San Martín (B),2,1,,,Primera C,2018,zonas,,Fecha 11,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2018-10-22,19:00,Belgrano,Banfield,1,1,,,Primera Division,2018,zonas,,Fecha 9,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
@@ -661,7 +661,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-10-28,17:45,Banfield,Estudiantes (LP),0,2,,,Primera Division,2018,zonas,,Fecha 10,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-10-28,18:00,Boca Unidos,Chaco For Ever,1,2,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 10,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-28,18:00,Cipolletti,Villa Mitre,1,1,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 10,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-10-28,18:00,Racing Club,Deportivo Maipú,3,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 10,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-10-28,18:00,Racing (C),Deportivo Maipú,3,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 10,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-10-28,20:00,Atlético Tucumán,Independiente,4,2,,,Primera Division,2018,zonas,,Fecha 10,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-10-29,15:30,Deportivo Morón,Defensores de Belgrano,1,1,,,Primera Nacional,2018,zonas,,Fecha 8,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-10-29,15:30,Dock Sud,Cañuelas,1,0,,,Primera C,2018,zonas,,Fecha 13,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
@@ -702,7 +702,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-11-03,15:30,Los Andes,Atlético de Rafaela,0,2,,,Primera Nacional,2018,zonas,,Fecha 9,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-11-03,16:00,Deportivo Madryn,Sansinena,1,1,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 11,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-03,17:00,Atlético Paraná,Douglas Haig,0,1,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 11,Pedro Mutio,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-11-03,17:00,Juventud Unida Universitario,Racing Club,1,3,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 11,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-11-03,17:00,Juventud Unida Universitario,Racing (C),1,3,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 11,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-03,17:45,Estudiantes (LP),River Plate,1,0,,,Primera Division,2018,zonas,,Fecha 11,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-11-03,18:30,Sarmiento (R),Altos Hornos Zapla,3,1,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 11,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-03,19:00,Ferro Carril Oeste (GP),Sol de Mayo (V),1,1,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 11,El Coloso de Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -788,7 +788,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-11-11,18:30,Douglas Haig,Juventud Unida (G),0,1,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 13,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-11,18:50,Deportivo Maipú,Sportivo Belgrano,0,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 13,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-11,19:00,Sarmiento (R),Gimnasia y Tiro (S),3,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 13,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-11-11,19:15,Racing Club,Desamparados,2,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 13,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-11-11,19:15,Racing (C),Desamparados,2,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 13,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-11,19:30,Atlético Paraná,Unión (S),1,4,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 13,Pedro Mutio,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-11,19:30,Independiente Rivadavia,Gimnasia y Esgrima (J),3,1,,,Primera Nacional,2018,zonas,,Fecha 10,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-11-11,20:00,Altos Hornos Zapla,San Martín (F),2,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 13,Emilio Fabrizzi,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -829,7 +829,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-11-17,19:30,Atlanta,J. J. de Urquiza,3,1,,,Primera B,2018,zonas,,Fecha 16,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2018-11-18,17:00,Crucero del Norte,San Jorge (T),1,0,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 14,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-18,17:00,Guillermo Brown,Villa Dálmine,2,2,,,Primera Nacional,2018,zonas,,Fecha 12,Cayetano Castro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
-2018-11-18,17:00,Huracán Las Heras,Racing Club,1,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 14,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-11-18,17:00,Huracán Las Heras,Racing (C),1,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 14,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-18,17:00,Independiente (N),Sansinena,1,2,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 14,La Nueva Caldera,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-18,17:00,Ituzaingó,Deportivo Merlo,0,0,,,Primera C,2018,zonas,,Fecha 16,Ituzaingó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2018-11-18,17:00,Sportivo Las Parejas,Deportivo Camioneros,1,1,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 14,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -879,7 +879,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-11-23,21:30,Deportivo Maipú,Estudiantes (RC),0,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 15,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-23,21:30,Desamparados,Huracán Las Heras,1,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 15,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-23,21:30,Juventud Unida Universitario,Sportivo Estudiantes (SL),0,3,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 15,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-11-23,21:30,Racing Club,Sportivo Belgrano,0,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 15,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-11-23,21:30,Racing (C),Sportivo Belgrano,0,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 15,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-23,22:00,Altos Hornos Zapla,Boca Unidos,1,2,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 15,Emilio Fabrizzi,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-23,22:00,Central Córdoba (SdE),Los Andes,1,0,,,Primera Nacional,2018,zonas,,Fecha 11,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-11-23,22:00,Juventud Antoniana,Crucero del Norte,1,1,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 15,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -928,7 +928,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-11-28,21:30,Crucero del Norte,Sarmiento (R),1,2,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 16,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-28,21:30,Deportivo Roca,Ferro Carril Oeste (GP),1,0,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 16,Luis Maiolino,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-28,21:30,Estudiantes (RC),Juventud Unida Universitario,3,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 16,Ciudad de Río Cuarto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-11-28,21:30,Sportivo Estudiantes (SL),Racing Club,2,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 16,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-11-28,21:30,Sportivo Estudiantes (SL),Racing (C),2,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 16,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-29,20:30,Alvarado,Deportivo Madryn,3,0,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 16,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-11-30,17:00,Ituzaingó,Luján,1,2,,,Primera C,2018,zonas,,Fecha 18,Ituzaingó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina)
 2018-11-30,19:00,Colón,Belgrano,1,1,,,Primera Division,2018,zonas,,Fecha 14,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
@@ -960,7 +960,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-12-02,18:00,Altos Hornos Zapla,Crucero del Norte,0,2,,,Torneo Federal A,2018,zonas,Zona 4,Fecha 17,Emilio Fabrizzi,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-12-02,18:00,Olimpo,Gimnasia y Esgrima (M),1,1,,,Primera Nacional,2018,zonas,,Fecha 12,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-12-02,18:00,Unión (S),Defensores de Pronunciamiento,4,3,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 17,Fortaleza del Bicho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2018-12-02,18:30,Racing Club,Estudiantes (RC),0,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 17,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-12-02,18:30,Racing (C),Estudiantes (RC),0,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 17,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-12-02,19:00,Ferro Carril Oeste,Arsenal,2,1,,,Primera Nacional,2018,zonas,,Fecha 12,Arquitecto Ricardo Echeverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-12-02,19:05,Atlético de Rafaela,Platense,1,1,,,Primera Nacional,2018,zonas,,Fecha 12,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-12-02,19:20,Independiente,Boca Juniors,0,1,,,Primera Division,2018,zonas,,Fecha 14,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
@@ -1026,7 +1026,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-12-09,19:20,Argentinos Juniors,Aldosivi,1,2,,,Primera Division,2018,zonas,,Fecha 15,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-12-09,19:20,Gimnasia y Esgrima (LP),Huracán,2,2,,,Primera Division,2018,zonas,,Fecha 15,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-12-09,20:00,Instituto,Quilmes,1,1,,,Primera Nacional,2018,zonas,,Fecha 13,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
-2018-12-09,20:30,San Lorenzo de Alem,Racing Club,2,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 18,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2018-12-09,20:30,San Lorenzo de Alem,Racing (C),2,0,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 18,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2018-12-09,21:30,Racing Club,San Martín (SJ),1,0,,,Primera Division,2018,zonas,,Fecha 15,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2018-12-10,17:00,Almagro,Central Córdoba (SdE),1,3,,,Primera Nacional,2018,zonas,,Fecha 13,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2018-12-10,17:00,Alvarado,Sol de Mayo (V),1,0,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 18,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -1126,7 +1126,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-02-03,17:30,San Martín (F),Juventud Antoniana,2,0,,,Torneo Federal A,2018,zonas,Zona D,Fecha 1,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-03,19:00,Chaco For Ever,Sarmiento (R),1,1,,,Torneo Federal A,2018,zonas,Zona B,Fecha 1,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-03,19:00,Gimnasia y Tiro (S),Altos Hornos Zapla,1,0,,,Torneo Federal A,2018,zonas,Zona D,Fecha 1,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-02-03,19:00,Racing Club,Sportivo Estudiantes (SL),0,1,,,Torneo Federal A,2018,zonas,Zona C,Fecha 1,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-02-03,19:00,Racing (C),Sportivo Estudiantes (SL),0,1,,,Torneo Federal A,2018,zonas,Zona C,Fecha 1,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-03,19:20,Racing Club,Huracán,3,1,,,Primera Division,2018,zonas,,Fecha 17,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-02-03,19:30,Atlético Paraná,Juventud Unida (G),1,1,,,Torneo Federal A,2018,zonas,Zona B,Fecha 1,Pedro Mutio,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-03,19:30,Independiente Rivadavia,Mitre (SdE),0,1,,,Primera Nacional,2018,zonas,,Fecha 14,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
@@ -1224,7 +1224,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-02-13,21:00,Defensores de Pronunciamiento,Juventud Unida (G),2,0,,,Torneo Federal A,2018,zonas,Zona B,Fecha 3,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-13,21:00,Douglas Haig,Atlético Paraná,2,2,,,Torneo Federal A,2018,zonas,Zona B,Fecha 3,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-13,21:00,San Lorenzo de Alem,Sportivo Estudiantes (SL),1,2,,,Torneo Federal A,2018,zonas,Zona C,Fecha 3,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-02-13,21:00,Sportivo Belgrano,Racing Club,1,2,,,Torneo Federal A,2018,zonas,Zona C,Fecha 3,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-02-13,21:00,Sportivo Belgrano,Racing (C),1,2,,,Torneo Federal A,2018,zonas,Zona C,Fecha 3,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-13,21:30,Crucero del Norte,Altos Hornos Zapla,1,0,,,Torneo Federal A,2018,zonas,Zona D,Fecha 3,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-13,21:30,Deportivo Roca,Deportivo Madryn,1,1,,,Torneo Federal A,2018,zonas,Zona A,Fecha 3,Luis Maiolino,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-14,21:00,Rosario Central,River Plate,1,1,,,Primera Division,2018,zonas,,Fecha 15,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
@@ -1267,7 +1267,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-02-17,17:10,Talleres (C),Huracán,0,0,,,Primera Division,2018,zonas,,Fecha 19,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-02-17,18:00,Deportivo Madryn,Cipolletti,1,0,,,Torneo Federal A,2018,zonas,Zona A,Fecha 4,El Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-17,18:00,Huracán Las Heras,Deportivo Maipú,2,1,,,Torneo Federal A,2018,zonas,Zona B,Fecha 3,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-02-17,18:00,Racing Club,San Lorenzo de Alem,2,0,,,Torneo Federal A,2018,zonas,Zona C,Fecha 4,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-02-17,18:00,Racing (C),San Lorenzo de Alem,2,0,,,Torneo Federal A,2018,zonas,Zona C,Fecha 4,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-17,18:30,Independiente Rivadavia,Deportivo Morón,1,1,,,Primera Nacional,2018,zonas,,Fecha 16,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-02-17,19:00,Gimnasia y Tiro (S),Crucero del Norte,1,0,,,Torneo Federal A,2018,zonas,Zona D,Fecha 4,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-17,19:00,Juventud Unida (G),Sportivo Las Parejas,1,2,,,Torneo Federal A,2018,zonas,Zona B,Fecha 4,De Los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -1345,7 +1345,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-02-24,19:20,Atlético Tucumán,Argentinos Juniors,0,0,,,Primera Division,2018,zonas,,Fecha 20,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-02-24,19:20,Estudiantes (LP),Talleres (C),0,1,,,Primera Division,2018,zonas,,Fecha 20,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-02-24,19:30,Sarmiento (R),Huracán Las Heras,1,0,,,Torneo Federal A,2018,zonas,Zona B,Fecha 4,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-02-24,20:00,Juventud Unida Universitario,Racing Club,0,0,,,Torneo Federal A,2018,zonas,Zona C,Fecha 5,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-02-24,20:00,Juventud Unida Universitario,Racing (C),0,0,,,Torneo Federal A,2018,zonas,Zona C,Fecha 5,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-24,20:30,Desamparados,Estudiantes (RC),1,1,,,Torneo Federal A,2018,zonas,Zona B,Fecha 4,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-24,21:00,Villa Mitre,Unión (S),3,1,,,Torneo Federal A,2018,zonas,Zona A,Fecha 4,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-02-24,21:30,Defensa y Justicia,Boca Juniors,0,1,,,Primera Division,2018,zonas,,Fecha 20,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
@@ -1406,7 +1406,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-03-03,18:00,Huracán Las Heras,Chaco For Ever,0,2,,,Torneo Federal A,2018,zonas,Zona B,Fecha 5,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-03,19:00,Boca Unidos,Desamparados,1,0,,,Torneo Federal A,2018,zonas,Zona B,Fecha 5,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-03,19:00,Platense,Villa Dálmine,0,0,,,Primera Nacional,2018,zonas,,Fecha 18,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
-2019-03-03,19:00,Sportivo Estudiantes (SL),Racing Club,1,0,,,Torneo Federal A,2018,zonas,Zona C,Fecha 6,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-03-03,19:00,Sportivo Estudiantes (SL),Racing (C),1,0,,,Torneo Federal A,2018,zonas,Zona C,Fecha 6,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-03,19:20,Racing Club,Estudiantes (LP),1,0,,,Primera Division,2018,zonas,,Fecha 21,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-03-03,19:30,Unión (S),Sansinena,1,3,,,Torneo Federal A,2018,zonas,Zona A,Fecha 5,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-03,21:00,Alvarado,Villa Mitre,1,1,,,Torneo Federal A,2018,zonas,Zona A,Fecha 5,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
@@ -1490,7 +1490,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-03-13,16:00,Tristán Suárez,San Telmo,0,1,,,Primera B,2018,zonas,,Fecha 28,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-03-13,19:00,Altos Hornos Zapla,Crucero del Norte,0,0,,,Torneo Federal A,2018,zonas,Zona D,Fecha 8,Emilio Fabrizzi,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-13,20:00,Talleres (RdE),All Boys,2,0,,,Primera B,2018,zonas,,Fecha 28,Talleres (RdE),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-03-13,21:15,Racing Club,Sportivo Belgrano,1,2,,,Torneo Federal A,2018,zonas,Zona C,Fecha 8,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-03-13,21:15,Racing (C),Sportivo Belgrano,1,2,,,Torneo Federal A,2018,zonas,Zona C,Fecha 8,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-13,21:30,Gimnasia y Tiro (S),San Martín (F),1,1,,,Torneo Federal A,2018,zonas,Zona D,Fecha 8,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-13,21:30,Sportivo Estudiantes (SL),San Lorenzo de Alem,2,1,,,Torneo Federal A,2018,zonas,Zona C,Fecha 8,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-14,16:00,Colegiales,Sacachispas,0,1,,,Primera B,2018,zonas,,Fecha 28,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
@@ -1541,7 +1541,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-03-17,17:30,Crucero del Norte,Gimnasia y Tiro (S),1,0,,,Torneo Federal A,2018,zonas,Zona D,Fecha 9,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-17,17:45,River Plate,Independiente,3,0,,,Primera Division,2018,zonas,,Fecha 23,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina)
 2019-03-17,18:00,Juventud Antoniana,Altos Hornos Zapla,1,1,,,Torneo Federal A,2018,zonas,Zona D,Fecha 9,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
-2019-03-17,18:00,San Lorenzo de Alem,Racing Club,3,3,,,Torneo Federal A,2018,zonas,Zona C,Fecha 9,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-03-17,18:00,San Lorenzo de Alem,Racing (C),3,3,,,Torneo Federal A,2018,zonas,Zona C,Fecha 9,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-17,19:00,Almagro,Defensores de Belgrano,3,0,,,Primera Nacional,2018,zonas,,Fecha 20,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-03-17,19:00,Central Córdoba (SdE),Gimnasia y Esgrima (J),2,0,,,Primera Nacional,2018,zonas,,Fecha 20,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
 2019-03-17,20:00,Atlético de Rafaela,Instituto,1,0,,,Primera Nacional,2018,zonas,,Fecha 20,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19
@@ -1586,7 +1586,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-03-24,16:00,Flandria,UAI Urquiza,2,3,,,Primera B,2018,zonas,,Fecha 30,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-03-24,16:00,Gimnasia y Tiro (S),Juventud Antoniana,0,2,,,Torneo Federal A,2018,zonas,Zona D,Fecha 10,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-24,16:00,J. J. de Urquiza,San Miguel,0,0,,,Primera B,2018,zonas,,Fecha 30,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
-2019-03-24,16:00,Racing Club,Juventud Unida Universitario,5,2,,,Torneo Federal A,2018,zonas,Zona C,Fecha 10,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
+2019-03-24,16:00,Racing (C),Juventud Unida Universitario,5,2,,,Torneo Federal A,2018,zonas,Zona C,Fecha 10,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-24,16:00,San Martín (F),Crucero del Norte,2,1,,,Torneo Federal A,2018,zonas,Zona D,Fecha 10,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19
 2019-03-24,16:00,Talleres (RdE),Sacachispas,0,1,,,Primera B,2018,zonas,,Fecha 30,Talleres (RdE),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina)
 2019-03-24,17:00,Gimnasia y Esgrima (J),Almagro,0,1,,,Primera Nacional,2018,zonas,,Fecha 21,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19

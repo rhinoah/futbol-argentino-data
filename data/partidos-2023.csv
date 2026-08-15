@@ -70,7 +70,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-02-11,17:00,Acassuso,Argentino de Quilmes,1,1,,,Primera B,2023,zonas,Torneo Apertura,Fecha 1,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-02-11,17:00,Almagro,Almirante Brown,0,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 2,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-02-11,17:00,Argentino de Merlo,Colegiales,3,0,,,Primera B,2023,zonas,Torneo Apertura,Fecha 1,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
-2023-02-11,17:00,Brown de Adrogué,Racing Club,1,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 1,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-02-11,17:00,Brown de Adrogué,Racing (C),1,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 1,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-02-11,17:00,Cañuelas,Ituzaingó,1,0,,,Primera B,2023,zonas,Torneo Apertura,Fecha 1,Jorge Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-02-11,17:00,Central Córdoba (R),J. J. de Urquiza,0,1,,,Primera C,2023,zonas,,Fecha 3,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-02-11,17:00,Defensa y Justicia,Newell's Old Boys,1,0,,,Primera Division,2023,zonas,,Fecha 3,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
@@ -115,7 +115,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-02-17,21:00,Estudiantes (RC),San Telmo,2,2,,,Primera Nacional,2023,zonas,Zona A,Fecha 3,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-02-17,21:00,Ferro Carril Oeste,Quilmes,2,3,,,Primera Nacional,2023,zonas,Zona B,Fecha 2,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-02-17,21:00,Gimnasia y Esgrima (J),Aldosivi,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 2,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-02-17,21:00,Racing Club,Estudiantes (BA),0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-02-17,21:00,Racing (C),Estudiantes (BA),0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-02-17,21:30,Arsenal,Racing Club,0,3,,,Primera Division,2023,zonas,,Fecha 4,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-02-17,21:30,Huracán,Barracas Central,2,0,,,Primera Division,2023,zonas,,Fecha 4,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-02-18,17:00,Atlas,Ferrocarril Midland,1,2,,,Primera C,2023,zonas,,Fecha 4,Ricardo Puga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
@@ -193,7 +193,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-02-26,17:00,Sportivo Italiano,Excursionistas,0,0,,,Primera C,2023,zonas,,Fecha 5,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-02-26,19:00,Deportivo Maipú,Chacarita Juniors,0,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 3,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-02-26,19:15,River Plate,Arsenal,1,2,,,Primera Division,2023,zonas,,Fecha 5,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
-2023-02-26,20:00,Atlético de Rafaela,Racing Club,2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 3,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-02-26,20:00,Atlético de Rafaela,Racing (C),2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 3,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-02-26,20:30,Independiente Rivadavia,Mitre (SdE),4,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 3,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-02-26,21:00,Claypole,Victoriano Arenas,2,0,,,Primera C,2023,zonas,,Fecha 5,Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-02-26,21:30,Banfield,Independiente,0,0,,,Primera Division,2023,zonas,,Fecha 5,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
@@ -210,7 +210,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-02-28,17:00,UAI Urquiza,Los Andes,0,1,,,Primera B,2023,zonas,Torneo Apertura,Fecha 3,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-02-28,21:10,Argentino de Merlo,San Miguel,0,1,,,Primera B,2023,zonas,Torneo Apertura,Fecha 3,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-03-03,17:00,Deportivo Riestra,Atlético de Rafaela,0,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 4,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-03-03,17:00,Racing Club,Deportivo Madryn,3,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 4,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-03-03,17:00,Racing (C),Deportivo Madryn,3,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 4,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-03-03,20:00,Excursionistas,Deportivo Español,1,0,,,Primera C,2023,zonas,,Fecha 6,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-03-03,20:00,Sarmiento (J),Rosario Central,4,1,,,Primera Division,2023,zonas,,Fecha 6,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-03-03,20:00,Unión,Estudiantes (LP),2,0,,,Primera Division,2023,zonas,,Fecha 6,15 de abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
@@ -258,7 +258,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-03-06,17:00,Leandro N. Alem,Puerto Nuevo,0,1,,,Primera C,2023,zonas,,Fecha 6,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-03-06,18:00,Patronato,Alvarado,6,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 5,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-03-06,21:00,Boca Juniors,Defensa y Justicia,0,0,,,Primera Division,2023,zonas,,Fecha 6,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
-2023-03-08,,River Plate,Racing Club,3,0,,,Copa Argentina,2023,eliminacion,,Treintaidosavos,Único Madre de Ciudades,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
+2023-03-08,,River Plate,Racing (C),3,0,,,Copa Argentina,2023,eliminacion,,Treintaidosavos,Único Madre de Ciudades,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
 2023-03-08,,Sarmiento (J),Chaco For Ever,0,0,5,6,Copa Argentina,2023,eliminacion,,Treintaidosavos,Brigadier General Estanislao López,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
 2023-03-10,17:00,Barracas Central,Independiente,1,1,,,Primera Division,2023,zonas,,Fecha 7,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-03-10,17:00,Berazategui,J. J. de Urquiza,2,2,,,Primera C,2023,zonas,,Fecha 7,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
@@ -309,7 +309,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-03-12,17:30,Unión (S),El Linqueño,1,1,,,Torneo Federal A,2023,zonas,Zona C,Fecha 1,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-03-12,18:00,Cipolletti,Círculo Deportivo,1,0,,,Torneo Federal A,2023,zonas,Zona A,Fecha 1,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-03-12,18:30,Chaco For Ever,Chacarita Juniors,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 5,Juan Alberto García,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-03-12,19:00,Villa Dálmine,Racing Club,2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 5,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-03-12,19:00,Villa Dálmine,Racing (C),2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 5,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-03-12,19:05,Almagro,Nueva Chicago,0,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 6,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-03-12,19:15,Estudiantes (LP),Huracán,2,1,,,Primera Division,2023,zonas,,Fecha 7,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-03-12,19:15,River Plate,Godoy Cruz,3,0,,,Primera Division,2023,zonas,,Fecha 7,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
@@ -380,7 +380,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-03-19,17:00,Sarmiento (R),Sol de América (F),1,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 2,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-03-19,17:00,Sportivo Las Parejas,Unión (S),1,0,,,Torneo Federal A,2023,zonas,Zona C,Fecha 2,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-03-19,17:00,Sportivo Peñarol (C),Sportivo Estudiantes (SL),1,1,,,Torneo Federal A,2023,zonas,Zona B,Fecha 2,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
-2023-03-19,18:00,Racing Club,Deportivo Maipú,1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 6,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-03-19,18:00,Racing (C),Deportivo Maipú,1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 6,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-03-19,18:00,San Martín (SM),Atenas (RC),1,0,,,Torneo Federal A,2023,zonas,Zona B,Fecha 2,Libertador General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-03-19,18:10,Temperley,San Telmo,3,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 7,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-03-19,19:00,Boca Juniors,Instituto,2,3,,,Primera Division,2023,zonas,,Fecha 8,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
@@ -453,7 +453,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-03-27,15:30,Acassuso,Argentino de Merlo,0,2,,,Primera B,2023,zonas,Torneo Apertura,Fecha 7,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-03-27,15:30,J. J. de Urquiza,Claypole,0,0,,,Primera C,2023,zonas,,Fecha 10,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-03-27,19:10,Ituzaingó,Argentino de Quilmes,2,0,,,Primera B,2023,zonas,Torneo Apertura,Fecha 7,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
-2023-03-27,21:10,Independiente Rivadavia,Racing Club,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 7,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-03-27,21:10,Independiente Rivadavia,Racing (C),1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 7,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-03-30,16:30,Nueva Chicago,Defensores Unidos,0,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 9,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-03-30,20:00,Defensa y Justicia,Vélez Sarsfield,0,0,,,Primera Division,2023,zonas,,Fecha 9,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-03-30,21:30,Argentinos Juniors,Godoy Cruz,3,0,,,Primera Division,2023,zonas,,Fecha 9,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
@@ -504,7 +504,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-04-02,16:30,Sportivo Peñarol (C),Ciudad de Bolívar,0,0,,,Torneo Federal A,2023,zonas,Zona B,Fecha 4,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-04-02,16:45,Deportivo Morón,Patronato,0,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 9,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-02,17:00,San Martín (SM),Sportivo Estudiantes (SL),1,0,,,Torneo Federal A,2023,zonas,Zona B,Fecha 4,Libertador General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
-2023-04-02,18:30,Racing Club,Chaco For Ever,2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 8,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-04-02,18:30,Racing (C),Chaco For Ever,2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 8,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-02,18:50,Ferro Carril Oeste,Deportivo Maipú,0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 8,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-02,19:00,Colón,Atlético Tucumán,0,0,,,Primera Division,2023,zonas,,Fecha 9,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-04-02,19:00,Ferrocarril Midland,J. J. de Urquiza,1,2,,,Primera C,2023,zonas,,Fecha 11,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
@@ -580,7 +580,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-04-09,17:00,Sol de América (F),Crucero del Norte,2,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 5,Sol de América,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-04-09,17:00,Sportivo Estudiantes (SL),Huracán Las Heras,0,0,,,Torneo Federal A,2023,zonas,Zona B,Fecha 5,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-04-09,18:00,Chaco For Ever,Deportivo Riestra,2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 9,Juan Alberto García,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-04-09,18:00,Mitre (SdE),Racing Club,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 9,Dres. José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-04-09,18:00,Mitre (SdE),Racing (C),1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 9,Dres. José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-09,18:30,Ferro Carril Oeste (GP),Atenas (RC),3,0,,,Torneo Federal A,2023,zonas,Zona B,Fecha 5,El Coloso del Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-04-09,19:00,9 de Julio (R),Gimnasia y Tiro (S),2,1,,,Torneo Federal A,2023,zonas,Zona D,Fecha 5,Germán Solterman,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-04-09,19:00,Huracán,River Plate,0,3,,,Primera Division,2023,zonas,,Fecha 10,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
@@ -669,7 +669,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-04-17,19:40,Atlanta,Tristán Suárez,3,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 10,Don León Kolbowski,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-17,21:30,Atlético Tucumán,Rosario Central,2,2,,,Primera Division,2023,zonas,,Fecha 12,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-04-17,21:30,Godoy Cruz,Lanús,4,4,,,Primera Division,2023,zonas,,Fecha 12,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
-2023-04-17,21:40,Racing Club,Chacarita Juniors,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 10,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-04-17,21:40,Racing (C),Chacarita Juniors,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 10,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-18,15:30,Leandro N. Alem,San Martín (B),2,0,,,Primera C,2023,zonas,,Fecha 13,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-04-19,,San Martín (T),Deportivo Morón,2,0,,,Copa Argentina,2023,eliminacion,,Treintaidosavos,15 de abril,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
 2023-04-21,15:30,Berazategui,Deportivo Español,2,0,,,Primera C,2023,zonas,,Fecha 14,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
@@ -703,7 +703,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-04-23,15:30,San Martín (B),Victoriano Arenas,4,2,,,Primera C,2023,zonas,,Fecha 14,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-04-23,15:30,San Telmo,San Martín (SJ),0,2,,,Primera Nacional,2023,zonas,Zona A,Fecha 13,Doctor Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-23,15:30,Sportivo Belgrano,Unión (S),2,0,,,Torneo Federal A,2023,zonas,Zona C,Fecha 7,Oscar Carlos Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
-2023-04-23,15:30,Tristán Suárez,Racing Club,3,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 11,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-04-23,15:30,Tristán Suárez,Racing (C),3,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 11,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-23,15:30,UAI Urquiza,Acassuso,0,1,,,Primera B,2023,zonas,Torneo Apertura,Fecha 11,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-04-23,16:00,Argentino (MM),Atenas (RC),0,2,,,Torneo Federal A,2023,zonas,Zona B,Fecha 7,Modesto Marrone,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-04-23,16:00,Defensores de Belgrano (VR),Douglas Haig,1,2,,,Torneo Federal A,2023,zonas,Zona C,Fecha 7,Único de San Nicolás,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
@@ -784,7 +784,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-04-30,16:00,Gimnasia y Esgrima (M),San Martín (T),1,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 14,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-30,16:00,Huracán Las Heras,Sportivo Peñarol (C),2,1,,,Torneo Federal A,2023,zonas,Zona B,Fecha 8,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-04-30,16:00,Liniers (BB),Sansinena,2,0,,,Torneo Federal A,2023,zonas,Zona A,Fecha 8,Alejandro Pérez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
-2023-04-30,16:00,Racing Club,Atlanta,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 12,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-04-30,16:00,Racing (C),Atlanta,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 12,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-30,16:40,Deportivo Morón,Estudiantes (RC),2,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 14,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-30,17:00,Güemes (SdE),All Boys,1,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 14,Arturo Miranda,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-04-30,17:00,San Martín (SJ),Almagro,3,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 14,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
@@ -829,7 +829,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-05-06,15:30,Tristán Suárez,Ferro Carril Oeste,2,4,,,Primera Nacional,2023,zonas,Zona B,Fecha 13,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-05-06,15:30,UAI Urquiza,Dock Sud,1,1,,,Primera B,2023,zonas,Torneo Apertura,Fecha 13,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-05-06,15:35,Los Andes,San Miguel,3,0,,,Primera B,2023,zonas,Torneo Apertura,Fecha 13,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
-2023-05-06,16:00,Aldosivi,Racing Club,3,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 13,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-05-06,16:00,Aldosivi,Racing (C),3,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 13,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-05-06,16:00,Sportivo Peñarol (C),Atenas (RC),0,1,,,Torneo Federal A,2023,zonas,Zona B,Fecha 9,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-05-06,17:00,Real Pilar,Yupanqui,2,0,,,Primera C,2023,zonas,,Fecha 16,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-05-06,17:35,Chacarita Juniors,Gimnasia y Esgrima (J),2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 13,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
@@ -929,7 +929,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-05-14,21:30,Talleres (C),River Plate,2,1,,,Primera Division,2023,zonas,,Fecha 16,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-05-15,15:30,Barracas Central,Central Córdoba (SdE),2,2,,,Primera Division,2023,zonas,,Fecha 16,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-05-15,15:30,Claypole,Deportivo Español,4,2,,,Primera C,2023,zonas,,Fecha 17,Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
-2023-05-15,15:30,Deportivo Riestra,Racing Club,2,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 14,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-05-15,15:30,Deportivo Riestra,Racing (C),2,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 14,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-05-15,15:30,Fénix,Deportivo Armenio,0,0,,,Primera B,2023,zonas,Torneo Apertura,Fecha 14,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-05-15,15:30,Leandro N. Alem,Liniers,1,0,,,Primera C,2023,zonas,,Fecha 17,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-05-15,15:30,Unión,Sarmiento (J),0,2,,,Primera Division,2023,zonas,,Fecha 16,15 de abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
@@ -1019,7 +1019,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-05-21,20:00,San Martín (SM),Ferro Carril Oeste (GP),0,0,,,Torneo Federal A,2023,zonas,Zona B,Fecha 12,Libertador General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-05-21,20:30,River Plate,Platense,2,1,,,Primera Division,2023,zonas,,Fecha 17,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-05-22,15:30,Deportivo Español,Ferrocarril Midland,1,1,,,Primera C,2023,zonas,,Fecha 18,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
-2023-05-22,19:00,Racing Club,Ferro Carril Oeste,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 15,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-05-22,19:00,Racing (C),Ferro Carril Oeste,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 15,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-05-22,20:35,Atlanta,Gimnasia y Esgrima (J),1,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 15,Don León Kolbowski,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-05-22,21:10,All Boys,Defensores de Belgrano,2,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 17,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-05-24,,Central Córdoba (SdE),Comunicaciones,3,0,,,Copa Argentina,2023,eliminacion,,Treintaidosavos,Carlos Augusto Mercado Luna,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
@@ -1069,7 +1069,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-05-28,16:30,Defensa y Justicia,Racing Club,1,1,,,Primera Division,2023,zonas,,Fecha 18,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-05-28,16:30,Ferro Carril Oeste (GP),Huracán Las Heras,2,3,,,Torneo Federal A,2023,zonas,Zona B,Fecha 13,El Coloso del Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-05-28,16:30,Talleres (C),Argentinos Juniors,1,0,,,Primera Division,2023,zonas,,Fecha 18,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
-2023-05-28,17:00,Gimnasia y Esgrima (J),Racing Club,1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 16,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-05-28,17:00,Gimnasia y Esgrima (J),Racing (C),1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 16,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-05-28,17:00,Sol de América (F),Gimnasia y Tiro (S),0,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 13,Sol de América,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-05-28,17:05,Argentino de Merlo,Los Andes,1,0,,,Primera B,2023,zonas,Torneo Apertura,Fecha 16,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-05-28,17:05,Estudiantes (BA),Chacarita Juniors,2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 16,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
@@ -1153,7 +1153,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-06-05,15:30,Leandro N. Alem,Berazategui,2,2,,,Primera C,2023,zonas,,Fecha 20,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-06-05,17:45,Atlanta,Brown de Adrogué,1,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 17,Don León Kolbowski,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-06-05,20:00,Excursionistas,Liniers,3,0,,,Primera C,2023,zonas,,Fecha 20,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
-2023-06-05,21:00,Racing Club,Quilmes,0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 17,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-06-05,21:00,Racing (C),Quilmes,0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 17,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-06-06,,Talleres (C),Chacarita Juniors,2,0,,,Copa Argentina,2023,eliminacion,,Treintaidosavos,Carlos Augusto Mercado Luna,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
 2023-06-07,,Instituto,Deportivo Riestra,2,1,,,Copa Argentina,2023,eliminacion,,Treintaidosavos,23 de agosto,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
 2023-06-07,,Vélez Sarsfield,Deportivo Español,5,1,,,Copa Argentina,2023,eliminacion,,Treintaidosavos,Centenario Ciudad de Quilmes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
@@ -1265,7 +1265,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-06-19,15:30,Talleres (RdE),Argentino de Quilmes,2,1,,,Primera B,2023,zonas,Torneo Clausura,Fecha 2,Pablo Comelli,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-06-19,15:30,Victoriano Arenas,Sportivo Italiano,0,3,,,Primera C,2023,zonas,,Fecha 22,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-06-19,16:30,Chaco For Ever,Deportivo Maipú,0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 18,Juan Alberto García,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-06-19,19:00,Racing Club,Brown de Adrogué,1,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 18,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-06-19,19:00,Racing (C),Brown de Adrogué,1,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 18,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-06-20,15:30,Leandro N. Alem,Deportivo Español,2,0,,,Primera C,2023,zonas,,Fecha 22,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-06-21,19:00,Estudiantes (LP),San Lorenzo,1,1,,,Primera Division,2023,zonas,,Fecha 21,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-06-21,21:30,Central Córdoba (SdE),Gimnasia y Esgrima (LP),0,0,,,Primera Division,2023,zonas,,Fecha 21,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
@@ -1313,7 +1313,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-06-24,20:00,Lanús,Talleres (C),2,1,,,Primera Division,2023,zonas,,Fecha 21,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-06-24,20:10,Quilmes,Ferro Carril Oeste,1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 19,Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-06-25,12:00,Brown de Adrogué,Deportivo Riestra,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 19,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-06-25,15:00,Estudiantes (BA),Racing Club,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 19,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-06-25,15:00,Estudiantes (BA),Racing (C),1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 19,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-06-25,15:00,Guillermo Brown,Deportivo Morón,0,2,,,Primera Nacional,2023,zonas,Zona A,Fecha 22,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-06-25,15:10,San Martín (T),Nueva Chicago,1,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 22,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-06-25,15:30,Argentino de Quilmes,Dock Sud,1,1,,,Primera B,2023,zonas,Torneo Clausura,Fecha 3,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
@@ -1366,7 +1366,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-07-01,15:30,Talleres (RdE),Villa San Carlos,1,0,,,Primera B,2023,zonas,Torneo Clausura,Fecha 4,Pablo Comelli,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-07-01,15:30,UAI Urquiza,Argentino de Quilmes,1,2,,,Primera B,2023,zonas,Torneo Clausura,Fecha 4,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-07-01,15:30,Victoriano Arenas,Claypole,1,2,,,Primera C,2023,zonas,,Fecha 24,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
-2023-07-01,16:00,Racing Club,Atlético de Rafaela,3,3,,,Primera Nacional,2023,zonas,Zona B,Fecha 20,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-07-01,16:00,Racing (C),Atlético de Rafaela,3,3,,,Primera Nacional,2023,zonas,Zona B,Fecha 20,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-01,17:05,Almirante Brown,Guillermo Brown,0,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 23,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-01,17:30,San Lorenzo,Rosario Central,1,0,,,Primera Division,2023,zonas,,Fecha 22,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-07-01,18:00,Nueva Chicago,Temperley,0,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 23,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
@@ -1436,7 +1436,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-07-08,15:00,Ciudad de Bolívar,Argentino (MM),0,0,,,Torneo Federal A,2023,zonas,Zona B,Fecha 20,Municipal Eva Perón,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-07-08,15:00,Círculo Deportivo,Germinal,3,3,,,Torneo Federal A,2023,zonas,Zona A,Fecha 20,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-07-08,15:00,Defensores de Pronunciamiento,Defensores de Belgrano (VR),2,1,,,Torneo Federal A,2023,zonas,Zona C,Fecha 20,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
-2023-07-08,15:00,Deportivo Madryn,Racing Club,1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 21,Abel Sastre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-07-08,15:00,Deportivo Madryn,Racing (C),1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 21,Abel Sastre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-08,15:00,El Linqueño,Sportivo Belgrano,1,1,,,Torneo Federal A,2023,zonas,Zona C,Fecha 20,Leonardo Costa,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-07-08,15:00,Independiente (C),Douglas Haig,1,0,,,Torneo Federal A,2023,zonas,Zona C,Fecha 20,Raúl Orlando Lungarzo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-07-08,15:00,Juventud Unida Universitario,Ferro Carril Oeste (GP),2,1,,,Torneo Federal A,2023,zonas,Zona B,Fecha 20,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
@@ -1536,7 +1536,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-07-16,15:30,Cañuelas,Colegiales,1,2,,,Primera B,2023,zonas,Torneo Clausura,Fecha 6,Jorge Arin,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-07-16,15:30,Deportivo Riestra,Deportivo Madryn,0,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 22,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-16,15:30,Douglas Haig,Gimnasia y Esgrima (CdU),1,0,,,Torneo Federal A,2023,zonas,Zona C,Fecha 21,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
-2023-07-16,15:30,Racing Club,Villa Dálmine,0,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 22,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-07-16,15:30,Racing (C),Villa Dálmine,0,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 22,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-16,15:30,UAI Urquiza,Villa San Carlos,0,0,,,Primera B,2023,zonas,Torneo Clausura,Fecha 6,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-07-16,15:35,Sol de América (F),San Martín (F),1,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 21,Sol de América,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-07-16,16:00,Cipolletti,Liniers (BB),1,0,,,Torneo Federal A,2023,zonas,Zona A,Fecha 21,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
@@ -1599,7 +1599,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-07-23,15:05,Flandria,Almirante Brown,0,2,,,Primera Nacional,2023,zonas,Zona A,Fecha 26,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-23,15:30,Colegiales,Comunicaciones,2,1,,,Primera B,2023,zonas,Torneo Clausura,Fecha 7,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
 2023-07-23,15:30,Deportivo Laferrere,Yupanqui,0,0,,,Primera C,2023,zonas,,Fecha 28,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
-2023-07-23,15:30,Deportivo Maipú,Racing Club,2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 23,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-07-23,15:30,Deportivo Maipú,Racing (C),2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 23,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-23,15:30,Excursionistas,Puerto Nuevo,2,1,,,Primera C,2023,zonas,,Fecha 28,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-07-23,15:30,General Lamadrid,Claypole,2,0,,,Primera C,2023,zonas,,Fecha 28,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-07-23,15:30,Gimnasia y Esgrima (M),Güemes (SdE),0,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 26,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
@@ -1695,7 +1695,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-07-30,16:00,Gimnasia y Esgrima (J),Deportivo Madryn,1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 24,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-30,17:30,Gimnasia y Esgrima (LP),Platense,1,1,,,Primera Division,2023,zonas,,Fecha 27,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-07-30,17:30,Huracán,Vélez Sarsfield,1,0,,,Primera Division,2023,zonas,,Fecha 27,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
-2023-07-30,17:55,Racing Club,Independiente Rivadavia,2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 24,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-07-30,17:55,Racing (C),Independiente Rivadavia,2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 24,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-30,20:00,Godoy Cruz,Instituto,4,2,,,Primera Division,2023,zonas,,Fecha 27,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2023_(Argentina)
 2023-07-30,20:00,San Martín (T),Agropecuario,1,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 27,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-07-30,21:30,Atlanta,Chaco For Ever,4,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 24,Don León Kolbowski,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
@@ -1774,7 +1774,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-08-07,15:30,Agropecuario,Temperley,1,3,,,Primera Nacional,2023,zonas,Zona A,Fecha 28,Ofelia Rosenzuaig,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-08-07,15:30,Flandria,Estudiantes (RC),1,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 28,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-08-07,18:00,Aldosivi,Estudiantes (BA),1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 25,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-08-07,21:00,Chaco For Ever,Racing Club,2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 25,Juan Alberto García,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-08-07,21:00,Chaco For Ever,Racing (C),2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 25,Juan Alberto García,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-08-07,21:10,Gimnasia y Esgrima (M),Almirante Brown,4,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 28,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-08-09,,Instituto,Huracán,0,2,,,Copa Argentina,2023,eliminacion,,Dieciseisavos,Brigadier General Estanislao López,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
 2023-08-15,,Colón,Lanús,2,0,,,Copa Argentina,2023,eliminacion,,Dieciseisavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2023
@@ -1834,7 +1834,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-08-20,16:00,San Martín (SM),Juventud Unida Universitario,2,1,,,Torneo Federal A,2023,zonas,Zona B,Fecha 26,Libertador General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-08-20,16:00,Sarmiento (J),Tigre,2,0,,,Copa de la Liga,2023,zonas,Zona B,Fecha 1,Eva Perón,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-08-20,16:15,Rosario Central,Atlético Tucumán,0,0,,,Copa de la Liga,2023,zonas,Zona A,Fecha 1,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
-2023-08-20,17:00,Racing Club,Mitre (SdE),4,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 26,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-08-20,17:00,Racing (C),Mitre (SdE),4,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 26,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-08-20,17:30,Juventud Antoniana,Central Norte (S),0,1,,,Torneo Federal A,2023,zonas,Zona D,Fecha 26,Fray Honorato Pistoia,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-08-20,17:50,Patronato,Defensores de Belgrano,1,2,,,Primera Nacional,2023,zonas,Zona A,Fecha 30,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-08-20,18:30,Lanús,San Lorenzo,0,1,,,Copa de la Liga,2023,zonas,Zona B,Fecha 1,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
@@ -1874,7 +1874,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-08-26,15:30,Villa Dálmine,Brown de Adrogué,0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 27,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-08-26,16:00,Nueva Chicago,Alvarado,1,4,,,Primera Nacional,2023,zonas,Zona A,Fecha 31,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-08-26,16:00,Sarmiento (R),Juventud Antoniana,1,1,,,Torneo Federal A,2023,zonas,Zona D,Fecha 27,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
-2023-08-26,16:10,Chacarita Juniors,Racing Club,1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 27,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-08-26,16:10,Chacarita Juniors,Racing (C),1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 27,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-08-26,16:30,Estudiantes (LP),Unión,1,3,,,Copa de la Liga,2023,zonas,Zona B,Fecha 2,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-08-26,17:00,Sportivo Las Parejas,Gimnasia y Esgrima (CdU),0,1,,,Torneo Federal A,2023,zonas,Zona C,Fecha 27,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-08-26,18:10,Independiente Rivadavia,Gimnasia y Esgrima (J),2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 27,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
@@ -1952,7 +1952,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-09-03,15:00,Círculo Deportivo,Cipolletti,1,2,,,Torneo Federal A,2023,zonas,Zona A,Fecha 28,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-03,15:10,Alvarado,San Martín (T),1,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 32,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-03,15:30,Claypole,Luján,1,0,,,Primera C,2023,zonas,,Fecha 33,Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
-2023-09-03,15:30,Deportivo Laferrere,Excursionistas,1,0,,,Primera C,2023,zonas,,Fecha 33,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
+2023-09-03,15:30,Deportivo Laferrere,Excursionistas,1,1,,,Primera C,2023,zonas,,Fecha 33,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-09-03,15:30,El Linqueño,Unión (S),2,0,,,Torneo Federal A,2023,zonas,Zona C,Fecha 28,Leonardo Costa,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-03,15:30,Flandria,Temperley,2,3,,,Primera Nacional,2023,zonas,Zona A,Fecha 32,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-03,15:30,Gimnasia y Tiro (S),Crucero del Norte,1,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 28,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
@@ -1972,7 +1972,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-09-03,16:30,San Martín (F),Juventud Antoniana,3,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 28,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-03,17:00,Central Norte (S),Sol de América (F),2,1,,,Torneo Federal A,2023,zonas,Zona D,Fecha 28,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-03,17:00,Ferrocarril Midland,Real Pilar,1,2,,,Primera C,2023,zonas,,Fecha 33,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
-2023-09-03,18:00,Racing Club,Tristán Suárez,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 28,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-09-03,18:00,Racing (C),Tristán Suárez,1,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 28,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-03,18:30,Atlético de Rafaela,Deportivo Madryn,0,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 28,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-03,18:30,Boca Juniors,Tigre,0,1,,,Copa de la Liga,2023,zonas,Zona B,Fecha 3,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-09-03,19:00,San Martín (SJ),San Telmo,1,2,,,Primera Nacional,2023,zonas,Zona A,Fecha 32,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
@@ -2020,7 +2020,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-09-10,15:00,San Telmo,Flandria,2,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 33,Doctor Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-10,15:00,Tristán Suárez,Deportivo Riestra,0,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 29,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-10,15:05,All Boys,Güemes (SdE),0,2,,,Primera Nacional,2023,zonas,Zona A,Fecha 33,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-09-10,15:30,Atlanta,Racing Club,2,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 29,Don León Kolbowski,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-09-10,15:30,Atlanta,Racing (C),2,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 29,Don León Kolbowski,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-10,15:30,Deportivo Maipú,Estudiantes (BA),2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 29,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-10,15:30,Liniers,Yupanqui,2,1,,,Primera C,2023,zonas,,Fecha 34,Juan Antonio Arias,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
 2023-09-10,15:30,Luján,Ferrocarril Midland,0,1,,,Primera C,2023,zonas,,Fecha 34,1 de abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2023_(Argentina)
@@ -2107,7 +2107,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-09-17,17:15,Deportivo Morón,All Boys,0,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 34,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-17,17:30,Central Norte (S),Sarmiento (R),1,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 31,Doctor Luis Güemes,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-17,18:00,Quilmes,Mitre (SdE),1,3,,,Primera Nacional,2023,zonas,Zona B,Fecha 30,Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-09-17,18:00,Racing Club,Aldosivi,2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 30,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-09-17,18:00,Racing (C),Aldosivi,2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 30,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-17,18:30,Atlético de Rafaela,Deportivo Maipú,2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 30,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-17,19:00,9 de Julio (R),San Martín (F),2,1,,,Torneo Federal A,2023,zonas,Zona D,Fecha 31,Germán Solterman,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-17,19:30,River Plate,Arsenal,3,1,,,Copa de la Liga,2023,zonas,Zona A,Fecha 4,Monumental,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
@@ -2174,7 +2174,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-09-24,16:00,Juventud Unida Universitario,Ciudad de Bolívar,1,0,,,Torneo Federal A,2023,zonas,Zona B,Fecha 32,Juan Gilberto Funes,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-24,16:00,San Martín (F),Central Norte (S),1,1,,,Torneo Federal A,2023,zonas,Zona D,Fecha 32,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-24,17:00,Douglas Haig,Unión (S),4,2,,,Torneo Federal A,2023,zonas,Zona C,Fecha 32,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
-2023-09-24,17:00,Racing Club,Deportivo Riestra,1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 31,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-09-24,17:00,Racing (C),Deportivo Riestra,1,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 31,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-24,17:05,Crucero del Norte,Sol de América (F),0,0,,,Torneo Federal A,2023,zonas,Zona D,Fecha 32,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-24,17:05,Juventud Antoniana,Boca Unidos,2,2,,,Torneo Federal A,2023,zonas,Zona D,Fecha 32,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-24,17:45,Newell's Old Boys,Estudiantes (LP),0,1,,,Copa de la Liga,2023,zonas,Zona B,Fecha 6,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
@@ -2213,7 +2213,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-09-30,15:30,Estudiantes (BA),Mitre (SdE),0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 32,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-30,15:30,Güemes (SdE),Temperley,2,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 36,Arturo Miranda,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-30,15:30,Villa San Carlos,San Miguel,1,2,,,Primera B,2023,zonas,Torneo Clausura,Fecha 16,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
-2023-09-30,16:00,Ferro Carril Oeste,Racing Club,3,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 32,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-09-30,16:00,Ferro Carril Oeste,Racing (C),3,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 32,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-09-30,16:00,San Lorenzo,Huracán,1,1,,,Copa de la Liga,2023,zonas,Interzonal,Fecha 7,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-09-30,16:30,Argentino (MM),Huracán Las Heras,2,0,,,Torneo Federal A,2023,zonas,Zona B,Fecha 33,Modesto Marrone,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-09-30,16:30,Rosario Central,Newell's Old Boys,1,0,,,Copa de la Liga,2023,zonas,Interzonal,Fecha 7,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
@@ -2298,7 +2298,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-10-08,17:00,Mitre (SdE),Atlético de Rafaela,2,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 33,Dres. José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-08,17:00,San Martín (SM),Sportivo Peñarol (C),4,1,,,Torneo Federal A,2023,zonas,Zona B,Fecha 34,Libertador General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-08,17:00,Unión (S),Sportivo Belgrano,1,2,,,Torneo Federal A,2023,zonas,Zona C,Fecha 34,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
-2023-10-08,18:00,Racing Club,Gimnasia y Esgrima (J),2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 33,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-10-08,18:00,Racing (C),Gimnasia y Esgrima (J),2,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 33,Miguel Sancho,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-08,18:30,Boca Unidos,Sol de América (F),1,1,,,Torneo Federal A,2023,zonas,Zona D,Fecha 34,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-08,18:45,Racing Club,Platense,1,2,,,Copa de la Liga,2023,zonas,Zona B,Fecha 8,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-10-08,19:00,Juventud Antoniana,9 de Julio (R),0,3,,,Torneo Federal A,2023,zonas,Zona D,Fecha 34,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
@@ -2350,7 +2350,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-10-15,15:30,Estudiantes (BA),Tristán Suárez,0,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 34,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-15,15:30,Ferro Carril Oeste,Aldosivi,0,0,,,Primera Nacional,2023,zonas,Zona B,Fecha 34,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-15,15:30,Gimnasia y Esgrima (J),Deportivo Riestra,0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 34,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
-2023-10-15,15:30,Quilmes,Racing Club,1,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 34,Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-10-15,15:30,Quilmes,Racing (C),1,2,,,Primera Nacional,2023,zonas,Zona B,Fecha 34,Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-15,15:30,Villa Dálmine,Chaco For Ever,0,1,,,Primera Nacional,2023,zonas,Zona B,Fecha 34,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-15,16:00,Defensores de Belgrano (VR),Unión (S),2,0,,,Torneo Federal A,2023,zonas,Zona C,Fecha 35,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-15,16:30,Defensores de Pronunciamiento,Douglas Haig,4,0,,,Torneo Federal A,2023,zonas,Zona C,Fecha 35,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023

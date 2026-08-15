@@ -179,6 +179,70 @@ MARCADORES: tuple[Marcador, ...] = (
             "temporada contra la pagina de worldfootball, que coincide en los otros "
             "379 partidos."),
     ),
+    # ------------------------------------------------------------------
+    # Los cuatro que arbitro la prensa, no la tabla.
+    #
+    # La tabla localiza el partido y no lo arbitra: dice ENTRE QUE DOS CLUBES
+    # esta la diferencia, y ahi termina. Que exista un unico ajuste de un gol que
+    # haga cerrar el torneo no prueba nada -- se probo en seis casos y la tabla
+    # tenia razon en cuatro; en los otros dos la equivocada era ella (ver la
+    # Primera C 2026 y la B Nacional 2012-13 en `posiciones.py`).
+    #
+    # Asi que para cada uno se busco una cronica que nombre a los goleadores. Un
+    # marcador suelto en un sitio de estadisticas no alcanza: puede venir de la
+    # misma fuente que estamos tratando de verificar.
+    # ------------------------------------------------------------------
+    Marcador(
+        pagina="Anexo:Torneo Clausura 2007 (Argentina)",
+        jornada="Fecha 2", local="Newell's Old Boys", visita="River Plate",
+        dice=(1, 2), debe=(0, 2),
+        porque=(
+            "No es un error de transcripcion: es la diferencia entre el marcador de "
+            "cancha y el oficial. El partido se suspendio a los 90' por incidentes en "
+            "las tribunas con River ganando 2-1, y el 16/03/2007 el Tribunal de "
+            "Disciplina de la AFA se lo dio ganado a River por 2 a 0. "
+            "El testigo es la PROPIA PAGINA, que se contradice: la celda del fixture "
+            "dice 1-2 y la nota al pie de esa misma celda dice que el Tribunal "
+            "otorgo el 2 a 0, citando el Boletin N 3980 de la AFA. La tabla de "
+            "posiciones esta calculada con el 0-2. Se guarda el resultado oficial "
+            "-- es el que homologo la AFA y con el que esta armada la tabla --, y "
+            "queda asentado aca que el 1-2 no es un invento sino lo que estaba en el "
+            "marcador cuando se suspendio. "
+            "La quita de 3 puntos a Newell's fue de la tabla anual, no de la del "
+            "Clausura: por eso conserva sus 22 puntos."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera Nacional 2024",
+        jornada="Fecha 15", local="Alvarado", visita="Talleres (RdE)",
+        dice=(1, 0), debe=(2, 0),
+        porque=(
+            "La tabla le pone a Alvarado un gol a favor mas y a Talleres uno en "
+            "contra mas de los que dan sus partidos. La cronica de La Capital de Mar "
+            "del Plata del 12 de mayo de 2024, misma fecha que tiene el partido aca, "
+            "da 2-0 con los dos goles: Guillermo Sanchez a los 34' y Guido Vadala a "
+            "los 48'."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera C 2023 (Argentina)",
+        jornada="Fecha 33", local="Deportivo Laferrere", visita="Excursionistas",
+        dice=(1, 0), debe=(1, 1),
+        porque=(
+            "Habia dos partidos candidatos entre estos dos clubes y la prensa "
+            "desempata cual: Solo Ascenso publica la cronica de la Fecha 33 con el "
+            "1-1 y los dos goles -- Mateo Figueroa (Excursionistas) a los 14' del "
+            "segundo tiempo y Alejandro Gomez (Laferrere) sobre la hora. "
+            "El otro candidato, el 0-0 de la Fecha 14, queda descartado."),
+    ),
+    Marcador(
+        pagina="Torneo Federal A 2022",
+        jornada="Fecha 14", local="Ciudad de Bolívar", visita="Juventud Unida Universitario",
+        dice=(1, 1), debe=(2, 1),
+        porque=(
+            "Ascenso del Interior publica la cronica de la 14a jornada con el 2-1 y "
+            "los tres goles: Sebastian Balmaceda para Juventud a los 30' del primer "
+            "tiempo, y Facundo Quiroga y Nahuel Yeri de penal para Ciudad de Bolivar "
+            "en el segundo. El empate que dice la pagina no explica ningun gol."),
+    ),
     _arbitrado("2007 Fecha 1", "Independiente Rivadavia", "Tiro Federal", (0, 1), (1, 0),
                "worldfootball",
                "con 0-1 los dos clubes quedan fuera de sus totales publicados y con 1-0 cierran"),

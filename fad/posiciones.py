@@ -24,11 +24,18 @@ algo y no siempre lo mismo.
 
 CUANDO NO OPINA
 ---------------
-Una fila solo se usa si cierra CONSIGO MISMA: `GF - GC == DIF` y
-`PG + PE + PP == PJ`. Una tabla mal tipeada no puede desmentir a nadie, y esas
-dos restas la delatan sin costo. Si la pagina no trae tabla, o la trae partida
-por zonas y los partidos no, este modulo no dice nada: callarse es correcto,
-inventar un aviso no.
+Si la pagina no trae tabla, o los PJ no coinciden, este modulo no dice nada:
+callarse es correcto, inventar un aviso no.
+
+En el formato wikitabla una fila ademas tiene que cerrar CONSIGO MISMA
+(`GF - GC == DIF` y `PG + PE + PP == PJ`) para que se la use. Ojo con creer que
+esa guarda protege siempre: el otro formato, `{{Tabla de posiciones equipo}}`,
+publica solo `g/e/p/gf/gc` y deja que la plantilla calcule PJ y DIF, asi que ahi
+no hay contra que chequear y las filas entran crudas. Y es el formato mayoritario
+-- de los 113 torneos que hoy tienen arbitro, la mayoria vienen por esa rama.
+Lo que sostiene esas filas no es una resta interna sino el cruce mismo: si el
+G-E-P publicado reproduce los partidos parseados y solo discrepan los goles, la
+fila es de fiar salvo en un digito.
 """
 from __future__ import annotations
 
@@ -36,11 +43,6 @@ import re
 from collections import Counter
 
 from fad import equipos, parser
-
-# El titulo de la seccion cambia de pagina en pagina ("Tabla de posiciones",
-# "Tabla de posiciones final"). Entre el titulo y la tabla puede haber un
-# `<center>`, asi que se acepta cualquier cosa que no abra la tabla.
-_SECCION = re.compile(r"==+\s*Tabla de posiciones[^=]*==+[^{]*(\{\|.*?\n\|\})", re.S | re.I)
 
 # Pts, PJ, PG, PE, PP, GF, GC, DIF: las ocho columnas numericas de la fila.
 _COLUMNAS = 8
@@ -57,22 +59,56 @@ _FILA_PLANTILLA = re.compile(r"\{\{\s*Tabla de posiciones equipo\s*\|(.*?)\}\}",
 # El nombre NO se saca partiendo por `|`: el wikilink de adentro tambien lleva
 # uno, asi que "eq=[[Club Atlético San Telmo|San Telmo]]" se parte al medio y el
 # club queda llamandose "[[Club Atlético San Telmo".
-_CAMPO_EQUIPO = re.compile(r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*color\s*=|$)", re.S)
+_CAMPO_EQUIPO = re.compile(r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*color\s*=|$)", re.S)
+# Adentro del `eq=` casi siempre hay un wikilink, y ese wikilink trae el ARTICULO,
+# que es lo que desambigua de verdad. Sacandolo de ahi se arreglan de una tres
+# cosas a la vez, todas medidas:
+#
+#   eq=[[Club Atlético Colón|Colón]]{{refn|group="n."|Se le descontaron 6 puntos...
+#       la nota al pie quedaba pegada al nombre y el club se caia del cruce. Y no
+#       es cualquier club: el que tiene quita de puntos es justo el que hay que
+#       mirar. Van doce asi, entre quitas y clasificaciones a copas.
+#   eq=[[...|Boca Juniors]]||color=#cfc   /   eq=[[...|Rosario Central]]|#color=#cfc
+#       un pipe de mas o un `#` adelante, y el club se llamaba "Boca Juniors|".
+#   eq=[[Asociación Civil Leones de Rosario Fútbol Club|Leones (Rosario)]]
+#       la tabla lo llama "Leones (Rosario)" y los partidos "Leones de Rosario".
+#       Por el nombre visible son dos clubes; por el articulo son el mismo.
+_EQ_WIKILINK = re.compile(r"\[\[\s*([^\]|]+?)\s*(?:\|([^\]]*))?\]\]")
 _NUMEROS = {k: re.compile(rf"(?<![a-zA-Z]){k}\s*=\s*(\d+)") for k in ("g", "e", "p", "gf", "gc")}
-# Y solo la tabla FINAL. Varias paginas publican tambien la "parcial de la primera
-# rueda", con los mismos clubes y la mitad de los partidos: escaneando la pagina
-# entera, esa pisaba a la otra y los veinte clubes quedaban con PJ 19.
-_SECCION_FINAL = re.compile(r"^==+[^=\n]*Tabla de posiciones[^=\n]*==+[^\n]*$", re.M | re.I)
+_ENCABEZADO = re.compile(r"^==+[^=\n]*Tabla de posiciones[^=\n]*==+[^\n]*$", re.M | re.I)
+_CUALQUIER_ENCABEZADO = re.compile(r"^==+[^=\n]+==+", re.M)
+# Una wikitabla cierra con `\n|}` -- salvo cuando la cierra la plantilla de la
+# leyenda, que es lo que hace la Primera C 2010-11: sus veinte filas van en una
+# wikitabla comun pero abajo lleva `{{Tabla de posiciones fin|color1=...}}` en
+# vez del `|}`. Buscando solo `\n|}` esa tabla no termina nunca; el codigo viejo
+# la encontraba igual porque escaneaba la pagina entera y cerraba en la tabla de
+# promedios, dos secciones mas abajo. Eso funcionaba de casualidad.
+# El cierre va como lookahead y no adentro del match: si se lo lleva puesto, queda
+# pegado a la ultima fila y esa fila se pierde. En la Primera C 2010-11 se perdian
+# dos de los veinte clubes por eso, y no se notaba porque los otros dieciocho
+# alcanzaban para que la pagina "tuviera tabla".
+_WIKITABLA = re.compile(r"\{\|.*?(?=\n\|\}|\{\{\s*Tabla de posiciones fin)", re.S | re.I)
 
 
-def _por_plantillas(texto: str, arts: dict[str, str]) -> dict[str, tuple[int, int, int]]:
+def _bloques(texto: str):
+    """El texto que sigue a CADA encabezado "Tabla de posiciones", hasta el
+    proximo encabezado.
+
+    Son varios y hay que leerlos todos. Un torneo por zonas publica una tabla
+    por zona, y el titulo no las distingue -- las dos se llaman "Tabla de
+    posiciones final" y lo que cambia es el `== Zona A ==` de arriba. Mientras
+    esto leia solo la primera, la mitad de esas paginas se cruzaba contra nada:
+    en el Federal A 2019-20 los quince clubes de la Zona B volvian sin tabla, y
+    en la Primera C 2026 la Zona B escondia dos contradicciones mas que el aviso
+    nunca denuncio. Son 91 de las 279 paginas.
+    """
+    for m in _ENCABEZADO.finditer(texto):
+        sig = _CUALQUIER_ENCABEZADO.search(texto, m.end())
+        yield texto[m.end():sig.start()] if sig else texto[m.end():]
+
+
+def _por_plantillas(bloque: str, arts: dict[str, str]) -> dict[str, tuple[int, int, int]]:
     """Las filas escritas como `{{Tabla de posiciones equipo|...}}`."""
-    m = _SECCION_FINAL.search(texto)
-    if not m:
-        return {}
-    sig = re.search(r"^==+[^=\n]+==+", texto[m.end():], re.M)
-    bloque = texto[m.end():m.end() + sig.start()] if sig else texto[m.end():]
-
     fuera = {}
     for fila in _FILA_PLANTILLA.finditer(bloque):
         cuerpo = fila.group(1)
@@ -84,26 +120,49 @@ def _por_plantillas(texto: str, arts: dict[str, str]) -> dict[str, tuple[int, in
         eq = _CAMPO_EQUIPO.search(cuerpo)
         if len(nums) < 5 or not eq:
             continue
-        club = parser.limpiar(eq.group(1))
-        fuera[equipos.canonizar(club, arts.get(club, ""))] = (
+        enlace = _EQ_WIKILINK.search(eq.group(1))
+        if enlace:
+            articulo = enlace.group(1)
+            club = parser.limpiar(enlace.group(2) or articulo)
+        else:
+            club = parser.limpiar(eq.group(1))
+            articulo = arts.get(club, "")
+        if not club:
+            continue
+        fuera[equipos.canonizar(club, articulo)] = (
             nums["g"] + nums["e"] + nums["p"], nums["gf"], nums["gc"])
     return fuera
 
 
 def tabla(texto: str, arts: dict[str, str] | None = None) -> dict[str, tuple[int, int, int]]:
-    """{club canonico: (PJ, GF, GC)} segun la tabla que publica la pagina.
+    """{club canonico: (PJ, GF, GC)} segun las tablas que publica la pagina.
 
-    Devuelve solo las filas que cierran consigo mismas. Vacio si no hay tabla.
+    Se leen TODAS las secciones "Tabla de posiciones" y se unen. Vacio si no hay.
+
+    Cuando un club aparece en dos, gana la que tiene mas partidos. Es lo que
+    separa los dos motivos por los que una pagina trae varias: si son zonas
+    distintas los clubes son disjuntos y no se pisan, y si es la "parcial de la
+    primera rueda" contra la final, la parcial tiene la mitad de los partidos y
+    pierde. Antes esto se resolvia leyendo solo la primera tabla, que arreglaba
+    la parcial y rompia las zonas.
     """
     arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
-    por_plantillas = _por_plantillas(texto, arts)
-    if por_plantillas:
-        return por_plantillas
-    m = _SECCION.search(texto)
+    fuera: dict[str, tuple[int, int, int]] = {}
+    for bloque in _bloques(texto):
+        filas = _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts)
+        for club, datos in filas.items():
+            if club not in fuera or datos[0] > fuera[club][0]:
+                fuera[club] = datos
+    return fuera
+
+
+def _por_wikitabla(bloque: str, arts: dict[str, str]) -> dict[str, tuple[int, int, int]]:
+    """Las filas de una tabla escrita como wikitabla (`{| ... |}`)."""
+    m = _WIKITABLA.search(bloque)
     if not m:
         return {}
     fuera: dict[str, tuple[int, int, int]] = {}
-    for fila in m.group(1).split("\n|-"):
+    for fila in m.group(0).split("\n|-"):
         # Las celdas van separadas por `||` o por `\n|`, y arrancan con un `|`
         # suelto que hay que sacar antes de pasarlas por `_celda` -- si no, el
         # separador se lee como parte del contenido y "71" queda como "|71".
@@ -195,6 +254,7 @@ def _de_quien_es_la_culpa(desviados: int) -> str:
                 "lo mas probable es que la fila de la tabla este mal transcripta")
     return ("Hay mas clubes desviados, asi que puede venir de un partido mal leido. "
             "OJO: que exista un unico ajuste de un gol que haga cerrar todo NO "
-            "alcanza para corregirlo. Se probo en dos casos y acerto en uno solo -- "
-            "en el otro (Primera C 2026, Centro Español 2-3 Juventud Unida) la "
-            "prensa confirma el marcador de Wikipedia y la equivocada era la tabla")
+            "alcanza para corregirlo. Se probaron seis contra la prensa y la tabla "
+            "tenia razon en cuatro; en los otros dos (Primera C 2026 y B Nacional "
+            "2012-13) la cronica confirma el marcador de Wikipedia y la equivocada "
+            "era ella. Buscar una cronica que nombre a los goleadores")

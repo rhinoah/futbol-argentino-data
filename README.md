@@ -429,30 +429,72 @@ mismo conjunto.
 **Y la tabla se escribe de dos formas.** Además de la `wikitable` habitual, muchas
 páginas la arman con plantillas —`{{Tabla de posiciones equipo|g=23|e=12|p=3|gf=59|gc=15|eq=…}}`—
 y buscando sólo `{|` se perdían enteras. Leyendo las dos, el árbitro pasó de
-**19 torneos a 113**: 91 cierran perfecto y 22 tienen algo que no.
+**19 torneos a 113**.
 
-Que 91 temporadas cierren al gol contra una tabla que escribió otra mano es la
+De esos 113, **94** llegan a comparar algún club: en los otros la cantidad de
+partidos jugados no coincide —páginas de varias fases, donde la tabla es de una
+sola— y el módulo se calla, que es lo correcto. De los 94, **73 cierran al gol** y
+21 tienen algo que no.
+
+Que 73 temporadas cierren contra una tabla que escribió otra mano es la
 corroboración más fuerte que tiene el dataset.
+
+#### Media página sin árbitro
+
+Con eso andando, el árbitro seguía teniendo un punto ciego que no se veía desde
+ningún contador: **leía una sola tabla por página**.
+
+Un torneo por zonas publica una tabla por zona, y el título no las distingue — las
+dos se llaman «Tabla de posiciones final» y lo que cambia es el `== Zona A ==` de
+arriba. Son **91 de las 279 páginas**. En el Federal A 2019-20 los quince clubes de
+la Zona B volvían sin tabla; en la Primera C 2026, la Zona B escondía cuatro
+contradicciones que el aviso nunca denunció.
+
+Leyendo todas y uniéndolas —cuando un club aparece en dos, gana la fila con **más
+partidos**, que es lo que separa una zona distinta de la «parcial de la primera
+rueda»—, los clubes efectivamente cruzados pasaron de **1722 a 2193**, sin perder
+ninguno. Tres torneos que figuraban como que cerraban resultó que no.
+
+Y en el camino aparecieron dos formas de perder un club en silencio, las dos por
+el nombre:
+
+- La **nota al pie pegada al nombre** en la tabla: `eq=[[Club Atlético Colón|Colón]]{{refn|…Se le descontaron 6 puntos…}}`.
+  El club dejaba de reconocerse y se caía del cruce — y no es cualquier club: el que
+  tiene quita de puntos es justo el que hay que mirar. Eran doce.
+- El **artículo del wikilink**, que estaba ahí mismo y se tiraba para buscar el
+  nombre visible en un mapa de toda la página.
 
 #### Localizar no es arbitrar
 
-De los 22 que no cierran, los deltas por club **localizan** el partido: si a uno le
+De los que no cierran, los deltas por club **localizan** el partido: si a uno le
 sobra un gol a favor y a otro le sobra uno en contra, el error está entre esos dos.
-Y en algunos casos hay **un único** ajuste de un gol que hace cerrar el torneo
-entero, lo que parece una prueba.
+Y a veces hay **un único** ajuste de un gol que hace cerrar el torneo entero, lo que
+parece una prueba.
 
-No lo es. Se probaron los dos casos con solución única contra la prensa, y
-**acertó uno solo**:
+No lo es. Se probaron **seis** casos contra la prensa —buscando crónicas que
+nombraran a los goleadores, no marcadores sueltos— y la tabla tenía razón en cuatro:
 
-| caso | ajuste único | lo que dicen las fuentes |
+| caso | lo que pedía la tabla | lo que dice la prensa |
 |---|---|---|
-| Federal A 2019-20 | San Martín (F) 2-0 → **3-0** Unión (S) | 3-0, confirmado — **corregido** |
-| Primera C 2026 | Centro Español 2-3 → 1-2 Juventud Unida | **2-3**, o sea que Wikipedia estaba bien |
+| Federal A 2019-20 | San Martín (F) 2-0 → **3-0** Unión (S) | confirmado — **corregido** |
+| Primera Nacional 2024 | Alvarado 1-0 → **2-0** Talleres (RdE) | 2-0, con los dos goles — **corregido** |
+| Primera C 2023 | Laferrere 1-0 → **1-1** Excursionistas | 1-1, con los dos goles — **corregido** |
+| Federal A 2022 | Ciudad de Bolívar 1-1 → **2-1** JUU | 2-1, con los tres goles — **corregido** |
+| Primera C 2026 | Centro Español 2-3 → 1-2 Juventud Unida | **2-3**: Wikipedia estaba bien |
+| B Nacional 2012-13 | At. Tucumán 2-0 → 3-0 Olimpo | **2-0**, con los dos goleadores nombrados |
 
-En el segundo la equivocada era la tabla, igual que con Platense. Así que la
+En los dos últimos la equivocada era la tabla, igual que con Platense. Así que la
 aritmética dice *dónde* mirar, no *quién* tiene razón: para eso hace falta salir a
 buscar afuera, partido por partido. Va como **aviso**, no como error: lo que denuncia
 es una contradicción de la fuente consigo misma.
+
+Un caso salió distinto a todos. En el **Clausura 2007**, Newell's 1-2 River no era
+un error de nadie: el partido se **suspendió a los 90'** por incidentes, con River
+ganando 2-1, y el Tribunal de Disciplina de la AFA se lo dio ganado **2 a 0**. La
+página se contradice a sí misma —la celda tiene el marcador de cancha y la nota al
+pie, citando el Boletín N° 3980, tiene el oficial— y la tabla está armada con el
+0-2. Se guarda el oficial, que es el que homologó la AFA, y queda asentado en la
+corrección que el 1-2 existió.
 
 #### Y encontró un error en la tabla
 
@@ -705,13 +747,41 @@ plantilla que mezcla dos resultados) y Primera Nacional 2022 (un partido dice "S
 Martín" a secas y sin enlace, con el (SJ) y el (T) en el mismo torneo). Prefiero
 tres torneos afuera y dicho, que adentro y mal atribuidos.
 
+### Y una entrada del índice estaba mal
+
+El índice de artículos resuelve bien *siempre que la entrada sea correcta*, y una
+no lo era: `Club Atlético Racing` apuntaba a **Racing Club**, el de Avellaneda.
+
+Es el de Córdoba. Avellaneda se llama «Racing Club» a secas y su artículo es ése.
+Mientras el índice dijo lo otro, **248 partidos de Racing de Córdoba quedaron a
+nombre de Racing de Avellaneda** — en Primera Nacional 2007, 2023, 2025 y 2026,
+Argentino A 2011 y 2012, y Federal A 2018, 2021 y 2022. Torneos que Avellaneda no
+jugó nunca.
+
+No lo agarró ningún chequeo, y no podía: los dos clubes están en el padrón, los dos
+nombres son legítimos, y ninguna regla del fixture se rompe porque un club juegue
+un torneo que no le toca. Apareció por un lado inesperado — el cruce contra la
+tabla dejó de encontrar a `Racing (C)` en la Primera Nacional 2024 y se notó que la
+fila y la suma coincidían dígito por dígito pero nunca se comparaban.
+
+La verificación fue medir el corpus, no razonar: las **22 páginas** de la caché que
+enlazan ese artículo lo muestran como «Racing», «Racing (C)», «Racing (Cba.)» o
+«Racing (Córdoba)», y ninguna como el de Avellaneda. Y la B Nacional 2007-08, que
+tiene a los dos, los distingue bien: `[[Club Atlético Racing|Racing (C)]]` para el
+cordobés y `[[Racing Club]]` para la promoción que jugó Avellaneda contra Belgrano.
+Esa fila quedó como estaba, que es lo correcto.
+
+La lección no es «revisar el índice». Es que un índice generado
+automáticamente hereda la ambigüedad de la fuente, y **una entrada mal apuntada no
+falla: miente en silencio**, en la escala de todos los partidos de un club.
+
 ## Tests
 
-310 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+463 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 64 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 135 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

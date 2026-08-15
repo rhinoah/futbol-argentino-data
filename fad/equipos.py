@@ -439,7 +439,15 @@ ARTICULOS: dict[str, str] = {
     'Club Atlético Patronato de la Juventud Católica': 'Patronato',
     'Club Atlético Platense': 'Platense',
     'Club Atlético Puerto Nuevo': 'Puerto Nuevo',
-    'Club Atlético Racing': 'Racing Club',
+    # Racing de CORDOBA, no el de Avellaneda. El de Avellaneda se llama "Racing
+    # Club" a secas y su articulo es ese; "Club Atlético Racing" es el cordobes.
+    # Mientras esto apunto a Avellaneda, 248 partidos de Racing de Cordoba
+    # quedaron a nombre suyo -- en Primera Nacional 2007/2023/2025/2026,
+    # Argentino A 2011/2012 y Federal A 2018/2021/2022, torneos que Avellaneda no
+    # jugo nunca. Medido: las 22 paginas de la cache que enlazan este articulo lo
+    # muestran como "Racing", "Racing (C)", "Racing (Cba.)" o "Racing (Córdoba)",
+    # y ninguna como el de Avellaneda.
+    'Club Atlético Racing': 'Racing (C)',
     'Club Atlético River Plate': 'River Plate',
     'Club Atlético Rosario Central': 'Rosario Central',
     'Club Atlético San Lorenzo de Alem': 'San Lorenzo de Alem',

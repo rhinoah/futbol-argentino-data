@@ -43,16 +43,40 @@ MUTANTES = [
      "    if False:"),
 
     ("fad/posiciones.py", 'no leer la tabla escrita con plantillas',
-     '    por_plantillas = _por_plantillas(texto, arts)',
-     '    por_plantillas = {}'),
+     '        filas = _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts)',
+     '        filas = _por_wikitabla(bloque, arts)'),
+
+    ("fad/posiciones.py", 'leer una sola tabla y no las de todas las zonas',
+     '    for bloque in _bloques(texto):',
+     '    for bloque in list(_bloques(texto))[:1]:'),
+
+    ("fad/posiciones.py", 'dejar que la parcial de la primera rueda pise a la final',
+     '            if club not in fuera or datos[0] > fuera[club][0]:',
+     '            if True:'),
+
+    ("fad/posiciones.py", 'no cortar el bloque en el proximo encabezado',
+     '        sig = _CUALQUIER_ENCABEZADO.search(texto, m.end())',
+     '        sig = None'),
+
+    ("fad/posiciones.py", 'no cerrar la wikitabla en la plantilla de leyenda',
+     r'_WIKITABLA = re.compile(r"\{\|.*?(?=\n\|\}|\{\{\s*Tabla de posiciones fin)", re.S | re.I)',
+     r'_WIKITABLA = re.compile(r"\{\|.*?(?=\n\|\})", re.S | re.I)'),
 
     ("fad/posiciones.py", 'partir los parametros por | y romper el wikilink',
      '        eq = _CAMPO_EQUIPO.search(cuerpo)',
      '        eq = re.match(r"(.*)", cuerpo.split("|")[-1], re.S)'),
 
-    ("fad/posiciones.py", 'leer tambien la tabla de la primera rueda',
-     '    m = _SECCION_FINAL.search(texto)\n    if not m:\n        return {}',
-     '    m = None\n    if False:\n        return {}'),
+    ("fad/posiciones.py", 'resolver el club por el nombre visible y no por el articulo',
+     '        enlace = _EQ_WIKILINK.search(eq.group(1))',
+     '        enlace = None'),
+
+    ("fad/posiciones.py", 'dejar la nota al pie pegada al nombre del club',
+     '            club = parser.limpiar(enlace.group(2) or articulo)',
+     '            club = parser.limpiar(eq.group(1))'),
+
+    ("fad/posiciones.py", 'no cortar el eq= en un |#color de mas',
+     r'_CAMPO_EQUIPO = re.compile(r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*color\s*=|$)", re.S)',
+     r'_CAMPO_EQUIPO = re.compile(r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*color\s*=|$)", re.S)'),
 
     ("fad/posiciones.py", 'aceptar una plantilla a la que le faltan campos',
      '        if len(nums) < 5 or not eq:',

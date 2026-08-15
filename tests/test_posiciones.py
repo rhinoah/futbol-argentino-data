@@ -62,6 +62,23 @@ def test_una_pagina_sin_tabla_no_devuelve_nada():
     assert posiciones.tabla("== Resultados ==\nnada por aca") == {}
 
 
+def test_una_wikitabla_que_cierra_con_la_plantilla_de_leyenda():
+    """La Primera C 2010-11 escribe sus veinte filas en una wikitabla comun pero
+    abajo, en vez del `|}`, pone `{{Tabla de posiciones fin}}` con los colores.
+    Buscando solo `\\n|}` esa tabla no termina nunca: el codigo viejo la encontraba
+    igual porque escaneaba la pagina entera y cerraba en la tabla de promedios,
+    dos secciones mas abajo -- funcionaba de casualidad, y acotar la busqueda a la
+    seccion la habria perdido entera."""
+    texto = ("== Tabla de posiciones ==\n<center>\n"
+             "{| class=\"wikitable sortable\"\n"
+             "|- style=\"background:#dddddd;\"\n"
+             "! Pos\n! Equipo\n! Pts\n! PJ\n! PG\n! PE\n! PP\n! GF\n! GC\n! DIF\n"
+             + fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1) + "\n"
+             "{{Tabla de posiciones fin\n|color1=#90EE90| texto1=Campeón.\n}}\n"
+             "</center>\n\n== Tabla de promedios ==\nlo que sea\n")
+    assert posiciones.tabla(texto) == {"Boca Juniors": (2, 3, 1)}
+
+
 # --------------------------------------------------------------------------
 # contrastar: sobre todo, cuando se calla
 # --------------------------------------------------------------------------
@@ -112,13 +129,37 @@ def test_un_club_de_la_tabla_que_no_jugo_no_se_denuncia():
 
 
 # --------------------------------------------------------------------------
-# los nueve arbitrados
+# los marcadores arbitrados
 # --------------------------------------------------------------------------
 def test_los_marcadores_arbitrados_estan_justificados():
+    """Cada correccion tiene que nombrar a su testigo.
+
+    Antes el testigo era siempre la tabla de posiciones y el test pedia esa
+    frase. Ya no alcanza: la tabla LOCALIZA el partido y no lo arbitra, y de los
+    seis casos que se probaron contra la prensa, en dos la equivocada era ella.
+    Asi que ahora el testigo puede ser la tabla o una cronica -- pero tiene que
+    estar nombrado, y una cronica solo vale si dice quien hizo los goles. Un
+    marcador suelto en un sitio de estadisticas puede venir de la misma fuente
+    que estamos tratando de verificar."""
     from fad import correcciones
     for m in correcciones.MARCADORES:
         assert len(m.porque) > 80, f"{m.jornada} {m.local}: la evidencia es muy flaca"
-        assert "tabla de posiciones" in m.porque, "el arbitro tiene que quedar nombrado"
+        tabla_ = "tabla de posiciones" in m.porque
+        prensa = any(p in m.porque for p in ("gol", "Boletin"))
+        assert tabla_ or prensa, f"{m.jornada} {m.local}: el testigo no queda nombrado"
+
+
+def test_la_prensa_arbitro_los_que_la_tabla_no_podia():
+    """La tabla dice DONDE mirar y no QUIEN tiene razon. Cuando un torneo tiene
+    dos partidos candidatos entre los mismos dos clubes -- la ida y la vuelta --
+    la aritmetica no puede elegir, y ahi solo sirve una cronica."""
+    from fad import correcciones
+    por_prensa = [m for m in correcciones.MARCADORES
+                  if "tabla de posiciones" not in m.porque]
+    assert por_prensa, "ninguna correccion se apoya en la prensa: se perdio el metodo"
+    for m in por_prensa:
+        assert "gol" in m.porque or "Boletin" in m.porque, (
+            f"{m.jornada} {m.local}: sin tabla y sin goleadores no hay evidencia")
 
 
 def test_el_arbitraje_no_le_da_siempre_la_razon_al_mismo():
@@ -193,12 +234,131 @@ def test_el_wikilink_del_equipo_no_parte_el_nombre():
 
 def test_solo_la_tabla_final_y_no_la_de_la_primera_rueda():
     """Varias paginas publican tambien la parcial de la primera rueda, con los
-    mismos clubes y la mitad de los partidos. Escaneando la pagina entera, esa
-    pisaba a la final y los clubes quedaban con la mitad del PJ."""
+    mismos clubes y la mitad de los partidos. Si esa pisa a la final, los clubes
+    quedan con la mitad del PJ y el cruce se calla por PJ distinto.
+
+    Las dos tablas van una atras de la otra y con su propio titulo: es la forma
+    en que aparecen en la pagina, y es lo que obliga a que decida la regla de mas
+    partidos y no el orden."""
     texto = (_plantillas(("Boca Juniors", 10, 5, 4, 30, 20))
-             + "\n== Tabla de posiciones parcial de la primera rueda ==\n"
-             + _plantillas(("Boca Juniors", 5, 2, 2, 15, 10), titulo="Otra cosa"))
+             + _plantillas(("Boca Juniors", 5, 2, 2, 15, 10),
+                           titulo="Tabla de posiciones parcial de la primera rueda"))
     assert posiciones.tabla(texto)["Boca Juniors"] == (19, 30, 20)
+
+
+def test_la_parcial_tampoco_gana_si_viene_primero():
+    """El orden no puede ser lo que decide. Antes se leia la primera seccion y
+    nada mas, asi que una pagina que publicara la parcial arriba habria dado el
+    PJ de la mitad de la temporada sin que se notara."""
+    texto = (_plantillas(("Boca Juniors", 5, 2, 2, 15, 10),
+                         titulo="Tabla de posiciones parcial de la primera rueda")
+             + _plantillas(("Boca Juniors", 10, 5, 4, 30, 20)))
+    assert posiciones.tabla(texto)["Boca Juniors"] == (19, 30, 20)
+
+
+# --------------------------------------------------------------------------
+# torneos por zonas: una tabla por zona, y todas se llaman igual
+# --------------------------------------------------------------------------
+def test_lee_las_tablas_de_todas_las_zonas():
+    """El titulo NO distingue las zonas: las dos se llaman "Tabla de posiciones
+    final" y lo que cambia es el `== Zona A ==` de arriba. Leyendo solo la
+    primera, la mitad de la pagina se cruzaba contra nada -- en el Federal A
+    2019-20 los quince clubes de la Zona B volvian sin tabla, y en la Primera C
+    2026 la Zona B escondia dos contradicciones que el aviso nunca denuncio.
+    Son 91 de las 279 paginas del catalogo."""
+    texto = ("== Zona A ==\n"
+             + _plantillas(("Boca Juniors", 1, 1, 0, 3, 1), titulo="Tabla de posiciones final")
+             + "== Zona B ==\n"
+             + _plantillas(("River Plate", 2, 0, 0, 5, 0), titulo="Tabla de posiciones final"))
+    assert posiciones.tabla(texto) == {"Boca Juniors": (2, 3, 1), "River Plate": (2, 5, 0)}
+
+
+def test_una_zona_sin_tabla_no_tapa_a_la_otra():
+    """La Zona B puede no tener tabla y la Zona A si. Nada obliga a que la pagina
+    sea simetrica."""
+    texto = ("== Zona A ==\n"
+             + _plantillas(("Boca Juniors", 1, 1, 0, 3, 1), titulo="Tabla de posiciones")
+             + "== Zona B ==\n== Resultados ==\nnada por aca\n")
+    assert posiciones.tabla(texto) == {"Boca Juniors": (2, 3, 1)}
+
+
+def test_un_desvio_en_la_segunda_zona_se_denuncia():
+    """El punto del arreglo, medido donde importa: el aviso tiene que salir aunque
+    el club este en la zona que antes no se leia."""
+    texto = ("== Zona A ==\n"
+             + pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1), titulo="Tabla de posiciones final")
+             + "\n== Zona B ==\n"
+             + pagina(fila(1, "River Plate", 4, 2, 1, 1, 0, 9, 9), titulo="Tabla de posiciones final"))
+    ps = [zona("Boca Juniors", "Talleres (C)", 3, 1), zona("Talleres (C)", "Boca Juniors", 0, 0),
+          zona("River Plate", "Newell's Old Boys", 1, 1), zona("Newell's Old Boys", "River Plate", 1, 1)]
+    avisos = posiciones.contrastar(ps, texto)
+    assert len(avisos) == 1 and avisos[0].startswith("River Plate:")
+
+
+def test_una_nota_al_pie_pegada_al_nombre_no_tira_al_club():
+    """`eq=[[Club Atlético Colón|Colón]]{{refn|group="n."|Se le descontaron 6
+    puntos...}}`. La nota queda pegada al nombre, `canonizar` no lo reconoce y el
+    club se cae del cruce -- calladito, porque `contrastar` saltea a los clubes
+    que no estan en las dos partes.
+
+    Y no es cualquier club: el que tiene quita de puntos es justo el que hay que
+    mirar. Eran doce, entre quitas y clasificaciones a copas."""
+    texto = ("== Tabla de posiciones ==\n"
+             "{{Tabla de posiciones equipo|pos=20|g=3|e=3|p=13|gf=8|gc=25|desc=6"
+             "|eq=[[Club Atlético Colón|Colón]]{{refn|group=\"n.\"|name=\"descol\""
+             "|Se le descontaron 6 puntos por una sanción impuesta por [[FIFA]]."
+             "{{cita publicación|autores=AFA|título=Boletín N.º 4838}}}}}}\n")
+    assert posiciones.tabla(texto) == {"Colón": (19, 8, 25)}
+
+
+def test_un_pipe_de_mas_antes_del_color_no_queda_en_el_nombre():
+    """`eq=[[...|Boca Juniors]]||color=#cfc` y `eq=[[...|Rosario Central]]|#color=#cfc`
+    son las dos formas que aparecen en las Copas de la Liga. Cortando en `|color=`
+    a secas, el club terminaba llamandose "Boca Juniors|"."""
+    doble = ("== Tabla de posiciones ==\n"
+             "{{Tabla de posiciones equipo|pos=2|g=7|e=6|p=1|gf=19|gc=11"
+             "|eq=[[Club Atlético Boca Juniors|Boca Juniors]]||color=#cfc}}\n")
+    numeral = ("== Tabla de posiciones ==\n"
+               "{{Tabla de posiciones equipo|pos=4|g=6|e=5|p=3|gf=17|gc=13"
+               "|eq=[[Club Atlético Rosario Central|Rosario Central]]|#color=#cfc|color=#cfc}}\n")
+    assert posiciones.tabla(doble) == {"Boca Juniors": (14, 19, 11)}
+    assert posiciones.tabla(numeral) == {"Rosario Central": (14, 17, 13)}
+
+
+def test_la_basura_del_eq_se_limpia_aunque_el_padron_no_conozca_al_club():
+    """Los dos tests de arriba pasan igual si no se limpia nada, porque el club
+    lo resuelve `canonizar` POR EL ARTICULO y el nombre sucio ni se mira. La
+    limpieza recien se nota cuando el padron no conoce al club: ahi `canonizar`
+    devuelve el nombre tal cual, y si viene sucio entra sucio.
+
+    Es el caso que hay que cubrir, porque es el unico en que la suciedad
+    sobrevive hasta el dato. Un club nuevo o mal linkeado cae siempre aca."""
+    con_nota = ("== Tabla de posiciones ==\n"
+                "{{Tabla de posiciones equipo|pos=1|g=1|e=1|p=0|gf=3|gc=1"
+                "|eq=[[Club Deportivo Inexistente de Prueba|Inexistente de Prueba]]"
+                "{{refn|group=\"n.\"|Se le descontaron 3 puntos.}}}}\n")
+    sin_enlace = ("== Tabla de posiciones ==\n"
+                  "{{Tabla de posiciones equipo|pos=1|g=1|e=1|p=0|gf=3|gc=1"
+                  "|eq=Inexistente de Prueba|#color=#cfc}}\n")
+    assert list(posiciones.tabla(con_nota)) == ["Inexistente de Prueba"]
+    assert list(posiciones.tabla(sin_enlace)) == ["Inexistente de Prueba"]
+
+
+def test_el_articulo_sale_del_wikilink_y_no_del_nombre_visible():
+    """El articulo desambigua, y en el `eq=` esta ahi mismo. Antes se resolvia por
+    un mapa de nombres visibles de toda la pagina, que falla justo cuando la tabla
+    y los partidos escriben distinto al mismo club.
+
+    El testigo es un club al que el nombre visible manda al lugar equivocado:
+    "Gimnasia" sola es el de La Plata o el de Mendoza segun el articulo."""
+    mendoza = ("== Tabla de posiciones ==\n"
+               "{{Tabla de posiciones equipo|pos=1|g=1|e=1|p=0|gf=3|gc=1"
+               "|eq=[[Club Atlético Gimnasia y Esgrima (Mendoza)|Gimnasia]]}}\n")
+    plata = ("== Tabla de posiciones ==\n"
+             "{{Tabla de posiciones equipo|pos=1|g=1|e=1|p=0|gf=3|gc=1"
+             "|eq=[[Club de Gimnasia y Esgrima La Plata|Gimnasia]]}}\n")
+    assert list(posiciones.tabla(mendoza)) != list(posiciones.tabla(plata))
+    assert list(posiciones.tabla(plata)) == ["Gimnasia y Esgrima (LP)"]
 
 
 def test_el_color_no_se_lee_como_nombre():

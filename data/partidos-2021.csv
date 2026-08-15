@@ -299,7 +299,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-04-11,16:10,Deportivo Morón,Instituto,2,2,,,Primera Nacional,2021,zonas,Zona B,Fecha 5,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-04-11,16:15,Rosario Central,Banfield,3,1,,,Copa de la Liga,2021,zonas,Zona A,Fecha 9,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2021
 2021-04-11,16:30,Huracán Las Heras,Villa Mitre,2,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 1,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-04-11,16:30,Racing Club,Douglas Haig,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 1,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-04-11,16:30,Racing (C),Douglas Haig,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 1,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-11,16:30,Ramón Santamarina,Atlético de Rafaela,0,0,,,Primera Nacional,2021,zonas,Zona B,Fecha 5,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-04-11,16:30,Sportivo Peñarol (C),Independiente (C),1,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 1,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-11,16:30,Unión (S),Gimnasia y Tiro (S),2,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 1,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -378,7 +378,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-04-18,17:00,Ferro Carril Oeste (GP),Deportivo Madryn,0,3,,,Torneo Federal A,2021,zonas,Zona A,Fecha 2,El Coloso del Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-18,17:30,Sarmiento (R),Unión (S),0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 2,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-18,18:00,Independiente,Defensa y Justicia,1,0,,,Copa de la Liga,2021,zonas,Zona B,Fecha 10,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2021
-2021-04-18,19:00,Sportivo Las Parejas,Racing Club,0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 2,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-04-18,19:00,Sportivo Las Parejas,Racing (C),0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 2,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-18,20:00,Independiente Rivadavia,Güemes (SdE),1,1,,,Primera Nacional,2021,zonas,Zona B,Fecha 6,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-04-18,21:00,Colón,Godoy Cruz,2,2,,,Copa de la Liga,2021,zonas,Zona A,Fecha 10,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2021
 2021-04-19,15:10,Nueva Chicago,San Martín (T),0,1,,,Primera Nacional,2021,zonas,Zona A,Fecha 6,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
@@ -432,7 +432,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-04-25,16:00,Defensores de Belgrano (VR),Defensores de Pronunciamiento,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 3,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-25,16:00,Gimnasia y Esgrima (CdU),Sportivo Las Parejas,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 3,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-25,16:00,Olimpo,Ferro Carril Oeste (GP),2,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 3,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-04-25,16:00,Racing Club,Boca Unidos,2,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 3,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-04-25,16:00,Racing (C),Boca Unidos,2,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 3,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-25,16:00,Sportivo Peñarol (C),Círculo Deportivo,2,2,,,Torneo Federal A,2021,zonas,Zona A,Fecha 3,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-25,16:30,Central Norte (S),Gimnasia y Tiro (S),1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 3,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-04-25,18:00,River Plate,San Lorenzo,1,2,,,Copa de la Liga,2021,zonas,Zona A,Fecha 11,Monumental,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2021
@@ -479,7 +479,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-05-02,15:30,Deportivo Merlo,Sacachispas,0,1,,,Primera B,2021,zonas,Torneo Apertura,Fecha 9,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-05-02,15:30,Flandria,Acassuso,1,1,,,Primera B,2021,zonas,Torneo Apertura,Fecha 9,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-05-02,15:30,Independiente Rivadavia,Ferro Carril Oeste,1,2,,,Primera Nacional,2021,zonas,Zona B,Fecha 8,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-05-02,15:30,Juventud Unida (G),Racing Club,0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 4,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-05-02,15:30,Juventud Unida (G),Racing (C),0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 4,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-05-02,15:30,San Martín (B),Leandro N. Alem,3,2,,,Primera C,2021,zonas,Torneo Apertura,Fecha 10,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-05-02,15:30,San Miguel,J. J. de Urquiza,0,1,,,Primera B,2021,zonas,Torneo Apertura,Fecha 9,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-05-02,15:30,San Telmo,All Boys,1,1,,,Primera Nacional,2021,zonas,Zona B,Fecha 8,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
@@ -552,7 +552,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-05-09,15:30,Fénix,Comunicaciones,1,2,,,Primera B,2021,zonas,Torneo Apertura,Fecha 10,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-05-09,15:30,Ituzaingó,Sportivo Italiano,0,2,,,Primera C,2021,zonas,Torneo Apertura,Fecha 11,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-05-09,15:30,Olimpo,Desamparados,0,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 5,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-05-09,15:30,Racing Club,Gimnasia y Tiro (S),2,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 5,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-05-09,15:30,Racing (C),Gimnasia y Tiro (S),2,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 5,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-05-09,15:30,Real Pilar,Ferrocarril Midland,2,0,,,Primera C,2021,zonas,Torneo Apertura,Fecha 11,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-05-09,15:30,Temperley,Atlanta,0,3,,,Primera Nacional,2021,zonas,Zona A,Fecha 9,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-05-09,15:30,Unión (S),Defensores de Belgrano (VR),1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 5,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -616,7 +616,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-05-16,16:00,Defensores de Belgrano (VR),Crucero del Norte,4,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 6,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-05-16,16:00,Deportivo Camioneros,Sol de Mayo (V),2,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 6,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-05-16,16:00,San Martín (SJ),Güemes (SdE),1,2,,,Primera Nacional,2021,zonas,Zona B,Fecha 10,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-05-16,16:45,Sarmiento (R),Racing Club,0,3,,,Torneo Federal A,2021,zonas,Zona B,Fecha 6,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-05-16,16:45,Sarmiento (R),Racing (C),0,3,,,Torneo Federal A,2021,zonas,Zona B,Fecha 6,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-05-17,14:00,Independiente Rivadavia,Gimnasia y Esgrima (J),1,1,,,Primera Nacional,2021,zonas,Zona B,Fecha 10,San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-05-17,15:00,Atlanta,Deportivo Maipú,0,0,,,Primera Nacional,2021,zonas,Zona A,Fecha 10,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-05-17,15:10,Defensores de Belgrano,All Boys,0,0,,,Primera Nacional,2021,zonas,Zona B,Fecha 10,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
@@ -643,7 +643,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-06-07,15:30,Fénix,Talleres (RdE),1,1,,,Primera B,2021,zonas,Torneo Apertura,Fecha 12,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-06-07,15:30,J. J. de Urquiza,Cañuelas,2,0,,,Primera B,2021,zonas,Torneo Apertura,Fecha 12,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-06-07,15:30,Los Andes,Deportivo Merlo,0,0,,,Primera B,2021,zonas,Torneo Apertura,Fecha 12,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
-2021-06-07,15:30,Racing Club,Sportivo Belgrano,2,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 7,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-06-07,15:30,Racing (C),Sportivo Belgrano,2,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 7,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-06-07,15:30,Sacachispas,Acassuso,4,1,,,Primera B,2021,zonas,Torneo Apertura,Fecha 12,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-06-07,15:30,Villa San Carlos,Comunicaciones,1,1,,,Primera B,2021,zonas,Torneo Apertura,Fecha 12,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-06-07,16:00,Central Norte (S),Defensores de Belgrano (VR),1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 7,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -707,7 +707,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-06-17,15:30,Defensores de Belgrano,Almagro,1,0,,,Primera Nacional,2021,zonas,Zona B,Fecha 12,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-06-17,15:30,San Martín (SJ),Ferro Carril Oeste,1,1,,,Primera Nacional,2021,zonas,Zona B,Fecha 12,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-06-17,19:00,Almirante Brown,Temperley,3,2,,,Primera Nacional,2021,zonas,Zona A,Fecha 12,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-06-19,15:00,Defensores de Pronunciamiento,Racing Club,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 8,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-06-19,15:00,Defensores de Pronunciamiento,Racing (C),1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 8,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-06-19,15:00,Deportivo Camioneros,Olimpo,1,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 8,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-06-19,15:00,Desamparados,Independiente (C),1,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 8,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-06-19,15:00,Ferro Carril Oeste (GP),Círculo Deportivo,4,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 8,El Coloso del Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -785,7 +785,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-06-27,15:00,Leandro N. Alem,Ituzaingó,2,2,,,Primera C,2021,zonas,Torneo Apertura,Fecha 16,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-06-27,15:00,Luján,Ferrocarril Midland,1,1,,,Primera C,2021,zonas,Torneo Apertura,Fecha 16,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-06-27,15:00,Olimpo,Huracán Las Heras,1,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 9,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-06-27,15:00,Racing Club,Defensores de Belgrano (VR),3,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 9,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-06-27,15:00,Racing (C),Defensores de Belgrano (VR),3,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 9,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-06-27,15:00,Ramón Santamarina,Güemes (SdE),1,2,,,Primera Nacional,2021,zonas,Zona B,Fecha 14,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-06-27,15:00,San Martín (B),Real Pilar,0,3,,,Primera C,2021,zonas,Torneo Apertura,Fecha 16,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-06-27,15:00,Sportivo Italiano,General Lamadrid,0,0,,,Primera C,2021,zonas,Torneo Apertura,Fecha 16,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
@@ -828,7 +828,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-07-03,15:30,Defensores de Belgrano (VR),Gimnasia y Esgrima (CdU),2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 10,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-03,15:30,Gimnasia y Tiro (S),Juventud Unida (G),1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 10,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-03,15:30,Sarmiento (R),Boca Unidos,0,3,,,Torneo Federal A,2021,zonas,Zona B,Fecha 10,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-07-03,15:30,Unión (S),Racing Club,1,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 10,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-07-03,15:30,Unión (S),Racing (C),1,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 10,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-03,16:00,Juventud Unida Universitario,Independiente (C),1,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 10,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-04,15:00,Atlas,El Porvenir,0,3,,,Primera C,2021,zonas,Torneo Apertura,Fecha 17,Ricardo Puga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-07-04,15:00,Claypole,Excursionistas,0,2,,,Primera C,2021,zonas,Torneo Apertura,Fecha 17,Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
@@ -864,7 +864,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-07-07,15:00,Independiente (C),Deportivo Camioneros,1,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 11,Raúl Orlando Lungarzo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-07,15:00,Juventud Unida (G),Sarmiento (R),1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 11,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-07,15:00,Olimpo,Deportivo Madryn,2,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 11,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-07-07,15:00,Racing Club,Crucero del Norte,3,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 11,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-07-07,15:00,Racing (C),Crucero del Norte,3,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 11,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-07,15:00,Sportivo Las Parejas,Defensores de Pronunciamiento,2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 11,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-07,15:00,Sportivo Peñarol (C),Sol de Mayo (V),1,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 11,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-07,15:30,Chaco For Ever,Central Norte (S),2,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 11,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -904,7 +904,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-07-11,15:00,San Martín (B),Victoriano Arenas,1,3,,,Primera C,2021,zonas,Torneo Apertura,Fecha 18,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-07-11,15:00,Sansinena,Ferro Carril Oeste (GP),3,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 12,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-11,15:00,Sportivo Italiano,Atlas,3,3,,,Primera C,2021,zonas,Torneo Apertura,Fecha 18,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
-2021-07-11,15:30,Central Norte (S),Racing Club,0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 12,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-07-11,15:30,Central Norte (S),Racing (C),0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 12,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-11,15:30,Defensores de Belgrano (VR),Sportivo Las Parejas,2,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 12,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-11,15:30,Huracán Las Heras,Independiente (C),0,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 12,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-11,15:30,Sarmiento (R),Gimnasia y Tiro (S),0,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 12,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -958,7 +958,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-07-18,15:00,Gimnasia y Esgrima (CdU),Central Norte (S),0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 13,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-18,15:00,Independiente (C),Sol de Mayo (V),2,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 13,Raúl Orlando Lungarzo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-18,15:00,Juventud Unida (G),Defensores de Pronunciamiento,2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 13,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-07-18,15:00,Racing Club,Chaco For Ever,2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 13,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-07-18,15:00,Racing (C),Chaco For Ever,2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 13,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-18,15:00,Real Pilar,Berazategui,2,1,,,Primera C,2021,zonas,Torneo Apertura,Fecha 19,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-07-18,15:00,Sportivo Peñarol (C),Olimpo,0,3,,,Torneo Federal A,2021,zonas,Zona A,Fecha 13,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-07-18,15:00,Villa Mitre,Sansinena,2,2,,,Torneo Federal A,2021,zonas,Zona A,Fecha 13,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1087,7 +1087,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-08-01,15:00,Deportivo Morón,Ferro Carril Oeste,1,0,,,Primera Nacional,2021,zonas,Zona B,Fecha 19,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-08-01,15:00,Desamparados,Juventud Unida Universitario,0,4,,,Torneo Federal A,2021,zonas,Zona A,Fecha 15,Bicentenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-01,15:00,Estudiantes (RC),Agropecuario,1,1,,,Primera Nacional,2021,zonas,Zona A,Fecha 19,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-08-01,15:00,Gimnasia y Esgrima (CdU),Racing Club,1,3,,,Torneo Federal A,2021,zonas,Zona B,Fecha 15,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-08-01,15:00,Gimnasia y Esgrima (CdU),Racing (C),1,3,,,Torneo Federal A,2021,zonas,Zona B,Fecha 15,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-01,15:00,Gimnasia y Esgrima (M),Quilmes,0,3,,,Primera Nacional,2021,zonas,Zona A,Fecha 19,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-08-01,15:00,Güemes (SdE),Tristán Suárez,0,0,,,Primera Nacional,2021,zonas,Zona B,Fecha 19,Arturo Miranda,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-08-01,15:00,Independiente (C),Olimpo,1,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 15,Raúl Orlando Lungarzo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1146,7 +1146,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-08-07,20:15,Godoy Cruz,River Plate,2,1,,,Primera Division,2021,zonas,,Fecha 5,Feliciano Gambarte,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-08-08,13:30,Gimnasia y Esgrima (LP),Atlético Tucumán,1,0,,,Primera Division,2021,zonas,,Fecha 5,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-08-08,14:00,Chacarita Juniors,Nueva Chicago,2,3,,,Primera Nacional,2021,zonas,Zona A,Fecha 20,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-08-08,14:45,Douglas Haig,Racing Club,0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 16,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-08-08,14:45,Douglas Haig,Racing (C),0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 16,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-08,15:00,Atlas,Berazategui,0,0,,,Primera C,2021,zonas,Torneo Clausura,Fecha 3,Ricardo Puga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-08-08,15:00,Cipolletti,Olimpo,1,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 16,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-08,15:00,Claypole,Dock Sud,0,2,,,Primera C,2021,zonas,Torneo Clausura,Fecha 3,Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
@@ -1214,7 +1214,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-08-15,15:00,Deportivo Camioneros,Sansinena,0,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 17,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-15,15:00,Deportivo Madryn,Ferro Carril Oeste (GP),3,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 17,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-15,15:00,Olimpo,Círculo Deportivo,4,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 17,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-08-15,15:00,Racing Club,Sportivo Las Parejas,0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 17,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-08-15,15:00,Racing (C),Sportivo Las Parejas,0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 17,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-15,15:00,Ramón Santamarina,Independiente Rivadavia,0,1,,,Primera Nacional,2021,zonas,Zona B,Fecha 21,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-08-15,15:00,San Telmo,Guillermo Brown,1,2,,,Primera Nacional,2021,zonas,Zona B,Fecha 21,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-08-15,15:00,Sol de Mayo (V),Villa Mitre,0,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 17,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1283,7 +1283,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-08-21,15:30,Sarmiento (R),Crucero del Norte,3,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 18,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-21,15:30,Villa Mitre,Deportivo Madryn,0,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 18,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-21,15:45,Vélez Sarsfield,Lanús,5,1,,,Primera Division,2021,zonas,,Fecha 7,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
-2021-08-21,16:00,Boca Unidos,Racing Club,2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 18,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-08-21,16:00,Boca Unidos,Racing (C),2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 18,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-21,16:00,Sportivo Belgrano,Unión (S),0,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 18,Oscar Carlos Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-21,16:05,Estudiantes (BA),Gimnasia y Esgrima (M),0,0,,,Primera Nacional,2021,zonas,Zona A,Fecha 22,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-08-21,18:00,Arsenal,Racing Club,0,3,,,Primera Division,2021,zonas,,Fecha 7,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
@@ -1324,7 +1324,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-08-25,15:00,Douglas Haig,Sportivo Las Parejas,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 19,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-25,15:00,Independiente (C),Cipolletti,1,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 19,Raúl Orlando Lungarzo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-25,15:00,Olimpo,Villa Mitre,0,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 19,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-08-25,15:00,Racing Club,Juventud Unida (G),2,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 19,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-08-25,15:00,Racing (C),Juventud Unida (G),2,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 19,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-25,15:00,Sol de Mayo (V),Sansinena,1,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 19,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-25,15:00,Sportivo Estudiantes (SL),Círculo Deportivo,1,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 19,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-25,15:00,Sportivo Peñarol (C),Ferro Carril Oeste (GP),1,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 19,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1380,7 +1380,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-08-29,15:30,Defensores de Pronunciamiento,Crucero del Norte,1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 20,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-29,15:30,Desamparados,Olimpo,2,2,,,Torneo Federal A,2021,zonas,Zona A,Fecha 20,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-29,15:30,Ferro Carril Oeste,Instituto,3,1,,,Primera Nacional,2021,zonas,Zona B,Fecha 23,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-08-29,15:30,Gimnasia y Tiro (S),Racing Club,0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 20,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-08-29,15:30,Gimnasia y Tiro (S),Racing (C),0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 20,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-29,15:30,Villa Mitre,Sportivo Peñarol (C),2,2,,,Torneo Federal A,2021,zonas,Zona A,Fecha 20,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-08-29,15:45,Aldosivi,Lanús,2,3,,,Primera Division,2021,zonas,,Fecha 9,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-08-29,15:45,Central Córdoba (SdE),Rosario Central,2,4,,,Primera Division,2021,zonas,,Fecha 9,Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
@@ -1454,7 +1454,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-09-05,11:00,Nueva Chicago,Belgrano,0,2,,,Primera Nacional,2021,zonas,Zona A,Fecha 24,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-09-05,11:00,UAI Urquiza,Argentino de Quilmes,3,3,,,Primera B,2021,zonas,Torneo Clausura,Fecha 8,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-09-05,11:30,Ciudad de Bolívar,Huracán Las Heras,2,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 21,Municipal Eva Perón,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-09-05,11:30,Racing Club,Sarmiento (R),3,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 21,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-09-05,11:30,Racing (C),Sarmiento (R),3,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 21,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-05,11:30,Sportivo Las Parejas,Boca Unidos,1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 21,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-05,13:30,Godoy Cruz,Gimnasia y Esgrima (LP),4,0,,,Primera Division,2021,zonas,,Fecha 10,Feliciano Gambarte,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-09-05,13:30,Patronato,Talleres (C),0,0,,,Primera Division,2021,zonas,,Fecha 10,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
@@ -1499,7 +1499,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-09-10,19:00,Sarmiento (R),Gimnasia y Esgrima (CdU),0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 22,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-10,19:10,Gimnasia y Esgrima (M),Chacarita Juniors,1,1,,,Primera Nacional,2021,zonas,Zona A,Fecha 25,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-09-10,20:00,Estudiantes (RC),Atlanta,1,2,,,Primera Nacional,2021,zonas,Zona A,Fecha 25,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-09-10,20:30,Sportivo Belgrano,Racing Club,1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 22,Oscar Carlos Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-09-10,20:30,Sportivo Belgrano,Racing (C),1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 22,Oscar Carlos Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-10,20:30,Unión (S),Crucero del Norte,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 22,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-10,20:35,Deportivo Morón,Atlético de Rafaela,0,0,,,Primera Nacional,2021,zonas,Zona B,Fecha 25,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-09-10,21:10,Belgrano,Almirante Brown,0,1,,,Primera Nacional,2021,zonas,Zona A,Fecha 25,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
@@ -1564,7 +1564,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-09-19,15:00,Deportivo Madryn,Huracán Las Heras,2,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 23,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-19,15:00,Douglas Haig,Sarmiento (R),2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 23,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-19,15:00,Leandro N. Alem,San Martín (B),2,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 10,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
-2021-09-19,15:00,Racing Club,Defensores de Pronunciamiento,3,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 23,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-09-19,15:00,Racing (C),Defensores de Pronunciamiento,3,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 23,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-19,15:00,Real Pilar,Atlas,4,0,,,Primera C,2021,zonas,Torneo Clausura,Fecha 10,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-09-19,15:00,San Telmo,Defensores de Belgrano,0,0,,,Primera Nacional,2021,zonas,Zona B,Fecha 26,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-09-19,15:00,Sportivo Estudiantes (SL),Sansinena,1,2,,,Torneo Federal A,2021,zonas,Zona A,Fecha 23,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1618,7 +1618,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-09-25,15:30,Sarmiento (R),Sportivo Las Parejas,1,3,,,Torneo Federal A,2021,zonas,Zona B,Fecha 24,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-25,15:45,Arsenal,Lanús,1,0,,,Primera Division,2021,zonas,,Fecha 13,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-09-25,15:45,Talleres (C),Rosario Central,4,1,,,Primera Division,2021,zonas,,Fecha 13,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
-2021-09-25,16:00,Defensores de Belgrano (VR),Racing Club,2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 24,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-09-25,16:00,Defensores de Belgrano (VR),Racing (C),2,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 24,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-25,16:00,Huracán Las Heras,Olimpo,2,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 24,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-25,16:00,Sansinena,Independiente (C),1,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 24,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-25,16:00,Sportivo Belgrano,Douglas Haig,0,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 24,Oscar Carlos Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1654,7 +1654,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-09-29,15:00,Círculo Deportivo,Desamparados,0,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 25,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-29,15:00,Douglas Haig,Defensores de Pronunciamiento,0,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 25,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-29,15:00,Ferro Carril Oeste (GP),Villa Mitre,3,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 25,El Coloso del Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-09-29,15:00,Racing Club,Unión (S),5,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 25,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-09-29,15:00,Racing (C),Unión (S),5,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 25,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-29,15:00,Sportivo Estudiantes (SL),Deportivo Camioneros,1,4,,,Torneo Federal A,2021,zonas,Zona A,Fecha 25,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-29,15:00,Sportivo Las Parejas,Sportivo Belgrano,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 25,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-09-29,15:30,Olimpo,Sol de Mayo (V),0,3,,,Torneo Federal A,2021,zonas,Zona A,Fecha 25,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1688,7 +1688,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-10-02,17:00,San Martín (SJ),Deportivo Morón,1,1,,,Primera Nacional,2021,zonas,Zona B,Fecha 28,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-10-02,18:00,Atlético Tucumán,San Lorenzo,0,0,,,Primera Division,2021,zonas,,Fecha 14,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-10-02,20:15,Vélez Sarsfield,Independiente,3,3,,,Primera Division,2021,zonas,,Fecha 14,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
-2021-10-03,11:00,Crucero del Norte,Racing Club,1,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 26,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-10-03,11:00,Crucero del Norte,Racing (C),1,2,,,Torneo Federal A,2021,zonas,Zona B,Fecha 26,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-03,11:00,Desamparados,Ferro Carril Oeste (GP),1,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 26,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-03,11:00,Independiente Rivadavia,Instituto,2,1,,,Primera Nacional,2021,zonas,Zona B,Fecha 28,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-10-03,11:00,Unión (S),Gimnasia y Esgrima (CdU),3,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 26,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1768,7 +1768,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-10-10,15:00,Douglas Haig,Unión (S),3,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 27,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-10,15:00,Independiente (C),Huracán Las Heras,1,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 27,Raúl Orlando Lungarzo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-10,15:00,Juventud Unida (G),Sportivo Belgrano,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 27,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-10-10,15:00,Racing Club,Central Norte (S),1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 27,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-10-10,15:00,Racing (C),Central Norte (S),1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 27,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-10,15:00,Sportivo Estudiantes (SL),Sol de Mayo (V),0,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 27,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-10,15:20,Sportivo Peñarol (C),Deportivo Madryn,1,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 27,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-10,16:00,Villa Mitre,Desamparados,3,0,,,Torneo Federal A,2021,zonas,Zona A,Fecha 27,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1848,7 +1848,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-10-17,17:30,Central Norte (S),Gimnasia y Esgrima (CdU),4,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 28,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-17,18:00,Aldosivi,Independiente,1,0,,,Primera Division,2021,zonas,,Fecha 16,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-10-17,18:00,Sportivo Belgrano,Gimnasia y Tiro (S),1,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 28,Oscar Carlos Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-10-17,18:30,Chaco For Ever,Racing Club,0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 28,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-10-17,18:30,Chaco For Ever,Racing (C),0,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 28,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-17,20:15,River Plate,San Lorenzo,3,1,,,Primera Division,2021,zonas,,Fecha 16,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-10-18,15:00,El Porvenir,General Lamadrid,0,0,,,Primera C,2021,zonas,Torneo Clausura,Fecha 15,Gildo Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-10-18,15:00,San Telmo,Deportivo Morón,0,1,,,Primera Nacional,2021,zonas,Zona B,Fecha 30,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
@@ -1981,7 +1981,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-10-31,17:00,Deportivo Camioneros,Villa Mitre,0,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 30,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-31,17:00,Huracán Las Heras,Ferro Carril Oeste (GP),3,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 30,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-31,17:00,Juventud Unida Universitario,Desamparados,2,1,,,Torneo Federal A,2021,zonas,Zona A,Fecha 30,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-10-31,17:00,Racing Club,Gimnasia y Esgrima (CdU),1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 30,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-10-31,17:00,Racing (C),Gimnasia y Esgrima (CdU),1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 30,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-31,17:00,Unión (S),Juventud Unida (G),0,1,,,Torneo Federal A,2021,zonas,Zona B,Fecha 30,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-10-31,17:35,Defensores de Belgrano,Ferro Carril Oeste,0,2,,,Primera Nacional,2021,zonas,Zona B,Fecha 32,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-10-31,18:00,Central Norte (S),Sportivo Las Parejas,1,0,,,Torneo Federal A,2021,zonas,Zona B,Fecha 30,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
@@ -1997,7 +1997,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-11-01,21:10,Nueva Chicago,Tigre,2,4,,,Primera Nacional,2021,zonas,Zona A,Fecha 32,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-11-01,21:15,Central Córdoba (SdE),Aldosivi,0,0,,,Primera Division,2021,zonas,,Fecha 19,Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-02,20:05,Chacarita Juniors,Alvarado,0,2,,,Primera Nacional,2021,zonas,Zona A,Fecha 32,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-11-04,17:00,Deportivo Madryn,Racing Club,1,0,,,Torneo Federal A,2021,eliminacion,,Etapa final,El Viaducto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-11-04,17:00,Deportivo Madryn,Racing (C),1,0,,,Torneo Federal A,2021,eliminacion,,Etapa final,El Viaducto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-11-05,15:00,Atlas,Sportivo Italiano,0,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 18,Ricardo Puga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-11-05,15:00,Claypole,Berazategui,3,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 18,Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-11-05,15:00,Luján,Deportivo Español,0,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 18,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
@@ -2102,7 +2102,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-11-21,17:00,Arsenal,Newell's Old Boys,3,1,,,Primera Division,2021,zonas,,Fecha 21,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-21,17:00,Fénix,UAI Urquiza,1,2,,,Primera B,2021,zonas,,Fecha 1,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-21,17:00,Gimnasia y Tiro (S),Defensores de Pronunciamiento,3,2,,,Torneo Federal A,2021,eliminacion,,Segunda ronda,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-11-21,17:00,Racing Club,Defensores de Belgrano (VR),2,0,,,Torneo Federal A,2021,eliminacion,,Segunda ronda,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-11-21,17:00,Racing (C),Defensores de Belgrano (VR),2,0,,,Torneo Federal A,2021,eliminacion,,Segunda ronda,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-11-21,17:00,Villa San Carlos,Deportivo Armenio,0,0,,,Primera B,2021,zonas,,Fecha 1,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-21,19:15,Racing Club,Colón,1,2,,,Primera Division,2021,zonas,,Fecha 21,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-21,21:30,Platense,River Plate,0,1,,,Primera Division,2021,zonas,,Fecha 21,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)

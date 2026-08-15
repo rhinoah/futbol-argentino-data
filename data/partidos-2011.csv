@@ -286,7 +286,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-08-21,14:30,Ferrocarril Midland,Excursionistas,0,0,,,Primera C,2011,zonas,,Fecha 3,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2011-08-21,15:30,Deportivo Español,Defensores de Cambaceres,0,1,,,Primera C,2011,zonas,,Fecha 3,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2011-08-21,15:30,Leandro N. Alem,Liniers,1,0,,,Primera C,2011,zonas,,Fecha 3,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
-2011-08-21,15:30,Unión (S),Racing Club,0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-08-21,15:30,Unión (S),Racing (C),0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-08-21,15:45,Crucero del Norte,Tiro Federal,0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-08-21,16:00,Atlético Tucumán,Atlanta,0,0,,,Primera Nacional,2011,zonas,,Fecha 2,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-08-21,16:00,Patronato,Defensa y Justicia,3,2,,,Primera Nacional,2011,zonas,,Fecha 2,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
@@ -340,8 +340,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-08-28,15:30,General Lamadrid,Almagro,0,0,,,Primera B,2011,zonas,,Fecha 4,"Claudio ""Chiqui"" Tapia",false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-08-28,15:30,Gimnasia y Esgrima (J),Aldosivi,1,0,,,Primera Nacional,2011,zonas,,Fecha 3,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-08-28,15:30,Guillermo Brown,Huracán,1,3,,,Primera Nacional,2011,zonas,,Fecha 3,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
+2011-08-28,15:30,Racing (C),Alumni (VM),2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-08-28,15:30,Racing (O),Cipolletti,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2011-08-28,15:30,Racing Club,Alumni (VM),2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-08-28,15:30,Talleres (RdE),Ferrocarril Midland,0,1,,,Primera C,2011,zonas,,Fecha 4,Talleres (RdE),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2011-08-28,16:00,Belgrano,Newell's Old Boys,2,3,,,Primera Division - Apertura,2011,zonas,,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-08-28,16:00,Juventud Unida Universitario,Ramón Santamarina,2,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -461,7 +461,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-09-11,16:45,Libertad (S),Gimnasia y Tiro (S),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Hogar de los Tigres,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-09-11,17:00,Deportivo Maipú,Huracán (TA),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 3,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-09-11,17:00,Sportivo Belgrano,Crucero del Norte,0,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2011-09-11,18:00,Central Córdoba (SdE),Racing Club,0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-09-11,18:00,Central Córdoba (SdE),Racing (C),0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-09-11,18:10,Boca Juniors,San Martín (SJ),1,0,,,Primera Division - Apertura,2011,zonas,,Fecha 6,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-09-11,20:05,Vélez Sarsfield,Unión,0,1,,,Primera Division - Apertura,2011,zonas,,Fecha 6,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-09-12,19:00,Argentinos Juniors,Lanús,0,4,,,Primera Division - Apertura,2011,zonas,,Fecha 6,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
@@ -517,7 +517,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-09-19,15:30,San Telmo,Comunicaciones,0,1,,,Primera B,2011,zonas,,Fecha 8,"Claudio ""Chiqui"" Tapia",false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-09-19,15:30,Villa Dálmine,Argentino de Merlo,2,0,,,Primera C,2011,zonas,,Fecha 7,Villa Dálmine,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2011-09-19,20:00,Ramón Santamarina,Racing (O),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2011-09-19,21:00,Racing Club,Juventud Antoniana,1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 5,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-09-19,21:00,Racing (C),Juventud Antoniana,1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 5,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-09-19,21:00,Rosario Central,Guillermo Brown,2,2,,,Primera Nacional,2011,zonas,,Fecha 6,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-09-20,17:05,Arsenal,All Boys,1,2,,,Primera Division - Apertura,2011,zonas,,Fecha 8,El Viaducto,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-09-20,19:10,Colón,San Martín (SJ),0,0,,,Primera Division - Apertura,2011,zonas,,Fecha 8,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
@@ -552,7 +552,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-09-24,17:10,River Plate,Gimnasia y Esgrima (LP),2,0,,,Primera Nacional,2011,zonas,,Fecha 7,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-09-24,20:10,San Martín (SJ),Atlético de Rafaela,2,1,,,Primera Division - Apertura,2011,zonas,,Fecha 9,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-09-25,11:00,Independiente,Vélez Sarsfield,0,1,,,Primera Division - Apertura,2011,zonas,,Fecha 9,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
-2011-09-25,11:00,Tiro Federal,Racing Club,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 6,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-09-25,11:00,Tiro Federal,Racing (C),2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 6,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-09-25,13:00,Boca Unidos,Rosario Central,0,1,,,Primera Nacional,2011,zonas,,Fecha 7,José Antonio Romero Feris,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-09-25,14:00,Tigre,All Boys,1,1,,,Primera Division - Apertura,2011,zonas,,Fecha 9,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-09-25,15:30,Defensores Unidos,Excursionistas,1,1,,,Primera C,2011,zonas,,Fecha 8,Defensores Unidos de Zárate,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
@@ -621,7 +621,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-10-02,17:30,Central Norte (S),Crucero del Norte,1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 7,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-02,17:30,Deportivo Maipú,Unión (MdP),3,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 6,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-02,18:00,Central Córdoba (SdE),Tiro Federal,3,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 7,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2011-10-02,18:00,Racing Club,Libertad (S),0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 7,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-10-02,18:00,Racing (C),Libertad (S),0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 7,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-02,18:30,Boca Juniors,Tigre,1,0,,,Primera Division - Apertura,2011,zonas,,Fecha 10,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-10-02,20:00,Alumni (VM),San Martín (T),1,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 7,Plaza Manuel Anselmo Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-02,20:00,Huracán (TA),Gimnasia y Esgrima (CdU),0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 6,Roberto Lorenzo Bottino,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -674,7 +674,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-10-09,18:00,Crucero del Norte,Gimnasia y Tiro (S),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 8,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-09,18:00,Talleres (C),Unión (S),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 8,La Boutique,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-09,18:30,Huracán,River Plate,1,2,,,Primera Nacional,2011,zonas,,Fecha 10,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
-2011-10-09,20:00,San Martín (T),Racing Club,2,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 8,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-10-09,20:00,San Martín (T),Racing (C),2,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 8,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-09,20:30,Desamparados,Boca Unidos,0,3,,,Primera Nacional,2011,zonas,,Fecha 10,San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-10-10,15:30,Nueva Chicago,Sportivo Italiano,1,1,,,Primera B,2011,zonas,,Fecha 11,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-10-10,15:30,Villa San Carlos,Deportivo Armenio,1,1,,,Primera B,2011,zonas,,Fecha 11,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -694,7 +694,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-10-12,15:45,UAI Urquiza,El Porvenir,1,1,,,Primera C,2011,zonas,,Fecha 11,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2011-10-14,17:10,Olimpo,Tigre,1,1,,,Primera Division - Apertura,2011,zonas,,Fecha 11,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-10-14,19:25,Newell's Old Boys,Arsenal,0,0,,,Primera Division - Apertura,2011,zonas,,Fecha 11,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
-2011-10-14,21:30,Racing Club,Sportivo Belgrano,0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 9,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-10-14,21:30,Racing (C),Sportivo Belgrano,0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 9,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-14,21:30,San Lorenzo,Banfield,1,0,,,Primera Division - Apertura,2011,zonas,,Fecha 11,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-10-14,21:45,Alumni (VM),Talleres (C),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 9,Plaza Manuel Anselmo Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-14,22:00,Central Córdoba (SdE),San Martín (T),0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 9,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -745,7 +745,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-10-18,21:00,Ferro Carril Oeste,Atlético Tucumán,1,0,,,Primera Nacional,2011,zonas,,Fecha 11,Arquitecto Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-10-19,16:15,Libertad (S),Tiro Federal,2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 10,Hogar de los Tigres,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-19,21:30,Sportivo Belgrano,Central Córdoba (SdE),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 10,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2011-10-19,21:30,Talleres (C),Racing Club,3,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 10,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-10-19,21:30,Talleres (C),Racing (C),3,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 10,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-19,22:00,Central Norte (S),Unión (S),0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 10,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-19,22:00,San Martín (T),Juventud Antoniana,2,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 10,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-20,15:30,Defensores de Cambaceres,J. J. de Urquiza,1,1,,,Primera C,2011,zonas,,Fecha 11,12 de octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
@@ -815,7 +815,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-10-30,16:00,Lanús,Godoy Cruz,2,1,,,Primera Division - Apertura,2011,zonas,,Fecha 13,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-10-30,16:00,San Lorenzo,All Boys,0,1,,,Primera Division - Apertura,2011,zonas,,Fecha 13,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-10-30,16:30,Defensores de Belgrano (VR),Huracán (TA),4,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 9,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2011-10-30,16:30,Racing Club,Crucero del Norte,1,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 11,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-10-30,16:30,Racing (C),Crucero del Norte,1,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 11,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-30,17:30,Unión (S),Gimnasia y Tiro (S),0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 11,De La Avenida,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-30,18:00,Juventud Antoniana,Sportivo Belgrano,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 11,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-30,18:10,Boca Juniors,Atlético de Rafaela,3,1,,,Primera Division - Apertura,2011,zonas,,Fecha 13,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
@@ -869,7 +869,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-11-06,16:00,Racing (O),Unión (MdP),1,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 10,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-06,16:00,Unión,Newell's Old Boys,2,1,,,Primera Division - Apertura,2011,zonas,,Fecha 14,15 de abril,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-11-06,16:30,Guillermo Brown,Instituto,1,1,,,Primera Nacional,2011,zonas,,Fecha 13,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
-2011-11-06,17:00,Central Norte (S),Racing Club,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 12,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-11-06,17:00,Central Norte (S),Racing (C),2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 12,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-06,17:00,Gimnasia y Tiro (S),Alumni (VM),2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 12,Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-06,17:00,Juventud Unida Universitario,Rivadavia (L),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 10,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-06,18:00,Crucero del Norte,Central Córdoba (SdE),0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 12,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -883,7 +883,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-11-07,21:10,Arsenal,San Martín (SJ),2,0,,,Primera Division - Apertura,2011,zonas,,Fecha 14,El Viaducto,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-11-11,21:30,Alumni (VM),Unión (S),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 13,Plaza Manuel Anselmo Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-11,21:30,Gimnasia y Esgrima (CdU),Racing (O),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 11,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2011-11-11,21:30,Racing Club,Gimnasia y Tiro (S),3,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 13,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-11-11,21:30,Racing (C),Gimnasia y Tiro (S),3,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 13,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-11,22:00,Juventud Antoniana,Crucero del Norte,0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 13,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-12,17:00,Acassuso,Villa San Carlos,0,2,,,Primera B,2011,zonas,,Fecha 16,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-11-12,17:00,Comunicaciones,Defensores de Belgrano,0,1,,,Primera B,2011,zonas,,Fecha 16,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -923,7 +923,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-11-14,19:00,Instituto,Boca Unidos,3,0,,,Primera Nacional,2011,zonas,,Fecha 14,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-11-14,21:10,Patronato,Huracán,2,1,,,Primera Nacional,2011,zonas,,Fecha 14,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-11-15,21:30,Desamparados,Deportivo Merlo,1,1,,,Primera Nacional,2011,zonas,,Fecha 14,San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
-2011-11-15,21:30,Racing Club,Unión (S),2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 14,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-11-15,21:30,Racing (C),Unión (S),2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 14,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-16,17:00,Rivadavia (L),Douglas Haig,0,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 12,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-16,17:30,Cipolletti,Racing (O),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 12,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-16,20:00,Tiro Federal,Crucero del Norte,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 14,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -961,7 +961,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-11-19,21:30,Platense,Comunicaciones,1,0,,,Primera B,2011,zonas,,Fecha 17,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-11-20,17:00,Almagro,Tristán Suárez,2,2,,,Primera B,2011,zonas,,Fecha 17,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-11-20,17:00,Almirante Brown,Instituto,0,0,,,Primera Nacional,2011,zonas,,Fecha 15,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
-2011-11-20,17:00,Alumni (VM),Racing Club,1,3,,,Torneo Argentino A,2011,eliminacion,,Fecha 15,Plaza Manuel Anselmo Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-11-20,17:00,Alumni (VM),Racing (C),1,3,,,Torneo Argentino A,2011,eliminacion,,Fecha 15,Plaza Manuel Anselmo Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-20,17:00,Argentino de Merlo,Defensores Unidos,2,2,,,Primera C,2011,zonas,,Fecha 16,Argentino de Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2011-11-20,17:00,Boca Unidos,Gimnasia y Esgrima (J),1,0,,,Primera Nacional,2011,zonas,,Fecha 15,José Antonio Romero Feris,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-11-20,17:00,Central Córdoba (R),Talleres (RdE),0,1,,,Primera C,2011,zonas,,Fecha 16,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
@@ -1044,7 +1044,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-12-02,19:10,Atlético Tucumán,Chacarita Juniors,1,1,,,Primera Nacional,2011,zonas,,Fecha 17,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-12-02,20:00,Central Córdoba (R),Defensores Unidos,2,0,,,Primera C,2011,zonas,,Fecha 18,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2011-12-02,21:15,Argentinos Juniors,Arsenal,2,1,,,Primera Division - Apertura,2011,zonas,,Fecha 17,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
-2011-12-02,21:30,Racing Club,Central Córdoba (SdE),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 17,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-12-02,21:30,Racing (C),Central Córdoba (SdE),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 17,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-12-02,21:45,Alumni (VM),Juventud Antoniana,0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 17,Plaza Manuel Anselmo Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-12-02,22:00,Gimnasia y Tiro (S),Libertad (S),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 17,Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-12-03,17:00,Barracas Central,Acassuso,1,2,,,Primera B,2011,zonas,,Fecha 19,"Claudio ""Chiqui"" Tapia",false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -1103,7 +1103,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-12-07,21:30,Sportivo Belgrano,Central Norte (S),2,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 18,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-12-07,22:00,San Martín (T),Gimnasia y Tiro (S),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 18,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-12-07,22:00,Talleres (C),Crucero del Norte,1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 18,La Boutique,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2011-12-07,22:15,Juventud Antoniana,Racing Club,3,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 18,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-12-07,22:15,Juventud Antoniana,Racing (C),3,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 18,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-12-08,17:00,Acassuso,Brown de Adrogué,1,1,,,Primera B,2011,zonas,,Fecha 20,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-12-08,17:00,Colegiales,Sarmiento (J),1,0,,,Primera B,2011,zonas,,Fecha 20,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-12-08,17:00,Comunicaciones,Villa San Carlos,3,0,,,Primera B,2011,zonas,,Fecha 20,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -1150,7 +1150,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-12-11,20:30,Alumni (VM),Libertad (S),2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 19,Plaza Manuel Anselmo Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-12-11,20:30,Defensores de Belgrano (VR),Cipolletti,4,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 16,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-12-11,21:00,Huracán (TA),Racing (O),1,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 16,Roberto Lorenzo Bottino,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2011-12-11,21:00,Racing Club,Tiro Federal,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 19,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-12-11,21:00,Racing (C),Tiro Federal,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 19,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-12-11,21:15,River Plate,Patronato,1,0,,,Primera Nacional,2011,zonas,,Fecha 18,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-12-12,17:00,Atlanta,Ferro Carril Oeste,2,0,,,Primera Nacional,2011,zonas,,Fecha 18,León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2011-12-12,17:00,Barracas Central,San Telmo,2,1,,,Primera B,2011,zonas,,Fecha 21,"Claudio ""Chiqui"" Tapia",false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -1192,7 +1192,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-01-28,21:00,Estudiantes (BA),Flandria,3,1,,,Primera B,2011,zonas,,Fecha 22,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-01-29,18:00,Cipolletti,Ramón Santamarina,2,3,,,Torneo Argentino A,2011,eliminacion,,Fecha 17,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-01-29,18:00,Racing (O),CAI,2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 17,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-01-29,18:30,Libertad (S),Racing Club,4,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 20,Hogar de los Tigres,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-01-29,18:30,Libertad (S),Racing (C),4,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 20,Hogar de los Tigres,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-01-29,19:00,Crucero del Norte,Central Norte (S),3,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 20,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-01-29,19:00,San Martín (T),Alumni (VM),0,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 20,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-01-29,20:00,Sportivo Belgrano,Unión (S),3,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 20,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -1221,7 +1221,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-02-01,21:00,Deportivo Laferrere,Excursionistas,3,1,,,Primera C,2011,zonas,,Fecha 21,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2012-02-03,21:00,Independiente Rivadavia,Boca Unidos,1,3,,,Primera Nacional,2011,zonas,,Fecha 19,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-02-03,21:30,Huracán (TA),Cipolletti,4,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 18,Roberto Lorenzo Bottino,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-02-03,21:35,Racing Club,San Martín (T),0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 21,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-02-03,21:35,Racing (C),San Martín (T),0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 21,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-03,22:00,Central Córdoba (SdE),Libertad (S),1,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 21,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-04,17:00,Acassuso,Flandria,0,2,,,Primera B,2011,zonas,,Fecha 24,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-02-04,17:00,Aldosivi,Gimnasia y Esgrima (LP),1,1,,,Primera Nacional,2011,zonas,,Fecha 19,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
@@ -1277,7 +1277,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-02-11,19:00,San Martín (T),Central Córdoba (SdE),2,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 22,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-11,20:00,Aldosivi,Atlanta,3,0,,,Primera Nacional,2011,zonas,,Fecha 20,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-02-11,20:05,Platense,Deportivo Morón,3,2,,,Primera B,2011,zonas,,Fecha 25,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
-2012-02-11,20:45,Sportivo Belgrano,Racing Club,1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 22,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-02-11,20:45,Sportivo Belgrano,Racing (C),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 22,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-11,21:00,Crucero del Norte,Unión (S),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 22,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-12,17:00,Almagro,General Lamadrid,0,0,,,Primera B,2011,zonas,,Fecha 25,Tres de febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-02-12,17:00,Central Norte (S),Gimnasia y Tiro (S),4,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 22,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -1305,7 +1305,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-02-14,21:05,Defensores de Belgrano,Sarmiento (J),0,1,,,Primera B,2011,zonas,,Fecha 25,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-02-15,20:10,Tiro Federal,Libertad (S),0,3,,,Torneo Argentino A,2011,eliminacion,,Fecha 23,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-15,21:10,Unión (S),Central Norte (S),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 23,De La Avenida,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-02-15,21:35,Racing Club,Talleres (C),3,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 23,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-02-15,21:35,Racing (C),Talleres (C),3,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 23,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-15,22:00,Central Córdoba (SdE),Sportivo Belgrano,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 23,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-15,22:05,Juventud Antoniana,San Martín (T),0,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 23,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-15,22:15,Alumni (VM),Crucero del Norte,2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 23,Plaza Manuel Anselmo Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -1334,7 +1334,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-02-19,17:30,Guillermo Brown,Ferro Carril Oeste,1,0,,,Primera Nacional,2011,zonas,,Fecha 21,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-02-19,17:30,Juventud Unida Universitario,Cipolletti,1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 20,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-19,18:00,Central Norte (S),Alumni (VM),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 24,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-02-19,19:00,Crucero del Norte,Racing Club,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 24,Comandante Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-02-19,19:00,Crucero del Norte,Racing (C),2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 24,Comandante Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-19,19:30,Gimnasia y Tiro (S),Unión (S),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 24,Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-19,20:00,San Martín (T),Tiro Federal,1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 24,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-19,21:00,Sarmiento (J),Platense,1,0,,,Primera B,2011,zonas,,Fecha 26,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -1386,7 +1386,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-02-26,21:00,Central Córdoba (SdE),Crucero del Norte,0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 25,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-26,21:00,Gimnasia y Esgrima (CdU),Douglas Haig,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 21,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-26,21:00,Juventud Antoniana,Talleres (C),2,3,,,Torneo Argentino A,2011,eliminacion,,Fecha 25,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-02-26,21:00,Racing Club,Central Norte (S),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 25,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-02-26,21:00,Racing (C),Central Norte (S),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 25,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-26,21:15,Desamparados,River Plate,1,4,,,Primera Nacional,2011,zonas,,Fecha 22,San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-02-26,21:20,Alumni (VM),Gimnasia y Tiro (S),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 25,Plaza Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-02-27,17:00,Brown de Adrogué,Almagro,0,0,,,Primera B,2011,zonas,,Fecha 28,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -1408,7 +1408,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-03-02,21:00,Douglas Haig,Cipolletti,0,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 22,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-02,21:30,Central Norte (S),Central Córdoba (SdE),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 26,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-02,21:30,Crucero del Norte,Juventud Antoniana,2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 26,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-03-02,21:30,Gimnasia y Tiro (S),Racing Club,0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 26,Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-03-02,21:30,Gimnasia y Tiro (S),Racing (C),0,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 26,Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-02,21:30,Sportivo Belgrano,Libertad (S),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 26,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-02,21:30,Talleres (C),Tiro Federal,2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 26,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-03,17:00,Almagro,Estudiantes (BA),2,4,,,Primera B,2011,zonas,,Fecha 29,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -1471,7 +1471,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-03-11,18:00,Crucero del Norte,San Martín (T),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-11,19:45,Defensores de Belgrano (VR),Central Córdoba (SdE),4,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-11,20:00,Alumni (VM),Unión (S),2,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,Plaza Manuel Anselmo Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-03-11,20:00,Sportivo Belgrano,Racing Club,4,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-03-11,20:00,Sportivo Belgrano,Racing (C),4,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-11,21:00,Talleres (C),Douglas Haig,4,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-12,17:00,Berazategui,Central Córdoba (R),1,1,,,Primera C,2011,zonas,,Fecha 27,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2012-03-12,17:00,Los Andes,Almagro,2,2,,,Primera B,2011,zonas,,Fecha 30,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -1517,7 +1517,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-03-18,20:15,Deportivo Maipú,Huracán (TA),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 2,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-18,20:30,Douglas Haig,Racing (O),5,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 2,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-18,20:30,Gimnasia y Esgrima (CdU),Cipolletti,1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 2,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-03-18,20:30,Racing Club,Defensores de Belgrano (VR),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-03-18,20:30,Racing (C),Defensores de Belgrano (VR),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 2,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-18,20:30,Tiro Federal,Central Norte (S),4,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 2,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-19,16:00,Defensores de Cambaceres,Leandro N. Alem,0,0,,,Primera C,2011,zonas,,Fecha 28,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2012-03-19,16:00,Dock Sud,UAI Urquiza,0,1,,,Primera C,2011,zonas,,Fecha 28,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
@@ -1553,7 +1553,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-03-24,19:00,Rosario Central,Boca Unidos,2,2,,,Primera Nacional,2011,zonas,,Fecha 26,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-03-24,20:00,Aldosivi,Independiente Rivadavia,2,0,,,Primera Nacional,2011,zonas,,Fecha 26,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-03-24,20:00,Juventud Unida Universitario,CAI,1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 3,Juan Gilberto Funes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-03-24,20:35,Crucero del Norte,Racing Club,2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 3,Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-03-24,20:35,Crucero del Norte,Racing (C),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 3,Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-24,21:10,Gimnasia y Tiro (S),Tiro Federal,2,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 3,Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-25,16:00,Chacarita Juniors,Gimnasia y Esgrima (J),1,1,,,Primera Nacional,2011,zonas,,Fecha 26,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-03-25,16:00,Excursionistas,Sacachispas,3,0,,,Primera C,2011,zonas,,Fecha 29,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
@@ -1584,7 +1584,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-03-28,21:00,Gimnasia y Esgrima (CdU),Rivadavia (L),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-28,21:10,Sportivo Belgrano,Defensores de Belgrano (VR),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-28,21:10,Unión (S),Gimnasia y Tiro (S),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
-2012-03-28,21:30,Racing Club,Talleres (C),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-03-28,21:30,Racing (C),Talleres (C),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-28,21:40,Cipolletti,Huracán (TA),4,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-28,22:05,Central Córdoba (SdE),Racing (O),3,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-03-28,22:20,Juventud Antoniana,Central Norte (S),0,3,,,Torneo Argentino A,2011,eliminacion,,Fecha 4,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -1618,7 +1618,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-04-02,14:00,UAI Urquiza,Berazategui,2,0,,,Primera C,2011,zonas,,Fecha 31,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2012-04-02,14:25,Defensores de Cambaceres,Sacachispas,1,0,,,Primera C,2011,zonas,,Fecha 31,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2012-04-02,15:30,Leandro N. Alem,Villa Dálmine,0,1,,,Primera C,2011,zonas,,Fecha 31,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
-2012-04-02,16:05,Racing (O),Racing Club,2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 5,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-04-02,16:05,Racing (O),Racing (C),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 5,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-04-02,16:15,Douglas Haig,San Martín (T),0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 5,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-04-02,16:30,Gimnasia y Tiro (S),Juventud Antoniana,0,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 5,Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-04-02,16:35,Talleres (C),Ramón Santamarina,1,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 5,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -1646,7 +1646,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-04-07,15:30,Deportivo Armenio,Barracas Central,0,0,,,Primera B,2011,zonas,,Fecha 35,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-04-07,16:00,Atlético Tucumán,Quilmes,0,4,,,Primera Nacional,2011,zonas,,Fecha 28,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-04-07,16:00,General Lamadrid,Brown de Adrogué,0,0,,,Primera B,2011,zonas,,Fecha 35,León Kolbovsky (Atlanta),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
-2012-04-07,19:30,Racing Club,Unión (MdP),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 6,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-04-07,19:30,Racing (C),Unión (MdP),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 6,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-04-07,20:00,Aldosivi,Deportivo Merlo,1,0,,,Primera Nacional,2011,zonas,,Fecha 28,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-04-07,21:05,Sarmiento (J),Los Andes,0,0,,,Primera B,2011,zonas,,Fecha 35,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-04-08,11:00,Villa Dálmine,UAI Urquiza,1,0,,,Primera C,2011,zonas,,Fecha 32,Villa Dálmine,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
@@ -1714,7 +1714,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-04-17,15:30,J. J. de Urquiza,Sacachispas,3,0,,,Primera C,2011,zonas,,Fecha 33,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2012-04-17,15:30,Sportivo Italiano,Defensores de Belgrano,1,2,,,Primera B,2011,zonas,,Fecha 36,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-04-17,16:00,Almirante Brown,Chacarita Juniors,0,0,,,Primera Nacional,2011,zonas,,Fecha 29,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
-2012-04-17,21:00,Douglas Haig,Racing Club,2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 7,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-04-17,21:00,Douglas Haig,Racing (C),2,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 7,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-04-17,21:00,Estudiantes (BA),General Lamadrid,1,1,,,Primera B,2011,zonas,,Fecha 36,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-04-18,15:30,Almagro,San Telmo,1,1,,,Primera B,2011,zonas,,Fecha 33,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-04-18,20:00,Deportivo Laferrere,Berazategui,1,2,,,Primera C,2011,zonas,,Fecha 33,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
@@ -1733,7 +1733,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-04-21,15:45,Villa San Carlos,Acassuso,0,2,,,Primera B,2011,zonas,,Fecha 37,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-04-21,16:00,Central Córdoba (R),Excursionistas,0,0,,,Primera C,2011,zonas,,Fecha 34,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2012-04-21,18:15,River Plate,Instituto,1,0,,,Primera Nacional,2011,zonas,,Fecha 30,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
-2012-04-21,20:35,Racing Club,San Martín (T),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 8,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-04-21,20:35,Racing (C),San Martín (T),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 8,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-04-21,21:00,Almagro,Nueva Chicago,1,0,,,Primera B,2011,zonas,,Fecha 37,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-04-22,11:00,Deportivo Morón,San Telmo,0,1,,,Primera B,2011,zonas,,Fecha 37,Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-04-22,11:00,Gimnasia y Esgrima (LP),Guillermo Brown,3,2,,,Primera Nacional,2011,zonas,,Fecha 30,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
@@ -1759,7 +1759,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-04-27,14:05,Sacachispas,Deportivo Laferrere,1,3,,,Primera C,2011,zonas,,Fecha 26,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2012-04-27,15:30,Defensores de Cambaceres,Dock Sud,0,0,,,Primera C,2011,zonas,,Fecha 35,Talleres de Remedios de Escalada,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2012-04-27,15:50,Leandro N. Alem,Deportivo Español,1,0,,,Primera C,2011,zonas,,Fecha 35,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
-2012-04-27,22:00,Central Córdoba (SdE),Racing Club,1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 9,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-04-27,22:00,Central Córdoba (SdE),Racing (C),1,1,,,Torneo Argentino A,2011,eliminacion,,Fecha 9,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-04-28,14:00,Colegiales,Defensores de Belgrano,2,1,,,Primera B,2011,zonas,,Fecha 38,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2012-04-28,14:00,Deportivo Merlo,Patronato,3,1,,,Primera Nacional,2011,zonas,,Fecha 31,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-04-28,14:00,Estudiantes (BA),Barracas Central,1,0,,,Primera B,2011,zonas,,Fecha 38,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
@@ -1845,7 +1845,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-05-13,11:00,Aldosivi,Rosario Central,1,2,,,Primera Nacional,2011,zonas,,Fecha 33,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-05-13,11:00,Guillermo Brown,Gimnasia y Esgrima (J),1,2,,,Primera Nacional,2011,zonas,,Fecha 33,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
 2012-05-13,12:15,Nueva Chicago,Platense,0,0,,,Primera B,2011,zonas,,Fecha 40,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
-2012-05-13,16:10,Racing Club,Ramón Santamarina,2,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 11,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2012-05-13,16:10,Racing (C),Ramón Santamarina,2,2,,,Torneo Argentino A,2011,eliminacion,,Fecha 11,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-05-13,16:10,San Martín (T),Defensores de Belgrano (VR),1,0,,,Torneo Argentino A,2011,eliminacion,,Fecha 11,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-05-13,17:00,Central Córdoba (SdE),Sportivo Belgrano,0,3,,,Torneo Argentino A,2011,eliminacion,,Fecha 11,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2012-05-14,14:00,Almirante Brown,Atlanta,2,0,,,Primera Nacional,2011,zonas,,Fecha 33,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12
