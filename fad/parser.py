@@ -324,11 +324,45 @@ _ES_RONDA = re.compile(
     r"|partidos? de (ida|vuelta)|promoci[oó]n)")
 
 
+def _zonas_ambiguas(texto: str) -> frozenset[str]:
+    """Rotulos de zona que la pagina reusa en MAS DE UNA fase.
+
+    Un torneo multifase puede llamar "Zona 1" a dos cosas distintas: la Zona 1 de
+    la Primera fase y la Zona 1 de la Revalida, con otros equipos. El rotulo sale
+    de un encabezado de la tabla y la tabla no sabe de que seccion cuelga, asi que
+    los partidos de las dos caian en el mismo balde -- el Argentino A 2010-11
+    quedaba con 132 partidos en su Zona 1 cuando son 112 mas 20, y ninguna cuenta
+    por zona se podia hacer.
+
+    Se calcula sobre la pagina entera y no se supone: son 3 paginas de las 279,
+    y NINGUNA del catalogo. Por eso la calificacion es condicional -- ponerle la
+    fase a toda zona cambiaria el `group` de las 38109 filas para arreglar tres
+    paginas que ni siquiera estan.
+    """
+    n2 = [(m.start(), m.group(2).strip())
+          for m in re.finditer(r"^(==+)([^=\n]+)\1", texto, re.M) if len(m.group(1)) == 2]
+    donde: dict[str, set] = {}
+    for m in re.finditer(r"^!\s*colspan\s*=\s*\"?\d+\"?[^|\n]*\|\s*(.+)$", texto, re.M):
+        cab = limpiar(m.group(1))
+        # Las mismas dos guardas, y en el mismo orden, que la rama de abajo: una
+        # jornada o una ronda no son zonas y no cuentan para la ambiguedad.
+        if (not cab or cab.lower() in _COLUMNAS_CONOCIDAS
+                or re.match(r"(?i)fecha\s*\d+", cab) or _ES_RONDA.match(cab)):
+            continue
+        z = _como_zona(cab)
+        if not z:
+            continue
+        previas = [t for p, t in n2 if p < m.start()]
+        donde.setdefault(z, set()).add(previas[-1] if previas else "")
+    return frozenset(z for z, s in donde.items() if len(s) > 1)
+
+
 def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None = None,
                       mes_inicio: int = MES_INICIO_HABITUAL,
                       zona_defecto: str = "", llave: str = "",
                       arts: dict[str, str] | None = None,
-                      fuera_de_la_liga: bool = False) -> list[Partido]:
+                      fuera_de_la_liga: bool = False,
+                      ambiguas: frozenset[str] = frozenset()) -> list[Partido]:
     """`fuera_de_la_liga` marca las tablas que NO cuelgan de un "Resultados".
 
     Ahi no hay fechas del calendario: son reducidos, promociones, finales y
@@ -386,7 +420,12 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             elif fuera_de_la_liga or _ES_RONDA.match(cab):
                 jornada, ronda = cab, cab
             else:
-                zona, ronda = _seccion(cab), ""
+                z = _seccion(cab)
+                # Si la pagina usa ese mismo rotulo en otra fase, no alcanza con
+                # el rotulo: hay que decir de cual. La fase ya viene hasta aca
+                # como `llave`.
+                zona = f"{llave} - {z}" if z and llave and z in ambiguas else z
+                ronda = ""
         if fila.lstrip().startswith("!"):
             # El encabezado tambien dice si hay local. Se mira aca, en el bucle, y
             # no una vez por bloque, porque un bloque puede traer varias tablas:
@@ -852,6 +891,9 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
         return partidos_de_rondas(texto, anio, torneo, anio_fin, mes_inicio,
                                   articulos_de_la_pagina(texto))
     arts = articulos_de_la_pagina(texto)
+    # Se calcula UNA vez sobre la pagina entera: la ambiguedad de un rotulo es una
+    # propiedad de la pagina, y desde adentro de una seccion no se puede ver.
+    ambiguas = _zonas_ambiguas(texto)
     zonas, leido = [], []
     for ini, fin, titulo, fase, cuerpo in _secciones_con_span(texto):
         leido.append((ini, fin))
@@ -864,7 +906,8 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
                                    zona_defecto=_como_zona(titulo), llave=fase,
                                    arts=arts,
                                    fuera_de_la_liga=bool(_ES_RONDA.match(titulo)
-                                                         or _LLAVE_ELIMINATORIA.search(fase)))
+                                                         or _LLAVE_ELIMINATORIA.search(fase)),
+                                   ambiguas=ambiguas)
 
     # Las tablas de partidos que NO cuelgan de un "Resultados". Los reducidos,
     # las promociones y las finales de ascenso viven bajo titulos propios --

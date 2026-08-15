@@ -526,3 +526,33 @@ def test_la_mezcla_dentro_de_una_fase_sigue_saltando():
     con.llave = sin.llave = "Etapa clasificatoria"
     avisos = validar.todos_tienen_zona([con, sin])
     assert len(avisos) == 1 and "Etapa clasificatoria" in avisos[0].detalle
+
+
+def test_una_zona_calificada_con_su_fase_sigue_siendo_una_zona():
+    """La regresion que casi se cuela con el arreglo del choque de rotulos.
+
+    `una_zona_por_club` solo mira las zonas de verdad, y las reconocia por el
+    arranque del nombre. Cuando el parser paso a escribir "Primera fase - Zona 1"
+    para desambiguar, esas dejaron de contar y el chequeo se callo justo en la
+    pagina que lo motivo -- los cuatro partidos de Union de Mar del Plata
+    escritos "Union (S)", que su propio docstring cuenta."""
+    ps = [Partido(fecha="2010-08-22", local="Unión (S)", visita="Villa Mitre",
+                  goles_local=1, goles_visita=0, fase="zonas",
+                  zona="Primera fase - Zona 1", jornada="Fecha 1", llave="Primera fase"),
+          Partido(fecha="2010-08-29", local="Unión (S)", visita="Libertad (S)",
+                  goles_local=1, goles_visita=0, fase="zonas",
+                  zona="Primera fase - Zona 3", jornada="Fecha 2", llave="Primera fase")]
+    avisos = validar.una_zona_por_club(ps)
+    assert len(avisos) == 1 and "Unión (S)" in avisos[0].que
+
+
+def test_interzonal_sigue_sin_contar_como_zona():
+    """Y el arreglo no puede aflojar eso: "Interzonal" es una fecha cruzada a
+    proposito, y contarla daba 344 avisos falsos."""
+    ps = [Partido(fecha="2026-01-01", local="Boca Juniors", visita="River Plate",
+                  goles_local=1, goles_visita=0, fase="zonas", zona="Zona A",
+                  jornada="Fecha 1", llave=""),
+          Partido(fecha="2026-01-08", local="Boca Juniors", visita="Platense",
+                  goles_local=1, goles_visita=0, fase="zonas", zona="Interzonal",
+                  jornada="Fecha 2", llave="")]
+    assert validar.una_zona_por_club(ps) == []

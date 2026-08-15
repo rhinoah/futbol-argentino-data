@@ -38,6 +38,22 @@ MUTANTES = [
      "    return a == b",
      "    return True"),
 
+    ("fad/parser.py", "no calificar una zona que se repite en dos fases",
+     '                zona = f"{llave} - {z}" if z and llave and z in ambiguas else z',
+     '                zona = z'),
+
+    ("fad/parser.py", "calificar TODA zona con su fase, no solo las ambiguas",
+     '                zona = f"{llave} - {z}" if z and llave and z in ambiguas else z',
+     '                zona = f"{llave} - {z}" if z and llave else z'),
+
+    ("fad/parser.py", "contar la jornada como zona al buscar rotulos ambiguos",
+     '                or re.match(r"(?i)fecha\\s*\\d+", cab) or _ES_RONDA.match(cab)):',
+     "                or False):"),
+
+    ("fad/validar.py", "no reconocer como zona a la que viene calificada con su fase",
+     r'_ES_ZONA = re.compile(r"(?i)^(.*- )?(zona|grupo)\b")',
+     r'_ES_ZONA = re.compile(r"(?i)^(zona|grupo)\b")'),
+
     ("fad/parser.py", "no ver que la tabla no tiene columna de local",
      '            if _ENCABEZADO_SIN_LOCAL.search(fila):\n                sin_local = True',
      '            if False:\n                sin_local = True'),
@@ -188,8 +204,8 @@ MUTANTES = [
      'bloque = bloque'),
 
     ("fad/parser.py", "no reconocer 'Interzonal' como etiqueta de seccion",
-     '                zona, ronda = _seccion(cab), ""',
-     '                zona, ronda = (cab if re.match(r"(?i)(zona|grupo)", cab) else ""), ""'),
+     '                z = _seccion(cab)',
+     '                z = cab if re.match(r"(?i)(zona|grupo)", cab) else ""'),
 
     ("fad/parser.py", "no unificar Interzonal/Interzonales",
      '    if re.match(r"(?i)^interzonal", cab):\n        return "Interzonal"',
@@ -367,8 +383,8 @@ MUTANTES = [
      "    if _ES_RONDA.match(titulo):"),
 
     ("fad/parser.py", "no mirar la fase que contiene a la seccion",
-     "                                                         or _LLAVE_ELIMINATORIA.search(fase)))",
-     "                                                         or False))"),
+     "                                                         or _LLAVE_ELIMINATORIA.search(fase)),",
+     "                                                         or False),"),
 
     ("fad/parser.py", "tomar la fase en vez de la seccion como nombre de la ronda",
      "        ronda = jornada = zona_defecto or llave",

@@ -848,3 +848,45 @@ def test_el_rotulo_vale_por_tabla_y_no_por_pagina():
     vuelta = parser.partidos_de_tabla(_tabla("Equipo 1") + "\n" + _tabla("Local"),
                                       2014, "Primera Nacional")
     assert [p.neutral for p in vuelta] == [True, None]
+
+
+# --------------------------------------------------------------------------
+# el mismo rotulo de zona en dos fases distintas
+# --------------------------------------------------------------------------
+def _fase(titulo, zona, local, visita):
+    return (f"== {titulo} ==\n=== Resultados ===\n"
+            f'{{|class="wikitable"\n'
+            f'!colspan="6"|Fecha 1\n|-\n!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n'
+            f'|-\n!colspan="6"|{zona}\n'
+            f'|-\n|{local}\n|1 - 0\n|{visita}\n|Cancha\n|1 de marzo\n|17:00\n|}}\n')
+
+
+def test_una_zona_reusada_en_dos_fases_se_califica():
+    """Un torneo multifase puede llamar "Zona 1" a dos cosas distintas: la de la
+    Primera fase y la del Reducido, con otros equipos. El rotulo sale de un
+    encabezado de la tabla, que no sabe de que seccion cuelga, asi que los
+    partidos de las dos caian en el mismo balde -- el Argentino A 2010-11 quedaba
+    con 132 partidos en su Zona 1 cuando son 112 mas 20."""
+    texto = (_fase("Primera fase", "Zona 1", "Boca Juniors", "River Plate")
+             + _fase("Revélida", "Zona 1", "Platense", "Banfield"))
+    zonas = {p.zona for p in parser.partidos(texto, 2010, "Primera Division")}
+    assert zonas == {"Primera fase - Zona 1", "Revélida - Zona 1"}
+
+
+def test_una_zona_que_no_se_repite_queda_como_esta():
+    """La calificacion es CONDICIONAL. Ponerle la fase a toda zona cambiaria el
+    `group` de las 38109 filas del dataset para arreglar tres paginas que ni
+    siquiera estan en el catalogo."""
+    texto = (_fase("Primera fase", "Zona 1", "Boca Juniors", "River Plate")
+             + _fase("Revélida", "Zona 2", "Platense", "Banfield"))
+    zonas = {p.zona for p in parser.partidos(texto, 2010, "Primera Division")}
+    assert zonas == {"Zona 1", "Zona 2"}
+
+
+def test_una_jornada_repetida_entre_fases_no_es_una_zona_ambigua():
+    """"Fecha 1" esta en TODAS las fases de casi todos los torneos, y no es una
+    zona: la rama de la jornada corre antes. Contandola, 34 paginas del catalogo
+    parecian tener el problema y ninguna lo tiene."""
+    texto = (_fase("Primera fase", "Zona 1", "Boca Juniors", "River Plate")
+             + _fase("Revélida", "Zona 2", "Platense", "Banfield"))
+    assert parser._zonas_ambiguas(texto) == frozenset()

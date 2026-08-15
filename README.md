@@ -945,6 +945,43 @@ Ninguno es de temporada regular.
 
 Ninguno se juega en cancha de los que juegan, que es el punto.
 
+## Cuando «Zona 1» son dos zonas distintas
+
+Un torneo multifase puede llamar **«Zona 1» a dos cosas**: la Zona 1 de la Primera
+fase y la Zona 1 de la Revélida, con otros equipos. El rótulo sale de un encabezado
+de la tabla, y la tabla no sabe de qué sección cuelga — así que los partidos de las
+dos caían en el mismo balde. El Argentino A 2010-11 quedaba con **132 partidos en su
+Zona 1 cuando son 112 más 20**, y con eso ninguna cuenta por zona se podía hacer.
+
+Ahora, cuando la página reusa un rótulo entre fases, la zona se escribe
+`Primera fase - Zona 1`. La fase ya viajaba hasta ahí; sólo faltaba usarla.
+
+**La calificación es condicional, y eso importa.** Ponerle la fase a toda zona
+cambiaría el `group` de las 38 109 filas para arreglar **tres páginas, ninguna del
+catálogo**. Se mide sobre la página entera —la ambigüedad de un rótulo es una
+propiedad de la página, no se ve desde adentro de una sección— y se aplica sólo
+donde hay choque. La huella de las 128 páginas del catálogo salió idéntica.
+
+Medir esto bien costó dos intentos. Buscando sólo `Zona ...` daba una página;
+aflojando a cualquier encabezado daban **34 del catálogo** — y era falso: contaba
+«Fecha 1», que está en todas las fases de casi todos los torneos y que el parser
+nunca trata como zona, porque esa rama corre antes. El detector tiene que replicar
+la lógica del parser, no parecerse a ella. Con eso: **cero del catálogo, tres afuera**
+—Argentino A 2010-11, Nacional 1985 y B Nacional 2004-05—, dos de ellas en la hoja
+de ruta.
+
+### Y casi se lleva puesto el chequeo que lo motivó
+
+`una_zona_por_club` reconocía las zonas por el arranque del nombre
+(`^(zona|grupo)`). Con la zona escrita `Primera fase - Zona 1` dejaron de contar, y
+el chequeo **se calló justo en la página que su propio docstring cita** — los cuatro
+partidos de Unión de Mar del Plata escritos «Unión (S)».
+
+No lo agarró ningún test: lo agarró correr el chequeo a mano sobre esa página y notar
+que el aviso ya no salía. Ahora el patrón acepta el prefijo de fase, y hay un test y
+un mutante para cada mitad — que la zona calificada cuente, y que `Interzonal` siga
+sin contar.
+
 ### Y una entrada de la lista se volvió inerte
 
 Con el Desempate marcado neutral, `casas_compartidas` dejó de contarlo como casa de
@@ -1002,11 +1039,11 @@ propiedad que tiene el cruce contra la tabla de posiciones.
 
 ## Tests
 
-497 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+502 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 149 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 153 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

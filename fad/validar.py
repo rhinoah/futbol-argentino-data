@@ -266,7 +266,11 @@ def una_vez_por_jornada(ps: list[Partido]) -> list[Aviso]:
     return avisos
 
 
-_ES_ZONA = re.compile(r"(?i)^(zona|grupo)\b")
+# La zona puede venir calificada con su fase -- "Primera fase - Zona 1" -- cuando
+# la pagina reusa el rotulo en dos fases distintas. Anclando en el arranque, esas
+# dejaban de contar como zonas y este chequeo se callaba justo en la pagina que
+# lo motivo: los cuatro partidos de Union que cuenta el docstring de abajo.
+_ES_ZONA = re.compile(r"(?i)^(.*- )?(zona|grupo)\b")
 
 
 def una_zona_por_club(ps: list[Partido]) -> list[Aviso]:
