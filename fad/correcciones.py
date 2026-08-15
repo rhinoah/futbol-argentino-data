@@ -85,6 +85,21 @@ CORRECCIONES: tuple[Correccion, ...] = (
     _localia_al_reves("Fecha 35", "Deportivo Merlo", "Platense", 2, "Fecha 16"),
 
     Correccion(
+        pagina="Campeonato de Primera Nacional 2022",
+        jornada="Fecha 5",
+        dice=("Alvarado", "San Martín", 3, 1),
+        debe=("Alvarado", "San Martín (T)"),
+        porque=(
+            "La pagina escribe 'San Martin' a secas, sin enlace, y en ese torneo "
+            "juegan el de San Juan y el de Tucuman. No se resolvio por parecido ni "
+            "con una fuente externa: en la Fecha 5, San Martin (SJ) ya juega contra "
+            "Belgrano y San Martin (T) no juega ninguna vez, y cada club juega una "
+            "vez por fecha. Ademas (T) queda con 35 partidos contra los 36 de (SJ) "
+            "-- exactamente el que falta -- y Alvarado contra (T) no aparece en "
+            "ninguna otra jornada."),
+    ),
+
+    Correccion(
         pagina="Campeonato de Primera B Nacional 2009-10",
         jornada="Fecha 12",
         dice=("All Boys", "Belgrano", 0, 0),

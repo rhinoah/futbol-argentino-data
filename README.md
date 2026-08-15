@@ -17,9 +17,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **36 255 partidos entre febrero de 2004 y hoy** — veintitrés años de
+**Estado:** **36 935 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
-Torneo Federal A, y diez ediciones de la Copa Argentina. **198 clubes**, 127
+Torneo Federal A, y diez ediciones de la Copa Argentina. **198 clubes**, 128
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
@@ -87,7 +87,7 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 la atribución viaja con el dato.
 
 **[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en **1 520 filas de 36 255** (4,2 %): la **fecha del calendario** de partidos
+sólo en **1 520 filas de 36 935** (4,1 %): la **fecha del calendario** de partidos
 que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
 entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
 nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
@@ -424,7 +424,7 @@ El cruce quedó como chequeo permanente en
 [`fad/posiciones.py`](fad/posiciones.py), y **se calla cuando no puede opinar**: una
 fila que no cierra consigo misma (`GF − GC ≠ DIF`) no desmiente a nadie, y si la
 cantidad de partidos jugados no coincide, las dos partes no están hablando del
-mismo conjunto. Sobre los 127 torneos, 19 publican una tabla usable: 10 cierran
+mismo conjunto. Sobre los 128 torneos, 19 publican una tabla usable: 10 cierran
 perfecto y 9 tienen algo que no. Va como **aviso**, no como error: lo que denuncia
 es una contradicción de la fuente consigo misma.
 
@@ -449,12 +449,20 @@ Por eso el aviso ahora dice **de qué lado** está el problema: si el club desvi
 está solo, acusa a la tabla; si hay más de uno, deja abierta la posibilidad de un
 partido mal leído.
 
-### Las cuatro correcciones a mano
+### Las cinco correcciones a mano
 
-Hay **cuatro** filas del dataset que no dicen lo que dice Wikipedia, y viven en
-[`fad/correcciones.py`](fad/correcciones.py) con su evidencia escrita. Las cuatro
-son de la misma página, la B Nacional 2009-10, y las cuatro salen de que **la
-fuente se contradice sola**.
+Hay **cinco** filas del dataset que no dicen lo que dice Wikipedia, y viven en
+[`fad/correcciones.py`](fad/correcciones.py) con su evidencia escrita. Las cinco
+salen de que **la fuente se contradice sola**.
+
+**Un club escrito con un nombre ambiguo.** La Primera Nacional 2022 dice
+«San Martín» a secas, sin enlace, y ese torneo lo juegan el de San Juan y el de
+Tucumán. Se resolvió sin fuentes externas: en la Fecha 5, San Martín (SJ) ya juega
+contra Belgrano y San Martín (T) no juega ninguna vez —y cada club juega una vez
+por fecha—. Además (T) queda con 35 partidos contra los 36 de (SJ), exactamente el
+que falta. Ese solo partido dejaba **680 afuera del dataset**.
+
+Las otras cuatro son de la B Nacional 2009-10.
 
 **Un club que juega dos veces la misma fecha.** La página pone a Belgrano dos
 veces en la Fecha 12 —contra All Boys y contra CAI— y deja a Gimnasia y Esgrima (J)

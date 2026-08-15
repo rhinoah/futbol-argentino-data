@@ -223,8 +223,10 @@ ASCENSO_HISTORICO = [
     Torneo('Campeonato de Primera Nacional 2019-20', 'Primera Nacional', 2019, anio_fin=2020),
 
     Torneo('Campeonato de Primera Nacional 2021', 'Primera Nacional', 2021),
-    # FUERA: un partido dice 'San Martin' a secas y la pagina no lo enlaza; juegan el (SJ) y el (T).
-    # Torneo('Campeonato de Primera Nacional 2022', 'Primera Nacional', 2022),
+    # Estuvo FUERA por UN partido que dice 'San Martin' a secas, sin enlace,
+    # donde juegan el (SJ) y el (T). Se resolvio sin fuentes externas: en esa
+    # fecha el (SJ) ya juega y el (T) no. Ver `fad/correcciones.py`.
+    Torneo('Campeonato de Primera Nacional 2022', 'Primera Nacional', 2022),
     Torneo('Campeonato de Primera Nacional 2023', 'Primera Nacional', 2023),
 
     Torneo('Campeonato de Primera B 2016 (Argentina)', 'Primera B', 2016),
