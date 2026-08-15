@@ -1997,7 +1997,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-11-01,21:10,Nueva Chicago,Tigre,2,4,,,Primera Nacional,2021,zonas,Zona A,Fecha 32,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-11-01,21:15,Central Córdoba (SdE),Aldosivi,0,0,,,Primera Division,2021,zonas,,Fecha 19,Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-02,20:05,Chacarita Juniors,Alvarado,0,2,,,Primera Nacional,2021,zonas,Zona A,Fecha 32,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-11-04,17:00,Deportivo Madryn,Racing Club,1,0,,,Torneo Federal A,2021,eliminacion,,,El Viaducto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
+2021-11-04,17:00,Deportivo Madryn,Racing Club,1,0,,,Torneo Federal A,2021,eliminacion,,Etapa final,El Viaducto,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-11-05,15:00,Atlas,Sportivo Italiano,0,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 18,Ricardo Puga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-11-05,15:00,Claypole,Berazategui,3,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 18,Rodolfo Capocasa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
 2021-11-05,15:00,Luján,Deportivo Español,0,1,,,Primera C,2021,zonas,Torneo Clausura,Fecha 18,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2021_(Argentina)
@@ -2098,17 +2098,17 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-11-21,,J. J. de Urquiza,Defensores Unidos,2,0,,,Primera B,2021,eliminacion,,Primera fase,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-21,,Los Andes,Acassuso,0,0,6,5,Primera B,2021,eliminacion,,Primera fase,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-21,,Sacachispas,Deportivo Merlo,2,2,5,4,Primera B,2021,eliminacion,,Primera fase,Estadio Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
-2021-11-21,17:00,Argentino de Quilmes,San Miguel,0,1,,,Primera B,2021,zonas,Tabla de posiciones,Fecha 1,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
+2021-11-21,17:00,Argentino de Quilmes,San Miguel,0,1,,,Primera B,2021,zonas,,Fecha 1,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-21,17:00,Arsenal,Newell's Old Boys,3,1,,,Primera Division,2021,zonas,,Fecha 21,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
-2021-11-21,17:00,Fénix,UAI Urquiza,1,2,,,Primera B,2021,zonas,Tabla de posiciones,Fecha 1,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
+2021-11-21,17:00,Fénix,UAI Urquiza,1,2,,,Primera B,2021,zonas,,Fecha 1,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-21,17:00,Gimnasia y Tiro (S),Defensores de Pronunciamiento,3,2,,,Torneo Federal A,2021,eliminacion,,Segunda ronda,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
 2021-11-21,17:00,Racing Club,Defensores de Belgrano (VR),2,0,,,Torneo Federal A,2021,eliminacion,,Segunda ronda,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2021
-2021-11-21,17:00,Villa San Carlos,Deportivo Armenio,0,0,,,Primera B,2021,zonas,Tabla de posiciones,Fecha 1,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
+2021-11-21,17:00,Villa San Carlos,Deportivo Armenio,0,0,,,Primera B,2021,zonas,,Fecha 1,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-21,19:15,Racing Club,Colón,1,2,,,Primera Division,2021,zonas,,Fecha 21,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-21,21:30,Platense,River Plate,0,1,,,Primera Division,2021,zonas,,Fecha 21,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-22,,Independiente Rivadavia,Almirante Brown,1,1,,,Primera Nacional,2021,eliminacion,,Primera fase,Estadio Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-11-22,,San Martín (T),Ferro Carril Oeste,1,3,,,Primera Nacional,2021,eliminacion,,Primera fase,Estadio La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-11-22,21:10,Tigre,Barracas Central,1,0,,,Primera Nacional,2021,eliminacion,,,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
+2021-11-22,21:10,Tigre,Barracas Central,1,0,,,Primera Nacional,2021,eliminacion,,Final,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
 2021-11-23,17:00,Gimnasia y Esgrima (LP),Talleres (C),5,2,,,Primera Division,2021,zonas,,Fecha 22,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-23,17:00,Huracán,Patronato,1,0,,,Primera Division,2021,zonas,,Fecha 22,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-23,19:15,Aldosivi,San Lorenzo,2,0,,,Primera Division,2021,zonas,,Fecha 22,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
@@ -2125,10 +2125,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-11-27,,J. J. de Urquiza,Sacachispas,1,1,,,Primera B,2021,eliminacion,,Semifinales,Estadio Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-27,,Los Andes,Colegiales,1,0,,,Primera B,2021,eliminacion,,Semifinales,Estadio Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-27,,Quilmes,Deportivo Morón,1,1,5,4,Primera Nacional,2021,eliminacion,,Primera fase,Estadio Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
-2021-11-27,17:00,Deportivo Armenio,Talleres (RdE),0,0,,,Primera B,2021,zonas,Tabla de posiciones,Fecha 2,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
-2021-11-27,17:00,San Miguel,Comunicaciones,0,3,,,Primera B,2021,zonas,Tabla de posiciones,Fecha 2,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
+2021-11-27,17:00,Deportivo Armenio,Talleres (RdE),0,0,,,Primera B,2021,zonas,,Fecha 2,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
+2021-11-27,17:00,San Miguel,Comunicaciones,0,3,,,Primera B,2021,zonas,,Fecha 2,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-27,17:00,Talleres (C),Aldosivi,2,0,,,Primera Division,2021,zonas,,Fecha 23,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
-2021-11-27,17:00,UAI Urquiza,Cañuelas,1,2,,,Primera B,2021,zonas,Tabla de posiciones,Fecha 2,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
+2021-11-27,17:00,UAI Urquiza,Cañuelas,1,2,,,Primera B,2021,zonas,,Fecha 2,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-11-27,19:15,Patronato,Godoy Cruz,0,3,,,Primera Division,2021,zonas,,Fecha 23,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-27,21:30,Estudiantes (LP),Vélez Sarsfield,1,0,,,Primera Division,2021,zonas,,Fecha 23,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-11-28,,Almirante Brown,Independiente Rivadavia,1,0,,,Primera Nacional,2021,eliminacion,,Primera fase,Estadio Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2021
@@ -2151,11 +2151,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-12-03,19:15,Colón,Atlético Tucumán,3,0,,,Primera Division,2021,zonas,,Fecha 24,Brigadier General Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-12-03,21:30,Vélez Sarsfield,Patronato,0,0,,,Primera Division,2021,zonas,,Fecha 24,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-12-04,17:00,Arsenal,Boca Juniors,1,1,,,Primera Division,2021,zonas,,Fecha 24,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
-2021-12-04,17:00,Cañuelas,Fénix,1,1,,,Primera B,2021,zonas,Tabla de posiciones,Fecha 3,Jorge Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
-2021-12-04,17:00,Comunicaciones,Argentino de Quilmes,4,1,,,Primera B,2021,zonas,Tabla de posiciones,Fecha 3,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
+2021-12-04,17:00,Cañuelas,Fénix,1,1,,,Primera B,2021,zonas,,Fecha 3,Jorge Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
+2021-12-04,17:00,Comunicaciones,Argentino de Quilmes,4,1,,,Primera B,2021,zonas,,Fecha 3,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-12-04,19:15,Godoy Cruz,Platense,2,2,,,Primera Division,2021,zonas,,Fecha 24,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-12-04,19:15,Sarmiento (J),Talleres (C),1,2,,,Primera Division,2021,zonas,,Fecha 24,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
-2021-12-04,21:10,Talleres (RdE),Villa San Carlos,1,0,,,Primera B,2021,zonas,Tabla de posiciones,Fecha 3,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
+2021-12-04,21:10,Talleres (RdE),Villa San Carlos,1,0,,,Primera B,2021,zonas,,Fecha 3,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)
 2021-12-04,21:30,Huracán,Racing Club,1,0,,,Primera Division,2021,zonas,,Fecha 24,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-12-04,21:30,Lanús,Rosario Central,2,2,,,Primera Division,2021,zonas,,Fecha 24,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2021_(Argentina)
 2021-12-05,,Colegiales,Los Andes,1,0,3,1,Primera B,2021,eliminacion,,Semifinales,Estadio Libertarios Unidos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2021_(Argentina)

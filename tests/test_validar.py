@@ -504,3 +504,25 @@ def test_las_zonas_de_llaves_distintas_no_se_mezclan():
 
 def test_esta_en_la_lista_de_chequeos_tambien():
     assert validar.una_zona_por_club in validar.CHEQUEOS
+
+
+def test_una_fase_con_grupos_y_otra_sin_es_normal():
+    """La mezcla se mira DENTRO de cada fase. La Primera B 2020 reparte la "Fase
+    segundo ascenso" en Grupo A y Grupo B, y la "Fase primer ascenso" es un solo
+    grupo. Comparando las dos juntas, la segunda parecia quince partidos sin zona
+    entre treinta con zona, y frenaba el build."""
+    con = zona("Boca Juniors", "River Plate", z="Grupo A")
+    con.llave = "Fase segundo ascenso"
+    sin = zona("Racing Club", "Huracán", z="")
+    sin.llave = "Fase primer ascenso"
+    assert validar.todos_tienen_zona([con, sin]) == []
+
+
+def test_la_mezcla_dentro_de_una_fase_sigue_saltando():
+    """Que es el caso para el que se escribio: un encabezado no reconocido deja
+    unos partidos con la zona anterior y otros sin."""
+    con = zona("Boca Juniors", "River Plate", z="Grupo A")
+    sin = zona("Racing Club", "Huracán", z="")
+    con.llave = sin.llave = "Etapa clasificatoria"
+    avisos = validar.todos_tienen_zona([con, sin])
+    assert len(avisos) == 1 and "Etapa clasificatoria" in avisos[0].detalle

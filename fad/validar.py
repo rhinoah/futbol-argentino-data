@@ -160,14 +160,27 @@ def todos_tienen_zona(ps: list[Partido]) -> list[Aviso]:
     2024 el campeonato fue de zona unica, veintipico de equipos en una sola
     tabla. Exigirle una zona a eso convertia nueve temporadas correctas en nueve
     errores graves que no dejaban escribir el dataset.
+
+    Y la mezcla se mira DENTRO DE CADA FASE, no en toda la pagina. Una pagina
+    puede tener una fase con grupos y otra sin, y es normal: la Primera B 2020
+    reparte la "Fase segundo ascenso" en Grupo A y Grupo B, y la "Fase primer
+    ascenso" es un solo grupo. Comparando las dos juntas, la segunda parecia
+    quince partidos sin zona entre treinta con zona.
     """
-    zonas = [p for p in ps if p.fase == "zonas"]
-    sin = [p for p in zonas if not p.zona]
-    if not sin or len(sin) == len(zonas):
-        return []
-    return [Aviso("hay partidos de zona con zona y otros sin",
-                  f"{len(sin)} de {len(zonas)} sin zona, p.ej. "
-                  f"{sin[0].fecha} {sin[0].local} vs {sin[0].visita}")]
+    porfase: dict[str, list[Partido]] = {}
+    for p in ps:
+        if p.fase == "zonas":
+            porfase.setdefault(p.llave, []).append(p)
+
+    avisos = []
+    for llave, zonas in sorted(porfase.items()):
+        sin = [p for p in zonas if not p.zona]
+        if not sin or len(sin) == len(zonas):
+            continue
+        avisos.append(Aviso("hay partidos de zona con zona y otros sin",
+                            f"{llave + ': ' if llave else ''}{len(sin)} de {len(zonas)} "
+                            f"sin zona, p.ej. {sin[0].fecha} {sin[0].local} vs {sin[0].visita}"))
+    return avisos
 
 
 _ZONA = re.compile(r"(?i)^(zona|grupo)\b")

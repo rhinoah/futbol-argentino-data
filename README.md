@@ -294,6 +294,32 @@ zona se hereda de una tabla a la siguiente, así que el partido por el tercer
 descenso de la Primera Nacional 2024 salía con `zona='Amonestaciones'` —el último
 encabezado visto, en la caja de goleadores—. El partido existe; la etiqueta no.
 
+**5e. Y el mismo rótulo significa cosas distintas.** Después de sacar las rondas de
+la columna `group` quedaban 98 filas con algo que no era una zona. Se fueron
+resolviendo por partes, y ninguna con una lista de nombres:
+
+*Cuando la sección se llama «Tabla de posiciones»* (44 filas). Varias páginas ponen
+el calendario **debajo** de la tabla, así que el `===== Resultados =====` cuelga de
+`==== Tabla de posiciones ====` y ese nombre terminaba como zona. Vaciarlo no
+alcanzaba: los partidos quedaban sin zona mezclados con los que sí tenían, y
+`todos_tienen_zona` frenaba el build en cuatro torneos.
+
+El que estaba mal era el chequeo. Comparaba **toda la página** cuando una página
+puede tener una fase con grupos y otra sin: la Primera B 2020 reparte la «Fase
+segundo ascenso» en Grupo A y Grupo B, y la «Fase primer ascenso» es un solo
+grupo. Ahora la mezcla se mira dentro de cada fase, y vaciar la etiqueta es
+seguro.
+
+*Cuando el nombre no alcanza* (8 filas). «Primera fase» es una fase de grupos en el
+Federal A 2017 —con sus Fecha 1, Fecha 2— y una **llave** en el Transición 2020,
+donde es hermana de «Semifinales» y «Final» bajo `== Etapa eliminatoria ==`. El
+nombre no distingue; **el lugar sí**. Una sección bajo una etapa eliminatoria es
+una ronda, se llame como se llame.
+
+Quedan 46 filas, y están bien: `Nonagonal final` son **9 equipos, 36 partidos, 9
+fechas de 4** —un todos contra todos de nueve, que es lo que significa la
+palabra— y `Tercera fase` son **5 equipos, 10 partidos, 5 fechas de 2**.
+
 **6. Una página puede traer varios torneos.** Bajar al ascenso rompió el supuesto
 más silencioso de todos: que hay **una** sección "Resultados" por página.
 

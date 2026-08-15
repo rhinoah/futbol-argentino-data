@@ -317,7 +317,11 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
     # ascenso. Si aparece un encabezado, pisa al de la seccion.
     jornada, zona, ronda = "", zona_defecto, ""
     if fuera_de_la_liga:
-        ronda = llave          # sin encabezado propio, la ronda es la seccion
+        # Sin encabezado propio, la ronda es el titulo de la seccion. Se prefiere
+        # el mas cercano (`zona_defecto`, que es el padre inmediato) sobre la fase
+        # que lo contiene: bajo `== Etapa eliminatoria ==` lo que identifica al
+        # partido es "Primera fase", no "Etapa eliminatoria", que es la llave.
+        ronda = jornada = zona_defecto or llave
 
     for fila in re.split(r"\n\|-", _cortar_en_tablas(bloque)):
         fila = fila.strip()
@@ -666,6 +670,15 @@ def _secciones_con_span(texto: str):
     return fuera
 
 
+# Una fase que se llama "Etapa eliminatoria" no tiene zonas adentro: tiene
+# rondas. Sirve donde la lista de nombres no alcanza, porque el MISMO rotulo
+# significa cosas distintas en paginas distintas: "Primera fase" es una fase de
+# grupos en el Federal A 2017 -- con sus Fecha 1, Fecha 2 -- y una llave en el
+# Transicion 2020, donde es hermana de "Semifinales" y "Final" bajo
+# `== Etapa eliminatoria ==`. El nombre no distingue; el lugar si.
+_LLAVE_ELIMINATORIA = re.compile(r"(?i)eliminatori")
+
+
 def _como_zona(titulo: str) -> str:
     """El titulo de la seccion que contiene los resultados, si es una zona.
 
@@ -684,7 +697,9 @@ def _como_zona(titulo: str) -> str:
     -- con razon -- en cuatro torneos. Cambiar una etiqueta equivocada por una
     faltante no es una mejora. Queda como problema conocido.
     """
-    return "" if _ES_RONDA.match(titulo) else titulo
+    if _ES_RONDA.match(titulo) or re.match(r"(?i)^(tabla|posiciones|promedios)\b", titulo):
+        return ""
+    return titulo
 
 
 _TITULO = re.compile(r"^(=+)\s*([^=\n]+?)\s*=+\s*$", re.M)
@@ -795,7 +810,8 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
         zonas += partidos_de_tabla(cuerpo, anio, torneo, anio_fin, mes_inicio,
                                    zona_defecto=_como_zona(titulo), llave=fase,
                                    arts=arts,
-                                   fuera_de_la_liga=bool(_ES_RONDA.match(titulo)))
+                                   fuera_de_la_liga=bool(_ES_RONDA.match(titulo)
+                                                         or _LLAVE_ELIMINATORIA.search(fase)))
 
     # Las tablas de partidos que NO cuelgan de un "Resultados". Los reducidos,
     # las promociones y las finales de ascenso viven bajo titulos propios --

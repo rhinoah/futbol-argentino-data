@@ -2432,7 +2432,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-10-29,17:00,Unión (S),Defensores de Pronunciamiento,1,0,,,Torneo Federal A,2023,zonas,Zona C,Fecha 36,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-29,17:00,Villa Mitre,Sansinena,4,0,,,Torneo Federal A,2023,zonas,Zona A,Fecha 36,El Fortín (BB),false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-10-29,17:30,Gimnasia y Esgrima (LP),River Plate,1,2,,,Copa de la Liga,2023,zonas,Zona A,Fecha 11,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
-2023-10-29,18:00,Almirante Brown,Independiente Rivadavia,0,2,,,Primera Nacional,2023,eliminacion,,,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+2023-10-29,18:00,Almirante Brown,Independiente Rivadavia,0,2,,,Primera Nacional,2023,eliminacion,,Final,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-29,21:00,Independiente,Arsenal,0,0,,,Copa de la Liga,2023,zonas,Zona A,Fecha 11,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-10-30,,Atlético de Rafaela,Defensores de Belgrano,1,0,,,Primera Nacional,2023,eliminacion,,Primera fase,Estadio Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
 2023-10-30,16:00,Talleres (C),Banfield,0,0,,,Copa de la Liga,2023,zonas,Zona A,Fecha 11,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
@@ -2534,6 +2534,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2023-12-03,20:00,Douglas Haig,Gimnasia y Tiro (S),1,1,,,Torneo Federal A,2023,eliminacion,,Final,Carlos Augusto Mercado Luna,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-12-09,,Platense,Godoy Cruz,1,1,6,5,Copa de la Liga,2023,eliminacion,,Semifinales,Estadio Único de San Nicolás,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
 2023-12-09,,Rosario Central,River Plate,0,0,2,0,Copa de la Liga,2023,eliminacion,,Semifinales,Estadio Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023
-2023-12-12,17:00,San Miguel,Douglas Haig,0,0,,,Primera B,2023,eliminacion,,,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
-2023-12-12,17:00,San Miguel,Douglas Haig,0,0,,,Torneo Federal A,2023,eliminacion,,,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
+2023-12-12,17:00,San Miguel,Douglas Haig,0,0,,,Primera B,2023,eliminacion,,Definición del tercer ascenso a la Primera Nacional,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2023_(Argentina)
+2023-12-12,17:00,San Miguel,Douglas Haig,0,0,,,Torneo Federal A,2023,eliminacion,,Definición del tercer ascenso a la Primera Nacional,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2023
 2023-12-16,,Platense,Rosario Central,0,1,,,Copa de la Liga,2023,eliminacion,,Final,Estadio Único Madre de Ciudades,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2023

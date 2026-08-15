@@ -245,6 +245,22 @@ MUTANTES = [
      "    celda = _CELDA_RESULTADO.search(bloque)",
      "    celda = re.match(r'(.*)', bloque, re.S)"),
 
+    ("fad/validar.py", "mirar la mezcla de zonas en toda la pagina y no por fase",
+     "            porfase.setdefault(p.llave, []).append(p)",
+     "            porfase.setdefault('', []).append(p)"),
+
+    ("fad/parser.py", "usar el titulo de una tabla de posiciones como zona",
+     '    if _ES_RONDA.match(titulo) or re.match(r"(?i)^(tabla|posiciones|promedios)\\b", titulo):',
+     "    if _ES_RONDA.match(titulo):"),
+
+    ("fad/parser.py", "no mirar la fase que contiene a la seccion",
+     "                                                         or _LLAVE_ELIMINATORIA.search(fase)))",
+     "                                                         or False))"),
+
+    ("fad/parser.py", "tomar la fase en vez de la seccion como nombre de la ronda",
+     "        ronda = jornada = zona_defecto or llave",
+     "        ronda = jornada = llave or zona_defecto"),
+
     ("fad/validar.py", "no chequear que un club juegue en una sola zona",
      "            una_zona_por_club, localias_repartidas, cadena_de_llaves]",
      "            localias_repartidas, cadena_de_llaves]"),

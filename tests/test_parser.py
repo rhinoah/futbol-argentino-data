@@ -735,3 +735,69 @@ def test_una_tabla_adentro_de_otra_no_corta_la_de_afuera():
 """
     ps = parser.partidos(texto, 2018, "x")
     assert len(ps) == 2, "se perdio la tabla de la segunda columna"
+
+
+def test_el_titulo_de_una_tabla_de_posiciones_no_es_una_zona():
+    """Varias paginas ponen el calendario DEBAJO de la tabla, asi que el
+    `===== Resultados =====` cuelga de `==== Tabla de posiciones ====` y ese
+    nombre terminaba en la columna `group` del CSV. Eran 44 filas."""
+    for titulo in ("Tabla de posiciones", "Tabla de posiciones final", "Tabla de promedios"):
+        assert parser._como_zona(titulo) == "", f"{titulo!r} quedo como zona"
+    assert parser._como_zona("Nonagonal final") == "Nonagonal final", (
+        "'Nonagonal final' SI es una zona: nueve equipos todos contra todos")
+
+
+def test_una_seccion_bajo_etapa_eliminatoria_es_una_llave():
+    """El mismo rotulo significa cosas distintas segun donde este. "Primera fase"
+    es una fase de grupos en el Federal A 2017 -- con sus Fecha 1, Fecha 2 -- y
+    una llave en el Transicion 2020, donde es hermana de "Semifinales" y "Final"
+    bajo `== Etapa eliminatoria ==`. El nombre no distingue; el lugar si."""
+    texto = """
+== Etapa eliminatoria ==
+=== Primera fase ===
+==== Resultados ====
+{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Boca Juniors
+|2 - 1
+|River Plate
+|Un Estadio
+|23 de enero
+|20:00
+|}
+"""
+    p, = parser.partidos(texto, 2021, "x")
+    assert p.fase == "eliminacion" and p.zona == "" and p.jornada == "Primera fase"
+
+
+def test_una_fase_de_grupos_con_el_mismo_nombre_sigue_siendo_zona():
+    texto = """
+== Etapa clasificatoria ==
+=== Primera fase ===
+==== Resultados ====
+{|class="wikitable"
+!colspan=6|Fecha 1
+|-
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Boca Juniors
+|2 - 1
+|River Plate
+|Un Estadio
+|23 de enero
+|20:00
+|}
+"""
+    p, = parser.partidos(texto, 2021, "x")
+    assert p.fase == "zonas" and p.jornada == "Fecha 1"
