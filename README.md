@@ -19,14 +19,14 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 
 **Estado:** **36 966 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
-Torneo Federal A, y diez ediciones de la Copa Argentina. **198 clubes**, 130
+Torneo Federal A, y diez ediciones de la Copa Argentina. **208 clubes**, 131
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
-Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **2 066 partidos que están
+Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **2 345 partidos que están
 completos salvo por el día en que se jugaron** — tres temporadas de Primera C, cuyas
-tablas no tienen columna de fecha, y el Argentino A y la Primera B 2010-11, que la
-tienen y la dejan vacía. Van separados justamente para que el dataset
+tablas no tienen columna de fecha, y tres del ascenso que la tienen y la dejan
+vacía. Van separados justamente para que el dataset
 principal pueda seguir prometiendo una fecha en cada fila.
 
 ## Por qué

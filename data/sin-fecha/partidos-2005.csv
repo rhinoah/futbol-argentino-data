@@ -1,0 +1,280 @@
+date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
+,,9 de Julio (R),Atlético Candelaria,3,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),Atlético Tucumán,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),General Paz Juniors,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),Gimnasia y Esgrima (CdU),3,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),La Florida,0,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),Racing (C),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),San Martín (T),3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),Sportivo Patria,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),Talleres (P),5,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),Unión (S),5,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,9 de Julio (R),Ñuñorco,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,9 de Julio (R),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,Atlético Tucumán,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,General Paz Juniors,3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,Gimnasia y Esgrima (CdU),3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,Gimnasia y Esgrima (CdU),3,3,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,16 de abril de 2006,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,La Florida,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,Racing (C),4,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,Real Arroyo Seco,2,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,24 de junio de 2006,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,San Martín (T),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,Sportivo Patria,3,4,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,Talleres (P),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,Unión (S),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Candelaria,Ñuñorco,4,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,9 de Julio (R),3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,Atlético Candelaria,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,General Paz Juniors,6,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,Gimnasia y Esgrima (CdU),2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,La Florida,4,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,Racing (C),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,San Martín (T),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,Sportivo Patria,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,Talleres (P),0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,Unión (S),3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Atlético Tucumán,Ñuñorco,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Cipolletti,Guillermo Brown,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Cipolletti,Huracán (CR),4,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Cipolletti,Independiente Rivadavia,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Cipolletti,Juventud (P),3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Cipolletti,Juventud Unida Universitario,3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Cipolletti,La Plata FC,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Cipolletti,Luján de Cuyo,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Cipolletti,Racing (O),3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Cipolletti,Villa Mitre,3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Cipolletti,3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Cipolletti,3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Douglas Haig,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Guillermo Brown,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Huracán (CR),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Independiente Rivadavia,0,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Juventud (P),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,La Plata FC,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Luján de Cuyo,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Racing (O),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Desamparados,Villa Mitre,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Cipolletti,5,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Cipolletti,5,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Desamparados,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Guillermo Brown,3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Huracán (CR),3,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Juventud (P),5,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Juventud Unida Universitario,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,La Plata FC,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Luján de Cuyo,4,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Racing (O),3,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Douglas Haig,Villa Mitre,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,9 de Julio (R),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,Atlético Candelaria,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,Atlético Tucumán,1,5,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,Gimnasia y Esgrima (CdU),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,La Florida,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,Racing (C),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,San Martín (T),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,Sportivo Patria,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,Talleres (P),4,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,Unión (S),1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,General Paz Juniors,Ñuñorco,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),9 de Julio (R),2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),Atlético Candelaria,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),Atlético Tucumán,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),General Paz Juniors,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),La Florida,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),Racing (C),1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),San Martín (T),1,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),Sportivo Patria,3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),Talleres (P),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),Unión (S),2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Gimnasia y Esgrima (CdU),Ñuñorco,5,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Cipolletti,3,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Desamparados,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Douglas Haig,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Huracán (CR),2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Independiente Rivadavia,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Independiente Rivadavia,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Juventud (P),5,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Juventud Unida Universitario,4,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,La Plata FC,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Luján de Cuyo,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Guillermo Brown,Villa Mitre,5,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Cipolletti,3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Desamparados,1,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Douglas Haig,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Guillermo Brown,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Independiente Rivadavia,0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Juventud (P),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Juventud Unida Universitario,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),La Plata FC,0,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Luján de Cuyo,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Racing (O),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Huracán (CR),Villa Mitre,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Cipolletti,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Desamparados,2,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Douglas Haig,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Douglas Haig,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Huracán (CR),4,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Juventud (P),2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Juventud Unida Universitario,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,La Plata FC,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Luján de Cuyo,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Racing (O),2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Independiente Rivadavia,Villa Mitre,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),Cipolletti,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),Desamparados,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),Douglas Haig,3,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),Guillermo Brown,3,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),Huracán (CR),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),Independiente Rivadavia,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),Juventud Unida Universitario,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),La Plata FC,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),La Plata FC,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),Racing (O),4,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud (P),Villa Mitre,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Cipolletti,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Desamparados,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Desamparados,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Douglas Haig,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Guillermo Brown,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Huracán (CR),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Independiente Rivadavia,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Juventud (P),0,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,La Plata FC,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Luján de Cuyo,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Luján de Cuyo,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Racing (O),3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Juventud Unida Universitario,Villa Mitre,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,9 de Julio (R),0,4,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,Atlético Candelaria,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,Atlético Tucumán,0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,General Paz Juniors,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,Gimnasia y Esgrima (CdU),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,Racing (C),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,San Martín (T),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,Sportivo Patria,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,Talleres (P),1,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,Unión (S),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Florida,Ñuñorco,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Cipolletti,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Desamparados,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Douglas Haig,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Guillermo Brown,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Huracán (CR),5,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Independiente Rivadavia,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Juventud Unida Universitario,0,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Luján de Cuyo,3,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Racing (O),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Villa Mitre,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,La Plata FC,Villa Mitre,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Cipolletti,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Desamparados,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Douglas Haig,4,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Guillermo Brown,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Huracán (CR),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Independiente Rivadavia,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Juventud (P),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Juventud (P),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,La Plata FC,0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Racing (O),3,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Racing (O),4,0,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,16 de abril de 2006,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Luján de Cuyo,Villa Mitre,3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),9 de Julio (R),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),Atlético Candelaria,3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),Atlético Tucumán,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),General Paz Juniors,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),Gimnasia y Esgrima (CdU),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),La Florida,4,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),San Martín (T),0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),Sportivo Patria,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),Talleres (P),2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),Unión (S),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (C),Ñuñorco,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Cipolletti,3,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Desamparados,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Douglas Haig,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Guillermo Brown,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Guillermo Brown,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Huracán (CR),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Independiente Rivadavia,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Juventud (P),0,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Juventud Unida Universitario,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),La Plata FC,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Luján de Cuyo,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Racing (O),Villa Mitre,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),9 de Julio (R),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),Atlético Candelaria,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),Atlético Tucumán,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),General Paz Juniors,4,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),Gimnasia y Esgrima (CdU),4,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),La Florida,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),Racing (C),5,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),Sportivo Patria,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),Talleres (P),1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),Unión (S),3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,San Martín (T),Ñuñorco,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,9 de Julio (R),2,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,Atlético Candelaria,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,Atlético Tucumán,0,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,General Paz Juniors,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,Gimnasia y Esgrima (CdU),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,La Florida,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,Racing (C),1,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,San Martín (T),2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,Talleres (P),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,Unión (S),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Sportivo Patria,Ñuñorco,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),9 de Julio (R),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),Atlético Candelaria,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),Atlético Tucumán,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),General Paz Juniors,3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),Gimnasia y Esgrima (CdU),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),La Florida,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),Racing (C),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),San Martín (T),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),Sportivo Patria,1,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),Unión (S),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Talleres (P),Ñuñorco,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),9 de Julio (R),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),Atlético Candelaria,4,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),Atlético Tucumán,4,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),General Paz Juniors,4,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),Gimnasia y Esgrima (CdU),4,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),La Florida,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),Racing (C),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),San Martín (T),2,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),Sportivo Patria,3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),Talleres (P),2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Unión (S),Ñuñorco,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Cipolletti,2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Desamparados,2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Douglas Haig,3,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Guillermo Brown,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Huracán (CR),2,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Independiente Rivadavia,6,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Juventud (P),2,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Juventud Unida Universitario,1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Luján de Cuyo,0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Villa Mitre,Racing (O),3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,9 de Julio (R),1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,Atlético Candelaria,0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,Atlético Tucumán,0,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,General Paz Juniors,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,Gimnasia y Esgrima (CdU),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,La Florida,0,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 9,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,Racing (C),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,San Martín (T),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,Sportivo Patria,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,Talleres (P),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+,,Ñuñorco,Unión (S),2,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-04-09,,Cipolletti,General Paz Juniors,2,1,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-04-09,,Gimnasia y Esgrima (CdU),Atlético Candelaria,2,0,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-04-09,,Racing (O),Luján de Cuyo,1,0,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-05-25,,Villa Mitre,San Martín (T),2,2,,,Torneo Argentino A,2005,eliminacion,,Final,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-05-28,,San Martín (T),Villa Mitre,1,1,,,Torneo Argentino A,2005,eliminacion,,Final,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-05-31,,San Martín (T),San Martín (SM),1,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-06-04,,San Martín (SM),San Martín (T),0,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,José de San Martín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-06-18,,Alumni (VM),General Paz Juniors,5,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,Plaza Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-06-18,,Real Arroyo Seco,Atlético Candelaria,4,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,José Omar Pastoriza,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-06-18,,Rivadavia (L),Racing (O),1,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-06-25,,General Paz Juniors,Alumni (VM),2,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,Estadio General Paz Juniors,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-06-25,,Racing (O),Rivadavia (L),1,1,,,Torneo Argentino A,2005,eliminacion,,Promoción,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06

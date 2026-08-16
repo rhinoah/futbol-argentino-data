@@ -69,7 +69,9 @@ PADRON: tuple[Equipo, ...] = (
     # "Aldosivi" y uno "Aldovisi", y avisó que el id tenia votos contradictorios.
     Equipo("Aldosivi", 122, ("Aldovisi", "CA Aldosivi")),
     Equipo("Argentinos Juniors", 2, ("Argentinos",)),
-    Equipo("Atlético Tucumán", 815, ("Atl. Tucumán",)),
+    # Abreviaturas del Torneo Argentino A 2005-06. Cada una confirmada contra la
+    # tabla de participantes de esa misma pagina, que da el articulo y la ciudad.
+    Equipo("Atlético Tucumán", 815, ("Atl. Tucumán", "Atlético (T)")),
     Equipo("Banfield", 4, ("Club Atlético Banfield",)),
     # "Barracs Centreal" es un error de tipeo de la fuente, con DOS letras
     # cambiadas de lugar en la misma palabra.
@@ -210,7 +212,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Deportivo Mandiyú"),
     Equipo("Deportivo Roca"),
     # "Desamprados", sin la segunda A, en un partido del Argentino A 2010-11.
-    Equipo("Desamparados", alias=("Desamprados",)),
+    Equipo("Desamparados", alias=("Desamprados", "Sp. Desamparados")),
     Equipo("General Belgrano (SR)"),
     # "Anotonio" es un typo del Argentino A 2012-13, en un solo partido.
     Equipo("Guaraní Antonio Franco", alias=("Guaraní Anotonio Franco",)),
@@ -233,11 +235,46 @@ PADRON: tuple[Equipo, ...] = (
     # Lo encontro `localias_repartidas`, que no le pregunta al padron nada.
     Equipo("San Jorge (T)", alias=("San Jorge (S)",)),
     Equipo("San Lorenzo de Alem"),
-    Equipo("Sportivo Patria"),
+    Equipo("Sportivo Patria", alias=("Sp. Patria",)),
     Equipo("Sportivo Peñarol (C)"),
     Equipo("Tiro Federal (BB)"),
     Equipo("Unión (VK)"),
     Equipo("Unión Aconquija"),
+
+    # --- los del Argentino A 2005-06, todos del interior ---
+    # Diez clubes que el padron no tenia. Cada uno sale del ARTICULO que enlaza la
+    # tabla de participantes de esa pagina, que ademas da la ciudad; el canonico es
+    # como lo escriben las TABLAS de los torneos, no el titulo del articulo.
+    #
+    # Los alias son SOLO los que aparecen de verdad como celda de equipo en las 293
+    # paginas de la cache. Se probaron veintisiete y quedaron cinco: los otros
+    # veintidos no resolvian una sola fila, y un alias que no sostiene nada es un
+    # choque esperando.
+    #
+    # Y tres que NO van, medidos:
+    #   "Candelaria"             7 de 8 veces apunta a la LOCALIDAD (Misiones)
+    #   "La Plata"               1 de 8 a la ciudad y 1 al partido
+    #   "Club Atlético Juventud" es pagina de DESAMBIGUACION: hay otros cuatro
+    # Los tres resuelven igual, por el articulo, que es donde tienen que resolver.
+    Equipo("Atlético Candelaria",
+           alias=("At. Candelaria", "Atl. Candelaria", "At: Candelaria")),
+    Equipo("General Paz Juniors", alias=("General Paz Junior",)),
+    # "(CR)" es Comodoro Rivadavia. Convive con Huracan (Parque Patricios),
+    # Huracan (TA) de Tres Arroyos y Huracan Las Heras: son cuatro clubes.
+    Equipo("Huracán (CR)"),
+    # "(P)" ya significa cuatro ciudades en este padron -- Parana, Posadas, Perico
+    # y Pergamino --. No choca porque la base difiere en los cuatro, pero a ojo la
+    # letra sola ya no dice nada.
+    Equipo("Juventud (P)"),
+    Equipo("La Florida"),
+    # El punto importa: `normalizar` lo cambia por espacio, asi que "La Plata F.C."
+    # y "La Plata FC" son dos claves distintas y hacen falta las dos.
+    Equipo("La Plata FC", alias=("La Plata F.C.",)),
+    Equipo("Luján de Cuyo"),
+    Equipo("Ñuñorco"),
+    Equipo("Real Arroyo Seco"),
+    # El cuarto Talleres del corpus, con Cordoba, Remedios de Escalada y Frias.
+    Equipo("Talleres (P)"),
 
     # --- el ascenso: Primera Nacional, Primera B, Primera C y Federal A ---
     # Sin id de AFA: el feed del que salieron los ids es el de Primera y no los
@@ -316,7 +353,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Fénix'),
     Equipo('General Lamadrid'),
     Equipo('Germinal'),
-    Equipo("Guillermo Brown", alias=("Guillermon Brown",)),
+    Equipo("Guillermo Brown", alias=("Guillermon Brown", "Guillermo Brown (PM)")),
     Equipo("Gutiérrez", alias=("Gutiérrez SC",)),
     Equipo('Güemes (SdE)'),
     Equipo('Huracán Las Heras'),
@@ -356,7 +393,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Unión (S)", alias=("Unión (Sunchales)",)),
     Equipo('Victoriano Arenas'),
     Equipo('Villa Dálmine'),
-    Equipo('Villa Mitre'),
+    Equipo('Villa Mitre', alias=("Villa Mitre (BB)",)),
     Equipo('Villa San Carlos', alias=("V. San Carlos",)),
     Equipo('Yupanqui'),
 
@@ -507,6 +544,20 @@ ARTICULOS: dict[str, str] = {
     'Club Gimnasia y Esgrima (Concepción del Uruguay)': 'Gimnasia y Esgrima (CdU)',
     'Club Mutual Crucero del Norte': 'Crucero del Norte',
     'Club Rivadavia': 'Rivadavia (L)',
+    # Los diez del Argentino A 2005-06. Dos tienen dos titulos: uno es redireccion
+    # del otro, y las paginas usan los dos.
+    'Club Atlético Candelaria': 'Atlético Candelaria',
+    'Club Atlético General Paz Juniors': 'General Paz Juniors',
+    'Club Atlético Huracán (Comodoro Rivadavia)': 'Huracán (CR)',
+    'Huracán de Comodoro Rivadavia': 'Huracán (CR)',
+    'Club Atlético Juventud (Pergamino)': 'Juventud (P)',
+    'Club Atlético Ñuñorco': 'Ñuñorco',
+    'Club Atlético Talleres (Perico)': 'Talleres (P)',
+    'Club Social y Deportivo La Florida': 'La Florida',
+    'Club Social y Deportivo Real Arroyo Seco': 'Real Arroyo Seco',
+    'La Plata Fútbol Club': 'La Plata FC',
+    'Asociación Atlética Luján de Cuyo': 'Luján de Cuyo',
+    'Asociación Atlético Luján de Cuyo': 'Luján de Cuyo',
     # El Argentino A 2010-11 lo enlaza asi y escribe "Rivadavia" a secas, que
     # el padron no resuelve -- hay tres. El articulo si.
     'Rivadavia de Lincoln': 'Rivadavia (L)',

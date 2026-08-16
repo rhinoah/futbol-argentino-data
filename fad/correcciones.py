@@ -197,6 +197,56 @@ CORRECCIONES: tuple[Correccion, ...] = (
             "de SALTA, que juega las otras 26."),
     ),
 
+    # ------------------------------------------------------------------
+    # Torneo Argentino A 2005-06.
+    # ------------------------------------------------------------------
+    Correccion(
+        pagina="Torneo Argentino A 2005-06",
+        jornada="Fecha 6",
+        dice=("Desamparados", "Racing (O)", 3, 1),
+        debe=("Desamparados", "Cipolletti"),
+        porque=(
+            "El Apertura es una sola rueda: 11 fechas, 132 partidos, y 130 de sus "
+            "131 pares se cruzan exactamente una vez. El unico que se cruza DOS es "
+            "Desamparados-Racing (O), en la Fecha 6 y en la 10; y el unico par que "
+            "no se cruza nunca es Desamparados-Cipolletti. Ademas Racing (O) juega "
+            "dos veces la Fecha 6 y Cipolletti ninguna. Las cuatro cosas se "
+            "arreglan con este cambio y con ningun otro, sin salir de la pagina."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2005-06",
+        jornada="Fecha 6",
+        dice=("9 de Julio", "La Florida", 0, 2),
+        debe=("9 de Julio (R)", "La Florida"),
+        porque=(
+            "El de Rafaela, que juega las otras 21 fechas del torneo escrito con el "
+            "(R). No va como alias del padron porque \"9 de Julio\" a secas es un "
+            "nombre de club muy repetido en el pais -- hay uno en Morteros, otro en "
+            "Rio Tercero -- y darselo al de Rafaela para siempre por una fila seria "
+            "justo el alias mal puesto que este modulo existe para evitar."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2005-06",
+        jornada="Promoción",
+        dice=("Alumni", "General Paz Juniors", 5, 0),
+        debe=("Alumni (VM)", "General Paz Juniors"),
+        porque=(
+            "Alumni de Villa Maria, que venia del Argentino B y jugo la promocion "
+            "contra General Paz Juniors. Mismo criterio que el de arriba: "
+            "\"Alumni\" a secas no va como alias -- es el nombre de varios clubes "
+            "argentinos -- y aca son dos filas."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2005-06",
+        jornada="Promoción",
+        dice=("General Paz Juniors", "Alumni", 2, 0),
+        debe=("General Paz Juniors", "Alumni (VM)"),
+        porque=(
+            "La vuelta de la promocion. Alumni de Villa Maria gano la serie 5-2 y "
+            "ascendio; General Paz Juniors bajo al Argentino B, que es lo que dice "
+            "el infobox de la pagina y tambien el articulo del club."),
+    ),
+
     Correccion(
         pagina="Torneo Federal A 2016-17",
         jornada="Fecha 5",

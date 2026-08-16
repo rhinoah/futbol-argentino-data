@@ -271,6 +271,11 @@ ASCENSO_HISTORICO = [
     # nombre cortado ("Sp. Italiano", "T. Suarez"), que estan como alias.
     Torneo('Campeonato de Primera B 2010-11 (Argentina)', 'Primera B', 2010,
            anio_fin=2011, sin_fecha=True),
+    # Y esta: 12 fechadas de 279. Trajo diez clubes del interior que el padron
+    # no tenia -- Lujan de Cuyo, Nunorco, La Plata FC, Atletico Candelaria... --
+    # todos sacados del articulo que enlaza su propia tabla de participantes.
+    Torneo('Torneo Argentino A 2005-06', 'Torneo Argentino A', 2005,
+           anio_fin=2006, sin_fecha=True),
 
     Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),
