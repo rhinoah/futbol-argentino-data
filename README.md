@@ -544,6 +544,31 @@ B Nacional 2011-12, la Primera Nacional 2021 y el Federal A 2023. Vale decirlo p
 la primera versión de este párrafo contaba los cuatro emparejamientos posibles del
 Federal A como cuatro hallazgos, y son uno solo sin resolver.
 
+Los seis forzados se probaron contra la prensa, y el reparto es el que ya venía
+saliendo: **dos correcciones, tres veces la tabla equivocada, una sin decidir.**
+
+| | |
+|---|---|
+| Primera Nacional 2023 | Aldosivi 0-0 → **1-1** Villa Dálmine — **corregido** |
+| Primera C 2015 | Argentino de Merlo 0-2 → **1-2** Cañuelas — **corregido** |
+| B Nacional 2013-14 | los dos partidos confirmados: la tabla le pone 4 goles de más a Brown |
+| Primera C 2015 ×2 | Talleres (RdE)/Argentino de Quilmes y Central Córdoba (R)/Sacachispas, igual |
+| Primera C 2015 | Laferrere/Dock Sud: **sin decidir**, y por un motivo interesante |
+
+El de la B Nacional 2013-14 trae un testigo que no habíamos usado y que es gratis: el
+**infobox de la propia página** dice «462 partidos, 984 goles». La grilla suma 984; la
+tabla, 988. La página se contradice sola y el lado que queda solo es la tabla.
+
+Y el de Laferrere destapó otro Clausura 2007: la prensa no da marcador final **porque
+el partido no terminó**. Se abandonó a los 73 minutos, 1-1, por incidentes de la barra
+con la policía —catorce policías heridos, el plantel de Dock Sud atrincherado en el
+vestuario—. Wikipedia publica 2-2 y la página tiene una nota al pie del Tribunal de
+Disciplina. Ninguna de las cuatro crónicas nombra goleadores: son todas policiales. Sin
+eso no se toca, pero queda dicho que el 2-2 no es un marcador de cancha.
+
+Van **quince** casos probados contra la prensa: la tabla acertó en nueve, se equivocó
+en cinco, y uno quedó abierto.
+
 **Siete tienen algún club sin pareja.** Eso significa más de un error en la misma
 página, o un error de tabla mezclado con uno de partido. Son los caros: el Federal A
 2021, el 2022, la Primera Nacional 2019-20 y 2026, la Primera C 2011-12 y 2026, y el

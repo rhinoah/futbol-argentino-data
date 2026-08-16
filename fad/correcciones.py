@@ -373,6 +373,39 @@ MARCADORES: tuple[Marcador, ...] = (
     # misma fuente que estamos tratando de verificar.
     # ------------------------------------------------------------------
     Marcador(
+        pagina="Campeonato de Primera Nacional 2023",
+        jornada="Fecha 31", local="Aldosivi", visita="Villa Dálmine",
+        dice=(0, 0), debe=(1, 1),
+        porque=(
+            "A los dos clubes les falta un gol a favor y uno en contra contra la "
+            "tabla, y el G-E-P coincide exacto en los dos (8-11-15 y 5-5-24): la "
+            "tabla ya computa empate, solo discrepa en los goles. De los dos cruces "
+            "posibles, la Fecha 14 queda descartada -- La Capital de Mar del Plata "
+            "publica su cronica con el 1-0 y el gol de Tobias Cervera a los 21', "
+            "igual que la grilla. "
+            "Noticias MDP da 1-1 en la Fecha 31 con los dos goles: Britez a los 11' "
+            "del segundo tiempo y Barberini en menos de diez minutos. Contradice a "
+            "Wikipedia, que publica 0-0, asi que no puede venir de ahi. 0223 narra "
+            "el empate parcial en directo con la misma jugada."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera C 2015 (Argentina)",
+        jornada="Fecha 32", local="Argentino de Merlo", visita="Cañuelas",
+        dice=(0, 2), debe=(1, 2),
+        porque=(
+            "A Merlo le falta un gol a favor contra la tabla y a Canuelas uno en "
+            "contra. De los dos cruces, la Fecha 13 queda confirmada como esta "
+            "(Canuelas 0-1 Merlo, gol de Damian Villalba). "
+            "historiayfutbol publica las 38 fechas partido por partido CON "
+            "GOLEADORES, dato que Wikipedia no trae para este torneo, asi que no "
+            "puede ser copia: '28/09/2015 en Merlo: Argentino de Merlo 1 (Fernando "
+            "Maldonado), Canuelas FC 2 (Guido Saiz y Mauro Boaglio)'. "
+            "OJO, y por eso queda escrito: es UNA SOLA fuente calificada. Los "
+            "blogs de los dos clubes no publicaron nada ese mes y lo demas son "
+            "agregadores. Se aplica porque contradice a Wikipedia con goleadores "
+            "nombrados, pero es la evidencia mas flaca de las quince."),
+    ),
+    Marcador(
         pagina="Campeonato de Primera C 2026 (Argentina)",
         jornada="Fecha 14", local="Claypole", visita="Central Córdoba (R)",
         dice=(0, 0), debe=(2, 2),
