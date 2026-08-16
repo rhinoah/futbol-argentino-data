@@ -19,13 +19,14 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 
 **Estado:** **36 939 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
-Torneo Federal A, y diez ediciones de la Copa Argentina. **198 clubes**, 128
+Torneo Federal A, y diez ediciones de la Copa Argentina. **198 clubes**, 129
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
-Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **1 154 partidos que están
-completos salvo por el día en que se jugaron** — tres temporadas de Primera C que
-la fuente publica sin fecha. Van separados justamente para que el dataset
+Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **1 592 partidos que están
+completos salvo por el día en que se jugaron** — tres temporadas de Primera C, cuyas
+tablas no tienen columna de fecha, y el Argentino A 2010-11, que la tiene y la deja
+vacía. Van separados justamente para que el dataset
 principal pueda seguir prometiendo una fecha en cada fila.
 
 ## Por qué
@@ -1000,6 +1001,36 @@ dárselo al de **Salta** sería escribir en el padrón algo que la fuente no dic
 Los dos siguen como club desconocido, que es un aviso grave y frena el build. Es lo
 correcto: un alias mal puesto no falla, le da los partidos al club equivocado.
 
+### Y con eso la página entró
+
+Los nueve nombres que quedaban mal van a `correcciones.py`, cada uno arbitrado por la
+grilla de su zona. Los cuatro de Unión tienen además prueba aritmética: con ellos
+Unión (MdP) llega a los **28 partidos que publica la tabla** de su zona, y los ocho
+clubes de la Zona 1 cierran en 28. Sin ellos queda en 24 y ningún otro reparto da 28.
+
+| | |
+|---|---|
+| ×4 | `Unión (S)` → **Unión (MdP)** en la Zona 1 (el de Sunchales juega la Zona 3) |
+| ×1 | Fecha 21: `Douglas Haig` → **Huracán (TA)** (Douglas Haig ya jugaba esa fecha) |
+| ×2 | `Gimnasia y Esgrima` → **(CdU)** |
+| ×1 | `Central Norte (SE)` → **Central Norte (S)** |
+| ×1 | `Unión` → **Unión (S)** |
+
+Ese último es el que más incomoda: «Unión» a secas **sí** está en el padrón —es Unión
+de Santa Fe— así que no se caía como desconocido. Resolvía calladito a un club de
+Primera que nunca jugó el Argentino A.
+
+**Los 438 partidos van a `data/sin-fecha/`**, que ahora tiene 1 592 y dos motivos
+distintos: las tablas de Primera C no tienen columna de fecha, y ésta la tiene y la
+deja vacía —la Fecha 9 no fecha ninguno de sus 22 partidos—. Que no fuera un bug del
+parser había que verificarlo: si lo fuera, la solución sería arreglar el parser, no
+archivar 438 partidos.
+
+De paso se cayó un test que decía «exactamente tres torneos sin fecha, todos de
+Primera C». Eso no era un invariante sino el estado de ese día. Lo reemplazan dos que
+sí lo son: que cada `sin_fecha` esté **explicado** en el catálogo, y que ninguno
+termine escribiendo en `data/`.
+
 ### Y casi se lleva puesto el chequeo que lo motivó
 
 `una_zona_por_club` reconocía las zonas por el arranque del nombre
@@ -1069,11 +1100,11 @@ propiedad que tiene el cruce contra la tabla de posiciones.
 
 ## Tests
 
-511 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+512 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 153 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 154 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

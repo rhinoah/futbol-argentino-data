@@ -84,6 +84,119 @@ CORRECCIONES: tuple[Correccion, ...] = (
     _localia_al_reves("Fecha 25", "Ferro Carril Oeste", "Unión", 2, "Fecha 6"),
     _localia_al_reves("Fecha 35", "Deportivo Merlo", "Platense", 2, "Fecha 16"),
 
+    # ------------------------------------------------------------------
+    # Torneo Argentino A 2010-11: nueve nombres, todos arbitrados por la GRILLA
+    # DE LA ZONA y no por parecido de cadenas. En la fecha donde aparece el
+    # nombre raro, el club que falta de esa zona es exactamente ese.
+    #
+    # Los cuatro de Union tienen ademas prueba aritmetica: con ellos, Union (MdP)
+    # llega a los 28 PJ que publica la tabla de la Primera fase, y los ocho
+    # clubes de la Zona 1 quedan en 28. Sin ellos queda en 24 y sobra un
+    # "Union (S)" con 4 en una zona que no es la suya.
+    # ------------------------------------------------------------------
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 4",
+        dice=("Ramón Santamarina", "Unión (S)", 0, 0),
+        debe=("Ramón Santamarina", "Unión (MdP)"),
+        porque=(
+            "Zona 1 de la Primera fase, donde juega Union de MAR DEL PLATA. "
+            "Union (S) es el de Sunchales y juega la Zona 3, con 27 partidos ahi. "
+            "Con este y los otros tres, Union (MdP) llega a los 28 partidos que "
+            "publica la tabla de posiciones de su zona; sin ellos queda en 24 y "
+            "los otros siete clubes tambien fallan. Ningun otro reparto da 28."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 17",
+        dice=("Unión (S)", "Guillermo Brown", 1, 1),
+        debe=("Unión (MdP)", "Guillermo Brown"),
+        porque=(
+            "Zona 1 de la Primera fase, donde juega Union de MAR DEL PLATA. "
+            "Union (S) es el de Sunchales y juega la Zona 3, con 27 partidos ahi. "
+            "Con este y los otros tres, Union (MdP) llega a los 28 partidos que "
+            "publica la tabla de posiciones de su zona; sin ellos queda en 24 y "
+            "los otros siete clubes tambien fallan. Ningun otro reparto da 28."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 20",
+        dice=("Cipolletti", "Unión (S)", 2, 2),
+        debe=("Cipolletti", "Unión (MdP)"),
+        porque=(
+            "Zona 1 de la Primera fase, donde juega Union de MAR DEL PLATA. "
+            "Union (S) es el de Sunchales y juega la Zona 3, con 27 partidos ahi. "
+            "Con este y los otros tres, Union (MdP) llega a los 28 partidos que "
+            "publica la tabla de posiciones de su zona; sin ellos queda en 24 y "
+            "los otros siete clubes tambien fallan. Ningun otro reparto da 28."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 22",
+        dice=("Villa Mitre", "Unión (S)", 0, 1),
+        debe=("Villa Mitre", "Unión (MdP)"),
+        porque=(
+            "Zona 1 de la Primera fase, donde juega Union de MAR DEL PLATA. "
+            "Union (S) es el de Sunchales y juega la Zona 3, con 27 partidos ahi. "
+            "Con este y los otros tres, Union (MdP) llega a los 28 partidos que "
+            "publica la tabla de posiciones de su zona; sin ellos queda en 24 y "
+            "los otros siete clubes tambien fallan. Ningun otro reparto da 28."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 21",
+        dice=("Unión (MdP)", "Douglas Haig", 2, 0),
+        debe=("Unión (MdP)", "Huracán (TA)"),
+        porque=(
+            "En esa misma Fecha 21 de la Zona 1 ya juega Douglas Haig contra "
+            "Cipolletti, y en una fecha de ocho clubes nadie juega dos veces. El "
+            "unico que falta es Huracan (TA). Con el cambio, Douglas Haig cierra "
+            "en los 28 partidos que publica la tabla y Huracan tambien."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 11",
+        dice=("Unión", "9 de Julio (R)", 1, 1),
+        debe=("Unión (S)", "9 de Julio (R)"),
+        porque=(
+            "Zona 3 de la Primera fase. \"Union\" a secas SI esta en el padron -- es "
+            "Union de Santa Fe --, asi que este no se caia como desconocido: "
+            "resolvia calladito a un club de Primera que nunca jugo el Argentino "
+            "A. En esa fecha el que falta de la Zona 3 es Union de Sunchales."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 22",
+        dice=("Gimnasia y Esgrima", "Unión (S)", 1, 1),
+        debe=("Gimnasia y Esgrima (CdU)", "Unión (S)"),
+        porque=(
+            "Zona 3. \"Gimnasia y Esgrima\" a secas tiene seis candidatos en el "
+            "padron, asi que no puede ser un alias. En esa fecha el que falta de "
+            "la zona es el de Concepcion del Uruguay, que juega las otras 25."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 28",
+        dice=("Central Norte (S)", "Gimnasia y Esgrima", 2, 0),
+        debe=("Central Norte (S)", "Gimnasia y Esgrima (CdU)"),
+        porque=(
+            "El mismo caso que la Fecha 22, en la otra rueda: en esa fecha el "
+            "unico que falta de la Zona 3 es Gimnasia y Esgrima (CdU)."),
+    ),
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 22",
+        dice=("Juventud Antoniana", "Central Norte (SE)", 1, 1),
+        debe=("Juventud Antoniana", "Central Norte (S)"),
+        porque=(
+            "No es un typo de escritura sino un desambiguador equivocado, y por "
+            "eso no puede ser un alias: en esta MISMA pagina \"(SE)\" significa "
+            "Santiago del Estero -- ahi esta \"Central Cordoba (SE)\", que resuelve "
+            "bien --, asi que darselo al de Salta seria escribir en el padron algo "
+            "que la fuente no dice. En esa fecha el que falta de la Zona 3 es el "
+            "de SALTA, que juega las otras 26."),
+    ),
+
     Correccion(
         pagina="Torneo Federal A 2016-17",
         jornada="Fecha 5",

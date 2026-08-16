@@ -70,6 +70,10 @@ MUTANTES = [
      '        if (cancha, f["home_team"]) in ALQUILERES:',
      '        if f["home_team"] in {c for _, c in ALQUILERES}:'),
 
+    ("build.py", "mandar los torneos sin fecha al dataset principal",
+     "        (sin_fecha if t.sin_fecha else filas).extend(",
+     "        filas.extend("),
+
     ("fad/correcciones.py", "corregir la cancha sin mirar cual dice la pagina",
      '                      and p.visita == c.visita and p.estadio == c.dice]',
      '                      and p.visita == c.visita]'),

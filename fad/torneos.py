@@ -259,6 +259,13 @@ ASCENSO_HISTORICO = [
            anio_fin=2010, sin_fecha=True),
     Torneo('Campeonato de Primera C 2010-11 (Argentina)', 'Primera C', 2010,
            anio_fin=2011, sin_fecha=True),
+    # Este va a `sin-fecha/` por otro motivo: sus tablas SI tienen columna de
+    # fecha, pero la pagina la deja vacia en casi todas las filas -- la Fecha 9
+    # no fecha ninguno de sus 22 partidos. Quedan 65 de 438 con fecha, y no es
+    # el parser: la fuente no la trae. Se guardan enteros igual, que es la razon
+    # de ser de esa carpeta.
+    Torneo('Torneo Argentino A 2010-11', 'Torneo Argentino A', 2010,
+           anio_fin=2011, sin_fecha=True),
 
     Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),

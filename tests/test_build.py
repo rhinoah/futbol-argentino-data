@@ -567,9 +567,36 @@ def test_no_se_vuelven_a_parsear(monkeypatch, tmp_path):
     assert len(build.dataset.leer_carpeta(build.sin_fecha_en(salida))) == 1
 
 
-def test_el_catalogo_marca_solo_las_que_no_tienen_fecha():
+def test_cada_torneo_sin_fecha_esta_justificado_en_el_catalogo():
+    """`sin_fecha` saca un torneo del dataset principal, asi que no puede ponerse
+    al pasar: cada uno tiene que estar comentado con POR QUE la fuente no trae la
+    fecha, y son dos motivos distintos -- las tablas de tres columnas de la
+    Primera C, y el Argentino A 2010-11, que tiene la columna y la deja vacia.
+
+    Antes esto fijaba "exactamente tres, todas de Primera C", que no es un
+    invariante sino el estado de ese dia: cualquier temporada nueva lo rompia sin
+    que nada estuviera mal."""
+    from pathlib import Path
     from fad import torneos
     marcados = [t for t in torneos.TODOS if t.sin_fecha]
-    assert len(marcados) == 3
-    assert all(t.torneo == "Primera C" for t in marcados)
-    assert {t.temporada for t in marcados} == {2008, 2009, 2010}
+    assert marcados, "si no queda ninguno, sobra la carpeta y sobra el flag"
+    fuente = Path(torneos.__file__).read_text(encoding="utf-8")
+    for t in marcados:
+        i = fuente.index(repr(t.pagina).strip("'\""))
+        # los comentarios que preceden a la entrada, hasta la linea en blanco
+        previo = fuente[:i].rsplit("\n\n", 1)[-1]
+        assert "#" in previo, f"{t.pagina}: sin_fecha sin explicar en el catalogo"
+
+
+def test_ningun_torneo_sin_fecha_escribe_en_el_dataset_principal(tmp_path):
+    """La otra mitad: que la marca de verdad los saque de `data/`. Un torneo
+    marcado cuyas filas terminan en el CSV principal rompe la promesa de que ahi
+    cada fila tiene fecha."""
+    from pathlib import Path
+    from fad import dataset, torneos
+    principal = Path(__file__).resolve().parent.parent / "data"
+    if not list(principal.glob("partidos-*.csv")):
+        pytest.skip("hay que correr build.py primero")
+    marcadas = {(t.torneo, str(t.temporada)) for t in torneos.TODOS if t.sin_fecha}
+    en_data = {(f["tournament"], str(f["season"])) for f in dataset.leer_carpeta(principal)}
+    assert not (marcadas & en_data), f"marcados pero en data/: {sorted(marcadas & en_data)}"
