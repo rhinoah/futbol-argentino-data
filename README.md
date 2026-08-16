@@ -525,9 +525,24 @@ Deportivo Español en la Primera B 2017-18.
 
 **Nueve tienen todos sus desvíos apareados.** Cada par localiza un partido: los dos
 clubes se cruzan, y a uno le sobran los goles que al otro le faltan. Pero *localizar
-no es arbitrar*, y hay algo peor: en una liga de ida y vuelta los dos clubes se cruzan
-**dos veces**, y la aritmética no puede decir cuál de las dos fechas es la mala. De
-los 26 pares del dataset, sólo **cuatro** identifican un partido único.
+no es arbitrar*, y hay dos cosas que lo empeoran.
+
+La primera: en una liga de ida y vuelta los dos clubes se cruzan **dos veces**, y la
+aritmética no puede decir cuál de las dos fechas es la mala. De los 26 pares del
+dataset, sólo cuatro identifican un partido único.
+
+La segunda apareció al mirarlos de cerca, y obligó a rehacer la cuenta. **Cuando tres
+o más clubes comparten el mismo delta, el apareo es degenerado**: si Douglas Haig y
+Las Parejas tienen los dos `+1 GF −1 GC`, y Independiente (C) y Unión (S) los dos
+`−1 GF +1 GC`, hay cuatro maneras de emparejarlos y la aritmética no prefiere ninguna.
+Con sólo dos clubes desviados el par está forzado aunque compartan delta, porque no
+hay con quién más.
+
+Contando así, de los nueve hay **seis pares forzados** —les falta elegir la fecha, que
+es lo único que la prensa puede hacer— y **tres torneos genuinamente degenerados**: la
+B Nacional 2011-12, la Primera Nacional 2021 y el Federal A 2023. Vale decirlo porque
+la primera versión de este párrafo contaba los cuatro emparejamientos posibles del
+Federal A como cuatro hallazgos, y son uno solo sin resolver.
 
 **Siete tienen algún club sin pareja.** Eso significa más de un error en la misma
 página, o un error de tabla mezclado con uno de partido. Son los caros: el Federal A
