@@ -73,7 +73,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Banfield", 4, ("Club Atlético Banfield",)),
     # "Barracs Centreal" es un error de tipeo de la fuente, con DOS letras
     # cambiadas de lugar en la misma palabra.
-    Equipo("Barracas Central", 685, ("Barracas C.", "Barracs Centreal")),
+    Equipo("Barracas Central", 685, ("Barracas C.", "Barracs Centreal", "B. Central")),
     Equipo("Belgrano", 124, ("Belgrano (C)", "Belgrano de Córdoba", "Belgrano (Cba)")),
     Equipo("Boca Juniors", 5, ("Boca",)),
     Equipo("Central Córdoba (SdE)", 1485,
@@ -104,7 +104,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("River Plate", 17, ("River",)),
     Equipo("Rosario Central", 18, ("R. Central",)),
     Equipo("San Lorenzo", 19, ("San Lorenzo de Almagro",)),
-    Equipo("Sarmiento (J)", 142, ("Sarmiento", "Sarmiento de Junín")),
+    Equipo("Sarmiento (J)", 142, ("Sarmiento", "Sarmiento de Junín", "Samiento")),
     # "Tallleres", con tres eles, es un error de tipeo en la pagina de la Copa de
     # la Liga 2022 (juega contra Union). Va como alias porque el alias existe
     # justo para esto: la alternativa era que el build se frene todos los dias
@@ -134,7 +134,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Quilmes"),
 
     # la pagina de Primera B 2024 escribe las DOS formas, 24 y 31 veces
-    Equipo("Acassuso", alias=("Acasusso", "Accasuso",)),
+    Equipo("Acassuso", alias=("Acasusso", "Accasuso", "Acasuso")),
     Equipo("Agropecuario"),
     Equipo("Argentino (MM)"),
     Equipo("Argentino de Merlo", alias=("Argentino (M)",)),
@@ -178,7 +178,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Sportivo Barracas"),
     Equipo("Sportivo Belgrano", alias=("Sportivo Belgrano (SF)",)),
     Equipo("Temperley"),
-    Equipo("Tristán Suárez"),
+    Equipo("Tristán Suárez", alias=("T. Suárez",)),
 
     # entran por las ediciones viejas de la Copa Argentina, que mezclan mas
     # divisiones todavia. Ojo: es el TERCER Liniers del padron.
@@ -262,7 +262,10 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Ben Hur'),
     Equipo('Berazategui'),
     Equipo('Boca Unidos'),
-    Equipo('Brown de Adrogué'),
+    # Abreviaturas del Campeonato de Primera B 2010-11, que escribe la mitad
+    # de sus fechas con el nombre cortado. Cada una se verifico contra el
+    # plantel del propio torneo: la forma larga esta ahi y los partidos suman.
+    Equipo('Brown de Adrogué', alias=("Brown (A)",)),
     Equipo('Cañuelas'),
     Equipo('Central Ballester'),
     Equipo('Central Córdoba (R)'),
@@ -278,13 +281,13 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Crucero del Norte'),
     Equipo('Círculo Deportivo'),
     Equipo('Defensores Unidos'),
-    Equipo('Defensores de Belgrano'),
+    Equipo('Defensores de Belgrano', alias=("D. de Belgrano",)),
     Equipo('Defensores de Belgrano (VR)'),
     Equipo("Defensores de Cambaceres", alias=("Cambaceres",)),
     Equipo("Defensores de Pronunciamiento",
            alias=("Defensores de Pronunciamento", "Def. de Pronunciamiento", "DEPRO")),
     Equipo('Defensores de Vilelas'),
-    Equipo('Deportivo Español'),
+    Equipo('Deportivo Español', alias=("Dep. Español",)),
     Equipo('Deportivo Merlo'),
     Equipo('Deportivo Paraguayo'),
     Equipo('Dock Sud'),
@@ -343,7 +346,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Sarmiento (R)'),
     Equipo("Sol de Mayo (V)", alias=("Sol de Mayo",)),
     Equipo('Sportivo Estudiantes (SL)'),
-    Equipo("Sportivo Italiano", alias=("Deportivo Italiano",)),
+    Equipo("Sportivo Italiano", alias=("Deportivo Italiano", "Sp. Italiano")),
     Equipo('Sportivo Las Parejas'),
     # Remedios de Escalada. La Primera C 2009-10 lo abrevia "(RE)" y el resto del
     # catalogo "(RdE)"; es el mismo club y el mismo articulo.
@@ -354,7 +357,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Victoriano Arenas'),
     Equipo('Villa Dálmine'),
     Equipo('Villa Mitre'),
-    Equipo('Villa San Carlos'),
+    Equipo('Villa San Carlos', alias=("V. San Carlos",)),
     Equipo('Yupanqui'),
 
     # la pagina lo escribe de las dos formas

@@ -266,6 +266,11 @@ ASCENSO_HISTORICO = [
     # de ser de esa carpeta.
     Torneo('Torneo Argentino A 2010-11', 'Torneo Argentino A', 2010,
            anio_fin=2011, sin_fecha=True),
+    # Igual que la de arriba: tiene columna de fecha y la deja vacia en 462 de
+    # sus 474 filas. La mitad de las jornadas ademas escribe los clubes con el
+    # nombre cortado ("Sp. Italiano", "T. Suarez"), que estan como alias.
+    Torneo('Campeonato de Primera B 2010-11 (Argentina)', 'Primera B', 2010,
+           anio_fin=2011, sin_fecha=True),
 
     Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),

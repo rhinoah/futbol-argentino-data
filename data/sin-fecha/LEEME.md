@@ -1,7 +1,7 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **1 592**, de cuatro temporadas. Todo lo demás —equipos, marcador, jornada, torneo, temporada— salió de
+jugaron.** Son **2 066**, de cinco temporadas. Todo lo demás —equipos, marcador, jornada, torneo, temporada— salió de
 Wikipedia igual que el resto del dataset y pasó por los mismos chequeos.
 
 Van acá y no en `data/` porque el dataset principal promete una fecha en cada
@@ -17,6 +17,7 @@ un campo.
 | 2009 | Primera C 2009-10 | 385 | la tabla no tiene columna de fecha |
 | 2010 | Primera C 2010-11 | 385 | la tabla no tiene columna de fecha |
 | 2010 | Torneo Argentino A 2010-11 | 438 | **la tiene y la deja vacía** |
+| 2010 | Primera B 2010-11 | 474 | **la tiene y la deja vacía** |
 
 Mismo esquema y mismas columnas que `data/partidos-AAAA.csv`, con `date` vacío.
 Un archivo por **temporada**, igual que allá.
@@ -32,8 +33,8 @@ entre dos clubes, goles a favor y en contra, rachas por jornada. No sirven para
 nada que necesite ordenar por día o medir descanso entre partidos.
 
 Unas pocas filas **sí** traen fecha: 4, 5 y 5 en las de Primera C —partidos de
-definición que la página publica en una tabla aparte, con día y estadio— y **65 de
-las 438** del Argentino A. Se dejan como están.
+definición que la página publica en una tabla aparte, con día y estadio— y unas pocas de las dos de 2010-11 —65 de 438
+en el Argentino A, 12 de 474 en la Primera B—. Se dejan como están.
 
 ## Por qué no tienen fecha
 
@@ -52,16 +53,22 @@ cruzando con [worldfootball.net](https://www.worldfootball.net/) para sacar de a
 worldfootball lista para Argentina únicamente Primera División, Primera Nacional,
 Primera B Metropolitana, Copa Argentina y Supercopa. Primera C no figura.
 
-### Argentino A 2010-11: la columna existe y está vacía
+### Argentino A 2010-11 y Primera B 2010-11: la columna existe y está vacía
 
-Este es el caso raro. Sus tablas **sí** traen la columna de fecha —el parser la lee
+Éste es el caso raro, y son dos temporadas del mismo año. Sus tablas **sí** traen la columna de fecha —el parser la lee
 sin problema en 65 partidos— pero la página la deja en blanco en casi todas las filas.
 La Fecha 9 no fecha ninguno de sus 22 partidos; la Fecha 1 fecha 12 de 22.
 
 No es un bug del parser, y verificarlo importaba: si lo fuera, la solución sería
 arreglar el parser y no archivar 438 partidos. Se midió jornada por jornada.
 
-Los 438 están completos y **auditados**: nueve nombres de club venían mal en la
+La Primera B 2010-11 tiene lo mismo (12 fechadas de 474) más otra cosa: **la mitad
+de sus jornadas escribe los clubes con el nombre cortado** —`Sp. Italiano`,
+`T. Suárez`, `D. de Belgrano`—. Se resolvieron contra el plantel del propio torneo,
+donde la forma larga está y los partidos suman: `Brown (A)` 16 + `Brown de Adrogué`
+28 = 44, como los demás.
+
+Los 438 del Argentino A están completos y **auditados**: nueve nombres de club venían mal en la
 fuente y se corrigieron con la grilla de la zona, cada uno documentado en
 [`fad/correcciones.py`](../../fad/correcciones.py). Cuatro eran Unión de Mar del
 Plata escrito «Unión (S)», que es el de Sunchales — un club real, que además jugaba

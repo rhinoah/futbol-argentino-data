@@ -17,16 +17,16 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **36 939 partidos entre febrero de 2004 y hoy** — veintitrés años de
+**Estado:** **36 966 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
-Torneo Federal A, y diez ediciones de la Copa Argentina. **198 clubes**, 129
+Torneo Federal A, y diez ediciones de la Copa Argentina. **198 clubes**, 130
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
-Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **1 592 partidos que están
+Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **2 066 partidos que están
 completos salvo por el día en que se jugaron** — tres temporadas de Primera C, cuyas
-tablas no tienen columna de fecha, y el Argentino A 2010-11, que la tiene y la deja
-vacía. Van separados justamente para que el dataset
+tablas no tienen columna de fecha, y el Argentino A y la Primera B 2010-11, que la
+tienen y la dejan vacía. Van separados justamente para que el dataset
 principal pueda seguir prometiendo una fecha en cada fila.
 
 ## Por qué
@@ -88,7 +88,7 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 la atribución viaja con el dato.
 
 **[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en **1 520 filas de 36 939** (4,1 %): la **fecha del calendario** de partidos
+sólo en **1 520 filas de 36 966** (4,1 %): la **fecha del calendario** de partidos
 que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
 entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
 nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
