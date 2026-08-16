@@ -373,6 +373,53 @@ MARCADORES: tuple[Marcador, ...] = (
     # misma fuente que estamos tratando de verificar.
     # ------------------------------------------------------------------
     Marcador(
+        pagina="Campeonato de Primera C 2026 (Argentina)",
+        jornada="Fecha 14", local="Claypole", visita="Central Córdoba (R)",
+        dice=(0, 0), debe=(2, 2),
+        porque=(
+            "A los dos clubes les faltan exactamente 2 goles a favor y 2 en contra "
+            "contra la tabla, que es la firma de un partido entre ellos, y el G-E-P "
+            "ya coincide: las dos partes de la pagina acuerdan en que fue empate y "
+            "discrepan solo en los goles. "
+            "La Capital de Rosario, el mismo dia del partido, da 2-2 con los cuatro "
+            "goles y su club: Gallucci 9' y Marcos Cordoba 74' para Central Cordoba, "
+            "Godoy 11' y Llodra 19' para Claypole. Y aca la sospecha de siempre -- "
+            "que la prensa haya copiado de Wikipedia -- esta muerta por "
+            "construccion: Wikipedia publica 0-0, asi que un medio que diga 2-2 no "
+            "puede venir de ahi. Lo confirma De Brown con reporteo propio."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera Nacional 2022",
+        jornada="Fecha 19", local="Estudiantes (RC)", visita="Deportivo Riestra",
+        dice=(2, 1), debe=(2, 0),
+        porque=(
+            "El G-E-P publicado coincide EXACTO con los partidos para los dos "
+            "clubes (14-16-6 y 12-18-6), asi que la tabla ya computa este partido "
+            "como victoria de Estudiantes: lo unico que sobra es un gol de Riestra. "
+            "LV16 publica la ficha cerrada -- estadio Candini, arbitro Rodrigo "
+            "Rivero, las dos formaciones -- con una lista de goles de dos entradas, "
+            "las dos de Estudiantes: Luis Silba 13' ST y Fernando Belluschi 50' ST. "
+            "Puntal coincide en marcador y goleadores. Ninguna registra gol de "
+            "Riestra, y esos nombres no pueden salir de Wikipedia: la pagina no "
+            "trae goleadores de la fase regular en ningun lado."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera Nacional 2022",
+        jornada="Fecha 26", local="Ramón Santamarina", visita="Chacarita Juniors",
+        dice=(1, 1), debe=(2, 1),
+        porque=(
+            "Aca el G-E-P NO coincide, y esa es la prueba: la tabla le da a "
+            "Santamarina 6 ganados y 11 empatados donde los partidos dan 5 y 12, y "
+            "a Chacarita 12 perdidos donde dan 11. O sea que la propia pagina "
+            "computa una VICTORIA de Santamarina donde su grilla pone empate. "
+            "Que Pasa Web narra los tres goles: Alustiza de penal a los 8', empate "
+            "de Formica a los 22' y el 2-1 de Gagliardi. "
+            "Y hay un testigo independiente y ANTERIOR: El Eco de Tandil, en la "
+            "previa de la fecha siguiente, publica cuatro cifras de posiciones -- a "
+            "quien supera, a quien alcanza y cuantos puntos lo separan de Rafaela -- "
+            "que cierran las cuatro con el 2-1 y fallan las cuatro con el 1-1."),
+    ),
+    Marcador(
         pagina="Anexo:Torneo Clausura 2007 (Argentina)",
         jornada="Fecha 2", local="Newell's Old Boys", visita="River Plate",
         dice=(1, 2), debe=(0, 2),

@@ -472,8 +472,8 @@ sobra un gol a favor y a otro le sobra uno en contra, el error está entre esos 
 Y a veces hay **un único** ajuste de un gol que hace cerrar el torneo entero, lo que
 parece una prueba.
 
-No lo es. Se probaron **seis** casos contra la prensa —buscando crónicas que
-nombraran a los goleadores, no marcadores sueltos— y la tabla tenía razón en cuatro:
+No lo es. Se probaron **nueve** casos contra la prensa —buscando crónicas que
+nombraran a los goleadores, no marcadores sueltos— y la tabla tenía razón en siete:
 
 | caso | lo que pedía la tabla | lo que dice la prensa |
 |---|---|---|
@@ -483,11 +483,61 @@ nombraran a los goleadores, no marcadores sueltos— y la tabla tenía razón en
 | Federal A 2022 | Ciudad de Bolívar 1-1 → **2-1** JUU | 2-1, con los tres goles — **corregido** |
 | Primera C 2026 | Centro Español 2-3 → 1-2 Juventud Unida | **2-3**: Wikipedia estaba bien |
 | B Nacional 2012-13 | At. Tucumán 2-0 → 3-0 Olimpo | **2-0**, con los dos goleadores nombrados |
+| Primera C 2026 | Claypole 0-0 → **2-2** Central Córdoba (R) | 2-2, con los cuatro goles — **corregido** |
+| Primera Nacional 2022 | Estudiantes (RC) 2-1 → **2-0** Riestra | 2-0, ficha cerrada con dos goles — **corregido** |
+| Primera Nacional 2022 | Santamarina 1-1 → **2-1** Chacarita | 2-1, con los tres goles — **corregido** |
 
-En los dos últimos la equivocada era la tabla, igual que con Platense. Así que la
+Los tres últimos salieron de una tanda sobre **los únicos cuatro pares que
+identifican un partido sin ambigüedad** — en una liga de ida y vuelta los dos clubes
+se cruzan dos veces y la aritmética no puede elegir la fecha. Dos de ellos traen su
+propia prueba dentro de la página, y vale distinguirlas:
+
+- En **Estudiantes (RC) 2-1 Riestra** el ganados-empatados-perdidos coincide exacto
+  con los partidos, así que la tabla ya computaba una victoria: sólo sobraba un gol.
+  El 2-2 quedaba descartado por aritmética antes de abrir un solo diario.
+- En **Santamarina 1-1 Chacarita** el G-E-P **no** coincide: la tabla le da a
+  Santamarina un ganado más y un empatado menos. O sea que la propia página computa
+  una victoria donde su grilla pone empate.
+- En **Claypole 0-0** la sospecha de siempre —que la prensa haya copiado de
+  Wikipedia— está muerta por construcción: Wikipedia publica 0-0, así que un medio
+  que diga 2-2 no puede venir de ahí.
+
+De paso, dos de los tres encargos salieron con la premisa invertida: los deltas se
+midieron como `sumado − tabla` y se describieron como si fueran `tabla − sumado`. Lo
+corrigieron los propios verificadores, y es la razón por la que conviene que el que
+verifica rehaga la medición en vez de creerle al que pregunta.
+
+En los dos que dieron «la tabla está mal» la equivocada era ella, igual que con Platense. Así que la
 aritmética dice *dónde* mirar, no *quién* tiene razón: para eso hace falta salir a
 buscar afuera, partido por partido. Va como **aviso**, no como error: lo que denuncia
 es una contradicción de la fuente consigo misma.
+
+#### Los 21 que no cierran, ordenados
+
+Vale separarlos, porque no son un problema sino tres, con costos muy distintos.
+
+**Cinco tienen un solo club desviado.** Ahí no hay nada que corregir, y no es una
+opinión: un marcador mal leído toca siempre a **dos** clubes, así que un club solo y
+sin pareja no puede venir de un partido. La equivocada es su fila de la tabla. Son
+Platense en la B Nacional 2009-10 —el caso que enseñó el patrón—, más Boca Juniors en
+el Clausura 2005, Unión en el Final 2013, Racing Club en la Copa de la Liga 2023 y
+Deportivo Español en la Primera B 2017-18.
+
+**Nueve tienen todos sus desvíos apareados.** Cada par localiza un partido: los dos
+clubes se cruzan, y a uno le sobran los goles que al otro le faltan. Pero *localizar
+no es arbitrar*, y hay algo peor: en una liga de ida y vuelta los dos clubes se cruzan
+**dos veces**, y la aritmética no puede decir cuál de las dos fechas es la mala. De
+los 26 pares del dataset, sólo **cuatro** identifican un partido único.
+
+**Siete tienen algún club sin pareja.** Eso significa más de un error en la misma
+página, o un error de tabla mezclado con uno de partido. Son los caros: el Federal A
+2021, el 2022, la Primera Nacional 2019-20 y 2026, la Primera C 2011-12 y 2026, y el
+Clausura 2008.
+
+La conclusión práctica es incómoda y conviene decirla: **de los 21, sólo un puñado se
+puede cerrar sin salir a buscar fuente por partido.** Los cinco del primer grupo ya
+están explicados por su propio aviso; los del segundo necesitan una crónica que diga
+cuál de las dos fechas; los del tercero, varias.
 
 Un caso salió distinto a todos. En el **Clausura 2007**, Newell's 1-2 River no era
 un error de nadie: el partido se **suspendió a los 90'** por incidentes, con River
