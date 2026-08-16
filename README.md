@@ -970,6 +970,36 @@ la lógica del parser, no parecerse a ella. Con eso: **cero del catálogo, tres 
 —Argentino A 2010-11, Nacional 1985 y B Nacional 2004-05—, dos de ellas en la hoja
 de ruta.
 
+### Ocho clubes desconocidos, y ninguno era un club
+
+Con las zonas separadas, esa página quedó denunciando **ocho clubes que el padrón no
+conoce**. Ninguno resultó ser un club nuevo: eran typos y formas cortas.
+
+Y no se resolvieron por parecido de cadenas, que es justo lo que este repo no hace.
+Se resolvieron con **la grilla de la zona**: en la fecha donde aparece el nombre raro,
+el club que falta es exactamente ése.
+
+```
+Fecha 1    falta Gimnasia y Esgrima (CdU)   raro Gimnasia (CdU)
+Fecha 16   falta Central Norte (S)          raro Centrl Norte
+Fecha 20   falta Libertad (S)               raro Libertad
+Fecha 22   faltan Central Norte (S) y Gimnasia y Esgrima (CdU)
+```
+
+Cinco entraron como alias —`Cipoletti`, `Desamprados`, `Centrl Norte`,
+`Gimnasia (CdU)`, `Libertad`— y uno como artículo: la página escribe «Rivadavia» a
+secas, que el padrón no resuelve porque hay tres, pero enlaza
+`Rivadavia de Lincoln`, y el artículo sí desambigua.
+
+**Dos quedaron afuera a propósito, y ésa es la parte que importa.** «Gimnasia y
+Esgrima» a secas tiene **seis** candidatos. Y «Central Norte (SE)» no es un typo de
+escritura sino un desambiguador equivocado: en esa misma página `(SE)` significa
+Santiago del Estero —ahí está «Central Córdoba (SE)», que resuelve bien—, así que
+dárselo al de **Salta** sería escribir en el padrón algo que la fuente no dice.
+
+Los dos siguen como club desconocido, que es un aviso grave y frena el build. Es lo
+correcto: un alias mal puesto no falla, le da los partidos al club equivocado.
+
 ### Y casi se lleva puesto el chequeo que lo motivó
 
 `una_zona_por_club` reconocía las zonas por el arranque del nombre
@@ -1039,7 +1069,7 @@ propiedad que tiene el cruce contra la tabla de posiciones.
 
 ## Tests
 
-502 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+511 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a

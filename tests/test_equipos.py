@@ -287,3 +287,48 @@ def test_un_articulo_desconocido_no_es_una_contradiccion():
 def test_el_enlace_sin_nombre_visible_no_tiene_dos_testigos():
     texto = "[[Club Atlético San Martín (Tucumán)]]"
     assert equipos.articulos_que_contradicen(texto) == []
+
+
+# --------------------------------------------------------------------------
+# los typos del Argentino A 2010-11
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("typo, club", [
+    ("Cipoletti", "Cipolletti"),              # una L
+    ("Desamprados", "Desamparados"),          # sin la segunda A
+    ("Centrl Norte", "Central Norte (S)"),    # sin la A
+    ("Gimnasia (CdU)", "Gimnasia y Esgrima (CdU)"),   # sin el "y Esgrima"
+    ("Libertad", "Libertad (S)"),             # sin el desambiguador
+])
+def test_los_typos_de_una_pagina_resuelven_al_club(typo, club):
+    """Todos verificados contra la grilla de la zona: en la fecha donde aparece
+    el nombre raro, el club que falta es exactamente ese. No se dedujeron por
+    parecido de cadenas."""
+    assert equipos.canonizar(typo, "") == club
+
+
+def test_el_articulo_de_rivadavia_de_lincoln():
+    """La pagina escribe "Rivadavia" a secas, que el padron no resuelve -- hay
+    tres. Pero enlaza el articulo, y el articulo si desambigua."""
+    assert equipos.canonizar("Rivadavia", "") == "Rivadavia"
+    assert equipos.canonizar("Rivadavia", "Rivadavia de Lincoln") == "Rivadavia (L)"
+
+
+@pytest.mark.parametrize("ambiguo", ["Gimnasia y Esgrima", "Central Norte (SE)"])
+def test_los_nombres_ambiguos_NO_se_agregaron_como_alias(ambiguo):
+    """Y esto es lo que hay que sostener, no lo de arriba.
+
+    "Gimnasia y Esgrima" a secas tiene SEIS candidatos en el padron. Y
+    "Central Norte (SE)" no es un typo de escritura sino un desambiguador
+    equivocado: en esa misma pagina "(SE)" significa Santiago del Estero -- ahi
+    esta "Central Córdoba (SE)", que resuelve bien -- asi que darselo al de
+    SALTA seria escribir en el padron algo que la fuente no dice.
+
+    Los dos quedan como club desconocido, que frena el build. Es lo correcto:
+    un alias mal puesto no falla, le da partidos al club equivocado."""
+    assert equipos.buscar(ambiguo, "") is None
+
+
+def test_la_pagina_usa_SE_para_santiago_del_estero():
+    """El testigo de que "(SE)" no puede ser Salta: la misma pagina lo usa para
+    Santiago del Estero y el padron ya lo resuelve asi."""
+    assert equipos.canonizar("Central Córdoba (SE)", "") == "Central Córdoba (SdE)"

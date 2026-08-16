@@ -209,13 +209,16 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Concepción FC"),
     Equipo("Deportivo Mandiyú"),
     Equipo("Deportivo Roca"),
-    Equipo("Desamparados"),
+    # "Desamprados", sin la segunda A, en un partido del Argentino A 2010-11.
+    Equipo("Desamparados", alias=("Desamprados",)),
     Equipo("General Belgrano (SR)"),
     # "Anotonio" es un typo del Argentino A 2012-13, en un solo partido.
     Equipo("Guaraní Antonio Franco", alias=("Guaraní Anotonio Franco",)),
     Equipo("Independiente (N)"),
     Equipo("Juventud Unida (G)"),
-    Equipo("Libertad (S)"),
+    # La pagina omite el desambiguador a veces, igual que con Sol de America.
+    # Es el unico Libertad del padron.
+    Equipo("Libertad (S)", alias=("Libertad",)),
     Equipo("Liniers (BB)"),
     Equipo("Rivadavia (L)"),
     # "San Jorge (S)" NO es un club: es "San Jorge (T)" con la letra equivocada en
@@ -263,9 +266,12 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Cañuelas'),
     Equipo('Central Ballester'),
     Equipo('Central Córdoba (R)'),
-    Equipo('Central Norte (S)'),
+    # "Centrl Norte", sin la A, en un partido del Argentino A 2010-11. Es el
+    # unico Central Norte del padron, asi que el typo no puede apuntar a otro.
+    Equipo('Central Norte (S)', alias=('Centrl Norte',)),
     Equipo('Centro Español'),
-    Equipo('Cipolletti'),
+    # "Cipoletti", con una L, en dos partidos del Argentino A 2010-11.
+    Equipo('Cipolletti', alias=('Cipoletti',)),
     Equipo('Colegiales'),
     Equipo('Comunicaciones'),
     Equipo('Costa Brava'),
@@ -358,8 +364,11 @@ PADRON: tuple[Equipo, ...] = (
     # una sola aparicion contra 37 de "(SM)" en la MISMA pagina del Federal A 2024
     Equipo('San Martín (SM)', alias=('San Martín (M)',)),
     # error de tipeo en la fuente
+    # "Gimnasia (CdU)" -- sin el "y Esgrima" -- en un partido del Argentino A
+    # 2010-11. El desambiguador alcanza: es el unico CdU.
     Equipo("Gimnasia y Esgrima (CdU)",
-           alias=("Gimnasia y Esgrisma (CDU)", "Gimmasia y Esgrima (CdU)")),
+           alias=("Gimnasia y Esgrisma (CDU)", "Gimmasia y Esgrima (CdU)",
+                  "Gimnasia (CdU)")),
     # la pagina omite la provincia a veces
     Equipo('Sol de América (F)', alias=('Sol de América',)),
 )
@@ -495,6 +504,9 @@ ARTICULOS: dict[str, str] = {
     'Club Gimnasia y Esgrima (Concepción del Uruguay)': 'Gimnasia y Esgrima (CdU)',
     'Club Mutual Crucero del Norte': 'Crucero del Norte',
     'Club Rivadavia': 'Rivadavia (L)',
+    # El Argentino A 2010-11 lo enlaza asi y escribe "Rivadavia" a secas, que
+    # el padron no resuelve -- hay tres. El articulo si.
+    'Rivadavia de Lincoln': 'Rivadavia (L)',
     'Club Social y Atlético Guillermo Brown': 'Guillermo Brown',
     'Club Social y Cultural Deportivo Laferrere': 'Deportivo Laferrere',
     'Club Social y Deportivo Central Ballester': 'Central Ballester',
