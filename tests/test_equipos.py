@@ -272,11 +272,17 @@ def test_el_articulo_desambiguando_un_nombre_pelado_no_es_aviso():
 
 
 def test_un_nombre_que_el_padron_no_conoce_no_es_una_contradiccion():
-    """Sin esta condicion entran 8 casos como `[[Club Atlético Brown|Brown (A)]]`,
-    donde "Brown (A)" no esta en el padron: el articulo no lo esta contradiciendo,
-    lo esta traduciendo."""
-    texto = "[[Club Atlético Brown|Brown (A)]]"
-    assert equipos.articulos_que_contradicen(texto) == []
+    """Sin esta condicion entran casos donde el nombre visible no lo conoce nadie:
+    ahi el articulo no lo esta contradiciendo, lo esta traduciendo.
+
+    El ejemplo era `[[Club Atlético Brown|Brown (A)]]`, y dejo de servir cuando
+    "Brown (A)" entro al padron como alias -- el test seguia pasando, pero por el
+    motivo equivocado, y el mutante que lo cuidaba sobrevivio. Lo agarro
+    `mutar.py`, no la suite. Ahora el nombre es uno que el padron no puede
+    conocer nunca, y el test lo exige antes de probar nada."""
+    visible = "Deportivo Inexistente (XX)"
+    assert equipos.buscar(visible, "") is None, "el ejemplo dejo de ser desconocido"
+    assert equipos.articulos_que_contradicen(f"[[Club Atlético Brown|{visible}]]") == []
 
 
 def test_un_articulo_desconocido_no_es_una_contradiccion():
