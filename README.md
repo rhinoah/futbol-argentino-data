@@ -512,16 +512,75 @@ aritmética dice *dónde* mirar, no *quién* tiene razón: para eso hace falta s
 buscar afuera, partido por partido. Va como **aviso**, no como error: lo que denuncia
 es una contradicción de la fuente consigo misma.
 
+Con una excepción, que apareció después y vale la pena adelantar: cuando la tabla no
+balancea —su columna GF y su columna GC no suman lo mismo— sí dice quién tiene razón,
+porque se está contradiciendo a sí misma y no hace falta ninguna otra fuente. Está
+abajo, en los cinco de un solo club.
+
 #### Los 21 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.
 
-**Cinco tienen un solo club desviado.** Ahí no hay nada que corregir, y no es una
-opinión: un marcador mal leído toca siempre a **dos** clubes, así que un club solo y
-sin pareja no puede venir de un partido. La equivocada es su fila de la tabla. Son
-Platense en la B Nacional 2009-10 —el caso que enseñó el patrón—, más Boca Juniors en
-el Clausura 2005, Unión en el Final 2013, Racing Club en la Copa de la Liga 2023 y
-Deportivo Español en la Primera B 2017-18.
+**Cinco tienen un solo club desviado.** Ahí no hay nada que corregir: un marcador mal
+leído toca siempre a **dos** clubes, así que un club solo y sin pareja no puede venir
+de un partido. La equivocada es su fila de la tabla. Son Platense en la B Nacional
+2009-10 —el caso que enseñó el patrón—, más Boca Juniors en el Clausura 2005, Unión en
+el Final 2013, Racing Club en la Copa de la Liga 2023 y Deportivo Español en la
+Primera B 2017-18.
+
+Eso era un razonamiento, y tenía un agujero que había que tapar antes de creerle: el
+árbitro **saltea** a los clubes cuyo PJ no coincide, así que el socio del desviado
+podía estar afuera de la comparación y el club sólo parecer solo. Se midió: en los
+cinco torneos se compararon **todas** las filas, cero salteados y cero huérfanos. El
+agujero no estaba.
+
+Y después apareció algo mejor que un razonamiento. **Todo gol convertido es un gol
+recibido por alguien**, así que en una tabla que cubre un conjunto cerrado de partidos
+la columna GF y la columna GC tienen que sumar lo mismo. **Cuatro de las cinco no
+suman lo mismo**, y el desbalance es clavado el delta del club desviado:
+
+| torneo | club | ΣGF | ΣGC | sobran |
+|---|---|---|---|---|
+| Clausura 2005 | Boca Juniors | 514 | 517 | 3 en contra |
+| Final 2013 | Unión | 435 | 436 | 1 en contra |
+| Copa de la Liga 2023 | Racing Club | 388 | 389 | 1 en contra |
+| Primera B 2017-18 | Deportivo Español | 652 | 653 | 1 en contra |
+
+No es una comparación contra nuestra grilla ni contra ninguna otra fuente: es la tabla
+contradiciéndose sola. Hay goles recibidos que **ningún club declara haber
+convertido**. Ahí no queda nada que arbitrar.
+
+Platense es el que sobrevive al chequeo, y por el motivo que lo hizo el arquetipo: su
+error de tipeo baja **las dos** columnas de la misma fila (la tabla dice GF39 GC40 y
+sus 38 partidos dan 40 y 41), así que la resta se cancela y el total de la liga sigue
+cerrando. El balance es ciego a esos, a propósito. Para eso está el cruce.
+
+El más raro era Boca, porque tres goles es mucho para un tipeo y porque además su fila
+cambia un **resultado**: la tabla le pone 6-4-9 y los partidos dan 7-4-8. Se fue a
+buscar afuera y RSSSF publica la fila idéntica a la de Wikipedia —`19 6 4 9 26-30 22`—,
+que parecía darle la razón a la tabla. Pero sumando sus veinte filas, **RSSSF tiene el
+mismo desbalance de 3**: no es un testigo independiente, es el ancestro del error. Y de
+paso regala el argumento que faltaba: su columna GF suma 514, que son *exactamente* los
+goles de nuestra grilla. Si Boca hubiera recibido tres goles más, algún rival los habría
+convertido y su GF sería tres más alto. Ninguno de los diecinueve los reclama. Los tres
+goles no los hizo nadie.
+
+> **El infobox no es un testigo, salvo cuando contradice.** Se había usado el «462
+> partidos, 984 goles» de la B Nacional 2013-14 como comprobante gratis, y ahí valía
+> porque *discrepaba* de la tabla. Cuando coincide no prueba nada, porque sale de ahí: el
+> infobox del Clausura 2005 dice 517 goles, que es la suma de la columna GC **rota**, no
+> los 514 que hay en la cancha. Quien lo escribió sumó una columna de la misma tabla.
+
+Aun si uno quisiera corregir la grilla, no podría: para Boca hay **siete** partidos que
+encajan con el desvío y para Deportivo Español **once**. *Localizar no es arbitrar*, y
+acá ni siquiera localiza.
+
+El chequeo quedó permanente en `posiciones.desbalance`, al lado del cruce. Sólo opina
+si la tabla reclama exactamente el mismo conjunto de partidos que la grilla —mismos
+clubes de los dos lados y mismo PJ—, porque sin esa guarda sería un generador de ruido:
+una fila descartada por no cerrar sola, o una zona con partidos interzonales como la
+Copa de la Liga 2023, descuadran el total sin que nadie esté equivocado. Con la guarda
+puesta, sobre los 131 torneos denuncia esos cuatro y **ningún falso positivo**.
 
 **Nueve tienen todos sus desvíos apareados.** Cada par localiza un partido: los dos
 clubes se cruzan, y a uno le sobran los goles que al otro le faltan. Pero *localizar
@@ -1190,11 +1249,11 @@ propiedad que tiene el cruce contra la tabla de posiciones.
 
 ## Tests
 
-512 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+534 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 154 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 158 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
@@ -1214,6 +1273,16 @@ nombres **entre sí** por igualdad de cadena, y como las llaves salen de
 plantillas y las zonas de tablas, el mismo club convive escrito de dos maneras en
 la misma página. Sin normalizar antes, "nadie juega dos veces por fecha" ve dos
 clubes distintos y deja pasar justo lo que tenía que agarrar.
+
+Hay una tercera manera de que un test deje de probar, más boba que las otras dos y
+por eso más fácil de comer: que **no corra**. Un módulo de pytest es un módulo de
+Python, así que dos funciones con el mismo nombre no son dos tests — la segunda pisa
+a la primera y la primera desaparece, sin error ni warning. Pasó escribiendo el
+chequeo de balance: se agregó un `test_si_no_coinciden_los_partidos_jugados_se_calla`
+sin ver que el archivo ya tenía uno igual doce tests más arriba, y el original dejó de
+correr. Se notó de casualidad, y para no depender de la casualidad quedó
+[`tests/test_suite.py`](tests/test_suite.py), que parsea cada archivo de tests y
+falla si hay un nombre repetido.
 
 ## De dónde salen los datos
 

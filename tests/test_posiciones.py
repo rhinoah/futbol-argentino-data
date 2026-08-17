@@ -372,3 +372,87 @@ def test_una_plantilla_a_la_que_le_faltan_campos_no_entra():
     texto = ("== Tabla de posiciones ==\n"
              "{{Tabla de posiciones equipo|pos=01|g=1|eq=[[Boca Juniors]]}}\n")
     assert posiciones.tabla(texto) == {}
+
+
+# --------------------------------------------------------------------------
+# desbalance: la tabla contra si misma
+# --------------------------------------------------------------------------
+def test_una_tabla_que_balancea_no_dice_nada():
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1),
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 3))
+    assert posiciones.desbalance(ps, p) == []
+
+
+def test_una_tabla_que_no_balancea_se_denuncia_sin_mirar_la_grilla():
+    """Todo gol convertido es un gol recibido. Si las dos columnas no suman lo
+    mismo, la tabla se contradice sola y no hay nada que arbitrar.
+
+    Aca River declara haber recibido 4 y Boca declara haber convertido 3. El gol
+    que sobra no lo hizo nadie."""
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1),
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 4))
+    avisos = posiciones.desbalance(ps, p)
+    assert len(avisos) == 1
+    assert "GF4" in avisos[0] and "GC5" in avisos[0]
+    assert "sobra 1 gol en contra" in avisos[0]
+
+
+def test_el_aviso_dice_de_que_lado_sobran_los_goles():
+    """La direccion es la mitad util: goles a favor que nadie declara haber
+    recibido es un problema distinto al reciproco."""
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 5, 1),
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 3))
+    avisos = posiciones.desbalance(ps, p)
+    assert "sobran 2 goles a favor" in avisos[0]
+
+
+def test_el_error_que_baja_las_dos_columnas_de_una_fila_es_invisible_al_balance():
+    """El punto ciego, y es deliberado. Es el caso Platense de la B Nacional
+    2009-10: la tabla le pone GF39 GC40 y sus partidos dan 40 y 41. Al estar los
+    dos numeros bajos por uno, la resta se cancela y el total de la liga sigue
+    cerrando.
+
+    Este chequeo no lo ve, y esta bien: el que lo ve es `contrastar`. Que los dos
+    miren cosas distintas es justamente para lo que sirven los dos."""
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 2, 0),     # los dos bajos por uno
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 3))
+    assert posiciones.desbalance(ps, p) == []
+    assert len(posiciones.contrastar(ps, p)) == 1
+
+
+def test_si_la_tabla_lista_un_club_que_no_jugo_se_calla():
+    """Sin los partidos de ese club sus goles no estan del otro lado, y el total
+    no tendria por que cerrar. Puede ser la tabla de otra zona."""
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1),
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 4),
+               fila(3, "Racing Club", 0, 2, 0, 0, 2, 0, 7))
+    assert posiciones.desbalance(ps, p) == []
+
+
+def test_si_hay_partidos_de_un_club_que_la_tabla_no_lista_se_calla():
+    """El reciproco: un interzonal contra un club de la otra zona reparte goles
+    afuera de la tabla. La Copa de la Liga 2023 es justo asi."""
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0),
+          zona("Boca Juniors", "Racing Club", 2, 0)]
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1),
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 4))
+    assert posiciones.desbalance(ps, p) == []
+
+
+def test_el_desbalance_se_calla_si_no_coinciden_los_partidos_jugados():
+    """Mismo motivo que en `contrastar`: si las dos partes no cuentan los mismos
+    partidos, comparar sus goles no significa nada."""
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    p = pagina(fila(1, "Boca Juniors", 8, 4, 2, 2, 0, 3, 1),      # dice 4 partidos, jugaron 2
+               fila(2, "River Plate", 2, 4, 0, 2, 2, 1, 4))
+    assert posiciones.desbalance(ps, p) == []
+
+
+def test_una_pagina_sin_tabla_no_desbalancea():
+    ps = [zona("Boca Juniors", "River Plate", 3, 1)]
+    assert posiciones.desbalance(ps, "== Resultados ==\nnada por aca") == []

@@ -492,6 +492,43 @@ def test_el_build_cruza_contra_la_tabla_de_posiciones():
     assert not tabla_avisos[0].grave, "es un error de la fuente, no frena el build"
 
 
+def test_el_build_avisa_cuando_la_tabla_no_cierra_consigo_misma():
+    """El unico partido es Boca 2-1 River, y la tabla le pone a River 3 en
+    contra. Entonces la columna GF suma 3 y la GC suma 4: hay un gol recibido
+    que nadie declara haber convertido.
+
+    Es un aviso distinto al del cruce, y por eso se filtra por su propio texto:
+    aquel compara la tabla contra nuestra grilla y tiene que razonar de quien es
+    la culpa, este la agarra contradiciendose sola y no deja lugar a discusion."""
+    pagina = tabla(("Boca Juniors", "River Plate")) + """
+== Tabla de posiciones ==
+{| class="wikitable"
+|- style="background:#dddddd;"
+! Pos
+! Equipo
+! Pts
+! PJ
+! PG
+! PE
+! PP
+! GF
+! GC
+! DIF
+|-
+||'''1º'''||align="left"|[[Boca Juniors]]
+||'''3'''||1||1||0||0||2||1||1
+|-
+||'''2º'''||align="left"|[[River Plate]]
+||'''0'''||1||0||0||1||1||3||-2
+|}
+"""
+    _, avisos = build.procesar(pagina, T)
+    solos = [a for a in avisos if "no cierra sola" in a.que]
+    assert len(solos) == 1
+    assert "GF3" in solos[0].detalle and "GC4" in solos[0].detalle
+    assert not solos[0].grave, "es un error de la fuente, no frena el build"
+
+
 # --------------------------------------------------------------------------
 # los partidos sin fecha, guardados aparte
 # --------------------------------------------------------------------------

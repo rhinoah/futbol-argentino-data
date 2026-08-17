@@ -199,6 +199,23 @@ MUTANTES = [
      "               for d in posiciones.contrastar(ps, texto)]",
      "               for d in []]"),
 
+    ("build.py", "no chequear que la tabla cierre consigo misma",
+     "               for d in posiciones.desbalance(ps, texto)]",
+     "               for d in []]"),
+
+    ("fad/posiciones.py", "denunciar el desbalance aunque la tabla y la grilla "
+                          "no hablen de los mismos clubes",
+     "    if set(publicada) != set(contada):\n        return []",
+     "    if False:\n        return []"),
+
+    ("fad/posiciones.py", "denunciar el desbalance aunque no coincidan los PJ",
+     "    if any(publicada[c][0] != contada[c][0] for c in publicada):\n        return []",
+     "    if False:\n        return []"),
+
+    ("fad/posiciones.py", "dar por desbalanceada a una tabla que cierra",
+     "    if gf == gc:\n        return []",
+     "    if False:\n        return []"),
+
     ("fad/correcciones.py", "aplicar un marcador arbitrado que ya no engancha",
      "        if len(candidatos) != 1:",
      "        if False:"),

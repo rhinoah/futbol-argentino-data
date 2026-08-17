@@ -194,6 +194,12 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: no cierra con su tabla de posiciones", d,
                              grave=False)
                for d in posiciones.contrastar(ps, texto)]
+    # Y la tabla contra si misma. No compara contra nuestra grilla: suma sus dos
+    # columnas de goles y las encuentra distintas, que es imposible. Cuando este
+    # salta no hay nada que arbitrar -- la equivocada es la pagina.
+    avisos += [validar.Aviso(f"{t.pagina}: su tabla de posiciones no cierra sola", d,
+                             grave=False)
+               for d in posiciones.desbalance(ps, texto)]
     # Un enlace donde el nombre visible y el articulo se contradicen. Mira el
     # wikitexto y no los partidos, asi que no puede ir en `validar`: lo que
     # denuncia es que la fuente se contradice al NOMBRAR, antes de que eso llegue
