@@ -503,6 +503,112 @@ MARCADORES: tuple[Marcador, ...] = (
             "tiempo, y Facundo Quiroga y Nahuel Yeri de penal para Ciudad de Bolivar "
             "en el segundo. El empate que dice la pagina no explica ningun gol."),
     ),
+    # ------------------------------------------------------------------
+    # Los dos del Clausura 2008, que no son un error de nadie sino DANO DE
+    # EDICION, y se puede seguir en el historial de la propia Wikipedia.
+    #
+    #   2021-10-09 (oldid 138916082)  |0 - 2   |0 - 5   |0 - 2
+    #   2021-11-19 (oldid 139838699)  | - 2    | - 5    | - 2     <- Butoro
+    #   2022-09-15 (oldid 145987834)  |1 - 2   |1 - 5   |1 - 2    <- "Mantenimiento"
+    #
+    # La edicion del 19/11/2021 normaliza ceros a la izquierda en toda la pagina
+    # ("01.º" -> "1.º", "pos=01" -> "pos=1") y de paso se come el 0 del local en
+    # las lineas de marcador donde el local no habia convertido. Diez meses
+    # despues, otra edicion rellena los huecos y en estos escribe 1 en vez de 0.
+    #
+    # El tercero de la lista, Lanus 0-5 Banfield, ya lo arreglo alguien en
+    # Wikipedia y hoy vuelve a decir 0-5. Por eso solo desviaban tres clubes y no
+    # cinco. Los otros dos siguen rotos y son estos.
+    # ------------------------------------------------------------------
+    Marcador(
+        pagina="Anexo:Torneo Clausura 2008 (Argentina)",
+        jornada="Fecha 2", local="Gimnasia y Esgrima (J)", visita="Estudiantes (LP)",
+        dice=(1, 2), debe=(0, 2),
+        porque=(
+            "ESPN publica la ficha con el 0-2 y los dos goles de Estudiantes: Enzo "
+            "Perez a los 11' y Pablo Luguercio a los 50', arbitro Alejandro Sabino. "
+            "Lo corrobora el compendio historiayfutbol, que da 'Gimnasia y Esgrima "
+            "de Jujuy 0, Estudiantes de La Plata 2 (Enzo Perez y Pablo Luguercio)'. "
+            "Pero el testigo decisivo es INTERNO y esta en el historial de la propia "
+            "pagina: hasta el 2021-10-09 decia '0 - 2'. El 2021-11-19 una edicion de "
+            "normalizacion de ceros a la izquierda le borro el digito del local y "
+            "dejo '| - 2', y el 2022-09-15 otra edicion, comentada 'Mantenimiento', "
+            "relleno el hueco con un 1. O sea que el 1 no viene de ninguna fuente: "
+            "es un digito repuesto a ojo sobre un dato que la propia Wikipedia habia "
+            "roto."),
+    ),
+    Marcador(
+        pagina="Anexo:Torneo Clausura 2008 (Argentina)",
+        jornada="Fecha 7", local="Racing Club", visita="Estudiantes (LP)",
+        dice=(1, 2), debe=(0, 2),
+        porque=(
+            "Mismo dano de edicion que el de la Fecha 2, en la misma pagina y en la "
+            "misma tanda: '0 - 2' hasta 2021-10-09, '| - 2' despues de la "
+            "normalizacion de ceros del 2021-11-19, y '1 - 2' desde el "
+            "'Mantenimiento' del 2022-09-15. "
+            "Y aca ademas el 0-2 es el resultado OFICIAL, no una lectura: el partido "
+            "se suspendio a los 78' por incidentes y el Tribunal de Disciplina lo dio "
+            "por ganado a Estudiantes 2 a 0. Lo dice la nota al pie de esa misma "
+            "celda de la pagina, citando a Clarin, y lo repite historiayfutbol "
+            "('Suspendido a los 77'... posteriormente se dio por ganado a Estudiantes "
+            "de La Plata por 2-0'). Se guarda el homologado, que es con el que esta "
+            "armada la tabla de posiciones, igual que en el Newell's-River del "
+            "Clausura 2007. El 1-2 era el marcador de cancha al momento de la "
+            "suspension, y queda asentado aca."),
+    ),
+    # ------------------------------------------------------------------
+    # Los tres de la Primera Nacional 2019-20: un mismo club, tres partidos.
+    #
+    # Es el caso que el apareo de a dos no ve. Belgrano tenia GF+9 y tres clubes
+    # tenian solo GC de mas (Platense +4, Agropecuario +3, Moron +2), sumando
+    # exactamente 9: no son cuatro huerfanos sino UN club con tres partidos mal
+    # leidos, los tres de visitante y los tres de la primera rueda.
+    #
+    # Lo que hace unico a cada uno es un testigo interno que esta en la misma
+    # pagina: la TABLA PARCIAL DE LA PRIMERA RUEDA. Contra la tabla final sola,
+    # la aritmetica admitiria repartir el ajuste entre la ida y la vuelta; la
+    # parcial confina los tres desvios a la primera rueda y deja un solo cruce
+    # posible por club. Los cruces de la segunda rueda tienen ademas su propio
+    # testigo, que los confirma como estan.
+    # ------------------------------------------------------------------
+    Marcador(
+        pagina="Campeonato de Primera Nacional 2019-20",
+        jornada="Fecha 2", local="Agropecuario", visita="Belgrano",
+        dice=(1, 3), debe=(1, 0),
+        porque=(
+            "Cadena 3 publica la cronica del 25/08/2019 con el 1-0 y el gol: Mariano "
+            "Mino a los 5' del segundo tiempo, tras que Alejandro Gagliardi la bajara "
+            "de pecho y le cediera el pase. La misma nota dice que Agropecuario quedo "
+            "con 6 puntos y Belgrano con 1, dos cifras que solo cierran con el 1-0. "
+            "La tabla parcial de la primera rueda de la propia pagina confina todo el "
+            "desvio de Agropecuario a esta rueda, y este es su unico cruce con "
+            "Belgrano ahi, asi que el partido queda determinado."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera Nacional 2019-20",
+        jornada="Fecha 4", local="Deportivo Morón", visita="Belgrano",
+        dice=(1, 3), debe=(1, 1),
+        porque=(
+            "Solo Ascenso publica la sintesis completa del 06/09/2019 en el Nuevo "
+            "Francisco Urbano con el 1-1 y los dos goles: Lucas Perez Godoy a los 30' "
+            "para Moron y Pablo Vegetti a los 80' para Belgrano, arbitro Bruno Bocca. "
+            "Igual que en la Fecha 2, la tabla parcial de la primera rueda deja este "
+            "como unico cruce posible entre los dos."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera Nacional 2019-20",
+        jornada="Fecha 6", local="Platense", visita="Belgrano",
+        dice=(1, 4), debe=(1, 0),
+        porque=(
+            "ESPN publica la ficha del 23/09/2019 en el Ciudad de Vicente Lopez con "
+            "el 1-0 y el gol de Javier Rossi a los 22'. Lo respalda el video de los "
+            "goles titulado 'Platense 1 VS. Belgrano 0 | Fecha 6 | Primera Nacional "
+            "2019/2020'. "
+            "El otro cruce, el 1-1 de la Fecha 21, queda descartado por su propio "
+            "testigo: Solo Ascenso publica su sintesis con los goles de Matias "
+            "Tissera a los 16' y Pablo Vegetti a los 40', o sea que la grilla lo "
+            "tiene bien y no hay que tocarlo."),
+    ),
     _arbitrado("2007 Fecha 1", "Independiente Rivadavia", "Tiro Federal", (0, 1), (1, 0),
                "worldfootball",
                "con 0-1 los dos clubes quedan fuera de sus totales publicados y con 1-0 cierran"),

@@ -517,7 +517,7 @@ balancea —su columna GF y su columna GC no suman lo mismo— sí dice quién t
 porque se está contradiciendo a sí misma y no hace falta ninguna otra fuente. Está
 abajo, en los cinco de un solo club.
 
-#### Los 21 que no cierran, ordenados
+#### Los 17 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.
 
@@ -582,7 +582,7 @@ una fila descartada por no cerrar sola, o una zona con partidos interzonales com
 Copa de la Liga 2023, descuadran el total sin que nadie esté equivocado. Con la guarda
 puesta, sobre los 131 torneos denuncia esos cuatro y **ningún falso positivo**.
 
-**Nueve tienen todos sus desvíos apareados.** Cada par localiza un partido: los dos
+**Siete tienen todos sus desvíos apareados.** Cada par localiza un partido: los dos
 clubes se cruzan, y a uno le sobran los goles que al otro le faltan. Pero *localizar
 no es arbitrar*, y hay dos cosas que lo empeoran.
 
@@ -597,14 +597,16 @@ Las Parejas tienen los dos `+1 GF −1 GC`, y Independiente (C) y Unión (S) los
 Con sólo dos clubes desviados el par está forzado aunque compartan delta, porque no
 hay con quién más.
 
-Contando así, de los nueve hay **seis pares forzados** —les falta elegir la fecha, que
-es lo único que la prensa puede hacer— y **tres torneos genuinamente degenerados**: la
-B Nacional 2011-12, la Primera Nacional 2021 y el Federal A 2023. Vale decirlo porque
-la primera versión de este párrafo contaba los cuatro emparejamientos posibles del
-Federal A como cuatro hallazgos, y son uno solo sin resolver.
+Contando así hay **tres torneos genuinamente degenerados** —la B Nacional 2011-12, la
+Primera Nacional 2021 y el Federal A 2023— y el resto son pares forzados. Vale decirlo
+porque la primera versión de este párrafo contaba los cuatro emparejamientos posibles
+del Federal A como cuatro hallazgos, y son uno solo sin resolver.
 
-Los seis forzados se probaron contra la prensa, y el reparto es el que ya venía
-saliendo: **dos correcciones, tres veces la tabla equivocada, una sin decidir.**
+Los seis pares forzados que había se probaron contra la prensa, y el reparto es el que
+ya venía saliendo: **dos correcciones, tres veces la tabla equivocada, una sin
+decidir.** Los dos corregidos salieron de la lista; los otros cuatro siguen adentro
+como avisos abiertos, que es lo que corresponde cuando el error es de la fuente y no
+nuestro.
 
 | | |
 |---|---|
@@ -625,18 +627,63 @@ vestuario—. Wikipedia publica 2-2 y la página tiene una nota al pie del Tribu
 Disciplina. Ninguna de las cuatro crónicas nombra goleadores: son todas policiales. Sin
 eso no se toca, pero queda dicho que el 2-2 no es un marcador de cancha.
 
-Van **quince** casos probados contra la prensa: la tabla acertó en nueve, se equivocó
-en cinco, y uno quedó abierto.
+Van **veinte** casos probados contra la prensa: la tabla acertó en catorce, se
+equivocó en cinco, y uno quedó abierto. Los cinco últimos —los dos del Clausura 2008 y
+los tres de la Primera Nacional 2019-20— le dieron la razón a la tabla. Eso no cambia
+la moraleja, la refuerza: la tabla acierta bastante más de lo que falla, y justamente
+por eso es tan tentador creerle siempre. Falla una de cada cuatro veces, y no avisa
+cuál.
 
-**Siete tienen algún club sin pareja.** Eso significa más de un error en la misma
-página, o un error de tabla mezclado con uno de partido. Son los caros: el Federal A
+**Siete tenían algún club sin pareja.** Eso significa más de un error en la misma
+página, o un error de tabla mezclado con uno de partido. Eran los caros: el Federal A
 2021, el 2022, la Primera Nacional 2019-20 y 2026, la Primera C 2011-12 y 2026, y el
 Clausura 2008.
 
-La conclusión práctica es incómoda y conviene decirla: **de los 21, sólo un puñado se
-puede cerrar sin salir a buscar fuente por partido.** Los cinco del primer grupo ya
-están explicados por su propio aviso; los del segundo necesitan una crónica que diga
-cuál de las dos fechas; los del tercero, varias.
+Al abrirlos apareció algo que el apareo de a dos **no puede ver**. Un club puede tener
+más de un partido mal leído, y entonces sus desvíos se suman en una sola fila y ya no
+aparean con nadie: queda huérfano sin que la página tenga más de un tipo de error. Es
+exactamente lo que pasaba en la **Primera Nacional 2019-20**, el caso más extremo del
+dataset: Belgrano con `GF+9` y tres clubes con sólo goles en contra de más —Platense
++4, Agropecuario +3, Morón +2— sumando 9 clavados. No eran cuatro huérfanos: era un
+club con **tres** partidos mal leídos, los tres de visitante y los tres de la primera
+rueda.
+
+Y ahí apareció el testigo interno que los volvía únicos, que estaba en la misma página
+y no se había usado nunca: la **tabla parcial de la primera rueda**. Contra la tabla
+final sola, la aritmética admite repartir el ajuste entre la ida y la vuelta; la
+parcial confina los desvíos a una rueda y deja un solo cruce posible por club. Los
+cruces de la segunda rueda tienen además su propia síntesis, que los confirma como
+están.
+
+El **Clausura 2008** salió por otro lado, y es el hallazgo que más me gustó del grupo:
+no es un error de nadie, es **daño de edición**, y se puede seguir en el historial de
+la propia Wikipedia.
+
+| revisión | Gimnasia (J)–Estudiantes | Lanús–Banfield | Racing–Estudiantes |
+|---|---|---|---|
+| 2021-10-09 · `138916082` | `0 - 2` | `0 - 5` | `0 - 2` |
+| 2021-11-19 · `139838699` | `- 2` | `- 5` | `- 2` |
+| 2022-09-15 · `145987834` | **`1 - 2`** | **`1 - 5`** | **`1 - 2`** |
+
+Una edición que normalizaba ceros a la izquierda en toda la página (`01.º` → `1.º`,
+`pos=01` → `pos=1`) se comió de paso el `0` del local en las líneas de marcador donde
+el local no había convertido. Diez meses después, otra edición comentada
+«Mantenimiento» rellenó los huecos, y en tres de ellos escribió `1`. **El 1 no viene
+de ninguna fuente: es un dígito repuesto a ojo sobre un dato que Wikipedia había
+roto.** El de Lanús ya lo arregló alguien y hoy vuelve a decir `0 - 5`; por eso
+desviaban tres clubes y no cinco. Los otros dos se corrigieron acá, con ESPN e
+historiayfutbol nombrando a Enzo Pérez y Luguercio, y —en el de Racing— con el 0-2 que
+además es el resultado **homologado**: el partido se suspendió a los 78' y el Tribunal
+lo dio por ganado a Estudiantes, igual que el Newell's–River de 2007.
+
+Aplicadas las cinco correcciones, esos dos torneos cierran exactos y el grupo queda en
+**cinco**: la Primera C 2011-12, el Federal A 2021 y 2022, y las dos temporadas en
+curso —Primera Nacional 2026 y Primera C 2026—, que son otra cosa y están abajo.
+
+La conclusión práctica sigue siendo incómoda: **sólo un puñado se puede cerrar sin
+salir a buscar fuente por partido.** Los cinco del primer grupo ya están explicados
+por su propio aviso; los del segundo necesitan una crónica que diga cuál de las dos
+fechas; los del tercero, varias.
 
 Un caso salió distinto a todos. En el **Clausura 2007**, Newell's 1-2 River no era
 un error de nadie: el partido se **suspendió a los 90'** por incidentes, con River
