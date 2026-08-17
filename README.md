@@ -517,7 +517,7 @@ balancea —su columna GF y su columna GC no suman lo mismo— sí dice quién t
 porque se está contradiciendo a sí misma y no hace falta ninguna otra fuente. Está
 abajo, en los cinco de un solo club.
 
-#### Los 17 que no cierran, ordenados
+#### Los 16 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.
 
@@ -582,7 +582,7 @@ una fila descartada por no cerrar sola, o una zona con partidos interzonales com
 Copa de la Liga 2023, descuadran el total sin que nadie esté equivocado. Con la guarda
 puesta, sobre los 131 torneos denuncia esos cuatro y **ningún falso positivo**.
 
-**Siete tienen todos sus desvíos apareados.** Cada par localiza un partido: los dos
+**Ocho tienen todos sus desvíos apareados.** Cada par localiza un partido: los dos
 clubes se cruzan, y a uno le sobran los goles que al otro le faltan. Pero *localizar
 no es arbitrar*, y hay dos cosas que lo empeoran.
 
@@ -676,9 +676,60 @@ historiayfutbol nombrando a Enzo Pérez y Luguercio, y —en el de Racing— con
 además es el resultado **homologado**: el partido se suspendió a los 78' y el Tribunal
 lo dio por ganado a Estudiantes, igual que el Newell's–River de 2007.
 
-Aplicadas las cinco correcciones, esos dos torneos cierran exactos y el grupo queda en
-**cinco**: la Primera C 2011-12, el Federal A 2021 y 2022, y las dos temporadas en
-curso —Primera Nacional 2026 y Primera C 2026—, que son otra cosa y están abajo.
+El **Federal A 2021** cerró entero con dos correcciones, y una de ellas dejó una
+lección sobre cómo se descarta una fuente. Su único testigo era una nota de La Nueva de
+Bahía Blanca, y el slug de la URL decía *«…ven acción esta tarde por la fecha 22»*: una
+previa, publicada a las 06:00, antes de los partidos. Parecía descartable. Las capturas
+de Wayback mostraron otra cosa: la temprana tiene `datePublished` igual a `dateModified`
+y título de previa; la posterior tiene `dateModified` a las 22:32 del mismo día y el
+título reescrito como crónica. **El diario reutilizó la nota y dejó el slug viejo.** No
+alcanzaba con mirar la URL, había que mirar los metadatos de las dos capturas.
+Aparecieron además dos testigos mejores, uno de ellos del diario de la ciudad del club
+local, con fotógrafo propio en la cancha.
+
+La **Primera C 2011-12** cerró su par —Villa Dálmine 1-0 → 0-1 Cambaceres— con cuatro
+crónicas de tres redacciones distintas, y con un detalle que explica el error sin
+suponer mala fe: la celda de Wikipedia se cargó a las **19:15**, menos de dos horas
+después del final y *antes de que se publicara una sola crónica*. Una IP la tipeó de un
+marcador en vivo y la puso al revés; desde entonces la página dijo `1 - 0` y nunca otra
+cosa en catorce años. Vale subrayar que acá **la aritmética no señalaba ese partido**:
+hay siete arreglos de dos partidos que reproducen las mismas columnas. La corrección se
+apoya enteramente en las crónicas, que es como tiene que ser.
+
+Aplicadas las nueve correcciones, cuatro de esos siete torneos salieron del grupo y
+quedan **tres**: la Primera C 2011-12 —que cerró su par pero conserva un trío sin
+resolver— y las dos temporadas en curso, Primera Nacional 2026 y Primera C 2026, que
+son otra cosa y están abajo.
+
+##### El Federal A 2022, o la trampa del Clausura 2005 dada vuelta
+
+Este merece párrafo propio porque **cambió de veredicto al auditarlo**, y por el motivo
+más incómodo posible.
+
+Se habían encontrado dos correcciones acopladas, las dos con crónica. La segunda —San
+Martín (F) 2-2 → 0-0 Central Norte (S)— tenía como testigo una nota de **Ascenso del
+Interior**. Y la página de Wikipedia cita a ese sitio seis veces. La primera revisión
+dijo «riesgo bajo»: las citas eran de formato y fechas, y las tablas de posiciones no
+llevan `<ref>`. Pero *ausencia de cita no es ausencia de procedencia*.
+
+ADI publica sus tablas **como imágenes de imgur** —por eso nadie las había leído nunca—.
+Bajando la captura de Wayback del 07/11/2022 y leyendo la imagen, los diecisiete equipos
+de su Zona B coinciden **dígito por dígito** con la tabla final del artículo. No parecida:
+idéntica. Y la captura del 23/05/2022, contra la grilla acumulada, difiere en exactamente
+dos equipos, los dos por `−2/−2`.
+
+O sea que para esa corrección la crónica, la tabla publicada, la tabla en vivo y la
+aritmética **son un solo testigo contado cuatro veces**. Es la misma trampa que RSSSF en
+el Clausura 2005, invertida: allá una fuente externa replicaba el error de Wikipedia;
+acá Wikipedia replica la tabla de la fuente externa. Sin un relato del 03/04/2022 ajeno
+a ADI, ese partido **no se toca**.
+
+La otra corrección sí entró, sola: Misiones Online publicó su crónica del Crucero 3-1
+San Martín a las 17:37 del 24/08/2022, con los cuatro goles, y la celda de Wikipedia se
+tipeó **nueve horas después**. No puede ser su ancestro. Eso deja la página sin cerrar a
+propósito, y con un residuo más informativo que el que tenía: donde había tres clubes
+desviados y ningún par, ahora hay **un par limpio y forzado** que apunta justo al partido
+que queda abierto.
 
 ##### Las dos en curso son otro problema
 

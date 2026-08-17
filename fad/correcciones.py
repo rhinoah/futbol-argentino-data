@@ -609,6 +609,102 @@ MARCADORES: tuple[Marcador, ...] = (
             "Tissera a los 16' y Pablo Vegetti a los 40', o sea que la grilla lo "
             "tiene bien y no hay que tocarlo."),
     ),
+    Marcador(
+        pagina="Campeonato de Primera C 2011-12 (Argentina)",
+        jornada="Fecha 1", local="Villa Dálmine", visita="Defensores de Cambaceres",
+        dice=(1, 0), debe=(0, 1),
+        porque=(
+            "Cuatro cronicas narrativas, de tres redacciones que no se conocen entre "
+            "si, y todas nombran al goleador. La Autentica Defensa de Campana "
+            "('Ni el triunfo de Cambaceres pudo aguar la fiesta de Dalmine', edicion "
+            "del 07/08/2011) da el gol de Enzo Pelosi a los 15' del primer tiempo, "
+            "con formaciones, cambios, amonestados y el arbitro Sebastian Bresba. "
+            "La Revista Tribuna Roja, el fanzine de Cambaceres, publica su cronica el "
+            "mismo 06/08/2011 a las 21:17: 'Iban 16 minutos, cuando Burgos habilito "
+            "al unico delantero que presento el Rojo, Enzo Pelosi'. Las Voces del "
+            "Ascenso e historiayfutbol coinciden, y Solo Ascenso publica al dia "
+            "siguiente al arquero Arias Navarro hablando del triunfo de visitante. "
+            "Divergen entre si justo como divergen las planillas escritas a mano por "
+            "separado -- 15 contra 16 minutos, 'Jendrulek' contra 'Gendrolec' --, que "
+            "es lo contrario de copiarse. "
+            "Y el reloj explica el error sin necesidad de vandalismo: la celda de "
+            "Wikipedia se cargo el 06/08/2011 a las 19:15 de Argentina, menos de dos "
+            "horas despues del final y ANTES de que se publicara una sola cronica. "
+            "Una IP la tipeo de un marcador en vivo y la puso al reves. Desde "
+            "entonces la pagina dijo '1 - 0' y nunca otra cosa en catorce anios. "
+            "OJO CON LA ARITMETICA: aca NO senala este partido. Hay siete arreglos de "
+            "dos partidos que reproducen las mismas columnas, asi que la unicidad es "
+            "falsa y la correccion se apoya enteramente en las cronicas."),
+    ),
+    Marcador(
+        pagina="Torneo Federal A 2021",
+        jornada="Fecha 22", local="Juventud Unida Universitario", visita="Olimpo",
+        dice=(2, 2), debe=(0, 0),
+        porque=(
+            "Tres cronicas del dia del partido, de tres ciudades, y ninguna citada "
+            "por la pagina. El Diario de la Republica de San Luis -- el diario del "
+            "club local -- publica 'Ni Juventud ni Olimpo pudieron y empataron en El "
+            "Bajo' a las 17:37 del 10/09/2021, con reporteo propio (fotografo "
+            "Nicolas Varvara en la cancha) y el texto 'ni Juventud ni Olimpo de Bahia "
+            "Blanca pudieron quebrar al rival y empataron cero a cero este viernes'. "
+            "La Brujula 24 lo transmite en vivo ('Todos empatan sin goles en el "
+            "primer tiempo', 16:31) y publica los resultados finales. La Nueva de "
+            "Bahia Blanca da 'igualaron sin goles'. "
+            "Sobre La Nueva hubo una objecion que valia la pena y quedo resuelta: el "
+            "slug de su URL dice 'ven accion esta tarde', o sea que la nota nacio "
+            "como previa. Las capturas de Wayback lo demuestran -- la temprana tiene "
+            "datePublished igual a dateModified (09:00) y titulo de previa; la "
+            "posterior tiene dateModified 22:32 del mismo dia y el titulo reescrito "
+            "como cronica --, asi que el diario reutilizo la nota y dejo el slug. "
+            "Wikipedia cargo el 2-2 recien el 11/09 a las 03:27, o sea que las tres "
+            "fuentes estan aguas arriba y no pueden descender de ella. "
+            "La aritmetica ademas lo fuerza: el excedente de Olimpo solo puede caer "
+            "en partidos contra Juventud Unida, y en la Fecha 7 (Olimpo 2-0 JUU) "
+            "Juventud hizo 0 goles y no se le puede restar nada."),
+    ),
+    Marcador(
+        pagina="Torneo Federal A 2021",
+        jornada="Fecha 30", local="Juventud Unida Universitario", visita="Desamparados",
+        dice=(2, 1), debe=(2, 0),
+        porque=(
+            "Dos cronicas de dos provincias y dos redacciones. El Diario de Cuyo de "
+            "San Juan -- el diario de Desamparados, o sea el del club perjudicado, "
+            "que no tiene ningun motivo para restarle un gol -- publica 'Sportivo "
+            "pago caro su error y se despidio' el 31/10/2021 y narra los dos goles: "
+            "a los 23' desborde de Eggel por izquierda, centro de De Hoyos y Zuliani "
+            "la mete en contra; en el descuento, tras una serie de rebotes, Gatica "
+            "empuja el 2 a 0. Dice explicitamente que Desamparados no convirtio. "
+            "El Diario de la Republica de San Luis lo confirma independientemente: "
+            "'Fue 2-0 a Desamparados por los goles de Hernan Zuliani -en contra- y "
+            "Nicolas Gatica'. "
+            "La aritmetica tambien lo fuerza: en la Fecha 15 Desamparados hizo 0 "
+            "goles, asi que su gol de mas sale si o si de este partido."),
+    ),
+    Marcador(
+        pagina="Torneo Federal A 2022",
+        jornada="Fecha 26", local="Crucero del Norte", visita="San Martín (F)",
+        dice=(1, 0), debe=(3, 1),
+        porque=(
+            "Misiones Online publica la cronica el mismo 24/08/2022 a las 17:37, con "
+            "los cuatro goles: Cristian Campozano a los 19' y Ernesto Alvarez cerca "
+            "de los 30' del primer tiempo para Crucero, Brian Peralta para San Martin "
+            "al inicio del segundo, y Emanuel Sosa a los 33' del segundo. Es "
+            "redaccion propia y los otros resultados que trae de esa fecha coinciden "
+            "uno por uno con la grilla. La celda de Wikipedia se tipeo el 25/08 a las "
+            "02:48, o sea NUEVE HORAS DESPUES de la cronica: no puede ser su ancestro. "
+            "Lo corrobora la ficha de Transfermarkt (3-1, 2-0 al entretiempo, mismos "
+            "goleadores). "
+            "SE APLICA SOLA, Y ESO DEJA LA PAGINA SIN CERRAR A PROPOSITO. El desvio "
+            "que queda -- San Martin (F) y Central Norte (S), los dos +2 GF +2 GC -- "
+            "apunta al San Martin-Central Norte, y ESE no se toca: su unico testigo "
+            "es Ascenso del Interior, que resulto ser el ANCESTRO de la tabla de "
+            "posiciones de esta misma pagina. ADI publica sus tablas como imagenes de "
+            "imgur, y la captura de Wayback del 07/11/2022 muestra su Zona B identica "
+            "digito por digito a la tabla del articulo. O sea que ahi la cronica, la "
+            "tabla y la aritmetica son un solo testigo contado tres veces. Es la "
+            "trampa del Clausura 2005 dada vuelta, y hasta que aparezca un relato del "
+            "03/04/2022 ajeno a ADI, ese partido queda abierto."),
+    ),
     _arbitrado("2007 Fecha 1", "Independiente Rivadavia", "Tiro Federal", (0, 1), (1, 0),
                "worldfootball",
                "con 0-1 los dos clubes quedan fuera de sus totales publicados y con 1-0 cierran"),
