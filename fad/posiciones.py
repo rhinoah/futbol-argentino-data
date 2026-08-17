@@ -93,6 +93,74 @@ _CUALQUIER_ENCABEZADO = re.compile(r"^==+[^=\n]+==+", re.M)
 _WIKITABLA = re.compile(r"\{\|.*?(?=\n\|\}|\{\{\s*Tabla de posiciones fin)", re.S | re.I)
 
 
+# Una tabla de posiciones SE DECLARA: su fila de encabezado nombra las columnas.
+# Buscarla por ahi, y no por el titulo de la seccion que la contiene, es lo unico
+# que encuentra las que viven bajo cualquier otro rotulo.
+#
+# El caso que lo motivo: el Torneo Argentino A 2005-06 pone sus CUATRO tablas
+# -- Apertura y Clausura por zona -- debajo de `=== Primera fase ===`, sin la
+# frase "Tabla de posiciones" en ningun lado. La pagina tenia arbitro y el
+# arbitro no lo encontraba, y eso importo de verdad: cuando aparecio que la
+# pagina se habia copiado dos jornadas a si misma, fueron esas cuatro tablas las
+# que dijeron cual de las dos versiones era la buena.
+_CELDA_ENCABEZADO = re.compile(r"^!(.+)$", re.M)
+# Las seis que definen la forma. `Pts` y `Pos` quedan afuera a proposito: hay
+# tablas de posiciones sin columna de posicion, y `Pts` sola aparece en tablas
+# que no son de posiciones.
+_COLUMNAS_DECLARADAS = {"pj", "pg", "pe", "pp", "gf", "gc"}
+
+
+def _etiquetas(tabla: str) -> set[str]:
+    """Los rotulos de columna que declara la fila de encabezado."""
+    fuera = set()
+    for m in _CELDA_ENCABEZADO.finditer(tabla):
+        for celda in m.group(1).split("!!"):
+            # `width=5% | PJ` -> `PJ`. Lo que va antes del ultimo `|` son
+            # atributos de la celda, no el rotulo.
+            fuera.add(parser.limpiar(celda.split("|")[-1]).strip().lower())
+    return fuera
+
+
+def _declara_ser_tabla_de_posiciones(tabla: str) -> bool:
+    etiquetas = _etiquetas(tabla)
+    # La de PROMEDIOS tiene las mismas columnas y una mas, y es la trampa clasica
+    # de esta pagina: su PJ es de tres temporadas, asi que si entra se lleva
+    # puesto el desempate por max-PJ y el club termina con los partidos de tres
+    # anios donde tenia que tener los de uno.
+    if any("prom" in e for e in etiquetas):
+        return False
+    return _COLUMNAS_DECLARADAS <= etiquetas
+
+
+# Las secciones cuyas tablas son AGREGADOS y no la tabla de una fase. Se excluyen
+# aunque declaren las mismas columnas, y el motivo no es de forma sino de fondo:
+# son una SUMA de las otras, asi que no aportan nada -- pero traen mas partidos y
+# por el desempate de max-PJ desplazan a las primarias, que son las buenas.
+#
+# Medido en el Argentino A 2005-06: su tabla de descenso coincide con la suma de
+# las cuatro tablas de zona en 17 de 23 clubes, o sea que es exactamente eso, una
+# suma. Y en el que no coincide, el equivocado es el agregado: a 9 de Julio (R)
+# le pone GF29 donde las de zona suman 39. Dejandola entrar, el arbitro pasaba a
+# comparar contra una tabla derivada y con un error propio, y denunciaba tres
+# contradicciones que no existen.
+_SECCION_AGREGADA = re.compile(r"(?i)descenso|promedio|anual|acumulad")
+
+
+def _tablas_declaradas(texto: str):
+    """Las wikitablas de toda la pagina cuyo encabezado dice que son de posiciones.
+
+    Salvo las que cuelgan de una seccion de agregados: ver `_SECCION_AGREGADA`.
+    """
+    encabezados = [(m.start(), m.group(0)) for m in _CUALQUIER_ENCABEZADO.finditer(texto)]
+    for m in re.finditer(r"\{\|.*?\n\|\}", texto, re.S):
+        if not _declara_ser_tabla_de_posiciones(m.group(0)):
+            continue
+        previos = [h for off, h in encabezados if off < m.start()]
+        if previos and _SECCION_AGREGADA.search(previos[-1]):
+            continue
+        yield m.group(0)
+
+
 def _bloques(texto: str):
     """El texto que sigue a CADA encabezado "Tabla de posiciones", hasta el
     proximo encabezado.
@@ -166,7 +234,20 @@ def _por_plantillas(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, t
 def tabla(texto: str, arts: dict[str, str] | None = None) -> dict[str, tuple[int, int, int]]:
     """{club canonico: (PJ, GF, GC)} segun las tablas que publica la pagina.
 
-    Se leen TODAS las secciones "Tabla de posiciones" y se unen. Vacio si no hay.
+    Se busca por DOS caminos, y hacen falta los dos:
+
+      * las secciones tituladas "Tabla de posiciones", que es donde estan la
+        mayoria y el unico camino por el que entra el formato de plantillas
+        (`{{Tabla de posiciones equipo}}`), que no tiene fila de encabezado;
+      * las wikitablas que SE DECLARAN de posiciones por sus propias columnas,
+        vivan bajo el titulo que vivan.
+
+    El segundo se agrego tarde y por un caso concreto: el Torneo Argentino A
+    2005-06 tiene cuatro tablas debajo de `=== Primera fase ===`, sin la frase
+    "Tabla de posiciones" en ningun lado, asi que la pagina tenia arbitro y el
+    arbitro no lo encontraba. Aparecio buscando otra cosa -- la misma pagina se
+    habia copiado dos jornadas a si misma, y fueron esas cuatro tablas las que
+    dijeron cual version era la buena.
 
     Cuando un club aparece en dos, gana la que tiene mas partidos. Es lo que
     separa los dos motivos por los que una pagina trae varias: si son zonas
@@ -177,12 +258,28 @@ def tabla(texto: str, arts: dict[str, str] | None = None) -> dict[str, tuple[int
     """
     arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
     fuera: dict[str, tuple[int, int, int]] = {}
-    for bloque in _bloques(texto):
-        for club, articulo, datos in _filas(bloque, arts):
-            canonico = equipos.canonizar(club, articulo)
-            if canonico not in fuera or datos[0] > fuera[canonico][0]:
-                fuera[canonico] = datos
+    for club, articulo, datos in _todas_las_filas(texto, arts):
+        canonico = equipos.canonizar(club, articulo)
+        if canonico not in fuera or datos[0] > fuera[canonico][0]:
+            fuera[canonico] = datos
     return fuera
+
+
+def _todas_las_filas(texto: str, arts: dict[str, str]):
+    """Las filas crudas de TODAS las tablas de la pagina, por los dos caminos.
+
+    Existe para que `tabla` y `fuera_del_padron` no puedan mirar cosas distintas.
+    Antes miraban: `tabla` leia los dos caminos y `fuera_del_padron` solo el del
+    encabezado, asi que en las paginas cuyas tablas no dicen "Tabla de
+    posiciones" el detector de padron no veia nada. Se notaba en el Argentino A
+    2005-06, que devolvia cero nombres desconocidos aunque su tabla los tenga --
+    `Cipolletti (*)`, `Juventud (P) (*)` -- y esos son justo los que hay que
+    agregar para que sus filas entren al cruce.
+    """
+    for bloque in _bloques(texto):
+        yield from _filas(bloque, arts)
+    for t in _tablas_declaradas(texto):
+        yield from _por_wikitabla(t, arts)
 
 
 def _filas(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tuple[int, int, int]]]:
@@ -213,10 +310,9 @@ def fuera_del_padron(texto: str, arts: dict[str, str] | None = None) -> list[str
     """
     arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
     vistos: dict[str, str] = {}
-    for bloque in _bloques(texto):
-        for club, articulo, _ in _filas(bloque, arts):
-            if not equipos.conocido(club, articulo):
-                vistos.setdefault(club, articulo)
+    for club, articulo, _ in _todas_las_filas(texto, arts):
+        if not equipos.conocido(club, articulo):
+            vistos.setdefault(club, articulo)
     return [f"la tabla de posiciones nombra a \"{club}\""
             + (f" (articulo: {art})" if art else " (sin articulo que lo desambigue)")
             + ", que el padron no conoce: esa fila no engancha con ningun partido "
@@ -289,6 +385,57 @@ def sumar(ps: list) -> dict[str, tuple[int, int, int]]:
     return {c: (pj[c], gf[c], gc[c]) for c in pj}
 
 
+_NIVEL_2 = re.compile(r"^==[^=][^\n]*==\s*$", re.M)
+
+
+def _alcance_de_cada_tabla(texto: str, arts: dict[str, str], ps: list):
+    """(alcance, {club: (PJ, GF, GC)}) para cada tabla que publica la pagina.
+
+    El ALCANCE es la seccion de nivel 2 en que vive la tabla, y solo cuando esa
+    seccion es tambien una LLAVE de los partidos parseados. Esa condicion es toda
+    la regla, y es lo que la hace segura:
+
+      * En una pagina normal las tablas cuelgan de `== Tabla de posiciones ==`,
+        que no es la llave de ningun partido, asi que el alcance queda vacio y la
+        comparacion es contra el torneo entero, como siempre.
+      * En una que reparte por fase -- el Argentino A tiene `== Torneo Apertura ==`
+        y `== Torneo Clausura ==`, cada uno con sus tablas y sus once fechas --,
+        el alcance coincide con la llave y cada tabla se compara contra los
+        partidos de SU fase.
+
+    Sin esto, esas paginas tenian tabla y no tenian arbitro igual: la tabla dice
+    once partidos por club y la suma del torneo entero da veintidos, asi que
+    `contrastar` se saltea a todos por PJ distinto y no denuncia nada.
+    """
+    llaves = {p.llave for p in ps if p.fase == "zonas" and p.llave}
+    encabezados = [(m.start(), m.group(0).strip().strip("=").strip())
+                   for m in _NIVEL_2.finditer(texto)]
+
+    def alcance_en(offset: int) -> str:
+        previos = [h for off, h in encabezados if off < offset]
+        return previos[-1] if previos and previos[-1] in llaves else ""
+
+    vistas = set()
+    for m in re.finditer(r"\{\|.*?\n\|\}", texto, re.S):
+        if m.group(0) in vistas or not _declara_ser_tabla_de_posiciones(m.group(0)):
+            continue
+        previos = [h for off, h in encabezados if off < m.start()]
+        if previos and _SECCION_AGREGADA.search(previos[-1]):
+            continue
+        vistas.add(m.group(0))
+        filas = {equipos.canonizar(n, a): d for n, a, d in _por_wikitabla(m.group(0), arts)}
+        if filas:
+            yield alcance_en(m.start()), filas
+    # Y las que entran por el titulo de la seccion, que incluyen el formato de
+    # plantillas. Ahi el alcance sale igual, del nivel 2 que las contiene.
+    for m in _ENCABEZADO.finditer(texto):
+        sig = _CUALQUIER_ENCABEZADO.search(texto, m.end())
+        bloque = texto[m.end():sig.start()] if sig else texto[m.end():]
+        filas = {equipos.canonizar(n, a): d for n, a, d in _filas(bloque, arts)}
+        if filas:
+            yield alcance_en(m.start()), filas
+
+
 def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None) -> list[str]:
     """Los clubes cuyos totales no coinciden con la tabla de la pagina.
 
@@ -297,10 +444,24 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None) -> list
     liste la tabla de una zona y los partidos de otra, y eso no es un error del
     parseo.
     """
-    publicada = tabla(texto, arts)
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    # Cada tabla se compara contra los partidos DE SU ALCANCE, y no contra el
+    # torneo entero. Ver `_alcance_de_cada_tabla`: cuando la pagina reparte sus
+    # tablas por fase -- una por `== Torneo Apertura ==` y otra por
+    # `== Torneo Clausura ==` --, el PJ de la tabla es de once y el de nuestra
+    # suma de veintidos, y el cruce se saltea TODOS los clubes por no coincidir.
+    # Es lo que dejaba sin arbitro al Argentino A 2005-06 aun despues de que sus
+    # tablas se encontraran.
+    publicada, contada = {}, {}
+    for alcance, filas in _alcance_de_cada_tabla(texto, arts, ps):
+        propios = sumar([p for p in ps if not alcance or p.llave == alcance])
+        for club, datos in filas.items():
+            if club not in publicada or datos[0] > publicada[club][0]:
+                publicada[club] = datos
+                if club in propios:
+                    contada[club] = propios[club]
     if not publicada:
         return []
-    contada = sumar(ps)
     # Cuantos clubes se desvian en total. Sirve para decir DE QUE LADO esta el
     # error, que es la mitad util del aviso -- ver `_de_quien_es_la_culpa`.
     desviados = sum(1 for c, (pj, gf, gc) in publicada.items()

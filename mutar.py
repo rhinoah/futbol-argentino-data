@@ -124,12 +124,12 @@ MUTANTES = [
      '    return _por_wikitabla(bloque, arts)'),
 
     ("fad/posiciones.py", 'leer una sola tabla y no las de todas las zonas',
-     '    for bloque in _bloques(texto):',
-     '    for bloque in list(_bloques(texto))[:1]:'),
+     "    for bloque in _bloques(texto):\n        yield from _filas(bloque, arts)",
+     "    for bloque in list(_bloques(texto))[:1]:\n        yield from _filas(bloque, arts)"),
 
     ("fad/posiciones.py", 'dejar que la parcial de la primera rueda pise a la final',
-     '            if canonico not in fuera or datos[0] > fuera[canonico][0]:',
-     '            if True:'),
+     '        if canonico not in fuera or datos[0] > fuera[canonico][0]:',
+     '        if True:'),
 
     ("fad/posiciones.py", 'no cortar el bloque en el proximo encabezado',
      '        sig = _CUALQUIER_ENCABEZADO.search(texto, m.end())',
@@ -217,8 +217,8 @@ MUTANTES = [
      "               for d in []]"),
 
     ("fad/posiciones.py", "dar por desconocido a un club que el padron si conoce",
-     "            if not equipos.conocido(club, articulo):",
-     "            if True:"),
+     "        if not equipos.conocido(club, articulo):",
+     "        if True:"),
 
     ("fad/posiciones.py", "dejar la nota al pie pegada al nombre del eq=",
      "            corte = parser.limpiar(_COLA_DE_NOTA.split(eq.group(1), 1)[0])",
@@ -231,6 +231,26 @@ MUTANTES = [
     ("fad/correcciones.py", "aplicar un marcador arbitrado que ya no engancha",
      "        if len(candidatos) != 1:",
      "        if False:"),
+
+    ("fad/posiciones.py", "buscar la tabla solo por el titulo de la seccion",
+     "    for t in _tablas_declaradas(texto):\n        yield from _por_wikitabla(t, arts)",
+     "    for t in []:\n        yield from _por_wikitabla(t, arts)"),
+
+    ("fad/posiciones.py", "dejar entrar la tabla de descenso y que desplace a las de zona",
+     '_SECCION_AGREGADA = re.compile(r"(?i)descenso|promedio|anual|acumulad")',
+     '_SECCION_AGREGADA = re.compile(r"(?i)no-va-a-matchear-nunca-jamas")'),
+
+    ("fad/posiciones.py", "aceptar como tabla de posiciones a cualquier wikitabla",
+     "    return _COLUMNAS_DECLARADAS <= etiquetas",
+     "    return True"),
+
+    ("fad/posiciones.py", "comparar cada tabla contra el torneo entero y no contra su fase",
+     "        propios = sumar([p for p in ps if not alcance or p.llave == alcance])",
+     "        propios = sumar(ps)"),
+
+    ("fad/posiciones.py", "usar la seccion como alcance aunque no sea una llave de los partidos",
+     "        return previos[-1] if previos and previos[-1] in llaves else \"\"",
+     "        return previos[-1] if previos else \"\""),
 
     ("fad/correcciones.py", "reemplazar el partido sin mirar la llave",
      "                      if p.llave == r.llave and p.jornada == r.jornada",

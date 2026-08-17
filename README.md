@@ -1562,8 +1562,9 @@ Clausura empata 12-12 — o sea que lo copiado es el Apertura, no al revés. **L
 página se arbitra a sí misma.**
 
 Y no la veíamos porque `posiciones` busca sus tablas bajo un encabezado que diga
-«Tabla de posiciones», y acá viven bajo `=== Primera fase ===`. Queda anotado:
-hay páginas con árbitro que el árbitro no encuentra.
+«Tabla de posiciones», y acá viven bajo `=== Primera fase ===`. Eso se arregló
+después, y destapó siete páginas más en la misma situación: ver [Ocho páginas que
+tenían árbitro y no lo sabían](#ocho-páginas-que-tenían-árbitro-y-no-lo-sabían).
 
 ### `Reemplazo`, y por qué hacía falta un tipo nuevo
 
@@ -1590,13 +1591,75 @@ marcador y nuestro esquema no puede expresarlo. Es el mismo caso que
 Laferrere–Dock Sud en la Primera C 2015. Queda sin fecha y anotado, que es lo
 único honesto que se puede hacer con él.
 
+## Ocho páginas que tenían árbitro y no lo sabían
+
+Al arreglar el copy-paste del Argentino A quedó una punta suelta: sus tablas de
+posiciones existen, y `posiciones` no las encontraba. Las busca bajo un encabezado
+que diga «Tabla de posiciones», y ahí viven bajo `=== Primera fase ===`.
+
+Una tabla de posiciones **se declara**: su fila de encabezado nombra las columnas
+—`Equipo | Pts | PJ | PG | PE | PP | GF | GC | Dif`—. Buscarla por ahí, y no por
+el título de la sección que la contiene, es lo único que encuentra las que viven
+bajo cualquier otro rótulo.
+
+### La trampa, que apareció al medirla
+
+El primer intento tomó también las **tablas de descenso**, que tienen exactamente
+las mismas columnas. Y por el desempate de max-PJ —traen 22 partidos contra los
+11 de una fase— **desplazaban a las tablas de zona**, que son las primarias.
+
+No es un problema teórico y se midió: la tabla de descenso del Argentino A
+2005-06 coincide con la suma de las cuatro de zona en 17 de 23 clubes, o sea que
+es exactamente eso, una suma. Y en el club donde no coincide, **el equivocado es
+el agregado**: a 9 de Julio (R) le pone `GF29` donde las de zona suman 39. Dejarla
+entrar hacía que el árbitro comparara contra una tabla derivada y con un error
+propio, y denunciara tres contradicciones que no existen. Se excluyen las
+secciones de descenso, promedios, anual y acumulada.
+
+### Y encontrarlas no alcanzaba
+
+Con las tablas ya visibles, el árbitro seguía sin poder usarlas: **0 comparables**.
+Esas páginas reparten sus tablas por fase —una por `== Torneo Apertura ==` y otra
+por `== Torneo Clausura ==`, once fechas cada una— y `sumar()` agrega el torneo
+entero, veintidós. El PJ no coincidía en ningún club y el cruce se salteaba a
+todos.
+
+Así que cada tabla se compara ahora contra los partidos **de su alcance**, y la
+regla que lo hace seguro es una condición: el alcance es la sección de nivel 2 en
+que vive la tabla, **y sólo cuando esa sección es también una llave de los
+partidos parseados**. En una página normal las tablas cuelgan de `== Tabla de
+posiciones ==`, que no es la llave de ningún partido, así que el alcance queda
+vacío y todo sigue como estaba.
+
+### El resultado
+
+**Ocho páginas pasaron de no tener árbitro a tenerlo**, y traen 27 discrepancias
+que antes no se veían:
+
+| página | filas de tabla | avisos |
+|---|---|---|
+| Primera C 2024 | 50 | 6 |
+| Torneo Federal A 2024 | 75 | 6 |
+| Torneo Federal A 2025 | 76 | 4 |
+| Torneo Argentino A 2010-11 | 35 | 4 |
+| Primera B 2021 | 43 | 2 |
+| Primera B 2024 | 44 | 2 |
+| Torneo Federal A 2017-18 | 83 | 2 |
+| Torneo Federal A 2016-17 | 77 | 1 |
+
+Lo que dice que el alcance está bien elegido no es que aparezcan avisos: es que
+**el PJ coincide**. En cinco de las ocho lo hace en el 100 % de las filas, y en
+las otras tres en la mayoría. Si el alcance fuera el equivocado, no cuadraría.
+
+El dataset no cambia: son avisos, no correcciones.
+
 ## Tests
 
-580 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+589 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 176 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 181 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

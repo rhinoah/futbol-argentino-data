@@ -555,3 +555,143 @@ def test_el_bloque_termina_en_el_proximo_encabezado_y_la_de_promedios_no_se_cuel
              "{{Tabla de posiciones equipo|pos=1|g=40|e=20|p=54|gf=99|gc=98"
              "|eq=[[Club Atlético Boca Juniors|Boca Juniors]]}}\n")
     assert posiciones.tabla(texto) == {"Boca Juniors": (2, 3, 1)}
+
+
+# --------------------------------------------------------------------------
+# la tabla que no vive bajo "Tabla de posiciones"
+# --------------------------------------------------------------------------
+def _wikitabla(*filas, ancho=""):
+    return ("{| class=\"wikitable\"\n"
+            "|- style=\"background:#dddddd;\"\n"
+            f"!{ancho} Pos\n!{ancho} Equipo\n!{ancho} Pts\n!{ancho} PJ\n!{ancho} PG\n"
+            f"!{ancho} PE\n!{ancho} PP\n!{ancho} GF\n!{ancho} GC\n!{ancho} DIF\n"
+            + "\n".join(filas) + "\n|}")
+
+
+def test_una_tabla_bajo_cualquier_titulo_se_encuentra_por_sus_columnas():
+    """El Torneo Argentino A pone sus tablas bajo `=== Primera fase ===`, sin la
+    frase "Tabla de posiciones" en ningun lado. La pagina tenia arbitro y el
+    arbitro no lo encontraba, y eso importo: cuando aparecio que esa misma pagina
+    se habia copiado dos jornadas a si misma, fueron sus tablas las que dijeron
+    cual version era la buena.
+
+    Una tabla de posiciones SE DECLARA: su encabezado nombra las columnas."""
+    texto = "== Primera fase ==\n" + _wikitabla(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1))
+    assert posiciones.tabla(texto) == {"Boca Juniors": (2, 3, 1)}
+
+
+def test_la_de_promedios_no_entra_aunque_tenga_las_mismas_columnas():
+    """Su PJ es de tres temporadas, asi que si entra se lleva puesto el desempate
+    por max-PJ: el club termina con los partidos de tres anios donde tenia que
+    tener los de uno."""
+    texto = ("== Tabla de promedios ==\n"
+             + _wikitabla(fila(1, "Boca Juniors", 90, 114, 60, 30, 24, 180, 100).replace(
+                 "! DIF", "! Prom")))
+    assert posiciones.tabla("== Tabla de promedios ==\n"
+                            + _wikitabla(fila(1, "Boca Juniors", 90, 114, 60, 30, 24, 180, 100))) == {}
+
+
+def test_la_de_descenso_tampoco_aunque_sea_una_tabla_de_posiciones_valida():
+    """Y este es el caso medido, no el hipotetico. La tabla de descenso del
+    Argentino A 2005-06 es la SUMA de las cuatro de zona -- coincide con ellas en
+    17 de 23 clubes --, asi que no aporta nada; pero trae el doble de partidos y
+    por max-PJ las desplaza. Encima trae su propio error: a 9 de Julio (R) le
+    pone GF29 donde las de zona suman 39."""
+    texto = ("== Tablas de descenso ==\n"
+             + _wikitabla(fila(1, "Boca Juniors", 40, 22, 12, 4, 6, 29, 32)))
+    assert posiciones.tabla(texto) == {}
+
+
+def test_la_de_posiciones_gana_aunque_la_de_descenso_traiga_mas_partidos():
+    """Las dos juntas, que es como estan en la pagina real."""
+    texto = ("== Torneo Apertura ==\n"
+             + _wikitabla(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1))
+             + "\n== Tablas de descenso ==\n"
+             + _wikitabla(fila(1, "Boca Juniors", 40, 22, 12, 4, 6, 29, 32)))
+    assert posiciones.tabla(texto) == {"Boca Juniors": (2, 3, 1)}, (
+        "la de descenso trae mas partidos y no puede ganar el desempate por max-PJ")
+
+
+# --------------------------------------------------------------------------
+# el alcance: cada tabla contra los partidos de SU fase
+# --------------------------------------------------------------------------
+def _de_llave(llave, local, visita, gl, gv):
+    p = zona(local, visita, gl, gv)
+    p.llave = llave
+    return p
+
+
+def test_cada_tabla_se_compara_contra_los_partidos_de_su_fase():
+    """Una pagina con Apertura y Clausura tiene una tabla por torneo, cada una de
+    once fechas, mientras que la suma del torneo entero da veintidos. Comparando
+    contra el total, el PJ no coincide en NINGUN club y el cruce se saltea a
+    todos: la pagina tiene tabla y no tiene arbitro igual.
+
+    Aca la del Apertura dice 4 goles y su partido tiene 3."""
+    texto = ("== Torneo Apertura ==\n"
+             + _wikitabla(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 4, 1))
+             + "\n== Torneo Clausura ==\n"
+             + _wikitabla(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 2, 0)))
+    ps = [_de_llave("Torneo Apertura", "Boca Juniors", "River Plate", 3, 1),
+          _de_llave("Torneo Clausura", "Boca Juniors", "River Plate", 2, 0)]
+    avisos = posiciones.contrastar(ps, texto)
+    assert len(avisos) == 1
+    assert "Boca Juniors" in avisos[0] and "GF4" in avisos[0]
+
+
+def test_el_alcance_solo_se_usa_si_la_seccion_es_una_llave_de_los_partidos():
+    """La condicion que lo hace seguro. En una pagina normal la tabla cuelga de
+    `== Tabla de posiciones ==`, que no es la llave de ningun partido, asi que el
+    alcance queda vacio y se compara contra el torneo entero, como siempre."""
+    texto = "== Tabla de posiciones ==\n" + _wikitabla(fila(1, "Boca Juniors", 6, 2, 2, 0, 0, 5, 1))
+    ps = [_de_llave("Torneo Apertura", "Boca Juniors", "River Plate", 3, 1),
+          _de_llave("Torneo Clausura", "Boca Juniors", "River Plate", 2, 0)]
+    assert posiciones.contrastar(ps, texto) == [], "los dos partidos suman 5-1, como dice la tabla"
+
+
+def test_una_wikitabla_que_no_declara_las_columnas_no_es_una_tabla_de_posiciones():
+    """El filtro por columnas tiene que rechazar, no solo aceptar.
+
+    Sus filas cierran solas -- `GF - GC == DIF` y `PG + PE + PP == PJ` -- asi que
+    la guarda numerica de `_por_wikitabla` las deja pasar sin chistar. Lo unico
+    que la separa de una tabla de posiciones es que su encabezado no nombra las
+    columnas, y eso es exactamente lo que se prueba aca."""
+    texto = ("== Equipos participantes ==\n"
+             "{| class=\"wikitable\"\n"
+             "|- style=\"background:#dddddd;\"\n"
+             "! A\n! Equipo\n! B\n! C\n! D\n! E\n! F\n! G\n! H\n! I\n"
+             "|-\n||'''1º'''||align=\"left\"|[[Boca Juniors]]\n"
+             "||'''4'''||2||1||1||0||3||1||2\n|}")
+    assert posiciones.tabla(texto) == {}
+
+
+def test_las_zonas_en_formato_plantilla_se_leen_todas():
+    """El otro formato -- `{{Tabla de posiciones equipo}}` -- no tiene fila de
+    encabezado, asi que no puede entrar por el camino de las columnas: entra solo
+    por el titulo de la seccion. Leyendo una sola de esas secciones, la mitad de
+    una pagina por zonas se cruza contra nada.
+
+    Este test existe porque el mutante que trunca `_bloques` a la primera seccion
+    dejo de morir: el camino nuevo tapaba al viejo en las paginas de wikitablas,
+    y en estas no hay nada que lo tape."""
+    texto = ("== Zona A ==\n=== Tabla de posiciones ===\n"
+             "{{Tabla de posiciones equipo|pos=1|g=1|e=1|p=0|gf=3|gc=1"
+             "|eq=[[Club Atlético Boca Juniors|Boca Juniors]]}}\n"
+             "\n== Zona B ==\n=== Tabla de posiciones ===\n"
+             "{{Tabla de posiciones equipo|pos=1|g=2|e=0|p=0|gf=5|gc=2"
+             "|eq=[[Club Atlético River Plate|River Plate]]}}\n")
+    assert posiciones.tabla(texto) == {"Boca Juniors": (2, 3, 1), "River Plate": (2, 5, 2)}
+
+
+def test_el_detector_de_padron_mira_las_mismas_tablas_que_el_cruce():
+    """`tabla` y `fuera_del_padron` no pueden mirar cosas distintas.
+
+    Miraban: `tabla` leia los dos caminos -- el titulo de la seccion y las
+    columnas declaradas -- y `fuera_del_padron` solo el primero. En una pagina
+    cuyas tablas no dicen "Tabla de posiciones", el detector de padron devolvia
+    cero aunque la tabla tuviera nombres que el padron no conoce. Y son justo los
+    que hay que agregar para que esas filas entren al cruce."""
+    texto = "== Primera fase ==\n" + _wikitabla(fila(1, "Club Inexistente de Prueba", 4, 2, 1, 1, 0, 3, 1))
+    assert posiciones.tabla(texto), "la tabla se encuentra por sus columnas"
+    avisos = posiciones.fuera_del_padron(texto)
+    assert len(avisos) == 1 and "Club Inexistente de Prueba" in avisos[0]
