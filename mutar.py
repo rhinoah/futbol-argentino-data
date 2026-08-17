@@ -70,9 +70,9 @@ MUTANTES = [
      '        if (cancha, f["home_team"]) in ALQUILERES:',
      '        if f["home_team"] in {c for _, c in ALQUILERES}:'),
 
-    ("build.py", "mandar los torneos sin fecha al dataset principal",
-     "        (sin_fecha if t.sin_fecha else filas).extend(",
-     "        filas.extend("),
+    ("build.py", "mandar al dataset principal tambien lo que no tiene fecha",
+     '        (filas if (f.get("date") or "").strip() else sin_fecha).append(f)',
+     "        filas.append(f)"),
 
     ("fad/correcciones.py", "corregir la cancha sin mirar cual dice la pagina",
      '                      and p.visita == c.visita and p.estadio == c.dice]',
@@ -184,11 +184,11 @@ MUTANTES = [
      '    if False:\n        return ps, avisos'),
 
     ("build.py", 'meter los partidos sin fecha en el dataset principal',
-     '        (sin_fecha if t.sin_fecha else filas).extend(\n            dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps)',
-     '        filas.extend(\n            dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps)'),
+     '        _repartir([dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps],\n                  filas, sin_fecha)',
+     '        filas.extend(dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps)'),
 
     ("build.py", 'reusar los sin fecha desde el dataset principal',
-     '            (sin_fecha if t.sin_fecha else filas).extend(listas)',
+     '            _repartir(listas, filas, sin_fecha)',
      '            filas.extend(listas)'),
 
     ("build.py", 'guardar la carpeta sin-fecha en una constante',
@@ -235,6 +235,34 @@ MUTANTES = [
     ("fad/correcciones.py", "aplicar un marcador arbitrado que ya no engancha",
      "        if len(candidatos) != 1:",
      "        if False:"),
+
+    ("fad/rsssf.py", "exigir dos espacios antes del marcador (pierde al club de 28 letras)",
+     r'    r"^([^\[\]]{3,34}?)\s+(\d+)-(\d+)',
+     r'    r"^([^\[\]]{3,34}?)\s{2,}(\d+)-(\d+)'),
+
+    ("fad/rsssf.py", "dejar que la anotacion derramada se pegue al visitante",
+     r'([^\[\]\s](?:[^\[\]]*?[^\[\]\s])?)(?:\s{2,}.*)?$")',
+     r'([^\[\]]+?)\s*$")'),
+
+    ("fad/rsssf.py", "no distinguir Apertura de Clausura",
+     '                llave, zona = pelada, ""',
+     '                llave, zona = "", ""'),
+
+    ("fad/rsssf.py", "leer la pagina de RSSSF como UTF-8",
+     '    texto = crudo.decode("latin-1")',
+     '    texto = crudo.decode("utf-8", errors="replace")'),
+
+    ("fad/rsssf.py", "emparejar por parecido lo que el mapa no traduce",
+     "        if not cl or not cv:\n            continue",
+     "        cl, cl = cl or local, cv or visita"),
+
+    ("fad/fechas.py", "ignorar la llave y mezclar dos torneos de la misma pagina",
+     "            k = (a.llave, a.jornada, el, ev)",
+     '            k = ("", a.jornada, el, ev)'),
+
+    ("build.py", "tirar las filas sin fecha en vez de guardarlas aparte",
+     '        (filas if (f.get("date") or "").strip() else sin_fecha).append(f)',
+     '        filas.append(f) if (f.get("date") or "").strip() else None'),
 
     ("fad/parser.py", "descartar las celdas vacias y correr las columnas",
      "    return partes[1:]",
@@ -468,10 +496,10 @@ MUTANTES = [
      "        if False:\n            continue"),
 
     ("fad/fechas.py", "no exigir que coincida la jornada",
-     "            k = (a.jornada, el, ev)",
-     "            k = (a.jornada, el, ev)\n"
+     "            k = (a.llave, a.jornada, el, ev)",
+     "            k = (a.llave, a.jornada, el, ev)\n"
      "            for _j in range(1, 60):\n"
-     "                indice.setdefault((_j, el, ev), a)"),
+     "                indice.setdefault((a.llave, _j, el, ev), a)"),
 
     ("fad/fechas.py", "aceptar como temporada cualquier opcion del selector",
      '        m = _IDS.search(valor)',
@@ -482,7 +510,7 @@ MUTANTES = [
      '        m = re.search(r"/(co\d+)/", valor)'),
 
     ("fad/fechas.py", "completar sin dejar el credito de la fuente",
-     "        p.fuente_fecha = CREDITO",
+     "        p.fuente_fecha = credito",
      "        pass"),
 
     ("fad/dataset.py", "no nombrar la segunda fuente en source",

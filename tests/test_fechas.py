@@ -542,3 +542,41 @@ def test_sin_arbitrar_el_marcador_distinto_sigue_frenando():
     n, avisos = fechas.completar([p], ajenos)
     assert (n, p.fecha) == (0, "")
     assert any("no se completo" in a for a in avisos)
+
+
+def test_la_llave_separa_dos_torneos_que_numeran_igual_sus_jornadas():
+    """Una pagina puede traer DOS torneos con Fecha 1 a 11 cada uno: el Argentino
+    A 2005-06 tiene Apertura y Clausura. Sin la llave, "Fecha 5 Douglas Haig vs
+    Cipolletti" es una sola casilla para dos partidos distintos.
+
+    Y no es teorico. Esa pagina copio las tablas de dos jornadas del Clausura
+    dentro del Apertura, asi que las mismas veinte filas aparecen en los dos. Con
+    la clave vieja las del Apertura se llevaban la fecha del Clausura -- febrero
+    de 2006, imposible para el Apertura, que se jugo de agosto a diciembre de
+    2005 -- y quedaban con un dato plausible y falso."""
+    a = nuestro("Douglas Haig", "Cipolletti", 5, 3, 5)
+    a.llave = "Torneo Apertura"
+    c = nuestro("Douglas Haig", "Cipolletti", 5, 3, 5)
+    c.llave = "Torneo Clausura"
+    ajenos = [fechas.Ajeno(fecha="2005-09-25", jornada=5, local="Douglas Haig",
+                           visita="Cipolletti", goles_local=5, goles_visita=3,
+                           llave="Torneo Apertura"),
+              fechas.Ajeno(fecha="2006-02-11", jornada=5, local="Douglas Haig",
+                           visita="Cipolletti", goles_local=5, goles_visita=3,
+                           llave="Torneo Clausura")]
+    n, _ = fechas.completar([a, c], ajenos)
+    assert n == 2
+    assert a.fecha == "2005-09-25"
+    assert c.fecha == "2006-02-11"
+
+
+def test_sin_llave_dos_ajenos_iguales_siguen_chocando():
+    """La llave hace la clave mas fina, no mas floja: si la fuente NO distingue
+    -- worldfootball no lo hace -- dos ajenos en la misma casilla se siguen
+    sacando los dos."""
+    p = nuestro("Aldosivi", "Almagro", 3, 1, 1)
+    ajenos = [ajeno("Aldosivi", "Almagro", 3, 1, 1, fecha="2007-08-09"),
+              ajeno("Aldosivi", "Almagro", 3, 1, 1, fecha="2007-11-30")]
+    n, avisos = fechas.completar([p], ajenos)
+    assert n == 0 and not p.fecha
+    assert any("dos veces" in a for a in avisos)

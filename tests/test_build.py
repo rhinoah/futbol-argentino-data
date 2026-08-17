@@ -234,11 +234,16 @@ CON_WF = Torneo("Anexo:Prueba", "Prueba", 2007, cerrado=False, wf=("co1", "se1")
 
 
 def test_sin_la_segunda_fuente_el_partido_no_entra(monkeypatch):
-    """El estado de hoy sin este paso: la pagina no trae fecha, el esquema exige
-    una, y el partido se descarta. Es la linea de base contra la que se mide."""
+    """El estado sin este paso: la pagina no trae fecha y el partido no puede
+    entrar al dataset principal, que promete una fecha en cada fila. Es la linea
+    de base contra la que se mide.
+
+    Ojo con lo que NO dice: el partido no se tira. `_repartir` lo manda a
+    `sin-fecha/`, porque que falte la fecha no es lo mismo que no tener el
+    partido. Lo que se prueba aca es que no tiene fecha."""
     T_SIN = Torneo("Anexo:Prueba", "Prueba", 2007, cerrado=False)
     ps, _ = build.procesar(_sin_fecha(), T_SIN)
-    assert ps == []
+    assert [p for p in ps if p.fecha] == []
 
 
 def test_la_segunda_fuente_le_pone_la_fecha(monkeypatch):
@@ -264,7 +269,8 @@ def test_el_credito_llega_hasta_la_fila_del_csv(monkeypatch):
 def test_si_la_segunda_fuente_no_esta_el_build_sigue(monkeypatch):
     """El sitio es de terceros y hoy nos devuelve 403. Que se caiga no puede
     frenar el build de todos los dias: se avisa, los partidos quedan sin fecha y
-    no entran, que es exactamente lo que pasaba antes de que existiera."""
+    van a `sin-fecha/`, que es exactamente lo que pasaba antes de que existiera
+    la segunda fuente."""
     from fad import fechas
 
     def explota(*a, **k):
@@ -272,7 +278,7 @@ def test_si_la_segunda_fuente_no_esta_el_build_sigue(monkeypatch):
 
     monkeypatch.setattr(fechas, "descargar", explota)
     ps, avisos = build.procesar(_sin_fecha(), CON_WF)
-    assert ps == []
+    assert [p for p in ps if p.fecha] == []
     assert not any(a.grave for a in avisos), "un sitio caido no es un error grave"
     assert any("segunda fuente" in a.que for a in avisos)
 
@@ -294,7 +300,7 @@ def test_un_marcador_distinto_no_trae_la_fecha(monkeypatch):
     from fad import fechas
     monkeypatch.setattr(fechas, "descargar", lambda *a, **k: _la_otra_fuente(3, 0))
     ps, avisos = build.procesar(_sin_fecha(), CON_WF)
-    assert ps == []
+    assert [p for p in ps if p.fecha] == []
     assert any("marcador distinto" in a.detalle for a in avisos)
 
 
@@ -447,7 +453,7 @@ def test_una_fecha_fuera_de_la_temporada_no_entra(monkeypatch):
     monkeypatch.setattr(fechas, "descargar", lambda *a, **k: _la_otra_fuente().replace(
         "2007-08-09T22:00:00Z", "2013-08-09T22:00:00Z"))
     ps, avisos = build.procesar(_sin_fecha(), CON_WF)
-    assert ps == [], "el partido tiene que quedar sin fecha, y sin fecha no entra"
+    assert [p for p in ps if p.fecha] == [], "tiene que quedar sin fecha"
     assert any("caen fuera" in a.que for a in avisos)
 
 
@@ -570,8 +576,9 @@ def test_sin_la_marca_el_mismo_partido_se_descarta():
     partido sin fecha sigue siendo algo que hay que mirar."""
     normal = Torneo("Anexo:Prueba", "Prueba", 2008, cerrado=False)
     ps, avisos = build.procesar(_tres_columnas(), normal)
-    assert ps == []
-    assert any("sin fecha" in a.que for a in avisos)
+    assert [p for p in ps if p.fecha] == []
+    assert any("sin fecha" in a.que for a in avisos), (
+        "sin la marca, que un partido no tenga fecha sigue siendo algo que avisar")
 
 
 def test_van_a_su_propia_carpeta(monkeypatch, tmp_path):
@@ -625,18 +632,25 @@ def test_cada_torneo_sin_fecha_esta_justificado_en_el_catalogo():
         assert "#" in previo, f"{t.pagina}: sin_fecha sin explicar en el catalogo"
 
 
-def test_ningun_torneo_sin_fecha_escribe_en_el_dataset_principal(tmp_path):
-    """La otra mitad: que la marca de verdad los saque de `data/`. Un torneo
-    marcado cuyas filas terminan en el CSV principal rompe la promesa de que ahi
-    cada fila tiene fecha."""
+def test_ninguna_fila_del_dataset_principal_esta_sin_fecha(tmp_path):
+    """La promesa de `data/`, dicha por lo que de verdad promete.
+
+    Este test PEDIA otra cosa: que ningun torneo marcado `sin_fecha` tuviera
+    filas en `data/`. Era un proxy, y dejo de valer cuando el reparto paso a ser
+    por fila. Hoy el Argentino A 2005-06 tiene 264 partidos fechados desde RSSSF
+    y 15 sin fechar: los primeros van a `data/` y los segundos a `sin-fecha/`, y
+    eso esta bien aunque el torneo siga teniendo filas en las dos carpetas.
+
+    Lo que nunca puede pasar es que una fila SIN fecha entre al dataset
+    principal, y eso es lo que se chequea ahora. Es mas fuerte que el proxy: no
+    depende de como este marcado el catalogo."""
     from pathlib import Path
-    from fad import dataset, torneos
+    from fad import dataset
     principal = Path(__file__).resolve().parent.parent / "data"
     if not list(principal.glob("partidos-*.csv")):
         pytest.skip("hay que correr build.py primero")
-    marcadas = {(t.torneo, str(t.temporada)) for t in torneos.TODOS if t.sin_fecha}
-    en_data = {(f["tournament"], str(f["season"])) for f in dataset.leer_carpeta(principal)}
-    assert not (marcadas & en_data), f"marcados pero en data/: {sorted(marcadas & en_data)}"
+    sin = [f for f in dataset.leer_carpeta(principal) if not (f.get("date") or "").strip()]
+    assert not sin, f"{len(sin)} filas sin fecha en data/: {sin[:2]}"
 
 
 def test_el_build_avisa_del_club_de_la_tabla_que_no_esta_en_el_padron():

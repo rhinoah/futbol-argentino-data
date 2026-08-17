@@ -38,6 +38,11 @@ class Torneo:
     # esos partidos; todo lo demas -- equipos, marcador, jornada -- sigue
     # saliendo de Wikipedia. Los ids salen del selector del propio sitio.
     wf: tuple[str, str] | None = None
+    # Archivo de RSSSF (`arg3-int06` -> rsssf.org/tablesa/arg3-int06.html) para
+    # los torneos cuya fecha worldfootball no tiene. Ver `fad/rsssf.py`: hace
+    # falta ademas un mapa de nombres por zona, porque RSSSF los escribe cortos y
+    # resolverlos por el padron da el club equivocado, no un error.
+    rsssf: str | None = None
     # La pagina trae los partidos completos y NO trae las fechas. Sus filas van a
     # `data/sin-fecha/` en vez de al dataset principal, que promete una fecha en
     # cada fila. Ver el LEEME de esa carpeta: el partido esta, lo que falta es
@@ -284,7 +289,7 @@ ASCENSO_HISTORICO = [
     # no tenia -- Lujan de Cuyo, Nunorco, La Plata FC, Atletico Candelaria... --
     # todos sacados del articulo que enlaza su propia tabla de participantes.
     Torneo('Torneo Argentino A 2005-06', 'Torneo Argentino A', 2005,
-           anio_fin=2006, sin_fecha=True),
+           anio_fin=2006, rsssf='arg3-int06'),
 
     Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),

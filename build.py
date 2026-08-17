@@ -28,6 +28,51 @@ SALIDA = Path(__file__).resolve().parent / "data"   # una carpeta: un CSV por te
 # mismo que no tener el partido: el resto del dato -- equipos, marcador, jornada,
 # estadio -- esta completo y verificado, y guardarlo evita volver a parsear tres
 # temporadas cada vez que aparezca un candidato a fuente de fechas.
+def _completar_fechas_rsssf(ps, t) -> list:
+    """Igual que `_completar_fechas` pero contra RSSSF, para los torneos que
+    worldfootball no tiene -- el Argentino A no figura en su selector.
+
+    Misma tolerancia: si el sitio no responde se avisa y se sigue. Los partidos
+    quedan sin fecha y van a `sin-fecha/`, que es donde estaban antes.
+    """
+    from fad import fechas, rsssf
+
+    archivo, mapa = rsssf.FUENTES[t.pagina]
+    try:
+        crudo = rsssf.descargar(archivo)
+    except OSError as e:
+        return [validar.Aviso("no se pudo consultar RSSSF",
+                              f"{archivo}: {e}; los partidos quedan sin fecha",
+                              grave=False)]
+    ajenos, avisos = rsssf.leer(crudo, mapa, t.temporada, t.anio_fin or t.temporada,
+                                t.mes_inicio)
+    puestas, mas = fechas.completar(ps, ajenos, credito=rsssf.CREDITO)
+    return [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False)
+            for d in avisos + mas]
+
+
+def _repartir(listas: list[dict], filas: list, sin_fecha: list) -> None:
+    """Cada fila va donde le corresponde SEGUN SU FECHA, no segun su torneo.
+
+    Antes esto se decidia por torneo: uno marcado `sin_fecha` iba entero a la
+    carpeta aparte, y en cualquier otro las filas sin fecha SE TIRABAN. Las dos
+    mitades de esa regla envejecieron mal.
+
+    Por un lado, un torneo `sin_fecha` puede dejar de serlo a medias. El Argentino
+    A 2005-06 tiene hoy 264 de sus 279 partidos fechados desde RSSSF: mandarlos a
+    todos a `sin-fecha/` seria archivar 264 fechas que ya tenemos, y mandarlos a
+    todos a `data/` seria perder 15 partidos reales.
+
+    Por el otro, tirar una fila por no tener fecha contradice lo que dice el LEEME
+    de esa misma carpeta: que falte la fecha no es lo mismo que no tener el
+    partido. El resto del dato -- equipos, marcador, jornada, estadio -- esta
+    completo y validado. Se guarda igual, aparte, y el dataset principal sigue
+    prometiendo una fecha en cada fila.
+    """
+    for f in listas:
+        (filas if (f.get("date") or "").strip() else sin_fecha).append(f)
+
+
 def sin_fecha_en(salida: Path) -> Path:
     """La subcarpeta de los sin fecha. Se deriva de `SALIDA` y NO se guarda en una
     constante: si no, un test que cambia `SALIDA` sigue leyendo la carpeta real y
@@ -185,6 +230,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # Antes de validar, porque si no `fechas_presentes` se queja de los mismos
     # partidos que este paso viene a arreglar.
     avisos = _completar_fechas(ps, t) if t.wf else []
+    avisos += _completar_fechas_rsssf(ps, t) if t.rsssf else []
     avisos += validar.revisar(ps)
     # La tabla de posiciones de la propia pagina, contra la suma de los partidos.
     # Va como aviso: lo que denuncia es una contradiccion DE LA FUENTE consigo
@@ -225,13 +271,11 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # sacarla, o cambio de otra forma y esta tocando lo que no es. Las dos cosas
     # se miran antes de escribir nada.
     avisos += [validar.Aviso("correccion que no aplica", d) for d in dudas]
-    # Un torneo marcado `sin_fecha` entra entero: sus partidos van a la carpeta
-    # aparte, donde la fecha vacia es el estado esperado y no una falla.
+    # En un torneo marcado `sin_fecha` la fecha vacia es el estado esperado y no
+    # una falla, asi que ese aviso no corresponde.
     if t.sin_fecha:
         return ps, [a for a in avisos if "sin fecha" not in a.que]
-    # Los sin fecha se van DESPUES de validar, para que el aviso alcance a
-    # nombrarlos: el esquema promete una fecha en cada fila.
-    return [p for p in ps if p.fecha], avisos
+    return ps, avisos
 
 
 def main(argv=None) -> int:
@@ -261,7 +305,7 @@ def main(argv=None) -> int:
     for t in torneos.TODOS:
         listas = guardado.get(t.url)
         if t.cerrado and not args.rehacer and listas is not None:
-            (sin_fecha if t.sin_fecha else filas).extend(listas)
+            _repartir(listas, filas, sin_fecha)
             reusados += 1
             continue
         try:
@@ -277,8 +321,8 @@ def main(argv=None) -> int:
         etiqueta = t.pagina.split(":", 1)[-1]      # saca el "Anexo:" si lo tiene
         print(f"  {etiqueta:<44} {len(ps):>4} partidos"
               f"{'' if not propios else f'   ({len(propios)} avisos, {graves} graves)'}")
-        (sin_fecha if t.sin_fecha else filas).extend(
-            dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps)
+        _repartir([dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps],
+                  filas, sin_fecha)
 
     if reusados:
         print(f"\n  ({reusados} torneos terminados salieron del CSV, sin bajarlos)")

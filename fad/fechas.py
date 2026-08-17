@@ -98,6 +98,19 @@ class Ajeno:
     goles_visita: int
     id_local: str = ""        # `te17568`: testigo estable, no depende del nombre
     id_visita: str = ""
+    # La seccion de nivel 2 de la pagina, cuando la fuente la distingue y nosotros
+    # tambien. Vacio = no se usa, que es como venia y como sigue para worldfootball.
+    #
+    # Hace falta cuando UNA pagina trae dos torneos con la misma numeracion de
+    # jornadas: el Argentino A 2005-06 tiene un Apertura y un Clausura, los dos
+    # con Fecha 1 a 11. Sin esto, "Fecha 5 Douglas Haig vs Cipolletti" es una sola
+    # casilla para dos partidos distintos, y ahi pasan las dos cosas malas: si la
+    # fuente trae los dos se chocan y se pierden los dos, y si trae uno solo, sus
+    # datos se le ponen TAMBIEN al otro. Eso ultimo es lo peor: la pagina del
+    # Argentino A copio las tablas de dos jornadas del Clausura dentro del
+    # Apertura, y sin la llave las veinte filas se llevaban una fecha de febrero
+    # de 2006 que para las del Apertura es imposible.
+    llave: str = ""
 
 
 # Cache propia, al lado de la de Wikipedia y por la misma razon: durante el
@@ -343,7 +356,8 @@ def derivar_padron(nuestros: list, ajenos: list[Ajeno],
 
 def completar(nuestros: list, ajenos: list[Ajeno],
               mapa: dict[str, str] | None = None,
-              arbitrados: set | None = None) -> tuple[int, list[str]]:
+              arbitrados: set | None = None,
+              credito: str = CREDITO) -> tuple[int, list[str]]:
     """Le pone fecha a los partidos que no la tienen. Devuelve (cuantos, avisos).
 
     LA REGLA: los equipos y la jornada IDENTIFICAN el partido, y el marcador lo
@@ -372,6 +386,8 @@ def completar(nuestros: list, ajenos: list[Ajeno],
         eq = equipos.buscar(nombre)
         return eq.nombre if eq else None
 
+    # Si la fuente distingue llaves, la clave las incluye de los dos lados.
+    con_llave = any(a.llave for a in ajenos)
     indice, sin_padron, chocados = {}, set(), set()
     for a in ajenos:
         el, ev = club(a.id_local, a.local), club(a.id_visita, a.visita)
@@ -386,7 +402,7 @@ def completar(nuestros: list, ajenos: list[Ajeno],
             # importaba la fecha del partido equivocado sin decir nada. Es el
             # mismo criterio que `derivar_padron` usa con los marcadores
             # repetidos: lo que no identifica uno solo, no identifica nada.
-            k = (a.jornada, el, ev)
+            k = (a.llave, a.jornada, el, ev)
             if k in indice:
                 chocados.add(k)
             indice[k] = a
@@ -398,7 +414,10 @@ def completar(nuestros: list, ajenos: list[Ajeno],
     for p in nuestros:
         if p.fecha:
             continue
-        a = indice.get((_numero(p.jornada), p.local, p.visita))
+        # `p.llave or ""` contra `a.llave`: si la fuente no distingue llaves las
+        # deja vacias y la clave queda como estaba.
+        a = indice.get((getattr(p, "llave", "") if con_llave else "",
+                        _numero(p.jornada), p.local, p.visita))
         if a is None:
             sin_par += 1
             continue
@@ -413,13 +432,18 @@ def completar(nuestros: list, ajenos: list[Ajeno],
                           f"{a.goles_local}-{a.goles_visita}), pero el partido ya esta "
                           f"arbitrado: se toma la fecha y se deja el marcador nuestro")
         p.fecha = a.fecha
-        p.fuente_fecha = CREDITO
+        # El credito es de la fuente que puso la fecha, y no siempre es la misma:
+        # worldfootball no tiene el Argentino A y esas fechas salen de RSSSF. Va
+        # a `source` fila por fila, asi que el dataset dice de donde salio cada
+        # dato aunque el torneo se haya armado con dos fuentes.
+        p.fuente_fecha = credito
         puestos += 1
 
     if chocados:
         avisos.append(f"{len(chocados)} cruces de la otra fuente aparecen dos veces en la "
                       f"misma jornada y no identifican nada: "
-                      + "; ".join(f"F{j} {l} vs {v}" for j, l, v in sorted(chocados)[:3]))
+                      + "; ".join(f"{k + ' ' if k else ''}F{j} {l} vs {v}"
+                                  for k, j, l, v in sorted(chocados)[:3]))
     if sin_padron:
         avisos.append(f"{len(sin_padron)} nombres de la otra fuente que el padron no "
                       f"conoce: {', '.join(sorted(sin_padron)[:6])}")

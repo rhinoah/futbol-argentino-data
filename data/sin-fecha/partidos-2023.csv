@@ -1,0 +1,5 @@
+date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
+,15:30,Almagro,Alvarado,1,1,,,Primera Nacional,2023,zonas,Zona A,Fecha 35,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+,15:30,Guillermo Brown,San Martín (SJ),1,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 35,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+,15:50,Nueva Chicago,Deportivo Morón,0,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 35,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
+,18:00,Estudiantes (RC),Defensores de Belgrano,1,0,,,Primera Nacional,2023,zonas,Zona A,Fecha 35,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2023
