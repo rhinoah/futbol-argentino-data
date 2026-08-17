@@ -890,3 +890,47 @@ def test_una_jornada_repetida_entre_fases_no_es_una_zona_ambigua():
     texto = (_fase("Primera fase", "Zona 1", "Boca Juniors", "River Plate")
              + _fase("Revélida", "Zona 2", "Platense", "Banfield"))
     assert parser._zonas_ambiguas(texto) == frozenset()
+
+
+def test_una_celda_vacia_no_corre_las_columnas():
+    """La posicion ES el dato. Si se descarta una celda vacia, todas las columnas
+    que vienen despues se corren un lugar, y el resultado no es un hueco sino un
+    valor equivocado en la columna de al lado.
+
+    Es la forma exacta del Argentino A 2010-11: de la Fecha 18 en adelante la
+    pagina deja el estadio en blanco y pone la fecha con `rowspan`. Con la celda
+    vacia descartada, la fecha caia en `estadio` -- 373 partidos salian sin fecha
+    y con `venue = "2 de febrero"`. El diagnostico que habia en el catalogo decia
+    "no es el parser, la fuente no la trae", y era el parser."""
+    tabla = ("{|class=\"wikitable\"\n"
+             "!colspan=6|Fecha 20\n"
+             "|-\n"
+             "!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n"
+             "|-align=center\n"
+             "|Villa Mitre\n|1 - 2\n|Huracán (TA)\n|\n|rowspan=2|2 de febrero\n|\n"
+             "|-align=center\n"
+             "|Cipolletti\n|2 - 2\n|Unión (S)\n|\n|\n"
+             "|}\n")
+    ps = parser.partidos(tabla, 2010, "Prueba", anio_fin=2011)
+    assert len(ps) == 2
+    assert [p.fecha for p in ps] == ["2011-02-02", "2011-02-02"]
+    assert [p.estadio for p in ps] == ["", ""], "la fecha se corrio a la cancha"
+
+
+def test_el_rowspan_de_la_fecha_alcanza_a_las_filas_de_abajo():
+    """Con estadio presente, que es el caso que ya andaba. Va como testigo de que
+    el arreglo de las celdas vacias no rompio el camino feliz."""
+    tabla = ("{|class=\"wikitable\"\n"
+             "!colspan=6|Fecha 1\n"
+             "|-\n"
+             "!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n"
+             "|-align=center\n"
+             "|Unión (MdP)\n|2 - 0\n|Villa Mitre\n|José María Minella\n"
+             "|rowspan=2|22 de agosto\n|11:00\n"
+             "|-align=center\n"
+             "|Rivadavia (L)\n|1 - 1\n|Cipolletti\n|Municipal\n|15:30\n"
+             "|}\n")
+    ps = parser.partidos(tabla, 2010, "Prueba", anio_fin=2011)
+    assert [p.fecha for p in ps] == ["2010-08-22", "2010-08-22"]
+    assert [p.estadio for p in ps] == ["José María Minella", "Municipal"]
+    assert [p.hora for p in ps] == ["11:00", "15:30"]

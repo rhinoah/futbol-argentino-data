@@ -1,21 +1,4 @@
 date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
-,,9 de Julio (R),Central Córdoba (SdE),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 12,14 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Central Córdoba (SdE),5,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 26,6 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Central Córdoba (SdE),1,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 7,29 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Central Norte (S),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 10,24 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Central Norte (S),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 24,25 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Crucero del Norte,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 9,15 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Crucero del Norte,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Crucero del Norte,3,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 3,8 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Gimnasia y Esgrima (CdU),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 6,26 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Gimnasia y Esgrima (CdU),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Gimnasia y Esgrima (CdU),2,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 9,15 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Juventud Antoniana,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 14,28 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Juventud Antoniana,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 28,20 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Juventud Antoniana,2,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 5,17 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Libertad (S),2,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 15,3 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Unión (S),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 4,12 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,9 de Julio (R),Unión (S),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 18,23 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Acassuso,Almagro,2,2,,,Primera B,2010,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Acassuso,Atlanta,2,2,,,Primera B,2010,zonas,,Fecha 29,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Acassuso,Barracas Central,1,1,,,Primera B,2010,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
@@ -58,23 +41,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Almagro,Temperley,3,0,,,Primera B,2010,zonas,,Fecha 38,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Almagro,Tristán Suárez,1,1,,,Primera B,2010,zonas,,Fecha 40,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Almagro,Villa San Carlos,1,0,,,Primera B,2010,zonas,,Fecha 12,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Alumni (VM),Deportivo Maipú,2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 14,28 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Deportivo Maipú,2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 28,20 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Deportivo Maipú,1,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 4,13 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Desamparados,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 13,21 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Desamparados,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Estudiantes (RC),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 15,2 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Estudiantes (RC),1,3,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 8,8 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Juventud Unida,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Juventud Unida,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Juventud Unida,2,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 6,24 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Racing (C),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 9,17 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Racing (C),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 23,22 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Racing (C),1,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 2,3 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Sportivo Belgrano,2,4,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 3,5 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Sportivo Belgrano,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 17,12 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Talleres (C),1,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 5,19 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Alumni (VM),Talleres (C),3,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 19,29 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Argentino de Merlo,Berazategui,2,2,,,Primera C,2010,zonas,,Fecha 11,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Argentino de Merlo,Central Córdoba (R),3,1,,,Primera C,2010,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Argentino de Merlo,Defensores Unidos,3,1,,,Primera C,2010,zonas,,Fecha 36,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -195,49 +161,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Central Córdoba (R),Talleres (RdE),1,1,,,Primera C,2010,zonas,,Fecha 17,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Central Córdoba (R),UAI Urquiza,0,1,,,Primera C,2010,zonas,,Fecha 20,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Central Córdoba (R),Villa Dálmine,3,1,,,Primera C,2010,zonas,,Fecha 33,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Central Córdoba (SdE),9 de Julio (R),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 5,19 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),9 de Julio (R),4,4,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 19,28 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),9 de Julio (R),4,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 2,3 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Central Norte (S),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 13,19 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Central Norte (S),2,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Crucero del Norte,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 15,3 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Crucero del Norte,3,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 9,14 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Gimnasia y Esgrima (CdU),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 9,17 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Gimnasia y Esgrima (CdU),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Gimnasia y Esgrima (CdU),4,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 5,17 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Juventud Antoniana,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 3,3 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Juventud Antoniana,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 17,12 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Juventud Antoniana,0,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 6,24 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Libertad (S),3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 11,5 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Libertad (S),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Unión (S),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 7,3 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Córdoba (SdE),Unión (S),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),9 de Julio (R),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 3,5 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),9 de Julio (R),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 17,12 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Central Córdoba (SdE),4,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 6,26 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Central Córdoba (SdE),3,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Crucero del Norte,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 11,5 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Crucero del Norte,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Desamparados,2,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 2,3 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Gimnasia y Esgrima (CdU),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 14,26 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Gimnasia y Esgrima (CdU),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 28,20 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Guillermo Brown,0,2,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 7,4 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Juventud Antoniana,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 15,4 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Libertad (S),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 9,17 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Libertad (S),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Libertad (S),3,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 9,14 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Talleres (C),2,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 4,16 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Unión (S),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 12,12 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Central Norte (S),Unión (S),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 26,6 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Cipolletti,Douglas Haig,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 28,19 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Cipolletti,Douglas Haig,0,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 3,9 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Cipolletti,Huracán (TA),3,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 26,6 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Cipolletti,Ramón Santamarina,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Cipolletti,Ramón Santamarina,2,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 1,27 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Cipolletti,Rivadavia (L),0,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 7,30 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Cipolletti,Unión (MdP),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Cipolletti,Villa Mitre,4,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Cipolletti,Villa Mitre,2,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 10,21 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Colegiales,Acassuso,0,1,,,Primera B,2010,zonas,,Fecha 37,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Colegiales,Almagro,2,1,,,Primera B,2010,zonas,,Fecha 29,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Colegiales,Atlanta,1,2,,,Primera B,2010,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
@@ -280,24 +203,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Comunicaciones,Temperley,0,3,,,Primera B,2010,zonas,,Fecha 9,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Comunicaciones,Tristán Suárez,1,0,,,Primera B,2010,zonas,,Fecha 24,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Comunicaciones,Villa San Carlos,3,1,,,Primera B,2010,zonas,,Fecha 25,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Crucero del Norte,9 de Julio (R),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,9 de Julio (R),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 16,7 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,9 de Julio (R),3,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 8,8 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Central Córdoba (SdE),3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 8,10 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Central Córdoba (SdE),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Central Córdoba (SdE),3,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 4,13 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Central Norte (S),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 4,12 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Central Norte (S),0,4,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 18,21 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Gimnasia y Esgrima (CdU),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 10,24 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Gimnasia y Esgrima (CdU),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 24,26 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Gimnasia y Esgrima (CdU),4,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 6,24 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Juventud Antoniana,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 12,12 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Juventud Antoniana,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 26,7 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Juventud Antoniana,1,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 2,3 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Libertad (S),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 14,26 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Libertad (S),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 28,20 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Unión (S),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 6,26 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Crucero del Norte,Unión (S),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Defensores Unidos,Argentino de Merlo,0,4,,,Primera C,2010,zonas,,Fecha 17,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Defensores Unidos,Berazategui,2,0,,,Primera C,2010,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Defensores Unidos,Central Córdoba (R),1,0,,,Primera C,2010,zonas,,Fecha 5,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -418,23 +323,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Deportivo Laferrere,Talleres (RdE),2,2,,,Primera C,2010,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Deportivo Laferrere,UAI Urquiza,2,3,,,Primera C,2010,zonas,,Fecha 15,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Deportivo Laferrere,Villa Dálmine,1,1,,,Primera C,2010,zonas,,Fecha 9,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Deportivo Maipú,Alumni (VM),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 7,3 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Alumni (VM),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Alumni (VM),2,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 9,14 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Desamparados,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 15,3 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Estudiantes (RC),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 9,15 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Estudiantes (RC),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Estudiantes (RC),2,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 2,3 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Juventud Unida,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 5,19 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Juventud Unida,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 19,28 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Juventud Unida,2,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 5,17 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Racing (C),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 3,5 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Racing (C),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 17,12 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Racing (C),2,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 6,24 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Sportivo Belgrano,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Sportivo Belgrano,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Talleres (C),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 13,21 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Deportivo Maipú,Talleres (C),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Deportivo Morón,Acassuso,2,1,,,Primera B,2010,zonas,,Fecha 22,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Deportivo Morón,Almagro,1,1,,,Primera B,2010,zonas,,Fecha 35,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Deportivo Morón,Atlanta,1,2,,,Primera B,2010,zonas,,Fecha 37,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
@@ -456,36 +344,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Deportivo Morón,Temperley,1,0,,,Primera B,2010,zonas,,Fecha 33,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Deportivo Morón,Tristán Suárez,4,2,,,Primera B,2010,zonas,,Fecha 30,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Deportivo Morón,Villa San Carlos,1,1,,,Primera B,2010,zonas,,Fecha 28,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Desamparados,Alumni (VM),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 6,26 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Alumni (VM),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Deportivo Maipú,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 8,10 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Deportivo Maipú,4,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Estudiantes (RC),3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 10,24 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Estudiantes (RC),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 24,27 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Guillermo Brown,1,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 3,10 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Juventud Unida,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Juventud Unida,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 16,7 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Libertad (S),0,2,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 5,24 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Racing (C),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 12,14 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Racing (C),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 26,7 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Sportivo Belgrano,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 14,28 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Sportivo Belgrano,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 28,20 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Sportivo Belgrano,1,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 1,27 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Talleres (C),0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 4,12 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Talleres (C),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 18,23 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Desamparados,Unión (S),1,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 8,9 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Cipolletti,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Cipolletti,1,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 8,8 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Guillermo Brown,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Guillermo Brown,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Huracán (TA),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 8,11 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Huracán (TA),3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Ramón Santamarina,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 19,29 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Ramón Santamarina,1,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 10,21 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Rivadavia (L),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Rivadavia (L),2,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 1,28 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Unión (MdP),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Douglas Haig,Villa Mitre,2,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 4,13 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,El Porvenir,Argentino de Merlo,2,3,,,Primera C,2010,zonas,,Fecha 19,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,El Porvenir,Berazategui,0,1,,,Primera C,2010,zonas,,Fecha 33,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,El Porvenir,Central Córdoba (R),0,3,,,Primera C,2010,zonas,,Fecha 7,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -526,24 +384,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Estudiantes (BA),Temperley,1,0,,,Primera B,2010,zonas,,Fecha 7,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Estudiantes (BA),Tristán Suárez,0,1,,,Primera B,2010,zonas,,Fecha 20,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Estudiantes (BA),Villa San Carlos,1,1,,,Primera B,2010,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Estudiantes (RC),Alumni (VM),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 8,10 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Alumni (VM),2,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Alumni (VM),3,4,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 3,8 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Deportivo Maipú,3,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Deportivo Maipú,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 16,7 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Deportivo Maipú,1,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 7,29 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Desamparados,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 3,5 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Desamparados,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 17,12 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Juventud Unida,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 13,19 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Juventud Unida,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Juventud Unida,1,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 9,14 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Racing (C),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Racing (C),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Racing (C),1,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 5,17 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Sportivo Belgrano,2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 5,19 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Sportivo Belgrano,4,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 19,28 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Talleres (C),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 7,3 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Estudiantes (RC),Talleres (C),3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Excursionistas,Argentino de Merlo,0,0,,,Primera C,2010,zonas,,Fecha 12,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Excursionistas,Berazategui,0,0,,,Primera C,2010,zonas,,Fecha 7,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Excursionistas,Central Córdoba (R),0,0,,,Primera C,2010,zonas,,Fecha 38,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -641,45 +481,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,General Lamadrid,Talleres (RdE),3,1,,,Primera C,2010,zonas,,Fecha 15,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,General Lamadrid,UAI Urquiza,0,0,,,Primera C,2010,zonas,,Fecha 37,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,General Lamadrid,Villa Dálmine,1,1,,,Primera C,2010,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Gimnasia y Esgrima (CdU),9 de Julio (R),3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 13,21 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),9 de Julio (R),3,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),9 de Julio (R),3,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 4,13 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Central Córdoba (SdE),0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Central Córdoba (SdE),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 16,7 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Central Córdoba (SdE),1,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 10,22 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Central Norte (S),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 7,3 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Central Norte (S),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Crucero del Norte,3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 3,5 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Crucero del Norte,2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 17,12 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Crucero del Norte,1,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 1,27 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Juventud Antoniana,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Juventud Antoniana,0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Juventud Antoniana,3,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 8,8 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Libertad (S),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 5,19 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Libertad (S),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 19,29 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Unión (S),1,4,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 8,10 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Gimnasia y Esgrima (CdU),Unión (S),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Cipolletti,4,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Douglas Haig,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 18,23 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Huracán (TA),2,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 9,14 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Ramón Santamarina,3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 13,21 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Ramón Santamarina,4,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Rivadavia (L),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Sportivo Belgrano,2,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 6,30 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Unión (MdP),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 24,26 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Unión (MdP),2,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 2,3 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Unión (S),3,2,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 4,17 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Guillermo Brown,Villa Mitre,4,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 19,29 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Central Norte (S),1,2,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 8,8 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Cipolletti,3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 19,29 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Desamparados,1,2,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 4,17 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Guillermo Brown,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 9,17 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Guillermo Brown,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Libertad (S),0,3,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 2,3 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Rivadavia (L),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Talleres (C),1,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 6,30 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Unión (MdP),4,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 28,19 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Huracán (TA),Villa Mitre,2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,J. J. de Urquiza,Argentino de Merlo,0,1,,,Primera C,2010,zonas,,Fecha 22,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,J. J. de Urquiza,Berazategui,0,3,,,Primera C,2010,zonas,,Fecha 17,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,J. J. de Urquiza,Central Córdoba (R),0,0,,,Primera C,2010,zonas,,Fecha 29,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -699,41 +500,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,J. J. de Urquiza,Talleres (RdE),2,1,,,Primera C,2010,zonas,,Fecha 35,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,J. J. de Urquiza,UAI Urquiza,3,2,,,Primera C,2010,zonas,,Fecha 19,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,J. J. de Urquiza,Villa Dálmine,2,0,,,Primera C,2010,zonas,,Fecha 13,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Juventud Antoniana,9 de Julio (R),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 7,1 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,9 de Julio (R),3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,9 de Julio (R),3,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 10,21 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Central Córdoba (SdE),5,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 10,22 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Central Córdoba (SdE),0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 24,25 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Central Córdoba (SdE),2,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 1,27 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Central Norte (S),0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 8,10 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Central Norte (S),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Crucero del Norte,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 5,19 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Crucero del Norte,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 19,28 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Crucero del Norte,0,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 7,30 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Gimnasia y Esgrima (CdU),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 4,12 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Gimnasia y Esgrima (CdU),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 18,23 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Gimnasia y Esgrima (CdU),3,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 3,Fecha 3,8 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Libertad (S),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 13,19 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Libertad (S),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Unión (S),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Antoniana,Unión (S),1,4,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 16,7 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Alumni (VM),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 4,11 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Alumni (VM),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 18,23 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Alumni (VM),1,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 1,27 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Deportivo Maipú,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 12,14 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Deportivo Maipú,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 26,6 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Deportivo Maipú,1,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 10,21 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Desamparados,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 9,15 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Desamparados,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Estudiantes (RC),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 6,26 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Estudiantes (RC),0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 20,1 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Estudiantes (RC),1,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 4,13 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Racing (C),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 14,28 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Racing (C),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 28,20 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Racing (C),1,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 8,8 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Sportivo Belgrano,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 15,4 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Talleres (C),3,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 10,24 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Juventud Unida,Talleres (C),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 24,26 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Leandro N. Alem,Argentino de Merlo,1,2,,,Primera C,2010,zonas,,Fecha 24,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Leandro N. Alem,Berazategui,0,1,,,Primera C,2010,zonas,,Fecha 19,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Leandro N. Alem,Central Córdoba (R),1,1,,,Primera C,2010,zonas,,Fecha 12,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -753,24 +519,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Leandro N. Alem,Talleres (RdE),1,3,,,Primera C,2010,zonas,,Fecha 37,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Leandro N. Alem,UAI Urquiza,0,0,,,Primera C,2010,zonas,,Fecha 2,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Leandro N. Alem,Villa Dálmine,0,2,,,Primera C,2010,zonas,,Fecha 15,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Libertad (S),9 de Julio (R),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 8,10 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),9 de Julio (R),3,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Central Córdoba (SdE),2,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 4,12 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Central Córdoba (SdE),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 18,23 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Central Norte (S),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Central Norte (S),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 16,8 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Crucero del Norte,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 7,3 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Crucero del Norte,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Gimnasia y Esgrima (CdU),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 12,14 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Gimnasia y Esgrima (CdU),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 26,6 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Guillermo Brown,0,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 1,26 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Juventud Antoniana,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 6,26 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Juventud Antoniana,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Sportivo Belgrano,1,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 8,8 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Unión (MdP),3,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 4,17 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Unión (S),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 10,23 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Unión (S),0,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 24,26 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Libertad (S),Unión (S),2,3,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 6,30 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Liniers,Argentino de Merlo,0,2,,,Primera C,2010,zonas,,Fecha 28,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Liniers,Berazategui,0,1,,,Primera C,2010,zonas,,Fecha 4,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Liniers,Central Córdoba (R),2,1,,,Primera C,2010,zonas,,Fecha 16,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -872,45 +620,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Platense,Temperley,1,1,,,Primera B,2010,zonas,,Fecha 35,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Platense,Tristán Suárez,2,1,,,Primera B,2010,zonas,,Fecha 34,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Platense,Villa San Carlos,2,1,,,Primera B,2010,zonas,,Fecha 30,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Racing (C),Alumni (VM),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Alumni (VM),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 16,7 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Alumni (VM),3,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 7,30 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Deportivo Maipú,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 10,24 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Deportivo Maipú,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 24,26 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Deportivo Maipú,1,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 1,27 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Desamparados,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 5,19 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Desamparados,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 19,28 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Estudiantes (RC),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 4,12 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Estudiantes (RC),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 18,21 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Estudiantes (RC),1,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 10,21 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Juventud Unida,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 7,1 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Juventud Unida,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Juventud Unida,3,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 2,Fecha 3,9 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Sportivo Belgrano,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 13,21 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Sportivo Belgrano,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Talleres (C),0,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 8,10 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Racing (C),Talleres (C),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Cipolletti,0,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 6,25 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Douglas Haig,2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 12,15 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Douglas Haig,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 26,6 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Douglas Haig,1,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 5,17 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Guillermo Brown,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Huracán (TA),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 24,26 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Rivadavia (L),0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 22,12 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Rivadavia (L),3,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 9,15 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Unión (MdP),2,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 18,23 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Villa Mitre,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Ramón Santamarina,Villa Mitre,0,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 2,3 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Cipolletti,3,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 24,26 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Cipolletti,0,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 2,2 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Douglas Haig,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Douglas Haig,1,1,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 6,23 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Guillermo Brown,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 28,19 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Huracán (TA),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 18,22 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Ramón Santamarina,0,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 4,13 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Unión (MdP),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 26,6 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Villa Mitre,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Rivadavia (L),Villa Mitre,1,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 8,7 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Sacachispas,Argentino de Merlo,2,1,,,Primera C,2010,zonas,,Fecha 14,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Sacachispas,Berazategui,0,1,,,Primera C,2010,zonas,,Fecha 9,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Sacachispas,Central Córdoba (R),0,0,,,Primera C,2010,zonas,,Fecha 21,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -991,24 +700,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Sarmiento (J),Temperley,1,0,,,Primera B,2010,zonas,,Fecha 1,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Sarmiento (J),Tristán Suárez,1,1,,,Primera B,2010,zonas,,Fecha 8,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Sarmiento (J),Villa San Carlos,0,2,,,Primera B,2010,zonas,,Fecha 38,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Sportivo Belgrano,Alumni (VM),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 10,24 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Alumni (VM),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 24,26 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Central Norte (S),0,2,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 5,24 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Deportivo Maipú,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 4,12 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Deportivo Maipú,4,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 18,23 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Desamparados,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 7,3 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Desamparados,0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Estudiantes (RC),3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 12,14 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Estudiantes (RC),4,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 26,8 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Huracán (TA),2,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 7,4 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Juventud Unida,1,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 8,10 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Juventud Unida,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Racing (C),3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 6,26 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Racing (C),3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Talleres (C),3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Talleres (C),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 16,8 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Unión (MdP),2,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 9,14 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Sportivo Belgrano,Unión (S),1,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 2,3 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Sportivo Italiano,Acassuso,0,0,,,Primera B,2010,zonas,,Fecha 21,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Sportivo Italiano,Almagro,1,2,,,Primera B,2010,zonas,,Fecha 13,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Sportivo Italiano,Atlanta,0,1,,,Primera B,2010,zonas,,Fecha 15,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
@@ -1030,23 +721,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Sportivo Italiano,Temperley,0,1,,,Primera B,2010,zonas,,Fecha 11,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Sportivo Italiano,Tristán Suárez,1,2,,,Primera B,2010,zonas,,Fecha 28,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Sportivo Italiano,Villa San Carlos,1,0,,,Primera B,2010,zonas,,Fecha 6,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Talleres (C),Alumni (VM),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 12,14 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Alumni (VM),3,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 26,6 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Deportivo Maipú,3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 6,26 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Deportivo Maipú,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Desamparados,2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Desamparados,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Desamparados,1,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 9,14 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Estudiantes (RC),5,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 14,27 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Estudiantes (RC),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 28,19 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Guillermo Brown,1,5,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 5,24 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Juventud Unida,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 3,5 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Juventud Unida,4,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 17,12 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Libertad (S),5,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 7,4 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Racing (C),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 15,2 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Sportivo Belgrano,3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 9,17 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Sportivo Belgrano,0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Talleres (C),Sportivo Belgrano,2,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 3,9 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Talleres (RdE),Argentino de Merlo,1,1,,,Primera C,2010,zonas,,Fecha 10,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Talleres (RdE),Berazategui,2,2,,,Primera C,2010,zonas,,Fecha 24,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Talleres (RdE),Central Córdoba (R),0,2,,,Primera C,2010,zonas,,Fecha 36,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -1127,35 +801,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,UAI Urquiza,San Miguel,3,0,,,Primera C,2010,zonas,,Fecha 5,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,UAI Urquiza,Talleres (RdE),2,3,,,Primera C,2010,zonas,,Fecha 7,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,UAI Urquiza,Villa Dálmine,2,3,,,Primera C,2010,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Unión (MdP),Central Norte (S),2,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 1,27 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Cipolletti,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Desamparados,2,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 6,30 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Douglas Haig,4,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 9,17 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Douglas Haig,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Huracán (TA),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 7,3 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Huracán (TA),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 21,6 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Huracán (TA),2,2,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 3,10 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Ramón Santamarina,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Ramón Santamarina,3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Rivadavia (L),3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 19,27 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (MdP),Talleres (C),3,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 8,9 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),9 de Julio (R),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),9 de Julio (R),2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 25,2 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Central Córdoba (SdE),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 14,26 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Central Córdoba (SdE),3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 28,20 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Central Norte (S),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 5,19 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Central Norte (S),1,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 19,28 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Central Norte (S),1,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 3,9 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Crucero del Norte,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 13,19 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Crucero del Norte,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 27,13 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Gimnasia y Esgrima (CdU),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 15,3 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Huracán (TA),3,1,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 5,24 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Juventud Antoniana,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 9,17 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Juventud Antoniana,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 23,20 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Libertad (S),0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 3,5 de septiembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Libertad (S),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 17,11 de diciembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Talleres (C),0,0,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 1,27 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Unión (S),Unión (MdP),2,2,,,Torneo Argentino A,2010,zonas,Segunda fase,Fecha 7,4 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Villa Dálmine,Argentino de Merlo,2,2,,,Primera C,2010,zonas,,Fecha 26,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Villa Dálmine,Berazategui,1,1,,,Primera C,2010,zonas,,Fecha 2,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Villa Dálmine,Central Córdoba (R),1,0,,,Primera C,2010,zonas,,Fecha 14,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
@@ -1175,16 +820,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Villa Dálmine,San Miguel,1,1,,,Primera C,2010,zonas,,Fecha 37,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Villa Dálmine,Talleres (RdE),0,1,,,Primera C,2010,zonas,,Fecha 20,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 ,,Villa Dálmine,UAI Urquiza,1,3,,,Primera C,2010,zonas,,Fecha 4,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Villa Mitre,Cipolletti,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 18,23 de enero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Villa Mitre,Cipolletti,1,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 5,17 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Villa Mitre,Douglas Haig,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 24,26 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Villa Mitre,Douglas Haig,1,4,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 9,14 de mayo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Villa Mitre,Guillermo Brown,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 26,6 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Villa Mitre,Huracán (TA),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 20,2 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Villa Mitre,Ramón Santamarina,0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 28,20 de marzo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Villa Mitre,Ramón Santamarina,2,2,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 7,30 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Villa Mitre,Rivadavia (L),2,0,,,Torneo Argentino A,2010,zonas,Reválida - Zona 1,Fecha 3,9 de abril,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,,Villa Mitre,Unión (MdP),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 22,13 de febrero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 ,,Villa San Carlos,Acassuso,0,2,,,Primera B,2010,zonas,,Fecha 41,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Villa San Carlos,Almagro,1,2,,,Primera B,2010,zonas,,Fecha 33,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Villa San Carlos,Atlanta,3,0,,,Primera B,2010,zonas,,Fecha 35,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
@@ -1206,73 +841,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Villa San Carlos,Sportivo Italiano,0,2,,,Primera B,2010,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Villa San Carlos,Temperley,4,0,,,Primera B,2010,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 ,,Villa San Carlos,Tristán Suárez,1,0,,,Primera B,2010,zonas,,Fecha 26,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,16:00,Douglas Haig,Cipolletti,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 7,3 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,16:00,Guillermo Brown,Huracán (TA),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 2,29 de agosto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,16:00,Guillermo Brown,Rivadavia (L),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 7,3 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,16:15,Rivadavia (L),Villa Mitre,0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 9,17 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,17:00,Cipolletti,Villa Mitre,2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,20:30,Huracán (TA),Rivadavia (L),3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 11,7 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,20:30,Huracán (TA),Villa Mitre,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 13,21 de noviembre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-,22:00,Cipolletti,Ramón Santamarina,3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 9,17 de octubre,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-21,15:10,Juventud Unida,Sportivo Belgrano,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 1,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,11:00,Unión (MdP),Villa Mitre,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,14:30,Rivadavia (L),Ramón Santamarina,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 1,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,15:30,Unión (S),Gimnasia y Esgrima (CdU),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 1,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,16:00,Central Córdoba (SdE),Crucero del Norte,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 1,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,16:00,Central Norte (S),Juventud Antoniana,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 1,Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,16:00,Cipolletti,Guillermo Brown,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 1,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,16:00,Deportivo Maipú,Desamparados,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 1,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,16:00,Huracán (TA),Douglas Haig,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 1,Roberto Lorenzo Bottino,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,16:00,Talleres (C),Racing (C),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,16:30,9 de Julio (R),Libertad (S),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 3,Fecha 1,Germán Solterman,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-22,16:30,Alumni (VM),Estudiantes (RC),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 2,Fecha 1,Plaza Manuel A. Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-28,16:00,Ramón Santamarina,Cipolletti,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 2,Estadio de Alumni Azuleño,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-08-28,16:00,Villa Mitre,Rivadavia (L),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 2,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-05,,Huracán (TA),Ramón Santamarina,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-05,11:00,Unión (MdP),Guillermo Brown,2,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 3,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-05,15:30,Douglas Haig,Villa Mitre,2,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 3,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-05,16:00,Cipolletti,Rivadavia (L),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 3,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-11,,Ramón Santamarina,Unión (MdP),0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-11,16:00,Villa Mitre,Cipolletti,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 4,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-12,15:00,Rivadavia (L),Huracán (TA),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 4,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-12,15:30,Guillermo Brown,Douglas Haig,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 4,Raúl Conti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-19,,Douglas Haig,Ramón Santamarina,4,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-19,11:00,Unión (MdP),Rivadavia (L),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 5,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-19,16:00,Guillermo Brown,Villa Mitre,3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 5,Raúl Conti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-19,16:00,Huracán (TA),Cipolletti,0,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 5,Roberto Lorenzo Bottino,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-25,19:30,Ramón Santamarina,Guillermo Brown,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 6,Municipal Gral. San Martín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-26,16:00,Cipolletti,Unión (MdP),1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 6,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-26,16:00,Rivadavia (L),Douglas Haig,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 6,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-09-26,16:30,Villa Mitre,Huracán (TA),2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 6,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-10-02,20:00,Ramón Santamarina,Villa Mitre,0,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 7,Municipal Gral. San Martín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-10-10,16:00,Guillermo Brown,Cipolletti,4,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 8,Raúl Conti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-10-10,16:30,Villa Mitre,Unión (MdP),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 8,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-10-10,19:00,Ramón Santamarina,Rivadavia (L),2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 8,Municipal Gral. San Martín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-10-24,,Guillermo Brown,Unión (MdP),4,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-10-24,,Ramón Santamarina,Huracán (TA),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-10-24,16:15,Rivadavia (L),Cipolletti,1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 10,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-10-24,16:30,Villa Mitre,Douglas Haig,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 10,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-11-14,17:00,Rivadavia (L),Unión (MdP),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 12,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-11-14,17:00,Villa Mitre,Guillermo Brown,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 12,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-11-14,18:00,Cipolletti,Huracán (TA),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 12,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-11-20,17:00,Unión (MdP),Cipolletti,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 13,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-11-22,19:05,Douglas Haig,Rivadavia (L),1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 13,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-11-28,,Huracán (TA),Unión (MdP),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 14,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-11-28,17:15,Rivadavia (L),Guillermo Brown,4,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 14,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-11-28,18:00,Cipolletti,Douglas Haig,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 14,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-11-28,18:00,Villa Mitre,Ramón Santamarina,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 14,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-02,20:30,Unión (MdP),Villa Mitre,2,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 15,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-03,21:30,Cipolletti,Guillermo Brown,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 15,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-04,,Huracán (TA),Douglas Haig,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 15,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-04,17:15,Rivadavia (L),Ramón Santamarina,0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 15,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-07,21:00,Ramón Santamarina,Cipolletti,2,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 16,Municipal Gral. San Martín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-08,,Douglas Haig,Unión (MdP),4,3,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 16,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-08,,Guillermo Brown,Huracán (TA),3,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 16,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-08,18:00,Villa Mitre,Rivadavia (L),0,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 16,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-12,,Douglas Haig,Villa Mitre,3,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 17,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-12,,Huracán (TA),Ramón Santamarina,1,0,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 17,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-12,,Unión (MdP),Guillermo Brown,1,1,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 17,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2010-12-12,18:30,Cipolletti,Rivadavia (L),1,2,,,Torneo Argentino A,2010,zonas,Primera fase - Zona 1,Fecha 17,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 2011-05-20,,Sacachispas,San Miguel,0,2,,,Primera C,2010,eliminacion,,Desempate para evitar la Promoción,Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 2011-06-07,15:05,Nueva Chicago,Barracas Central,3,3,,,Primera B,2010,eliminacion,,Cuartos de final,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 2011-06-07,21:10,Defensores de Belgrano,Deportivo Morón,1,0,,,Primera B,2010,eliminacion,,Cuartos de final,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
@@ -1285,14 +853,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-06-21,15:00,Atlas,Sacachispas,0,1,,,Primera C,2010,eliminacion,,Promoción por la permanencia en la Primera C,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 2011-06-21,21:00,Central Córdoba (R),Los Andes,0,1,,,Primera B,2010,eliminacion,,Promoción por la permanencia en la Primera B,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 2011-06-21,21:00 (TV),Central Córdoba (R),Los Andes,0,1,,,Primera C,2010,eliminacion,,Promoción por el ascenso a la Primera B Metropolitana,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-2011-06-22,15:30,Desamparados,San Martín (T),1,0,,,Torneo Argentino A,2010,eliminacion,,Partidos,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 2011-06-22,18:00,Defensores de Belgrano,Independiente Rivadavia,0,0,,,Primera B,2010,eliminacion,,Promoción por el ascenso a la Primera B Nacional,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 2011-06-25,15:00,Los Andes,Central Córdoba (R),1,0,,,Primera B,2010,eliminacion,,Promoción por la permanencia en la Primera B,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
 2011-06-25,15:00,Sacachispas,Atlas,0,1,,,Primera C,2010,eliminacion,,Promoción por la permanencia en la Primera C,Estadio Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
 2011-06-25,15:30 (TV),Los Andes,Central Córdoba (R),1,0,,,Primera C,2010,eliminacion,,Promoción por el ascenso a la Primera B Metropolitana,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-2011-06-26,,Defensores de Belgrano (VR),Estudiantes (RC),1,0,,,Torneo Argentino A,2010,eliminacion,,Partidos,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2011-06-26,,Deportivo Roca,Alumni (VM),0,3,,,Torneo Argentino A,2010,eliminacion,,Partidos,Luis Maiolino,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
 2011-06-26,17:05,Independiente Rivadavia,Defensores de Belgrano,2,2,,,Primera B,2010,eliminacion,,Promoción por el ascenso a la Primera B Nacional,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-2011-06-26,21:15,San Martín (T),Desamparados,1,1,,,Torneo Argentino A,2010,eliminacion,,Partidos,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2011-06-30,,Alumni (VM),Deportivo Roca,2,3,,,Torneo Argentino A,2010,eliminacion,,Partidos,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11
-2011-06-30,,Estudiantes (RC),Defensores de Belgrano (VR),0,2,,,Torneo Argentino A,2010,eliminacion,,Partidos,Ciudad de Río Cuarto,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2010-11

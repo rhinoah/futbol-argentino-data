@@ -236,6 +236,10 @@ MUTANTES = [
      "        if len(candidatos) != 1:",
      "        if False:"),
 
+    ("fad/parser.py", "descartar las celdas vacias y correr las columnas",
+     "    return partes[1:]",
+     "    return [c for c in partes[1:] if c.strip()]"),
+
     ("fad/parser.py", "no cortar en el cierre |} de tabla",
      'bloque = re.sub(r"\\n\\|\\}", "\\n|-", bloque)',
      'bloque = bloque'),
@@ -547,8 +551,8 @@ MUTANTES = [
 
     # --- la copa ---
     ("fad/parser.py", "contar el bgcolor de la fila como si fuera una celda",
-     "    return [c for c in partes[1:] if c.strip()]",
-     "    return [c for c in partes if c.strip()]"),
+     "    return partes[1:]",
+     "    return partes"),
 
     ("fad/parser.py", "no reconocer '||' como separador de celdas",
      '    partes = re.split(r"\\n\\|", "\\n" + fila.replace("||", "\\n|"))',

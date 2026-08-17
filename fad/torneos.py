@@ -259,13 +259,22 @@ ASCENSO_HISTORICO = [
            anio_fin=2010, sin_fecha=True),
     Torneo('Campeonato de Primera C 2010-11 (Argentina)', 'Primera C', 2010,
            anio_fin=2011, sin_fecha=True),
-    # Este va a `sin-fecha/` por otro motivo: sus tablas SI tienen columna de
-    # fecha, pero la pagina la deja vacia en casi todas las filas -- la Fecha 9
-    # no fecha ninguno de sus 22 partidos. Quedan 65 de 438 con fecha, y no es
-    # el parser: la fuente no la trae. Se guardan enteros igual, que es la razon
-    # de ser de esa carpeta.
+    # Este ESTUVO en `sin-fecha/` por un diagnostico equivocado, y conviene dejar
+    # escrito cual. El comentario que habia aca decia: "sus tablas SI tienen
+    # columna de fecha, pero la pagina la deja vacia en casi todas las filas...
+    # quedan 65 de 438 con fecha, y NO ES EL PARSER: la fuente no la trae".
+    #
+    # Era el parser. `_partir` descartaba las celdas vacias, asi que en las
+    # jornadas donde la pagina deja el ESTADIO en blanco -- de la Fecha 18 en
+    # adelante -- las columnas se corrian un lugar y la fecha aterrizaba en la
+    # cancha. El partido salia sin fecha y con `venue = "2 de febrero"`, que es
+    # peor que salir sin nada: no era un hueco, era un dato falso.
+    #
+    # Arreglado el corrimiento, la pagina fecha sus 438 partidos, los 438. La
+    # leccion es la de siempre en este repo: antes de culpar a la fuente,
+    # medirlo. "La fuente no lo trae" es comodo y hay que probarlo.
     Torneo('Torneo Argentino A 2010-11', 'Torneo Argentino A', 2010,
-           anio_fin=2011, sin_fecha=True),
+           anio_fin=2011),
     # Igual que la de arriba: tiene columna de fecha y la deja vacia en 462 de
     # sus 474 filas. La mitad de las jornadas ademas escribe los clubes con el
     # nombre cortado ("Sp. Italiano", "T. Suarez"), que estan como alias.

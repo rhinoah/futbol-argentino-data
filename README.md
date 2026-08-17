@@ -17,13 +17,13 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **36 966 partidos entre febrero de 2004 y hoy** — veintitrés años de
+**Estado:** **37 404 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
 Torneo Federal A, y diez ediciones de la Copa Argentina. **208 clubes**, 131
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
-Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **2 345 partidos que están
+Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **1 907 partidos que están
 completos salvo por el día en que se jugaron** — tres temporadas de Primera C, cuyas
 tablas no tienen columna de fecha, y tres del ascenso que la tienen y la dejan
 vacía. Van separados justamente para que el dataset
@@ -88,7 +88,7 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 la atribución viaja con el dato.
 
 **[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en **1 520 filas de 36 966** (4,1 %): la **fecha del calendario** de partidos
+sólo en **1 520 filas de 37 404** (4,1 %): la **fecha del calendario** de partidos
 que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
 entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
 nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
@@ -1299,11 +1299,15 @@ Ese último es el que más incomoda: «Unión» a secas **sí** está en el padr
 de Santa Fe— así que no se caía como desconocido. Resolvía calladito a un club de
 Primera que nunca jugó el Argentino A.
 
-**Los 438 partidos van a `data/sin-fecha/`**, que ahora tiene 1 592 y dos motivos
-distintos: las tablas de Primera C no tienen columna de fecha, y ésta la tiene y la
-deja vacía —la Fecha 9 no fecha ninguno de sus 22 partidos—. Que no fuera un bug del
-parser había que verificarlo: si lo fuera, la solución sería arreglar el parser, no
-archivar 438 partidos.
+**Los 438 partidos fueron a `data/sin-fecha/`**, con este razonamiento escrito al
+lado: *«Que no fuera un bug del parser había que verificarlo: si lo fuera, la
+solución sería arreglar el parser, no archivar 438 partidos.»*
+
+La pregunta estaba bien y la respuesta estaba mal. **Era un bug del parser**, y los
+438 volvieron a `data/` con fecha. Está contado abajo, en [El corrimiento que
+escondía 373 fechas](#el-corrimiento-que-escondía-373-fechas); vale como recordatorio
+de que verificar una hipótesis no sirve si se la verifica mirando el mismo síntoma
+que la generó.
 
 De paso se cayó un test que decía «exactamente tres torneos sin fecha, todos de
 Primera C». Eso no era un invariante sino el estado de ese día. Lo reemplazan dos que
@@ -1377,13 +1381,65 @@ wikitexto, así que **sólo corre cuando la página se re-parsea**. Un torneo te
 sale del CSV sin bajarse, y ahí no opina hasta el próximo `--rehacer`. Es la misma
 propiedad que tiene el cruce contra la tabla de posiciones.
 
+## El corrimiento que escondía 373 fechas
+
+Salió buscando otra cosa. Yendo a ver si se podían reponer las fechas que faltan
+—2 345 partidos en seis temporadas— apareció que **una de esas seis no estaba sin
+fecha: las tenía y no las leíamos**.
+
+El catálogo lo explicaba así, y la frase es del proyecto, no de nadie más:
+
+> *Sus tablas **sí** traen la columna de fecha, pero la página la deja en blanco en
+> casi todas las filas. Quedan 65 de 438 con fecha, y **no es el parser: la fuente
+> no la trae**.*
+
+Era el parser. `_partir` terminaba con un filtro que parecía inocuo:
+
+```python
+return [c for c in partes[1:] if c.strip()]     # descarta las celdas vacías
+```
+
+**La posición es el dato.** Descartar una celda vacía corre todas las columnas que
+vienen después, y lo que sale no es un hueco: es un valor equivocado en la columna
+de al lado. De la Fecha 18 en adelante, el Argentino A 2010-11 deja el **estadio**
+en blanco y pone la fecha con `rowspan`:
+
+```
+|Villa Mitre  |1 - 2  |Huracán (TA)  |            |rowspan=4|2 de febrero  |
+                                      ↑ vacía              ↓ aterriza acá
+                                   estadio = "2 de febrero"      fecha = ""
+```
+
+Así que esos partidos no salían «sin fecha»: salían **con una fecha por cancha**.
+`venue = "2 de febrero"`. Un dato faltante es honesto; un dato falso, no.
+
+Cambiar el filtro por `return partes[1:]` recupera **376 fechas** y limpia otras
+tantas canchas. Verificado con arnés de equivalencia sobre las 131 páginas
+cacheadas: mismo total de partidos (39 327), ninguna página cambia de cantidad, y
+los únicos campos que se mueven son `fecha` y `estadio` en dos páginas. El Argentino
+A 2010-11 pasa de 65/438 a **438/438** y se muda a `data/`.
+
+Un detalle metodológico que vale más que el arreglo. El comentario decía que se
+había medido «jornada por jornada» — y era cierto. Pero se midió **sobre la salida
+del parser**, que es donde vivía el bug: la medición confirmó el síntoma («estos
+partidos no tienen fecha») y por eso pareció confirmar la causa («la fuente no la
+trae»). Para verlo había que mirar el wikitexto crudo y contar columnas. *Verificar
+una hipótesis mirando el mismo síntoma que la generó no la verifica.*
+
+Y una trampa al medir el arreglo, que casi me la como. Buscando canchas con forma de
+fecha para ver si quedaban corrimientos, el contador daba **1 367 después de
+arreglarlo**. Casi todas eran estadios de verdad: en Argentina hay canchas que se
+llaman **9 de Julio**, **20 de Febrero**, **25 de Mayo**. La señal buena no es «la
+cancha parece una fecha» sino «la cancha parece una fecha **y el partido no tiene
+fecha**». Medido así: **373 antes, 0 después**.
+
 ## Tests
 
-534 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+544 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 158 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 163 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

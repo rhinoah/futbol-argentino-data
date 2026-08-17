@@ -14,10 +14,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Atlético Candelaria,Atlético Tucumán,1,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 2,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Atlético Candelaria,General Paz Juniors,3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 7,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Atlético Candelaria,Gimnasia y Esgrima (CdU),3,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
-,,Atlético Candelaria,Gimnasia y Esgrima (CdU),3,3,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,16 de abril de 2006,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Atlético Candelaria,La Florida,1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Atlético Candelaria,Racing (C),4,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
-,,Atlético Candelaria,Real Arroyo Seco,2,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,24 de junio de 2006,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Atlético Candelaria,San Martín (T),0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 1,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Atlético Candelaria,Sportivo Patria,3,4,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 6,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Atlético Candelaria,Talleres (P),1,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 11,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
@@ -176,7 +174,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 ,,Luján de Cuyo,Juventud (P),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Luján de Cuyo,La Plata FC,0,0,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Luján de Cuyo,Racing (O),3,3,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
-,,Luján de Cuyo,Racing (O),4,0,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,16 de abril de 2006,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Luján de Cuyo,Villa Mitre,3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 4,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Racing (C),9 de Julio (R),1,1,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 3,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 ,,Racing (C),Atlético Candelaria,3,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 8,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
@@ -269,6 +266,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2006-04-09,,Cipolletti,General Paz Juniors,2,1,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 2006-04-09,,Gimnasia y Esgrima (CdU),Atlético Candelaria,2,0,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 2006-04-09,,Racing (O),Luján de Cuyo,1,0,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-04-16,,Atlético Candelaria,Gimnasia y Esgrima (CdU),3,3,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-04-16,,Luján de Cuyo,Racing (O),4,0,,,Torneo Argentino A,2005,eliminacion,,Definición de los descensos y promociones,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 2006-05-25,,Villa Mitre,San Martín (T),2,2,,,Torneo Argentino A,2005,eliminacion,,Final,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 2006-05-28,,San Martín (T),Villa Mitre,1,1,,,Torneo Argentino A,2005,eliminacion,,Final,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 2006-05-31,,San Martín (T),San Martín (SM),1,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,La Ciudadela,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
@@ -276,5 +275,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2006-06-18,,Alumni (VM),General Paz Juniors,5,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,Plaza Ocampo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 2006-06-18,,Real Arroyo Seco,Atlético Candelaria,4,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,José Omar Pastoriza,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 2006-06-18,,Rivadavia (L),Racing (O),1,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+2006-06-24,,Atlético Candelaria,Real Arroyo Seco,2,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 2006-06-25,,General Paz Juniors,Alumni (VM),2,0,,,Torneo Argentino A,2005,eliminacion,,Promoción,Estadio General Paz Juniors,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
 2006-06-25,,Racing (O),Rivadavia (L),1,1,,,Torneo Argentino A,2005,eliminacion,,Promoción,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06

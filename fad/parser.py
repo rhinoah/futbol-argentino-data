@@ -217,9 +217,17 @@ def _partir(fila: str) -> list[str]:
     exactamente la mitad de los partidos -- 16 de 32 treintaidosavos, 8 de 16
     dieciseisavos. Nada fallaba: la fila corrida no tenia un marcador donde
     buscarlo y se descartaba sola.
+
+    Y las celdas VACIAS se conservan, aunque no digan nada, porque la posicion es
+    el dato. Descartarlas corre todas las columnas que vienen despues, y el
+    resultado no es un hueco sino un valor equivocado en la columna de al lado.
+    Asi se perdian 373 de las 438 fechas del Argentino A 2010-11: de la Fecha 18
+    en adelante la pagina deja el estadio en blanco, la fecha se corria a esa
+    columna y `venue` terminaba diciendo "2 de febrero". El partido salia sin
+    fecha y con una fecha por cancha, que es peor que salir sin nada.
     """
     partes = re.split(r"\n\|", "\n" + fila.replace("||", "\n|"))
-    return [c for c in partes[1:] if c.strip()]
+    return partes[1:]
 
 
 # Mes en que arranca una temporada que cruza el calendario. Los partidos de ese
