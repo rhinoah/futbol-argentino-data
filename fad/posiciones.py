@@ -335,7 +335,18 @@ def _por_wikitabla(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tu
         crudas = [c.lstrip("|") for c in fila.replace("\n|", "||").split("||")
                   if c.strip("| \n")]
         celdas = [parser._celda(c)[1] for c in crudas]
-        numeros = [c for c in celdas if re.fullmatch(r"-?\d+", c)]
+        # `[-+]?` y no `-?`: la columna DIF se escribe con signo cuando es
+        # POSITIVA -- `||+31` --, y con `-?` esa celda no contaba como numero. La
+        # fila perdia una, el corte de las ultimas ocho se corria, y la guarda de
+        # coherencia (`gf - gc == dif`) la descartaba entera.
+        #
+        # Y descartaba justo a los punteros: caen todas y solo las filas con
+        # diferencia de gol positiva. En el Argentino A 2010-11 se perdian 8 de
+        # 24 -- los ocho mejores de cada zona --, la tabla quedaba en 16 filas y
+        # el cruce inventaba un huerfano que no existia. Lo encontro una
+        # verificacion adversarial que fue a mirar por que la tabla tenia menos
+        # filas que clubes.
+        numeros = [c for c in celdas if re.fullmatch(r"[-+]?\d+", c)]
         # El nombre es la ultima celda con letras que no sea un atributo de
         # estilo (`style="background: ..."` tambien tiene letras).
         nombres = [i for i, c in enumerate(celdas)
@@ -415,7 +426,23 @@ def _alcance_de_cada_tabla(texto: str, arts: dict[str, str], ps: list):
         previos = [h for off, h in encabezados if off < offset]
         return previos[-1] if previos and previos[-1] in llaves else ""
 
+    # Las tablas del MISMO alcance se fusionan; no se comparan de a una. Una
+    # pagina por zonas publica una tabla por zona y sus clubes son disjuntos: si
+    # cada una se comparara sola, sus catorce clubes no coincidirian nunca con
+    # los veintiocho de la grilla y el chequeo se callaria.
+    #
+    # No es hipotetico: separarlas rompio dos avisos que ya existian -- la Copa
+    # de la Liga 2023 y la Primera C 2026 perdieron su desbalance --, y por eso
+    # el agrupado va antes que la comparacion y no despues.
+    por_alcance: dict[str, dict] = {}
     vistas = set()
+
+    def sumar_a(alcance: str, filas: dict) -> None:
+        destino = por_alcance.setdefault(alcance, {})
+        for club, datos in filas.items():
+            if club not in destino or datos[0] > destino[club][0]:
+                destino[club] = datos
+
     for m in re.finditer(r"\{\|.*?\n\|\}", texto, re.S):
         if m.group(0) in vistas or not _declara_ser_tabla_de_posiciones(m.group(0)):
             continue
@@ -423,17 +450,18 @@ def _alcance_de_cada_tabla(texto: str, arts: dict[str, str], ps: list):
         if previos and _SECCION_AGREGADA.search(previos[-1]):
             continue
         vistas.add(m.group(0))
-        filas = {equipos.canonizar(n, a): d for n, a, d in _por_wikitabla(m.group(0), arts)}
-        if filas:
-            yield alcance_en(m.start()), filas
+        sumar_a(alcance_en(m.start()),
+                {equipos.canonizar(n, a): d for n, a, d in _por_wikitabla(m.group(0), arts)})
     # Y las que entran por el titulo de la seccion, que incluyen el formato de
     # plantillas. Ahi el alcance sale igual, del nivel 2 que las contiene.
     for m in _ENCABEZADO.finditer(texto):
         sig = _CUALQUIER_ENCABEZADO.search(texto, m.end())
         bloque = texto[m.end():sig.start()] if sig else texto[m.end():]
-        filas = {equipos.canonizar(n, a): d for n, a, d in _filas(bloque, arts)}
+        sumar_a(alcance_en(m.start()),
+                {equipos.canonizar(n, a): d for n, a, d in _filas(bloque, arts)})
+    for alcance, filas in por_alcance.items():
         if filas:
-            yield alcance_en(m.start()), filas
+            yield alcance, filas
 
 
 def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None) -> list[str]:
@@ -521,18 +549,27 @@ def desbalance(ps: list, texto: str, arts: dict[str, str] | None = None) -> list
         con clubes que su tabla no lista;
       - una tabla de una zona junto a los partidos de todas.
     """
-    publicada = tabla(texto, arts)
-    if not publicada:
-        return []
-    contada = sumar(ps)
-    if set(publicada) != set(contada):
-        return []
-    if any(publicada[c][0] != contada[c][0] for c in publicada):
-        return []
-    gf = sum(v[1] for v in publicada.values())
-    gc = sum(v[2] for v in publicada.values())
-    if gf == gc:
-        return []
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    # Tabla por tabla y contra los partidos de SU alcance, igual que `contrastar`.
+    # Sumando la pagina entera, una que reparte por fase nunca cuadra -- la tabla
+    # dice once partidos y la suma da veintidos -- y el chequeo se calla siempre.
+    fuera = []
+    for alcance, publicada in _alcance_de_cada_tabla(texto, arts, ps):
+        contada = sumar([p for p in ps if not alcance or p.llave == alcance])
+        if not publicada or set(publicada) != set(contada):
+            continue
+        if any(publicada[c][0] != contada[c][0] for c in publicada):
+            continue
+        gf = sum(v[1] for v in publicada.values())
+        gc = sum(v[2] for v in publicada.values())
+        if gf != gc:
+            fuera.append(_texto_del_desbalance(gf, gc, alcance))
+    # Una misma tabla puede entrar por los dos caminos -- el titulo y las
+    # columnas -- y entonces el aviso saldria repetido.
+    return list(dict.fromkeys(fuera))
+
+
+def _texto_del_desbalance(gf: int, gc: int, alcance: str) -> str:
     n = abs(gf - gc)
     sobra = "gol" if n == 1 else "goles"
     # De que lado sobran, dicho por lo que le falta al otro lado. Es la mitad
@@ -540,9 +577,10 @@ def desbalance(ps: list, texto: str, arts: dict[str, str] | None = None) -> list
     # alguien recibio y que NINGUN club se atribuye haber convertido.
     quien = ("a favor que ningun club declara haber recibido" if gf > gc
              else "en contra que ningun club declara haber convertido")
-    return [f"la tabla suma GF{gf} y GC{gc} sobre los mismos partidos, y tienen que dar "
+    return (f"{alcance + ': ' if alcance else ''}"
+            f"la tabla suma GF{gf} y GC{gc} sobre los mismos partidos, y tienen que dar "
             f"igual: sobra{'' if n == 1 else 'n'} {n} {sobra} {quien}. "
-            f"La tabla se contradice sola, sin necesidad de cruzarla contra nada"]
+            f"La tabla se contradice sola, sin necesidad de cruzarla contra nada")
 
 
 def _de_quien_es_la_culpa(desviados: int) -> str:

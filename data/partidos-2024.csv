@@ -543,7 +543,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2024-03-27,15:30,Deportivo Laferrere,Flandria,1,1,,,Primera B,2024,zonas,Torneo Apertura,Fecha 9,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2024_(Argentina)
 2024-03-27,15:30,General Lamadrid,Luján,1,0,,,Primera C,2024,zonas,Torneo Apertura,Fecha 9,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
 2024-03-27,15:30,Juventud Unida,Real Pilar,0,3,,,Primera C,2024,zonas,Torneo Apertura,Fecha 9,Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
-2024-03-27,15:30,Leandro N. Alem,Atlas,1,2,,,Primera C,2024,zonas,Torneo Apertura,Fecha 9,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
+2024-03-27,15:30,Leandro N. Alem,Atlas,2,1,,,Primera C,2024,zonas,Torneo Apertura,Fecha 9,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
 2024-03-27,15:30,Lugano,Deportivo Paraguayo,0,1,,,Primera C,2024,zonas,Torneo Apertura,Fecha 9,José María Moraños,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
 2024-03-27,15:30,Puerto Nuevo,J. J. de Urquiza,0,1,,,Primera C,2024,zonas,Torneo Apertura,Fecha 9,Rubén Carlos Vallejos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
 2024-03-27,15:30,Victoriano Arenas,Deportivo Español,0,0,,,Primera C,2024,zonas,Torneo Apertura,Fecha 9,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
@@ -1199,7 +1199,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2024-05-26,15:30,Deportivo Maipú,Quilmes,1,1,,,Primera Nacional,2024,zonas,Zona A,Fecha 17,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2024
 2024-05-26,15:30,Güemes (SdE),Estudiantes (BA),1,0,,,Primera Nacional,2024,zonas,Zona A,Fecha 17,Arturo Miranda,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2024
 2024-05-26,15:30,Huracán,Instituto,1,0,,,Primera Division,2024,zonas,,Fecha 3,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2024_(Argentina)
-2024-05-26,15:30,Juventud Unida,Muñiz,1,1,,,Primera C,2024,zonas,Torneo Apertura,Fecha 19,Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
+2024-05-26,15:30,Juventud Unida,Muñiz,1,2,,,Primera C,2024,zonas,Torneo Apertura,Fecha 19,Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
 2024-05-26,15:30,Juventud Unida Universitario,San Martín (SM),1,2,,,Torneo Federal A,2024,zonas,Zona 2,Fecha 11,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024
 2024-05-26,16:00,Atenas (RC),Sportivo Estudiantes (SL),4,2,,,Torneo Federal A,2024,zonas,Zona 2,Fecha 11,9 de Julio,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024
 2024-05-26,16:00,Chaco For Ever,Estudiantes (RC),3,0,,,Primera Nacional,2024,zonas,Zona B,Fecha 17,Juan Alberto García,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2024
@@ -1246,7 +1246,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2024-06-01,15:30,Mercedes,Juventud Unida,0,0,,,Primera C,2024,zonas,Torneo Apertura,Fecha 20,Liga Mercedina,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
 2024-06-01,15:30,Sportivo Estudiantes (SL),Ferro Carril Oeste (GP),1,1,,,Torneo Federal A,2024,zonas,Zona 2,Fecha 12,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024
 2024-06-01,15:30,Villa Dálmine,Villa San Carlos,0,0,,,Primera B,2024,zonas,Torneo Apertura,Fecha 19,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2024_(Argentina)
-2024-06-01,15:30,Yupanqui,Defensores de Cambaceres,0,3,,,Primera C,2024,zonas,Torneo Apertura,Fecha 20,Ciudad Evita,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
+2024-06-01,15:30,Yupanqui,Defensores de Cambaceres,1,3,,,Primera C,2024,zonas,Torneo Apertura,Fecha 20,Ciudad Evita,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
 2024-06-01,16:00,Unión (S),Central Norte (S),1,4,,,Torneo Federal A,2024,zonas,Zona 4,Fecha 12,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024
 2024-06-01,18:00,Racing Club,Deportivo Riestra,1,0,,,Primera Division,2024,zonas,,Fecha 4,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2024_(Argentina)
 2024-06-01,19:10,Talleres (RdE),Deportivo Maipú,2,3,,,Primera Nacional,2024,zonas,Zona A,Fecha 18,Pablo Comelli,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2024
@@ -2265,7 +2265,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2024-09-08,15:00,J. J. de Urquiza,Juventud Unida,2,0,,,Primera C,2024,zonas,Torneo Clausura,Fecha 11,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
 2024-09-08,15:00,Liniers,Villa Dálmine,1,0,,,Primera B,2024,zonas,Torneo Clausura,Fecha 13,Juan Antonio Arias,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2024_(Argentina)
 2024-09-08,15:00,Sportivo Barracas,Central Córdoba (R),2,1,,,Primera C,2024,zonas,Torneo Clausura,Fecha 11,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
-2024-09-08,15:00,Yupanqui,Lugano,0,0,,,Primera C,2024,zonas,Torneo Clausura,Fecha 11,Ciudad Evita,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
+2024-09-08,15:00,Yupanqui,Lugano,1,1,,,Primera C,2024,zonas,Torneo Clausura,Fecha 11,Ciudad Evita,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina)
 2024-09-08,15:30,Alvarado,Ferro Carril Oeste,0,2,,,Primera Nacional,2024,zonas,Zona A,Fecha 31,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2024
 2024-09-08,15:30,Huracán Las Heras,Deportivo Rincón,1,0,,,Torneo Federal A,2024,zonas,Zona A,Fecha 8,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024
 2024-09-08,15:30,Independiente (C),Gimnasia y Esgrima (CdU),3,2,,,Torneo Federal A,2024,zonas,Zona B,Fecha 8,Raúl Orlando Lungarzo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024

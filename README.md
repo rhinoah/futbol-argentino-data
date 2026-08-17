@@ -1653,13 +1653,42 @@ las otras tres en la mayoría. Si el alcance fuera el equivocado, no cuadraría.
 
 El dataset no cambia: son avisos, no correcciones.
 
+## La columna que se escribe con signo
+
+Salió de una verificación adversarial que fue a preguntarse algo simple: por qué la
+tabla del Argentino A 2010-11 tenía **menos filas que clubes**.
+
+La respuesta es una línea:
+
+```python
+numeros = [c for c in celdas if re.fullmatch(r"-?\d+", c)]     # rechaza "+31"
+```
+
+La columna DIF se escribe **con signo cuando es positiva**. Con ese regex la celda no
+cuenta como número: la fila pierde una, el corte de las últimas ocho columnas se corre,
+y la guarda de coherencia —`GF − GC == DIF`— la descarta entera.
+
+Y descarta **justo a los punteros**: caen todas y sólo las filas con diferencia de gol
+positiva. Eso es lo que lo hacía difícil de ver — la tabla seguía existiendo, con la
+mitad de arriba faltando, y nada fallaba.
+
+| página | filas antes | después |
+|---|---|---|
+| Primera C 2008-09 | 10 | **20** |
+| Primera C 2009-10 | 13 | **20** |
+| Torneo Argentino A 2010-11 | 19 | **25** |
+
+**23 filas recuperadas, ninguna perdida.** Y con ellas el diagnóstico cambia: en el
+Argentino A 2010-11, Huracán (TA) dejaba de tener socio porque su socio era una de las
+ocho filas que se caían. El cruce inventaba un huérfano que no existía.
+
 ## Tests
 
-589 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+591 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 181 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 183 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

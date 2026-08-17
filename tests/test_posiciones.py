@@ -695,3 +695,28 @@ def test_el_detector_de_padron_mira_las_mismas_tablas_que_el_cruce():
     assert posiciones.tabla(texto), "la tabla se encuentra por sus columnas"
     avisos = posiciones.fuera_del_padron(texto)
     assert len(avisos) == 1 and "Club Inexistente de Prueba" in avisos[0]
+
+
+def test_el_dif_positivo_se_escribe_con_signo_y_hay_que_leerlo():
+    r"""`||+2` es como muchas paginas escriben la diferencia de gol cuando es
+    positiva. Con un regex de `-?\d+` esa celda no cuenta como numero: la fila
+    pierde una, el corte de las ultimas ocho columnas se corre, y la guarda de
+    coherencia (`gf - gc == dif`) la descarta entera.
+
+    Y descarta JUSTO A LOS PUNTEROS -- caen todas y solo las filas con diferencia
+    positiva --, que es lo que lo hace dificil de ver: la tabla sigue existiendo,
+    con la mitad de arriba faltando. En el Argentino A 2010-11 se perdian 8 de 24
+    filas y el cruce inventaba un huerfano que no existia; en la Primera C
+    2008-09, 10 de 20."""
+    con_signo = ("|- style=\"text-align:center\"\n"
+                 "||'''1º'''||align=\"left\"|[[Boca Juniors]]\n"
+                 "||'''4'''||2||1||1||0||3||1||+2")
+    assert posiciones.tabla(pagina(con_signo)) == {"Boca Juniors": (2, 3, 1)}
+
+
+def test_el_dif_negativo_sigue_leyendose():
+    """El reciproco, para que el arreglo no se lleve puesto el caso que ya andaba."""
+    negativo = ("|- style=\"text-align:center\"\n"
+                "||'''1º'''||align=\"left\"|[[Boca Juniors]]\n"
+                "||'''1'''||2||0||1||1||1||3||-2")
+    assert posiciones.tabla(pagina(negativo)) == {"Boca Juniors": (2, 1, 3)}

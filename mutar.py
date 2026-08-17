@@ -201,16 +201,24 @@ MUTANTES = [
 
     ("fad/posiciones.py", "denunciar el desbalance aunque la tabla y la grilla "
                           "no hablen de los mismos clubes",
-     "    if set(publicada) != set(contada):\n        return []",
-     "    if False:\n        return []"),
+     "        if not publicada or set(publicada) != set(contada):\n            continue",
+     "        if False:\n            continue"),
 
     ("fad/posiciones.py", "denunciar el desbalance aunque no coincidan los PJ",
-     "    if any(publicada[c][0] != contada[c][0] for c in publicada):\n        return []",
-     "    if False:\n        return []"),
+     "        if any(publicada[c][0] != contada[c][0] for c in publicada):\n            continue",
+     "        if False:\n            continue"),
 
     ("fad/posiciones.py", "dar por desbalanceada a una tabla que cierra",
-     "    if gf == gc:\n        return []",
-     "    if False:\n        return []"),
+     "        if gf != gc:\n            fuera.append(_texto_del_desbalance(gf, gc, alcance))",
+     "        if True:\n            fuera.append(_texto_del_desbalance(gf, gc, alcance))"),
+
+    ("fad/posiciones.py", "no leer el DIF positivo escrito con signo (+31)",
+     r'        numeros = [c for c in celdas if re.fullmatch(r"[-+]?\d+", c)]',
+     r'        numeros = [c for c in celdas if re.fullmatch(r"-?\d+", c)]'),
+
+    ("fad/posiciones.py", "comparar cada tabla suelta en vez de fusionar las del mismo alcance",
+     "    for alcance, filas in por_alcance.items():",
+     "    for alcance, filas in [(k, {c: d}) for k, v in por_alcance.items() for c, d in v.items()]:"),
 
     ("build.py", "no avisar del club de la tabla que no esta en el padron",
      "               for d in posiciones.fuera_del_padron(texto)]",

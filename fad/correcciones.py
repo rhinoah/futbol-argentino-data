@@ -705,6 +705,82 @@ MARCADORES: tuple[Marcador, ...] = (
             "trampa del Clausura 2005 dada vuelta, y hasta que aparezca un relato del "
             "03/04/2022 ajeno a ADI, ese partido queda abierto."),
     ),
+    # ------------------------------------------------------------------
+    # Primera C 2024. Cuatro marcadores, y la pagina entro al cruce recien
+    # ahora: sus tablas viven bajo `== Torneo Apertura ==` y `== Torneo
+    # Clausura ==`, no bajo "Tabla de posiciones", asi que el arbitro no las
+    # encontraba. Con las dos visibles aparecieron seis desviados en el Apertura
+    # y tres en el Clausura.
+    #
+    # Lo que los volvio unicos NO fue la aritmetica de goles sino que esta tabla
+    # publica tambien G-E-P. Con PJ/GF/GC solos, cuatro de los seis quedaban
+    # degenerados -- dos clubes con (0,-1) y dos con (-1,0), cuatro maneras de
+    # aparearlos --. Mirando ademas ganados/empatados/perdidos, el sistema tiene
+    # una sola solucion: se verifico por enumeracion exhaustiva de las seis
+    # biyecciones posibles y por busqueda con poda sobre los quince cruces.
+    # ------------------------------------------------------------------
+    Marcador(
+        pagina="Campeonato de Primera C 2024 (Argentina)",
+        jornada="Fecha 9", local="Leandro N. Alem", visita="Atlas",
+        dice=(1, 2), debe=(2, 1),
+        porque=(
+            "Solo Ascenso publica la sintesis con los tres goles y sus minutos: "
+            "Fernando Maldonado a los 23' de penal y a los 40' para Alem, y "
+            "Anriquez a los 90+1' para Atlas, con el arbitro Nestor Barrios y las "
+            "dos formaciones. Lo corrobora Cronica del 29/03/2024 con una nota "
+            "sobre la 'ley del ex' de Maldonado, que venia de Atlas -- y Cronica "
+            "NO esta citada por la pagina de Wikipedia, asi que no puede ser el "
+            "ancestro del dato. El feed de ESPN de la temporada tambien da 2-1. "
+            "La tabla ademas dice que Alem gano ese partido y Atlas lo perdio, "
+            "que es lo que la grilla tiene al reves."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera C 2024 (Argentina)",
+        jornada="Fecha 19", local="Juventud Unida", visita="Muñiz",
+        dice=(1, 1), debe=(1, 2),
+        porque=(
+            "Solo Ascenso publica la sintesis con los tres goles: Diego Guex a los "
+            "48' para Muniz, Nicolas Slimmens a los 60' de penal para Juventud "
+            "Unida y Ezequiel Ponce a los 90+16' de penal para Muniz. La tabla "
+            "coincide: le da a Muniz un ganado mas y a Juventud Unida un empate "
+            "menos. "
+            "CON UN TESTIGO EN CONTRA, y conviene que quede escrito: ESPN publica "
+            "1-1 para este partido. Se toma igual el 1-2 porque una sintesis con "
+            "tres goleadores, sus minutos y el detalle de dos penales no se "
+            "compara con un marcador suelto en un sitio de estadisticas, que es "
+            "justamente lo que este proyecto no acepta como testigo. Es el unico "
+            "de los tres del Apertura que tiene una fuente discrepando."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera C 2024 (Argentina)",
+        jornada="Fecha 20", local="Yupanqui", visita="Defensores de Cambaceres",
+        dice=(0, 3), debe=(1, 3),
+        porque=(
+            "Solo Ascenso publica la sintesis con los cuatro goles: Tomas Bravo a "
+            "los 23' y a los 70' y Fernando Pasquale a los 55' para Cambaceres, y "
+            "William Gimenez a los 52' para Yupanqui. ESPN corrobora el 1-3. El "
+            "resultado no cambia -- gana Cambaceres igual --, lo que falta es el "
+            "gol de Yupanqui, y por eso la tabla le da un gol a favor mas del que "
+            "suma la grilla."),
+    ),
+    Marcador(
+        pagina="Campeonato de Primera C 2024 (Argentina)",
+        jornada="Fecha 11", local="Yupanqui", visita="Lugano",
+        dice=(0, 0), debe=(1, 1),
+        porque=(
+            "Del Torneo Clausura, no del Apertura: Lugano y Yupanqui se cruzan una "
+            "sola vez en cada uno. Solo Ascenso publica la sintesis con los dos "
+            "goles -- German Videla a los 28' para Yupanqui y Alan Seguel a los "
+            "81' para Lugano --, el arbitro Sebastian Habib y las dos "
+            "formaciones. El1 Digital de La Matanza lo confirma al dia siguiente "
+            "identificando la fecha 11 del Clausura y el estadio Ciudad Evita. "
+            "Los dos dominios estan citados por la pagina para otros asuntos, asi "
+            "que valen menos; pero los dos CONTRADICEN la grilla, y una fuente "
+            "que contradice no puede ser el ancestro del dato. "
+            "Y hay una huella aritmetica que no se puede copiar: El1 Digital dice "
+            "que despues del partido Yupanqui quedo con 9 puntos y Lugano con 11, "
+            "y sumando la grilla hasta esa fecha dan exactamente 9 y 11."),
+    ),
     _arbitrado("2007 Fecha 1", "Independiente Rivadavia", "Tiro Federal", (0, 1), (1, 0),
                "worldfootball",
                "con 0-1 los dos clubes quedan fuera de sus totales publicados y con 1-0 cierran"),
