@@ -17,13 +17,13 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **39 241 partidos entre febrero de 2004 y hoy** — veintitrés años de
+**Estado:** **39 255 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
 Torneo Federal A, y diez ediciones de la Copa Argentina. **208 clubes**, 131
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
-Aparte, en [`data/sin-fecha/`](data/sin-fecha/) quedan **86 partidos que están
+Aparte, en [`data/sin-fecha/`](data/sin-fecha/) quedan **72 partidos que están
 completos salvo por el día en que se jugaron**. Eran 2 345 y eran seis temporadas
 enteras; hoy son un resto suelto, y ninguno está ahí porque a su torneo le falte
 fuente de fechas: están uno por uno, por su propio motivo. Van separados
@@ -88,7 +88,7 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 `source` de cada fila lleva la URL exacta de la página de la que salió, así que
 la atribución viaja con el dato.
 
-**Tres fuentes más aportan un solo campo**, y sólo en **3 316 filas de 39 241**
+**Tres fuentes más aportan un solo campo**, y sólo en **3 330 filas de 39 255**
 (8,5 %): la **fecha del calendario** de partidos que Wikipedia publica sin fecha.
 Una decena de temporadas del ascenso entre 2005 y 2011 usan tablas de tres
 columnas (`Local | Resultado | Visitante`) y nada más. El partido, los equipos, el
@@ -98,7 +98,7 @@ Son tres y no una porque ninguna cubre todo: **[worldfootball](https://www.world
 tiene la Primera B Nacional 2007-2011 (1 520 filas) pero su Primera B
 Metropolitana arranca en 2018/19 y no lista Primera C ni el Argentino A; el feed
 de **[ESPN](https://www.espn.com.ar/)** cubre Primera B y C de esos años (1 547);
-y **[RSSSF](https://www.rsssf.org/)** tiene el Argentino A viejo (249), que no
+y **[RSSSF](https://www.rsssf.org/)** tiene el Argentino A viejo (263), que no
 está en ninguna de las otras dos.
 
 Sin ese campo esas cuatro temporadas no entrarían: el esquema promete una fecha en
@@ -1493,7 +1493,7 @@ distintos sobre 384 partidos en la Primera C 2008-09.
 
 Lo que sostiene el cambio no es esa aritmética sino que la regla de colisión sigue
 puesta: los playoffs vuelven a cruzar a los mismos, y ahí el par deja de
-identificar, así que **se caen los dos**. Es la mayor parte de las 86 filas que
+identificar, así que **se caen los dos**. Es la mayor parte de las 72 filas que
 todavía no tienen fecha.
 
 ### La guarda que el marcador no da
@@ -1520,8 +1520,8 @@ en la 2009-10 UAI no jugó, así que ahí no se traduce.
 
 | | antes | ahora |
 |---|---|---|
-| con fecha | 36 966 | **39 241** |
-| sin fecha | 2 345 | **86** |
+| con fecha | 36 966 | **39 255** |
+| sin fecha | 2 345 | **72** |
 
 Y una consecuencia que no estaba en el plan: una vez que las cinco temporadas
 tuvieron fuente, **no quedó un solo torneo marcado `sin_fecha`**. El flag se sacó.
@@ -1535,13 +1535,68 @@ fechas, y en cualquier otro las filas sin fecha **se tiraban**, que contradice l
 que el LEEME de esa misma carpeta viene diciendo desde el principio. Al
 arreglarlo aparecieron 16 partidos reales que se venían descartando.
 
+## La página que se copió a sí misma
+
+El Argentino A 2005-06 dejó, después de fecharlo, quince partidos sin día y diez
+filas duplicadas. Las dos cosas tenían la misma causa, y no es un error de
+lectura: **la página copió las tablas de las Fechas 5 y 6 de la Zona Sur del
+Clausura dentro del Apertura.** No parecidas — los mismos doce cruces, los mismos
+locales y los mismos marcadores.
+
+Eso solo ya prueba que está mal, sin traer nada de afuera: dos rondas de dos
+torneos distintos no pueden ser idénticas. Lo que no prueba es **qué iba ahí**.
+
+### El testigo estaba en la misma página, y nadie lo había mirado
+
+Esta página tiene cuatro tablas de posiciones —Apertura y Clausura por zona— y el
+copy-paste no las tocó. Contrastadas contra las dos versiones del fixture:
+
+| tabla | nuestra grilla | RSSSF |
+|---|---|---|
+| Apertura Zona Sur | **0 / 12** | 12 / 12 |
+| Apertura Zona Norte | 9 / 12 | **12 / 12** |
+| Clausura Zona Sur | 12 / 12 | 12 / 12 |
+
+La tabla le da la razón a RSSSF en cada club y se la quita a la grilla, y el
+Clausura empata 12-12 — o sea que lo copiado es el Apertura, no al revés. **La
+página se arbitra a sí misma.**
+
+Y no la veíamos porque `posiciones` busca sus tablas bajo un encabezado que diga
+«Tabla de posiciones», y acá viven bajo `=== Primera fase ===`. Queda anotado:
+hay páginas con árbitro que el árbitro no encuentra.
+
+### `Reemplazo`, y por qué hacía falta un tipo nuevo
+
+Los tres tipos de corrección que había arreglan **un campo** de una fila que por
+lo demás describe el partido que dice describir: el nombre de un club, el
+marcador, la cancha. Acá eso no se sostiene — la fila entera está de más y el
+partido que iba ahí falta.
+
+Y ninguno podía expresarlo por otra razón, más concreta: emparejan por
+`(jornada, local, visita)`, y las filas copiadas son **idénticas** en los dos
+torneos. Una corrección del Apertura enganchaba con dos partidos y no se
+aplicaba, que es la conducta correcta. Por eso `Reemplazo` lleva **llave** —la
+sección de nivel 2— y con eso identifica una sola.
+
+Son catorce: diez filas del copy-paste y cuatro marcadores sueltos que la misma
+tabla arbitra. Aplicadas, las tres tablas cierran exacto, los diez duplicados
+desaparecen, y el torneo pasa de **15 partidos sin fecha a 1**.
+
+### El que queda, y por qué no se toca
+
+La Florida vs Sportivo Patria, Clausura Fecha 10. Se abandonó y el fallo fue
+**«0-1 en contra de los dos»** — los dos equipos pierden 0-1, que no es un
+marcador y nuestro esquema no puede expresarlo. Es el mismo caso que
+Laferrere–Dock Sud en la Primera C 2015. Queda sin fecha y anotado, que es lo
+único honesto que se puede hacer con él.
+
 ## Tests
 
-575 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+580 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 173 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 176 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

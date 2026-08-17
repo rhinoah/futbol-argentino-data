@@ -232,6 +232,20 @@ MUTANTES = [
      "        if len(candidatos) != 1:",
      "        if False:"),
 
+    ("fad/correcciones.py", "reemplazar el partido sin mirar la llave",
+     "                      if p.llave == r.llave and p.jornada == r.jornada",
+     "                      if p.jornada == r.jornada"),
+
+    ("fad/correcciones.py", "reemplazar sin exigir que el marcador viejo coincida",
+     "                      and (p.goles_local, p.goles_visita) == (gl, gv)]",
+     "                      ]"),
+
+    ("fad/correcciones.py", "aplicar un reemplazo que engancha con varios partidos",
+     "        if len(candidatos) != 1:\n"
+     "            avisos.append(f\"el reemplazo de {r.llave} {r.jornada} ({local} vs \"",
+     "        if False:\n"
+     "            avisos.append(f\"el reemplazo de {r.llave} {r.jornada} ({local} vs \""),
+
     ("fad/espn.py", "tomar la fecha de ESPN en UTC sin pasarla a hora argentina",
      "    return (datetime.fromisoformat(iso.replace(\"Z\", \"+00:00\"))\n"
      "            .astimezone(_ARGENTINA).date().isoformat())",

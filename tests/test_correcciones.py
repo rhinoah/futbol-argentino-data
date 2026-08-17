@@ -182,3 +182,63 @@ def test_las_canchas_corregidas_estan_justificadas():
         assert len(c.porque) > 80, f"{c.jornada} {c.local}: la evidencia es muy flaca"
         assert "participantes" in c.porque, "hay que nombrar al testigo"
         assert c.dice != c.debe
+
+
+# --------------------------------------------------------------------------
+# Reemplazo: la fila que no era una version equivocada del partido sino OTRO
+# --------------------------------------------------------------------------
+def _fila(llave, jornada, local, visita, gl, gv):
+    p = Partido(fecha="", local=local, visita=visita, goles_local=gl, goles_visita=gv,
+                fase="zonas", jornada=jornada)
+    p.llave = llave
+    return p
+
+
+def test_un_reemplazo_cambia_el_partido_entero():
+    """No es un campo mal: la fila describia otro partido. Cambian los dos clubes
+    y el marcador de una."""
+    p = _fila("Torneo Apertura", "Fecha 5", "Douglas Haig", "Cipolletti", 5, 3)
+    _, avisos = correcciones.aplicar([p], "Torneo Argentino A 2005-06")
+    assert (p.local, p.visita, p.goles_local, p.goles_visita) == ("Cipolletti", "Douglas Haig", 1, 2)
+    # Las demas correcciones de la pagina avisan que no enganchan, y esta bien:
+    # la lista tiene un solo partido. Lo que importa es que ESTA no avise.
+    assert not [a for a in avisos if "Douglas Haig vs Cipolletti" in a]
+
+
+def test_la_llave_es_lo_que_hace_posible_el_reemplazo():
+    """Sin ella no se puede: la pagina del Argentino A 2005-06 copio dos jornadas
+    del Clausura dentro del Apertura, asi que las filas son IDENTICAS en
+    (jornada, local, visita, marcador) de los dos lados.
+
+    Este test pone las dos y exige que se toque UNA. Con la clave vieja la
+    correccion enganchaba con dos partidos y no se aplicaba -- que era la
+    conducta correcta, y por eso hubo que agregar el campo en vez de forzarla."""
+    ap = _fila("Torneo Apertura", "Fecha 5", "Douglas Haig", "Cipolletti", 5, 3)
+    cl = _fila("Torneo Clausura", "Fecha 5", "Douglas Haig", "Cipolletti", 5, 3)
+    _, avisos = correcciones.aplicar([ap, cl], "Torneo Argentino A 2005-06")
+    assert not [a for a in avisos if "Douglas Haig vs Cipolletti" in a]
+    assert (ap.local, ap.goles_local, ap.goles_visita) == ("Cipolletti", 1, 2), "el del Apertura"
+    assert (cl.local, cl.goles_local, cl.goles_visita) == ("Douglas Haig", 5, 3), "el del Clausura no se toca"
+
+
+def test_un_reemplazo_que_ya_no_engancha_avisa():
+    """Si alguien arregla la pagina de Wikipedia, la correccion sobra y hay que
+    sacarla. Callarse dejaria una correccion muerta pudriendose en el modulo."""
+    p = _fila("Torneo Apertura", "Fecha 5", "Cipolletti", "Douglas Haig", 1, 2)
+    n, avisos = correcciones.aplicar([p], "Torneo Argentino A 2005-06")
+    assert any("Douglas Haig" in a and "no se aplica" in a for a in avisos)
+
+
+def test_los_reemplazos_nombran_su_testigo():
+    """Cambiar un partido entero es lo mas fuerte que hace este modulo, asi que
+    cada uno tiene que decir con que evidencia. La de estos es la tabla de
+    posiciones de la propia pagina, que el copy-paste no toco."""
+    for r in correcciones.REEMPLAZOS:
+        assert len(r.porque) > 120, f"{r.jornada} {r.dice}: la evidencia es muy flaca"
+        assert "tabla" in r.porque.lower(), f"{r.jornada} {r.dice}: no nombra el testigo"
+        assert r.llave, f"{r.jornada} {r.dice}: sin llave no identifica"
+
+
+def test_ningun_reemplazo_deja_el_partido_igual():
+    for r in correcciones.REEMPLAZOS:
+        assert r.dice != r.debe, f"{r.jornada}: reemplazo que no reemplaza nada"

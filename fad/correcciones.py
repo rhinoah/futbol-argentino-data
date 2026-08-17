@@ -792,6 +792,116 @@ CANCHAS: tuple[Cancha, ...] = (
 )
 
 
+@dataclass(frozen=True)
+class Reemplazo:
+    """Una fila que no es una version equivocada de un partido: es OTRO partido.
+
+    Los otros tres tipos arreglan un campo -- el nombre de un club, el marcador,
+    la cancha -- sobre una fila que por lo demas describe el partido que dice
+    describir. Este es para cuando eso no se sostiene: la fila entera esta de mas
+    y el partido que iba ahi falta.
+
+    Existe por un caso, y conviene contarlo entero porque es el unico del repo en
+    que la fuente no se equivoca sino que se DUPLICA. La pagina del Torneo
+    Argentino A 2005-06 copio las tablas de las Fechas 5 y 6 de la Zona Sur del
+    CLAUSURA dentro del APERTURA. No parecido: los mismos doce cruces, los mismos
+    locales y los mismos marcadores. Dos rondas de dos torneos distintos no
+    pueden ser identicas, asi que la pagina se contradice sola -- eso solo ya
+    prueba que esta mal, sin traer nada de afuera.
+
+    Lo que decide QUE iba ahi es la propia pagina otra vez, y esta es la parte
+    que vale: sus cuatro tablas de posiciones (Apertura y Clausura por zona) NO
+    las toco el copy-paste. Contrastadas contra las dos versiones:
+
+        Apertura Zona Sur     nuestra grilla  0/12    RSSSF  12/12
+        Apertura Zona Norte   nuestra grilla  9/12    RSSSF  12/12
+        Clausura Zona Sur     nuestra grilla 12/12    RSSSF  12/12
+
+    O sea que la tabla le da la razon a RSSSF en cada club donde el nombre
+    resuelve, y se la quita a la grilla. Aplicadas las catorce, las tres tablas
+    cierran EXACTO. La cuarta queda en 9/12 por dos rotulos con asterisco y por
+    La Florida, que es otra cosa: su partido con Sportivo Patria se abandono y se
+    dio "0-1 en contra de los dos", un resultado que un marcador no puede
+    expresar. Ese no se toca.
+
+    POR QUE HACE FALTA LA LLAVE. Los otros tipos emparejan por (jornada, local,
+    visita) y aca eso no alcanza: Apertura y Clausura numeran los dos del 1 al
+    11, y las filas copiadas son identicas en los dos lados. Una correccion sin
+    llave enganchaba con dos partidos y no se aplicaba -- que es la conducta
+    correcta, y por eso hubo que agregar el campo en vez de forzarla.
+    """
+    pagina: str
+    llave: str                          # la seccion de nivel 2 de la pagina
+    jornada: str
+    dice: tuple[str, str, int, int]     # local, visita, goles local, goles visita
+    debe: tuple[str, str, int, int]
+    porque: str
+
+
+_ARGENTINO_A_2005 = (
+    "La pagina copio las Fechas 5 y 6 de la Zona Sur del Clausura dentro del "
+    "Apertura -- mismos cruces, mismos locales, mismos marcadores --, y dos "
+    "rondas de dos torneos distintos no pueden ser identicas. Lo que iba ahi lo "
+    "dice la TABLA DE POSICIONES DE LA MISMA PAGINA, que el copy-paste no toco: "
+    "con la grilla como esta, la del Apertura Zona Sur no cierra en ninguno de "
+    "sus doce clubes; con estos marcadores cierra en los doce, y la del Apertura "
+    "Zona Norte tambien. Los valores salen de RSSSF."
+)
+
+
+def _copiado(jornada: str, dice, debe, detalle: str = "") -> Reemplazo:
+    return Reemplazo(pagina="Torneo Argentino A 2005-06", llave="Torneo Apertura",
+                     jornada=jornada, dice=dice, debe=debe,
+                     porque=_ARGENTINO_A_2005 + (" " + detalle if detalle else ""))
+
+
+# Diez filas del copy-paste y cuatro marcadores sueltos de la misma pagina. Los
+# cuatro van por el mismo camino porque tambien necesitan la llave: sin ella, la
+# correccion del Apertura engancharia tambien con la fila gemela del Clausura.
+REEMPLAZOS: tuple[Reemplazo, ...] = (
+    # --- Fecha 5, Zona Sur: la ronda entera es del Clausura
+    _copiado("Fecha 5", ("Douglas Haig", "Cipolletti", 5, 3),
+             ("Cipolletti", "Douglas Haig", 1, 2)),
+    _copiado("Fecha 5", ("Juventud Unida Universitario", "Desamparados", 2, 2),
+             ("Desamparados", "Juventud Unida Universitario", 1, 1)),
+    _copiado("Fecha 5", ("La Plata FC", "Villa Mitre", 1, 1),
+             ("Villa Mitre", "La Plata FC", 2, 1)),
+    _copiado("Fecha 5", ("Luján de Cuyo", "Juventud (P)", 1, 1),
+             ("Juventud (P)", "Luján de Cuyo", 1, 0)),
+    _copiado("Fecha 5", ("Guillermo Brown", "Independiente Rivadavia", 1, 0),
+             ("Independiente Rivadavia", "Guillermo Brown", 1, 0)),
+    # Este quedo con el local bien y el marcador del Clausura (0-0 en vez de 1-0):
+    # la copia no fue perfecta, y por eso conviene no suponer que lo es.
+    _copiado("Fecha 5", ("Racing (O)", "Huracán (CR)", 0, 0),
+             ("Racing (O)", "Huracán (CR)", 1, 0),
+             "Aca la copia dejo el local bien y se llevo solo el marcador."),
+    # --- Fecha 6, Zona Sur: idem, salvo Huracan (CR) vs Villa Mitre, que quedo bien
+    _copiado("Fecha 6", ("Racing (O)", "Guillermo Brown", 0, 1),
+             ("Guillermo Brown", "Racing (O)", 2, 0)),
+    _copiado("Fecha 6", ("Juventud (P)", "La Plata FC", 1, 2),
+             ("La Plata FC", "Juventud (P)", 1, 0)),
+    _copiado("Fecha 6", ("Juventud Unida Universitario", "Luján de Cuyo", 2, 1),
+             ("Luján de Cuyo", "Juventud Unida Universitario", 5, 2)),
+    _copiado("Fecha 6", ("Independiente Rivadavia", "Douglas Haig", 1, 1),
+             ("Douglas Haig", "Independiente Rivadavia", 0, 1)),
+    _copiado("Fecha 6", ("Desamparados", "Cipolletti", 3, 1),
+             ("Cipolletti", "Desamparados", 3, 0)),
+    # --- Cuatro marcadores de la Zona Norte y uno de la Sur, ajenos al copy-paste
+    # pero que la misma tabla arbitra: sin ellos, La Florida, Talleres (P) y
+    # Union (S) no cierran.
+    _copiado("Fecha 1", ("Unión (S)", "La Florida", 2, 0),
+             ("Unión (S)", "La Florida", 2, 1),
+             "Este no es del copy-paste: es un gol de menos de La Florida, y "
+             "salta en la misma tabla."),
+    _copiado("Fecha 4", ("Guillermo Brown", "Cipolletti", 3, 0),
+             ("Guillermo Brown", "Cipolletti", 3, 1),
+             "Tampoco es del copy-paste; lo arbitra la misma tabla."),
+    _copiado("Fecha 5", ("Unión (S)", "Talleres (P)", 2, 0),
+             ("Unión (S)", "Talleres (P)", 1, 0),
+             "Tampoco es del copy-paste; lo arbitra la misma tabla."),
+)
+
+
 def arbitrados(pagina: str) -> set[tuple[str, str, str]]:
     """(jornada, local, visitante) de los partidos ya arbitrados de `pagina`.
 
@@ -860,5 +970,26 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
                           f"fad/correcciones.py")
             continue
         candidatos[0].estadio = c.debe
+        aplicadas += 1
+
+    for r in REEMPLAZOS:
+        if r.pagina != pagina:
+            continue
+        local, visita, gl, gv = r.dice
+        # La LLAVE entra en la identificacion, y es lo que distingue este tipo de
+        # los otros tres: sin ella, la fila copiada del Apertura y su gemela del
+        # Clausura son indistinguibles y la correccion engancha con las dos.
+        candidatos = [p for p in ps
+                      if p.llave == r.llave and p.jornada == r.jornada
+                      and p.local == local and p.visita == visita
+                      and (p.goles_local, p.goles_visita) == (gl, gv)]
+        if len(candidatos) != 1:
+            avisos.append(f"el reemplazo de {r.llave} {r.jornada} ({local} vs "
+                          f"{visita}) engancha con {len(candidatos)} partidos y no se "
+                          f"aplica: si la fuente se corrigio, sacalo de "
+                          f"fad/correcciones.py")
+            continue
+        p = candidatos[0]
+        p.local, p.visita, p.goles_local, p.goles_visita = r.debe
         aplicadas += 1
     return aplicadas, avisos
