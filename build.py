@@ -23,11 +23,8 @@ from fad import (correcciones, dataset, equipos, parser, posiciones, torneos,
                  validar, wiki)
 
 SALIDA = Path(__file__).resolve().parent / "data"   # una carpeta: un CSV por temporada
-# Los partidos que la fuente publica SIN fecha. Van aparte y no al dataset
-# principal, que promete una fecha en cada fila. Que falte la fecha no es lo
-# mismo que no tener el partido: el resto del dato -- equipos, marcador, jornada,
-# estadio -- esta completo y verificado, y guardarlo evita volver a parsear tres
-# temporadas cada vez que aparezca un candidato a fuente de fechas.
+
+
 def _completar_fechas_rsssf(ps, t) -> list:
     """Igual que `_completar_fechas` pero contra RSSSF, para los torneos que
     worldfootball no tiene -- el Argentino A no figura en su selector.
@@ -49,6 +46,34 @@ def _completar_fechas_rsssf(ps, t) -> list:
     puestas, mas = fechas.completar(ps, ajenos, credito=rsssf.CREDITO)
     return [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False)
             for d in avisos + mas]
+
+
+def _completar_fechas_espn(ps, t) -> list:
+    """Tercera fuente de fechas, para las tres temporadas de Primera C.
+
+    Sus paginas traen los resultados en tablas de tres columnas y no hay columna
+    de fecha; worldfootball no tiene la categoria tan atras y RSSSF tampoco. El
+    feed de ESPN devuelve la temporada entera en una llamada.
+
+    Misma tolerancia que las otras dos: si el sitio no responde se avisa y se
+    sigue, y los partidos quedan sin fecha en `sin-fecha/`.
+    """
+    from fad import espn, fechas
+
+    liga, rangos, mapa = espn.FUENTES[t.pagina]
+    try:
+        eventos = espn.descargar(liga, rangos)
+    except OSError as e:
+        return [validar.Aviso("no se pudo consultar ESPN",
+                              f"{t.pagina}: {e}; los partidos quedan sin fecha",
+                              grave=False)]
+    ajenos, avisos = espn.leer(eventos, mapa)
+    # Antes de completar nada: que las dos partes hablen de los mismos clubes. Un
+    # nombre mal traducido manda el partido al club equivocado y el marcador no
+    # lo agarra.
+    avisos += espn.contrastar_plantel(ajenos, ps)
+    _, mas = fechas.completar(ps, ajenos, credito=espn.CREDITO)
+    return [validar.Aviso(f"{t.pagina}: ESPN", d, grave=False) for d in avisos + mas]
 
 
 def _repartir(listas: list[dict], filas: list, sin_fecha: list) -> None:
@@ -74,7 +99,13 @@ def _repartir(listas: list[dict], filas: list, sin_fecha: list) -> None:
 
 
 def sin_fecha_en(salida: Path) -> Path:
-    """La subcarpeta de los sin fecha. Se deriva de `SALIDA` y NO se guarda en una
+    """La subcarpeta de los partidos que la fuente publica SIN fecha.
+
+    Van aparte y no al dataset principal, que promete una fecha en cada fila. Que
+    falte la fecha no es lo mismo que no tener el partido: el resto del dato --
+    equipos, marcador, jornada, estadio -- esta completo y verificado.
+
+    Se deriva de `SALIDA` y NO se guarda en una
     constante: si no, un test que cambia `SALIDA` sigue leyendo la carpeta real y
     se lleva los partidos de verdad adentro de su carpeta temporal."""
     return salida / "sin-fecha"
@@ -231,6 +262,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # partidos que este paso viene a arreglar.
     avisos = _completar_fechas(ps, t) if t.wf else []
     avisos += _completar_fechas_rsssf(ps, t) if t.rsssf else []
+    avisos += _completar_fechas_espn(ps, t) if t.espn else []
     avisos += validar.revisar(ps)
     # La tabla de posiciones de la propia pagina, contra la suma de los partidos.
     # Va como aviso: lo que denuncia es una contradiccion DE LA FUENTE consigo
@@ -271,10 +303,6 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # sacarla, o cambio de otra forma y esta tocando lo que no es. Las dos cosas
     # se miran antes de escribir nada.
     avisos += [validar.Aviso("correccion que no aplica", d) for d in dudas]
-    # En un torneo marcado `sin_fecha` la fecha vacia es el estado esperado y no
-    # una falla, asi que ese aviso no corresponde.
-    if t.sin_fecha:
-        return ps, [a for a in avisos if "sin fecha" not in a.que]
     return ps, avisos
 
 

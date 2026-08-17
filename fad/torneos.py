@@ -32,22 +32,26 @@ class Torneo:
     # partido ya se jugo; el dato es duro. `build.py --rehacer` los vuelve a
     # parsear cuando de verdad haga falta.
     cerrado: bool = True
-    # Ids de competencia y temporada en worldfootball, SOLO para los torneos
-    # cuya pagina de Wikipedia no trae fechas (tablas de tres columnas:
-    # Local | Resultado | Visitante). Con esto `fad.fechas` completa la fecha de
-    # esos partidos; todo lo demas -- equipos, marcador, jornada -- sigue
-    # saliendo de Wikipedia. Los ids salen del selector del propio sitio.
+    # ------------------------------------------------------------------
+    # De donde sale la FECHA cuando la pagina de Wikipedia no la trae.
+    #
+    # Son tres fuentes y ninguna cubre todo, que es la razon de que sean tres:
+    # worldfootball no tiene Primera C ni el Argentino A, RSSSF tiene el
+    # Argentino A viejo, y el feed de ESPN cubre Primera B y C de esos anios.
+    # Todo lo demas -- equipos, marcador, jornada -- sigue saliendo de Wikipedia,
+    # y `source` dice fila por fila quien puso la fecha.
+    # ------------------------------------------------------------------
+    # Ids de competencia y temporada en worldfootball. Salen del selector del
+    # propio sitio, no de adivinar.
     wf: tuple[str, str] | None = None
-    # Archivo de RSSSF (`arg3-int06` -> rsssf.org/tablesa/arg3-int06.html) para
-    # los torneos cuya fecha worldfootball no tiene. Ver `fad/rsssf.py`: hace
-    # falta ademas un mapa de nombres por zona, porque RSSSF los escribe cortos y
-    # resolverlos por el padron da el club equivocado, no un error.
+    # Archivo de RSSSF (`arg3-int06` -> rsssf.org/tablesa/arg3-int06.html). Ver
+    # `fad/rsssf.py`: hace falta ademas un mapa de nombres POR ZONA, porque RSSSF
+    # los escribe cortos y resolverlos por el padron da el club equivocado, que
+    # es peor que un error.
     rsssf: str | None = None
-    # La pagina trae los partidos completos y NO trae las fechas. Sus filas van a
-    # `data/sin-fecha/` en vez de al dataset principal, que promete una fecha en
-    # cada fila. Ver el LEEME de esa carpeta: el partido esta, lo que falta es
-    # cuando se jugo, y son dos cosas distintas.
-    sin_fecha: bool = False
+    # El feed de ESPN. La liga, los rangos de fecha y el mapa de nombres viven en
+    # `fad/espn.py`, indexados por pagina.
+    espn: bool = False
 
     @property
     def url(self) -> str:
@@ -259,11 +263,11 @@ ASCENSO_HISTORICO = [
     # `data/sin-fecha/` a la espera de una fuente de fechas. worldfootball no
     # sirve: su selector no lista Primera C para Argentina.
     Torneo('Campeonato de Primera C 2008-09 (Argentina)', 'Primera C', 2008,
-           anio_fin=2009, sin_fecha=True),
+           anio_fin=2009, espn=True),
     Torneo('Campeonato de Primera C 2009-10 (Argentina)', 'Primera C', 2009,
-           anio_fin=2010, sin_fecha=True),
+           anio_fin=2010, espn=True),
     Torneo('Campeonato de Primera C 2010-11 (Argentina)', 'Primera C', 2010,
-           anio_fin=2011, sin_fecha=True),
+           anio_fin=2011, espn=True),
     # Este ESTUVO en `sin-fecha/` por un diagnostico equivocado, y conviene dejar
     # escrito cual. El comentario que habia aca decia: "sus tablas SI tienen
     # columna de fecha, pero la pagina la deja vacia en casi todas las filas...
@@ -284,7 +288,7 @@ ASCENSO_HISTORICO = [
     # sus 474 filas. La mitad de las jornadas ademas escribe los clubes con el
     # nombre cortado ("Sp. Italiano", "T. Suarez"), que estan como alias.
     Torneo('Campeonato de Primera B 2010-11 (Argentina)', 'Primera B', 2010,
-           anio_fin=2011, sin_fecha=True),
+           anio_fin=2011, espn=True),
     # Y esta: 12 fechadas de 279. Trajo diez clubes del interior que el padron
     # no tenia -- Lujan de Cuyo, Nunorco, La Plata FC, Atletico Candelaria... --
     # todos sacados del articulo que enlaza su propia tabla de participantes.

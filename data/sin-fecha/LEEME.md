@@ -1,23 +1,62 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **1 907**, de cinco temporadas. Todo lo demás —equipos, marcador, jornada, torneo, temporada— salió de
-Wikipedia igual que el resto del dataset y pasó por los mismos chequeos.
+jugaron.** Son **86**. Todo lo demás —equipos, marcador, jornada, torneo,
+temporada— salió de Wikipedia igual que el resto del dataset y pasó por los
+mismos chequeos.
 
 Van acá y no en `data/` porque el dataset principal promete una fecha en cada
 fila, y esa promesa vale la pena mantenerla. Pero **que falte la fecha no es lo
-mismo que no tener el partido**, y tirarlos sería perder mil partidos reales por
-un campo.
+mismo que no tener el partido**, y tirarlos sería perder partidos reales por un
+campo.
 
-## Qué hay
+## Eran 2 345
 
-| temporada | torneo | partidos | por qué |
-|---|---|---|---|
-| 2008 | Primera C 2008-09 | 384 | la tabla no tiene columna de fecha |
-| 2009 | Primera C 2009-10 | 385 | la tabla no tiene columna de fecha |
-| 2010 | Primera C 2010-11 | 385 | la tabla no tiene columna de fecha |
-| 2010 | Primera B 2010-11 | 474 | **la tiene y la deja vacía** |
-| 2005 | Torneo Argentino A 2005-06 | 279 | **la tiene y la deja vacía** |
+Esta carpeta tenía seis temporadas enteras: las tres de Primera C 2008-2011, la
+Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó es un resto de
+ochenta y seis filas repartido en diez torneos, y **ninguna está acá porque su
+torneo no tenga fuente de fechas**: están una por una, por su propio motivo.
+
+| de dónde sale la fecha en el resto del dataset | filas |
+|---|---|
+| [ESPN](https://www.espn.com.ar/) | 1 547 |
+| [worldfootball](https://www.worldfootball.net/) | 1 520 |
+| [RSSSF](https://www.rsssf.org/) | 249 |
+
+El crédito viaja **fila por fila** en la columna `source`, que queda compuesta:
+
+```
+https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina) + https://www.espn.com.ar/
+```
+
+Ninguna de esas fuentes aporta otra cosa que la fecha. Equipos, marcador y
+jornada siguen saliendo de Wikipedia, y el marcador de la otra fuente se usa
+**para verificar** que las dos partes hablan del mismo partido: si no coinciden,
+no se completa nada y se avisa.
+
+## Por qué quedaron estas ochenta y seis
+
+Son tres motivos, y los tres son honestos.
+
+**Las dos fuentes cuentan el partido distinto.** Diez casos. Nuestro marcador y
+el de la otra fuente no coinciden, así que el emparejamiento no está verificado y
+la fecha no se toma. Es la regla funcionando: un partido que dos fuentes cuentan
+distinto es información sobre los datos, no un problema a tapar.
+
+**El cruce no identifica un solo partido.** La mayoría. Los playoffs vuelven a
+cruzar a los mismos dos clubes, y cuando la fuente no publica el número de
+jornada —el feed de ESPN no lo hace— ese par deja de identificar. Ahí se
+descartan los dos: *lo que no identifica uno solo, no identifica nada*.
+
+**Quince son del Argentino A 2005-06, y esos son otra cosa.** Diez de ellos ni
+siquiera deberían existir: la página de Wikipedia **copió las tablas de dos
+jornadas del Clausura dentro del Apertura**, y RSSSF lo prueba fechando esos
+partidos en febrero de 2006, que para el Apertura es imposible. No se les puso
+fecha a propósito — ponérsela habría sido afirmar que los veinte partidos
+existieron. Queda anotado como corrección de **marcadores** pendiente, que tiene
+otra vara de evidencia.
+
+## Cómo se usan
 
 Mismo esquema y mismas columnas que `data/partidos-AAAA.csv`, con `date` vacío.
 Un archivo por **temporada**, igual que allá.
@@ -32,83 +71,12 @@ Sirven para todo lo que no dependa del calendario: tabla de posiciones, historia
 entre dos clubes, goles a favor y en contra, rachas por jornada. No sirven para
 nada que necesite ordenar por día o medir descanso entre partidos.
 
-Unas pocas filas **sí** traen fecha: 4, 5 y 5 en las de Primera C —partidos de
-definición que la página publica en una tabla aparte, con día y estadio— y unas
-pocas de las dos que sí tienen columna: 12 de 474 en la Primera B y 15 de 279 en
-el Argentino A 2005-06. Se dejan como están.
+## Cómo llega una fila acá
 
-## Por qué no tienen fecha
-
-Son **dos motivos distintos**, y conviene no confundirlos: uno es que la fuente no
-tiene el dato, y el otro es que lo tiene y no lo escribió.
-
-### Primera C: la columna no existe
-
-Las páginas de Primera C de esos años publican los resultados en tablas de **tres
-columnas** —`Local | Resultado | Visitante`— y nada más. No hay una columna de
-fecha que el parser esté leyendo mal: no existe.
-
-Es el mismo caso que la Primera B Nacional 2007-2011, que sí se pudo resolver
-cruzando con [worldfootball.net](https://www.worldfootball.net/) para sacar de ahí
-—y sólo de ahí— la fecha. **Con Primera C esa salida no está**: el selector de
-worldfootball lista para Argentina únicamente Primera División, Primera Nacional,
-Primera B Metropolitana, Copa Argentina y Supercopa. Primera C no figura.
-
-### Primera B 2010-11 y Argentino A 2005-06: la columna existe y está vacía
-
-Éste es el caso raro: sus tablas **sí** traen la columna de fecha, pero la página
-la deja en blanco en casi todas las filas.
-
-> **Acá hubo un diagnóstico equivocado y conviene dejarlo escrito.** Este archivo
-> decía, del Argentino A 2010-11: *«No es un bug del parser, y verificarlo
-> importaba: si lo fuera, la solución sería arreglar el parser y no archivar 438
-> partidos. Se midió jornada por jornada.»* **Era un bug del parser.** `_partir`
-> descartaba las celdas vacías, así que en las jornadas donde la página deja el
-> **estadio** en blanco —de la Fecha 18 en adelante— las columnas se corrían un
-> lugar y la fecha aterrizaba en la cancha: el partido salía sin fecha y con
-> `venue = "2 de febrero"`. La medición jornada por jornada se hizo sobre la
-> salida del parser, así que confirmó el síntoma y no vio la causa. Arreglado el
-> corrimiento, la página fecha sus **438 partidos, los 438**, y el torneo se mudó
-> a `data/`.
-
-La Primera B 2010-11 sí es el caso genuino (12 fechadas de 474), y trae otra cosa: **la mitad
-de sus jornadas escribe los clubes con el nombre cortado** —`Sp. Italiano`,
-`T. Suárez`, `D. de Belgrano`—. Se resolvieron contra el plantel del propio torneo,
-donde la forma larga está y los partidos suman: `Brown (A)` 16 + `Brown de Adrogué`
-28 = 44, como los demás.
-
-El **Argentino A 2005-06** cerró la parte más cara: trajo **diez clubes del interior**
-que el padrón no tenía —Luján de Cuyo, Ñuñorco, La Plata FC, Atlético Candelaria,
-General Paz Juniors, Talleres de Perico…—. Ninguno se dedujo de la abreviatura: cada
-uno sale del **artículo que enlaza la tabla de participantes de su propia página**,
-que además da la ciudad. Y trajo una corrección que el fixture arbitra solo: su
-Apertura es una rueda única —130 de 131 pares se cruzan una vez— y el único par que
-se cruzaba dos veces delataba una fila con el club equivocado.
-
-Los 438 del Argentino A 2010-11 **ya no están acá**: viven en `data/` con su fecha.
-Siguen siendo los mismos partidos auditados de siempre —nueve nombres de club venían
-mal en la fuente y se corrigieron con la grilla de la zona, cada uno documentado en
-[`fad/correcciones.py`](../../fad/correcciones.py); cuatro eran Unión de Mar del
-Plata escrito «Unión (S)», que es el de Sunchales, un club real que además jugaba
-ese mismo torneo en otra zona—, sólo que ahora también tienen día.
-
-### Qué se descartó, y para no volver a mirarlo
-
-**Primera B Metropolitana en worldfootball no llega tan atrás.** Su selector lista
-25 temporadas y la más vieja es **2018/2019** — contra las 55 de Primera Nacional,
-que llegan hasta 2002. Así que esa vía tampoco sirve para las temporadas viejas de
-Primera B, que es la otra categoría con partidos sin fecha esperando
-(2010-11, 474 partidos).
-
-Medido sobre el selector de `co5199`, no deducido.
-
-## Si aparece una fuente de fechas
-
-El plan es completarlas y mudarlas a `data/`. Mientras tanto quedan parseadas y
-verificadas, así que probar una fuente candidata no obliga a volver a leer las
-tres temporadas desde Wikipedia.
-
-El cruce ya está escrito y es el mismo que se usó para la B Nacional
-([`fad/fechas.py`](../../fad/fechas.py)): empareja por jornada y marcador único,
-sin depender de cómo la otra fuente escriba los nombres, y **sólo copia la fecha
-si las dos coinciden también en el resultado**.
+Ya no hace falta marcar nada en el catálogo. **El reparto es por fila**: la que
+tiene fecha va a `data/`, la que no, viene acá. Antes se decidía por torneo, y esa
+regla tenía las dos mitades mal — un torneo marcado iba entero a esta carpeta
+aunque tuviera fechas, y en cualquier otro las filas sin fecha **se tiraban**, que
+es justo lo contrario de lo que dice esta página. Al arreglarlo aparecieron 16
+partidos reales que se venían descartando en Primera Nacional 2007, 2023 y 2026,
+Federal A 2024 y Primera C 2024.

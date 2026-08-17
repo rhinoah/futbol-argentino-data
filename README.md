@@ -17,17 +17,18 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
 ```
 
-**Estado:** **37 436 partidos entre febrero de 2004 y hoy** — veintitrés años de
+**Estado:** **39 241 partidos entre febrero de 2004 y hoy** — veintitrés años de
 Primera División, quince de Primera Nacional, once de Primera B, Primera C y
 Torneo Federal A, y diez ediciones de la Copa Argentina. **208 clubes**, 131
 torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
 todos los días.
 
-Aparte, en [`data/sin-fecha/`](data/sin-fecha/) hay **1 907 partidos que están
-completos salvo por el día en que se jugaron** — tres temporadas de Primera C, cuyas
-tablas no tienen columna de fecha, y tres del ascenso que la tienen y la dejan
-vacía. Van separados justamente para que el dataset
-principal pueda seguir prometiendo una fecha en cada fila.
+Aparte, en [`data/sin-fecha/`](data/sin-fecha/) quedan **86 partidos que están
+completos salvo por el día en que se jugaron**. Eran 2 345 y eran seis temporadas
+enteras; hoy son un resto suelto, y ninguno está ahí porque a su torneo le falte
+fuente de fechas: están uno por uno, por su propio motivo. Van separados
+justamente para que el dataset principal pueda seguir prometiendo una fecha en
+cada fila.
 
 ## Por qué
 
@@ -87,12 +88,18 @@ estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
 `source` de cada fila lleva la URL exacta de la página de la que salió, así que
 la atribución viaja con el dato.
 
-**[worldfootball.net](https://www.worldfootball.net/)** aporta un solo campo, y
-sólo en **1 520 filas de 37 436** (4,1 %): la **fecha del calendario** de partidos
-que Wikipedia publica sin fecha — las cuatro temporadas de Primera B Nacional
-entre 2007 y 2011 usan tablas de tres columnas (`Local | Resultado | Visitante`) y
-nada más. El partido, los equipos, el marcador y la jornada siguen saliendo de
-Wikipedia.
+**Tres fuentes más aportan un solo campo**, y sólo en **3 316 filas de 39 241**
+(8,5 %): la **fecha del calendario** de partidos que Wikipedia publica sin fecha.
+Una decena de temporadas del ascenso entre 2005 y 2011 usan tablas de tres
+columnas (`Local | Resultado | Visitante`) y nada más. El partido, los equipos, el
+marcador y la jornada siguen saliendo de Wikipedia.
+
+Son tres y no una porque ninguna cubre todo: **[worldfootball](https://www.worldfootball.net/)**
+tiene la Primera B Nacional 2007-2011 (1 520 filas) pero su Primera B
+Metropolitana arranca en 2018/19 y no lista Primera C ni el Argentino A; el feed
+de **[ESPN](https://www.espn.com.ar/)** cubre Primera B y C de esos años (1 547);
+y **[RSSSF](https://www.rsssf.org/)** tiene el Argentino A viejo (249), que no
+está en ninguna de las otras dos.
 
 Sin ese campo esas cuatro temporadas no entrarían: el esquema promete una fecha en
 cada fila, así que los 1 520 partidos se descartaban enteros. La diferencia no es
@@ -1433,13 +1440,108 @@ llaman **9 de Julio**, **20 de Febrero**, **25 de Mayo**. La señal buena no es 
 cancha parece una fecha» sino «la cancha parece una fecha **y el partido no tiene
 fecha**». Medido así: **373 antes, 0 después**.
 
+## Las cinco temporadas que no tenían fecha
+
+Quedaban cinco: el Argentino A 2005-06, las tres de Primera C 2008-2011 y la
+Primera B 2010-11. **2 345 partidos completos salvo por el día.** Sus páginas
+publican los resultados en tablas de tres columnas —`Local | Resultado |
+Visitante`— y no hay columna de fecha que estemos leyendo mal: no existe.
+
+Antes de salir a buscar hubo que medir una cosa, porque de ella dependía todo el
+enfoque: **en el ascenso argentino una jornada casi nunca se juega en un día.**
+
+| días que abarca una jornada | % |
+|---|---|
+| 1 | 19,2 % |
+| 2 | 26,7 % |
+| 3 | 25,7 % |
+| 4 o más | 28,4 % |
+
+Medido sobre 3 237 jornadas reales del propio dataset. O sea que la vía cómoda
+—tomar la fecha del titular de una crónica de jornada y repartirla entre sus once
+partidos— dejaría el **41,5 %** con el día equivocado, y sin avisar. Queda
+descartada por evidencia, no por prudencia. Lo que sirve es una fuente con **fecha
+por partido**.
+
+Aparecieron dos, y ninguna es la prensa:
+
+- **RSSSF** tiene el Argentino A 2005-06 entero en una página de texto plano.
+- **El feed de ESPN** devuelve cada temporada de Primera B y C en una sola llamada.
+
+### Usar RSSSF justo después de haberla desenmascarado
+
+Vale detenerse acá, porque a cuatro secciones de distancia este README cuenta que
+RSSSF resultó ser **el ancestro del error** en el Clausura 2005: publicaba la
+tabla de Wikipedia con el mismo desbalance de 3 goles, así que no era un testigo
+sino un eco.
+
+No es contradicción, y la diferencia importa más que el caso. **La circularidad
+existe cuando las dos fuentes pueden haberse copiado el dato en disputa.** Acá el
+dato en disputa es la fecha, y Wikipedia no publica ninguna —es exactamente la
+razón por la que esos partidos estaban en `sin-fecha/`—. La fecha de RSSSF no
+puede ser un eco de Wikipedia ni al revés: es información nueva. Y el marcador,
+que sí podría ser un eco, **no se importa**: se usa para verificar.
+
+### Sin número de jornada
+
+El feed de ESPN no lo publica, y la regla del proyecto es *«los equipos y la
+jornada identifican el partido, el marcador lo verifica»*. Lo que se hizo no fue
+aflojarla sino cambiarle el identificador, y se midió antes de decidirlo: en una
+liga de ida y vuelta cada par se cruza **una vez en cada cancha**, así que
+`(local, visitante)` ya identifica. Sobre nuestros propios datos: 384 pares
+distintos sobre 384 partidos en la Primera C 2008-09.
+
+Lo que sostiene el cambio no es esa aritmética sino que la regla de colisión sigue
+puesta: los playoffs vuelven a cruzar a los mismos, y ahí el par deja de
+identificar, así que **se caen los dos**. Es la mayor parte de las 86 filas que
+todavía no tienen fecha.
+
+### La guarda que el marcador no da
+
+Un nombre mal traducido en el mapa manda el partido al club equivocado, y el
+marcador **no lo agarra**: dos partidos de la misma temporada pueden coincidir en
+resultado por casualidad. Por eso `espn.contrastar_plantel` exige que los clubes
+que la fuente pone en esa temporada sean los mismos que los nuestros. Un club que
+no jugó no puede aparecer.
+
+Los nombres cortos son el peligro concreto, y es el mismo que el README ya cuenta
+con «Estudiantes»: resolverlos por el padrón devuelve un club que existe y que no
+es. RSSSF escribe «Racing», que en la Zona Sur es el de Olavarría y en la Norte el
+de Córdoba —dos clubes distintos, en el mismo torneo—; el padrón devuelve Racing
+Club de Avellaneda, que nunca jugó el Argentino A. Y «Talleres», que ahí es el de
+Perico, devuelve el de Córdoba. Por eso los mapas van **a mano y por zona**.
+
+El que obligó a mirar dos veces fue `FC Urquiza`, y se resolvió sin adivinar:
+ESPN tiene **además** un `J. J. de Urquiza` con otro id, o sea que para ESPN son
+dos clubes, y lo son. En la 2010-11 nuestro plantel trae los dos, así que es UAI;
+en la 2009-10 UAI no jugó, así que ahí no se traduce.
+
+### El resultado
+
+| | antes | ahora |
+|---|---|---|
+| con fecha | 36 966 | **39 241** |
+| sin fecha | 2 345 | **86** |
+
+Y una consecuencia que no estaba en el plan: una vez que las cinco temporadas
+tuvieron fuente, **no quedó un solo torneo marcado `sin_fecha`**. El flag se sacó.
+El test que lo custodiaba traía escrita su propia condición de muerte —«si no
+queda ninguno, sobra la carpeta y sobra el flag»— y esta vez se cumplió.
+
+En su lugar el reparto pasó a ser **por fila**: la que tiene fecha va a `data/`,
+la que no, a `sin-fecha/`. Antes se decidía por torneo, y esa regla tenía las dos
+mitades mal — un torneo marcado iba entero a la carpeta aparte aunque tuviera
+fechas, y en cualquier otro las filas sin fecha **se tiraban**, que contradice lo
+que el LEEME de esa misma carpeta viene diciendo desde el principio. Al
+arreglarlo aparecieron 16 partidos reales que se venían descartando.
+
 ## Tests
 
-544 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+575 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 163 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 173 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

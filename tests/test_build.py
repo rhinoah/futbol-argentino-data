@@ -538,7 +538,7 @@ def test_el_build_avisa_cuando_la_tabla_no_cierra_consigo_misma():
 # --------------------------------------------------------------------------
 # los partidos sin fecha, guardados aparte
 # --------------------------------------------------------------------------
-SIN_FECHA = Torneo("Anexo:Prueba", "Prueba", 2008, cerrado=False, sin_fecha=True)
+SIN_FECHA = Torneo("Anexo:Prueba", "Prueba", 2008, cerrado=False)
 
 
 def _tres_columnas() -> str:
@@ -567,8 +567,9 @@ def test_un_torneo_sin_fecha_conserva_sus_partidos():
     assert len(ps) == 1
     assert ps[0].fecha == "" and ps[0].local == "Boca Juniors"
     assert not any(a.grave for a in avisos)
-    assert not any("sin fecha" in a.que for a in avisos), \
-        "en esta carpeta la fecha vacia es el estado esperado, no una falla"
+    assert any("sin fecha" in a.que for a in avisos), (
+        "y se avisa: sacada la marca del catalogo, una fila sin fecha siempre es "
+        "algo que mirar. Donde va esa fila es cosa de `_repartir`, no de aca")
 
 
 def test_sin_la_marca_el_mismo_partido_se_descarta():
@@ -600,7 +601,7 @@ def test_no_se_vuelven_a_parsear(monkeypatch, tmp_path):
     tres temporadas enteras desde Wikipedia."""
     salida = tmp_path / "data"
     bajadas = []
-    cerrado = Torneo("Anexo:Prueba", "Prueba", 2008, sin_fecha=True)
+    cerrado = Torneo("Anexo:Prueba", "Prueba", 2008)
     monkeypatch.setattr(build.torneos, "TODOS", [cerrado])
     monkeypatch.setattr(build.wiki, "wikitexto",
                         lambda *a, **k: (bajadas.append(1), _tres_columnas())[1])
@@ -611,25 +612,31 @@ def test_no_se_vuelven_a_parsear(monkeypatch, tmp_path):
     assert len(build.dataset.leer_carpeta(build.sin_fecha_en(salida))) == 1
 
 
-def test_cada_torneo_sin_fecha_esta_justificado_en_el_catalogo():
-    """`sin_fecha` saca un torneo del dataset principal, asi que no puede ponerse
-    al pasar: cada uno tiene que estar comentado con POR QUE la fuente no trae la
-    fecha, y son dos motivos distintos -- las tablas de tres columnas de la
-    Primera C, y el Argentino A 2010-11, que tiene la columna y la deja vacia.
+def test_cada_marca_de_fuente_de_fecha_apunta_a_algo():
+    """Reemplaza a `test_cada_torneo_sin_fecha_esta_justificado_en_el_catalogo`,
+    que se quedo sin sujeto.
 
-    Antes esto fijaba "exactamente tres, todas de Primera C", que no es un
-    invariante sino el estado de ese dia: cualquier temporada nueva lo rompia sin
-    que nada estuviera mal."""
-    from pathlib import Path
-    from fad import torneos
-    marcados = [t for t in torneos.TODOS if t.sin_fecha]
-    assert marcados, "si no queda ninguno, sobra la carpeta y sobra el flag"
-    fuente = Path(torneos.__file__).read_text(encoding="utf-8")
-    for t in marcados:
-        i = fuente.index(repr(t.pagina).strip("'\""))
-        # los comentarios que preceden a la entrada, hasta la linea en blanco
-        previo = fuente[:i].rsplit("\n\n", 1)[-1]
-        assert "#" in previo, f"{t.pagina}: sin_fecha sin explicar en el catalogo"
+    Aquel exigia que cada torneo marcado `sin_fecha` estuviera explicado en el
+    catalogo, y traia escrita su propia condicion de muerte: "si no queda
+    ninguno, sobra la carpeta y sobra el flag". Eso paso. Las cinco temporadas
+    que no tenian fecha consiguieron fuente -- RSSSF para el Argentino A 2005-06
+    y el feed de ESPN para las tres de Primera C y la Primera B 2010-11 -- y el
+    flag quedo sin un solo usuario, asi que se saco.
+
+    Lo que queda por sostener es la otra mitad: una marca de fuente que apunte a
+    una entrada que no existe revienta el build a mitad de camino, con el CSV
+    anterior ya leido."""
+    from fad import espn, rsssf, torneos
+    assert "sin_fecha" not in Torneo.__dataclass_fields__, "el flag volvio sin querer"
+    con_fuente = 0
+    for t in torneos.TODOS:
+        if t.rsssf:
+            assert t.pagina in rsssf.FUENTES, f"{t.pagina}: `rsssf` sin entrada en FUENTES"
+            con_fuente += 1
+        if t.espn:
+            assert t.pagina in espn.FUENTES, f"{t.pagina}: `espn` sin entrada en FUENTES"
+            con_fuente += 1
+    assert con_fuente >= 5, "las cinco temporadas rescatadas tienen que seguir marcadas"
 
 
 def test_ninguna_fila_del_dataset_principal_esta_sin_fecha(tmp_path):

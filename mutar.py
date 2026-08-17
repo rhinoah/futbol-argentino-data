@@ -179,10 +179,6 @@ MUTANTES = [
      "            if (p.jornada, p.local, p.visita) not in (arbitrados or ()):",
      "            if False:"),
 
-    ("build.py", 'descartar igual los partidos de un torneo sin fecha',
-     '    if t.sin_fecha:\n        return ps, [a for a in avisos if "sin fecha" not in a.que]',
-     '    if False:\n        return ps, avisos'),
-
     ("build.py", 'meter los partidos sin fecha en el dataset principal',
      '        _repartir([dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps],\n                  filas, sin_fecha)',
      '        filas.extend(dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps)'),
@@ -236,6 +232,23 @@ MUTANTES = [
      "        if len(candidatos) != 1:",
      "        if False:"),
 
+    ("fad/espn.py", "tomar la fecha de ESPN en UTC sin pasarla a hora argentina",
+     "    return (datetime.fromisoformat(iso.replace(\"Z\", \"+00:00\"))\n"
+     "            .astimezone(_ARGENTINA).date().isoformat())",
+     "    return iso[:10]"),
+
+    ("fad/espn.py", "no chequear que los planteles coincidan",
+     "    sobran = sorted(suyos - mios)",
+     "    sobran = []"),
+
+    ("fad/espn.py", "importar un partido de ESPN sin marcador",
+     "        if goles[\"home\"] is None or goles[\"away\"] is None:\n            continue",
+     "        goles = {k: (v if v is not None else 0) for k, v in goles.items()}"),
+
+    ("fad/fechas.py", "exigir jornada aunque la fuente no la publique",
+     "    con_jornada = any(a.jornada for a in ajenos)",
+     "    con_jornada = True"),
+
     ("fad/rsssf.py", "exigir dos espacios antes del marcador (pierde al club de 28 letras)",
      r'    r"^([^\[\]]{3,34}?)\s+(\d+)-(\d+)',
      r'    r"^([^\[\]]{3,34}?)\s{2,}(\d+)-(\d+)'),
@@ -257,8 +270,8 @@ MUTANTES = [
      "        cl, cl = cl or local, cv or visita"),
 
     ("fad/fechas.py", "ignorar la llave y mezclar dos torneos de la misma pagina",
-     "            k = (a.llave, a.jornada, el, ev)",
-     '            k = ("", a.jornada, el, ev)'),
+     "            k = (a.llave, a.jornada if con_jornada else 0, el, ev)",
+     '            k = ("", a.jornada if con_jornada else 0, el, ev)'),
 
     ("build.py", "tirar las filas sin fecha en vez de guardarlas aparte",
      '        (filas if (f.get("date") or "").strip() else sin_fecha).append(f)',
@@ -496,8 +509,8 @@ MUTANTES = [
      "        if False:\n            continue"),
 
     ("fad/fechas.py", "no exigir que coincida la jornada",
-     "            k = (a.llave, a.jornada, el, ev)",
-     "            k = (a.llave, a.jornada, el, ev)\n"
+     "            k = (a.llave, a.jornada if con_jornada else 0, el, ev)",
+     "            k = (a.llave, a.jornada if con_jornada else 0, el, ev)\n"
      "            for _j in range(1, 60):\n"
      "                indice.setdefault((a.llave, _j, el, ev), a)"),
 

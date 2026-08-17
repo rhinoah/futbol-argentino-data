@@ -580,3 +580,56 @@ def test_sin_llave_dos_ajenos_iguales_siguen_chocando():
     n, avisos = fechas.completar([p], ajenos)
     assert n == 0 and not p.fecha
     assert any("dos veces" in a for a in avisos)
+
+
+# --------------------------------------------------------------------------
+# cuando la fuente no publica el numero de jornada
+# --------------------------------------------------------------------------
+def sin_jornada(local, visita, gl, gv, fecha):
+    """Como los emite `fad/espn.py`: el feed no trae la jornada."""
+    return fechas.Ajeno(fecha=fecha, jornada=0, local=local, visita=visita,
+                        goles_local=gl, goles_visita=gv)
+
+
+def test_una_fuente_sin_jornada_empareja_por_el_par_de_clubes():
+    """El feed de ESPN no publica la jornada. No se afloja la regla, se le cambia
+    el identificador: en una liga de ida y vuelta cada par se cruza UNA VEZ EN
+    CADA CANCHA, asi que (local, visita) ya identifica el partido.
+
+    Medido antes de decidirlo, sobre nuestros propios datos: 384 pares distintos
+    sobre 384 partidos en la Primera C 2008-09."""
+    a = nuestro("San Miguel", "Sacachispas", 0, 1, 1)
+    b = nuestro("Sacachispas", "San Miguel", 2, 2, 20)
+    n, _ = fechas.completar([a, b], [sin_jornada("San Miguel", "Sacachispas", 0, 1, "2009-08-22"),
+                                     sin_jornada("Sacachispas", "San Miguel", 2, 2, "2010-03-14")])
+    assert n == 2
+    assert a.fecha == "2009-08-22", "la ida"
+    assert b.fecha == "2010-03-14", "la vuelta, en la otra cancha"
+
+
+def test_sin_jornada_la_jornada_nuestra_deja_de_importar():
+    """El testigo de que de verdad se ignora: la fuente no sabe que este partido
+    es de la Fecha 7, y la fecha se completa igual."""
+    p = nuestro("San Miguel", "Sacachispas", 0, 1, 7)
+    n, _ = fechas.completar([p], [sin_jornada("San Miguel", "Sacachispas", 0, 1, "2009-09-19")])
+    assert n == 1 and p.fecha == "2009-09-19"
+
+
+def test_sin_jornada_el_marcador_sigue_verificando():
+    """Lo unico que no se toca. El identificador cambio; la verificacion no."""
+    p = nuestro("San Miguel", "Sacachispas", 0, 1, 7)
+    n, avisos = fechas.completar([p], [sin_jornada("San Miguel", "Sacachispas", 3, 0, "2009-09-19")])
+    assert n == 0 and not p.fecha
+    assert any("marcador distinto" in a for a in avisos)
+
+
+def test_sin_jornada_un_par_repetido_se_descarta_entero():
+    """Los playoffs vuelven a cruzar a los mismos dos clubes, y ahi el par deja
+    de identificar. Es la mayor parte de las filas que siguen sin fecha, y es la
+    regla de colision haciendo su trabajo: lo que no identifica uno solo, no
+    identifica nada."""
+    p = nuestro("San Miguel", "Sacachispas", 0, 1, 7)
+    n, avisos = fechas.completar([p], [sin_jornada("San Miguel", "Sacachispas", 0, 1, "2009-09-19"),
+                                       sin_jornada("San Miguel", "Sacachispas", 0, 1, "2010-06-05")])
+    assert n == 0 and not p.fecha
+    assert any("dos veces" in a for a in avisos)

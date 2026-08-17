@@ -388,6 +388,18 @@ def completar(nuestros: list, ajenos: list[Ajeno],
 
     # Si la fuente distingue llaves, la clave las incluye de los dos lados.
     con_llave = any(a.llave for a in ajenos)
+    # Y si NO trae numero de jornada -- el feed de ESPN no lo publica --, el
+    # identificador pasa a ser el par (local, visita) solo. No es aflojar la
+    # regla, es cambiarle el identificador: en una liga de ida y vuelta cada par
+    # se cruza UNA VEZ EN CADA CANCHA, asi que el par ya identifica el partido.
+    # Medido sobre nuestros datos antes de decidirlo: 384 pares distintos sobre
+    # 384 partidos en la Primera C 2008-09.
+    #
+    # Lo que sostiene esto no es la aritmetica sino que la regla de colision
+    # sigue puesta: si el par NO identifica uno solo -- los playoffs vuelven a
+    # cruzar a los mismos --, se caen los dos y no se completa nada. Y el
+    # marcador sigue verificando.
+    con_jornada = any(a.jornada for a in ajenos)
     indice, sin_padron, chocados = {}, set(), set()
     for a in ajenos:
         el, ev = club(a.id_local, a.local), club(a.id_visita, a.visita)
@@ -402,7 +414,7 @@ def completar(nuestros: list, ajenos: list[Ajeno],
             # importaba la fecha del partido equivocado sin decir nada. Es el
             # mismo criterio que `derivar_padron` usa con los marcadores
             # repetidos: lo que no identifica uno solo, no identifica nada.
-            k = (a.llave, a.jornada, el, ev)
+            k = (a.llave, a.jornada if con_jornada else 0, el, ev)
             if k in indice:
                 chocados.add(k)
             indice[k] = a
@@ -417,7 +429,8 @@ def completar(nuestros: list, ajenos: list[Ajeno],
         # `p.llave or ""` contra `a.llave`: si la fuente no distingue llaves las
         # deja vacias y la clave queda como estaba.
         a = indice.get((getattr(p, "llave", "") if con_llave else "",
-                        _numero(p.jornada), p.local, p.visita))
+                        _numero(p.jornada) if con_jornada else 0,
+                        p.local, p.visita))
         if a is None:
             sin_par += 1
             continue
