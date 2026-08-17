@@ -680,6 +680,38 @@ Aplicadas las cinco correcciones, esos dos torneos cierran exactos y el grupo qu
 **cinco**: la Primera C 2011-12, el Federal A 2021 y 2022, y las dos temporadas en
 curso —Primera Nacional 2026 y Primera C 2026—, que son otra cosa y están abajo.
 
+##### Las dos en curso son otro problema
+
+La **Primera Nacional 2026** y la **Primera C 2026** están jugándose, y ahí hay que
+tener cuidado con una tentación: dar por errónea una tabla que sólo está
+desactualizada. Se separan los dos fenómenos.
+
+En la Primera Nacional 2026 la tabla tiene **dos filas atrasadas** —Nueva Chicago 23
+partidos contra 24, San Martín (SJ) 22 contra 23—, y ésos son exactamente los clubes
+que el árbitro saltea. Eso abre el agujero de siempre: el socio del desviado podría
+estar afuera de la comparación. Se comprobó y no está: **Los Andes no juega contra
+ninguna de las dos filas atrasadas**, y el único cruce de Racing (C) con San Martín
+(SJ) fue un 0-0, donde no hay gol que esconder. Los dos son casos genuinos de club
+solo, y la tabla les queda un gol corta a cada uno. La suma lo confirma: la tabla
+desbalancea en −2, y sumándole un gol a favor a cada uno de los dos, cierra exacto.
+
+Con la reserva de que ese último argumento no es una prueba acá: con dos filas
+atrasadas, el conjunto de partidos que declara la tabla no es el mismo que el de la
+grilla, así que el balance podría descuadrar por el atraso y no por un dato malo. Por
+eso `posiciones.desbalance` **se calla** en esta página, y está bien que se calle. Lo
+que decide es el club solo, no la suma.
+
+En la Primera C 2026 no hay filas atrasadas y el detector sí habla: la tabla suma
+`GF606` contra `GC605`, o sea que hay un gol convertido que ningún club declara haber
+recibido. El faltante es un gol *en contra*, y el único club con delta sólo de GC es
+Cañuelas. Eso es parsimonia, no demostración —el balance prueba que falta un gol, no
+en qué celda—, y así queda anotado. Los otros dos desviados de esa página, Centro
+Español y Juventud Unida, aparean entre sí y ya estaban resueltos: Wikipedia tenía
+razón y la tabla no.
+
+En ninguna de las dos hay nada que corregir en los datos. Cuando el torneo termine y
+la página se estabilice, vuelven a mirarse.
+
 La conclusión práctica sigue siendo incómoda: **sólo un puñado se puede cerrar sin
 salir a buscar fuente por partido.** Los cinco del primer grupo ya están explicados
 por su propio aviso; los del segundo necesitan una crónica que diga cuál de las dos
