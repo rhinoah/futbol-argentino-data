@@ -637,3 +637,22 @@ def test_ningun_torneo_sin_fecha_escribe_en_el_dataset_principal(tmp_path):
     marcadas = {(t.torneo, str(t.temporada)) for t in torneos.TODOS if t.sin_fecha}
     en_data = {(f["tournament"], str(f["season"])) for f in dataset.leer_carpeta(principal)}
     assert not (marcadas & en_data), f"marcados pero en data/: {sorted(marcadas & en_data)}"
+
+
+def test_el_build_avisa_del_club_de_la_tabla_que_no_esta_en_el_padron():
+    """Los nombres de la TABLA no pasaban por ningun control. El del padron mira
+    los clubes de los partidos -- ahi un desconocido frena el build -- pero la
+    tabla entra por otra puerta, y la fila terminaba a nombre de un club que no
+    existe: no engancha con nada y el cruce la descarta sin decir palabra.
+
+    No es grave, porque los datos no se tocan. Es un aviso porque apaga el arbitro
+    justo donde nadie mira."""
+    pagina = tabla(("Boca Juniors", "River Plate")) + """
+== Tabla de posiciones ==
+{{Tabla de posiciones equipo|pos=1|g=1|e=0|p=0|gf=2|gc=1|eq=[[Club Inexistente de Prueba]]}}
+"""
+    _, avisos = build.procesar(pagina, T)
+    padron = [a for a in avisos if "no esta en el padron" in a.que]
+    assert len(padron) == 1
+    assert "Club Inexistente de Prueba" in padron[0].detalle
+    assert not padron[0].grave, "los datos no se tocan; el aviso es porque debilita el cruce"

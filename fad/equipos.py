@@ -425,6 +425,7 @@ PADRON: tuple[Equipo, ...] = (
 ARTICULOS: dict[str, str] = {
     'Arsenal Fútbol Club': 'Arsenal',
     'Asociación Cultural y Deportiva Altos Hornos Zapla': 'Altos Hornos Zapla',
+    'Asociación Civil Leones de Rosario Fútbol Club': 'Leones de Rosario',
     'Asociación Mutual Social y Deportiva Atlético de Rafaela': 'Atlético de Rafaela',
     'Asociación Social y Deportiva Justo José de Urquiza': 'J. J. de Urquiza',
     'Atlético Club San Martín': 'San Martín (SM)',

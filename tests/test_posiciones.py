@@ -456,3 +456,102 @@ def test_el_desbalance_se_calla_si_no_coinciden_los_partidos_jugados():
 def test_una_pagina_sin_tabla_no_desbalancea():
     ps = [zona("Boca Juniors", "River Plate", 3, 1)]
     assert posiciones.desbalance(ps, "== Resultados ==\nnada por aca") == []
+
+
+# --------------------------------------------------------------------------
+# fuera_del_padron: la fila que se caia sin decir nada
+# --------------------------------------------------------------------------
+def test_un_club_conocido_no_se_denuncia():
+    assert posiciones.fuera_del_padron(pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1))) == []
+
+
+def test_un_club_que_el_padron_no_conoce_se_denuncia():
+    """El nombre de la tabla no pasaba por ningun control. El del padron mira los
+    clubes de los PARTIDOS; la tabla entra por otra puerta y `canonizar` devuelve
+    intacto lo que no reconoce, asi que la fila quedaba a nombre de un club que no
+    existe y se caia del cruce en silencio."""
+    avisos = posiciones.fuera_del_padron(
+        pagina(fila(1, "Club Inexistente de Prueba", 4, 2, 1, 1, 0, 3, 1)))
+    assert len(avisos) == 1 and "Club Inexistente de Prueba" in avisos[0]
+
+
+def test_el_sup_de_la_llamada_al_pie_no_se_pega_al_nombre():
+    """La Primera B 2015 escribe `[[Club Social y Deportivo Merlo|Deportivo Merlo]]
+    <sup>1</sup>`, y el club terminaba llamandose "Deportivo Merlo 1" -- que no
+    esta en el padron, asi que su fila se caia del cruce.
+
+    El arreglo es sacar el articulo del wikilink de la celda cruda, igual que en
+    las plantillas: la llamada al pie queda afuera sola."""
+    sucia = ("|- style=\"text-align:center\"\n"
+             "||'''1º'''||align=\"left\"|[[Club Social y Deportivo Merlo|Deportivo Merlo]] <sup>1</sup>\n"
+             "||'''4'''||2||1||1||0||3||1||2")
+    assert posiciones.tabla(pagina(sucia)) == {"Deportivo Merlo": (2, 3, 1)}
+    assert posiciones.fuera_del_padron(pagina(sucia)) == []
+
+
+def test_el_wikilink_de_la_wikitabla_desambigua_igual_que_en_la_plantilla():
+    """El articulo manda sobre el nombre visible en los dos formatos, no en uno."""
+    mendoza = ("|-\n||'''1º'''||align=\"left\"|"
+               "[[Club Atlético Gimnasia y Esgrima (Mendoza)|Gimnasia]]\n"
+               "||'''4'''||2||1||1||0||3||1||2")
+    plata = ("|-\n||'''1º'''||align=\"left\"|"
+             "[[Club de Gimnasia y Esgrima La Plata|Gimnasia]]\n"
+             "||'''4'''||2||1||1||0||3||1||2")
+    assert list(posiciones.tabla(pagina(mendoza))) != list(posiciones.tabla(pagina(plata)))
+    assert list(posiciones.tabla(pagina(plata))) == ["Gimnasia y Esgrima (LP)"]
+
+
+def test_la_nota_al_pie_pegada_al_eq_sin_wikilink_no_se_lee_como_nombre():
+    """El Federal A 2022 escribe `eq=Huracán Las Heras{{refn|group=n.|Se le
+    descontaron 3 puntos...`. La rama del wikilink ya estaba a salvo; la del club
+    escrito a mano no, y justo el que lleva nota al pie es el de la quita de
+    puntos. Con esa fila afuera, el cruce de la pagina entera se debilitaba."""
+    texto = ("== Tabla de posiciones ==\n"
+             "{{Tabla de posiciones equipo|pos=14|g=8|e=14|p=10|gf=23|gc=26|desc=3"
+             "|eq=Huracán Las Heras{{refn|group=n.|Se le descontaron 3 puntos.}}\n")
+    assert posiciones.tabla(texto) == {"Huracán Las Heras": (32, 23, 26)}
+    assert posiciones.fuera_del_padron(texto) == []
+
+
+def test_si_la_plantilla_va_adelante_el_nombre_queda_ilegible_pero_DENUNCIADO():
+    """Este caso no tiene arreglo por este lado y el test esta para decirlo.
+
+    Si el `eq=` arranca con una plantilla (`eq={{bandera|Mendoza}} Huracán Las
+    Heras`), `_FILA_PLANTILLA` corta la fila entera en el primer `}}` -- que es el
+    de la bandera -- y el nombre se pierde antes de que este codigo lo vea.
+    Cortar en el `{{` dejaria la celda vacia y la fila se saltearia en silencio.
+
+    Por eso el fallback devuelve el crudo aunque venga sucio: un nombre ilegible
+    queda como club desconocido y `fuera_del_padron` lo denuncia, mientras que una
+    celda vacia hace desaparecer la fila sin que nadie se entere. Vacio no es lo
+    mismo que ilegible, y entre los dos males este proyecto ya eligio una vez.
+
+    No pasa en ninguna de las 131 paginas de hoy; el test fija la conducta para
+    cuando pase."""
+    texto = ("== Tabla de posiciones ==\n"
+             "{{Tabla de posiciones equipo|pos=1|g=1|e=1|p=0|gf=3|gc=1"
+             "|eq={{bandera|Mendoza}} Huracán Las Heras}}\n")
+    assert posiciones.tabla(texto), "la fila no puede desaparecer"
+    assert len(posiciones.fuera_del_padron(texto)) == 1
+
+
+def test_el_bloque_termina_en_el_proximo_encabezado_y_la_de_promedios_no_se_cuela():
+    """La tabla de PROMEDIOS se escribe con la misma plantilla que la de
+    posiciones, y vive dos secciones mas abajo en la misma pagina.
+
+    Si el bloque no se corta en el proximo encabezado, esas filas entran como si
+    fueran de la tabla de posiciones. Y ganan: el promedio se calcula sobre tres
+    temporadas, asi que su PJ es siempre mayor y se lleva puesto el desempate por
+    max-PJ. El club termina con los partidos de tres años donde tenia que tener
+    los de uno, y el cruce contra los partidos parseados pasa a comparar cualquier
+    cosa.
+
+    Este test existe porque el mutante `sig = None` sobrevivio: el acotado estaba
+    escrito y explicado, pero no habia nada que lo probara."""
+    texto = ("== Tabla de posiciones ==\n"
+             "{{Tabla de posiciones equipo|pos=1|g=1|e=1|p=0|gf=3|gc=1"
+             "|eq=[[Club Atlético Boca Juniors|Boca Juniors]]}}\n"
+             "\n== Tabla de promedios ==\n"
+             "{{Tabla de posiciones equipo|pos=1|g=40|e=20|p=54|gf=99|gc=98"
+             "|eq=[[Club Atlético Boca Juniors|Boca Juniors]]}}\n")
+    assert posiciones.tabla(texto) == {"Boca Juniors": (2, 3, 1)}

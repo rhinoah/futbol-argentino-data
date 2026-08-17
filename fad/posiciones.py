@@ -75,6 +75,9 @@ _CAMPO_EQUIPO = re.compile(r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*color\s*=|$
 #       Por el nombre visible son dos clubes; por el articulo son el mismo.
 _EQ_WIKILINK = re.compile(r"\[\[\s*([^\]|]+?)\s*(?:\|([^\]]*))?\]\]")
 _NUMEROS = {k: re.compile(rf"(?<![a-zA-Z]){k}\s*=\s*(\d+)") for k in ("g", "e", "p", "gf", "gc")}
+# Donde empieza la nota al pie que cuelga del nombre, cuando el nombre no es un
+# wikilink. Ver `_por_plantillas`.
+_COLA_DE_NOTA = re.compile(r"\{\{|<ref")
 _ENCABEZADO = re.compile(r"^==+[^=\n]*Tabla de posiciones[^=\n]*==+[^\n]*$", re.M | re.I)
 _CUALQUIER_ENCABEZADO = re.compile(r"^==+[^=\n]+==+", re.M)
 # Una wikitabla cierra con `\n|}` -- salvo cuando la cierra la plantilla de la
@@ -107,9 +110,16 @@ def _bloques(texto: str):
         yield texto[m.end():sig.start()] if sig else texto[m.end():]
 
 
-def _por_plantillas(bloque: str, arts: dict[str, str]) -> dict[str, tuple[int, int, int]]:
-    """Las filas escritas como `{{Tabla de posiciones equipo|...}}`."""
-    fuera = {}
+def _por_plantillas(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tuple[int, int, int]]]:
+    """Las filas escritas como `{{Tabla de posiciones equipo|...}}`.
+
+    Devuelve las filas CRUDAS -- `(nombre visible, articulo, (PJ, GF, GC))` -- y no
+    el club ya canonizado. Canonizar aca parecia mas prolijo y escondia justo lo
+    que hay que ver: si el padron no conoce ese nombre, `canonizar` lo devuelve
+    intacto, la fila queda con un club que no existe y se cae sola del cruce, en
+    silencio. Guardando el nombre como vino, `fuera_del_padron` puede denunciarlo.
+    """
+    fuera = []
     for fila in _FILA_PLANTILLA.finditer(bloque):
         cuerpo = fila.group(1)
         nums = {}
@@ -125,12 +135,31 @@ def _por_plantillas(bloque: str, arts: dict[str, str]) -> dict[str, tuple[int, i
             articulo = enlace.group(1)
             club = parser.limpiar(enlace.group(2) or articulo)
         else:
-            club = parser.limpiar(eq.group(1))
+            # Sin wikilink el nombre viene crudo, y atras puede colgar una nota
+            # al pie: `eq=Huracán Las Heras{{refn|group=n.|Se le descontaron 3
+            # puntos.<ref...`. `limpiar` no la saca, y encima la plantilla ni
+            # siquiera cierra -- `_FILA_PLANTILLA` corta en el primer `}}`, que
+            # es el del propio refn.
+            #
+            # La rama del wikilink ya estaba a salvo de esto, y por eso el
+            # arreglo tardo en aparecer: parecia cubierto. No lo estaba para el
+            # club escrito a mano, y justamente el que lleva nota al pie es el
+            # que tiene quita de puntos, que es el que mas importa mirar. Un solo
+            # club se caia asi en todo el corpus, el Huracan Las Heras del
+            # Federal A 2022, y con el se caia el cruce de esa pagina entera.
+            corte = parser.limpiar(_COLA_DE_NOTA.split(eq.group(1), 1)[0])
+            # Si cortar deja la celda vacia es porque la plantilla venia ADELANTE
+            # (`eq={{bandera|Mendoza}} Huracán Las Heras`), y ese caso ya se perdio
+            # antes: `_FILA_PLANTILLA` corto la fila en el `}}` de la bandera. Se
+            # devuelve el crudo igual, sucio, a proposito -- un nombre ilegible
+            # queda como club desconocido y `fuera_del_padron` lo denuncia, y una
+            # celda vacia hace desaparecer la fila sin que nadie se entere.
+            club = corte or parser.limpiar(eq.group(1))
             articulo = arts.get(club, "")
         if not club:
             continue
-        fuera[equipos.canonizar(club, articulo)] = (
-            nums["g"] + nums["e"] + nums["p"], nums["gf"], nums["gc"])
+        fuera.append((club, articulo,
+                      (nums["g"] + nums["e"] + nums["p"], nums["gf"], nums["gc"])))
     return fuera
 
 
@@ -149,35 +178,95 @@ def tabla(texto: str, arts: dict[str, str] | None = None) -> dict[str, tuple[int
     arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
     fuera: dict[str, tuple[int, int, int]] = {}
     for bloque in _bloques(texto):
-        filas = _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts)
-        for club, datos in filas.items():
-            if club not in fuera or datos[0] > fuera[club][0]:
-                fuera[club] = datos
+        for club, articulo, datos in _filas(bloque, arts):
+            canonico = equipos.canonizar(club, articulo)
+            if canonico not in fuera or datos[0] > fuera[canonico][0]:
+                fuera[canonico] = datos
     return fuera
 
 
-def _por_wikitabla(bloque: str, arts: dict[str, str]) -> dict[str, tuple[int, int, int]]:
-    """Las filas de una tabla escrita como wikitabla (`{| ... |}`)."""
+def _filas(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tuple[int, int, int]]]:
+    """Las filas crudas del bloque, venga en el formato que venga."""
+    return _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts)
+
+
+def fuera_del_padron(texto: str, arts: dict[str, str] | None = None) -> list[str]:
+    """Los clubes que la tabla nombra y el padron no conoce.
+
+    Los nombres de la TABLA nunca pasaban por ningun control. El del padron mira
+    los clubes de los PARTIDOS -- ahi un desconocido frena el build -- pero la
+    tabla entra por otra puerta, y `canonizar` devuelve intacto lo que no
+    reconoce. Entonces la fila queda a nombre de un club que no existe, no
+    engancha con ningun partido, y el cruce la descarta sin decir nada. El
+    arbitro se debilita justo donde nadie mira.
+
+    Lo destapo la Primera C 2026: la tabla escribe `[[Asociación Civil Leones de
+    Rosario Fútbol Club|Leones (Rosario)]]` y la grilla escribe "Leones de
+    Rosario". Por el nombre visible son dos clubes; por el articulo son el mismo,
+    y el articulo faltaba en el padron. Con esa fila afuera, la pagina entera
+    dejaba de tener veredicto -- y apenas volvio, resulto que su tabla ni
+    siquiera balancea.
+
+    Es el mismo error del que el proyecto ya aprendio una vez: vacio no es lo
+    mismo que ilegible. Un club que no se puede leer no puede tratarse como un
+    club que no esta.
+    """
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    vistos: dict[str, str] = {}
+    for bloque in _bloques(texto):
+        for club, articulo, _ in _filas(bloque, arts):
+            if not equipos.conocido(club, articulo):
+                vistos.setdefault(club, articulo)
+    return [f"la tabla de posiciones nombra a \"{club}\""
+            + (f" (articulo: {art})" if art else " (sin articulo que lo desambigue)")
+            + ", que el padron no conoce: esa fila no engancha con ningun partido "
+              "y se cae del cruce en silencio"
+            for club, art in sorted(vistos.items())]
+
+
+def _por_wikitabla(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tuple[int, int, int]]]:
+    """Las filas de una tabla escrita como wikitabla (`{| ... |}`).
+
+    Mismo contrato que `_por_plantillas`: crudas, sin canonizar."""
     m = _WIKITABLA.search(bloque)
     if not m:
-        return {}
-    fuera: dict[str, tuple[int, int, int]] = {}
+        return []
+    fuera: list[tuple[str, str, tuple[int, int, int]]] = []
     for fila in m.group(0).split("\n|-"):
         # Las celdas van separadas por `||` o por `\n|`, y arrancan con un `|`
         # suelto que hay que sacar antes de pasarlas por `_celda` -- si no, el
         # separador se lee como parte del contenido y "71" queda como "|71".
-        celdas = [parser._celda(c.lstrip("|"))[1]
-                  for c in fila.replace("\n|", "||").split("||") if c.strip("| \n")]
+        crudas = [c.lstrip("|") for c in fila.replace("\n|", "||").split("||")
+                  if c.strip("| \n")]
+        celdas = [parser._celda(c)[1] for c in crudas]
         numeros = [c for c in celdas if re.fullmatch(r"-?\d+", c)]
         # El nombre es la ultima celda con letras que no sea un atributo de
         # estilo (`style="background: ..."` tambien tiene letras).
-        nombres = [c for c in celdas if re.search(r"[A-Za-zÁ-ú]{3}", c) and "=" not in c]
+        nombres = [i for i, c in enumerate(celdas)
+                   if re.search(r"[A-Za-zÁ-ú]{3}", c) and "=" not in c]
         if len(numeros) < _COLUMNAS or not nombres:
             continue
         pts, pj, pg, pe, pp, gf, gc, dif = (int(x) for x in numeros[-_COLUMNAS:])
         if gf - gc != dif or pg + pe + pp != pj:
             continue                       # la fila no cierra sola: no opina
-        fuera[equipos.canonizar(nombres[-1], arts.get(nombres[-1], ""))] = (pj, gf, gc)
+        # El articulo se saca del wikilink de la celda CRUDA, igual que en las
+        # plantillas. Antes se resolvia por `arts`, un mapa de nombres visibles de
+        # toda la pagina, y eso falla dos veces: cuando la tabla y los partidos
+        # escriben distinto al mismo club, y cuando la celda trae basura pegada al
+        # nombre. La Primera B 2015 pone `[[Club Social y Deportivo Merlo|Deportivo
+        # Merlo]] <sup>1</sup>` y el club terminaba llamandose "Deportivo Merlo 1"
+        # -- que no esta en el padron, asi que su fila se caia del cruce sin decir
+        # nada. Con el wikilink, la llamada al pie queda afuera sola.
+        enlace = _EQ_WIKILINK.search(crudas[nombres[-1]])
+        if enlace:
+            articulo = enlace.group(1)
+            club = parser.limpiar(enlace.group(2) or articulo)
+        else:
+            club = celdas[nombres[-1]]
+            articulo = arts.get(club, "")
+        if not club:
+            continue
+        fuera.append((club, articulo, (pj, gf, gc)))
     return fuera
 
 

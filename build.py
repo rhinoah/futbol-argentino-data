@@ -200,6 +200,12 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: su tabla de posiciones no cierra sola", d,
                              grave=False)
                for d in posiciones.desbalance(ps, texto)]
+    # Un club que la tabla nombra y el padron no conoce. No afecta a los datos --
+    # por eso no es grave-- pero apaga el arbitro en esa fila sin decir nada, que
+    # es peor: el chequeo sigue corriendo y ya no mira todo.
+    avisos += [validar.Aviso(f"{t.pagina}: un club de la tabla no esta en el padron", d,
+                             grave=False)
+               for d in posiciones.fuera_del_padron(texto)]
     # Un enlace donde el nombre visible y el articulo se contradicen. Mira el
     # wikitexto y no los partidos, asi que no puede ir en `validar`: lo que
     # denuncia es que la fuente se contradice al NOMBRAR, antes de que eso llegue

@@ -120,15 +120,15 @@ MUTANTES = [
      "    if False:"),
 
     ("fad/posiciones.py", 'no leer la tabla escrita con plantillas',
-     '        filas = _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts)',
-     '        filas = _por_wikitabla(bloque, arts)'),
+     '    return _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts)',
+     '    return _por_wikitabla(bloque, arts)'),
 
     ("fad/posiciones.py", 'leer una sola tabla y no las de todas las zonas',
      '    for bloque in _bloques(texto):',
      '    for bloque in list(_bloques(texto))[:1]:'),
 
     ("fad/posiciones.py", 'dejar que la parcial de la primera rueda pise a la final',
-     '            if club not in fuera or datos[0] > fuera[club][0]:',
+     '            if canonico not in fuera or datos[0] > fuera[canonico][0]:',
      '            if True:'),
 
     ("fad/posiciones.py", 'no cortar el bloque en el proximo encabezado',
@@ -215,6 +215,22 @@ MUTANTES = [
     ("fad/posiciones.py", "dar por desbalanceada a una tabla que cierra",
      "    if gf == gc:\n        return []",
      "    if False:\n        return []"),
+
+    ("build.py", "no avisar del club de la tabla que no esta en el padron",
+     "               for d in posiciones.fuera_del_padron(texto)]",
+     "               for d in []]"),
+
+    ("fad/posiciones.py", "dar por desconocido a un club que el padron si conoce",
+     "            if not equipos.conocido(club, articulo):",
+     "            if True:"),
+
+    ("fad/posiciones.py", "dejar la nota al pie pegada al nombre del eq=",
+     "            corte = parser.limpiar(_COLA_DE_NOTA.split(eq.group(1), 1)[0])",
+     "            corte = parser.limpiar(eq.group(1))"),
+
+    ("fad/posiciones.py", "resolver la wikitabla por el nombre visible y no por el wikilink",
+     "        enlace = _EQ_WIKILINK.search(crudas[nombres[-1]])",
+     "        enlace = None"),
 
     ("fad/correcciones.py", "aplicar un marcador arbitrado que ya no engancha",
      "        if len(candidatos) != 1:",
