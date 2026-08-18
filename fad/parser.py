@@ -91,6 +91,10 @@ class Partido:
     local_art: str = field(default="", repr=False)
     visita_art: str = field(default="", repr=False)
     estadio: str = ""
+    # De donde salio el MARCADOR: "" (la pagina no dijo otra cosa),
+    # "suspendido" (no llego al final) o "escritorio" (termino y el numero
+    # publicado lo puso un fallo). Ver `status_de_la_fila`.
+    status: str = ""
     fecha_cruda: str = field(default="", repr=False)   # para diagnosticar
     # De donde salio la FECHA, cuando no salio de la pagina de Wikipedia. El
     # credito viaja con el dato: si una fila usa una segunda fuente, su `source`
@@ -361,6 +365,109 @@ def _fecha_de_plantilla(crudo: str) -> str:
 _ANULADO = re.compile(r"(?i)^\s*PP\s*-\s*PP\s*$")
 
 
+# El idioma con que la fuente habla de un partido que no salio normal. Es ANCHO
+# a proposito: sirve para preguntar "¿aca paso algo?", no para decidir que paso.
+_HABLA_DE_FALLO = re.compile(
+    r"(?i)suspendid|abandon|no se present|tribunal|se le dio por|dio por (ganado|perdido|"
+    r"terminado|finalizado)|d[aá]ndolo por|otorg[aá]ndole|inclusi[oó]n indebida|mala inclusi[oó]n")
+# No llego al final. Es lo unico que la fuente dice SIEMPRE y sin ambiguedad.
+_NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspendid|abandon[oó]|no se present[oó]|interrumpi")
+# Llego al final y despues un fallo cambio el numero.
+# Un fallo que cambio el numero. Se pregunta DESPUES de descartar que el partido
+# no haya llegado al final, y ese orden es la regla entera: si hubo suspension,
+# manda la suspension; si el partido termino y aun asi hubo fallo, es escritorio.
+_HUBO_FALLO = re.compile(
+    r"(?i)se le dio por (ganado|perdido)|se lo dio (por )?ganado|le dio por ganado"
+    r"|otorg[aá]ndole|le gan[oó] los puntos|(mala|indebida) inclusi[oó]n|inclusi[oó]n indebida")
+# El partido se suspendio y DESPUES se jugo o se completo: llego al final igual,
+# aunque en dos dias. Son 356 de las 409 filas que mencionan una suspension, y
+# meterlas en "suspendido" seria decir que su marcador no es de la cancha.
+_SE_COMPLETO = re.compile(
+    r"(?i)se\s+(?:jug[oó]|jugaron|jugar[aá]n?|disput[oó]|disputaron|complet[oó]|"
+    r"reanud[oó]|finaliz[oó])\s+(?:el\s+)?\d{1,2}\s*de\s+[a-záéíóúñ]+")
+
+
+def status_de_la_fila(fila: str) -> str:
+    """De donde salio el marcador de esta fila: "", "suspendido" o "escritorio".
+
+    LO QUE NO HACE, y es la decision de diseño entera: NO trata de leer si el
+    tribunal RATIFICO el marcador de la cancha o lo CAMBIO. Se probo y la fuente
+    no lo dice de forma decidible -- la misma formula sostiene los dos casos y
+    tambien el tercero:
+
+      * "Se dio por finalizado" ratificando: Federal A 2025, "Suspendido a los
+        39' [...] con el resultado 1 a 1. Se dio por finalizado."
+      * "Se dio por finalizado" CAMBIANDO, y ademas distinto para cada club:
+        Primera B 2017-18, "Se dio por finalizado, dandolo por perdido a
+        Deportivo Español y empatado a Sacachispas."
+      * "darlo por terminado" cambiando el numero: B Nacional 2008-09, "decidio
+        darlo por terminado con resultado 4-0" sobre una cancha que iba 4-1.
+
+    Cuando 53 casos se clasificaron a mano con la pagina entera a la vista y sin
+    apuro, dos de las tres correcciones que hizo la verificacion cruzaron
+    justamente esa frontera. Un parser que corre todos los dias a las 10:00 la
+    decidiria por keyword, y una columna cuyo valor significa cosas distintas es
+    peor que no tener la columna.
+
+    Asi que el eje es otro, y es el unico que la fuente marca sin ambiguedad:
+    ¿el partido LLEGO AL FINAL? Eso lo dice o no lo dice, y no hay que juzgar al
+    tribunal para saberlo.
+
+      ""            La fila no trae ninguna nota que diga otra cosa. NO certifica
+                    que se hayan jugado los 90: dice que nadie dijo lo contrario.
+      "suspendido"  La fuente dice que no llego al final. El marcador publicado
+                    puede ser el de la cancha o uno de escritorio; la fila no
+                    dice cual, porque la fuente no lo distingue.
+      "escritorio"  El partido SI termino y el numero publicado no es el de la
+                    cancha: lo puso un fallo. Es el caso que ninguna busqueda por
+                    "suspension" encuentra -- Atlanta-Colegiales de la Primera B
+                    2017-18 dice "Finalizado 0 a 0, se le dio por ganado a
+                    Atlanta por 1 a 0" y se jugaron los noventa minutos.
+    """
+    if _SE_COMPLETO.search(fila):
+        return ""                      # se suspendio y se termino de jugar
+    if _NO_LLEGO_AL_FINAL.search(fila):
+        return "suspendido"            # no llego al final: manda eso
+    if _HUBO_FALLO.search(fila):
+        return "escritorio"            # llego al final y el numero es de oficina
+    return ""
+
+
+def sin_clasificar(fila: str) -> bool:
+    """La fila habla de un fallo y `status_de_la_fila` no supo que decir.
+
+    Vacio quiere decir "la pagina no dijo nada". NUNCA puede querer decir "dijo
+    algo que no supe leer": esa es la unica forma de que el default no se vuelva
+    una afirmacion inventada sobre 39 mil filas. Cuando pasa, se avisa.
+    """
+    if _SE_COMPLETO.search(fila):
+        return False           # se suspendio y se termino de jugar: eso SI se leyo
+    return bool(_HABLA_DE_FALLO.search(fila)) and not status_de_la_fila(fila)
+
+
+def fallos_sin_leer(texto: str) -> list[str]:
+    """Las filas que hablan de un fallo y a las que no se les supo poner status.
+
+    Es la guarda que sostiene el default. `status` vacio quiere decir "la pagina
+    no dijo nada"; si alguna vez pasara a querer decir tambien "dijo algo que no
+    supe leer", las 39 mil filas vacias dejarian de ser una ausencia y pasarian a
+    ser una afirmacion sin verificar. Hoy son cero, y este aviso existe para que
+    se note el dia que Wikipedia escriba el veredicto de otra forma.
+    """
+    fuera = []
+    for bloque in re.finditer(r"\{\|.*?\n\|\}", texto, re.S):
+        for fila in re.split(r"\n\|-", bloque.group(0)):
+            celdas = [_celda(c)[1] for c in _partir(fila)]
+            if len(celdas) < 3 or not _marcador(celdas[1]) or not sin_clasificar(fila):
+                continue
+            fuera.append(
+                f"{celdas[0]} vs {celdas[2]} ({celdas[1]}): la pagina dice algo sobre "
+                f"un fallo y no se supo si el partido llego al final. Queda con "
+                f"status vacio, que significa \"la pagina no dijo nada\" -- y aca si "
+                f"dijo. Mira la nota y ajusta `parser.status_de_la_fila`")
+    return list(dict.fromkeys(fuera))
+
+
 def partidos_anulados(texto: str) -> list[str]:
     """Los partidos que la pagina tiene y que el esquema no puede escribir.
 
@@ -610,6 +717,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             continue
         programada = a_iso(valores["fecha"], anio, anio_fin, mes_inicio)
         partidos.append(Partido(
+            status=status_de_la_fila(fila),
             fecha=(_fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada)
                    or programada),
             hora=valores["hora"],

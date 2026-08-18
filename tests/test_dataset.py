@@ -513,3 +513,37 @@ def test_el_desempate_neutral_deja_de_contar_como_casa():
     filas = ([{"home_team": "Huracán", "venue": "Malvinas Argentinas", "neutral": "true"}]
              + _local("Huracán Las Heras", "Malvinas Argentinas", 5))
     assert dataset.casas_compartidas(filas) == []
+
+
+def test_se_puede_leer_un_csv_de_una_version_anterior(tmp_path):
+    """El dia que se agrega una columna, los archivos que ya estan en disco no la
+    tienen. `build.py` REUSA los torneos terminados leyendo ese mismo archivo, asi
+    que rechazarlos dejaria sin dataset hasta que alguien corra un `--rehacer` a
+    mano. Se completan vacias y se sigue."""
+    viejo = tmp_path / "partidos-2020.csv"
+    viejo.write_text(",".join(dataset.COLUMNAS[:-1]) + "\n"
+                     + ",".join(["x"] * (len(dataset.COLUMNAS) - 1)) + "\n",
+                     encoding="utf-8")
+    filas = dataset.leer(viejo)
+    assert len(filas) == 1
+    assert filas[0][dataset.COLUMNAS[-1]] == ""
+
+
+def test_un_encabezado_que_no_es_un_prefijo_sigue_siendo_un_error(tmp_path):
+    """Se acepta que FALTEN columnas del final, no cualquier cosa: un CSV corrupto
+    no se lee 'lo mejor posible', se rechaza."""
+    roto = tmp_path / "partidos-2020.csv"
+    roto.write_text("fecha,local,visitante\n1,2,3\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        dataset.leer(roto)
+
+
+def test_el_status_del_partido_llega_a_la_fila():
+    """De nada sirve detectarlo si no sale publicado: la columna existe para que
+    el que consume el CSV pueda saber que ese marcador no salio de la cancha."""
+    from fad.parser import Partido
+    p = Partido(fecha="2018-05-04", local="Atlanta", visita="Colegiales",
+                goles_local=1, goles_visita=0, status="escritorio")
+    assert dataset.a_fila(p, "Primera B", 2017, "http://x")["status"] == "escritorio"
+    normal = Partido(fecha="2018-05-04", local="A", visita="B", goles_local=1, goles_visita=0)
+    assert dataset.a_fila(normal, "Primera B", 2017, "http://x")["status"] == ""

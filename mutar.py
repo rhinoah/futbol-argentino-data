@@ -553,6 +553,44 @@ MUTANTES = [
      "        if p.fase != \"zonas\" or not p.jornada or not p.local or not p.visita:",
      "        if p.fase != \"zonas\" or not p.local or not p.visita:"),
 
+    # --- status: de donde salio el marcador ---
+    ("fad/parser.py", "no mirar si el partido se termino de jugar despues",
+     '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return ""',
+     '    if False:' + chr(10) + '        return ""'),
+
+    ("fad/parser.py", "mirar el fallo ANTES que la suspension",
+     '    if _NO_LLEGO_AL_FINAL.search(fila):' + chr(10) + '        return "suspendido"',
+     '    if _HUBO_FALLO.search(fila):' + chr(10) + '        return "escritorio"'),
+
+    ("fad/parser.py", "no marcar el fallo que cambio el numero de un partido terminado",
+     '    if _HUBO_FALLO.search(fila):' + chr(10) + '        return "escritorio"',
+     '    if False:' + chr(10) + '        return "escritorio"'),
+
+    ("fad/parser.py", "dejar en vacio un fallo que no se supo leer, sin avisar",
+     "    return bool(_HABLA_DE_FALLO.search(fila)) and not status_de_la_fila(fila)",
+     "    return False"),
+
+    ("fad/dataset.py", "no escribir el status en el CSV",
+     '        "status": p.status,',
+     '        "status": "",'),
+
+    ("fad/dataset.py", "aceptar cualquier encabezado con tal de que falten columnas",
+     "        if tiene != COLUMNAS[:len(tiene)]:",
+     "        if False:"),
+
+    ("fad/correcciones.py", "dejar en el dataset el partido con dos resultados",
+     "        for p in sobran:" + chr(10) + "            ps.remove(p)",
+     "        for p in sobran:" + chr(10) + "            pass"),
+
+    ("fad/correcciones.py", "sacar cualquier cruce de esos dos clubes, sin mirar el marcador",
+     "        sobran = [p for p in ps if p.local == div.local and p.visita == div.visita" + chr(10) +
+     "                  and (p.goles_local, p.goles_visita) == div.dice]",
+     "        sobran = [p for p in ps if p.local == div.local and p.visita == div.visita]"),
+
+    ("fad/correcciones.py", "tratar el `dice=None` como si fuera cualquier marcador",
+     "        if div.dice is None:" + chr(10) + "            continue",
+     "        if False:" + chr(10) + "            continue"),
+
     # --- el partido que existe y no se puede escribir ---
     ("build.py", "no avisar del partido que el esquema no puede escribir",
      "               for d in parser.partidos_anulados(texto)]",
@@ -923,7 +961,7 @@ MUTANTES = [
      '                           )'),
 
     ("fad/dataset.py", "no validar el encabezado al leer",
-     "    if filas and list(filas[0]) != COLUMNAS:",
+     "    if tiene != COLUMNAS:",
      "    if False:"),
 ]
 

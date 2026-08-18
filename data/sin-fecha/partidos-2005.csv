@@ -1,2 +1,2 @@
-date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
-,,La Florida,Sportivo Patria,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06
+date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source,status
+,,La Florida,Sportivo Patria,2,2,,,Torneo Argentino A,2005,zonas,Primera fase,Fecha 10,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06,

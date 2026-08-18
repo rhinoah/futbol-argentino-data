@@ -1,17 +1,17 @@
-date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
-,,Argentino de Merlo,Defensores de Cambaceres,0,1,,,Primera C,2009,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Defensores Unidos,El Porvenir,1,1,,,Primera C,2009,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Defensores Unidos,Ferrocarril Midland,4,0,,,Primera C,2009,zonas,,Fecha 17,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Excursionistas,Ferrocarril Midland,0,0,,,Primera C,2009,zonas,,Fecha 2,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Excursionistas,San Miguel,2,1,,,Primera C,2009,zonas,,Fecha 36,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Excursionistas,Talleres (RdE),2,0,,,Primera C,2009,zonas,,Fecha 26,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Ferrocarril Midland,Barracas Central,1,1,,,Primera C,2009,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Ferrocarril Midland,Excursionistas,1,3,,,Primera C,2009,zonas,,Fecha 21,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Fénix,Deportivo Laferrere,0,1,,,Primera C,2009,zonas,,Fecha 36,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Luján,General Lamadrid,2,1,,,Primera C,2009,zonas,,Fecha 16,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Sacachispas,El Porvenir,2,0,,,Primera C,2009,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Sacachispas,J. J. de Urquiza,1,3,,,Primera C,2009,zonas,,Fecha 29,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Sacachispas,Talleres (RdE),5,0,,,Primera C,2009,zonas,,Fecha 37,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Talleres (RdE),Excursionistas,0,2,,,Primera C,2009,zonas,,Fecha 7,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Talleres (RdE),J. J. de Urquiza,2,0,,,Primera C,2009,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
-,,Talleres (RdE),Sacachispas,3,1,,,Primera C,2009,zonas,,Fecha 18,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina)
+date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source,status
+,,Argentino de Merlo,Defensores de Cambaceres,0,1,,,Primera C,2009,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Defensores Unidos,El Porvenir,1,1,,,Primera C,2009,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Defensores Unidos,Ferrocarril Midland,4,0,,,Primera C,2009,zonas,,Fecha 17,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Excursionistas,Ferrocarril Midland,0,0,,,Primera C,2009,zonas,,Fecha 2,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Excursionistas,San Miguel,2,1,,,Primera C,2009,zonas,,Fecha 36,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Excursionistas,Talleres (RdE),2,0,,,Primera C,2009,zonas,,Fecha 26,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Ferrocarril Midland,Barracas Central,1,1,,,Primera C,2009,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Ferrocarril Midland,Excursionistas,1,3,,,Primera C,2009,zonas,,Fecha 21,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Fénix,Deportivo Laferrere,0,1,,,Primera C,2009,zonas,,Fecha 36,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Luján,General Lamadrid,2,1,,,Primera C,2009,zonas,,Fecha 16,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Sacachispas,El Porvenir,2,0,,,Primera C,2009,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Sacachispas,J. J. de Urquiza,1,3,,,Primera C,2009,zonas,,Fecha 29,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Sacachispas,Talleres (RdE),5,0,,,Primera C,2009,zonas,,Fecha 37,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Talleres (RdE),Excursionistas,0,2,,,Primera C,2009,zonas,,Fecha 7,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Talleres (RdE),J. J. de Urquiza,2,0,,,Primera C,2009,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),
+,,Talleres (RdE),Sacachispas,3,1,,,Primera C,2009,zonas,,Fecha 18,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina),

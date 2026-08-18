@@ -190,6 +190,7 @@ que ya lee aquel dataset lee este casi sin tocar nada.
 | `venue` | el estadio, tal como figura |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de la que salió esa fila |
+| `status` | de dónde salió el marcador: vacío, `suspendido` o `escritorio` — ver abajo |
 
 Sobre **`neutral`**: sale del **reglamento de la competencia**, no de comparar el
 estadio contra el de cada club. La Copa Argentina se juega a partido único en
@@ -199,6 +200,60 @@ jugó donde dice el fixture*. **No detecta mudanzas puntuales** — un partido d
 liga que se muda de cancha sigue figurando `false`. Prefiero decir eso y
 documentarlo antes que deducir la localía con un padrón de estadios que todavía
 no existe.
+
+Sobre **`status`**: un partido puede terminar de otra forma que jugándose
+completo. Se suspende por incidentes, o se juega entero y después un tribunal
+cambia el resultado por una inclusión indebida. Hasta ahora esas filas salían con
+un marcador **indistinguible de uno jugado en cancha**.
+
+| valor | qué afirma | filas |
+|---|---|---:|
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 39 189 |
+| `suspendido` | la fuente dice que el partido **no llegó al final** | 56 |
+| `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 7 |
+
+**El eje no es el que parece.** Lo natural sería distinguir "el tribunal ratificó
+el marcador de la cancha" de "el tribunal lo cambió", y no se puede: la fuente no
+lo dice de forma decidible. La misma fórmula sostiene los tres casos —
+
+- ratificando: *«Suspendido a los 39' […] con el resultado 1 a 1. Se dio por finalizado.»*
+- cambiándolo: *«decidió darlo por terminado con resultado 4-0»*, sobre una cancha que iba 4-1
+- y cambiándolo **distinto para cada club**: *«Se dio por finalizado, dándolo por perdido a Deportivo Español y empatado a Sacachispas.»*
+
+Se clasificaron 53 casos a mano, con la página entera a la vista y sin apuro, y
+**dos de las tres correcciones que hizo la verificación cruzaron justamente esa
+frontera**. Un parser que corre todos los días a las 10:00 la decidiría por
+keyword. Así que el eje es el único que la fuente marca siempre y sin ambigüedad:
+**¿el partido llegó al final?**
+
+**El default es la parte peligrosa.** Vacío significa "la página no dijo nada", y
+nunca puede pasar a significar "dijo algo que no supe leer" — si eso ocurriera,
+las 39 mil filas vacías dejarían de ser una ausencia y pasarían a ser una
+afirmación sin verificar. Por eso una fila que menciona un fallo y no se puede
+clasificar **no queda callada**: emite un aviso. Hoy son cero.
+
+### Los que la columna no arregla
+
+Cinco partidos terminaron con **un resultado distinto para cada club**. El
+Clausura 2005 es el más claro: Almagro–Boca se suspendió a los 64' con Almagro
+ganando 3-2, y el Tribunal se lo dio por perdido **a los dos** —0-2 para Almagro,
+2-3 para Boca—. La celda del wikitexto trae los dos marcadores (`0 - 2<br>3 - 2`)
+y el parser se quedaba con el primero: **el CSV publicaba a Boca ganando 2-0 un
+partido que Boca también perdió.**
+
+Una fila tiene un `home_score` y un `away_score`: cualquier par de números afirma
+un solo resultado. No es una limitación del parser sino del esquema, así que esos
+cinco **no entran**, y el build los nombra uno por uno con su cita. Cuatro de los
+cinco estaban entrando mal hasta ahora.
+
+### Leer un CSV de antes
+
+Agregar una columna rompe a quien lee el archivo anterior, y el que lo lee es el
+propio `build.py`: reusa los torneos terminados leyendo el CSV publicado. Así que
+`dataset.leer` acepta un encabezado al que sólo le falten columnas **del final**
+y las completa vacías. Cualquier otra diferencia —columnas de más, reordenadas,
+renombradas— sigue siendo un error: un CSV corrupto no se lee «lo mejor posible»,
+se rechaza.
 
 ## Lo que hace difícil esto
 
@@ -2037,11 +2092,11 @@ dice que la tabla cuenta un partido más, el otro dice por qué.
 
 ## Tests
 
-649 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+665 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 216 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 225 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

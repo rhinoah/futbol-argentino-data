@@ -319,6 +319,15 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: un partido que no se puede escribir", d,
                              grave=False)
                for d in parser.partidos_anulados(texto)]
+    # Y la guarda del default de `status`: una fila que habla de un fallo y que
+    # no se supo clasificar no puede quedar en vacio callada, porque vacio
+    # significa "la pagina no dijo nada".
+    avisos += [validar.Aviso(f"{t.pagina}: un fallo que no se supo leer", d, grave=False)
+               for d in parser.fallos_sin_leer(texto)]
+    # Y los que quedan afuera por tener DOS resultados, uno por club. No es un
+    # problema del parseo sino del esquema, y por eso se nombran uno por uno.
+    avisos += [validar.Aviso(f"{t.pagina}: un partido con dos resultados", d, grave=False)
+               for d in correcciones.divididos_de(t.pagina)]
     # Y si algun homonimo dejo de hacer falta porque arreglaron la pagina.
     avisos += [validar.Aviso(f"{t.pagina}: un homonimo quedo sin uso", d, grave=False)
                for d in correcciones.homonimos_huerfanos(t.pagina, escritos)]

@@ -40,7 +40,7 @@ from fad.parser import Partido
 COLUMNAS = [
     "date", "time", "home_team", "away_team", "home_score", "away_score",
     "home_pens", "away_pens", "tournament", "season", "phase", "group",
-    "matchday", "venue", "neutral", "source",
+    "matchday", "venue", "neutral", "source", "status",
 ]
 
 
@@ -84,6 +84,9 @@ def a_fila(p: Partido, torneo: str, temporada: int, fuente: str,
         # Si la fecha vino de otra fuente, las DOS quedan nombradas. La fila es
         # de Wikipedia salvo ese campo, y asi se lee.
         "source": fuente + SEPARADOR + p.fuente_fecha if p.fuente_fecha else fuente,
+        # De donde salio el marcador. Vacio NO certifica nada: dice que la pagina
+        # no dijo otra cosa. Ver `parser.status_de_la_fila`.
+        "status": p.status,
     }
 
 
@@ -385,7 +388,24 @@ def read_anterior(origen: Path) -> list[dict]:
 def leer(origen: Path) -> list[dict]:
     with origen.open(encoding="utf-8", newline="") as f:
         filas = list(csv.DictReader(f))
-    if filas and list(filas[0]) != COLUMNAS:
-        raise ValueError(f"{origen.name}: el encabezado no es el esperado.\n"
-                         f"  esperado: {COLUMNAS}\n  encontrado: {list(filas[0])}")
+    if not filas:
+        return filas
+    tiene = list(filas[0])
+    # Un archivo escrito por una version ANTERIOR es legible mientras le falten
+    # solo columnas del FINAL: es exactamente lo que pasa el dia que se agrega
+    # una. Se completan vacias y se sigue. Cualquier otra diferencia -- columnas
+    # de mas, reordenadas, renombradas -- sigue siendo un error, que es para lo
+    # que esta el chequeo: un CSV corrupto no se lee "lo mejor posible".
+    #
+    # La alternativa era exigir que el dataset se regenere entero al agregar una
+    # columna, y no sirve: `build.py` REUSA los torneos terminados leyendo este
+    # mismo archivo, asi que el build de todos los dias moriria hasta que alguien
+    # corriera un `--rehacer` a mano, y mientras tanto no habria dataset.
+    if tiene != COLUMNAS:
+        if tiene != COLUMNAS[:len(tiene)]:
+            raise ValueError(f"{origen.name}: el encabezado no es el esperado.\n"
+                             f"  esperado: {COLUMNAS}\n  encontrado: {tiene}")
+        for f_ in filas:
+            for c in COLUMNAS[len(tiene):]:
+                f_[c] = ""
     return filas

@@ -1,504 +1,504 @@
-date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
-2020-01-02,17:30,Rosario Central,Defensa y Justicia,3,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-02,21:30,Boca Juniors,River Plate,2,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-03,17:10,Independiente,Arsenal,3,4,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-03,19:20,Newell's Old Boys,Vélez Sarsfield,0,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-03,19:20,Patronato,Lanús,1,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-03,21:30,Central Córdoba (SdE),Racing Club,2,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-04,17:10,Aldosivi,Unión,1,3,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-04,19:20,San Lorenzo,Gimnasia y Esgrima (LP),1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-04,21:30,Talleres (C),Banfield,3,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-05,19:20,Godoy Cruz,Estudiantes (LP),1,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-05,19:20,Huracán,Argentinos Juniors,0,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-05,21:30,Atlético Tucumán,Colón,0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-09,17:10,Lanús,Rosario Central,2,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-09,17:10,Unión,Patronato,1,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-09,19:20,Racing Club,Newell's Old Boys,3,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-09,19:20,Vélez Sarsfield,Godoy Cruz,3,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-09,21:30,Argentinos Juniors,Boca Juniors,2,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-09,21:30,River Plate,Independiente,0,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-10,19:20,Arsenal,Huracán,1,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-10,21:30,Banfield,San Lorenzo,4,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-10,21:30,Colón,Talleres (C),1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Brigadier General López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-10,21:30,Gimnasia y Esgrima (LP),Atlético Tucumán,0,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-11,21:30,Estudiantes (LP),Central Córdoba (SdE),1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-14,17:10,Defensa y Justicia,Aldosivi,4,4,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-02-25,,Gimnasia y Esgrima (LP),Sportivo Barracas,2,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Centenario Ciudad de Quilmes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-02-26,,Aldosivi,Talleres (RdE),1,3,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-04,,Central Córdoba (SdE),San Telmo,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Padre Ernesto Martearena,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-10,,Platense,Deportivo Madryn,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-11,,Argentinos Juniors,Cañuelas,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-11,,Sarmiento (J),Douglas Haig,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Centenario Ciudad de Quilmes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-10-30,19:00,Gimnasia y Esgrima (LP),Patronato,3,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 1,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-10-30,21:15,Talleres (C),Newell's Old Boys,3,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-10-31,14:00,Aldosivi,Estudiantes (LP),0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-10-31,16:15,Vélez Sarsfield,Huracán,1,1,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 1,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-10-31,18:45,Argentinos Juniors,San Lorenzo,0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 1,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-10-31,21:15,Lanús,Boca Juniors,1,2,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 1,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-01,11:00,Defensa y Justicia,Colón,0,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-01,14:00,Unión,Arsenal,0,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-01,16:15,Racing Club,Atlético Tucumán,1,4,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-01,18:45,Central Córdoba (SdE),Independiente,0,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-01,21:15,River Plate,Banfield,1,3,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 1,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-02,21:15,Rosario Central,Godoy Cruz,2,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 1,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-06,19:00,Patronato,Huracán,1,2,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 2,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-06,21:15,Argentinos Juniors,Aldosivi,0,1,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 2,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-07,16:00,Banfield,Godoy Cruz,1,0,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 2,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-07,18:30,San Lorenzo,Estudiantes (LP),2,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 2,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-07,21:15,River Plate,Rosario Central,2,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 2,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-08,11:00,Arsenal,Atlético Tucumán,1,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-08,16:15,Gimnasia y Esgrima (LP),Vélez Sarsfield,2,2,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 2,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-08,18:45,Unión,Racing Club,2,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-08,21:15,Newell's Old Boys,Boca Juniors,0,2,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 2,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-09,17:00,Independiente,Colón,1,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-09,19:15,Talleres (C),Lanús,1,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 2,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-09,21:30,Central Córdoba (SdE),Defensa y Justicia,2,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-13,19:00,Rosario Central,Banfield,2,4,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 3,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-13,21:15,Atlético Tucumán,Unión,3,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-14,14:00,Aldosivi,San Lorenzo,1,4,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 3,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-14,16:15,Lanús,Newell's Old Boys,2,4,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 3,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-14,18:45,Racing Club,Arsenal,0,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-14,21:15,Godoy Cruz,River Plate,0,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 3,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-15,14:00,Huracán,Gimnasia y Esgrima (LP),3,2,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 3,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-15,16:15,Estudiantes (LP),Argentinos Juniors,0,1,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 3,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-15,18:45,Defensa y Justicia,Independiente,0,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-15,21:15,Boca Juniors,Talleres (C),0,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 3,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-16,19:00,Vélez Sarsfield,Patronato,1,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 3,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-16,21:15,Colón,Central Córdoba (SdE),2,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-19,21:15,Atlético Tucumán,Racing Club,2,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-20,17:10,Arsenal,Unión,2,3,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-20,19:20,Boca Juniors,Lanús,1,2,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 4,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-20,21:30,Banfield,River Plate,0,2,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 4,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-21,17:10,Colón,Defensa y Justicia,2,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-21,19:20,Huracán,Vélez Sarsfield,1,2,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 4,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-21,21:30,Independiente,Central Córdoba (SdE),0,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-22,17:10,Estudiantes (LP),Aldosivi,0,1,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 4,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-22,19:20,Patronato,Gimnasia y Esgrima (LP),0,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 4,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-22,21:30,San Lorenzo,Argentinos Juniors,2,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 4,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-23,19:00,Godoy Cruz,Rosario Central,0,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 4,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-23,21:15,Newell's Old Boys,Talleres (C),1,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 4,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-28,17:10,Almagro,Gimnasia y Esgrima (J),1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-28,17:10,Atlanta,Platense,0,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-28,17:10,Barracas Central,Independiente Rivadavia,2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-28,17:10,Brown de Adrogué,All Boys,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-28,17:10,Racing Club,Unión,1,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-28,17:10,Ramón Santamarina,Quilmes,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-28,19:00,Sarmiento (J),Villa Dálmine,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-28,19:10,Instituto,Chacarita Juniors,2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-28,19:10,Mitre (SdE),Belgrano,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-28,19:20,Colón,Independiente,1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-28,19:20,Godoy Cruz,Banfield,0,0,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 5,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-28,20:30,Alvarado,Guillermo Brown,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-28,21:30,Rosario Central,River Plate,0,2,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 5,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-28,21:30,Vélez Sarsfield,Gimnasia y Esgrima (LP),0,1,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 5,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-29,17:10,Defensa y Justicia,Central Córdoba (SdE),2,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-29,17:10,Defensores de Belgrano,Gimnasia y Esgrima (M),0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-29,17:10,Estudiantes (BA),Agropecuario,3,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-29,17:10,Huracán,Patronato,1,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 5,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-29,18:00,San Martín (SJ),Nueva Chicago,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-29,19:20,Boca Juniors,Newell's Old Boys,2,0,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 5,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-29,21:30,Lanús,Talleres (C),1,0,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 5,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-29,9:00,San Martín (T),Tigre,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-30,17:10,Aldosivi,Argentinos Juniors,1,4,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 5,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-30,17:10,Deportivo Riestra,Atlético de Rafaela,3,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-30,17:10,Temperley,Ferro Carril Oeste,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-30,18:00,Estudiantes (RC),Deportivo Morón,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-11-30,19:20,Atlético Tucumán,Arsenal,3,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-30,21:30,Estudiantes (LP),San Lorenzo,0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 5,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-03,17:10,Chacarita Juniors,Brown de Adrogué,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-04,17:10,Círculo Deportivo,Sol de Mayo (V),0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-04,17:10,Defensores de Belgrano (VR),Juventud Unida (G),0,3,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-04,17:10,Deportivo Madryn,Huracán Las Heras,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-04,17:10,Desamparados,Cipolletti,1,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-04,17:10,Instituto,Almagro,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-04,17:10,Olimpo,Sansinena,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-04,17:10,San Telmo,Deportivo Armenio,0,2,,,Primera B,2020,zonas,Grupo A,Fecha 1,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-04,18:00,Sportivo Estudiantes (SL),Sportivo Peñarol (C),1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-04,19:20,Central Córdoba (SdE),Colón,0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 6,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-04,19:30,Sarmiento (R),Central Norte (S),1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-04,21:00,Sportivo Las Parejas,Defensores de Pronunciamiento,1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-04,21:00,Villa Mitre,Juventud Unida Universitario,1,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-04,21:10,Almirante Brown,Tristán Suárez,0,0,,,Primera B,2020,zonas,,Fecha 1,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-04,21:30,Banfield,Rosario Central,1,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 6,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-05,17:10,All Boys,Ramón Santamarina,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-05,17:10,Argentino de Merlo,Real Pilar,1,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 1,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-05,17:10,Arsenal,Racing Club,1,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 6,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-05,17:10,Boca Unidos,Sportivo Belgrano,0,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-05,17:10,Cañuelas,Deportivo Merlo,1,2,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 1,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-05,17:10,Comunicaciones,J. J. de Urquiza,1,3,,,Primera B,2020,zonas,,Fecha 1,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-05,17:10,Estudiantes (BA),Estudiantes (RC),2,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-05,17:10,Gimnasia y Esgrima (M),Sarmiento (J),2,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-05,17:10,Nueva Chicago,Alvarado,2,5,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-05,17:10,Platense,Deportivo Morón,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-05,17:10,Quilmes,Gimnasia y Esgrima (J),3,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-05,17:10,San Miguel,Talleres (RdE),0,0,,,Primera B,2020,zonas,Grupo A,Fecha 1,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-05,17:10,Unión,Atlético Tucumán,3,5,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 6,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-05,17:10,Villa Dálmine,Deportivo Riestra,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-05,18:00,San Martín (SJ),Barracas Central,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-05,19:10,Belgrano,Independiente Rivadavia,3,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-05,19:20,Gimnasia y Esgrima (LP),Huracán,0,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 6,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-05,19:20,Patronato,Vélez Sarsfield,0,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 6,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-05,21:00,Güemes (SdE),Douglas Haig,1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-05,21:30,River Plate,Godoy Cruz,3,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 6,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-06,17:10,Acassuso,Villa San Carlos,0,0,,,Primera B,2020,zonas,,Fecha 1,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-06,17:10,Argentino de Quilmes,Colegiales,3,1,,,Primera B,2020,zonas,Grupo B,Fecha 1,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-06,17:10,Defensores de Belgrano,San Martín (T),0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-06,17:10,Deportivo Laferrere,General Lamadrid,1,2,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 1,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-06,17:10,Flandria,Los Andes,1,1,,,Primera B,2020,zonas,Grupo B,Fecha 1,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-06,17:10,Fénix,Defensores Unidos,2,0,,,Primera B,2020,zonas,Grupo A,Fecha 1,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-06,17:10,Guillermo Brown,Mitre (SdE),4,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-06,17:10,Sacachispas,UAI Urquiza,1,1,,,Primera B,2020,zonas,Grupo B,Fecha 1,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-06,19:00,Agropecuario,Temperley,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Rosa Rosenzuaig,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-06,19:10,Independiente,Defensa y Justicia,1,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 6,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-06,21:30,Newell's Old Boys,Lanús,3,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 6,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-06,21:30,Talleres (C),Boca Juniors,0,0,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 6,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-07,17:10,Atlético de Rafaela,Tigre,3,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-07,19:10,Argentinos Juniors,Estudiantes (LP),1,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 6,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-07,19:10,San Lorenzo,Aldosivi,0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 6,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-07,21:10,Ferro Carril Oeste,Atlanta,0,3,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-08,17:10,Deportivo Merlo,Argentino de Merlo,1,2,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 2,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-08,17:10,Real Pilar,Dock Sud,1,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 2,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-09,17:00,Defensores de Pronunciamiento,Sarmiento (R),2,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,17:00,Juventud Unida (G),Unión (S),2,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,17:00,Juventud Unida Universitario,Deportivo Madryn,2,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,17:10,General Lamadrid,Cañuelas,0,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 2,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-09,17:10,Sol de Mayo (V),Deportivo Camioneros,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,17:30,Douglas Haig,Sportivo Las Parejas,2,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,17:30,Sansinena,Villa Mitre,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,18:00,Huracán Las Heras,Deportivo Maipú,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,18:00,Sportivo Peñarol (C),Desamparados,0,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,18:30,Cipolletti,Círculo Deportivo,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,18:30,Sportivo Belgrano,Defensores de Belgrano (VR),3,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-09,19:30,Central Norte (S),Chaco For Ever,2,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-11,17:10,Almagro,Quilmes,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-11,17:10,Leandro N. Alem,Luján,0,2,,,Primera C,2020,zonas,Grupo B,Fecha 1,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-11,17:10,San Telmo,Fénix,2,1,,,Primera B,2020,zonas,Grupo A,Fecha 2,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-11,17:10,Talleres (RdE),Defensores Unidos,1,1,,,Primera B,2020,zonas,Grupo A,Fecha 2,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-11,19:00,Estudiantes (RC),Platense,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-11,21:10,Vélez Sarsfield,Racing Club,2,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-12,17:10,Barracas Central,Belgrano,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-12,17:10,Berazategui,Sportivo Italiano,1,1,,,Primera C,2020,zonas,Grupo A,Fecha 1,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-12,17:10,Brown de Adrogué,Instituto,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-12,17:10,Colón,Gimnasia y Esgrima (LP),0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Brigadier General López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-12,17:10,Deportivo Armenio,San Miguel,1,1,,,Primera B,2020,zonas,Grupo A,Fecha 2,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-12,17:10,Deportivo Morón,Ferro Carril Oeste,2,3,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-12,17:10,El Porvenir,Ferrocarril Midland,1,1,,,Primera C,2020,zonas,Grupo B,Fecha 1,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-12,17:10,Gimnasia y Esgrima (J),All Boys,2,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-12,17:10,Independiente Rivadavia,Guillermo Brown,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-12,17:10,Newell's Old Boys,Estudiantes (LP),1,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-12,17:10,Ramón Santamarina,Chacarita Juniors,3,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-12,17:10,Tristán Suárez,Villa San Carlos,2,1,,,Primera B,2020,zonas,,Fecha 2,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-12,19:00,Alvarado,San Martín (SJ),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-12,19:00,Sarmiento (J),Defensores de Belgrano,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-12,19:20,Boca Juniors,Arsenal,1,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-12,19:20,Los Andes,Argentino de Quilmes,1,1,,,Primera B,2020,zonas,Grupo B,Fecha 2,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-12,21:30,San Lorenzo,Talleres (C),0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-13,17:10,Aldosivi,Lanús,1,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-13,17:10,Argentino de Merlo,General Lamadrid,1,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 3,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-13,17:10,Atlanta,Agropecuario,2,3,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-13,17:10,Cañuelas,Deportivo Laferrere,4,5,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 3,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-13,17:10,Colegiales,UAI Urquiza,2,2,,,Primera B,2020,zonas,Grupo B,Fecha 2,Libertarios Unidos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-13,17:10,Comunicaciones,Acassuso,0,0,,,Primera B,2020,zonas,,Fecha 2,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-13,17:10,Deportivo Maipú,Juventud Unida Universitario,2,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,17:10,Flandria,Sacachispas,2,0,,,Primera B,2020,zonas,Grupo B,Fecha 2,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-13,17:10,Ituzaingó,San Martín (B),1,1,,,Primera C,2020,zonas,Grupo A,Fecha 1,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-13,17:10,Temperley,Estudiantes (BA),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-13,17:10,Unión,Defensa y Justicia,1,3,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-13,17:30,Círculo Deportivo,Sportivo Peñarol (C),0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,17:30,Deportivo Camioneros,Cipolletti,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,17:30,Desamparados,Sportivo Estudiantes (SL),1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,17:30,Unión (S),Sportivo Belgrano,1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,17:30,Villa Mitre,Olimpo,3,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,18:45,Chaco For Ever,Defensores de Pronunciamiento,3,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,19:20,River Plate,Argentinos Juniors,1,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-13,19:30,Defensores de Belgrano (VR),Boca Unidos,1,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,20:30,Sportivo Las Parejas,Güemes (SdE),2,4,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,20:45,Sarmiento (R),Douglas Haig,0,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-13,21:30,Huracán,Independiente,3,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-13,21:30,San Martín (T),Atlético de Rafaela,0,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-14,17:10,Deportivo Madryn,Sansinena,2,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-14,17:10,Deportivo Riestra,Gimnasia y Esgrima (M),1,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-14,17:10,Dock Sud,Deportivo Merlo,2,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 3,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-14,17:10,Excursionistas,Deportivo Español,4,2,,,Primera C,2020,zonas,Grupo B,Fecha 1,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-14,17:10,J. J. de Urquiza,Almirante Brown,1,3,,,Primera B,2020,zonas,,Fecha 2,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-14,17:10,Rosario Central,Patronato,4,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-14,17:10,Victoriano Arenas,Central Córdoba (R),2,2,,,Primera C,2020,zonas,Grupo A,Fecha 1,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-14,19:20,Central Córdoba (SdE),Godoy Cruz,1,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-14,21:10,Tigre,Villa Dálmine,3,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-14,21:30,Atlético Tucumán,Banfield,0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-14,9:00,Mitre (SdE),Nueva Chicago,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Dres. José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-18,17:10,San Martín (B),Central Córdoba (R),1,0,,,Primera C,2020,zonas,Grupo A,Fecha 2,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-18,17:10,Sportivo Italiano,Ituzaingó,0,0,,,Primera C,2020,zonas,Grupo A,Fecha 2,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-18,21:10,Arsenal,Argentinos Juniors,0,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-18,21:30,Estudiantes (BA),Atlanta,3,3,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-19,17:10,Acassuso,Tristán Suárez,0,0,,,Primera B,2020,zonas,,Fecha 3,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-19,17:10,All Boys,Quilmes,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-19,17:10,Almirante Brown,Comunicaciones,2,0,,,Primera B,2020,zonas,,Fecha 3,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-19,17:10,Argentino de Quilmes,Flandria,0,0,,,Primera B,2020,zonas,Grupo B,Fecha 3,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-19,17:10,Brown de Adrogué,Almagro,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-19,17:10,Chacarita Juniors,Gimnasia y Esgrima (J),0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-19,17:10,Deportivo Merlo,Real Pilar,0,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 4,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-19,17:10,General Lamadrid,Dock Sud,2,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 4,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-19,17:10,Patronato,Aldosivi,0,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-19,17:10,San Miguel,San Telmo,0,0,,,Primera B,2020,zonas,Grupo A,Fecha 3,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-19,17:10,Sarmiento (J),San Martín (T),1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-19,17:10,Villa San Carlos,J. J. de Urquiza,2,1,,,Primera B,2020,zonas,,Fecha 3,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-19,18:00,Sportivo Estudiantes (SL),Círculo Deportivo,2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-19,18:00,Sportivo Peñarol (C),Deportivo Camioneros,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-19,19:00,Alvarado,Barracas Central,0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-19,19:20,Godoy Cruz,Newell's Old Boys,0,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-19,19:20,San Lorenzo,Colón,2,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-19,21:10,Temperley,Estudiantes (RC),0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-19,21:30,Talleres (C),Atlético Tucumán,1,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-20,17:10,Boca Unidos,Unión (S),1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-20,17:10,Defensores de Belgrano,Deportivo Riestra,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-20,17:10,Defensores de Pronunciamiento,Central Norte (S),1,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-20,17:10,Deportivo Laferrere,Argentino de Merlo,0,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 4,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-20,17:10,Ferrocarril Midland,Luján,0,2,,,Primera C,2020,zonas,Grupo B,Fecha 2,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-20,17:10,Guillermo Brown,Belgrano,0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-20,17:10,Lanús,Defensa y Justicia,1,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-20,17:10,Nueva Chicago,Independiente Rivadavia,1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-20,17:10,Sacachispas,Colegiales,2,1,,,Primera B,2020,zonas,Grupo B,Fecha 3,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-20,17:10,UAI Urquiza,Los Andes,0,2,,,Primera B,2020,zonas,Grupo B,Fecha 3,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-20,17:10,Villa Dálmine,Atlético de Rafaela,0,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-20,17:15,Douglas Haig,Chaco For Ever,1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-20,17:30,Olimpo,Deportivo Madryn,2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-20,17:30,Sansinena,Deportivo Maipú,1,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-20,18:00,Cipolletti,Sol de Mayo (V),0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-20,18:00,Sportivo Belgrano,Juventud Unida (G),3,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-20,19:00,Juventud Unida Universitario,Huracán Las Heras,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-20,19:20,Estudiantes (LP),Racing Club,1,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-20,19:20,Independiente,Boca Juniors,1,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-20,20:30,San Martín (SJ),Mitre (SdE),1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-20,21:00,Güemes (SdE),Sarmiento (R),1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-20,21:30,Huracán,River Plate,1,3,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-21,17:10,Berazategui,Victoriano Arenas,1,1,,,Primera C,2020,zonas,Grupo A,Fecha 2,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-21,17:10,Defensores Unidos,Deportivo Armenio,2,2,,,Primera B,2020,zonas,Grupo A,Fecha 3,Mario Losinno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-21,17:10,Deportivo Español,El Porvenir,1,0,,,Primera C,2020,zonas,Grupo B,Fecha 2,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-21,17:10,Excursionistas,Leandro N. Alem,0,1,,,Primera C,2020,zonas,Grupo B,Fecha 2,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-21,17:10,Ferro Carril Oeste,Platense,1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-21,17:10,Fénix,Talleres (RdE),1,2,,,Primera B,2020,zonas,Grupo A,Fecha 3,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-21,19:00,Instituto,Ramón Santamarina,3,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-21,19:20,Central Córdoba (SdE),Vélez Sarsfield,0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-21,19:20,Rosario Central,Unión,2,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-21,21:30,Banfield,Gimnasia y Esgrima (LP),2,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-21,21:30,Gimnasia y Esgrima (M),Tigre,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-22,21:10,Agropecuario,Deportivo Morón,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Ofelia Rosenzuaig,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-23,,Newell's Old Boys,Sportivo Peñarol (C),2,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-12-27,17:10,Almagro,All Boys,4,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-27,17:10,Almirante Brown,Acassuso,2,1,,,Primera B,2020,zonas,,Fecha 4,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-27,17:10,Argentino de Merlo,Cañuelas,1,2,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 5,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-27,17:10,Atlanta,Temperley,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-27,17:10,Atlético de Rafaela,Gimnasia y Esgrima (M),2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-27,17:10,Barracas Central,Guillermo Brown,2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-27,17:10,Central Córdoba (R),Sportivo Italiano,2,1,,,Primera C,2020,zonas,Grupo A,Fecha 3,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-27,17:10,Comunicaciones,Villa San Carlos,2,1,,,Primera B,2020,zonas,,Fecha 4,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-27,17:10,Círculo Deportivo,Desamparados,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,17:10,Defensa y Justicia,Patronato,2,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-27,17:10,Deportivo Madryn,Villa Mitre,1,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,17:10,Deportivo Maipú,Olimpo,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,17:10,Flandria,UAI Urquiza,0,1,,,Primera B,2020,zonas,Grupo B,Fecha 4,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-27,17:10,Gimnasia y Esgrima (J),Instituto,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-27,17:10,Ituzaingó,Berazategui,1,0,,,Primera C,2020,zonas,Grupo A,Fecha 3,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-27,17:10,J. J. de Urquiza,Tristán Suárez,1,0,,,Primera B,2020,zonas,,Fecha 4,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-27,17:10,Racing Club,Godoy Cruz,6,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-27,17:10,Real Pilar,General Lamadrid,6,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 5,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-27,17:30,Deportivo Camioneros,Sportivo Estudiantes (SL),2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,17:30,Unión (S),Defensores de Belgrano (VR),1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,18:00,Huracán Las Heras,Sansinena,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,18:00,Juventud Unida (G),Boca Unidos,3,3,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,18:00,Sol de Mayo (V),Sportivo Peñarol (C),0,4,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,18:30,Chaco For Ever,Güemes (SdE),2,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,19:10,Belgrano,Nueva Chicago,2,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-27,19:10,Independiente Rivadavia,San Martín (SJ),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-27,19:20,Boca Juniors,Huracán,3,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-27,20:00,Central Norte (S),Douglas Haig,1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,20:15,Sarmiento (R),Sportivo Las Parejas,1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2020-12-27,21:00,Estudiantes (RC),Ferro Carril Oeste,2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-27,21:00,Mitre (SdE),Alvarado,2,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-27,21:30,River Plate,Arsenal,2,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-27,21:30,San Martín (T),Villa Dálmine,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-28,17:10,Argentino de Quilmes,Sacachispas,2,1,,,Primera B,2020,zonas,Grupo B,Fecha 4,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-28,17:10,Deportivo Armenio,Talleres (RdE),1,2,,,Primera B,2020,zonas,Grupo A,Fecha 4,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-28,17:10,Deportivo Riestra,Sarmiento (J),1,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-28,17:10,Dock Sud,Deportivo Laferrere,2,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 5,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-28,17:10,Newell's Old Boys,Central Córdoba (SdE),3,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-28,17:10,Platense,Agropecuario,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-28,17:10,Ramón Santamarina,Brown de Adrogué,1,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-28,17:10,Victoriano Arenas,San Martín (B),1,2,,,Primera C,2020,zonas,Grupo A,Fecha 3,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-28,19:20,Argentinos Juniors,Independiente,0,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-28,19:20,Vélez Sarsfield,Estudiantes (LP),2,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-28,21:30,Colón,Banfield,1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Brigadier General López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-28,21:30,Deportivo Morón,Estudiantes (BA),2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-28,21:30,Gimnasia y Esgrima (LP),Talleres (C),2,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-29,17:10,Aldosivi,Rosario Central,0,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-29,17:10,Leandro N. Alem,Ferrocarril Midland,0,1,,,Primera C,2020,zonas,Grupo B,Fecha 3,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-29,17:10,Los Andes,Colegiales,2,0,,,Primera B,2020,zonas,Grupo B,Fecha 4,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-29,17:10,Luján,Deportivo Español,1,0,,,Primera C,2020,zonas,Grupo B,Fecha 3,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2020-12-29,17:10,Quilmes,Chacarita Juniors,3,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-29,17:10,San Miguel,Fénix,2,1,,,Primera B,2020,zonas,Grupo A,Fecha 4,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-29,17:10,San Telmo,Defensores Unidos,4,1,,,Primera B,2020,zonas,Grupo A,Fecha 4,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2020-12-29,19:20,Tigre,Defensores de Belgrano,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2020-12-29,19:20,Unión,Lanús,2,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-29,21:30,Atlético Tucumán,San Lorenzo,1,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-30,,Godoy Cruz,J. J. de Urquiza,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-12-30,17:10,El Porvenir,Excursionistas,0,1,,,Primera C,2020,zonas,Grupo B,Fecha 3,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-02,21:00,Mitre (SdE),Barracas Central,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,17:10,Acassuso,J. J. de Urquiza,0,1,,,Primera B,2020,zonas,,Fecha 5,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-03,17:10,Atlanta,Estudiantes (RC),1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,17:10,Brown de Adrogué,Gimnasia y Esgrima (J),2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,17:10,Chacarita Juniors,All Boys,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,17:10,Deportivo Riestra,San Martín (T),0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,17:10,Nueva Chicago,Guillermo Brown,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,17:10,Ramón Santamarina,Almagro,2,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,17:10,Sarmiento (J),Tigre,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,17:10,Tristán Suárez,Comunicaciones,2,0,,,Primera B,2020,zonas,,Fecha 5,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-03,17:10,Villa San Carlos,Almirante Brown,3,0,,,Primera B,2020,zonas,,Fecha 5,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-03,17:15,Douglas Haig,Defensores de Pronunciamiento,0,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 6,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-03,17:30,Desamparados,Deportivo Camioneros,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-03,18:00,Alvarado,Independiente Rivadavia,3,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,18:00,San Martín (SJ),Belgrano,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,18:00,Sansinena,Juventud Unida Universitario,0,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-03,18:00,Sportivo Estudiantes (SL),Sol de Mayo (V),2,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-03,18:00,Sportivo Peñarol (C),Cipolletti,1,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-03,18:10,Gimnasia y Esgrima (M),Villa Dálmine,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,19:10,Defensores de Belgrano,Atlético de Rafaela,2,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-03,20:00,Olimpo,Huracán Las Heras,2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-03,20:30,Sportivo Las Parejas,Chaco For Ever,0,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 6,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-03,21:00,Güemes (SdE),Central Norte (S),2,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 6,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-03,21:00,Villa Mitre,Deportivo Maipú,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-03,21:10,Temperley,Deportivo Morón,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-04,17:10,Agropecuario,Ferro Carril Oeste,0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Ofelia Rosenzuaig,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-04,17:10,Cañuelas,Dock Sud,0,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 6,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-04,17:10,Defensores Unidos,San Miguel,2,2,,,Primera B,2020,zonas,Grupo A,Fecha 5,Mario Losinno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-04,17:10,Deportivo Laferrere,Real Pilar,2,3,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 6,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-04,17:10,Fénix,Deportivo Armenio,1,1,,,Primera B,2020,zonas,Grupo A,Fecha 5,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-04,17:10,General Lamadrid,Deportivo Merlo,0,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 6,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-04,17:10,Talleres (RdE),San Telmo,2,3,,,Primera B,2020,zonas,Grupo A,Fecha 5,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-04,19:10,Estudiantes (BA),Platense,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-05,17:10,Colegiales,Flandria,0,0,,,Primera B,2020,zonas,Grupo B,Fecha 5,Libertarios Unidos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-05,17:10,Sacachispas,Los Andes,2,0,,,Primera B,2020,zonas,Grupo B,Fecha 5,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-05,17:10,UAI Urquiza,Argentino de Quilmes,3,3,,,Primera B,2020,zonas,Grupo B,Fecha 5,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-05,19:00,Instituto,Quilmes,2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-07,,Estudiantes (RC),Chaco For Ever,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Nuevo Monumental,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-01-09,18:00,Cipolletti,Sportivo Estudiantes (SL),0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-10,17:10,Barracas Central,Nueva Chicago,0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,17:10,Belgrano,Alvarado,2,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,17:10,Deportivo Maipú,Deportivo Madryn,3,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-10,17:10,Deportivo Morón,Atlanta,1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,17:10,Estudiantes (RC),Agropecuario,4,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,17:10,Ferro Carril Oeste,Estudiantes (BA),1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,17:10,Guillermo Brown,San Martín (SJ),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,17:10,Independiente Rivadavia,Mitre (SdE),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,17:10,Platense,Temperley,2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,17:10,Real Pilar,Cañuelas,2,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 7,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-10,17:30,Deportivo Camioneros,Círculo Deportivo,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-10,17:30,Huracán Las Heras,Villa Mitre,2,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-10,17:30,Juventud Unida Universitario,Olimpo,2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,Juan Gilberto Funes,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-10,17:30,Sol de Mayo (V),Desamparados,1,4,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-10,18:00,Central Norte (S),Sportivo Las Parejas,1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 7,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-10,19:15,Atlético de Rafaela,Sarmiento (J),0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,19:15,San Martín (T),Gimnasia y Esgrima (M),2,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,19:15,Tigre,Deportivo Riestra,1,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-10,19:15,Villa Dálmine,Defensores de Belgrano,1,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-11,,Comunicaciones,Acassuso,2,0,,,Primera B,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-11,,Tristán Suárez,Argentino de Quilmes,1,1,11,10,Primera B,2020,eliminacion,,,Estadio Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-11,,Villa San Carlos,San Telmo,2,4,,,Primera B,2020,eliminacion,,,Estadio Julio Humberto Grondona,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-11,17:10,Dock Sud,Argentino de Merlo,3,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 7,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-11,17:30,Chaco For Ever,Sarmiento (R),0,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 7,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-11,17:30,Defensores de Pronunciamiento,Güemes (SdE),0,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 7,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-11,21:10,All Boys,Instituto,2,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-11,21:10,Almagro,Chacarita Juniors,0,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-11,21:10,Gimnasia y Esgrima (J),Ramón Santamarina,2,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-11,21:10,Quilmes,Brown de Adrogué,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-12,17:10,Berazategui,Central Córdoba (R),3,0,,,Primera C,2020,zonas,Grupo A,Fecha 4,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-12,17:10,Deportivo Español,Ferrocarril Midland,4,3,,,Primera C,2020,zonas,Grupo B,Fecha 4,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-12,17:10,El Porvenir,Leandro N. Alem,0,2,,,Primera C,2020,zonas,Grupo B,Fecha 4,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-12,17:10,Excursionistas,Luján,2,1,,,Primera C,2020,zonas,Grupo B,Fecha 4,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-12,17:10,Ituzaingó,Victoriano Arenas,3,1,,,Primera C,2020,zonas,Grupo A,Fecha 4,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-12,17:10,Sportivo Italiano,San Martín (B),0,0,,,Primera C,2020,zonas,Grupo A,Fecha 4,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-13,17:10,Deportivo Merlo,Deportivo Laferrere,1,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 7,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-14,,Colón,Cipolletti,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Presbítero Bartolomé Grella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-01-15,17:10,Cañuelas,Real Pilar,0,0,,,Primera C,2020,eliminacion,,Fase primer ascenso,Jorge Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-16,,Rosario Central,Vélez Sarsfield,1,3,,,Copa de la Liga,2020,eliminacion,,Final,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2021-01-16,,Sarmiento (J),Estudiantes (RC),1,1,4,3,Primera Nacional,2020,eliminacion,,Final,Estadio 15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-17,,Agropecuario,Quilmes,0,1,,,Primera Nacional,2020,eliminacion,,,Estadio Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-17,,Atlanta,San Martín (T),2,2,4,1,Primera Nacional,2020,eliminacion,,,Estadio Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-17,,Boca Juniors,Banfield,1,1,5,3,Copa de la Liga,2020,eliminacion,,Final,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2021-01-17,,Defensores de Belgrano,Instituto,2,0,,,Primera Nacional,2020,eliminacion,,,Estadio El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-17,,Deportivo Morón,Villa Dálmine,2,1,,,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-17,,Deportivo Riestra,Temperley,1,0,,,Primera Nacional,2020,eliminacion,,,Estadio de Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-17,,Estudiantes (BA),Barracas Central,2,2,3,2,Primera Nacional,2020,eliminacion,,,Estadio Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-17,,Gimnasia y Esgrima (M),Ferro Carril Oeste,1,4,,,Primera Nacional,2020,eliminacion,,,Estadio Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-17,,Tigre,San Martín (SJ),1,1,3,4,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-17,17:10,Central Córdoba (R),Ituzaingó,0,2,,,Primera C,2020,zonas,Grupo A,Fecha 5,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-17,17:10,Ferrocarril Midland,Excursionistas,2,2,,,Primera C,2020,zonas,Grupo B,Fecha 5,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-17,17:10,Leandro N. Alem,Deportivo Español,2,4,,,Primera C,2020,zonas,Grupo B,Fecha 5,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-17,17:10,Luján,El Porvenir,2,1,,,Primera C,2020,zonas,Grupo B,Fecha 5,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-17,17:10,San Martín (B),Berazategui,2,0,,,Primera C,2020,zonas,Grupo A,Fecha 5,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-17,17:10,Victoriano Arenas,Sportivo Italiano,0,2,,,Primera C,2020,zonas,Grupo A,Fecha 5,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-17,17:15,Douglas Haig,Defensores de Pronunciamiento,2,1,,,Torneo Federal A,2020,eliminacion,,Primera fase,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-17,17:30,Deportivo Maipú,Deportivo Camioneros,1,0,,,Torneo Federal A,2020,eliminacion,,Primera fase,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-17,20:00,Chaco For Ever,Sansinena,2,0,,,Torneo Federal A,2020,eliminacion,,Primera fase,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-17,20:00,Sarmiento (R),Huracán Las Heras,2,1,,,Torneo Federal A,2020,eliminacion,,Primera fase,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-18,,J. J. de Urquiza,San Telmo,0,4,,,Primera B,2020,eliminacion,,Semifinales,Estadio Julio Humberto Grondona,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-18,,Tristán Suárez,Comunicaciones,1,0,,,Primera B,2020,eliminacion,,Semifinales,Estadio Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-20,,Rosario Central,Boca Unidos,0,3,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-01-21,,Atlanta,Ferro Carril Oeste,2,1,,,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-21,,Defensores de Belgrano,Quilmes,0,1,,,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-21,,Deportivo Morón,Deportivo Riestra,0,1,,,Primera Nacional,2020,eliminacion,,,Estadio José Dellagiovanna,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-21,,Estudiantes (BA),San Martín (SJ),3,1,,,Primera Nacional,2020,eliminacion,,,Estadio Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-22,17:15,Douglas Haig,Sarmiento (R),0,2,,,Torneo Federal A,2020,eliminacion,,Segunda fase,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-22,17:30,Deportivo Maipú,Sportivo Las Parejas,1,0,,,Torneo Federal A,2020,eliminacion,,Segunda fase,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-22,19:00,Chaco For Ever,Deportivo Madryn,0,1,,,Torneo Federal A,2020,eliminacion,,Segunda fase,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-23,,Argentino de Merlo,Deportivo Merlo,1,3,,,Primera C,2020,eliminacion,,Cuartos,Estadio Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-23,,Dock Sud,Luján,1,1,6,5,Primera C,2020,eliminacion,,Cuartos,Estadio Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-23,,General Lamadrid,Deportivo Laferrere,2,2,4,3,Primera C,2020,eliminacion,,Cuartos,Estadio Libertarios Unidos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-23,,Real Pilar,Ituzaingó,0,0,5,6,Primera C,2020,eliminacion,,Cuartos,Estadio Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-23,20:30,Villa Mitre,Sportivo Belgrano,2,0,,,Torneo Federal A,2020,eliminacion,,Segunda fase,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-24,,Atlético de Rafaela,Quilmes,2,2,10,9,Primera Nacional,2020,eliminacion,,,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-24,,Estudiantes (BA),Atlanta,1,0,,,Primera Nacional,2020,eliminacion,,,Estadio José Dellagiovanna,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-24,,Platense,Deportivo Riestra,0,0,8,7,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-25,,Tristán Suárez,San Telmo,1,0,,,Primera B,2020,eliminacion,,Final,Estadio Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-27,,Atlético de Rafaela,Platense,0,2,,,Primera Nacional,2020,eliminacion,,Semifinales,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-27,,Dock Sud,Ituzaingó,1,0,,,Primera C,2020,eliminacion,,Semifinales,Estadio Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-27,,Estudiantes (RC),Estudiantes (BA),1,0,,,Primera Nacional,2020,eliminacion,,Semifinales,Estadio Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-27,,General Lamadrid,Deportivo Merlo,2,2,6,7,Primera C,2020,eliminacion,,Semifinales,Estadio Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-27,17:30,Deportivo Maipú,Sarmiento (R),2,0,,,Torneo Federal A,2020,eliminacion,,Semifinales,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-01-28,,Arsenal,Huracán Las Heras,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-01-31,,Dock Sud,Deportivo Merlo,1,2,,,Primera C,2020,eliminacion,,Final,Estadio Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
-2021-01-31,,Estudiantes (RC),Platense,1,1,2,4,Primera Nacional,2020,eliminacion,,Final,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
-2021-01-31,17:15,Deportivo Maipú,Deportivo Madryn,2,0,,,Torneo Federal A,2020,eliminacion,,Final,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-02-04,,San Telmo,Deportivo Madryn,0,0,3,1,Primera B,2020,eliminacion,,,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-02-04,21:30,San Telmo,Deportivo Madryn,0,0,,,Torneo Federal A,2020,eliminacion,,Tercer ascenso,Marcelo Bielsa,true,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
-2021-02-17,,Vélez Sarsfield,Deportivo Camioneros,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-02-18,,San Lorenzo,Liniers,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,José María Minella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-02-19,,Defensores de Belgrano,Almirante Brown,4,2,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-02-23,,Lanús,Real Pilar,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-01,,San Martín (T),San Martín (SJ),0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-02,,Defensa y Justicia,Estudiantes (BA),1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-03,,Boca Juniors,Claypole,2,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-10,,Atlético Tucumán,Comunicaciones,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-10,,Banfield,Güemes (SdE),2,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-10,,Independiente,Villa Mitre,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,José María Minella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-17,,Colón,Argentinos Juniors,0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-17,,Deportivo Laferrere,San Telmo,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-17,,Racing Club,Sportivo Belgrano,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-23,,Gimnasia y Esgrima (LP),Dock Sud,5,0,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-25,,San Lorenzo,Defensa y Justicia,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Florencio Sola,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-03-31,,Banfield,Vélez Sarsfield,3,2,,,Copa de la Liga,2020,eliminacion,,,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2021-04-07,,Atlético Tucumán,River Plate,1,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Ciudad de La Plata,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-04-21,,Huracán Las Heras,Estudiantes (RC),1,4,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-04-28,,Deportivo Madryn,Banfield,0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-05-12,,Sportivo Estudiantes (SL),Villa San Carlos,1,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Coloso del Ruca Quimey,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-05-13,,Boca Unidos,Godoy Cruz,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Julio César Villagra,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-05-17,,Newell's Old Boys,Sarmiento (J),0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-05-19,,Talleres (RdE),Temperley,0,4,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-07-13,,Villa San Carlos,Patronato,0,1,,,Copa Argentina,2020,eliminacion,,Octavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-07-14,,San Telmo,Banfield,1,0,,,Copa Argentina,2020,eliminacion,,Octavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-07-20,,Sarmiento (J),Temperley,0,1,,,Copa Argentina,2020,eliminacion,,Octavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-08-04,,Tigre,Independiente,2,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-10-06,,Godoy Cruz,Tigre,1,0,,,Copa Argentina,2020,eliminacion,,Cuartos,Mario Alberto Kempes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-10-13,,Argentinos Juniors,San Telmo,2,1,,,Copa Argentina,2020,eliminacion,,Cuartos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-11-03,,Boca Juniors,Argentinos Juniors,1,0,,,Copa Argentina,2020,eliminacion,,Semifinales,Malvinas Argentinas,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2021-12-01,,Talleres (C),Godoy Cruz,1,0,,,Copa Argentina,2020,eliminacion,,Semifinales,Juan Gilberto Funes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source,status
+2020-01-02,17:30,Rosario Central,Defensa y Justicia,3,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-02,21:30,Boca Juniors,River Plate,2,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-03,17:10,Independiente,Arsenal,3,4,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-03,19:20,Newell's Old Boys,Vélez Sarsfield,0,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-03,19:20,Patronato,Lanús,1,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-03,21:30,Central Córdoba (SdE),Racing Club,2,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-04,17:10,Aldosivi,Unión,1,3,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-04,19:20,San Lorenzo,Gimnasia y Esgrima (LP),1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-04,21:30,Talleres (C),Banfield,3,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-05,19:20,Godoy Cruz,Estudiantes (LP),1,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-05,19:20,Huracán,Argentinos Juniors,0,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-05,21:30,Atlético Tucumán,Colón,0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-09,17:10,Lanús,Rosario Central,2,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-09,17:10,Unión,Patronato,1,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-09,19:20,Racing Club,Newell's Old Boys,3,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-09,19:20,Vélez Sarsfield,Godoy Cruz,3,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-09,21:30,Argentinos Juniors,Boca Juniors,2,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-09,21:30,River Plate,Independiente,0,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-10,19:20,Arsenal,Huracán,1,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-10,21:30,Banfield,San Lorenzo,4,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-10,21:30,Colón,Talleres (C),1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Brigadier General López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-10,21:30,Gimnasia y Esgrima (LP),Atlético Tucumán,0,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-11,21:30,Estudiantes (LP),Central Córdoba (SdE),1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-01-14,17:10,Defensa y Justicia,Aldosivi,4,4,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-02-25,,Gimnasia y Esgrima (LP),Sportivo Barracas,2,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Centenario Ciudad de Quilmes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2020-02-26,,Aldosivi,Talleres (RdE),1,3,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2020-03-04,,Central Córdoba (SdE),San Telmo,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Padre Ernesto Martearena,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2020-03-10,,Platense,Deportivo Madryn,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2020-03-11,,Argentinos Juniors,Cañuelas,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2020-03-11,,Sarmiento (J),Douglas Haig,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Centenario Ciudad de Quilmes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2020-10-30,19:00,Gimnasia y Esgrima (LP),Patronato,3,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 1,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-10-30,21:15,Talleres (C),Newell's Old Boys,3,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-10-31,14:00,Aldosivi,Estudiantes (LP),0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-10-31,16:15,Vélez Sarsfield,Huracán,1,1,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 1,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-10-31,18:45,Argentinos Juniors,San Lorenzo,0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 1,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-10-31,21:15,Lanús,Boca Juniors,1,2,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 1,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-01,11:00,Defensa y Justicia,Colón,0,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-01,14:00,Unión,Arsenal,0,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-01,16:15,Racing Club,Atlético Tucumán,1,4,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-01,18:45,Central Córdoba (SdE),Independiente,0,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-01,21:15,River Plate,Banfield,1,3,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 1,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-02,21:15,Rosario Central,Godoy Cruz,2,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 1,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-06,19:00,Patronato,Huracán,1,2,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 2,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-06,21:15,Argentinos Juniors,Aldosivi,0,1,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 2,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-07,16:00,Banfield,Godoy Cruz,1,0,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 2,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-07,18:30,San Lorenzo,Estudiantes (LP),2,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 2,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-07,21:15,River Plate,Rosario Central,2,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 2,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-08,11:00,Arsenal,Atlético Tucumán,1,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-08,16:15,Gimnasia y Esgrima (LP),Vélez Sarsfield,2,2,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 2,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-08,18:45,Unión,Racing Club,2,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-08,21:15,Newell's Old Boys,Boca Juniors,0,2,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 2,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-09,17:00,Independiente,Colón,1,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-09,19:15,Talleres (C),Lanús,1,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 2,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-09,21:30,Central Córdoba (SdE),Defensa y Justicia,2,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-13,19:00,Rosario Central,Banfield,2,4,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 3,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-13,21:15,Atlético Tucumán,Unión,3,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-14,14:00,Aldosivi,San Lorenzo,1,4,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 3,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-14,16:15,Lanús,Newell's Old Boys,2,4,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 3,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-14,18:45,Racing Club,Arsenal,0,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-14,21:15,Godoy Cruz,River Plate,0,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 3,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-15,14:00,Huracán,Gimnasia y Esgrima (LP),3,2,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 3,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-15,16:15,Estudiantes (LP),Argentinos Juniors,0,1,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 3,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-15,18:45,Defensa y Justicia,Independiente,0,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-15,21:15,Boca Juniors,Talleres (C),0,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 3,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-16,19:00,Vélez Sarsfield,Patronato,1,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 3,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-16,21:15,Colón,Central Córdoba (SdE),2,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-19,21:15,Atlético Tucumán,Racing Club,2,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-20,17:10,Arsenal,Unión,2,3,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-20,19:20,Boca Juniors,Lanús,1,2,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 4,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-20,21:30,Banfield,River Plate,0,2,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 4,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-21,17:10,Colón,Defensa y Justicia,2,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-21,19:20,Huracán,Vélez Sarsfield,1,2,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 4,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-21,21:30,Independiente,Central Córdoba (SdE),0,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-22,17:10,Estudiantes (LP),Aldosivi,0,1,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 4,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-22,19:20,Patronato,Gimnasia y Esgrima (LP),0,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 4,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-22,21:30,San Lorenzo,Argentinos Juniors,2,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 4,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-23,19:00,Godoy Cruz,Rosario Central,0,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 4,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-23,21:15,Newell's Old Boys,Talleres (C),1,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 4,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-28,17:10,Almagro,Gimnasia y Esgrima (J),1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-28,17:10,Atlanta,Platense,0,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-28,17:10,Barracas Central,Independiente Rivadavia,2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-28,17:10,Brown de Adrogué,All Boys,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-28,17:10,Racing Club,Unión,1,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-28,17:10,Ramón Santamarina,Quilmes,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-28,19:00,Sarmiento (J),Villa Dálmine,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-28,19:10,Instituto,Chacarita Juniors,2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-28,19:10,Mitre (SdE),Belgrano,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-28,19:20,Colón,Independiente,1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-28,19:20,Godoy Cruz,Banfield,0,0,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 5,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-28,20:30,Alvarado,Guillermo Brown,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-28,21:30,Rosario Central,River Plate,0,2,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 5,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-28,21:30,Vélez Sarsfield,Gimnasia y Esgrima (LP),0,1,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 5,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-29,17:10,Defensa y Justicia,Central Córdoba (SdE),2,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-29,17:10,Defensores de Belgrano,Gimnasia y Esgrima (M),0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-29,17:10,Estudiantes (BA),Agropecuario,3,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-29,17:10,Huracán,Patronato,1,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 5,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-29,18:00,San Martín (SJ),Nueva Chicago,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-29,19:20,Boca Juniors,Newell's Old Boys,2,0,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 5,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-29,21:30,Lanús,Talleres (C),1,0,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 5,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-29,9:00,San Martín (T),Tigre,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-30,17:10,Aldosivi,Argentinos Juniors,1,4,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 5,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-30,17:10,Deportivo Riestra,Atlético de Rafaela,3,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-30,17:10,Temperley,Ferro Carril Oeste,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-30,18:00,Estudiantes (RC),Deportivo Morón,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-11-30,19:20,Atlético Tucumán,Arsenal,3,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-11-30,21:30,Estudiantes (LP),San Lorenzo,0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 5,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-03,17:10,Chacarita Juniors,Brown de Adrogué,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-04,17:10,Círculo Deportivo,Sol de Mayo (V),0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-04,17:10,Defensores de Belgrano (VR),Juventud Unida (G),0,3,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-04,17:10,Deportivo Madryn,Huracán Las Heras,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-04,17:10,Desamparados,Cipolletti,1,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-04,17:10,Instituto,Almagro,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-04,17:10,Olimpo,Sansinena,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-04,17:10,San Telmo,Deportivo Armenio,0,2,,,Primera B,2020,zonas,Grupo A,Fecha 1,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-04,18:00,Sportivo Estudiantes (SL),Sportivo Peñarol (C),1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-04,19:20,Central Córdoba (SdE),Colón,0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 6,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-04,19:30,Sarmiento (R),Central Norte (S),1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-04,21:00,Sportivo Las Parejas,Defensores de Pronunciamiento,1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-04,21:00,Villa Mitre,Juventud Unida Universitario,1,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-04,21:10,Almirante Brown,Tristán Suárez,0,0,,,Primera B,2020,zonas,,Fecha 1,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-04,21:30,Banfield,Rosario Central,1,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 6,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-05,17:10,All Boys,Ramón Santamarina,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-05,17:10,Argentino de Merlo,Real Pilar,1,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 1,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-05,17:10,Arsenal,Racing Club,1,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 6,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-05,17:10,Boca Unidos,Sportivo Belgrano,0,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-05,17:10,Cañuelas,Deportivo Merlo,1,2,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 1,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-05,17:10,Comunicaciones,J. J. de Urquiza,1,3,,,Primera B,2020,zonas,,Fecha 1,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-05,17:10,Estudiantes (BA),Estudiantes (RC),2,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-05,17:10,Gimnasia y Esgrima (M),Sarmiento (J),2,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-05,17:10,Nueva Chicago,Alvarado,2,5,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-05,17:10,Platense,Deportivo Morón,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-05,17:10,Quilmes,Gimnasia y Esgrima (J),3,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-05,17:10,San Miguel,Talleres (RdE),0,0,,,Primera B,2020,zonas,Grupo A,Fecha 1,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-05,17:10,Unión,Atlético Tucumán,3,5,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 6,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-05,17:10,Villa Dálmine,Deportivo Riestra,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-05,18:00,San Martín (SJ),Barracas Central,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-05,19:10,Belgrano,Independiente Rivadavia,3,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-05,19:20,Gimnasia y Esgrima (LP),Huracán,0,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 6,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-05,19:20,Patronato,Vélez Sarsfield,0,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 6,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-05,21:00,Güemes (SdE),Douglas Haig,1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-05,21:30,River Plate,Godoy Cruz,3,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 6,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-06,17:10,Acassuso,Villa San Carlos,0,0,,,Primera B,2020,zonas,,Fecha 1,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-06,17:10,Argentino de Quilmes,Colegiales,3,1,,,Primera B,2020,zonas,Grupo B,Fecha 1,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-06,17:10,Defensores de Belgrano,San Martín (T),0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-06,17:10,Deportivo Laferrere,General Lamadrid,1,2,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 1,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-06,17:10,Flandria,Los Andes,1,1,,,Primera B,2020,zonas,Grupo B,Fecha 1,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-06,17:10,Fénix,Defensores Unidos,2,0,,,Primera B,2020,zonas,Grupo A,Fecha 1,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-06,17:10,Guillermo Brown,Mitre (SdE),4,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-06,17:10,Sacachispas,UAI Urquiza,1,1,,,Primera B,2020,zonas,Grupo B,Fecha 1,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-06,19:00,Agropecuario,Temperley,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Rosa Rosenzuaig,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-06,19:10,Independiente,Defensa y Justicia,1,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 6,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-06,21:30,Newell's Old Boys,Lanús,3,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 6,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-06,21:30,Talleres (C),Boca Juniors,0,0,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 6,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-07,17:10,Atlético de Rafaela,Tigre,3,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-07,19:10,Argentinos Juniors,Estudiantes (LP),1,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 6,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-07,19:10,San Lorenzo,Aldosivi,0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 6,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-07,21:10,Ferro Carril Oeste,Atlanta,0,3,,,Primera Nacional,2020,zonas,Zona A,Fecha 2,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-08,17:10,Deportivo Merlo,Argentino de Merlo,1,2,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 2,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-08,17:10,Real Pilar,Dock Sud,1,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 2,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-09,17:00,Defensores de Pronunciamiento,Sarmiento (R),2,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,17:00,Juventud Unida (G),Unión (S),2,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,17:00,Juventud Unida Universitario,Deportivo Madryn,2,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,17:10,General Lamadrid,Cañuelas,0,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 2,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-09,17:10,Sol de Mayo (V),Deportivo Camioneros,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,17:30,Douglas Haig,Sportivo Las Parejas,2,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,17:30,Sansinena,Villa Mitre,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,18:00,Huracán Las Heras,Deportivo Maipú,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,18:00,Sportivo Peñarol (C),Desamparados,0,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,18:30,Cipolletti,Círculo Deportivo,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 2,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,18:30,Sportivo Belgrano,Defensores de Belgrano (VR),3,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-09,19:30,Central Norte (S),Chaco For Ever,2,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 2,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-11,17:10,Almagro,Quilmes,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-11,17:10,Leandro N. Alem,Luján,0,2,,,Primera C,2020,zonas,Grupo B,Fecha 1,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-11,17:10,San Telmo,Fénix,2,1,,,Primera B,2020,zonas,Grupo A,Fecha 2,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-11,17:10,Talleres (RdE),Defensores Unidos,1,1,,,Primera B,2020,zonas,Grupo A,Fecha 2,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-11,19:00,Estudiantes (RC),Platense,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-11,21:10,Vélez Sarsfield,Racing Club,2,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-12,17:10,Barracas Central,Belgrano,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-12,17:10,Berazategui,Sportivo Italiano,1,1,,,Primera C,2020,zonas,Grupo A,Fecha 1,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-12,17:10,Brown de Adrogué,Instituto,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-12,17:10,Colón,Gimnasia y Esgrima (LP),0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Brigadier General López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-12,17:10,Deportivo Armenio,San Miguel,1,1,,,Primera B,2020,zonas,Grupo A,Fecha 2,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-12,17:10,Deportivo Morón,Ferro Carril Oeste,2,3,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-12,17:10,El Porvenir,Ferrocarril Midland,1,1,,,Primera C,2020,zonas,Grupo B,Fecha 1,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-12,17:10,Gimnasia y Esgrima (J),All Boys,2,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-12,17:10,Independiente Rivadavia,Guillermo Brown,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-12,17:10,Newell's Old Boys,Estudiantes (LP),1,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-12,17:10,Ramón Santamarina,Chacarita Juniors,3,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-12,17:10,Tristán Suárez,Villa San Carlos,2,1,,,Primera B,2020,zonas,,Fecha 2,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-12,19:00,Alvarado,San Martín (SJ),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-12,19:00,Sarmiento (J),Defensores de Belgrano,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-12,19:20,Boca Juniors,Arsenal,1,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-12,19:20,Los Andes,Argentino de Quilmes,1,1,,,Primera B,2020,zonas,Grupo B,Fecha 2,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-12,21:30,San Lorenzo,Talleres (C),0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-13,17:10,Aldosivi,Lanús,1,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-13,17:10,Argentino de Merlo,General Lamadrid,1,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 3,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-13,17:10,Atlanta,Agropecuario,2,3,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-13,17:10,Cañuelas,Deportivo Laferrere,4,5,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 3,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-13,17:10,Colegiales,UAI Urquiza,2,2,,,Primera B,2020,zonas,Grupo B,Fecha 2,Libertarios Unidos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-13,17:10,Comunicaciones,Acassuso,0,0,,,Primera B,2020,zonas,,Fecha 2,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-13,17:10,Deportivo Maipú,Juventud Unida Universitario,2,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,17:10,Flandria,Sacachispas,2,0,,,Primera B,2020,zonas,Grupo B,Fecha 2,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-13,17:10,Ituzaingó,San Martín (B),1,1,,,Primera C,2020,zonas,Grupo A,Fecha 1,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-13,17:10,Temperley,Estudiantes (BA),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-13,17:10,Unión,Defensa y Justicia,1,3,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-13,17:30,Círculo Deportivo,Sportivo Peñarol (C),0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,17:30,Deportivo Camioneros,Cipolletti,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,17:30,Desamparados,Sportivo Estudiantes (SL),1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,17:30,Unión (S),Sportivo Belgrano,1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,17:30,Villa Mitre,Olimpo,3,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,18:45,Chaco For Ever,Defensores de Pronunciamiento,3,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,19:20,River Plate,Argentinos Juniors,1,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-13,19:30,Defensores de Belgrano (VR),Boca Unidos,1,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,20:30,Sportivo Las Parejas,Güemes (SdE),2,4,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,20:45,Sarmiento (R),Douglas Haig,0,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 3,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-13,21:30,Huracán,Independiente,3,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-13,21:30,San Martín (T),Atlético de Rafaela,0,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-14,17:10,Deportivo Madryn,Sansinena,2,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 3,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-14,17:10,Deportivo Riestra,Gimnasia y Esgrima (M),1,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-14,17:10,Dock Sud,Deportivo Merlo,2,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 3,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-14,17:10,Excursionistas,Deportivo Español,4,2,,,Primera C,2020,zonas,Grupo B,Fecha 1,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-14,17:10,J. J. de Urquiza,Almirante Brown,1,3,,,Primera B,2020,zonas,,Fecha 2,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-14,17:10,Rosario Central,Patronato,4,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 1,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-14,17:10,Victoriano Arenas,Central Córdoba (R),2,2,,,Primera C,2020,zonas,Grupo A,Fecha 1,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-14,19:20,Central Córdoba (SdE),Godoy Cruz,1,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-14,21:10,Tigre,Villa Dálmine,3,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 3,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-14,21:30,Atlético Tucumán,Banfield,0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-14,9:00,Mitre (SdE),Nueva Chicago,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 3,Dres. José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-18,17:10,San Martín (B),Central Córdoba (R),1,0,,,Primera C,2020,zonas,Grupo A,Fecha 2,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-18,17:10,Sportivo Italiano,Ituzaingó,0,0,,,Primera C,2020,zonas,Grupo A,Fecha 2,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-18,21:10,Arsenal,Argentinos Juniors,0,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-18,21:30,Estudiantes (BA),Atlanta,3,3,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-19,17:10,Acassuso,Tristán Suárez,0,0,,,Primera B,2020,zonas,,Fecha 3,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-19,17:10,All Boys,Quilmes,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-19,17:10,Almirante Brown,Comunicaciones,2,0,,,Primera B,2020,zonas,,Fecha 3,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-19,17:10,Argentino de Quilmes,Flandria,0,0,,,Primera B,2020,zonas,Grupo B,Fecha 3,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-19,17:10,Brown de Adrogué,Almagro,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-19,17:10,Chacarita Juniors,Gimnasia y Esgrima (J),0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-19,17:10,Deportivo Merlo,Real Pilar,0,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 4,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-19,17:10,General Lamadrid,Dock Sud,2,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 4,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-19,17:10,Patronato,Aldosivi,0,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-19,17:10,San Miguel,San Telmo,0,0,,,Primera B,2020,zonas,Grupo A,Fecha 3,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-19,17:10,Sarmiento (J),San Martín (T),1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-19,17:10,Villa San Carlos,J. J. de Urquiza,2,1,,,Primera B,2020,zonas,,Fecha 3,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-19,18:00,Sportivo Estudiantes (SL),Círculo Deportivo,2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-19,18:00,Sportivo Peñarol (C),Deportivo Camioneros,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-19,19:00,Alvarado,Barracas Central,0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-19,19:20,Godoy Cruz,Newell's Old Boys,0,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-19,19:20,San Lorenzo,Colón,2,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-19,21:10,Temperley,Estudiantes (RC),0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-19,21:30,Talleres (C),Atlético Tucumán,1,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-20,17:10,Boca Unidos,Unión (S),1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-20,17:10,Defensores de Belgrano,Deportivo Riestra,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-20,17:10,Defensores de Pronunciamiento,Central Norte (S),1,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-20,17:10,Deportivo Laferrere,Argentino de Merlo,0,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 4,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-20,17:10,Ferrocarril Midland,Luján,0,2,,,Primera C,2020,zonas,Grupo B,Fecha 2,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-20,17:10,Guillermo Brown,Belgrano,0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-20,17:10,Lanús,Defensa y Justicia,1,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-20,17:10,Nueva Chicago,Independiente Rivadavia,1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-20,17:10,Sacachispas,Colegiales,2,1,,,Primera B,2020,zonas,Grupo B,Fecha 3,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-20,17:10,UAI Urquiza,Los Andes,0,2,,,Primera B,2020,zonas,Grupo B,Fecha 3,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-20,17:10,Villa Dálmine,Atlético de Rafaela,0,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-20,17:15,Douglas Haig,Chaco For Ever,1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-20,17:30,Olimpo,Deportivo Madryn,2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-20,17:30,Sansinena,Deportivo Maipú,1,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-20,18:00,Cipolletti,Sol de Mayo (V),0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-20,18:00,Sportivo Belgrano,Juventud Unida (G),3,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-20,19:00,Juventud Unida Universitario,Huracán Las Heras,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 4,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-20,19:20,Estudiantes (LP),Racing Club,1,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-20,19:20,Independiente,Boca Juniors,1,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-20,20:30,San Martín (SJ),Mitre (SdE),1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-20,21:00,Güemes (SdE),Sarmiento (R),1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 4,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-20,21:30,Huracán,River Plate,1,3,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-21,17:10,Berazategui,Victoriano Arenas,1,1,,,Primera C,2020,zonas,Grupo A,Fecha 2,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-21,17:10,Defensores Unidos,Deportivo Armenio,2,2,,,Primera B,2020,zonas,Grupo A,Fecha 3,Mario Losinno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-21,17:10,Deportivo Español,El Porvenir,1,0,,,Primera C,2020,zonas,Grupo B,Fecha 2,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-21,17:10,Excursionistas,Leandro N. Alem,0,1,,,Primera C,2020,zonas,Grupo B,Fecha 2,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-21,17:10,Ferro Carril Oeste,Platense,1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-21,17:10,Fénix,Talleres (RdE),1,2,,,Primera B,2020,zonas,Grupo A,Fecha 3,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-21,19:00,Instituto,Ramón Santamarina,3,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-21,19:20,Central Córdoba (SdE),Vélez Sarsfield,0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-21,19:20,Rosario Central,Unión,2,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 2,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-21,21:30,Banfield,Gimnasia y Esgrima (LP),2,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 2,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-21,21:30,Gimnasia y Esgrima (M),Tigre,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 4,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-22,21:10,Agropecuario,Deportivo Morón,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 4,Ofelia Rosenzuaig,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-23,,Newell's Old Boys,Sportivo Peñarol (C),2,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2020-12-27,17:10,Almagro,All Boys,4,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-27,17:10,Almirante Brown,Acassuso,2,1,,,Primera B,2020,zonas,,Fecha 4,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-27,17:10,Argentino de Merlo,Cañuelas,1,2,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 5,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-27,17:10,Atlanta,Temperley,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-27,17:10,Atlético de Rafaela,Gimnasia y Esgrima (M),2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-27,17:10,Barracas Central,Guillermo Brown,2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-27,17:10,Central Córdoba (R),Sportivo Italiano,2,1,,,Primera C,2020,zonas,Grupo A,Fecha 3,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-27,17:10,Comunicaciones,Villa San Carlos,2,1,,,Primera B,2020,zonas,,Fecha 4,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-27,17:10,Círculo Deportivo,Desamparados,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,17:10,Defensa y Justicia,Patronato,2,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-27,17:10,Deportivo Madryn,Villa Mitre,1,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,17:10,Deportivo Maipú,Olimpo,0,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,17:10,Flandria,UAI Urquiza,0,1,,,Primera B,2020,zonas,Grupo B,Fecha 4,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-27,17:10,Gimnasia y Esgrima (J),Instituto,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-27,17:10,Ituzaingó,Berazategui,1,0,,,Primera C,2020,zonas,Grupo A,Fecha 3,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-27,17:10,J. J. de Urquiza,Tristán Suárez,1,0,,,Primera B,2020,zonas,,Fecha 4,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-27,17:10,Racing Club,Godoy Cruz,6,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-27,17:10,Real Pilar,General Lamadrid,6,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 5,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-27,17:30,Deportivo Camioneros,Sportivo Estudiantes (SL),2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,17:30,Unión (S),Defensores de Belgrano (VR),1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,18:00,Huracán Las Heras,Sansinena,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,18:00,Juventud Unida (G),Boca Unidos,3,3,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,18:00,Sol de Mayo (V),Sportivo Peñarol (C),0,4,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 5,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,18:30,Chaco For Ever,Güemes (SdE),2,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,19:10,Belgrano,Nueva Chicago,2,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-27,19:10,Independiente Rivadavia,San Martín (SJ),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-27,19:20,Boca Juniors,Huracán,3,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-27,20:00,Central Norte (S),Douglas Haig,1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,20:15,Sarmiento (R),Sportivo Las Parejas,1,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 5,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2020-12-27,21:00,Estudiantes (RC),Ferro Carril Oeste,2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-27,21:00,Mitre (SdE),Alvarado,2,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-27,21:30,River Plate,Arsenal,2,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-27,21:30,San Martín (T),Villa Dálmine,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-28,17:10,Argentino de Quilmes,Sacachispas,2,1,,,Primera B,2020,zonas,Grupo B,Fecha 4,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-28,17:10,Deportivo Armenio,Talleres (RdE),1,2,,,Primera B,2020,zonas,Grupo A,Fecha 4,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-28,17:10,Deportivo Riestra,Sarmiento (J),1,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-28,17:10,Dock Sud,Deportivo Laferrere,2,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 5,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-28,17:10,Newell's Old Boys,Central Córdoba (SdE),3,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-28,17:10,Platense,Agropecuario,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-28,17:10,Ramón Santamarina,Brown de Adrogué,1,3,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-28,17:10,Victoriano Arenas,San Martín (B),1,2,,,Primera C,2020,zonas,Grupo A,Fecha 3,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-28,19:20,Argentinos Juniors,Independiente,0,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-28,19:20,Vélez Sarsfield,Estudiantes (LP),2,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-28,21:30,Colón,Banfield,1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Brigadier General López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-28,21:30,Deportivo Morón,Estudiantes (BA),2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 5,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-28,21:30,Gimnasia y Esgrima (LP),Talleres (C),2,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-29,17:10,Aldosivi,Rosario Central,0,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-29,17:10,Leandro N. Alem,Ferrocarril Midland,0,1,,,Primera C,2020,zonas,Grupo B,Fecha 3,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-29,17:10,Los Andes,Colegiales,2,0,,,Primera B,2020,zonas,Grupo B,Fecha 4,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-29,17:10,Luján,Deportivo Español,1,0,,,Primera C,2020,zonas,Grupo B,Fecha 3,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2020-12-29,17:10,Quilmes,Chacarita Juniors,3,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-29,17:10,San Miguel,Fénix,2,1,,,Primera B,2020,zonas,Grupo A,Fecha 4,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-29,17:10,San Telmo,Defensores Unidos,4,1,,,Primera B,2020,zonas,Grupo A,Fecha 4,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2020-12-29,19:20,Tigre,Defensores de Belgrano,0,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 5,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2020-12-29,19:20,Unión,Lanús,2,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 3,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-29,21:30,Atlético Tucumán,San Lorenzo,1,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 3,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2020-12-30,,Godoy Cruz,J. J. de Urquiza,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2020-12-30,17:10,El Porvenir,Excursionistas,0,1,,,Primera C,2020,zonas,Grupo B,Fecha 3,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-02,21:00,Mitre (SdE),Barracas Central,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,17:10,Acassuso,J. J. de Urquiza,0,1,,,Primera B,2020,zonas,,Fecha 5,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-03,17:10,Atlanta,Estudiantes (RC),1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,17:10,Brown de Adrogué,Gimnasia y Esgrima (J),2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,17:10,Chacarita Juniors,All Boys,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,17:10,Deportivo Riestra,San Martín (T),0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,17:10,Nueva Chicago,Guillermo Brown,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,17:10,Ramón Santamarina,Almagro,2,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,17:10,Sarmiento (J),Tigre,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,17:10,Tristán Suárez,Comunicaciones,2,0,,,Primera B,2020,zonas,,Fecha 5,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-03,17:10,Villa San Carlos,Almirante Brown,3,0,,,Primera B,2020,zonas,,Fecha 5,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-03,17:15,Douglas Haig,Defensores de Pronunciamiento,0,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 6,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-03,17:30,Desamparados,Deportivo Camioneros,0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-03,18:00,Alvarado,Independiente Rivadavia,3,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,18:00,San Martín (SJ),Belgrano,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,18:00,Sansinena,Juventud Unida Universitario,0,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-03,18:00,Sportivo Estudiantes (SL),Sol de Mayo (V),2,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,Héctor Odicino y Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-03,18:00,Sportivo Peñarol (C),Cipolletti,1,1,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-03,18:10,Gimnasia y Esgrima (M),Villa Dálmine,1,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,19:10,Defensores de Belgrano,Atlético de Rafaela,2,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-03,20:00,Olimpo,Huracán Las Heras,2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-03,20:30,Sportivo Las Parejas,Chaco For Ever,0,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 6,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-03,21:00,Güemes (SdE),Central Norte (S),2,1,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 6,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-03,21:00,Villa Mitre,Deportivo Maipú,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 6,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-03,21:10,Temperley,Deportivo Morón,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-04,17:10,Agropecuario,Ferro Carril Oeste,0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Ofelia Rosenzuaig,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-04,17:10,Cañuelas,Dock Sud,0,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 6,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-04,17:10,Defensores Unidos,San Miguel,2,2,,,Primera B,2020,zonas,Grupo A,Fecha 5,Mario Losinno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-04,17:10,Deportivo Laferrere,Real Pilar,2,3,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 6,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-04,17:10,Fénix,Deportivo Armenio,1,1,,,Primera B,2020,zonas,Grupo A,Fecha 5,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-04,17:10,General Lamadrid,Deportivo Merlo,0,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 6,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-04,17:10,Talleres (RdE),San Telmo,2,3,,,Primera B,2020,zonas,Grupo A,Fecha 5,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-04,19:10,Estudiantes (BA),Platense,1,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 6,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-05,17:10,Colegiales,Flandria,0,0,,,Primera B,2020,zonas,Grupo B,Fecha 5,Libertarios Unidos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-05,17:10,Sacachispas,Los Andes,2,0,,,Primera B,2020,zonas,Grupo B,Fecha 5,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-05,17:10,UAI Urquiza,Argentino de Quilmes,3,3,,,Primera B,2020,zonas,Grupo B,Fecha 5,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-05,19:00,Instituto,Quilmes,2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-07,,Estudiantes (RC),Chaco For Ever,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Nuevo Monumental,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-01-09,18:00,Cipolletti,Sportivo Estudiantes (SL),0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-10,17:10,Barracas Central,Nueva Chicago,0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,17:10,Belgrano,Alvarado,2,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,17:10,Deportivo Maipú,Deportivo Madryn,3,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-10,17:10,Deportivo Morón,Atlanta,1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,17:10,Estudiantes (RC),Agropecuario,4,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,17:10,Ferro Carril Oeste,Estudiantes (BA),1,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,17:10,Guillermo Brown,San Martín (SJ),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,17:10,Independiente Rivadavia,Mitre (SdE),0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,17:10,Platense,Temperley,2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,17:10,Real Pilar,Cañuelas,2,0,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 7,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-10,17:30,Deportivo Camioneros,Círculo Deportivo,1,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-10,17:30,Huracán Las Heras,Villa Mitre,2,2,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-10,17:30,Juventud Unida Universitario,Olimpo,2,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,Juan Gilberto Funes,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-10,17:30,Sol de Mayo (V),Desamparados,1,4,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-10,18:00,Central Norte (S),Sportivo Las Parejas,1,0,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 7,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-10,19:15,Atlético de Rafaela,Sarmiento (J),0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,19:15,San Martín (T),Gimnasia y Esgrima (M),2,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,19:15,Tigre,Deportivo Riestra,1,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-10,19:15,Villa Dálmine,Defensores de Belgrano,1,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-11,,Comunicaciones,Acassuso,2,0,,,Primera B,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-11,,Tristán Suárez,Argentino de Quilmes,1,1,11,10,Primera B,2020,eliminacion,,,Estadio Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-11,,Villa San Carlos,San Telmo,2,4,,,Primera B,2020,eliminacion,,,Estadio Julio Humberto Grondona,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-11,17:10,Dock Sud,Argentino de Merlo,3,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 7,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-11,17:30,Chaco For Ever,Sarmiento (R),0,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 7,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-11,17:30,Defensores de Pronunciamiento,Güemes (SdE),0,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 7,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-11,21:10,All Boys,Instituto,2,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-11,21:10,Almagro,Chacarita Juniors,0,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-11,21:10,Gimnasia y Esgrima (J),Ramón Santamarina,2,2,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-11,21:10,Quilmes,Brown de Adrogué,1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 7,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-12,17:10,Berazategui,Central Córdoba (R),3,0,,,Primera C,2020,zonas,Grupo A,Fecha 4,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-12,17:10,Deportivo Español,Ferrocarril Midland,4,3,,,Primera C,2020,zonas,Grupo B,Fecha 4,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-12,17:10,El Porvenir,Leandro N. Alem,0,2,,,Primera C,2020,zonas,Grupo B,Fecha 4,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-12,17:10,Excursionistas,Luján,2,1,,,Primera C,2020,zonas,Grupo B,Fecha 4,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-12,17:10,Ituzaingó,Victoriano Arenas,3,1,,,Primera C,2020,zonas,Grupo A,Fecha 4,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-12,17:10,Sportivo Italiano,San Martín (B),0,0,,,Primera C,2020,zonas,Grupo A,Fecha 4,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-13,17:10,Deportivo Merlo,Deportivo Laferrere,1,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 7,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-14,,Colón,Cipolletti,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Presbítero Bartolomé Grella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-01-15,17:10,Cañuelas,Real Pilar,0,0,,,Primera C,2020,eliminacion,,Fase primer ascenso,Jorge Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-16,,Rosario Central,Vélez Sarsfield,1,3,,,Copa de la Liga,2020,eliminacion,,Final,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2021-01-16,,Sarmiento (J),Estudiantes (RC),1,1,4,3,Primera Nacional,2020,eliminacion,,Final,Estadio 15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-17,,Agropecuario,Quilmes,0,1,,,Primera Nacional,2020,eliminacion,,,Estadio Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-17,,Atlanta,San Martín (T),2,2,4,1,Primera Nacional,2020,eliminacion,,,Estadio Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-17,,Boca Juniors,Banfield,1,1,5,3,Copa de la Liga,2020,eliminacion,,Final,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2021-01-17,,Defensores de Belgrano,Instituto,2,0,,,Primera Nacional,2020,eliminacion,,,Estadio El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-17,,Deportivo Morón,Villa Dálmine,2,1,,,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-17,,Deportivo Riestra,Temperley,1,0,,,Primera Nacional,2020,eliminacion,,,Estadio de Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-17,,Estudiantes (BA),Barracas Central,2,2,3,2,Primera Nacional,2020,eliminacion,,,Estadio Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-17,,Gimnasia y Esgrima (M),Ferro Carril Oeste,1,4,,,Primera Nacional,2020,eliminacion,,,Estadio Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-17,,Tigre,San Martín (SJ),1,1,3,4,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-17,17:10,Central Córdoba (R),Ituzaingó,0,2,,,Primera C,2020,zonas,Grupo A,Fecha 5,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-17,17:10,Ferrocarril Midland,Excursionistas,2,2,,,Primera C,2020,zonas,Grupo B,Fecha 5,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-17,17:10,Leandro N. Alem,Deportivo Español,2,4,,,Primera C,2020,zonas,Grupo B,Fecha 5,Leandro N. Alem,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-17,17:10,Luján,El Porvenir,2,1,,,Primera C,2020,zonas,Grupo B,Fecha 5,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-17,17:10,San Martín (B),Berazategui,2,0,,,Primera C,2020,zonas,Grupo A,Fecha 5,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-17,17:10,Victoriano Arenas,Sportivo Italiano,0,2,,,Primera C,2020,zonas,Grupo A,Fecha 5,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-17,17:15,Douglas Haig,Defensores de Pronunciamiento,2,1,,,Torneo Federal A,2020,eliminacion,,Primera fase,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-17,17:30,Deportivo Maipú,Deportivo Camioneros,1,0,,,Torneo Federal A,2020,eliminacion,,Primera fase,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-17,20:00,Chaco For Ever,Sansinena,2,0,,,Torneo Federal A,2020,eliminacion,,Primera fase,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-17,20:00,Sarmiento (R),Huracán Las Heras,2,1,,,Torneo Federal A,2020,eliminacion,,Primera fase,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-18,,J. J. de Urquiza,San Telmo,0,4,,,Primera B,2020,eliminacion,,Semifinales,Estadio Julio Humberto Grondona,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-18,,Tristán Suárez,Comunicaciones,1,0,,,Primera B,2020,eliminacion,,Semifinales,Estadio Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-20,,Rosario Central,Boca Unidos,0,3,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-01-21,,Atlanta,Ferro Carril Oeste,2,1,,,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-21,,Defensores de Belgrano,Quilmes,0,1,,,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-21,,Deportivo Morón,Deportivo Riestra,0,1,,,Primera Nacional,2020,eliminacion,,,Estadio José Dellagiovanna,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-21,,Estudiantes (BA),San Martín (SJ),3,1,,,Primera Nacional,2020,eliminacion,,,Estadio Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-22,17:15,Douglas Haig,Sarmiento (R),0,2,,,Torneo Federal A,2020,eliminacion,,Segunda fase,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-22,17:30,Deportivo Maipú,Sportivo Las Parejas,1,0,,,Torneo Federal A,2020,eliminacion,,Segunda fase,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-22,19:00,Chaco For Ever,Deportivo Madryn,0,1,,,Torneo Federal A,2020,eliminacion,,Segunda fase,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-23,,Argentino de Merlo,Deportivo Merlo,1,3,,,Primera C,2020,eliminacion,,Cuartos,Estadio Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-23,,Dock Sud,Luján,1,1,6,5,Primera C,2020,eliminacion,,Cuartos,Estadio Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-23,,General Lamadrid,Deportivo Laferrere,2,2,4,3,Primera C,2020,eliminacion,,Cuartos,Estadio Libertarios Unidos,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-23,,Real Pilar,Ituzaingó,0,0,5,6,Primera C,2020,eliminacion,,Cuartos,Estadio Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-23,20:30,Villa Mitre,Sportivo Belgrano,2,0,,,Torneo Federal A,2020,eliminacion,,Segunda fase,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-24,,Atlético de Rafaela,Quilmes,2,2,10,9,Primera Nacional,2020,eliminacion,,,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-24,,Estudiantes (BA),Atlanta,1,0,,,Primera Nacional,2020,eliminacion,,,Estadio José Dellagiovanna,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-24,,Platense,Deportivo Riestra,0,0,8,7,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-25,,Tristán Suárez,San Telmo,1,0,,,Primera B,2020,eliminacion,,Final,Estadio Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-01-27,,Atlético de Rafaela,Platense,0,2,,,Primera Nacional,2020,eliminacion,,Semifinales,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-27,,Dock Sud,Ituzaingó,1,0,,,Primera C,2020,eliminacion,,Semifinales,Estadio Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-27,,Estudiantes (RC),Estudiantes (BA),1,0,,,Primera Nacional,2020,eliminacion,,Semifinales,Estadio Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-27,,General Lamadrid,Deportivo Merlo,2,2,6,7,Primera C,2020,eliminacion,,Semifinales,Estadio Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-27,17:30,Deportivo Maipú,Sarmiento (R),2,0,,,Torneo Federal A,2020,eliminacion,,Semifinales,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-01-28,,Arsenal,Huracán Las Heras,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-01-31,,Dock Sud,Deportivo Merlo,1,2,,,Primera C,2020,eliminacion,,Final,Estadio Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina),
+2021-01-31,,Estudiantes (RC),Platense,1,1,2,4,Primera Nacional,2020,eliminacion,,Final,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020,
+2021-01-31,17:15,Deportivo Maipú,Deportivo Madryn,2,0,,,Torneo Federal A,2020,eliminacion,,Final,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-02-04,,San Telmo,Deportivo Madryn,0,0,3,1,Primera B,2020,eliminacion,,,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina),
+2021-02-04,21:30,San Telmo,Deportivo Madryn,0,0,,,Torneo Federal A,2020,eliminacion,,Tercer ascenso,Marcelo Bielsa,true,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020,
+2021-02-17,,Vélez Sarsfield,Deportivo Camioneros,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-02-18,,San Lorenzo,Liniers,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,José María Minella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-02-19,,Defensores de Belgrano,Almirante Brown,4,2,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-02-23,,Lanús,Real Pilar,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-01,,San Martín (T),San Martín (SJ),0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-02,,Defensa y Justicia,Estudiantes (BA),1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-03,,Boca Juniors,Claypole,2,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-10,,Atlético Tucumán,Comunicaciones,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-10,,Banfield,Güemes (SdE),2,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-10,,Independiente,Villa Mitre,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,José María Minella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-17,,Colón,Argentinos Juniors,0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-17,,Deportivo Laferrere,San Telmo,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-17,,Racing Club,Sportivo Belgrano,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-23,,Gimnasia y Esgrima (LP),Dock Sud,5,0,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-25,,San Lorenzo,Defensa y Justicia,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Florencio Sola,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-03-31,,Banfield,Vélez Sarsfield,3,2,,,Copa de la Liga,2020,eliminacion,,,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020,
+2021-04-07,,Atlético Tucumán,River Plate,1,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Ciudad de La Plata,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-04-21,,Huracán Las Heras,Estudiantes (RC),1,4,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-04-28,,Deportivo Madryn,Banfield,0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-05-12,,Sportivo Estudiantes (SL),Villa San Carlos,1,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Coloso del Ruca Quimey,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-05-13,,Boca Unidos,Godoy Cruz,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Julio César Villagra,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-05-17,,Newell's Old Boys,Sarmiento (J),0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-05-19,,Talleres (RdE),Temperley,0,4,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-07-13,,Villa San Carlos,Patronato,0,1,,,Copa Argentina,2020,eliminacion,,Octavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-07-14,,San Telmo,Banfield,1,0,,,Copa Argentina,2020,eliminacion,,Octavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-07-20,,Sarmiento (J),Temperley,0,1,,,Copa Argentina,2020,eliminacion,,Octavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-08-04,,Tigre,Independiente,2,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-10-06,,Godoy Cruz,Tigre,1,0,,,Copa Argentina,2020,eliminacion,,Cuartos,Mario Alberto Kempes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-10-13,,Argentinos Juniors,San Telmo,2,1,,,Copa Argentina,2020,eliminacion,,Cuartos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-11-03,,Boca Juniors,Argentinos Juniors,1,0,,,Copa Argentina,2020,eliminacion,,Semifinales,Malvinas Argentinas,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,
+2021-12-01,,Talleres (C),Godoy Cruz,1,0,,,Copa Argentina,2020,eliminacion,,Semifinales,Juan Gilberto Funes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20,

@@ -1,26 +1,26 @@
-date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
-,,Argentino de Merlo,Berazategui,2,2,,,Primera C,2010,zonas,,Fecha 11,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Argentino de Merlo,Central Córdoba (R),3,1,,,Primera C,2010,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Argentino de Merlo,Excursionistas,2,1,,,Primera C,2010,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Berazategui,Argentino de Merlo,1,1,,,Primera C,2010,zonas,,Fecha 30,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Brown de Adrogué,Deportivo Armenio,0,0,,,Primera B,2010,zonas,,Fecha 40,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Central Córdoba (R),Argentino de Merlo,3,0,,,Primera C,2010,zonas,,Fecha 4,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Central Córdoba (R),Deportivo Laferrere,3,1,,,Primera C,2010,zonas,,Fecha 6,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Central Córdoba (R),UAI Urquiza,0,1,,,Primera C,2010,zonas,,Fecha 20,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Defensores de Belgrano,Deportivo Morón,1,2,,,Primera B,2010,zonas,,Fecha 42,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Defensores de Belgrano,Nueva Chicago,0,3,,,Primera B,2010,zonas,,Fecha 38,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Defensores de Belgrano,Villa San Carlos,0,2,,,Primera B,2010,zonas,,Fecha 40,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Deportivo Laferrere,Central Córdoba (R),0,1,,,Primera C,2010,zonas,,Fecha 25,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Deportivo Laferrere,Liniers,1,1,,,Primera C,2010,zonas,,Fecha 11,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Estudiantes (BA),Villa San Carlos,1,1,,,Primera B,2010,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Excursionistas,Argentino de Merlo,0,0,,,Primera C,2010,zonas,,Fecha 12,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Excursionistas,Talleres (RdE),4,3,,,Primera C,2010,zonas,,Fecha 25,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Liniers,Deportivo Laferrere,4,3,,,Primera C,2010,zonas,,Fecha 30,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Nueva Chicago,Barracas Central,0,0,,,Primera B,2010,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Nueva Chicago,Brown de Adrogué,3,2,,,Primera B,2010,zonas,,Fecha 11,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Nueva Chicago,Defensores de Belgrano,0,0,,,Primera B,2010,zonas,,Fecha 17,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Platense,Estudiantes (BA),1,1,,,Primera B,2010,zonas,,Fecha 6,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
-,,Sacachispas,San Miguel,1,2,,,Primera C,2010,zonas,,Fecha 25,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Talleres (RdE),Excursionistas,2,2,,,Primera C,2010,zonas,,Fecha 6,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,UAI Urquiza,Central Córdoba (R),2,2,,,Primera C,2010,zonas,,Fecha 1,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina)
-,,Villa San Carlos,Estudiantes (BA),1,2,,,Primera B,2010,zonas,,Fecha 2,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina)
+date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source,status
+,,Argentino de Merlo,Berazategui,2,2,,,Primera C,2010,zonas,,Fecha 11,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Argentino de Merlo,Central Córdoba (R),3,1,,,Primera C,2010,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Argentino de Merlo,Excursionistas,2,1,,,Primera C,2010,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Berazategui,Argentino de Merlo,1,1,,,Primera C,2010,zonas,,Fecha 30,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Brown de Adrogué,Deportivo Armenio,0,0,,,Primera B,2010,zonas,,Fecha 40,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),
+,,Central Córdoba (R),Argentino de Merlo,3,0,,,Primera C,2010,zonas,,Fecha 4,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Central Córdoba (R),Deportivo Laferrere,3,1,,,Primera C,2010,zonas,,Fecha 6,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Central Córdoba (R),UAI Urquiza,0,1,,,Primera C,2010,zonas,,Fecha 20,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Defensores de Belgrano,Deportivo Morón,1,2,,,Primera B,2010,zonas,,Fecha 42,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),
+,,Defensores de Belgrano,Nueva Chicago,0,3,,,Primera B,2010,zonas,,Fecha 38,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),
+,,Defensores de Belgrano,Villa San Carlos,0,2,,,Primera B,2010,zonas,,Fecha 40,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),
+,,Deportivo Laferrere,Central Córdoba (R),0,1,,,Primera C,2010,zonas,,Fecha 25,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Deportivo Laferrere,Liniers,1,1,,,Primera C,2010,zonas,,Fecha 11,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Estudiantes (BA),Villa San Carlos,1,1,,,Primera B,2010,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),
+,,Excursionistas,Argentino de Merlo,0,0,,,Primera C,2010,zonas,,Fecha 12,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Excursionistas,Talleres (RdE),4,3,,,Primera C,2010,zonas,,Fecha 25,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Liniers,Deportivo Laferrere,4,3,,,Primera C,2010,zonas,,Fecha 30,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Nueva Chicago,Barracas Central,0,0,,,Primera B,2010,zonas,,Fecha 27,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),
+,,Nueva Chicago,Brown de Adrogué,3,2,,,Primera B,2010,zonas,,Fecha 11,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),
+,,Nueva Chicago,Defensores de Belgrano,0,0,,,Primera B,2010,zonas,,Fecha 17,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),
+,,Platense,Estudiantes (BA),1,1,,,Primera B,2010,zonas,,Fecha 6,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),
+,,Sacachispas,San Miguel,1,2,,,Primera C,2010,zonas,,Fecha 25,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Talleres (RdE),Excursionistas,2,2,,,Primera C,2010,zonas,,Fecha 6,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,UAI Urquiza,Central Córdoba (R),2,2,,,Primera C,2010,zonas,,Fecha 1,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2010-11_(Argentina),
+,,Villa San Carlos,Estudiantes (BA),1,2,,,Primera B,2010,zonas,,Fecha 2,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),

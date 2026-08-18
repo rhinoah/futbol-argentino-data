@@ -1209,3 +1209,59 @@ def test_no_denuncia_lo_que_no_es_un_partido_anulado(celda):
     marcador que otorgo el tribunal."""
     tabla = _ANULADO_LIGA.replace("PP - PP<ref group=\"n.\">Se le dio por perdido a ambos equipos.</ref>", celda)
     assert parser.partidos_anulados(tabla) == []
+
+
+# --------------------------------------------------------------------------
+# status: de donde salio el marcador
+# --------------------------------------------------------------------------
+def test_una_fila_sin_nota_no_dice_nada():
+    """Vacio NO certifica que se hayan jugado los 90: dice que nadie dijo lo
+    contrario. Esa lectura es lo que hace que el default no sea una afirmacion
+    inventada sobre 39 mil filas."""
+    assert parser.status_de_la_fila("|Boca Juniors\n|2 - 1\n|River Plate") == ""
+
+
+def test_el_partido_que_se_suspendio_y_se_termino_de_jugar_no_lleva_status():
+    """Llego al final igual, aunque en dos dias. Son 356 de las 409 filas que
+    mencionan una suspension: meterlas en `suspendido` seria decir que su
+    marcador no es de la cancha."""
+    fila = "|Aldosivi\n|2 - 0\n|Argentinos Juniors\n|20 de mayo<ref>Suspendido por lluvia. Se jugó el 15 de noviembre.</ref>"
+    assert parser.status_de_la_fila(fila) == ""
+
+
+def test_el_partido_que_no_llego_al_final_lleva_suspendido():
+    fila = "|San Telmo\n|0 - 1\n|Sportivo Italiano<ref>Suspendido a los 89 minutos por incidentes.</ref>"
+    assert parser.status_de_la_fila(fila) == "suspendido"
+
+
+def test_el_partido_que_termino_y_lo_cambio_un_fallo_lleva_escritorio():
+    """El caso que ninguna busqueda por 'suspension' encuentra: se jugaron los
+    noventa minutos y el numero publicado igual es de oficina."""
+    fila = ("|Atlanta\n|1 - 0<ref>Finalizado 0 a 0, se le dio por ganado a Atlanta "
+            "por 1 a 0, por mala inclusión de un jugador de Colegiales.</ref>\n|Colegiales")
+    assert parser.status_de_la_fila(fila) == "escritorio"
+
+
+def test_si_hubo_suspension_manda_la_suspension():
+    """El orden es la regla entera. Un partido suspendido Y fallado no llego al
+    final, y eso es lo unico que la fuente dice sin ambiguedad: si se mira primero
+    el fallo, la mitad de los suspendidos pasan a `escritorio` por una palabra."""
+    fila = ("|Central Ballester\n|0 - 3\n|Juventud Unida<ref>Suspendido por falta de "
+            "personal médico. Se le dio por perdido al equipo local.</ref>")
+    assert parser.status_de_la_fila(fila) == "suspendido"
+
+
+def test_una_fila_que_habla_de_un_fallo_y_no_se_supo_leer_se_denuncia():
+    """La guarda del default. Vacio significa "la pagina no dijo nada"; el dia que
+    signifique tambien "dijo algo que no supe leer", las 39 mil filas vacias dejan
+    de ser una ausencia y pasan a ser una afirmacion sin verificar."""
+    fila = "|Boca Juniors\n|2 - 1\n|River Plate<ref>El Tribunal resolvió algo raro.</ref>"
+    assert parser.status_de_la_fila(fila) == ""
+    assert parser.sin_clasificar(fila)
+
+
+def test_lo_que_ya_se_clasifico_no_se_denuncia():
+    for fila in ("|A\n|1 - 0\n|B<ref>Suspendido a los 10'.</ref>",
+                 "|A\n|1 - 0\n|B<ref>Suspendido por lluvia. Se jugó el 3 de mayo.</ref>",
+                 "|A\n|1 - 0\n|B"):
+        assert not parser.sin_clasificar(fila), fila

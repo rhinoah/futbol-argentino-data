@@ -839,6 +839,81 @@ class Cancha:
 
 
 @dataclass(frozen=True)
+class Dividido:
+    """Un partido en el que cada club quedo con un resultado DISTINTO.
+
+    Pasa cuando el tribunal falla en contra de los dos, o de uno solo dejando al
+    otro como estaba. Una fila del CSV tiene un `home_score` y un `away_score`:
+    cualquier par de numeros que se ponga ahi afirma un solo resultado, y aca hay
+    dos. No es una limitacion del parser sino del esquema, asi que estas filas NO
+    entran, y el build las nombra una por una.
+
+    La columna `status` no los resuelve y por eso no tienen un valor propio: un
+    `status="dividido"` con el marcador puesto seguiria publicando el numero
+    equivocado, y con el marcador vacio rompe a cualquiera que haga
+    `int(fila["home_score"])`. Sacarlos y decirlo es lo unico honesto.
+
+    Son cinco en las 131 paginas, y los cinco estaban entrando MAL salvo uno:
+
+      * El Clausura 2005 publicaba `Almagro 0-2 Boca Juniors`, o sea a Boca
+        GANANDO un partido que Boca tambien perdio. La celda trae los dos
+        marcadores (`0 - 2<br>3 - 2`) y el parser se quedaba con el primero.
+      * La Primera C 2015 publicaba el 2-2 de Laferrere-Dock Sud, que es cierto
+        para Dock Sud y falso para Laferrere.
+      * El B Nacional 2016-17 y la Primera B 2017-18 publicaban 0-0 en partidos
+        donde el fallo le dio el punto a uno solo.
+      * El Federal A 2018-19 ya no entraba, porque su celda dice `PP - PP` y no
+        se puede leer como marcador.
+    """
+    pagina: str
+    local: str
+    visita: str
+    dice: tuple[int, int] | None      # como sale publicado hoy; None si no entra
+    porque: str
+
+
+DIVIDIDOS: tuple[Dividido, ...] = (
+    Dividido(
+        pagina="Anexo:Torneo Clausura 2005 (Argentina)",
+        local="Almagro", visita="Boca Juniors", dice=(0, 2),
+        porque="la nota dice: Suspendido por invasion de campo [...] a los 64', con "
+               "el resultado 3-2. El 21 de julio, el Tribunal de Disciplina le dio "
+               "por perdido el partido a ambos, con un marcador de 0-2 para Almagro, "
+               "y de 2-3 para Boca Juniors. O sea que los dos perdieron, y el CSV "
+               "publicaba a Boca ganando 2-0",
+    ),
+    Dividido(
+        pagina="Campeonato de Primera C 2015 (Argentina)",
+        local="Deportivo Laferrere", visita="Dock Sud", dice=(2, 2),
+        porque="la nota dice: El Tribunal de Disciplina le dio el partido perdido a "
+               "Deportivo Laferrere por 1 a 0 y mantuvo el resultado para Dock Sud. "
+               "El empate publicado es cierto para Dock Sud y falso para Laferrere",
+    ),
+    Dividido(
+        pagina="Campeonato de Primera B Nacional 2016-17",
+        local="Atlético Paraná", visita="All Boys", dice=(0, 0),
+        porque="la nota dice: lo dio por finalizado, otorgandole un punto a All Boys "
+               "y ninguno a Atletico Parana. Un empate le da un punto a cada uno, "
+               "asi que el 0-0 publicado no es lo que computo el torneo",
+    ),
+    Dividido(
+        pagina="Campeonato de Primera B 2017-18 (Argentina)",
+        local="Deportivo Español", visita="Sacachispas", dice=(0, 0),
+        porque="la nota dice: Se dio por finalizado, dandolo por perdido a Deportivo "
+               "Español y empatado a Sacachispas. Uno pierde y el otro empata el "
+               "mismo partido",
+    ),
+    Dividido(
+        pagina="Torneo Federal A 2018-19",
+        local="Independiente (N)", visita="Deportivo Roca", dice=None,
+        porque="la celda dice PP - PP y la nota que el partido finalizo 4 a 1 y se le "
+               "dio por perdido a ambos equipos. Es el unico de los cinco que no "
+               "entraba ya, porque su celda no se puede leer como marcador",
+    ),
+)
+
+
+@dataclass(frozen=True)
 class Faltante:
     """Un partido que la pagina TIENE y que no se puede leer.
 
@@ -1099,6 +1174,21 @@ REEMPLAZOS: tuple[Reemplazo, ...] = (
 )
 
 
+def divididos_de(pagina: str) -> list[str]:
+    """Los partidos de `pagina` que quedan afuera por tener dos resultados.
+
+    Va por su propio canal y no por los avisos de `aplicar`, que son los de una
+    correccion que NO engancho -- esos son graves, y esto no es un problema sino
+    una decision: el partido existe, se sabe todo de el salvo como escribir su
+    resultado en una fila, y sacarlo diciendolo es mejor que publicar el numero de
+    uno de los dos clubes como si fuera el de los dos.
+    """
+    return [f"{d.local} vs {d.visita} queda AFUERA del dataset: cada club termino "
+            f"con un resultado distinto y una fila con un solo marcador no puede "
+            f"decir eso. {d.porque}"
+            for d in DIVIDIDOS if d.pagina == pagina]
+
+
 def homonimo(pagina: str, club: str) -> str:
     """Como se llama de verdad `club` en `pagina`.
 
@@ -1186,6 +1276,29 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
             continue
         candidatos[0].goles_local, candidatos[0].goles_visita = m.debe
         aplicadas += 1
+
+    # Los divididos se SACAN. Antes que todo lo demas, porque una fila que no
+    # deberia existir no tiene por que pasar por los otros arreglos.
+    for div in DIVIDIDOS:
+        if div.pagina != pagina:
+            continue
+        # `dice=None` quiere decir que la fila NO llega hasta aca -- su celda no se
+        # puede leer como marcador --, asi que no hay nada que sacar. No es "sacar
+        # cualquiera": leerlo asi borro un Independiente (N) - Deportivo Roca de la
+        # Primera fase que no tenia nada que ver, porque los mismos dos clubes
+        # juegan varias veces en la misma pagina.
+        if div.dice is None:
+            continue
+        sobran = [p for p in ps if p.local == div.local and p.visita == div.visita
+                  and (p.goles_local, p.goles_visita) == div.dice]
+        if not sobran:
+            avisos.append(f"el partido dividido {div.local} vs {div.visita} ya no "
+                          f"esta en la grilla: si arreglaron la pagina, sacalo de "
+                          f"fad/correcciones.py")
+            continue
+        for p in sobran:
+            ps.remove(p)
+        aplicadas += len(sobran)
 
     # Los faltantes van al final de todo: no arreglan una fila, agregan una, y
     # lo que agregan tiene que estar ya en canonico y ya sin homonimos que

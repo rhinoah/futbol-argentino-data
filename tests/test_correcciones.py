@@ -399,3 +399,64 @@ def test_los_faltantes_nombran_sus_dos_testigos():
         assert len(f.porque) > 200, f"{f.local}: la evidencia es muy flaca"
         assert "tabla" in f.porque, f"{f.local}: falta el testigo de la tabla"
         assert "resaltado" in f.porque, f"{f.local}: falta el segundo testigo"
+
+
+# --------------------------------------------------------------------------
+# el partido con dos resultados, uno por club
+# --------------------------------------------------------------------------
+UN_DIVIDIDO = correcciones.Dividido(
+    pagina="Una Pagina", local="Almagro", visita="Boca Juniors", dice=(0, 2),
+    porque="de prueba: el tribunal se lo dio por perdido a los dos, con marcadores "
+           "distintos para cada uno")
+
+
+def test_un_dividido_sale_del_dataset(monkeypatch):
+    """Una fila tiene un `home_score` y un `away_score`: cualquier par de numeros
+    afirma UN resultado, y aca hay dos. Publicar el de un club como si fuera el de
+    los dos es peor que no publicar la fila."""
+    monkeypatch.setattr(correcciones, "DIVIDIDOS", (UN_DIVIDIDO,))
+    ps = [partido("Almagro", "Boca Juniors", 0, 2), partido("All Boys", "Belgrano", 1, 1)]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert [(p.local, p.visita) for p in ps] == [("All Boys", "Belgrano")]
+    assert avisos == []
+
+
+def test_el_marcador_identifica_a_cual_de_los_cruces_sacar(monkeypatch):
+    """Los mismos dos clubes juegan varias veces en la misma pagina. Sin el
+    marcador, sacar 'Almagro vs Boca' saca tambien la ida."""
+    monkeypatch.setattr(correcciones, "DIVIDIDOS", (UN_DIVIDIDO,))
+    ps = [partido("Almagro", "Boca Juniors", 1, 1)]
+    correcciones.aplicar(ps, "Una Pagina")
+    assert len(ps) == 1, "saco un partido que no era"
+
+
+def test_un_dividido_sin_marcador_no_saca_nada(monkeypatch):
+    """`dice=None` quiere decir que esa fila NUNCA llega hasta aca, porque su
+    celda no se puede leer como marcador (`PP - PP`). No es 'sacar cualquiera':
+    leerlo asi borro un Independiente (N) - Deportivo Roca de otra fase."""
+    monkeypatch.setattr(correcciones, "DIVIDIDOS", (
+        correcciones.Dividido(pagina="Una Pagina", local="Almagro", visita="Boca Juniors",
+                              dice=None, porque="de prueba"),))
+    ps = [partido("Almagro", "Boca Juniors", 0, 2)]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert len(ps) == 1 and n == 0 and avisos == []
+
+
+def test_un_dividido_que_ya_no_esta_avisa(monkeypatch):
+    monkeypatch.setattr(correcciones, "DIVIDIDOS", (UN_DIVIDIDO,))
+    n, avisos = correcciones.aplicar([partido("All Boys", "Belgrano")], "Una Pagina")
+    assert avisos and "sacalo de fad/correcciones.py" in avisos[0]
+
+
+def test_los_divididos_se_nombran_uno_por_uno():
+    """Sacarlos en silencio seria perder el partido. El build los nombra."""
+    for d in correcciones.DIVIDIDOS:
+        assert d.local in "".join(correcciones.divididos_de(d.pagina))
+        assert len(d.porque) > 80, f"{d.local}: falta la evidencia"
+
+
+def test_los_divididos_no_salen_de_su_pagina(monkeypatch):
+    monkeypatch.setattr(correcciones, "DIVIDIDOS", (UN_DIVIDIDO,))
+    ps = [partido("Almagro", "Boca Juniors", 0, 2)]
+    correcciones.aplicar(ps, "Otra Pagina")
+    assert len(ps) == 1
