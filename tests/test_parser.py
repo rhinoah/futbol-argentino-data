@@ -934,3 +934,69 @@ def test_el_rowspan_de_la_fecha_alcanza_a_las_filas_de_abajo():
     assert [p.fecha for p in ps] == ["2010-08-22", "2010-08-22"]
     assert [p.estadio for p in ps] == ["José María Minella", "Municipal"]
     assert [p.hora for p in ps] == ["11:00", "15:30"]
+
+
+def test_una_fase_regular_bajo_titulo_propio_no_es_eliminacion():
+    """La fase de grupos no siempre cuelga de un `=== Resultados ===`. El Torneo
+    Argentino A 2011-12 y el 2012-13 la ponen bajo `== Primera fase ==` con una
+    subseccion por zona, y esas tablas caen al camino de respaldo -- el que
+    recoge reducidos y promociones, y que daba `fase="eliminacion"` a todo.
+
+    El sintoma no era que faltaran partidos: estaban los 385, con su "Fecha 1" y
+    su marcador. Era que `posiciones.sumar` solo cuenta la fase de zonas, asi que
+    la pagina tenia sus tablas leidas y CERO partidos con que cruzarlas. Tenia
+    arbitro y grilla, y no se hablaban."""
+    texto = ("== Primera fase ==\n=== Zona Norte ===\n"
+             "{|class=\"wikitable\"\n"
+             "!colspan=6|Fecha 1\n"
+             "|-\n!Local\n!Resultado\n!Visitante\n"
+             "|-\n|Boca Juniors\n|2 - 1\n|River Plate\n"
+             "|}\n")
+    ps = parser.partidos(texto, 2011, "Prueba", anio_fin=2012)
+    assert len(ps) == 1
+    assert ps[0].fase == "zonas", "una tabla que rotula 'Fecha N' es fase regular"
+    assert ps[0].jornada == "Fecha 1"
+
+
+def test_una_tabla_de_reducido_bajo_titulo_propio_sigue_siendo_eliminacion():
+    """El reciproco, que es lo que el camino de respaldo vino a resolver: sin
+    rotulos de fecha, la tabla es una llave y no una fase."""
+    texto = ("== Torneo reducido ==\n"
+             "{|class=\"wikitable\"\n"
+             "!colspan=6|Semifinales\n"
+             "|-\n!Local\n!Resultado\n!Visitante\n"
+             "|-\n|Boca Juniors\n|2 - 1\n|River Plate\n"
+             "|}\n")
+    ps = parser.partidos(texto, 2011, "Prueba", anio_fin=2012)
+    assert len(ps) == 1 and ps[0].fase == "eliminacion"
+
+
+def test_la_seccion_manda_sobre_el_rotulo_de_fecha():
+    """La salvedad que sostiene el caso que motivo el flag: un bloque numerado
+    'Fecha N' colgado de una ronda eliminatoria no trae fechas de liga."""
+    texto = ("== Ronda de desempate ==\n"
+             "{|class=\"wikitable\"\n"
+             "!colspan=6|Fecha 1\n"
+             "|-\n!Local\n!Resultado\n!Visitante\n"
+             "|-\n|Boca Juniors\n|2 - 1\n|River Plate\n"
+             "|}\n")
+    ps = parser.partidos(texto, 2011, "Prueba", anio_fin=2012)
+    assert len(ps) == 1 and ps[0].fase == "eliminacion"
+
+
+def test_la_columna_fecha_no_convierte_una_llave_en_fase_regular():
+    """`Fecha` tambien es el nombre de una COLUMNA -- la del dia --, y contarla
+    haria pasar por fase regular a cualquier tabla que publique el dia de sus
+    partidos. Por eso se miran solo los encabezados con `colspan`.
+
+    El titulo de la seccion tiene que ser NEUTRO para que este test pruebe algo.
+    La primera version usaba "== Promocion ==", que `_ES_RONDA` ya reconoce como
+    ronda: la tabla quedaba en eliminacion por el titulo y el test pasaba igual
+    aunque el criterio de la columna estuviera roto. Lo delato el mutante."""
+    texto = ("== Definiciones ==\n"
+             "{|class=\"wikitable\"\n"
+             "|-\n!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n"
+             "|-\n|Boca Juniors\n|2 - 1\n|River Plate\n|Un Estadio\n|3 de junio\n|20:00\n"
+             "|}\n")
+    ps = parser.partidos(texto, 2011, "Prueba", anio_fin=2012)
+    assert len(ps) == 1 and ps[0].fase == "eliminacion"

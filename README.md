@@ -1682,13 +1682,46 @@ mitad de arriba faltando, y nada fallaba.
 Argentino A 2010-11, Huracán (TA) dejaba de tener socio porque su socio era una de las
 ocho filas que se caían. El cruce inventaba un huérfano que no existía.
 
+## Dos páginas que tenían árbitro y grilla, y no se hablaban
+
+El TODO decía que el Argentino A 2011-12 y el 2012-13 «tienen tabla y ni un
+partido». La mitad era falsa: **los partidos estaban**, los 385 de cada una, con
+su `Fecha 1`, su marcador y su día. Lo que fallaba era la **clasificación de
+fase** — todos quedaban como `eliminacion`, y `posiciones.sumar` sólo cuenta la
+fase de zonas. La página tenía sus tablas leídas y cero partidos con que
+cruzarlas.
+
+La causa es un default razonable que envejeció. El parser busca los resultados
+bajo un `=== Resultados ===`; lo que no cuelga de ahí cae a un camino de respaldo
+—el que recoge reducidos y promociones— que **forzaba** `fuera_de_la_liga=True`.
+Estas páginas ponen su fase regular bajo `== Primera fase ==` → `=== Zona Norte
+===`, sin «Resultados» en el medio.
+
+Ahora no se fuerza: **se le pregunta a la tabla**. Si rotula sus bloques `Fecha N`
+es fase regular, salvo que la sección que la contiene diga lo contrario — y esa
+salvedad conserva el caso que motivó el flag, un `Resultados` colgado de
+`== Ronda de desempate ==`.
+
+Con una trampa que vale la pena decir: **`Fecha` es también el nombre de una
+columna**, la del día. Contarla haría pasar por fase regular a cualquier tabla que
+publique cuándo se jugó cada partido, así que sólo se miran los encabezados con
+`colspan`, que son los que separan bloques dentro de la tabla.
+
+770 partidos cambian de fase, en dos páginas. Ningún otro campo se mueve y
+ninguna página cambia de cantidad. Las dos pasan a tener árbitro: 39 y 26 clubes
+comparables, con diez desvíos que antes eran invisibles.
+
+Quedan tres partidos del Federal A 2018-19 con la misma firma que **no** cambian:
+su tabla no rotula `Fecha N` con `colspan`. Se dejan anotados en vez de aflojar el
+criterio para que entren.
+
 ## Tests
 
-591 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+595 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 183 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 186 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

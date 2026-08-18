@@ -323,6 +323,21 @@ MUTANTES = [
      "    return partes[1:]",
      "    return [c for c in partes[1:] if c.strip()]"),
 
+    ("fad/parser.py", "mandar a eliminacion toda tabla que no cuelgue de un Resultados",
+     "                                   fuera_de_la_liga=not _rotula_fechas(tabla)",
+     "                                   fuera_de_la_liga=True or not _rotula_fechas(tabla)"),
+
+    ("fad/parser.py", "ignorar la seccion y creerle solo al rotulo de fecha",
+     "                                                    or bool(_ES_RONDA.match(llave))\n"
+     "                                                    or bool(_LLAVE_ELIMINATORIA.search(llave))):",
+     "                                                    ):"),
+
+    ("fad/parser.py", "contar la COLUMNA Fecha como si fuera un rotulo de jornada",
+     r'    return any(re.match(r"(?i)fecha\s*\d+", limpiar(cab))'
+     "\n"
+     r'               for cab in re.findall(r"!\s*colspan\s*=\s*\"?\d+\"?[^|\n]*\|\s*(.+)", tabla))',
+     r'    return bool(re.search(r"(?i)fecha", tabla))'),
+
     ("fad/parser.py", "no cortar en el cierre |} de tabla",
      'bloque = re.sub(r"\\n\\|\\}", "\\n|-", bloque)',
      'bloque = bloque'),

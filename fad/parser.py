@@ -768,6 +768,19 @@ def _secciones_con_span(texto: str):
 _LLAVE_ELIMINATORIA = re.compile(r"(?i)eliminatori")
 
 
+def _rotula_fechas(tabla: str) -> bool:
+    """La tabla numera sus bloques como "Fecha N", o sea que es una fase regular.
+
+    Un reducido rotula "Semifinales", "Final", "Ida"; una fase de liga rotula
+    fechas del calendario. Se mira el encabezado con `colspan`, que es el que
+    separa bloques dentro de la tabla, y no cualquier celda: "Fecha" tambien es
+    el nombre de una COLUMNA -- la del dia -- y contarla haria pasar por fase
+    regular a cualquier tabla que publique la fecha de sus partidos.
+    """
+    return any(re.match(r"(?i)fecha\s*\d+", limpiar(cab))
+               for cab in re.findall(r"!\s*colspan\s*=\s*\"?\d+\"?[^|\n]*\|\s*(.+)", tabla))
+
+
 def _como_zona(titulo: str) -> str:
     """El titulo de la seccion que contiene los resultados, si es una zona.
 
@@ -939,9 +952,27 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
     for pos, tabla in _tablas(texto):
         if any(ini <= pos < fin for ini, fin in leido) or not _es_tabla_de_partidos(tabla):
             continue
+        # `fuera_de_la_liga` no se fuerza: se PREGUNTA. Estas tablas suelen ser
+        # de reducidos y promociones, y por eso el default era True -- pero hay
+        # paginas que cuelgan su fase regular de un titulo propio en vez de un
+        # "Resultados", y ahi el default las mandaba enteras a `eliminacion`.
+        #
+        # Se notaba en que `posiciones.sumar` solo cuenta la fase de zonas: el
+        # Argentino A 2011-12 y el 2012-13 tenian sus tablas leidas, sus 385
+        # partidos parseados con "Fecha 1".."Fecha 26" y CERO partidos con que
+        # cruzarlas. La pagina tenia arbitro, tenia grilla, y no se hablaban.
+        #
+        # Lo que decide es la tabla misma: si rotula sus bloques "Fecha N" es una
+        # fase regular, salvo que la seccion que la contiene diga lo contrario.
+        # Esa salvedad es la que sostiene el caso que motivo el flag -- un
+        # `=== Resultados ===` colgado de `== Ronda de desempate ==` no trae
+        # fechas de liga aunque las numere.
+        llave = _contexto(pos, 3, texto)
         for p in partidos_de_tabla(tabla, anio, torneo, anio_fin, mes_inicio,
-                                   llave=_contexto(pos, 3, texto), arts=arts,
-                                   fuera_de_la_liga=True):
+                                   llave=llave, arts=arts,
+                                   fuera_de_la_liga=not _rotula_fechas(tabla)
+                                                    or bool(_ES_RONDA.match(llave))
+                                                    or bool(_LLAVE_ELIMINATORIA.search(llave))):
             k = (p.fecha, p.local, p.visita, p.goles_local, p.goles_visita)
             if k in ya:
                 continue
