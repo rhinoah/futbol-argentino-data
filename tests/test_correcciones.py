@@ -9,6 +9,8 @@ y el dataset queda mintiendo con toda confianza.
 """
 from __future__ import annotations
 
+from dataclasses import replace
+
 from fad import correcciones
 from fad.correcciones import Correccion
 from fad.parser import Partido
@@ -333,7 +335,7 @@ def test_los_homonimos_nombran_su_testigo():
 UN_FALTANTE = correcciones.Faltante(
     pagina="Una Pagina", jornada="Fecha 1", local="Defensores de Cambaceres",
     visita="Sportivo Barracas", goles=(0, 0), fecha="2016-02-05", hora="17:00",
-    estadio="12 de Octubre", porque="de prueba")
+    estadio="12 de Octubre", porque="de prueba", testigos=("uno", "otro"))
 
 
 def _hermano():
@@ -362,6 +364,30 @@ def test_el_faltante_hereda_el_contexto_de_su_jornada(monkeypatch):
     ps = [_hermano()]
     correcciones.aplicar(ps, "Una Pagina")
     assert (ps[-1].torneo, ps[-1].fase, ps[-1].zona) == ("Primera C", "zonas", "Zona Unica")
+
+
+def test_un_faltante_con_tanda_la_escribe(monkeypatch):
+    """Una eliminatoria que termina empatada NO tiene ganador en el marcador. Sin
+    la tanda, el 0-0 del Godoy Cruz-Armenio entra como un empate cualquiera y el
+    dataset se queda sin decir quien paso, que es justo el dato de la ronda."""
+    monkeypatch.setattr(correcciones, "FALTANTES",
+                        (replace(UN_FALTANTE, penales=(6, 5)),))
+    ps = [_hermano()]
+    correcciones.aplicar(ps, "Una Pagina")
+    assert (ps[-1].penales_local, ps[-1].penales_visita) == (6, 5)
+
+
+def test_un_faltante_sin_tanda_no_hereda_la_del_hermano(monkeypatch):
+    """El contexto se hereda del hermano de la jornada, y la tanda NO es contexto:
+    es del partido. Si se colara, un faltante que se definio en los noventa
+    minutos saldria con los penales de otro partido."""
+    monkeypatch.setattr(correcciones, "FALTANTES", (UN_FALTANTE,))
+    h = _hermano()
+    h.penales_local, h.penales_visita = 4, 2
+    ps = [h]
+    correcciones.aplicar(ps, "Una Pagina")
+    assert UN_FALTANTE.penales is None
+    assert (ps[-1].penales_local, ps[-1].penales_visita) == (None, None)
 
 
 def test_un_faltante_no_duplica_si_arreglaron_la_pagina(monkeypatch):
@@ -394,11 +420,19 @@ def test_un_faltante_no_sale_de_su_pagina(monkeypatch):
 def test_los_faltantes_nombran_sus_dos_testigos():
     """Es el unico tipo que AGREGA una fila, asi que la vara es mas alta: el
     marcador tiene que salir de la pagina misma y con dos testigos que no
-    dependan uno del otro. Si hay que buscarlo afuera, no entra."""
+    dependan uno del otro. Si hay que buscarlo afuera, no entra.
+
+    El test cuenta los testigos en vez de buscarles palabras. Cuando hubo un solo
+    Faltante alcanzaba con exigir "tabla" y "resaltado" en el `porque`, pero eso
+    era el caso, no la regla: el segundo Faltante se rompe de otra forma y se
+    apoya en el cuadro y en las rondas siguientes. La regla que sobrevive a los
+    dos es que sean dos y que digan de donde salen."""
     for f in correcciones.FALTANTES:
         assert len(f.porque) > 200, f"{f.local}: la evidencia es muy flaca"
-        assert "tabla" in f.porque, f"{f.local}: falta el testigo de la tabla"
-        assert "resaltado" in f.porque, f"{f.local}: falta el segundo testigo"
+        assert len(f.testigos) >= 2, f"{f.local}: tiene menos de dos testigos"
+        for t in f.testigos:
+            assert len(t) > 80, f"{f.local}: el testigo {t!r} no dice nada"
+        assert len(set(f.testigos)) == len(f.testigos), f"{f.local}: repetido"
 
 
 # --------------------------------------------------------------------------

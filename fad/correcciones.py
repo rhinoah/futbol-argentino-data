@@ -938,16 +938,12 @@ class Faltante:
     tiene que salir de la pagina misma, con dos testigos que no dependan uno del
     otro. Si hay que ir a buscarlo afuera, no entra: queda el aviso abierto.
 
-    Hoy hay uno solo, y sus dos testigos son:
-
-      * LA TABLA DE POSICIONES. Es el unico partido que les falta a los dos
-        clubes, asi que la resta contra la grilla da sus goles exactos y se puede
-        leer dos veces, una por club. Las dos dan lo mismo, y la tabla ademas
-        cierra sola (SGF = SGC = 457).
-      * EL RESALTADO DE LA PROPIA FILA. La pagina pinta la celda del resultado
-        cuando el partido termino empatado, y el nombre del ganador cuando no.
-        Se verifico en sus 189 filas legibles sin una sola excepcion: 54 empates,
-        los 54 pintados; 135 con ganador, ninguno. La fila rota esta pintada.
+    Por eso `testigos` es un campo y no un parrafo. Hay mas de una forma de
+    romperse -- a una fila se le perdio un digito, a otra se le perdio el salto
+    de linea -- y cada una se apoya en testigos distintos, asi que pedirle al
+    texto de `porque` una palabra fija solo servia mientras hubo un caso. Lo que
+    NO cambia entre casos es que tienen que ser dos y tienen que ser
+    independientes; eso es lo que se enumera y lo que el test cuenta.
 
     El resto de la fila -- fecha, hora, cancha -- se lee del wikitexto como
     cualquier otra, y no hay nada que decidir ahi.
@@ -961,6 +957,14 @@ class Faltante:
     hora: str
     estadio: str
     porque: str
+    # Los dos testigos, uno por entrada, cada uno nombrando DE DONDE sale y que
+    # dice. Van sueltos y no dentro de `porque` para que se puedan contar: la
+    # regla es que sean dos y que no dependan uno del otro.
+    testigos: tuple[str, ...]
+    # La tanda, cuando la hubo. Va aparte de `goles` porque una eliminatoria que
+    # termina empatada NO tiene ganador en el marcador, y sin esto el partido
+    # entraria como un empate cualquiera.
+    penales: tuple[int, int] | None = None
 
 
 FALTANTES: tuple[Faltante, ...] = (
@@ -978,6 +982,50 @@ FALTANTES: tuple[Faltante, ...] = (
                "cierra leida desde cualquiera de los dos clubes; y el resaltado de "
                "la fila, que en esta pagina significa empate en sus 189 filas "
                "legibles sin una excepcion. El 0 del visitante ademas sobrevivio",
+        testigos=(
+            "LA TABLA DE POSICIONES: es el unico partido que les falta a los dos "
+            "clubes, asi que la resta contra la grilla da sus goles exactos y se "
+            "puede leer dos veces, una por club. Las dos dan 0-0, y la tabla "
+            "ademas cierra sola (SGF = SGC = 457)",
+            "EL RESALTADO DE LA PROPIA FILA: la pagina pinta la celda del "
+            "resultado cuando el partido termino empatado, y el nombre del "
+            "ganador cuando no. Se verifico en sus 189 filas legibles sin una "
+            "sola excepcion -- 54 empates, los 54 pintados; 135 con ganador, "
+            "ninguno --. La fila rota esta pintada",
+        ),
+    ),
+    Faltante(
+        pagina="Copa Argentina 2018-19", jornada="Treintaidosavos",
+        local="Godoy Cruz", visita="Deportivo Armenio", goles=(0, 0),
+        penales=(6, 5), fecha="2019-03-23", hora="", estadio="Juan Domingo Perón",
+        porque="la fila esta entera y mal escrita: le sobra una llave y le falta "
+               "el salto de linea, `|-bgcolor=#F5FAFF}|align=center| 23 de marzo "
+               "||...`. Con los cinco campos en el mismo renglon, la primera celda "
+               "-- la fecha -- se pierde adentro de lo que `_partir` descarta como "
+               "atributos de la fila, quedan cuatro y la fila no llega al minimo. "
+               "Sus vecinas de la misma tabla son identicas y con el salto puesto. "
+               "Aflojar el corte de filas para todo el corpus por una sola es peor "
+               "el remedio: es el ultimo de los 240 partidos que faltaban en las "
+               "copas y el unico que ningun arreglo de parser alcanza. "
+               "LA TANDA VA AL REVES QUE LA FILA, y es una decision: la fila pone "
+               "en negrita a Armenio y escribe (5) 0 - 0 (6), o sea que Armenio "
+               "gano -- la pagina usa esa convencion en sus 18 filas legibles sin "
+               "excepcion --, pero el cuadro marca a Godoy Cruz con su (p) de "
+               "penales en RD2 y RD3, y la grilla lo tiene JUGANDO dieciseisavos "
+               "(14/07 vs Huracan) y octavos (18/09 vs River). Tres testigos "
+               "independientes contra la negrita de la unica fila de la pagina que "
+               "esta mal escrita. Se toman los numeros de la fila y el orden de los "
+               "otros tres. El 0-0 de los noventa minutos no lo discute nadie",
+        testigos=(
+            "LA CELDA MISMA: el 0-0 y los numeros de la tanda estan escritos en "
+            "la fila, intactos y sin ambiguedad (`(5) 0 - 0 (6)`). Lo que la fila "
+            "no puede sostener es a QUIEN le toca cada numero, porque es la unica "
+            "de la pagina con el markup roto",
+            "EL CUADRO Y LAS RONDAS SIGUIENTES: el bracket marca a Godoy Cruz con "
+            "su `(p)` de penales en RD2 y RD3, y la grilla lo tiene jugando "
+            "dieciseisavos (14/07 vs Huracan) y octavos (18/09 vs River). Un club "
+            "que perdio la serie no juega las dos rondas que siguen",
+        ),
     ),
 )
 
@@ -1338,6 +1386,8 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
         ps.append(replace(h, fecha=fal.fecha, hora=fal.hora, local=fal.local,
                           visita=fal.visita, goles_local=fal.goles[0],
                           goles_visita=fal.goles[1], estadio=fal.estadio,
+                          penales_local=(fal.penales or (None, None))[0],
+                          penales_visita=(fal.penales or (None, None))[1],
                           local_art="", visita_art="", fecha_cruda=""))
         aplicadas += 1
 

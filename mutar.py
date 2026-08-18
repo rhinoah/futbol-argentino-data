@@ -859,6 +859,18 @@ MUTANTES = [
      "        if any(p.jornada == fal.jornada and p.local == fal.local",
      "        if False and any(p.jornada == fal.jornada and p.local == fal.local"),
 
+    ("fad/correcciones.py", "escribir la tanda del faltante al reves",
+     "                          penales_local=(fal.penales or (None, None))[0]," + chr(10) +
+     "                          penales_visita=(fal.penales or (None, None))[1],",
+     "                          penales_local=(fal.penales or (None, None))[1]," + chr(10) +
+     "                          penales_visita=(fal.penales or (None, None))[0],"),
+
+    ("fad/correcciones.py", "dejarle al faltante la tanda del hermano de la jornada",
+     "                          penales_local=(fal.penales or (None, None))[0]," + chr(10) +
+     "                          penales_visita=(fal.penales or (None, None))[1],",
+     "                          penales_local=(fal.penales or (h.penales_local, 0))[0]," + chr(10) +
+     "                          penales_visita=(fal.penales or (0, h.penales_visita))[1],"),
+
     ("fad/correcciones.py", "inventar el contexto del faltante en vez de heredarlo",
      "        hermanos = [p for p in ps if p.jornada == fal.jornada]",
      "        hermanos = list(ps)"),
