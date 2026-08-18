@@ -734,6 +734,19 @@ MUTANTES = [
      '           ("Gimnasia", "Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza",\n'
      '            "Gimnasia y Esgrima (Mendoza)")),'),
 
+    # --- el partido que la pagina tiene y no se puede leer ---
+    ("fad/correcciones.py", "no agregar el partido que la pagina no deja leer",
+     "        aplicadas += 1" + chr(10) + chr(10) + "    # Los homonimos van DESPUES",
+     "        continue" + chr(10) + chr(10) + "    # Los homonimos van DESPUES"),
+
+    ("fad/correcciones.py", "agregar el faltante aunque la pagina ya se lea bien",
+     "        if any(p.jornada == fal.jornada and p.local == fal.local",
+     "        if False and any(p.jornada == fal.jornada and p.local == fal.local"),
+
+    ("fad/correcciones.py", "inventar el contexto del faltante en vez de heredarlo",
+     "        hermanos = [p for p in ps if p.jornada == fal.jornada]",
+     "        hermanos = list(ps)"),
+
     # --- homonimos: el mismo nombre, dos clubes ---
     ("fad/correcciones.py", "no resolver el homonimo en los partidos",
      "            if p.local == h.dice:", "            if False:"),

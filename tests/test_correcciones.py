@@ -325,3 +325,77 @@ def test_los_homonimos_nombran_su_testigo():
     for h in correcciones.HOMONIMOS:
         assert len(h.porque) > 40, f"{h.dice}: falta la evidencia"
         assert h.dice != h.debe
+
+
+# --------------------------------------------------------------------------
+# el partido que la pagina tiene y no se puede leer
+# --------------------------------------------------------------------------
+UN_FALTANTE = correcciones.Faltante(
+    pagina="Una Pagina", jornada="Fecha 1", local="Defensores de Cambaceres",
+    visita="Sportivo Barracas", goles=(0, 0), fecha="2016-02-05", hora="17:00",
+    estadio="12 de Octubre", porque="de prueba")
+
+
+def _hermano():
+    p = partido("San Miguel", "Deportivo Laferrere", 1, 3, jornada="Fecha 1")
+    p.torneo, p.zona = "Primera C", "Zona Unica"
+    return p
+
+
+def test_un_faltante_agrega_el_partido(monkeypatch):
+    monkeypatch.setattr(correcciones, "FALTANTES", (UN_FALTANTE,))
+    ps = [_hermano()]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert (n, avisos) == (1, [])
+    nuevo = ps[-1]
+    assert (nuevo.local, nuevo.visita) == ("Defensores de Cambaceres", "Sportivo Barracas")
+    assert (nuevo.goles_local, nuevo.goles_visita) == (0, 0)
+    assert nuevo.fecha == "2016-02-05" and nuevo.estadio == "12 de Octubre"
+
+
+def test_el_faltante_hereda_el_contexto_de_su_jornada(monkeypatch):
+    """Torneo, fase y zona son de la RONDA, no del partido. Escribirlos a mano en
+    la correccion haria que esta fila sea la unica del torneo que dice otra cosa,
+    y eso no falla: sale al CSV con un `group` distinto y el que lo consuma cuenta
+    dos zonas donde hay una."""
+    monkeypatch.setattr(correcciones, "FALTANTES", (UN_FALTANTE,))
+    ps = [_hermano()]
+    correcciones.aplicar(ps, "Una Pagina")
+    assert (ps[-1].torneo, ps[-1].fase, ps[-1].zona) == ("Primera C", "zonas", "Zona Unica")
+
+
+def test_un_faltante_no_duplica_si_arreglaron_la_pagina(monkeypatch):
+    """El dia que alguien complete la celda en Wikipedia, el parser va a leer la
+    fila y esta entrada sobra. Sin la guarda, el partido entraria dos veces."""
+    monkeypatch.setattr(correcciones, "FALTANTES", (UN_FALTANTE,))
+    ya = partido("Defensores de Cambaceres", "Sportivo Barracas", 0, 0, jornada="Fecha 1")
+    ps = [_hermano(), ya]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 0 and len(ps) == 2
+    assert avisos and "sacalo de fad/correcciones.py" in avisos[0]
+
+
+def test_un_faltante_sin_hermano_en_su_jornada_no_se_agrega(monkeypatch):
+    """Sin hermano no hay de donde heredar la fase ni la zona, y una fila colgada
+    de la nada es peor que una fila que falta: la primera miente en silencio."""
+    monkeypatch.setattr(correcciones, "FALTANTES", (UN_FALTANTE,))
+    ps = [partido("San Miguel", "Deportivo Laferrere", 1, 3, jornada="Fecha 9")]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 0 and len(ps) == 1 and avisos
+
+
+def test_un_faltante_no_sale_de_su_pagina(monkeypatch):
+    monkeypatch.setattr(correcciones, "FALTANTES", (UN_FALTANTE,))
+    ps = [_hermano()]
+    assert correcciones.aplicar(ps, "Otra Pagina") == (0, [])
+    assert len(ps) == 1
+
+
+def test_los_faltantes_nombran_sus_dos_testigos():
+    """Es el unico tipo que AGREGA una fila, asi que la vara es mas alta: el
+    marcador tiene que salir de la pagina misma y con dos testigos que no
+    dependan uno del otro. Si hay que buscarlo afuera, no entra."""
+    for f in correcciones.FALTANTES:
+        assert len(f.porque) > 200, f"{f.local}: la evidencia es muy flaca"
+        assert "tabla" in f.porque, f"{f.local}: falta el testigo de la tabla"
+        assert "resaltado" in f.porque, f"{f.local}: falta el segundo testigo"

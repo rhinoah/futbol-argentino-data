@@ -30,7 +30,7 @@ sabemos cual de las dos tiene razon).
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 
 @dataclass(frozen=True)
@@ -839,6 +839,65 @@ class Cancha:
 
 
 @dataclass(frozen=True)
+class Faltante:
+    """Un partido que la pagina TIENE y que no se puede leer.
+
+    Es el unico tipo que AGREGA una fila en vez de arreglar una. Los otros cuatro
+    se paran sobre un partido que ya existe; este existe en el wikitexto y muere
+    en el parser, porque la celda del marcador esta rota. Y romperse asi no es lo
+    mismo que faltar: el partido esta, con sus dos clubes, su cancha y su fecha,
+    y lo unico que se perdio es un digito.
+
+    La condicion para entrar es la de siempre y aca es mas exigente todavia,
+    porque no se corrige un dato sino que se agrega una fila entera: el marcador
+    tiene que salir de la pagina misma, con dos testigos que no dependan uno del
+    otro. Si hay que ir a buscarlo afuera, no entra: queda el aviso abierto.
+
+    Hoy hay uno solo, y sus dos testigos son:
+
+      * LA TABLA DE POSICIONES. Es el unico partido que les falta a los dos
+        clubes, asi que la resta contra la grilla da sus goles exactos y se puede
+        leer dos veces, una por club. Las dos dan lo mismo, y la tabla ademas
+        cierra sola (SGF = SGC = 457).
+      * EL RESALTADO DE LA PROPIA FILA. La pagina pinta la celda del resultado
+        cuando el partido termino empatado, y el nombre del ganador cuando no.
+        Se verifico en sus 189 filas legibles sin una sola excepcion: 54 empates,
+        los 54 pintados; 135 con ganador, ninguno. La fila rota esta pintada.
+
+    El resto de la fila -- fecha, hora, cancha -- se lee del wikitexto como
+    cualquier otra, y no hay nada que decidir ahi.
+    """
+    pagina: str
+    jornada: str
+    local: str
+    visita: str
+    goles: tuple[int, int]
+    fecha: str
+    hora: str
+    estadio: str
+    porque: str
+
+
+FALTANTES: tuple[Faltante, ...] = (
+    Faltante(
+        pagina="Campeonato de Primera C 2016 (Argentina)", jornada="Fecha 1",
+        local="Defensores de Cambaceres", visita="Sportivo Barracas",
+        goles=(0, 0), fecha="2016-02-05", hora="17:00", estadio="12 de Octubre",
+        porque="la celda del marcador dice `''' - 0`: se perdio el gol del local en "
+               "alguna edicion. Que el partido es este no se elige: el torneo es "
+               "todos contra todos de 20 clubes y 19 fechas, los 20 juegan 19 "
+               "partidos salvo estos dos que juegan 18, la Fecha 1 tiene nueve "
+               "partidos en vez de diez, y el unico par que no se cruza nunca es "
+               "este. El 0-0 lo dicen dos testigos de la pagina: la tabla, donde "
+               "el partido que les falta aporta GF+0 y GC+0 a los dos y la cuenta "
+               "cierra leida desde cualquiera de los dos clubes; y el resaltado de "
+               "la fila, que en esta pagina significa empate en sus 189 filas "
+               "legibles sin una excepcion. El 0 del visitante ademas sobrevivio",
+    ),
+)
+
+
+@dataclass(frozen=True)
 class Homonimo:
     """Un club que la pagina escribe pelado y que en el padron son varios.
 
@@ -1126,6 +1185,37 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
                           f"aplica: si la fuente se corrigio, sacalo de fad/correcciones.py")
             continue
         candidatos[0].goles_local, candidatos[0].goles_visita = m.debe
+        aplicadas += 1
+
+    # Los faltantes van al final de todo: no arreglan una fila, agregan una, y
+    # lo que agregan tiene que estar ya en canonico y ya sin homonimos que
+    # resolver. Antes de las otras correcciones, ademas, se expondria a que una
+    # de ellas lo enganche sin querer.
+    for fal in FALTANTES:
+        if fal.pagina != pagina:
+            continue
+        if any(p.jornada == fal.jornada and p.local == fal.local
+               and p.visita == fal.visita for p in ps):
+            avisos.append(f"el partido faltante de {fal.jornada} ({fal.local} vs "
+                          f"{fal.visita}) ya se lee de la pagina: la arreglaron, "
+                          f"sacalo de fad/correcciones.py antes de que quede "
+                          f"duplicado")
+            continue
+        # El contexto se hereda de un hermano de la MISMA jornada en vez de
+        # escribirse a mano: torneo, fase y zona son de la ronda, no del partido,
+        # y copiarlos evita que esta fila sea la unica del torneo que dice otra
+        # cosa. Sin hermano no se agrega: seria una fila colgada de la nada.
+        hermanos = [p for p in ps if p.jornada == fal.jornada]
+        if not hermanos:
+            avisos.append(f"el partido faltante de {fal.jornada} ({fal.local} vs "
+                          f"{fal.visita}) no tiene ningun hermano en su jornada de "
+                          f"donde heredar fase y zona, asi que no se agrega")
+            continue
+        h = hermanos[0]
+        ps.append(replace(h, fecha=fal.fecha, hora=fal.hora, local=fal.local,
+                          visita=fal.visita, goles_local=fal.goles[0],
+                          goles_visita=fal.goles[1], estadio=fal.estadio,
+                          local_art="", visita_art="", fecha_cruda=""))
         aplicadas += 1
 
     # Los homonimos van DESPUES de `CORRECCIONES`, y no es indistinto: una

@@ -1869,13 +1869,79 @@ clubes corridos lo mismo y para el mismo lado son *un partido entre ellos*. Los
 
 Los dos quedan como aviso abierto. Localizar no es arbitrar.
 
+## El partido que faltaba en la Primera C 2016
+
+Lo encontró el chequeo de PJ, y resultó ser el caso más limpio de todo el repo:
+**cuál** es el partido no hay que elegirlo, y **cuánto salió** tampoco.
+
+El torneo es todos contra todos: 20 clubes, 19 fechas. Los veinte juegan 19
+partidos salvo Defensores de Cambaceres y Sportivo Barracas, que juegan 18; la
+Fecha 1 tiene nueve partidos en vez de diez; y el único par que no se cruza nunca
+en todo el campeonato es exactamente ése. No hay nada que decidir.
+
+La fila **está** en el wikitexto. Lo que está roto es la celda del marcador:
+
+```
+|Defensores de Cambaceres
+|bgcolor="#d0e7ff"|`''' - 0`
+|Sportivo Barracas
+|12 de Octubre
+|rowspan=2|5 de febrero
+```
+
+Se perdió el gol del local en alguna edición, y el parser hace bien en descartar
+la fila. Lo que faltaba era el aviso, y ahora existe.
+
+### El marcador, con dos testigos que no dependen uno del otro
+
+**La tabla de posiciones.** Es el único partido que les falta a los dos clubes,
+así que restar la grilla de la tabla da sus goles exactos — y se puede leer dos
+veces, una por club:
+
+| club | tabla | grilla | delta |
+|---|---|---|---|
+| Defensores de Cambaceres | PJ19 GF20 GC27 | PJ18 GF20 GC27 | `PJ+1 GF+0 GC+0` |
+| Sportivo Barracas | PJ19 GF22 GC24 | PJ18 GF22 GC24 | `PJ+1 GF+0 GC+0` |
+
+Las dos lecturas dan lo mismo y la tabla además **cierra sola** (ΣGF = ΣGC = 457).
+
+**El resaltado de la propia fila.** La página pinta la celda del resultado cuando
+el partido terminó empatado, y el nombre del ganador cuando no. Verificado en sus
+189 filas legibles **sin una sola excepción**: 54 empates, los 54 pintados; 135
+con ganador, ninguno. La fila rota está pintada. Y el `0` del visitante sobrevivió.
+
+Los dos testigos dicen **0-0**, y hay un tercero de confirmación: con ese
+marcador puesto, `contrastar` deja de encontrar desvíos en **toda** la tabla. Si
+hubiera sido cualquier otro, los goles de esos dos clubes no cerrarían.
+
+### `Faltante`, el quinto tipo de corrección
+
+Es el único que **agrega** una fila en vez de arreglar una, así que la vara es
+más alta: el marcador tiene que salir de la página misma y con dos testigos
+independientes. Si hay que ir a buscarlo afuera, no entra y queda el aviso
+abierto — que es lo que sigue pasando con Laferrere–Dock Sud y con La
+Florida–Sportivo Patria.
+
+Dos detalles que el mecanismo cuida:
+
+- **El contexto se hereda de un hermano de la misma jornada** en vez de
+  escribirse a mano. Torneo, fase y zona son de la ronda; escribirlos aparte haría
+  que esta fila fuera la única del torneo que dice otra cosa, y eso no falla: sale
+  al CSV con otro `group` y el que lo consuma cuenta dos zonas donde hay una.
+- **Si la página se arregla, avisa.** El día que alguien complete la celda en
+  Wikipedia el parser va a leer la fila, y sin la guarda el partido entraría dos
+  veces.
+
+Con el partido puesto, la Primera C 2016 cierra entera: 190 partidos, los veinte
+clubes con 19, las diecinueve fechas con diez, y cero desvíos contra su tabla.
+
 ## Tests
 
-632 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+638 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 207 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 210 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
