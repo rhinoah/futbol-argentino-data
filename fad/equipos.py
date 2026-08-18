@@ -121,7 +121,9 @@ PADRON: tuple[Equipo, ...] = (
     # Sportivo Independiente Rivadavia, el titulo exacto del articulo.
     Equipo("Independiente Rivadavia", 664,
            ("Independiente Riv. (M)", "Indep.Mza.", "Independiente Rivadavia (M)",
-            "Independiente M.", "Independiente M", "CSIR")),
+            "Independiente M.", "Independiente M", "CSIR",
+            # el cuadro de la Copa Argentina 2011-12 lo abrevia asi, sin enlazarlo
+            "Independiente Riv.")),
     Equipo("Instituto", 11, ("Instituto (C)",)),
     Equipo("Lanús", 12),
     Equipo("Newell's Old Boys", 13, ("Newell`s", "Newell's", "Newells Old Boys")),
@@ -168,7 +170,8 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Alumni (VM)", alias=("Alumni (Villa María)",)),      # Villa María, Córdoba
     Equipo("Atlanta"),
     Equipo("Atlético de Rafaela", alias=("Atlético Rafaela", "Atlético de Rafela",
-                                        "Alético de Rafaela", "Atl. Rafaela")),
+                                        "Alético de Rafaela", "Atl. Rafaela",
+                                        "Atl. de Rafaela")),
     Equipo("Chaco For Ever"),
     Equipo("Ciudad de Bolívar"),
     Equipo("Claypole"),
@@ -356,7 +359,10 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Defensores Unidos'),
     Equipo('Defensores de Belgrano', alias=("D. de Belgrano",)),
     Equipo('Defensores de Belgrano (VR)',
-           alias=('Defensores de Belgrano (Villa Ramallo)',)),
+           # `Def. de Belgrano (VR)` es del cuadro y va con el sufijo puesto: es lo
+           # unico que lo separa de `Defensores de Belgrano`, que en la Copa
+           # Argentina 2015-16 juega en la MISMA pagina.
+           alias=('Defensores de Belgrano (Villa Ramallo)', 'Def. de Belgrano (VR)')),
     Equipo("Defensores de Cambaceres", alias=("Cambaceres",)),
     Equipo("Defensores de Pronunciamiento",
            alias=("Defensores de Pronunciamento", "Def. de Pronunciamiento", "DEPRO")),
@@ -393,7 +399,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Germinal'),
     Equipo("Guillermo Brown", alias=("Guillermon Brown", "Guillermo Brown (PM)")),
     Equipo("Gutiérrez", alias=("Gutiérrez SC",)),
-    Equipo('Güemes (SdE)', alias=('Güemes (Santiago del Estero)',)),
+    Equipo('Güemes (SdE)', alias=('Güemes (Santiago del Estero)', 'Güemes')),
     Equipo('Huracán Las Heras'),
     Equipo('Independiente (C)'),
     Equipo("J. J. de Urquiza", alias=("J. J. Urquiza",)),
@@ -471,6 +477,17 @@ PADRON: tuple[Equipo, ...] = (
 # que apuntan a un unico articulo en todo el corpus -- los que apuntan a varios
 # no sirven de testigo y quedaron afuera a proposito.
 ARTICULOS: dict[str, str] = {
+    # Los cuatro que solo aparecen en el CUADRO DE LLAVES, donde la pagina los
+    # escribe mas corto que en la grilla -- `Def. de Belgrano (VR)`,
+    # `Estudiantes (SL)`, `Sarmiento (Junín)`, `Sportivo Rivadavia` --. Entran
+    # por el ARTICULO y no por el nombre a proposito: `Def. de Belgrano` a secas
+    # es ambiguo entre dos clubes del padron, y el articulo es identidad y no
+    # parecido. Las cuatro identidades las confirma la grilla de su propia
+    # pagina, que juega esos mismos partidos con el mismo articulo.
+    'Club Atlético y Social Defensores de Belgrano': 'Defensores de Belgrano (VR)',
+    'Club Sportivo Estudiantes (San Luis)': 'Sportivo Estudiantes (SL)',
+    'Club Atlético Sarmiento (Junín)': 'Sarmiento (J)',
+    'Club Sportivo Bernardino Rivadavia': 'Sportivo Rivadavia (VT)',
     'Arsenal Fútbol Club': 'Arsenal',
     'Asociación Cultural y Deportiva Altos Hornos Zapla': 'Altos Hornos Zapla',
     'Asociación Civil Leones de Rosario Fútbol Club': 'Leones de Rosario',

@@ -656,9 +656,11 @@ def fuera_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
         la firma de una mala atribucion, y es lo que este chequeo vino a buscar:
         la Primera B 2014, 2015 y 2017-18 escriben "Estudiantes" a secas en el
         cuadro -- que el padron resuelve al de La Plata, un club de Primera --
-        mientras la grilla juega Estudiantes (BA). Son 18 en el corpus, y varios
-        son alias que al padron le faltan ("Sarmiento (Junín)", "San Martin (F)"
-        sin tilde).
+        mientras la grilla juega Estudiantes (BA).
+      * UNO POR NOMBRE que el padron no reconoce. Ese aviso existe desde que
+        `clubes_del_cuadro` aprendio a sacarle al cuadro la siembra y las marcas
+        con wikilink: sin eso eran 26 nombres, la mayoria basura, y el chequeo
+        prefería callarse. Hoy es uno solo y es real.
       * UNO POR PAGINA cuando no hay homonimo. Ahi lo que falta no es un nombre
         sino los PARTIDOS: la Copa Argentina 2019-20 tiene un cuadro de 64 y la
         grilla trae 42 partidos. Es un hueco de completitud conocido y se dice en
@@ -668,19 +670,32 @@ def fuera_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
     if not del_cuadro:
         return []
     juegan = {p.local for p in ps} | {p.visita for p in ps}
-    faltan, fuera = [], []
+    faltan, fuera, desconocidos = [], [], []
     for crudo, articulo in sorted(del_cuadro.items()):
-        # Lo que el padron no reconoce se saltea, y hay que decir que se pierde
-        # con eso. Un cuadro trae, mezcladas con los clubes, marcas que no lo son
-        # -- "t. s." por tiempo suplementario, "(p.)" por penales, "1:" de la
-        # siembra -- y no se distinguen por su forma de un club que al padron le
-        # falte. Saltearlas cuesta no ver las grafias que solo aparecen en el
-        # cuadro: "Sarmiento (Junín)" y "San Martin (F)" sin tilde son clubes de
-        # verdad escritos de una forma que el padron no tiene, y como no entran
-        # por ningun partido, `validar.nombres_en_el_padron` tampoco los ve.
-        # Se elige el silencio sobre esas antes que un aviso por cada marca de
-        # tiempo suplementario, pero es una eleccion, no una propiedad.
+        # Lo que el padron no reconoce YA NO SE SALTEA. Antes si, y la razon era
+        # buena: un cuadro trae marcas mezcladas con los clubes -- "t. s." por
+        # tiempo suplementario, "(p.)" por penales, "1:" de la siembra -- que no
+        # se distinguen por su forma de un club que al padron le falte, y avisar
+        # por cada una era peor que callarse. El costo de callarse eran las
+        # grafias que SOLO viven en el cuadro: como no entran por ningun partido,
+        # `validar.nombres_en_el_padron` tampoco las ve, asi que no las denunciaba
+        # nadie.
+        #
+        # Se resolvio sacando el ruido en vez de tolerarlo, en `clubes_del_cuadro`:
+        # la siembra se despega del nombre y las dos marcas que SI llevan wikilink
+        # se descartan por su articulo. Con eso, de 26 nombres que el padron no
+        # reconocia quedo UNO, y ese uno es un caso de verdad -- "Def. de
+        # Belgrano" sin enlace en la Copa Argentina 2015-16, donde juegan los DOS
+        # Defensores de Belgrano y el nombre no alcanza para elegir --. Los otros
+        # 25 se cerraron: cuatro entraron por su articulo, cuatro por alias y
+        # trece eran siembra.
         if not equipos.buscar(crudo, articulo):
+            desconocidos.append(
+                f"el cuadro de llaves escribe \"{crudo}\" y el padron no lo "
+                f"reconoce" + (f" (articulo \"{articulo}\")" if articulo else
+                               ", y la pagina no lo enlaza, asi que no hay con que "
+                               "resolverlo") + ". O es un club al que le falta el "
+                f"alias, o es un nombre ambiguo que solo la pagina puede desatar")
             continue
         club = _canonico(crudo, articulo, pagina)
         if club in juegan:
@@ -694,6 +709,7 @@ def fuera_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
                 f"la grilla le dio los partidos al club de al lado")
         else:
             faltan.append(club)
+    fuera = desconocidos + fuera
     if faltan:
         fuera.append(
             f"el cuadro de llaves nombra {len(faltan)} clubes que no juegan ningun "

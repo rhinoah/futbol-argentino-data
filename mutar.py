@@ -906,6 +906,24 @@ MUTANTES = [
     ("fad/posiciones.py", "mirar cualquier tabla, no solo la de evolucion",
      "        if not _CAB_EVOLUCION.search(bloque):", "        if False:"),
 
+    # --- el cuadro: siembra, marcas con enlace, nombres que no resuelven ---
+    ("fad/parser.py", "dejarle al club la siembra pegada",
+     '            club = _SIEMBRA.sub("", club)', "            pass"),
+
+    ("fad/parser.py", "tomar por club a las marcas que llevan wikilink",
+     "            if articulo in _ARTICULOS_QUE_NO_SON_CLUB:", "            if False:"),
+
+    ("fad/parser.py", "descartar por el NOMBRE de la marca en vez de por su articulo",
+     "            if articulo in _ARTICULOS_QUE_NO_SON_CLUB:",
+     "            if club in _ARTICULOS_QUE_NO_SON_CLUB:"),
+
+    ("fad/posiciones.py", "volver a callarse con los nombres que el padron no reconoce",
+     "        if not equipos.buscar(crudo, articulo):" + chr(10) + "            desconocidos.append(",
+     "        if False:" + chr(10) + "            desconocidos.append("),
+
+    ("fad/posiciones.py", "perder los avisos de padron al juntarlos",
+     "    fuera = desconocidos + fuera", "    fuera = list(fuera)"),
+
     ("fad/correcciones.py", "no agregar el partido que la pagina no deja leer",
      "        aplicadas += 1" + chr(10) + chr(10) + "    # Los homonimos van DESPUES",
      "        continue" + chr(10) + chr(10) + "    # Los homonimos van DESPUES"),

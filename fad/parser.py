@@ -507,6 +507,20 @@ _ENLACE_DEL_CUADRO = re.compile(r"\[\[\s*([^\]|#]+?)\s*(?:\|([^\]]*))?\]\]")
 # `w/o` es walkover y `p.` es "por penales": marcas, no clubes.
 _NO_ES_CLUB = re.compile(r"(?i)^(w/?o|p\.?|libre|bye)$")
 
+# La SIEMBRA que algunas copas escriben pegada al club: `1: Gimnasia y Tiro (S)`.
+# El numero es el orden de la siembra, no parte del nombre, y sin sacarlo esos
+# trece nombres no resuelven contra el padron y el cuadro se queda sin cruzar a
+# sus clubes.
+_SIEMBRA = re.compile(r"^\s*\d+\s*:\s*")
+
+# Las marcas del cuadro que SI llevan wikilink, que es lo que las vuelve
+# indistinguibles de un club por su forma. Son dos articulos y no dos nombres
+# porque el nombre visible cambia -- `(p)`, `(p.)`, `t. s.` -- y el articulo no.
+_ARTICULOS_QUE_NO_SON_CLUB = frozenset({
+    "Tiros desde el punto penal",   # la tanda
+    "Prórroga (deporte)",           # el tiempo suplementario
+})
+
 
 def _cuerpos_de_cuadro(texto: str):
     """El cuerpo de cada plantilla de cuadro, cortado por llaves BALANCEADAS.
@@ -593,9 +607,13 @@ def clubes_del_cuadro(texto: str) -> dict[str, str]:
             enlace = _ENLACE_DEL_CUADRO.search(valor)
             club = limpiar(enlace.group(2) or enlace.group(1)) if enlace else limpiar(valor)
             club = re.sub(r"\{\{.*", "", club).strip()
+            club = _SIEMBRA.sub("", club)
+            articulo = enlace.group(1) if enlace else ""
+            if articulo in _ARTICULOS_QUE_NO_SON_CLUB:
+                continue
             if not club or _NO_ES_CLUB.match(club) or re.fullmatch(r"[\d\s.:-]*", club):
                 continue
-            fuera[club] = enlace.group(1) if enlace else ""
+            fuera[club] = articulo
     return fuera
 
 

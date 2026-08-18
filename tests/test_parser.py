@@ -11,7 +11,7 @@ import re
 
 import pytest
 
-from fad import parser
+from fad import equipos, parser
 from tests.conftest import LLAVES, TABLA
 
 
@@ -1595,3 +1595,54 @@ def test_el_arbitrado_se_identifica_por_lo_que_dice_la_pagina():
     arreglado nunca engancharia: la fila del wikitexto sigue teniendo el falso."""
     assert parser.resaltado_que_desmiente(
         _grilla(FILA_QUE_DESMIENTE), {("Platense", "Belgrano", 1, 0)}) != []
+
+
+# --------------------------------------------------------------------------
+# el cuadro: la siembra, las marcas con enlace y los nombres que no resuelven
+# --------------------------------------------------------------------------
+def _cuadro(*equipos_: str) -> str:
+    filas = "\n".join(f"| RD1-team{i + 1:02d}={e}" for i, e in enumerate(equipos_))
+    return "{{Cuadro de 4\n" + filas + "\n}}"
+
+
+def test_la_siembra_se_despega_del_nombre():
+    """`1: Gimnasia y Tiro (S)` es el club con su orden de siembra pegado. Sin
+    sacarlo el nombre no resuelve contra el padron y el cuadro se queda sin
+    cruzar a sus clubes: eran trece en el corpus."""
+    leidos = parser.clubes_del_cuadro(_cuadro("1: Gimnasia y Tiro (S)", "8: Cipolletti"))
+    assert set(leidos) == {"Gimnasia y Tiro (S)", "Cipolletti"}
+
+
+def test_las_marcas_con_wikilink_se_descartan_por_su_articulo():
+    """`(p)` y `t. s.` llevan wikilink, asi que por su FORMA no se distinguen de
+    un club al que el padron no llegue. Lo que las delata es a donde apuntan."""
+    cuadro = _cuadro("[[Club Atlético Banfield|Banfield]]",
+                     "[[Tiros desde el punto penal|(p)]]",
+                     "[[Prórroga (deporte)|t. s.]]")
+    assert set(parser.clubes_del_cuadro(cuadro)) == {"Banfield"}
+
+
+def test_el_articulo_del_cuadro_llega_al_padron():
+    """El cuadro escribe mas corto que la grilla -- `Sarmiento (Junín)` --, y lo
+    que resuelve la identidad es el articulo, no el nombre."""
+    cuadro = _cuadro("[[Club Atlético Sarmiento (Junín)|Sarmiento (Junín)]]")
+    leidos = parser.clubes_del_cuadro(cuadro)
+    assert leidos == {"Sarmiento (Junín)": "Club Atlético Sarmiento (Junín)"}
+    assert equipos.buscar("Sarmiento (Junín)",
+                          "Club Atlético Sarmiento (Junín)").nombre == "Sarmiento (J)"
+
+
+def test_los_cuatro_alias_que_solo_usa_el_cuadro():
+    """Cada uno se confirmo contra la grilla de su propia pagina: es el unico club
+    del padron que juega ahi con ese nombre."""
+    assert equipos.buscar("Def. de Belgrano (VR)", "").nombre == "Defensores de Belgrano (VR)"
+    assert equipos.buscar("Atl. de Rafaela", "").nombre == "Atlético de Rafaela"
+    assert equipos.buscar("Independiente Riv.", "").nombre == "Independiente Rivadavia"
+    assert equipos.buscar("Güemes", "").nombre == "Güemes (SdE)"
+
+
+def test_el_nombre_ambiguo_no_se_resuelve_a_la_fuerza():
+    """`Def. de Belgrano` a secas NO entra al padron: en la Copa Argentina 2015-16
+    juegan los DOS Defensores de Belgrano en la misma pagina y el cuadro no lo
+    enlaza. Resolverlo por parecido acertaria la mitad de las veces."""
+    assert equipos.buscar("Def. de Belgrano", "") is None
