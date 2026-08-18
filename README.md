@@ -1985,13 +1985,63 @@ cerrados. Los dos pasan a `eliminacion`, con su ronda por `matchday` y con
 `neutral` ya en `true`, que eso el parser lo venía leyendo bien del encabezado
 `Equipo 1 / Equipo 2`.
 
+## El partido que existe y que el esquema no puede escribir
+
+El último aviso de PJ que quedaba abierto era la Reválida del Federal A 2018-19:
+la tabla le contaba ocho partidos a Deportivo Roca y a Independiente (N), y la
+grilla les daba siete. La aritmética lo dejaba servido — Zona A de cinco clubes
+y diez fechas, todos los pares con dos partidos salvo ése con uno, y la Fecha 10
+con un partido en vez de dos.
+
+La fila estaba. Su resultado, no:
+
+```
+|Independiente (N)
+|PP - PP{{refn|El partido finalizó 4 a 1, pero se le dio por perdido a ambos
+equipos al considerarse que procedieron de manera dolosa para asegurar el
+resultado a favor de Deportivo Roca con la inclusión indebida del jugador
+Joan Manuel Artaza por parte de Independiente (N).}}
+|Deportivo Roca
+```
+
+`PP - PP` es **partido perdido para los dos**. Terminó 4 a 1 y el Tribunal se lo
+dio por perdido a ambos por arreglar el resultado.
+
+**Y eso no se puede escribir.** Una fila del CSV tiene un `home_score` y un
+`away_score`; cualquier par de números que se ponga ahí afirma que alguien ganó.
+No es una limitación del parser sino del esquema, y por eso este partido **no
+entra** — igual que La Florida–Sportivo Patria del Argentino A 2005-06, que es el
+mismo caso desde 2006.
+
+La tabla lo confirma y de paso explica otra cosa: le pone `GF+0 GC+1` **a cada
+uno**, o sea 0-1 en contra de los dos. Por eso la tabla de esa Reválida suma 184
+goles a favor y 186 en contra: es la única del corpus que no cierra por un motivo
+legítimo. El desbalance *es* el fallo.
+
+### Lo que sí se arregla: que lo diga
+
+Descartar la fila es correcto; hacerlo en silencio no. Sin aviso, el hueco
+aparece como un partido que falta —el chequeo de PJ lo denuncia, porque la tabla
+sí lo cuenta— y manda a buscar un error de lectura que no existe. Es «vacío no es
+lo mismo que ilegible» otra vez, la tercera en este repo.
+
+`parser.partidos_anulados` lo nombra. Dos casos en las 131 páginas: éste y la
+Copa Argentina 2013-14, donde Estudiantes Unidos y Belgrano de Esquel
+abandonaron el torneo por problemas económicos. El segundo obligó a que el
+detector no mire una posición fija: la liga ordena Local-Resultado-Visitante y la
+copa Fecha-Estadio-Equipo 1-Partido-Equipo 2, así que se busca la celda anulada
+donde caiga y los clubes se toman de sus dos vecinas.
+
+Ahora la página lleva los dos avisos, y juntos cuentan la historia entera: uno
+dice que la tabla cuenta un partido más, el otro dice por qué.
+
 ## Tests
 
-640 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+649 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 213 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 216 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

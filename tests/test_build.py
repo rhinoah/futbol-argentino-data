@@ -677,3 +677,18 @@ def test_el_build_avisa_del_club_de_la_tabla_que_no_esta_en_el_padron():
     assert len(padron) == 1
     assert "Club Inexistente de Prueba" in padron[0].detalle
     assert not padron[0].grave, "los datos no se tocan; el aviso es porque debilita el cruce"
+
+
+def test_el_partido_que_no_se_puede_escribir_llega_al_aviso():
+    """No alcanza con que el parser lo sepa: lo tiene que decir el build. Sin
+    este aviso el hueco aparece como un partido que falta -- la tabla si lo
+    cuenta, asi que el chequeo de PJ lo denuncia -- y manda a buscar un error de
+    lectura que no existe."""
+    texto = tabla(("Boca Juniors", "River Plate"), ("Racing Club", "Independiente"))
+    texto = texto.replace("|Racing Club" + chr(10) + "|2 - 1",
+                          "|Racing Club" + chr(10) + "|PP - PP")
+    ps, avisos = build.procesar(texto, T)
+    assert [(x.local, x.visita) for x in ps] == [("Boca Juniors", "River Plate")]
+    anulado = [a for a in avisos if "no se puede escribir" in a.que]
+    assert anulado and not anulado[0].grave
+    assert "Racing Club" in anulado[0].detalle and "Independiente" in anulado[0].detalle

@@ -1147,3 +1147,65 @@ def test_una_nota_de_varias_lineas_no_corre_las_columnas():
     assert p.hora == "21:30"
     assert p.estadio == "El Coliseo"
     assert not p.fecha.startswith("2022")
+
+
+# --------------------------------------------------------------------------
+# el partido que existe y no se puede escribir
+# --------------------------------------------------------------------------
+_ANULADO_LIGA = """{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+|-align=center
+|Independiente (N)
+|PP - PP<ref group="n.">Se le dio por perdido a ambos equipos.</ref>
+|Deportivo Roca
+|La Nueva Caldera
+|-align=center
+|Cipolletti
+|1 - 1
+|Villa Mitre
+|La Visera
+|}"""
+
+
+def test_denuncia_el_partido_que_el_esquema_no_puede_escribir():
+    """`PP - PP` es partido perdido para LOS DOS. No hay par de goles que lo diga:
+    una fila tiene un `home_score` y un `away_score`, y cualquier cosa que se
+    ponga ahi afirma que alguien gano.
+
+    El parser descarta la fila, que es correcto. Lo que faltaba era decirlo: sin
+    el aviso el hueco aparece como un partido que falta -- la tabla SI lo cuenta,
+    asi que el chequeo de PJ lo denuncia -- y manda a buscar un error de lectura
+    que no existe."""
+    avisos = parser.partidos_anulados(_ANULADO_LIGA)
+    assert len(avisos) == 1
+    assert "Independiente (N)" in avisos[0] and "Deportivo Roca" in avisos[0]
+
+
+def test_el_partido_anulado_no_entra_al_dataset():
+    """Se avisa, no se inventa. La otra fila de la misma tabla sigue entrando."""
+    ps = parser.partidos_de_tabla(_ANULADO_LIGA, 2019, "X")
+    assert [(p.local, p.visita) for p in ps] == [("Cipolletti", "Villa Mitre")]
+
+
+def test_lo_encuentra_tambien_en_el_formato_de_copa():
+    """La columna del resultado no esta siempre en el mismo lugar: la liga ordena
+    Local-Resultado-Visitante y la copa Fecha-Estadio-Equipo 1-Partido-Equipo 2.
+    Buscando en una posicion fija, la Copa Argentina 2013-14 no se veia."""
+    copa = ("{|class=\"wikitable\"\n|-\n|align=center| 20 de marzo || Sin sede "
+            "||align=right| Estudiantes Unidos || align=center|PP  - PP<ref>Los dos "
+            "abandonaron el torneo.</ref> ||align=left| Belgrano (E)\n|}")
+    avisos = parser.partidos_anulados(copa)
+    assert len(avisos) == 1
+    assert "Estudiantes Unidos" in avisos[0] and "Belgrano (E)" in avisos[0]
+
+
+@pytest.mark.parametrize("celda", ["1 - 1", "-", "", "a jugarse", "PP"])
+def test_no_denuncia_lo_que_no_es_un_partido_anulado(celda):
+    """La sigla tiene que estar de los DOS lados. `PP` sola es el equipo al que se
+    lo dieron por perdido, y ese caso SI se puede escribir: la pagina trae el
+    marcador que otorgo el tribunal."""
+    tabla = _ANULADO_LIGA.replace("PP - PP<ref group=\"n.\">Se le dio por perdido a ambos equipos.</ref>", celda)
+    assert parser.partidos_anulados(tabla) == []

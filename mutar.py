@@ -553,6 +553,19 @@ MUTANTES = [
      "        if p.fase != \"zonas\" or not p.jornada or not p.local or not p.visita:",
      "        if p.fase != \"zonas\" or not p.local or not p.visita:"),
 
+    # --- el partido que existe y no se puede escribir ---
+    ("build.py", "no avisar del partido que el esquema no puede escribir",
+     "               for d in parser.partidos_anulados(texto)]",
+     "               for d in []]"),
+
+    ("fad/parser.py", "buscar el resultado anulado en una posicion fija",
+     "            i = next((k for k, c in enumerate(celdas) if _ANULADO.match(c)), None)",
+     "            i = 1 if len(celdas) > 1 and _ANULADO.match(celdas[1]) else None"),
+
+    ("fad/parser.py", "tomar por anulado un PP de un solo lado",
+     'r"(?i)^' + chr(92) + 's*PP' + chr(92) + 's*-' + chr(92) + 's*PP' + chr(92) + 's*$"',
+     'r"(?i)PP"'),
+
     # --- el titulo que ademas nombra una ronda ---
     ("fad/parser.py", "que un titulo corte la jornada pero no diga que ronda es",
      "            if _ES_RONDA.match(nombre):" + chr(10) + "                jornada = ronda = nombre",

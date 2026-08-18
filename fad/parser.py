@@ -356,6 +356,54 @@ def _fecha_de_plantilla(crudo: str) -> str:
     return f"{anio}-{mes:02d}-{dia:02d}" if 1 <= mes <= 12 and 1 <= dia <= 31 else ""
 
 
+# `PP` es "partido perdido": la sigla con que Wikipedia escribe un resultado que
+# no salio de la cancha sino de un tribunal.
+_ANULADO = re.compile(r"(?i)^\s*PP\s*-\s*PP\s*$")
+
+
+def partidos_anulados(texto: str) -> list[str]:
+    """Los partidos que la pagina tiene y que el esquema no puede escribir.
+
+    `PP - PP` quiere decir que el tribunal se lo dio por perdido a LOS DOS. No es
+    un marcador y no hay par de numeros que lo diga: una fila tiene un
+    `home_score` y un `away_score`, y cualquier cosa que se ponga ahi afirma que
+    alguien gano. El parser descarta la fila, que es lo correcto, y hasta ahora lo
+    hacia sin decirlo.
+
+    Que no se pueda escribir no quiere decir que no se pueda AVISAR, y la
+    diferencia importa: sin este aviso el hueco aparece como un partido que falta
+    -- el chequeo de PJ lo denuncia, porque la tabla si lo cuenta -- y manda a
+    buscar un error de lectura que no existe. Vacio no es lo mismo que ilegible,
+    otra vez.
+
+    Son dos en las 131 paginas. El del Federal A 2018-19 es el mas raro que tiene
+    el repo: Independiente (N) - Deportivo Roca termino 4 a 1 y el Tribunal se lo
+    dio por perdido a los dos, por incluir a un jugador de manera indebida para
+    asegurar un resultado que le convenia al rival. La tabla de esa Revalida le
+    pone 0-1 en contra a CADA UNO, y por eso es la unica tabla del corpus que no
+    cierra por un motivo legitimo: le sobran dos goles en contra que nadie
+    convirtio.
+    """
+    fuera = []
+    for bloque in re.finditer(r"\{\|.*?\n\|\}", texto, re.S):
+        for fila in re.split(r"\n\|-", bloque.group(0)):
+            celdas = [_celda(c)[1] for c in _partir(fila)]
+            # La columna del resultado NO esta siempre en el mismo lugar: la liga
+            # ordena Local-Resultado-Visitante y la copa
+            # Fecha-Estadio-Equipo 1-Partido-Equipo 2. Se busca la celda anulada
+            # donde caiga y los clubes se toman de sus dos vecinas, que es lo que
+            # los dos formatos si tienen en comun.
+            i = next((k for k, c in enumerate(celdas) if _ANULADO.match(c)), None)
+            if i is None or not 0 < i < len(celdas) - 1:
+                continue
+            fuera.append(
+                f"{celdas[i - 1]} vs {celdas[i + 1]}: la pagina lo publica como "
+                f"\"{celdas[i].strip()}\" -- partido perdido para los dos --, y eso "
+                f"no es un marcador. La fila queda afuera del dataset a proposito: "
+                f"con un solo par de goles no se puede decir que perdieron los dos")
+    return list(dict.fromkeys(fuera))
+
+
 def _marcador(texto: str) -> tuple[int, int] | None:
     m = re.match(r"^\s*(\d+)\s*[-:]\s*(\d+)", texto)
     return (int(m.group(1)), int(m.group(2))) if m else None

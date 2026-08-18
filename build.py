@@ -312,6 +312,13 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: la tabla y la grilla cuentan distintos partidos", d,
                              grave=False)
                for d in posiciones.pj_que_no_coincide(ps, texto, pagina=t.pagina)]
+    # Un partido que la pagina tiene y que el esquema no puede escribir. No se
+    # arregla -- no hay par de goles que diga que perdieron los dos --, pero sin
+    # avisarlo el hueco aparece como un partido que falta y manda a buscar un
+    # error de lectura que no existe.
+    avisos += [validar.Aviso(f"{t.pagina}: un partido que no se puede escribir", d,
+                             grave=False)
+               for d in parser.partidos_anulados(texto)]
     # Y si algun homonimo dejo de hacer falta porque arreglaron la pagina.
     avisos += [validar.Aviso(f"{t.pagina}: un homonimo quedo sin uso", d, grave=False)
                for d in correcciones.homonimos_huerfanos(t.pagina, escritos)]
