@@ -324,6 +324,13 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # significa "la pagina no dijo nada".
     avisos += [validar.Aviso(f"{t.pagina}: un fallo que no se supo leer", d, grave=False)
                for d in parser.fallos_sin_leer(texto)]
+    # La tercera cosa que publica la pagina, despues de la grilla y la tabla: en
+    # que puesto iba cada club fecha por fecha. No se chequea el contenido -- eso
+    # pide simular la tabla y da 12% de ruido -- sino la FORMA de la columna, que
+    # se decide sola.
+    avisos += [validar.Aviso(f"{t.pagina}: la evolucion de posiciones no rankea", d,
+                             grave=False)
+               for d in posiciones.evolucion_mal_rankeada(texto)]
     # El resaltado de la grilla contra sus propios digitos. Es el UNICO uso
     # legitimo de ese color: acusa, nunca absuelve. Medido contra los 33
     # marcadores ya arbitrados, cuando el color acompania al numero banco al

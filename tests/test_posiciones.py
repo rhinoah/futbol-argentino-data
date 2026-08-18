@@ -993,3 +993,93 @@ def test_las_marcas_no_entran_ni_al_leer_el_cuadro():
     from fad import parser as _p
     texto = "{{Copa de 2 clubes\n| RD1-team01 = w/o\n| RD1-team02 = p.\n| RD1-team03 = 3\n}}"
     assert _p.clubes_del_cuadro(texto) == {}
+
+
+# --------------------------------------------------------------------------
+# la evolucion de las posiciones
+# --------------------------------------------------------------------------
+def _evolucion(*filas: str, fechas=(1, 2)) -> str:
+    """Una tabla de evolucion con `fechas` columnas."""
+    cab = "\n".join(f"! {n}" for n in fechas)
+    return ('{| class="wikitable"\n! width="170" |Equipo / Fecha\n' + cab + "\n"
+            + "\n".join(filas) + "\n|}")
+
+
+def _fila(club: str, *posiciones) -> str:
+    return "|-\n|" + club + "\n|" + "||".join(f"{p}.º" for p in posiciones)
+
+
+def test_una_columna_sana_no_avisa():
+    tabla = _evolucion(_fila("Boca Juniors", 1, 2), _fila("River Plate", 2, 1),
+                       _fila("Lanús", 3, 3))
+    assert posiciones.evolucion_mal_rankeada(tabla) == []
+
+
+def test_el_empate_comparte_ordinal_y_saltea_el_siguiente():
+    """Dos clubes en 1.º y ninguno en 2.º es CORRECTO: es como se escribe un
+    empate. Pedirle a la columna que fuera una permutacion de 1..N daba 564
+    columnas "rotas" de 2928, y no habia ni una: eran 564 fechas con empates."""
+    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 1, 2),
+                       _fila("Lanús", 3, 3))
+    assert posiciones.evolucion_mal_rankeada(tabla) == []
+
+
+def test_el_salto_sin_empate_avisa():
+    """`[1, 2, 4]`: nadie empata en 2.º, asi que el tercero tiene que ser 3.º."""
+    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 2, 2),
+                       _fila("Lanús", 4, 3))
+    avisos = posiciones.evolucion_mal_rankeada(tabla)
+    assert len(avisos) == 1
+    assert "fecha 1" in avisos[0] and "dice 4.º" in avisos[0] and "Lanús" in avisos[0]
+
+
+def test_el_ordinal_de_mas_despues_de_un_empate_avisa():
+    """`[1, 1, 2]`: con dos primeros el que sigue es 3.º, nunca 2.º."""
+    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 1, 2),
+                       _fila("Lanús", 2, 3))
+    assert len(posiciones.evolucion_mal_rankeada(tabla)) == 1
+
+
+def test_una_columna_incompleta_no_se_mira():
+    """Si a un club le falta la celda, las posiciones no reparten 1..N y el hueco
+    no es un error de ranking sino una fecha que ese club no jugo. Son 119 de
+    2928 columnas."""
+    tabla = _evolucion("|-\n|Boca Juniors\n|1.º||1.º", "|-\n|River Plate\n|3.º||2.º",
+                       "|-\n|Lanús\n| ||3.º")
+    assert posiciones.evolucion_mal_rankeada(tabla) == []
+
+
+def test_la_fecha_sale_del_encabezado_y_no_de_la_posicion():
+    """Una tabla de segunda rueda arranca en la fecha 20. Contando desde 1 sus
+    columnas quedarian corridas diecinueve lugares y el aviso nombraria la fecha
+    equivocada, que es peor que no avisar."""
+    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 2, 2),
+                       _fila("Lanús", 4, 3), fechas=(20, 21))
+    avisos = posiciones.evolucion_mal_rankeada(tabla)
+    assert len(avisos) == 1 and "fecha 20" in avisos[0]
+
+
+def test_solo_mira_tablas_de_evolucion():
+    """Sin la cabecera `Equipo / Fecha` no es una tabla de evolucion, y una tabla
+    de posiciones cualquiera tiene numeros que se le parecen."""
+    tabla = ('{| class="wikitable"\n! Equipo\n! 1\n! 2\n'
+             + _fila("Boca Juniors", 1, 1) + "\n" + _fila("River Plate", 4, 2) + "\n|}")
+    assert posiciones.evolucion_mal_rankeada(tabla) == []
+
+
+def test_el_aviso_dice_que_no_habla_de_la_grilla():
+    """Es una errata de la tabla de evolucion. Verificar el CONTENIDO -- que el
+    puesto sea el que sale de la grilla -- pide simular la tabla fecha por fecha,
+    y esa version daba 12% de desvios: un modelo incompleto haciendo ruido."""
+    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 2, 2),
+                       _fila("Lanús", 4, 3))
+    assert "no dice nada sobre la grilla" in posiciones.evolucion_mal_rankeada(tabla)[0]
+
+
+def test_los_ordinales_se_escriben_de_varias_formas():
+    """`8.º`, `8º`, `8°` y `8` pelado conviven en el corpus."""
+    tabla = ('{| class="wikitable"\n! Equipo / Fecha\n! 1\n'
+             "|-\n|Boca Juniors\n|1.º\n|-\n|River Plate\n|2º\n"
+             "|-\n|Lanús\n|3°\n|-\n|Tigre\n|5\n|}")
+    avisos = posiciones.evolucion_mal_rankeada(tabla)
+    assert len(avisos) == 1 and "dice 5.º" in avisos[0]

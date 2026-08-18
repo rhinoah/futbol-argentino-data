@@ -434,6 +434,118 @@ def homonimo_de_la_pagina(ps: list, texto: str, arts: dict[str, str] | None = No
     return fuera
 
 
+# La cabecera que identifica a una tabla de evolucion. No alcanza con el titulo
+# de la seccion: 97 paginas dicen "Evolucion de las posiciones" pero la tabla
+# puede venir partida en varias -- primera rueda, segunda rueda, una por zona --
+# y cada una se valida sola.
+_CAB_EVOLUCION = re.compile(r"Equipo\s*[/\\]\s*Fecha|Fecha\s*[/\\]\s*Equipo", re.I)
+
+# Una celda de posicion: `8.º`, `8º`, `8°`, `8`. El ordinal se escribe de las
+# cuatro formas en el corpus.
+_ORDINAL = re.compile(r"^\s*(\d+)\s*[.]?\s*[ºo°]?\s*$", re.I)
+
+
+def _columnas_de_evolucion(texto: str):
+    """(nro de fecha, cantidad de clubes, {club: posicion}) por cada columna."""
+    for m in re.finditer(r"\{\|.*?\n\|\}", texto, re.S):
+        bloque = m.group(0)
+        if not _CAB_EVOLUCION.search(bloque):
+            continue
+        filas = re.split(r"\n\s*\|-", bloque)
+        # Los numeros de fecha salen del ENCABEZADO y no de la posicion de la
+        # celda: una tabla de segunda rueda arranca en 20, y contando desde 1 sus
+        # columnas quedarian todas corridas diecinueve lugares.
+        fechas = []
+        for linea in re.findall(r"^\s*!(.*)$", filas[0], re.M):
+            for parte in linea.split("!!"):
+                etiqueta = parte.split("|")[-1].strip()
+                if etiqueta.isdigit():
+                    fechas.append(int(etiqueta))
+        if not fechas:
+            continue
+        clubes, columnas = 0, {}
+        for fila in filas[1:]:
+            celdas = [parser._celda(c)[1].strip() for c in parser._partir(fila)]
+            if len(celdas) < 2 or not celdas[0] or celdas[0].isdigit():
+                continue
+            clubes += 1
+            for i, celda in enumerate(celdas[1:1 + len(fechas)]):
+                o = _ORDINAL.match(celda)
+                if o:
+                    columnas.setdefault(fechas[i], {})[celdas[0]] = int(o.group(1))
+        for fecha, columna in columnas.items():
+            yield fecha, clubes, columna
+
+
+def _rompe_el_ranking(posiciones) -> tuple[int, int, int] | None:
+    """(lugar, lo que dice, el anterior) del primer lugar mal, o None.
+
+    Ordenadas de menor a mayor, la posicion que ocupa el lugar i vale i, o repite
+    a la anterior si ese club esta empatado. Nada mas es valido: es la definicion
+    de un ranking de competencia.
+    """
+    anterior = 0
+    for lugar, p in enumerate(sorted(posiciones), start=1):
+        if p != lugar and p != anterior:
+            return lugar, p, anterior
+        anterior = p
+    return None
+
+
+def evolucion_mal_rankeada(texto: str) -> list[str]:
+    """Las columnas de la "Evolucion de las posiciones" que no son un ranking.
+
+    Esa tabla dice, fecha por fecha, en que puesto iba cada club. Es el tercer
+    artefacto que publica una pagina de torneo -- despues de la grilla y de la
+    tabla de posiciones -- y hasta ahora nadie lo miraba.
+
+    LO QUE SE CHEQUEA ES LA FORMA DE LA COLUMNA, no su contenido, y eso es
+    deliberado. Verificar el CONTENIDO -- que el puesto publicado sea el que sale
+    de la grilla -- pide simular la tabla al cierre de cada fecha, y eso es un
+    modelo entero: el sistema de puntos cambia por torneo, los clubes que quedan
+    libres desbalancean el PJ, las zonas reparten la tabla, los partidos
+    postergados mueven el corte al calendario y no a la jornada. Se probo: la
+    version que compara puestos daba 3352 desvios sobre 28083 celdas, 12%, que no
+    es una senal sino un modelo incompleto haciendo ruido.
+
+    La FORMA, en cambio, se decide sola. Los clubes empatados comparten el
+    ordinal y se saltean los siguientes -- dos en 9.º y ningun 10.º es CORRECTO
+    --, asi que ordenando la columna de menor a mayor, la posicion del lugar i
+    tiene que valer i o repetir a la anterior. `[1, 2, 3, 5, ...]` salta al 5.º
+    sin que nadie empate en 3.º, y `[1, 1, 2, ...]` pone un 2.º despues de dos
+    1.º: las dos estan mal sin importar quien iba ganando.
+
+    Ojo que la primera lectura de esto fue al reves. Antes de ver la convencion
+    de empate, pedirle a la columna que fuera una PERMUTACION de 1..N daba 564
+    columnas "rotas" de 2928 -- y no habia ni una rota: eran 564 fechas con
+    clubes empatados, que es lo normal en la fecha 1, donde todos los que ganaron
+    van primeros.
+
+    Una columna a la que le falta alguna celda no se mira: ahi las posiciones no
+    reparten 1..N y el hueco no es un error de ranking sino un club que todavia
+    no jugo esa fecha. Son 119 de 2928.
+
+    Dispara 49 veces en las 131 paginas, repartidas en 23. El 1,7% de las
+    columnas completas.
+    """
+    fuera = []
+    for fecha, clubes, columna in _columnas_de_evolucion(texto):
+        if len(columna) != clubes:
+            continue
+        roto = _rompe_el_ranking(columna.values())
+        if not roto:
+            continue
+        lugar, dice, anterior = roto
+        quienes = sorted(c for c, p in columna.items() if p == dice)
+        fuera.append(
+            f"fecha {fecha}: la columna no es un ranking. En el lugar {lugar} "
+            f"dice {dice}.º ({', '.join(quienes)}), y ahi solo puede ir {lugar}.º "
+            f"o repetir el {anterior}.º de arriba si esta empatado. Ordenada da "
+            f"{sorted(columna.values())}. Es una errata de la tabla de evolucion, "
+            f"no dice nada sobre la grilla")
+    return list(dict.fromkeys(fuera))
+
+
 def filas_que_no_cierran(texto: str, arts: dict[str, str] | None = None,
                          pagina: str = "") -> list[str]:
     """Las filas que la pagina publica y la guarda de coherencia descarta.

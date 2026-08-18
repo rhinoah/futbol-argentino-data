@@ -880,6 +880,32 @@ MUTANTES = [
      "                if (local, visita, gl, gv) in ya_arbitrados:",
      "                if (local, visita, gv, gl) in ya_arbitrados:"),
 
+    # --- la evolucion de las posiciones ---
+    ("fad/posiciones.py", "pedirle a la columna que sea una permutacion de 1..N",
+     "        if p != lugar and p != anterior:", "        if p != lugar:"),
+
+    ("fad/posiciones.py", "aceptar cualquier ordinal despues de un empate",
+     "        if p != lugar and p != anterior:", "        if p != lugar and p < anterior:"),
+
+    ("fad/posiciones.py", "arrancar el ranking en cero",
+     "    anterior = 0" + chr(10) + "    for lugar, p in enumerate(sorted(posiciones), start=1):",
+     "    anterior = 0" + chr(10) + "    for lugar, p in enumerate(sorted(posiciones), start=0):"),
+
+    ("fad/posiciones.py", "mirar la columna sin ordenarla",
+     "    for lugar, p in enumerate(sorted(posiciones), start=1):",
+     "    for lugar, p in enumerate(posiciones, start=1):"),
+
+    ("fad/posiciones.py", "mirar tambien las columnas incompletas",
+     "        if len(columna) != clubes:" + chr(10) + "            continue",
+     "        if False:" + chr(10) + "            continue"),
+
+    ("fad/posiciones.py", "numerar las fechas por posicion en vez de por encabezado",
+     "                if etiqueta.isdigit():" + chr(10) + "                    fechas.append(int(etiqueta))",
+     "                if etiqueta.isdigit():" + chr(10) + "                    fechas.append(len(fechas) + 1)"),
+
+    ("fad/posiciones.py", "mirar cualquier tabla, no solo la de evolucion",
+     "        if not _CAB_EVOLUCION.search(bloque):", "        if False:"),
+
     ("fad/correcciones.py", "no agregar el partido que la pagina no deja leer",
      "        aplicadas += 1" + chr(10) + chr(10) + "    # Los homonimos van DESPUES",
      "        continue" + chr(10) + chr(10) + "    # Los homonimos van DESPUES"),
