@@ -355,8 +355,8 @@ MUTANTES = [
      "    return 1, limpiar(m.group(2))"),
 
     ("fad/parser.py", "que un titulo NO corte la jornada",
-     "        if _TITULO_CUALQUIERA.search(fila):",
-     "        if False:"),
+     "        if (titulo := _TITULO_CUALQUIERA.search(fila)):",
+     "        if (titulo := None):"),
 
     ("fad/parser.py", "no limpiar el rowspan pendiente entre secciones",
      "            pendientes.clear()      # un rowspan no cruza de una seccion a otra",
@@ -552,6 +552,19 @@ MUTANTES = [
     ("fad/validar.py", "contar tambien los partidos sin jornada",
      "        if p.fase != \"zonas\" or not p.jornada or not p.local or not p.visita:",
      "        if p.fase != \"zonas\" or not p.local or not p.visita:"),
+
+    # --- el titulo que ademas nombra una ronda ---
+    ("fad/parser.py", "que un titulo corte la jornada pero no diga que ronda es",
+     "            if _ES_RONDA.match(nombre):" + chr(10) + "                jornada = ronda = nombre",
+     "            if False:" + chr(10) + "                jornada = ronda = nombre"),
+
+    ("fad/parser.py", "tomar por ronda a cualquier titulo, no solo a los que la nombran",
+     "            if _ES_RONDA.match(nombre):",
+     "            if nombre:"),
+
+    ("fad/parser.py", "no reconocer 'Partido de desempate' como una ronda",
+     'r"|partidos? de (ida|vuelta|desempate)|promoci[oó]n)")',
+     'r"|partidos? de (ida|vuelta)|promoci[oó]n)")'),
 
     # --- la fecha: el anio y la nota al pie ---
     ("fad/parser.py", "ignorar el anio que escribe la celda y deducirlo igual",

@@ -403,7 +403,7 @@ _ES_RONDA = re.compile(
     r"(?i)^(desempate|ronda de desempate|reducido"
     r"|(octavos|cuartos|dieciseisavos|treintaidosavos)( de final)?"
     r"|semifinal(es)?|final\b|primera ronda|segunda ronda|tercera ronda"
-    r"|partidos? de (ida|vuelta)|promoci[oó]n)")
+    r"|partidos? de (ida|vuelta|desempate)|promoci[oó]n)")
 
 
 def _zonas_ambiguas(texto: str) -> frozenset[str]:
@@ -525,9 +525,18 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
         # ese partido NO es de la ultima fecha: es otra cosa. Sin cortar, se
         # quedaba con la jornada de la tabla anterior y dejaba a la Fecha 25 con
         # 13 partidos y dos equipos jugando dos veces, que es imposible.
-        if _TITULO_CUALQUIERA.search(fila):
+        if (titulo := _TITULO_CUALQUIERA.search(fila)):
             jornada = ""
             pendientes.clear()
+            # Y si ese titulo ademas NOMBRA una ronda, lo que sigue no es fase
+            # regular: es una llave. Un titulo de Wikipedia dentro del cuerpo es
+            # una etiqueta de seccion igual que un `!colspan|...`, asi que se lee
+            # igual. Cortar la jornada y no mirar el nombre dejaba al desempate
+            # del titulo de la B Nacional 2017-18 como fase de zonas: un partido
+            # de mas para Aldosivi y Almagro, que la tabla no les contaba.
+            nombre = limpiar(titulo.group(0).strip("=" + chr(32) + chr(10)))
+            if _ES_RONDA.match(nombre):
+                jornada = ronda = nombre
 
         celdas = _partir(fila)
         if len(celdas) < 3:

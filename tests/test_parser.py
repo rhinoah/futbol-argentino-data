@@ -452,9 +452,38 @@ def test_bug_un_titulo_corta_la_jornada():
     assert len(ps) == 3
     de_la_25 = [p for p in ps if p.jornada == "Fecha 25"]
     assert len(de_la_25) == 2, "el desempate se colo en la jornada"
-    desempate = [p for p in ps if p.jornada == ""][0]
+    desempate = [p for p in ps if p.jornada != "Fecha 25"][0]
     assert (desempate.local, desempate.visita) == ("Almagro", "Aldosivi")
     assert desempate.fecha == "2018-05-04"
+
+
+def test_el_titulo_no_solo_corta_la_jornada_sino_que_dice_cual_es_la_ronda():
+    """Cortar la jornada era media solucion. El desempate no es un partido de la
+    ultima fecha, pero TAMPOCO es fase regular: es una llave, y quedaba como
+    fase de zonas. Se notaba desde afuera -- Aldosivi y Almagro tenian 25 partidos
+    donde su tabla les contaba 24 --, y lo agarro el chequeo de PJ.
+
+    El titulo de Wikipedia dentro del cuerpo es una etiqueta de seccion igual que
+    un `!colspan|...`, asi que ahora se lee igual."""
+    ps = parser.partidos_de_tabla(TABLA_CON_DESEMPATE, 2018, "X")
+    desempate = [p for p in ps if p.jornada != "Fecha 25"][0]
+    assert desempate.fase == "eliminacion"
+    assert desempate.jornada == "Partido de desempate del primer puesto"
+    assert desempate.zona == ""
+    for p in [p for p in ps if p.jornada == "Fecha 25"]:
+        assert p.fase == "zonas", "la fase regular no se tiene que mover"
+
+
+def test_un_titulo_que_no_nombra_una_ronda_solo_corta():
+    """La lista de rondas es corta y explicita a proposito. Un titulo cualquiera
+    cierra la jornada y nada mas: convertir en llave a todo lo que tenga titulo
+    propio sacaria de la fase de zonas a paginas enteras del ascenso, que cuelgan
+    su fase regular de titulos propios."""
+    tabla = TABLA_CON_DESEMPATE.replace("=== Partido de desempate del primer puesto ===",
+                                        "=== Otra cosa cualquiera ===")
+    desempate = [p for p in parser.partidos_de_tabla(tabla, 2018, "X")
+                 if p.jornada != "Fecha 25"][0]
+    assert desempate.fase == "zonas" and desempate.jornada == ""
 
 
 def test_el_titulo_tampoco_arrastra_el_rowspan():

@@ -1935,13 +1935,63 @@ Dos detalles que el mecanismo cuida:
 Con el partido puesto, la Primera C 2016 cierra entera: 190 partidos, los veinte
 clubes con 19, las diecinueve fechas con diez, y cero desvíos contra su tabla.
 
+## Media solución que estuvo dos años a la vista
+
+El otro hallazgo del chequeo de PJ era el **desempate por el título** de la B
+Nacional 2017-18: Almagro y Aldosivi terminaron empatados en el primer puesto y
+jugaron un partido único en cancha neutral para definir al campeón. Ese partido
+estaba en el dataset como **fase regular**, así que los dos aparecían con 25
+partidos donde su propia tabla les contaba 24.
+
+Lo interesante es que el parser ya lo conocía. Este comentario estaba escrito
+desde antes, palabra por palabra:
+
+> Un titulo de Wikipedia cierra la jornada. Dentro de la seccion de resultados
+> puede aparecer `=== Partido de desempate del primer puesto ===` — la final del
+> campeonato, cuando dos equipos terminan igualados — y ese partido NO es de la
+> ultima fecha: es otra cosa.
+
+El arreglo de entonces era correcto y estaba a mitad de camino. Cortaba la
+jornada —sin eso, la Fecha 25 terminaba con trece partidos y dos equipos jugando
+dos veces— pero se quedaba ahí: **miraba el título para borrar estado, no para
+etiquetar**. El partido dejaba de ser de la Fecha 25 y seguía siendo fase
+regular, que es la mitad que faltaba.
+
+Y no era invisible: el dato estaba mal a la vista de cualquiera que sumara
+partidos por club. Lo que no había era quién lo mirara. El chequeo de PJ lo
+encontró a los cinco minutos de existir.
+
+### El arreglo
+
+Un título de Wikipedia dentro del cuerpo es una etiqueta de sección igual que un
+`!colspan|...`, así que ahora se lee igual: si además **nombra una ronda**, lo que
+sigue es una llave y no fase regular.
+
+Con una salvedad que es todo el diseño: la lista de rondas
+(`parser._ES_RONDA`) es corta y explícita a propósito, y sigue siéndolo. Un
+título cualquiera cierra la jornada y nada más. Convertir en llave a todo lo que
+tenga título propio sacaría de la fase de zonas a páginas enteras del ascenso,
+que cuelgan su fase regular de títulos propios — es exactamente el error opuesto,
+el de las 770 filas que hubo que reclasificar en la otra dirección.
+
+Lo único que hizo falta agregar a la lista fue `desempate` en la alternativa que
+ya decía `partido de ida|vuelta`: el título empieza con «Partido de», así que el
+`^desempate` que ya estaba no lo alcanzaba.
+
+**Cambian exactamente dos partidos en las 131 páginas**, y el segundo no lo
+buscaba: el Sarmiento (J)–Arsenal de la B Nacional 2018-19, que era el mismo caso
+y era el otro aviso de PJ que había quedado abierto. Un arreglo, dos avisos
+cerrados. Los dos pasan a `eliminacion`, con su ronda por `matchday` y con
+`neutral` ya en `true`, que eso el parser lo venía leyendo bien del encabezado
+`Equipo 1 / Equipo 2`.
+
 ## Tests
 
-638 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+640 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 210 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 213 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
