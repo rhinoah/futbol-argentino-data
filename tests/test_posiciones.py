@@ -798,3 +798,119 @@ def test_el_homonimo_de_la_pagina_vale_tambien_para_la_tabla():
     assert list(posiciones.tabla(texto)) == ["Juventud Unida"]
     assert list(posiciones.tabla(texto, pagina="Torneo Argentino A 2005-06")) == \
         ["Juventud Unida Universitario"]
+
+
+# --------------------------------------------------------------------------
+# la grilla: el nombre pelado que resuelve al club equivocado
+# --------------------------------------------------------------------------
+def _pagina_con_homonimo(enlace_del_pelado="", en_tabla="Juventud Unida Universitario"):
+    """Una pagina cuya GRILLA escribe 'Juventud Unida' a secas y cuya TABLA
+    nombra y enlaza a Juventud Unida Universitario, que es otro club."""
+    return (f"Participantes: [[Club Atlético Juventud Unida Universitario|{en_tabla}]] "
+            f"y [[Club Atlético Boca Juniors|Boca Juniors]]. {enlace_del_pelado}\n"
+            + pagina(fila(1, "Club Atlético Juventud Unida Universitario", 3, 1, 1, 0, 0, 3, 1),
+                     fila(2, "Boca Juniors", 0, 1, 0, 0, 1, 1, 3)))
+
+
+def test_denuncia_el_nombre_pelado_que_la_pagina_nunca_enlaza():
+    """El error que no falla nunca: la grilla escribe un nombre sin desambiguar,
+    el padron lo resuelve solo, y lo resuelve al club equivocado. El partido
+    queda prolijo -- con fecha, marcador y cancha -- a nombre de otro.
+
+    Es el unico de los cuatro chequeos del cruce que mira la GRILLA."""
+    ps = [zona("Juventud Unida", "Boca Juniors", 3, 1)]
+    avisos = posiciones.homonimo_de_la_pagina(ps, _pagina_con_homonimo())
+    assert len(avisos) == 1
+    assert "Juventud Unida" in avisos[0] and "Universitario" in avisos[0]
+
+
+def test_si_la_pagina_enlaza_al_club_pelado_no_hay_nada_que_denunciar():
+    """Un wikilink no se adivina: con el articulo puesto la resolucion es segura.
+    Callarse es lo correcto."""
+    ps = [zona("Juventud Unida", "Boca Juniors", 3, 1)]
+    texto = _pagina_con_homonimo("[[Club Deportivo y Social Juventud Unida|Juventud Unida]]")
+    assert posiciones.homonimo_de_la_pagina(ps, texto) == []
+
+
+def test_no_alcanza_con_que_el_homonimo_este_enlazado():
+    """La tercera condicion, y la que hace el trabajo. Pedir solo que el homonimo
+    aparezca enlazado deja catorce falsos de la Copa Argentina, donde
+    'Independiente' pelado es el de Avellaneda. Que ademas tenga FILA DE TABLA los
+    apaga a los catorce, porque la Copa es eliminacion directa y no publica
+    tabla."""
+    ps = [zona("Juventud Unida", "Boca Juniors", 3, 1)]
+    texto = ("Participantes: [[Club Atlético Juventud Unida Universitario|"
+             "Juventud Unida Universitario]] y [[Club Atlético Boca Juniors|Boca Juniors]].")
+    assert posiciones.homonimo_de_la_pagina(ps, texto) == []
+
+
+def test_un_club_desambiguado_no_se_denuncia():
+    ps = [zona("Juventud Unida Universitario", "Boca Juniors", 3, 1)]
+    assert posiciones.homonimo_de_la_pagina(ps, _pagina_con_homonimo()) == []
+
+
+# --------------------------------------------------------------------------
+# las filas que la guarda descarta en silencio
+# --------------------------------------------------------------------------
+def test_una_fila_que_no_cierra_se_denuncia_en_vez_de_desaparecer():
+    """La guarda hace bien en no usarla -- una fila mal tipeada no puede
+    desmentir a nadie --, pero descartarla callada deja al club sin arbitro. Y no
+    lo puede suplir ningun otro chequeo: ni `contrastar` ni `desbalance` opinan
+    sobre una fila que no llego a parsearse."""
+    mala = ("|- style=\"text-align:center\"\n"
+            "||'''1º'''||align=\"left\"|[[Almirante Brown]]\n"
+            "||'''55'''||38||14||13||10||36||30||6")       # 14+13+10 = 37, no 38
+    avisos = posiciones.filas_que_no_cierran(pagina(mala))
+    assert len(avisos) == 1
+    assert "Almirante Brown" in avisos[0] and "PJ38" in avisos[0] and "37" in avisos[0]
+
+
+def test_dice_cual_de_las_dos_cuentas_falla():
+    """Son dos guardas distintas y el que lo lea tiene que saber donde mirar."""
+    mala = ("|- style=\"text-align:center\"\n"
+            "||'''1º'''||align=\"left\"|[[Leandro N. Alem]]\n"
+            "||'''32'''||38||6||14||18||32||48||-15")      # 32-48 = -16, no -15
+    avisos = posiciones.filas_que_no_cierran(pagina(mala))
+    assert len(avisos) == 1 and "DIF-15" in avisos[0] and "-16" in avisos[0]
+
+
+def test_una_tabla_sana_no_denuncia_nada():
+    assert posiciones.filas_que_no_cierran(
+        pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1))) == []
+
+
+# --------------------------------------------------------------------------
+# el PJ: lo que `contrastar` mira para callarse
+# --------------------------------------------------------------------------
+def test_dos_clubes_corridos_lo_mismo_son_un_partido_entre_ellos():
+    """Un partido toca a DOS clubes. Si dos se corren lo mismo y para el mismo
+    lado, lo que hay es un partido entre esos dos, y el aviso los nombra a los
+    dos en vez de mandar a buscar dos cosas."""
+    texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
+                   fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3),
+                   fila(3, "Racing Club", 3, 1, 1, 0, 0, 2, 0),
+                   fila(4, "Independiente", 0, 1, 0, 0, 1, 0, 2))
+    ps = [zona("Boca Juniors", "River Plate", 3, 1),
+          zona("Racing Club", "Independiente", 2, 0),
+          zona("Racing Club", "Independiente", 1, 0)]      # uno de mas en la grilla
+    avisos = posiciones.pj_que_no_coincide(ps, texto)
+    assert len(avisos) == 1
+    assert "Racing Club" in avisos[0] and "Independiente" in avisos[0]
+
+
+def test_si_se_mueve_mas_de_media_tabla_no_opina():
+    """La guarda no es un umbral sobre la diferencia sino sobre CUANTA TABLA SE
+    MUEVE. Un club mal atribuido corre uno o dos de veinte; una tabla que cuenta
+    otra cosa -- la fase regular contra una grilla que ademas trae el reducido --
+    se mueve entera. Sin esta guarda son 67 avisos; con ella, 11."""
+    texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
+                   fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3))
+    ps = [zona("Boca Juniors", "River Plate", 3, 1),
+          zona("River Plate", "Boca Juniors", 0, 0)]       # los dos con uno de mas
+    assert posiciones.pj_que_no_coincide(ps, texto) == []
+
+
+def test_cuando_el_pj_coincide_se_calla():
+    texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
+                   fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3))
+    assert posiciones.pj_que_no_coincide([zona("Boca Juniors", "River Plate", 3, 1)], texto) == []

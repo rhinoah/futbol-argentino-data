@@ -296,6 +296,22 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: un club de la tabla no jugo ahi", d,
                              grave=False)
                for d in posiciones.sin_partidos(ps, texto, pagina=t.pagina)]
+    # El cuarto y ultimo del cruce, y el unico que mira la GRILLA. Los otros tres
+    # miran la tabla, y ninguno ve el error que no falla nunca: un nombre pelado
+    # que el padron resuelve solo, y lo resuelve al club equivocado.
+    avisos += [validar.Aviso(f"{t.pagina}: la grilla nombra un club sin desambiguar", d,
+                             grave=False)
+               for d in posiciones.homonimo_de_la_pagina(ps, texto, pagina=t.pagina)]
+    # Las filas que la pagina publica y la guarda de coherencia descarta. Sin
+    # esto, ese club se queda sin arbitro y no lo dice nadie: ni contrastar ni
+    # desbalance opinan sobre una fila que no llego a parsearse.
+    avisos += [validar.Aviso(f"{t.pagina}: una fila de la tabla no cierra sola", d,
+                             grave=False)
+               for d in posiciones.filas_que_no_cierran(texto, pagina=t.pagina)]
+    # Y el PJ, que `contrastar` mira para CALLARSE y que aca se mira para hablar.
+    avisos += [validar.Aviso(f"{t.pagina}: la tabla y la grilla cuentan distintos partidos", d,
+                             grave=False)
+               for d in posiciones.pj_que_no_coincide(ps, texto, pagina=t.pagina)]
     # Y si algun homonimo dejo de hacer falta porque arreglaron la pagina.
     avisos += [validar.Aviso(f"{t.pagina}: un homonimo quedo sin uso", d, grave=False)
                for d in correcciones.homonimos_huerfanos(t.pagina, escritos)]

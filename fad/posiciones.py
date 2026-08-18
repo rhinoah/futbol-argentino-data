@@ -265,7 +265,7 @@ def tabla(texto: str, arts: dict[str, str] | None = None, pagina: str = "") -> d
     return fuera
 
 
-def _todas_las_filas(texto: str, arts: dict[str, str]):
+def _todas_las_filas(texto: str, arts: dict[str, str], descartadas: list | None = None):
     """Las filas crudas de TODAS las tablas de la pagina, por los dos caminos.
 
     Existe para que `tabla` y `fuera_del_padron` no puedan mirar cosas distintas.
@@ -277,14 +277,15 @@ def _todas_las_filas(texto: str, arts: dict[str, str]):
     agregar para que sus filas entren al cruce.
     """
     for bloque in _bloques(texto):
-        yield from _filas(bloque, arts)
+        yield from _filas(bloque, arts, descartadas)
     for t in _tablas_declaradas(texto):
-        yield from _por_wikitabla(t, arts)
+        yield from _por_wikitabla(t, arts, descartadas)
 
 
-def _filas(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tuple[int, int, int]]]:
+def _filas(bloque: str, arts: dict[str, str],
+           descartadas: list | None = None) -> list[tuple[str, str, tuple[int, int, int]]]:
     """Las filas crudas del bloque, venga en el formato que venga."""
-    return _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts)
+    return _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts, descartadas)
 
 
 def _canonico(nombre: str, articulo: str, pagina: str) -> str:
@@ -363,7 +364,172 @@ def sin_partidos(ps: list, texto: str, arts: dict[str, str] | None = None,
             for club, alcance in sorted(huerfanos.items())]
 
 
-def _por_wikitabla(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tuple[int, int, int]]]:
+_ENLACE = re.compile(r"\[\[\s*([^\]|#]+?)\s*(?:\|[^\]]*)?\]\]")
+_DESAMBIGUADOR = re.compile(r"\s*\([^)]*\)\s*$")
+
+
+def _sin_desambiguador(nombre: str) -> str:
+    return equipos.normalizar(_DESAMBIGUADOR.sub("", nombre))
+
+
+def _homonimos_de(club: str) -> set[str]:
+    """Los clubes del padron que comparten el nombre base con `club`.
+
+    Mira TODOS los nombres de cada uno y no solo el canonico, y eso no es un
+    detalle: el homonimo de "Juventud Unida" es "Juventud Unida Universitario",
+    y lo que los emparenta es su alias "Juventud Unida (SL)". Comparando
+    canonicos, el caso mas grande que tuvo el repo -- 36 partidos -- no se ve.
+    """
+    base = _sin_desambiguador(club)
+    return {e.nombre for e in equipos.PADRON
+            if any(_sin_desambiguador(n) == base for n in (e.nombre, *e.alias))} - {club}
+
+
+def homonimo_de_la_pagina(ps: list, texto: str, arts: dict[str, str] | None = None,
+                          pagina: str = "") -> list[str]:
+    """Un club sin desambiguar que la pagina no enlaza nunca, y que tiene un
+    homonimo al que la pagina SI enlaza y ademas pone en su tabla.
+
+    Es el aviso del lado de la GRILLA, y es el ultimo de los cuatro. Los otros
+    tres miran la tabla: `fuera_del_padron` pide que el nombre sea ilegible,
+    `sin_partidos` que la fila no tenga contra que cruzarse, `contrastar` que los
+    goles no cierren. Ninguno ve el error que entra por la grilla, que es el
+    unico que no falla NUNCA: un nombre pelado que el padron resuelve solo, y lo
+    resuelve al club equivocado. Los partidos quedan prolijos -- con fecha, con
+    marcador, con cancha -- a nombre de otro.
+
+    Las tres condiciones son las tres necesarias, y estan medidas sobre las 131
+    paginas:
+
+      * el club no lleva desambiguador. Sin esto entran 34 casos mas, todos
+        clubes bien atribuidos a los que les falta el articulo en `ARTICULOS`.
+      * la pagina no lo enlaza NUNCA. Un wikilink no se adivina: si esta, la
+        resolucion es segura y no hay nada que denunciar.
+      * el homonimo esta enlazado Y tabulado. Solo enlazado deja 14 falsos de la
+        Copa Argentina, donde "Independiente" pelado es el de Avellaneda y la
+        pagina lo enlaza con un articulo que el padron no tenia. Pedir la fila de
+        tabla los apaga a los catorce: la Copa es eliminacion directa.
+
+    Se mide sobre los nombres YA corregidos, asi que una correccion lo apaga:
+    sobre el corpus de hoy no dice nada. Desarmando las correcciones prende en
+    cuatro paginas y las seis veces tiene razon.
+    """
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    enlazados = {eq.nombre for d in _ENLACE.findall(texto)
+                 if (eq := equipos.buscar("", d)) is not None}
+    en_tabla = {_canonico(club, art, pagina)
+                for club, art, _ in _todas_las_filas(texto, arts)}
+    fuera = []
+    for club in sorted({p.local for p in ps} | {p.visita for p in ps}):
+        if "(" in club or club in enlazados:
+            continue
+        otros = sorted(_homonimos_de(club) & en_tabla & enlazados)
+        if otros:
+            fuera.append(
+                f"la grilla nombra a \"{club}\" sin desambiguar y la pagina no lo "
+                f"enlaza nunca, pero si enlaza y tabula a {', '.join(otros)}: el "
+                f"padron resolvio el nombre pelado por su cuenta y la pagina dice "
+                f"otra cosa. Si tiene razon la pagina, va un homonimo en "
+                f"fad/correcciones.py")
+    return fuera
+
+
+def filas_que_no_cierran(texto: str, arts: dict[str, str] | None = None,
+                         pagina: str = "") -> list[str]:
+    """Las filas que la pagina publica y la guarda de coherencia descarta.
+
+    Una fila de wikitabla tiene que cerrar CONSIGO MISMA para que se la use:
+    `GF - GC == DIF` y `PG + PE + PP == PJ`. Es una guarda barata y correcta --
+    una fila mal tipeada no puede desmentir a nadie --, pero descartaba en
+    SILENCIO, y eso deja al club sin arbitro sin que nada lo diga. Ni
+    `contrastar` ni `desbalance` pueden suplirlo: no opinan sobre una fila que no
+    llego a parsearse, asi que el aviso que falta es justamente este.
+
+    Son tres en las 131 paginas, y las tres son erratas de la fuente que la
+    grilla desmiente sola: Almirante Brown y Guillermo Brown del B Nacional
+    2011-12 suman 37 partidos con PJ 38 (la grilla dice que perdieron uno mas de
+    los que la tabla les cuenta), y Leandro N. Alem de la Primera C 2010-11
+    publica DIF -15 sobre 32:48, que es -16. Las dos tablas quedaban con una fila
+    menos que clubes -- 18 de 20 y 19 de 20 -- sin que nadie lo mencionara.
+    """
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    descartadas: list = []
+    for _ in _todas_las_filas(texto, arts, descartadas):
+        pass
+    vistas: dict[str, str] = {}
+    for club, (pts, pj, pg, pe, pp, gf, gc, dif) in descartadas:
+        falla = []
+        if gf - gc != dif:
+            falla.append(f"dice DIF{dif:+d} y GF{gf} - GC{gc} da {gf - gc:+d}")
+        if pg + pe + pp != pj:
+            falla.append(f"dice PJ{pj} y {pg}+{pe}+{pp} da {pg + pe + pp}")
+        vistas.setdefault(
+            _canonico(club, "", pagina),
+            f"la fila de {club} no cierra sola ({'; '.join(falla)}), asi que no se "
+            f"usa y ese club se queda sin cruzar. La equivocada es la tabla salvo "
+            f"que la grilla tambien falle: contra que numero mira el que la lea")
+    return [v for _, v in sorted(vistas.items())]
+
+
+def pj_que_no_coincide(ps: list, texto: str, arts: dict[str, str] | None = None,
+                       pagina: str = "") -> list[str]:
+    """Los clubes a los que la tabla y la grilla les cuentan distintos partidos.
+
+    `contrastar` se calla cuando el PJ no coincide, y hace bien: compara GOLES, y
+    sumarlos sobre conjuntos distintos de partidos daba 38 avisos falsos por
+    torneo con reducido. Pero el PJ distinto es un sintoma por derecho propio --
+    si un partido quedo a nombre del club de al lado, el PJ de los dos se mueve
+    --, y ahi `contrastar` se calla justo cuando habria que hablar.
+
+    LA GUARDA NO ES UN UMBRAL SOBRE LA DIFERENCIA sino sobre CUANTA TABLA SE
+    MUEVE: si se desvia mas de la mitad de los clubes comparados, el alcance no
+    opina. Esa forma separa las dos causas sin tocar la magnitud. Un club mal
+    atribuido mueve uno o dos clubes de veinte; una tabla que cuenta otra cosa --
+    la de la fase regular contra una grilla que trae ademas el reducido -- se
+    mueve entera y con el mismo delta. Medido sobre las 131 paginas: 67 desvios
+    en 8 paginas, de los cuales 56 son cuatro tablas corridas en bloque
+    (24 de 24 clubes en -1, 15 de 24 en -14, 14 de 14 en +22, 3 de 3 en +22).
+    Con la guarda quedan 11 y no se pierde ninguno de los casos conocidos.
+    """
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    fuera = []
+    for alcance, publicada in _alcance_de_cada_tabla(texto, arts, ps, pagina):
+        contada = sumar([p for p in ps if not alcance or p.llave == alcance])
+        comunes = sorted(set(publicada) & set(contada))
+        desviados = [c for c in comunes if publicada[c][0] != contada[c][0]]
+        if not comunes or len(desviados) * 2 > len(comunes):
+            continue
+        # Los desvios se agrupan por su DELTA, porque un partido toca a DOS
+        # clubes: si dos se corren lo mismo y para el mismo lado, lo que hay es
+        # un partido entre esos dos, y decirlo en un solo aviso que los nombra a
+        # los dos ahorra la mitad del trabajo al que lo lea. Es la misma idea que
+        # el discriminador del cruce de goles: un club solo no puede venir de un
+        # partido.
+        por_delta: dict[int, list[str]] = {}
+        for c in desviados:
+            por_delta.setdefault(contada[c][0] - publicada[c][0], []).append(c)
+        for delta, clubes in sorted(por_delta.items()):
+            donde = alcance or "la pagina"
+            if len(clubes) == 2:
+                a, b = clubes
+                lado = "la grilla" if delta > 0 else "la tabla"
+                fuera.append(
+                    f"{a} y {b}: a los dos les cuenta {abs(delta)} partido(s) de mas "
+                    f"{lado} que la otra parte, en \"{donde}\". Dos clubes corridos lo "
+                    f"mismo y para el mismo lado es un PARTIDO ENTRE ELLOS: fijate si "
+                    f"{lado} tiene un {a} vs {b} que la otra no")
+            else:
+                for c in clubes:
+                    fuera.append(
+                        f"{c}: la tabla de \"{donde}\" le cuenta {publicada[c][0]} "
+                        f"partidos y en la grilla tiene {contada[c][0]}, y se desvia "
+                        f"entre {len(comunes)} clubes que coinciden. O falta un partido "
+                        f"o hay uno a nombre del club equivocado")
+    return list(dict.fromkeys(fuera))
+
+
+def _por_wikitabla(bloque: str, arts: dict[str, str],
+                   descartadas: list | None = None) -> list[tuple[str, str, tuple[int, int, int]]]:
     """Las filas de una tabla escrita como wikitabla (`{| ... |}`).
 
     Mismo contrato que `_por_plantillas`: crudas, sin canonizar."""
@@ -397,8 +563,6 @@ def _por_wikitabla(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tu
         if len(numeros) < _COLUMNAS or not nombres:
             continue
         pts, pj, pg, pe, pp, gf, gc, dif = (int(x) for x in numeros[-_COLUMNAS:])
-        if gf - gc != dif or pg + pe + pp != pj:
-            continue                       # la fila no cierra sola: no opina
         # El articulo se saca del wikilink de la celda CRUDA, igual que en las
         # plantillas. Antes se resolvia por `arts`, un mapa de nombres visibles de
         # toda la pagina, y eso falla dos veces: cuando la tabla y los partidos
@@ -415,6 +579,14 @@ def _por_wikitabla(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tu
             club = celdas[nombres[-1]]
             articulo = arts.get(club, "")
         if not club:
+            continue
+        if gf - gc != dif or pg + pe + pp != pj:
+            # La fila no cierra sola, asi que no opina. Pero se la anota si
+            # alguien pregunta: descartarla en silencio deja a ese club sin
+            # arbitro y NADA lo dice -- ni `contrastar` ni `desbalance`, que no
+            # pueden opinar sobre una fila que no llego a parsearse.
+            if descartadas is not None:
+                descartadas.append((club, (pts, pj, pg, pe, pp, gf, gc, dif)))
             continue
         fuera.append((club, articulo, (pj, gf, gc)))
     return fuera

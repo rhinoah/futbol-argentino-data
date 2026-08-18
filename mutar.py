@@ -120,12 +120,12 @@ MUTANTES = [
      "    if False:"),
 
     ("fad/posiciones.py", 'no leer la tabla escrita con plantillas',
-     '    return _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts)',
-     '    return _por_wikitabla(bloque, arts)'),
+     '    return _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts, descartadas)',
+     '    return _por_wikitabla(bloque, arts, descartadas)'),
 
     ("fad/posiciones.py", 'leer una sola tabla y no las de todas las zonas',
-     "    for bloque in _bloques(texto):\n        yield from _filas(bloque, arts)",
-     "    for bloque in list(_bloques(texto))[:1]:\n        yield from _filas(bloque, arts)"),
+     "    for bloque in _bloques(texto):\n        yield from _filas(bloque, arts, descartadas)",
+     "    for bloque in list(_bloques(texto))[:1]:\n        yield from _filas(bloque, arts, descartadas)"),
 
     ("fad/posiciones.py", 'dejar que la parcial de la primera rueda pise a la final',
      '        if canonico not in fuera or datos[0] > fuera[canonico][0]:',
@@ -241,8 +241,8 @@ MUTANTES = [
      "        if False:"),
 
     ("fad/posiciones.py", "buscar la tabla solo por el titulo de la seccion",
-     "    for t in _tablas_declaradas(texto):\n        yield from _por_wikitabla(t, arts)",
-     "    for t in []:\n        yield from _por_wikitabla(t, arts)"),
+     "    for t in _tablas_declaradas(texto):\n        yield from _por_wikitabla(t, arts, descartadas)",
+     "    for t in []:\n        yield from _por_wikitabla(t, arts, descartadas)"),
 
     ("fad/posiciones.py", "dejar entrar la tabla de descenso y que desplace a las de zona",
      '_SECCION_AGREGADA = re.compile(r"(?i)descenso|promedio|anual|acumulad")',
@@ -757,6 +757,41 @@ MUTANTES = [
      "        jugaron = {p.local for p in ps if not alcance or p.llave == alcance}\n"
      "        jugaron |= {p.visita for p in ps if not alcance or p.llave == alcance}",
      "        jugaron = {p.local for p in ps} | {p.visita for p in ps}"),
+
+    # --- los cuatro chequeos del cruce, y el que mira la grilla ---
+    ("fad/posiciones.py", "no denunciar el nombre pelado de la grilla",
+     "        otros = sorted(_homonimos_de(club) & en_tabla & enlazados)",
+     "        otros = []"),
+
+    ("fad/posiciones.py", "denunciar el nombre pelado aunque la pagina lo enlace",
+     '        if "(" in club or club in enlazados:',
+     '        if "(" in club:'),
+
+    ("fad/posiciones.py", "pedirle al homonimo solo que este enlazado, sin fila de tabla",
+     "        otros = sorted(_homonimos_de(club) & en_tabla & enlazados)",
+     "        otros = sorted(_homonimos_de(club) & enlazados)"),
+
+    ("fad/posiciones.py", "buscar homonimos solo por el nombre canonico y no por los alias",
+     "            if any(_sin_desambiguador(n) == base for n in (e.nombre, *e.alias))} - {club}",
+     "            if _sin_desambiguador(e.nombre) == base} - {club}"),
+
+    ("fad/posiciones.py", "descartar la fila que no cierra sin anotarla",
+     "            if descartadas is not None:",
+     "            if False:"),
+
+    ("fad/posiciones.py", "usar la fila que no cierra consigo misma",
+     "        if gf - gc != dif or pg + pe + pp != pj:" + chr(10) +
+     "            # La fila no cierra sola, asi que no opina.",
+     "        if False:" + chr(10) +
+     "            # La fila no cierra sola, asi que no opina."),
+
+    ("fad/posiciones.py", "opinar del PJ aunque se mueva la tabla entera",
+     "        if not comunes or len(desviados) * 2 > len(comunes):",
+     "        if not comunes:"),
+
+    ("fad/posiciones.py", "no juntar en un aviso a los dos clubes del mismo partido",
+     "            por_delta.setdefault(contada[c][0] - publicada[c][0], []).append(c)",
+     "            por_delta.setdefault(c, []).append(c)"),
 
     ("fad/equipos.py", "no detectar un alias peleado por dos clubes",
      "            if clave in indice and indice[clave] is not eq:",

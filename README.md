@@ -1784,13 +1784,98 @@ repuso con el único caso donde el wikilink es irremplazable: dos filas con el
 mismo nombre visible y distinto artículo, donde el índice de la página se
 abstiene a propósito.
 
+## El error que no falla nunca: el nombre pelado de la grilla
+
+Los tres chequeos del cruce miraban la **tabla**. `fuera_del_padrón` pide que el
+nombre sea ilegible; `sin_partidos`, que la fila no tenga contra qué cruzarse;
+`contrastar`, que los goles no cierren. Ninguno ve el error que entra por la
+**grilla**, y es el único que no falla nunca: un nombre pelado —`Juventud Unida`,
+`Gimnasia y Esgrima`, `San Martín`— que el padrón resuelve solo, y lo resuelve al
+club equivocado. Los partidos quedan prolijos, con fecha y marcador y cancha, a
+nombre de otro.
+
+Se midieron **seis señales** distintas en paralelo, cada una sobre las 131
+páginas y con un escéptico atrás. El criterio no fue «parece razonable» sino uno
+objetivo: **cuántos de los ocho casos históricos detecta con las correcciones
+desactivadas, y cuánto ruido deja con ellas puestas.** Tres sobrevivieron.
+
+### `homonimo_de_la_pagina` — el que faltaba
+
+Un club sin desambiguador al que la página **no enlaza nunca**, teniendo un
+homónimo al que sí enlaza **y además pone en su tabla**. Las tres condiciones
+están medidas, y la tercera es la que hace el trabajo:
+
+| variante | de los 8 | casos con las correcciones puestas |
+|---|---:|---:|
+| crudo pelado + sin wikilink + familia del padrón > 1 | 4 | **3683** |
+| \+ la página enlaza otro candidato | 6 | 21 |
+| \+ ese candidato además tiene fila de tabla | 6 | **0** |
+
+Sin la tercera quedan catorce falsos de la Copa Argentina, donde `Independiente`
+pelado es el de Avellaneda. Pedir la fila los apaga a los catorce, porque la Copa
+es eliminación directa y no publica tabla. Con las correcciones puestas **no dice
+nada**; sacándolas prende seis veces y las seis tiene razón.
+
+Una reserva medida, que vale más que el titular: de los ocho casos, **cinco ya
+los agarraba `validar.nombres_en_el_padrón`**, que además es grave y frena el
+build — son nombres que el padrón no resuelve *en absoluto*. Los verdaderamente
+silenciosos, donde el padrón contesta y contesta mal, son **tres**: `Juventud
+Unida` del Argentino A 2010-11 (36 partidos), `Unión` de la misma página, y
+`Ferro Carril Oeste` del Federal A 2016-17. El agujero era más chico de lo que
+parecía, y ahora está tapado.
+
+### `filas_que_no_cierran` — lo que la guarda tiraba en silencio
+
+Una fila de wikitabla tiene que cerrar consigo misma (`GF − GC == DIF` y
+`PG + PE + PP == PJ`). La guarda es correcta —una fila mal tipeada no puede
+desmentir a nadie— pero descartaba **sin decirlo**, y eso deja al club sin
+árbitro. Ningún otro chequeo puede suplirlo: no se opina sobre una fila que no se
+parseó. Son tres en 131 páginas, y las tres son erratas de la fuente que la
+grilla desmiente sola:
+
+| página | fila | qué no cierra |
+|---|---|---|
+| B Nacional 2011-12 | Almirante Brown | `14+13+10 = 37`, PJ dice 38 |
+| B Nacional 2011-12 | Guillermo Brown | `9+11+17 = 37`, PJ dice 38 |
+| Primera C 2010-11 | Leandro N. Alem | `32−48 = −16`, DIF dice −15 |
+
+Esas dos tablas quedaban con 18 filas para 20 clubes y 19 para 20, sin que nadie
+lo mencionara.
+
+### `pj_que_no_coincide` — lo que `contrastar` mira para callarse
+
+`contrastar` compara goles y se calla cuando el PJ no coincide, con razón: sumar
+sobre conjuntos distintos daba 38 avisos falsos por torneo con reducido. Pero un
+PJ distinto es un síntoma por derecho propio, y ahí se callaba justo cuando había
+que hablar.
+
+La guarda **no es un umbral sobre la diferencia sino sobre cuánta tabla se
+mueve**: si se desvía más de la mitad de los clubes comparados, el alcance no
+opina. Esa forma separa las dos causas sin tocar la magnitud — un club mal
+atribuido corre uno o dos de veinte; una tabla que cuenta otra cosa se mueve
+entera y con el mismo delta. De 67 desvíos quedan 11, sin perder ningún caso
+conocido.
+
+Y los avisos se agrupan **por delta**, porque un partido toca a dos clubes: dos
+clubes corridos lo mismo y para el mismo lado son *un partido entre ellos*. Los
+11 avisos son 6, cada uno nombrando el par. Dos ejemplos de lo que encontraron:
+
+- **Primera C 2016**: Defensores de Cambaceres y Sportivo Barracas **nunca se
+  enfrentan** en la grilla, y en un todos-contra-todos de veinte tienen que
+  haberlo hecho. Falta ese partido.
+- **B Nacional 2017-18**: la grilla tiene *dos* Aldosivi–Almagro, y el segundo es
+  del 4 de mayo, después de la fase regular y sin número de fecha: un partido de
+  reducido clasificado como fase de zonas.
+
+Los dos quedan como aviso abierto. Localizar no es arbitrar.
+
 ## Tests
 
-613 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+632 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 194 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 207 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
