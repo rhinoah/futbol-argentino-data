@@ -358,6 +358,19 @@ def escribir_por_temporada(filas: list[dict], carpeta: Path) -> dict[str, int]:
         tmp.write_bytes(nuevo)
         os.replace(tmp, destino)
         cambiados[destino.name] = len(suyas)
+
+    # Una temporada que se queda SIN filas no aparece en `por_anio`, asi que sin
+    # esto su archivo viejo sobrevive intacto y sigue publicando lo que ya no
+    # esta. Paso de verdad: al sacar La Florida - Sportivo Patria, el unico
+    # partido sin fecha que le quedaba al Argentino A 2005-06, `sin-fecha/` se
+    # quedaba con la fila igual y el build informaba "sin cambios".
+    #
+    # Se BORRA el archivo en vez de dejarlo con solo el encabezado: una carpeta
+    # de partidos no tiene por que tener un archivo que no trae ninguno.
+    for viejo in sorted(carpeta.glob("partidos-*.csv")) if carpeta.exists() else []:
+        if viejo.name not in {archivo_de(t) for t in por_anio}:
+            viejo.unlink()
+            cambiados[viejo.name] = 0
     return cambiados
 
 

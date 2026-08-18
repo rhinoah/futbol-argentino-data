@@ -553,6 +553,10 @@ MUTANTES = [
      "        if p.fase != \"zonas\" or not p.jornada or not p.local or not p.visita:",
      "        if p.fase != \"zonas\" or not p.local or not p.visita:"),
 
+    ("fad/dataset.py", "dejar el archivo de una temporada que se quedo sin filas",
+     "        if viejo.name not in {archivo_de(t) for t in por_anio}:",
+     "        if False:"),
+
     # --- la tanda escrita en la celda, y la raya larga ---
     ("fad/parser.py", "no leer la tanda escrita con la palabra Pen.",
      "    m = _PENAL_ESCRITO.search(celda_cruda)",

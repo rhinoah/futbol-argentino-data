@@ -547,3 +547,19 @@ def test_el_status_del_partido_llega_a_la_fila():
     assert dataset.a_fila(p, "Primera B", 2017, "http://x")["status"] == "escritorio"
     normal = Partido(fecha="2018-05-04", local="A", visita="B", goles_local=1, goles_visita=0)
     assert dataset.a_fila(normal, "Primera B", 2017, "http://x")["status"] == ""
+
+
+def test_una_temporada_que_se_queda_sin_filas_no_deja_su_archivo_viejo(tmp_path):
+    """Sin esto el archivo sobrevive intacto y sigue publicando lo que ya no esta,
+    mientras el build informa "sin cambios". Paso de verdad: al sacar
+    La Florida - Sportivo Patria, el unico partido sin fecha que le quedaba al
+    Argentino A 2005-06, `sin-fecha/` conservaba la fila igual."""
+    f1 = fila("2005-10-30", "La Florida", "Sportivo Patria")
+    f1["season"] = "2005"
+    f2 = fila("2007-03-01", "Boca Juniors", "River Plate")
+    f2["season"] = "2007"
+    dataset.escribir_por_temporada([f1, f2], tmp_path)
+    assert {p.name for p in tmp_path.glob("partidos-*.csv")} == {"partidos-2005.csv", "partidos-2007.csv"}
+    cambiados = dataset.escribir_por_temporada([f2], tmp_path)
+    assert {p.name for p in tmp_path.glob("partidos-*.csv")} == {"partidos-2007.csv"}
+    assert cambiados.get("partidos-2005.csv") == 0, "el que se vacio tiene que aparecer como cambiado"

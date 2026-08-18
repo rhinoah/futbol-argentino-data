@@ -904,6 +904,16 @@ DIVIDIDOS: tuple[Dividido, ...] = (
                "mismo partido",
     ),
     Dividido(
+        pagina="Torneo Argentino A 2005-06",
+        local="La Florida", visita="Sportivo Patria", dice=(2, 2),
+        porque="la nota, que cuelga de la tabla y no de la fila, dice: El partido "
+               "se interrumpio en el minuto 90 cuando empataban 2 a 2. Luego se "
+               "resolvio darles por perdido el encuentro a ambos equipos por 1 a 0. "
+               "Los dos perdieron, y una fila tiene que tener un ganador o un "
+               "empate. Salia en sin-fecha/ publicando el 2-2 de la cancha, que no "
+               "es el resultado de ninguno de los dos",
+    ),
+    Dividido(
         pagina="Torneo Federal A 2018-19",
         local="Independiente (N)", visita="Deportivo Roca", dice=None,
         porque="la celda dice PP - PP y la nota que el partido finalizo 4 a 1 y se le "

@@ -1,7 +1,7 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **72**. Todo lo demás —equipos, marcador, jornada, torneo,
+jugaron.** Son **71**. Todo lo demás —equipos, marcador, jornada, torneo,
 temporada— salió de Wikipedia igual que el resto del dataset y pasó por los
 mismos chequeos.
 
