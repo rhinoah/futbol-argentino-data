@@ -27,8 +27,8 @@ MUTANTES = [
      '            if False:\n                hondo, i = hondo + 1, i + 2'),
 
     ("fad/parser.py", "quedarse con una plantilla que nunca cierra",
-     "        if hondo == 0:",
-     "        if True:"),
+     "        # exactamente lo que hacia el regex, y es de donde salio el problema." + chr(10) + "        if hondo == 0:",
+     "        # exactamente lo que hacia el regex, y es de donde salio el problema." + chr(10) + "        if True:"),
 
     ("fad/validar.py", "aceptar penales en cualquier partido de eliminacion",
      '            and not (p.fase == "eliminacion" and _serie_igualada(p, ps))]',
@@ -869,6 +869,31 @@ MUTANTES = [
      "        jugaron = {p.local for p in ps if not alcance or p.llave == alcance}\n"
      "        jugaron |= {p.visita for p in ps if not alcance or p.llave == alcance}",
      "        jugaron = {p.local for p in ps} | {p.visita for p in ps}"),
+
+    # --- el cuadro de llaves, segundo testigo de una copa ---
+    ("build.py", "no cruzar la grilla contra el cuadro de llaves",
+     "               for d in posiciones.fuera_del_cuadro(ps, texto, t.pagina)]",
+     "               for d in []]"),
+
+    ("fad/posiciones.py", "no nombrar al homonimo que si juega",
+     "        hermanos = sorted(_homonimos_de(club) & juegan)",
+     "        hermanos = []"),
+
+    ("fad/parser.py", "cerrar el cuadro en el primer }} y no por balance",
+     "                if hondo == 0:",
+     "                if True:"),
+
+    ("fad/parser.py", "dejarle el cierre de la plantilla al ultimo parametro",
+     "                    yield texto[m.start():i - 2]",
+     "                    yield texto[m.start():i]"),
+
+    ("fad/parser.py", "partir los parametros del cuadro por cualquier pipe",
+     '            if cuerpo[i] == "|" and hondo_l <= 0 and hondo_p <= 1:',
+     '            if cuerpo[i] == "|":'),
+
+    ("fad/parser.py", "tomar por club las marcas del cuadro (w/o, penales)",
+     '            if not club or _NO_ES_CLUB.match(club) or re.fullmatch(r\"[\\d\\s.:-]*\", club):',
+     "            if not club:"),
 
     # --- los cuatro chequeos del cruce, y el que mira la grilla ---
     ("fad/posiciones.py", "no denunciar el nombre pelado de la grilla",

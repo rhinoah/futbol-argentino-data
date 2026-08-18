@@ -528,6 +528,69 @@ def pj_que_no_coincide(ps: list, texto: str, arts: dict[str, str] | None = None,
     return list(dict.fromkeys(fuera))
 
 
+def fuera_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
+    """Los clubes que el CUADRO DE LLAVES nombra y que en la grilla no juegan.
+
+    Los otros chequeos de este modulo cruzan la grilla contra la tabla de
+    posiciones. Una copa no publica tabla, asi que sus catorce paginas son casi
+    toda la region donde ningun chequeo puede opinar: si la grilla se equivoca,
+    no hay contra que contrastarla. El cuadro es el segundo testigo que una copa
+    SI tiene -- lo escribe otra mano, con otros nombres y en otro formato -- y
+    esto lo pone a trabajar.
+
+    Reporta en dos niveles porque son dos cosas distintas:
+
+      * UNO POR CLUB cuando el que falta tiene un HOMONIMO que si juega. Esa es
+        la firma de una mala atribucion, y es lo que este chequeo vino a buscar:
+        la Primera B 2014, 2015 y 2017-18 escriben "Estudiantes" a secas en el
+        cuadro -- que el padron resuelve al de La Plata, un club de Primera --
+        mientras la grilla juega Estudiantes (BA). Son 18 en el corpus, y varios
+        son alias que al padron le faltan ("Sarmiento (Junín)", "San Martin (F)"
+        sin tilde).
+      * UNO POR PAGINA cuando no hay homonimo. Ahi lo que falta no es un nombre
+        sino los PARTIDOS: la Copa Argentina 2019-20 tiene un cuadro de 64 y la
+        grilla trae 42 partidos. Es un hueco de completitud conocido y se dice en
+        una linea, no en noventa y seis.
+    """
+    del_cuadro = parser.clubes_del_cuadro(texto)
+    if not del_cuadro:
+        return []
+    juegan = {p.local for p in ps} | {p.visita for p in ps}
+    faltan, fuera = [], []
+    for crudo, articulo in sorted(del_cuadro.items()):
+        # Lo que el padron no reconoce se saltea, y hay que decir que se pierde
+        # con eso. Un cuadro trae, mezcladas con los clubes, marcas que no lo son
+        # -- "t. s." por tiempo suplementario, "(p.)" por penales, "1:" de la
+        # siembra -- y no se distinguen por su forma de un club que al padron le
+        # falte. Saltearlas cuesta no ver las grafias que solo aparecen en el
+        # cuadro: "Sarmiento (Junín)" y "San Martin (F)" sin tilde son clubes de
+        # verdad escritos de una forma que el padron no tiene, y como no entran
+        # por ningun partido, `validar.nombres_en_el_padron` tampoco los ve.
+        # Se elige el silencio sobre esas antes que un aviso por cada marca de
+        # tiempo suplementario, pero es una eleccion, no una propiedad.
+        if not equipos.buscar(crudo, articulo):
+            continue
+        club = _canonico(crudo, articulo, pagina)
+        if club in juegan:
+            continue
+        hermanos = sorted(_homonimos_de(club) & juegan)
+        if hermanos:
+            fuera.append(
+                f"el cuadro de llaves nombra a \"{crudo}\" -- que el padron lee "
+                f"como {club} -- y en la grilla no juega ni un partido, pero si "
+                f"juega {', '.join(hermanos)}. O al padron le falta ese nombre, o "
+                f"la grilla le dio los partidos al club de al lado")
+        else:
+            faltan.append(club)
+    if faltan:
+        fuera.append(
+            f"el cuadro de llaves nombra {len(faltan)} clubes que no juegan ningun "
+            f"partido en la grilla ({', '.join(faltan[:6])}"
+            f"{', ...' if len(faltan) > 6 else ''}): a la pagina le faltan partidos, "
+            f"no nombres")
+    return fuera
+
+
 def _por_wikitabla(bloque: str, arts: dict[str, str],
                    descartadas: list | None = None) -> list[tuple[str, str, tuple[int, int, int]]]:
     """Las filas de una tabla escrita como wikitabla (`{| ... |}`).

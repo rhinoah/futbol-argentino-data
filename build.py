@@ -328,6 +328,12 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # problema del parseo sino del esquema, y por eso se nombran uno por uno.
     avisos += [validar.Aviso(f"{t.pagina}: un partido con dos resultados", d, grave=False)
                for d in correcciones.divididos_de(t.pagina)]
+    # El cuadro de llaves, que es el segundo testigo de una copa. Los otros
+    # chequeos cruzan contra la tabla de posiciones y una copa no publica: sus
+    # catorce paginas son casi toda la region donde nada puede opinar.
+    avisos += [validar.Aviso(f"{t.pagina}: el cuadro y la grilla no coinciden", d,
+                             grave=False)
+               for d in posiciones.fuera_del_cuadro(ps, texto, t.pagina)]
     # Y si algun homonimo dejo de hacer falta porque arreglaron la pagina.
     avisos += [validar.Aviso(f"{t.pagina}: un homonimo quedo sin uso", d, grave=False)
                for d in correcciones.homonimos_huerfanos(t.pagina, escritos)]

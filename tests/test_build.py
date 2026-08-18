@@ -692,3 +692,18 @@ def test_el_partido_que_no_se_puede_escribir_llega_al_aviso():
     anulado = [a for a in avisos if "no se puede escribir" in a.que]
     assert anulado and not anulado[0].grave
     assert "Racing Club" in anulado[0].detalle and "Independiente" in anulado[0].detalle
+
+
+def test_el_cruce_contra_el_cuadro_llega_al_aviso():
+    """El cuadro es el segundo testigo de una copa, que no publica tabla. De nada
+    sirve saber leerlo si el build no lo mira."""
+    texto = tabla(("Boca Juniors", "River Plate")) + """
+{{Copa de 2 clubes
+| RD1-team01 = [[Club Estudiantes de La Plata|Estudiantes]]
+| RD1-team02 = Boca Juniors
+}}
+"""
+    _, avisos = build.procesar(texto, T)
+    cuadro = [a for a in avisos if "cuadro" in a.que]
+    assert cuadro and not cuadro[0].grave
+    assert "Estudiantes" in cuadro[0].detalle

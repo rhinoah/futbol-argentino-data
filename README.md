@@ -2151,13 +2151,64 @@ mini-liga entra al cruce contra **su propia tabla de posiciones**, y coincide
 clavado en los tres clubes — `2, 3-3` / `2, 2-2` / `2, 1-1` de un lado y del
 otro. La página se verifica sola.
 
+## La región ciega, y el testigo que sí tiene una copa
+
+Los cuatro chequeos del cruce comparan la grilla contra **la tabla de
+posiciones**. Eso deja una región donde ninguno puede opinar: **una copa no
+publica tabla.** Sus catorce páginas son casi todo el punto ciego —1 299 lados de
+partido, el 1,7 % del dataset—, y ahí una grilla equivocada no tiene contra qué
+contrastarse. Se probó por inyección: falsificando la tabla del Argentino A
+2010-11 para que coincida con la grilla, los nueve chequeos quedan mudos.
+
+Pero una copa sí tiene un segundo testigo: **el cuadro de llaves**. Lo escribe
+otra mano, con otros nombres y en otro formato, que es exactamente lo que hace
+falta. `fuera_del_cuadro` lo pone a trabajar.
+
+### Leerlo cuesta más de lo que parece
+
+Tres cosas rompen la lectura ingenua, y las tres estaban:
+
+- **Partir los parámetros por cualquier `|`** rompe el wikilink:
+  `[[Arsenal Fútbol Club|Arsenal]]` queda en dos y el club pasa a llamarse
+  `[[Arsenal Fútbol Club`. Hay que partir a nivel cero.
+- **Cortar en el fin de línea** tampoco sirve: la mitad de los cuadros escriben
+  varios parámetros en el mismo renglón.
+- **Cerrar en el primer `}}`** deja afuera medio cuadro, porque adentro hay otras
+  plantillas (`{{small}}`, `{{bandera}}`). Va por llaves balanceadas — y el `}}`
+  final **no** entra en el cuerpo: si entra, se lo queda pegado el último
+  parámetro y ese club se pierde sin que nada falle.
+
+### Qué encuentra
+
+23 avisos, en dos niveles porque son dos cosas distintas:
+
+- **Uno por club** cuando el que falta tiene un **homónimo que sí juega**. Son 14,
+  y es la firma que este chequeo vino a buscar: la Primera B 2014, 2015 y 2017-18
+  escriben `Estudiantes` a secas en el cuadro —que el padrón resuelve al de La
+  Plata, un club de Primera— mientras la grilla juega Estudiantes (BA). El
+  Argentino A 2005-06 nombra `Talleres (C)` donde la grilla juega Talleres (P).
+- **Uno por página** cuando no hay homónimo: ahí lo que falta no es un nombre sino
+  **los partidos**. La Copa Argentina 2019-20 tiene un cuadro de 64 y la grilla
+  trae 42. Es un hueco de completitud conocido, y se dice en una línea y no en
+  noventa y seis.
+
+### Lo que se resigna, dicho
+
+Los nombres que el padrón no reconoce se saltean. Un cuadro trae, mezcladas con
+los clubes, marcas que no lo son —`w/o`, `p.` por penales, `t. s.` por tiempo
+suplementario, el `1:` de la siembra— y no se distinguen por su forma de un club
+que al padrón le falte. El costo es no ver las grafías que **sólo** aparecen en el
+cuadro: `Sarmiento (Junín)` y `San Martin (F)` sin tilde son clubes de verdad
+escritos de una forma que el padrón no tiene, y como no entran por ningún partido,
+`nombres_en_el_padrón` tampoco los ve. Es una elección, no una propiedad.
+
 ## Tests
 
-678 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+687 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 233 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 239 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

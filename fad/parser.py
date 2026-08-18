@@ -468,6 +468,104 @@ def fallos_sin_leer(texto: str) -> list[str]:
     return list(dict.fromkeys(fuera))
 
 
+_ARRANQUE_CUADRO = re.compile(r"\{\{\s*(?:Copa|Cuadro|Llave)[^\n|}]*", re.I)
+_ES_EQUIPO_DEL_CUADRO = re.compile(r"(?i)^\s*RD\d+[- ]?(?:equipo|team)\d*\s*$")
+_ENLACE_DEL_CUADRO = re.compile(r"\[\[\s*([^\]|#]+?)\s*(?:\|([^\]]*))?\]\]")
+# `w/o` es walkover y `p.` es "por penales": marcas, no clubes.
+_NO_ES_CLUB = re.compile(r"(?i)^(w/?o|p\.?|libre|bye)$")
+
+
+def _cuerpos_de_cuadro(texto: str):
+    """El cuerpo de cada plantilla de cuadro, cortado por llaves BALANCEADAS.
+
+    No alcanza con un regex no-goloso: adentro del cuadro hay otras plantillas
+    (`{{small}}`, `{{bandera}}`) y el primer `}}` no es el del cuadro.
+    """
+    for m in _ARRANQUE_CUADRO.finditer(texto):
+        i, hondo = m.start(), 0
+        while i < len(texto):
+            if texto.startswith("{{", i):
+                hondo += 1
+                i += 2
+                continue
+            if texto.startswith("}}", i):
+                hondo -= 1
+                i += 2
+                if hondo == 0:
+                    # SIN el `}}` final: si no, se lo queda pegado el ultimo
+                    # parametro y ese club se pierde. No es hipotetico y no
+                    # falla ruidosamente -- "Independiente }}" no esta en el
+                    # padron, asi que el club se saltea callado y el cuadro
+                    # queda con uno menos que el que la pagina escribio.
+                    yield texto[m.start():i - 2]
+                    break
+                continue
+            i += 1
+
+
+def _parametros(cuerpo: str) -> list[list[str]]:
+    """(nombre, valor) de cada parametro, partiendo por `|` A NIVEL CERO.
+
+    Partir por cualquier `|` rompe los wikilinks: `[[Arsenal Fútbol Club|Arsenal]]`
+    queda en dos, y el club pasa a llamarse "[[Arsenal Fútbol Club". Y cortar en el
+    fin de linea tampoco sirve, porque la mitad de los cuadros escriben varios
+    parametros en el mismo renglon.
+    """
+    partes, buf, hondo_l, hondo_p, i = [], [], 0, 0, 0
+    while i < len(cuerpo):
+        for abre, cierra, cual in (("[[", "]]", "l"), ("{{", "}}", "p")):
+            if cuerpo.startswith(abre, i):
+                if cual == "l":
+                    hondo_l += 1
+                else:
+                    hondo_p += 1
+                buf.append(abre)
+                i += 2
+                break
+            if cuerpo.startswith(cierra, i):
+                if cual == "l":
+                    hondo_l -= 1
+                else:
+                    hondo_p -= 1
+                buf.append(cierra)
+                i += 2
+                break
+        else:
+            # El cuadro entero es UNA plantilla, asi que sus propios parametros
+            # viven a profundidad 1, no 0.
+            if cuerpo[i] == "|" and hondo_l <= 0 and hondo_p <= 1:
+                partes.append("".join(buf))
+                buf = []
+            else:
+                buf.append(cuerpo[i])
+            i += 1
+    partes.append("".join(buf))
+    return [x.split("=", 1) for x in partes if "=" in x]
+
+
+def clubes_del_cuadro(texto: str) -> dict[str, str]:
+    """{club canonico: como lo escribe el cuadro} de las llaves de la pagina.
+
+    El cuadro de eliminacion es el SEGUNDO TESTIGO de una copa. Importa porque
+    los cuatro chequeos del cruce comparan la grilla contra la tabla de
+    posiciones, y una copa no publica tabla: sus catorce paginas son la mayor
+    parte de la region donde ningun chequeo puede opinar. El cuadro lo escribe
+    otra mano, con otros nombres, y eso es exactamente lo que hace falta.
+    """
+    fuera: dict[str, str] = {}
+    for cuerpo in _cuerpos_de_cuadro(texto):
+        for nombre, valor in _parametros(cuerpo):
+            if not _ES_EQUIPO_DEL_CUADRO.match(nombre):
+                continue
+            enlace = _ENLACE_DEL_CUADRO.search(valor)
+            club = limpiar(enlace.group(2) or enlace.group(1)) if enlace else limpiar(valor)
+            club = re.sub(r"\{\{.*", "", club).strip()
+            if not club or _NO_ES_CLUB.match(club) or re.fullmatch(r"[\d\s.:-]*", club):
+                continue
+            fuera[club] = enlace.group(1) if enlace else ""
+    return fuera
+
+
 def partidos_anulados(texto: str) -> list[str]:
     """Los partidos que la pagina tiene y que el esquema no puede escribir.
 

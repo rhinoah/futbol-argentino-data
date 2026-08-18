@@ -914,3 +914,82 @@ def test_cuando_el_pj_coincide_se_calla():
     texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
                    fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3))
     assert posiciones.pj_que_no_coincide([zona("Boca Juniors", "River Plate", 3, 1)], texto) == []
+
+
+# --------------------------------------------------------------------------
+# el cuadro de llaves: el segundo testigo de una copa
+# --------------------------------------------------------------------------
+def _con_cuadro(*equipos_):
+    filas = "\n".join(f"| RD1-team{i:02d} = {e}" for i, e in enumerate(equipos_, 1))
+    return "{{Copa de 4 clubes\n" + filas + "\n}}"
+
+
+def test_denuncia_al_club_del_cuadro_cuyo_homonimo_es_el_que_juega():
+    """La firma de una mala atribucion vista desde el cuadro. La Primera B 2014,
+    2015 y 2017-18 escriben "Estudiantes" a secas ahi -- que el padron resuelve al
+    de La Plata, un club de Primera -- mientras la grilla juega Estudiantes (BA).
+
+    Importa donde importa: una copa no publica tabla de posiciones, asi que sus
+    paginas son casi toda la region donde ningun otro chequeo puede opinar."""
+    texto = _con_cuadro("[[Club Estudiantes de La Plata|Estudiantes]]", "Boca Juniors")
+    ps = [zona("Estudiantes (BA)", "Boca Juniors", 1, 0)]
+    avisos = posiciones.fuera_del_cuadro(ps, texto)
+    assert len(avisos) == 1
+    assert "Estudiantes (LP)" in avisos[0] and "Estudiantes (BA)" in avisos[0]
+
+
+def test_si_el_cuadro_y_la_grilla_coinciden_se_calla():
+    texto = _con_cuadro("Boca Juniors", "River Plate")
+    assert posiciones.fuera_del_cuadro([zona("Boca Juniors", "River Plate", 1, 0)], texto) == []
+
+
+def test_los_que_faltan_sin_homonimo_van_en_UN_aviso():
+    """Ahi lo que falta no es un nombre sino los PARTIDOS: la Copa Argentina
+    2019-20 tiene un cuadro de 64 y la grilla trae 42. Es un hueco conocido y se
+    dice en una linea, no en una por club."""
+    texto = _con_cuadro("Boca Juniors", "River Plate", "Racing Club", "Independiente")
+    avisos = posiciones.fuera_del_cuadro([zona("Boca Juniors", "River Plate", 1, 0)], texto)
+    assert len(avisos) == 1
+    assert "2 clubes" in avisos[0] and "Racing Club" in avisos[0] and "Independiente" in avisos[0]
+
+
+def test_una_pagina_sin_cuadro_no_dice_nada():
+    assert posiciones.fuera_del_cuadro([zona("Boca Juniors", "River Plate", 1, 0)],
+                                       "== Resultados ==\nnada por aca") == []
+
+
+def test_las_marcas_del_cuadro_no_son_clubes():
+    """Un cuadro trae, mezcladas con los clubes, marcas que no lo son: `w/o` por
+    walkover, `p.` por penales, `t. s.` por tiempo suplementario. Contarlas como
+    clubes que faltan llenaria el aviso de basura."""
+    texto = _con_cuadro("Boca Juniors", "w/o", "p.", "3")
+    assert posiciones.fuera_del_cuadro([zona("Boca Juniors", "River Plate", 1, 0)], texto) == []
+
+
+def test_el_wikilink_del_cuadro_no_se_parte_en_el_pipe():
+    """Partir los parametros por cualquier `|` rompe el wikilink y el club pasa a
+    llamarse "[[Arsenal Fútbol Club". Se parte a nivel cero."""
+    from fad import parser as _p
+    assert "Arsenal" in _p.clubes_del_cuadro(_con_cuadro("[[Arsenal Fútbol Club|Arsenal]]"))
+
+
+def test_el_cuadro_se_cierra_por_balance_y_no_en_el_primer_cierre():
+    """Adentro del cuadro hay otras plantillas -- `{{small}}`, `{{bandera}}` --,
+    asi que el primer `}}` no es el del cuadro. Cerrando ahi, todo lo que sigue
+    queda afuera y el cuadro pierde la mitad de sus clubes."""
+    from fad import parser as _p
+    texto = ("{{Copa de 4 clubes\n"
+             "| RD1-team01 = {{bandera|Santa Fe}} Boca Juniors\n"
+             "| RD1-team02 = River Plate\n"
+             "| RD1-team03 = Racing Club\n"
+             "}}")
+    assert set(_p.clubes_del_cuadro(texto)) == {"Boca Juniors", "River Plate", "Racing Club"}
+
+
+def test_las_marcas_no_entran_ni_al_leer_el_cuadro():
+    """El filtro va en el LECTOR y no solo en el chequeo: `clubes_del_cuadro` es
+    publico y lo puede usar otro. Ademas el chequeo descarta lo que el padron no
+    conoce, asi que sin este test la guarda del lector no la prueba nadie."""
+    from fad import parser as _p
+    texto = "{{Copa de 2 clubes\n| RD1-team01 = w/o\n| RD1-team02 = p.\n| RD1-team03 = 3\n}}"
+    assert _p.clubes_del_cuadro(texto) == {}
