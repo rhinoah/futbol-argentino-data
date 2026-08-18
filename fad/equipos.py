@@ -220,7 +220,10 @@ PADRON: tuple[Equipo, ...] = (
     # "Liniers (SJ)" en su unico partido de la Copa Argentina 2022.
     Equipo("Pacífico"),
     # entran por las primeras ediciones de la Copa Argentina
+    Equipo("Alianza de Moldes"),      # Alianza Coronel Moldes, Córdoba
     Equipo("Andino"),
+    Equipo("Jorge Gibson Brown"),    # Posadas, Misiones
+    Equipo("Villa Cubas"),           # Catamarca
     # verificados por el articulo al que enlaza la pagina
     Equipo("CAI", alias=("C.A.I.", "Comisión de Actividades Infantiles")),
     Equipo("Unión (MdP)", alias=("Unión (Mar del Plata)",)),
@@ -525,6 +528,9 @@ ARTICULOS: dict[str, str] = {
     'Club Atlético Juventud Unida Universitario': 'Juventud Unida Universitario',
     'Club Atlético Kimberley': 'Kimberley',
     'Club Atlético Lanús': 'Lanús',
+    'Alianza Coronel Moldes': 'Alianza de Moldes',
+    'Club Jorge Gibson Brown': 'Jorge Gibson Brown',
+    'Club Sportivo Villa Cubas (Catamarca)': 'Villa Cubas',
     'Club Atlético Liniers': 'Liniers (BB)',
     # Los siete de abajo no cambian ningun partido de hoy: los siete resuelven ya
     # por su nombre pelado, que es justo el problema. Son los articulos de los

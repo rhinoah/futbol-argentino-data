@@ -557,6 +557,23 @@ MUTANTES = [
      "        if viejo.name not in {archivo_de(t) for t in por_anio}:",
      "        if False:"),
 
+    # --- los 240 partidos que las copas no entregaban ---
+    ("fad/parser.py", "no tolerar la tanda pegada adelante del marcador",
+     "    for candidato in (texto, _TANDA_ADELANTE.sub(\"\", texto)):",
+     "    for candidato in (texto,):"),
+
+    ("fad/parser.py", "desenvolver el nowrap con un regex no goloso",
+     "    s = _desenvolver_nowrap(s)",
+     '    s = re.sub(r"' + chr(92)*2 + '{' + chr(92)*2 + '{' + chr(92)*2 + 's*nowrap' + chr(92)*2 + 's*' + chr(92)*2 + '|(.*?)' + chr(92)*2 + '}' + chr(92)*2 + '}", r"' + chr(92)*2 + '1", s, flags=re.I | re.S)'),
+
+    ("fad/parser.py", "no reconocer las rondas de entrada de las copas viejas",
+     '    r"|Preclasificatorio|Ronda previa|Fase final I{1,2})[^=' + chr(92) + 'n]*=+' + chr(92) + 's*$", re.M | re.I)',
+     '    r")[^=' + chr(92) + 'n]*=+' + chr(92) + 's*$", re.M | re.I)'),
+
+    ("fad/parser.py", "leer dos veces una ronda anidada dentro de otra",
+     "        if m.start() < hasta:" + chr(10) + "            continue",
+     "        if False:" + chr(10) + "            continue"),
+
     # --- la tanda escrita en la celda, y la raya larga ---
     ("fad/parser.py", "no leer la tanda escrita con la palabra Pen.",
      "    m = _PENAL_ESCRITO.search(celda_cruda)",
@@ -789,7 +806,7 @@ MUTANTES = [
      '        pen = _penales(v["resultado"])'),
 
     ("fad/parser.py", "borrar {{nowrap}} en vez de desenvolverla",
-     '    s = re.sub(r"\\{\\{\\s*nowrap\\s*\\|(.*?)\\}\\}", r"\\1", s, flags=re.I | re.S)',
+     "    s = _desenvolver_nowrap(s)",
      "    s = s"),
 
     ("fad/parser.py", "no cortar la ronda en el proximo titulo (entra Goleadores)",

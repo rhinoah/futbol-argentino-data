@@ -1394,3 +1394,69 @@ def test_una_llave_de_verdad_sigue_siendo_una_llave():
     en eliminacion."""
     p = parser.partidos(_seccion_ronda(rotula=False), 2018, "X")[0]
     assert p.fase == "eliminacion"
+
+
+# --------------------------------------------------------------------------
+# los 240 partidos que las copas no entregaban
+# --------------------------------------------------------------------------
+def test_la_tanda_pegada_adelante_no_tapa_el_marcador():
+    """Las copas viejas escriben la tanda con un tag -- `<small>(4)</small> 0 - 0
+    <small>(5)</small>` -- y `limpiar` saca el tag pero deja el contenido, asi que
+    la celda queda en `(4) 0 - 0 (5)`. Las nuevas la escriben con plantilla y la
+    plantilla se borra entera, por eso la 2025 parseaba 63 de 63 y la 2013-14, 20.
+
+    El ancla al principio de `_marcador` es a proposito y no se toca: sin ella
+    cualquier par de numeros de la celda pasaria por marcador. Lo que se agrega es
+    un segundo intento."""
+    assert parser._marcador("(4) 0 - 0 (5)") == (0, 0)
+    assert parser._marcador("(3) 1 - 1 (1)") == (1, 1)
+
+
+def test_el_entretiempo_sigue_sin_ser_penales():
+    """`0:1 (0:0)` lleva los parentesis DESPUES y es el entretiempo. Es el error
+    que el docstring del modulo pone como ejemplo de parser que miente, y el
+    arreglo de arriba no lo puede resucitar: el grupo que saca va adelante."""
+    assert parser._marcador("0:1 (0:0)") == (0, 1)
+    assert parser._penales("0:1 (0:0)") is None
+
+
+def test_el_nowrap_con_una_plantilla_adentro_no_se_come_al_club():
+    """El no-goloso cerraba en el primer `}}`, que aca es el de la bandera: el
+    desenvuelto quedaba mal armado, el barrido general de plantillas se llevaba al
+    club y la celda quedaba VACIA. El partido se descartaba sin que nada fallara."""
+    assert parser.limpiar("{{nowrap|{{bandera|Santa Fe}} Colón}}") == "Colón"
+    assert parser.limpiar("{{nowrap|Gimnasia y Esgrima (LP)}}") == "Gimnasia y Esgrima (LP)"
+    assert parser.limpiar("{{nowrap|A}} y {{nowrap|B}}") == "A y B"
+
+
+def test_un_nowrap_sin_cerrar_sigue_andando():
+    """Ya pasaba antes y hay que conservarlo: la plantilla SIN cerrar existe, y
+    como no cierra no la agarra ni el desenvuelto ni el barrido general."""
+    assert parser.limpiar("{{nowrap|Defensores de Cambaceres") == "Defensores de Cambaceres"
+
+
+@pytest.mark.parametrize("titulo", ["Preclasificatorio", "Ronda previa",
+                                    "Fase final I", "Fase final II"])
+def test_las_rondas_de_entrada_de_las_copas_viejas_se_reconocen(titulo):
+    """Las ediciones viejas tienen rondas de entrada que las nuevas no. Sin
+    reconocer el titulo, esas secciones no se miran NUNCA: eran 35 partidos, en
+    tablas del mismo formato que las demas."""
+    assert parser._TITULO_RONDA.match(f"=== {titulo} ===")
+
+
+def test_una_ronda_anidada_en_otra_no_se_lee_dos_veces():
+    """Las copas viejas parten `=== Semifinales ===` en `==== Semifinal 1 ====` y
+    `==== Semifinal 2 ====`, y los dos titulos matchean el mismo regex. Sin
+    saltear los de adentro, cada semi entra dos veces y `validar.sin_duplicados`
+    frena el build."""
+    texto = """=== Semifinales ===
+==== Semifinal 1 ====
+{|class="wikitable"
+|-
+|align=center|3 de junio ||align=center| Bicentenario ||align=right| Boca Juniors || align=center| <small>(5)</small> 1 - 1 <small>(4)</small> ||align=left| Deportivo Merlo
+|}
+"""
+    ps = parser.partidos_de_rondas(texto, 2012, "Copa Argentina")
+    assert len(ps) == 1, "la semifinal entro dos veces"
+    assert (ps[0].local, ps[0].visita) == ("Boca Juniors", "Deportivo Merlo")
+    assert (ps[0].penales_local, ps[0].penales_visita) == (5, 4)

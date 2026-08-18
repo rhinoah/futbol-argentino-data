@@ -2202,13 +2202,64 @@ cuadro: `Sarmiento (Junín)` y `San Martin (F)` sin tilde son clubes de verdad
 escritos de una forma que el padrón no tiene, y como no entran por ningún partido,
 `nombres_en_el_padrón` tampoco los ve. Es una elección, no una propiedad.
 
+## 240 partidos que las copas no entregaban
+
+El chequeo del cuadro dejó dicho que a las Copa Argentina viejas les faltaban
+partidos: el cuadro tiene 64 clubes —63 llaves— y la grilla traía 20, 22, 39, 40.
+Lo que hacía sospechar que no era un problema de la fuente es que **la 2025
+parsea 63 de 63 con el mismo parser**. Lo que cambia es cómo están escritas las
+páginas viejas.
+
+Se diagnosticaron las catorce ediciones en paralelo, con un escéptico por lote. La
+causa principal es una sola, y es de las que no fallan:
+
+```
+<small>(4)</small> 0 - 0 <small>(5)</small>      la tanda, como la escriben las viejas
+{{small|(4)}} 0 - 0 {{small|(5)}}                como la escriben las nuevas
+```
+
+`limpiar` **borra las plantillas enteras** pero de los tags HTML saca sólo el tag
+y deja el contenido. Así que la celda vieja queda en `(4) 0 - 0 (5)` y la nueva en
+`0 - 0`. Y `_marcador` está anclado al principio —a propósito: sin el ancla,
+cualquier par de números de la celda pasaría por marcador—, así que la fila se
+descartaba entera. Con un comentario que además mentía: *«ronda en curso: la fila
+está pero sin marcador»*, sobre un torneo de 2013.
+
+Son cuatro arreglos, ninguno inventa un dato y todos salen de la misma tabla que
+el parser ya leía:
+
+| | qué | rinde |
+|---|---|---:|
+| **la tanda adelante** | `_marcador` reintenta sacando un `(N)` inicial | +155 |
+| **`{{nowrap}}` anidada** | el no-goloso cerraba en el `}}` de la `{{bandera}}` de adentro, el desenvuelto quedaba mal armado y el barrido general **se comía al club**: la celda quedaba vacía | +28 |
+| **rondas de entrada** | `Preclasificatorio`, `Ronda previa`, `Fase final I/II` no estaban en el regex de títulos, así que esas secciones no se miraban nunca | +35 |
+| **rondas anidadas** | `=== Semifinales ===` ya se come sus `==== Semifinal 1/2 ====`, y los dos matchean: cada semi entraba dos veces | −2 |
+
+Los dos últimos son obligatorios y no por lo que rinden: sin ellos el corpus pasa
+de **0 avisos graves a 5** —dos duplicados y tres clubes fuera del padrón— y el
+build corta. Los tres clubes que hubo que dar de alta son reales y entran por
+estas rondas nuevas: Alianza de Moldes, Jorge Gibson Brown y Villa Cubas.
+
+Una decisión que vale anotar: `Preclasificatorio` y `Ronda previa` van **sólo** en
+el regex de títulos y **no** en la cadena de llaves. A la Ronda previa entran
+cuarenta equipos frescos que no ganaron el Preclasificatorio, así que pedirle a
+cada uno que venga de la ronda anterior da cuarenta y ocho avisos falsos. Se
+saltea con uno solo, que es más barato y no miente.
+
+**Resultado: 240 filas nuevas, cero perdidas.** Trece de las catorce ediciones
+quedan en su total exacto —2013-14 son 53 y no 63, porque su cuadro arranca en
+dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
+2018-19, a la que le falta un partido cuya fila está rota en la fuente
+(`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
+de parser recupera.
+
 ## Tests
 
-687 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+696 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 239 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 243 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

@@ -117,6 +117,33 @@ class Partido:
 _ATRIBUTO = re.compile(r"=|bgcolor|style|align|width|span|scope", re.I)
 
 
+_ABRE_NOWRAP = re.compile(r"\{\{\s*nowrap\s*\|", re.I)
+
+
+def _desenvolver_nowrap(s: str) -> str:
+    """Saca el `{{nowrap|...}}` y deja lo de adentro, contando llaves."""
+    while (m := _ABRE_NOWRAP.search(s)):
+        i, hondo = m.start(), 0
+        while i < len(s):
+            if s.startswith("{{", i):
+                hondo += 1
+                i += 2
+                continue
+            if s.startswith("}}", i):
+                hondo -= 1
+                i += 2
+                if hondo == 0:
+                    break
+                continue
+            i += 1
+        else:
+            # No cierra nunca. Se saca la apertura y se sigue, que es lo mismo
+            # que ya hacia la limpieza de abajo con las plantillas sin cerrar.
+            return s[:m.start()] + s[m.end():]
+        s = s[:m.start()] + s[m.end():i - 2] + s[i:]
+    return s
+
+
 def limpiar(texto: str) -> str:
     """Deja el contenido visible de una celda: sin plantillas, links ni formato."""
     s = texto.strip()
@@ -125,7 +152,13 @@ def limpiar(texto: str) -> str:
     # `{{nowrap|X}}` se DESENVUELVE, no se borra: es puro formato, pero adentro
     # esta el dato. Borrarla junto con las demas plantillas hacia desaparecer
     # equipos enteros ("{{nowrap|Gimnasia y Esgrima (LP)}}" quedaba en nada).
-    s = re.sub(r"\{\{\s*nowrap\s*\|(.*?)\}\}", r"\1", s, flags=re.I | re.S)
+    # El no-goloso cerraba en el PRIMER `}}`, que cuando adentro hay otra
+    # plantilla es el de ella: en `{{nowrap|{{bandera|Santa Fe}} Colón}}` cerraba
+    # en el de la bandera, el desenvuelto quedaba mal armado y el barrido general
+    # de plantillas se llevaba puesto al club entero. La celda quedaba VACIA y el
+    # partido se descartaba sin que nada fallara: eran 28 filas, casi todas de la
+    # Copa Argentina. Ahora se cuentan las llaves.
+    s = _desenvolver_nowrap(s)
     # La misma plantilla SIN cerrar tambien existe, y como no cierra no la agarra
     # ni la de arriba ni el barrido general: un club quedaba llamandose
     # "{{nowrap|Defensores de Cambaceres".
@@ -618,9 +651,32 @@ def partidos_anulados(texto: str) -> list[str]:
 _SEPARADOR = r"[-:–—]"
 
 
+# La tanda pegada ADELANTE del marcador: `(4) 0 - 0 (5)`. Sale de que las copas
+# viejas escriben la tanda con un tag -- `<small>(4)</small> 0 - 0 <small>(5)</small>`
+# -- y `limpiar` saca el tag pero deja el contenido, mientras que las nuevas la
+# escriben con plantilla -- `{{small|(4)}}` -- y la plantilla se borra entera.
+#
+# No se confunde con el ENTRETIEMPO, que es el error que este modulo pone como
+# ejemplo de parser que miente: el entretiempo va DESPUES (`0:1 (0:0)`) y este
+# grupo va antes.
+_TANDA_ADELANTE = re.compile(r"^\s*\(\d+\)\s*")
+
+
 def _marcador(texto: str) -> tuple[int, int] | None:
-    m = re.match(r"^\s*(\d+)\s*" + _SEPARADOR + r"\s*(\d+)", texto)
-    return (int(m.group(1)), int(m.group(2))) if m else None
+    """El marcador de una celda, o None.
+
+    Se prueba dos veces: como viene, y sacando la tanda de adelante. El ancla al
+    principio es a proposito -- sin ella, cualquier par de numeros de la celda
+    pasaria por marcador --, y por eso una tanda adelante hacia fallar la fila
+    entera. En las copas eso no se veia como un error: `partidos_de_rondas` la
+    descartaba con el comentario "ronda en curso: la fila esta pero sin
+    marcador", que para un torneo de 2013 es falso. Eran 155 partidos.
+    """
+    for candidato in (texto, _TANDA_ADELANTE.sub("", texto)):
+        m = re.match(r"^\s*(\d+)\s*" + _SEPARADOR + r"\s*(\d+)", candidato)
+        if m:
+            return int(m.group(1)), int(m.group(2))
+    return None
 
 
 
@@ -960,9 +1016,20 @@ RONDAS = ("Primera fase", "Segunda fase", "Tercera fase",
 
 # "Semifinal" y "Semifinales" son la misma ronda escrita de dos maneras; si
 # quedan como dos, el orden de las rondas se parte en dos mitades.
+# Los titulos con que una copa nombra sus rondas. Las ediciones viejas tienen dos
+# rondas de entrada que las nuevas no -- `Preclasificatorio` y `Ronda previa` en
+# la 2012-13, `Fase final I` y `II` en la 2013-14 --, y sin ellas esas secciones
+# no se miran nunca: eran 35 partidos, escritos en tablas del mismo formato que
+# las demas.
+#
+# Van SOLO aca y no en `RONDAS`, a proposito: a la Ronda previa entran cuarenta
+# equipos frescos que no ganaron el Preclasificatorio, asi que pedirle a la
+# cadena de llaves que cada uno venga de la ronda anterior da cuarenta y ocho
+# avisos falsos. Se saltea con uno solo, que es mas barato y no miente.
 _TITULO_RONDA = re.compile(
     r"^=+\s*(Primera fase|Segunda fase|Tercera fase|Treintaidosavos|Dieciseisavos"
-    r"|Octavos|Cuartos|Semifinales|Semifinal|Final)[^=\n]*=+\s*$", re.M | re.I)
+    r"|Octavos|Cuartos|Semifinales|Semifinal|Final"
+    r"|Preclasificatorio|Ronda previa|Fase final I{1,2})[^=\n]*=+\s*$", re.M | re.I)
 
 _COL_COPA = ["fecha", "estadio", "local", "resultado", "visita"]
 
@@ -1046,7 +1113,16 @@ def partidos_de_rondas(texto: str, anio: int, torneo: str, anio_fin: int | None 
                        arts: dict[str, str] | None = None) -> list[Partido]:
     """La Copa Argentina: una tabla por ronda, `Fecha | Estadio | Eq1 | Partido | Eq2`."""
     partidos: list[Partido] = []
+    hasta = 0
     for m in _TITULO_RONDA.finditer(texto):
+        # Una ronda ADENTRO de otra ya vino en el cuerpo de la de afuera. Las
+        # ediciones viejas de la Copa parten `=== Semifinales ===` en
+        # `==== Semifinal 1 ====` y `==== Semifinal 2 ====`, y las dos matchean
+        # este mismo regex: sin saltearlas, cada semi entra dos veces y
+        # `validar.sin_duplicados` frena el build. Es la misma guarda que ya usa
+        # `_secciones_con_span` para un `Resultados` anidado en otro.
+        if m.start() < hasta:
+            continue
         # La seccion termina en el proximo titulo, sea del nivel que sea, y no en
         # la proxima ronda: la ultima ronda jugada es la ultima seccion de ronda
         # de la pagina, pero abajo siguen "Goleadores", "Referencias" y sus
@@ -1059,6 +1135,7 @@ def partidos_de_rondas(texto: str, anio: int, torneo: str, anio_fin: int | None 
         nivel = len(re.match(r"=+", m.group(0)).group(0))
         sig = re.search(rf"^={{1,{nivel}}}[^=]", texto[m.end():], re.M)
         fin = m.end() + (sig.start() if sig else len(texto) - m.end())
+        hasta = fin
         ronda = _nombre_de_ronda(m.group(1))
         for fila in re.split(r"\n\|-", texto[m.end():fin]):
             if not fila.strip() or fila.lstrip().startswith("!"):
