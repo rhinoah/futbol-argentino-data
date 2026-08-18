@@ -2090,13 +2090,46 @@ donde caiga y los clubes se toman de sus dos vecinas.
 Ahora la página lleva los dos avisos, y juntos cuentan la historia entera: uno
 dice que la tabla cuenta un partido más, el otro dice por qué.
 
+## Doce tandas de penales que no estaban
+
+El repo ya sabía leer una tanda escrita como `{{small|(5)}} 1 - 1 {{small|(4)}}`.
+Wikipedia la escribe de otra forma más, y esa no la leía nadie:
+
+```
+|San Martín (T)
+|'''1 - 1'''<br><hr><small>[[Penaltis|Pen.]]<br>3 - 4</small>
+|Villa Mitre
+```
+
+Son **doce partidos**, y no cualquiera: la final del Argentino A 2005-06, la del
+Federal A 2022, la del 2023, el desempate por el tercer ascenso de 2023. Es
+justo donde la tanda no es un detalle sino **quién ascendió**.
+
+La segunda notación pide la **palabra escrita** y no sólo dos números, y eso no
+es cosmético: `0:1 (0:0)` es el **entretiempo**, y leerlo como penales es el
+error que el docstring del parser pone como ejemplo de código que miente en vez
+de fallar. Entre la palabra y los números se tolera marcado, porque la palabra
+suele venir dentro de un wikilink y la tanda en el renglón de abajo.
+
+La celda cruda se lleva **por columna y no por índice**: con un `rowspan` en una
+columna temprana los índices se corren, y buscar la tanda en `celdas[1]` la
+leería de la columna de al lado.
+
+### Y un partido que se perdía por una raya
+
+`1 – 0` con raya media (U+2013) se ve igual que `1 - 0` y no lo es. `_marcador`
+aceptaba `-` y `:`, así que esa fila **no tenía marcador y el partido se
+descartaba entero**: el desempate por el descenso del Argentino A 2005-06,
+General Paz Juniors–Cipolletti, no existía en el dataset. Es uno solo en las 131
+páginas, y esa es exactamente la razón por la que no se veía.
+
 ## Tests
 
-665 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+675 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 225 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 230 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

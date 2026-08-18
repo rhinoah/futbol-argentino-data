@@ -1265,3 +1265,86 @@ def test_lo_que_ya_se_clasifico_no_se_denuncia():
                  "|A\n|1 - 0\n|B<ref>Suspendido por lluvia. Se jugó el 3 de mayo.</ref>",
                  "|A\n|1 - 0\n|B"):
         assert not parser.sin_clasificar(fila), fila
+
+
+# --------------------------------------------------------------------------
+# la tanda escrita adentro de la celda del resultado
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("celda, pen", [
+    # las dos notaciones que usa Wikipedia
+    ("{{small|(5)}} 1 - 1 {{small|(4)}}", (5, 4)),
+    ("1 - 1<br><hr><small>[[Penaltis|Pen.]]<br>3 - 4</small>", (3, 4)),
+    ("1 – 0<br><hr><small>[[Penaltis|Pen.]]<br>3 - 2</small>", (3, 2)),
+])
+def test_las_dos_formas_de_escribir_la_tanda(celda, pen):
+    assert parser._penales(celda) == pen
+
+
+@pytest.mark.parametrize("celda", ["2 - 1", "0:1 (0:0)", "1 - 1 (0-0)", ""])
+def test_lo_que_no_es_una_tanda(celda):
+    """`0:1 (0:0)` es el ENTRETIEMPO, no los penales -- es el error que el
+    docstring del modulo pone como ejemplo de parser que miente en vez de fallar.
+    Por eso la segunda notacion pide la palabra escrita y no solo dos numeros."""
+    assert parser._penales(celda) is None
+
+
+def test_la_tanda_llega_al_partido_en_una_tabla_de_liga():
+    """No alcanza con saber leerla: la tabla de liga no la miraba. Son doce
+    partidos, y son finales y definiciones de ascenso -- justo donde la tanda es
+    la que dice quien subio."""
+    tabla = """{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+|-align=center
+|San Martín (T)
+|'''1 - 1'''<br><hr><small>[[Penaltis|Pen.]]<br>3 - 4</small>
+|Villa Mitre
+|La Ciudadela
+|28 de mayo de 2006
+|}"""
+    p = parser.partidos_de_tabla(tabla, 2005, "X")[0]
+    assert (p.goles_local, p.goles_visita) == (1, 1)
+    assert (p.penales_local, p.penales_visita) == (3, 4)
+
+
+def test_la_raya_larga_tambien_separa_un_marcador():
+    """`1 – 0` con raya media se ve igual que `1 - 0` y no lo es. La fila no tenia
+    marcador y el partido se descartaba entero: asi se perdia el desempate por el
+    descenso del Argentino A 2005-06."""
+    assert parser._marcador("1 – 0") == (1, 0)
+    assert parser._marcador("1 — 0") == (1, 0)
+    assert parser._marcador("1 - 0") == (1, 0)
+
+
+def test_la_tanda_sobrevive_a_un_rowspan():
+    """La celda cruda se lleva por COLUMNA y no por indice.
+
+    Un `rowspan` en una columna TEMPRANA corre todos los indices de las filas que
+    siguen: la segunda fila de abajo no trae su `Local`, asi que su segunda celda
+    cruda es el VISITANTE y no el resultado. Buscar la tanda en `celdas[1]` la
+    leeria de la columna de al lado, en silencio."""
+    tabla = """{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+|-align=center
+|rowspan=2|San Martín (T)
+|2 - 0
+|River Plate
+|La Ciudadela
+|27 de mayo
+|-align=center
+|1 - 1<br><small>[[Penaltis|Pen.]]<br>3 - 4</small>
+|Villa Mitre
+|La Ciudadela
+|28 de mayo
+|}"""
+    ps = parser.partidos_de_tabla(tabla, 2005, "X")
+    assert [p.local for p in ps] == ["San Martín (T)", "San Martín (T)"], "el rowspan se rompio"
+    assert (ps[0].penales_local, ps[0].penales_visita) == (None, None)
+    assert (ps[1].penales_local, ps[1].penales_visita) == (3, 4)

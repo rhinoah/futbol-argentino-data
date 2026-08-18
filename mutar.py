@@ -553,6 +553,27 @@ MUTANTES = [
      "        if p.fase != \"zonas\" or not p.jornada or not p.local or not p.visita:",
      "        if p.fase != \"zonas\" or not p.local or not p.visita:"),
 
+    # --- la tanda escrita en la celda, y la raya larga ---
+    ("fad/parser.py", "no leer la tanda escrita con la palabra Pen.",
+     "    m = _PENAL_ESCRITO.search(celda_cruda)",
+     "    m = None"),
+
+    ("fad/parser.py", "no pasarle la tanda al partido de una tabla de liga",
+     '            penales_local=(pen or (None, None))[0],',
+     '            penales_local=None,'),
+
+    ("fad/parser.py", "buscar la tanda por indice en vez de por columna",
+     '        pen = _penales(crudos["resultado"])',
+     '        pen = _penales(celdas[1]) if len(celdas) > 1 else None'),
+
+    ("fad/parser.py", "no aceptar la raya larga como separador del marcador",
+     '_SEPARADOR = r"[-:–—]"',
+     '_SEPARADOR = r"[-:]"'),
+
+    ("fad/parser.py", "tomar por tanda dos numeros cualesquiera, sin la palabra",
+     '_PENAL_ESCRITO = re.compile(r"(?i)pen[^' + chr(92) + 'd]{0,20}(' + chr(92) + 'd+)' + chr(92) + 's*" + _SEPARADOR + r"' + chr(92) + 's*(' + chr(92) + 'd+)")',
+     '_PENAL_ESCRITO = re.compile(r"(' + chr(92) + 'd+)' + chr(92) + 's*" + _SEPARADOR + r"' + chr(92) + 's*(' + chr(92) + 'd+)" + r"' + chr(92) + 's*$")'),
+
     # --- status: de donde salio el marcador ---
     ("fad/parser.py", "no mirar si el partido se termino de jugar despues",
      '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return ""',

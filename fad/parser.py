@@ -511,9 +511,21 @@ def partidos_anulados(texto: str) -> list[str]:
     return list(dict.fromkeys(fuera))
 
 
+# El separador del marcador puede ser un guion, dos puntos, o una RAYA: `1 – 0`
+# con raya media (U+2013) en vez de guion. Se ve igual y no lo es, asi que la
+# fila no tenia marcador y el partido se descartaba entero -- el desempate por el
+# descenso del Argentino A 2005-06, General Paz Juniors - Cipolletti, se perdia
+# por eso. Es uno solo en las 131 paginas, y esa es justamente la razon por la
+# que no se veia.
+_SEPARADOR = r"[-:–—]"
+
+
 def _marcador(texto: str) -> tuple[int, int] | None:
-    m = re.match(r"^\s*(\d+)\s*[-:]\s*(\d+)", texto)
+    m = re.match(r"^\s*(\d+)\s*" + _SEPARADOR + r"\s*(\d+)", texto)
     return (int(m.group(1)), int(m.group(2))) if m else None
+
+
+
 
 
 # --------------------------------------------------------------------------
@@ -698,24 +710,30 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             continue
 
 
-        valores, i = {}, 0
+        # `crudos` guarda la celda SIN limpiar de cada columna. Hace falta para
+        # los penales: `limpiar` borra las plantillas, y en una de las dos
+        # notaciones la tanda vive adentro de una. Se lleva junto con `valores` y
+        # no por indice, porque con un `rowspan` los indices se corren.
+        valores, crudos, i = {}, {}, 0
         for col in COLUMNAS:
             if pendientes.get(col, [None, 0])[1] > 0:
-                valores[col] = pendientes[col][0]
+                valores[col], crudos[col] = pendientes[col][0], pendientes[col][2]
                 pendientes[col][1] -= 1
                 continue
             if i >= len(celdas):
-                valores[col] = ""
+                valores[col], crudos[col] = "", ""
                 continue
-            filas, contenido = _celda(celdas[i]); i += 1
-            valores[col] = contenido
+            crudo = celdas[i]
+            filas, contenido = _celda(crudo); i += 1
+            valores[col], crudos[col] = contenido, crudo
             if filas > 1:
-                pendientes[col] = [contenido, filas - 1]
+                pendientes[col] = [contenido, filas - 1, crudo]
 
         goles = _marcador(valores["resultado"])
         if not goles or not valores["local"] or not valores["visita"]:
             continue
         programada = a_iso(valores["fecha"], anio, anio_fin, mes_inicio)
+        pen = _penales(crudos["resultado"])
         partidos.append(Partido(
             status=status_de_la_fila(fila),
             fecha=(_fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada)
@@ -723,6 +741,11 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             hora=valores["hora"],
             local=valores["local"], visita=valores["visita"],
             goles_local=goles[0], goles_visita=goles[1],
+            # La tanda, cuando la celda del resultado la trae pegada al marcador.
+            # Se lee de la celda CRUDA porque `limpiar` borra las plantillas, y en
+            # una de las dos notaciones la tanda vive adentro de una.
+            penales_local=(pen or (None, None))[0],
+            penales_visita=(pen or (None, None))[1],
             torneo=torneo, fase="eliminacion" if ronda else "zonas",
             zona="" if ronda else zona, jornada=jornada, llave=llave,
             local_art=(arts or {}).get(valores["local"], ""),
@@ -893,6 +916,11 @@ def _ronda_en(pos: int, titulos: list[tuple[int, str]], desde: int = 0) -> str:
 # Se distinguen por lo que hay adentro: un solo numero es la tanda de ese equipo,
 # dos numeros separados por `:` son los goles del primer tiempo.
 _PENAL = re.compile(r"(?:\{\{\s*small\s*\||<small>)\s*\((\d+)\)", re.I)
+# Entre la palabra y los numeros hay marcado -- la palabra suele venir dentro de
+# un wikilink y la tanda en el renglon de abajo: `[[Penaltis|Pen.]]<br>3 - 4` --,
+# asi que se tolera cualquier cosa que NO sea un digito. El limite de 20 es para
+# que "pen" no se coma media celda buscando numeros que estan en otra cosa.
+_PENAL_ESCRITO = re.compile(r"(?i)pen[^\d]{0,20}(\d+)\s*" + _SEPARADOR + r"\s*(\d+)")
 
 
 def _penales(celda_cruda: str) -> tuple[int, int] | None:
@@ -903,7 +931,16 @@ def _penales(celda_cruda: str) -> tuple[int, int] | None:
     {{small|(4)}}` queda en `1 - 1` y la definicion desaparece sin que nada falle.
     """
     n = _PENAL.findall(celda_cruda)
-    return (int(n[0]), int(n[1])) if len(n) == 2 else None
+    if len(n) == 2:
+        return int(n[0]), int(n[1])
+    # La segunda forma de escribirla, que no es una plantilla sino la palabra:
+    # `1 - 1<br><hr><small>[[Penaltis|Pen.]]<br>3 - 4</small>`. Pide la palabra
+    # EXPLICITA, y por eso no se confunde con el entretiempo -- `0:1 (0:0)` --,
+    # que va entre parentesis y que este parser ya sabe que no hay que leer como
+    # penales. Son las dos finales del Argentino A 2005-06, que publicaban su
+    # marcador de los 90 sin la tanda que decidio el titulo y el descenso.
+    m = _PENAL_ESCRITO.search(celda_cruda)
+    return (int(m.group(1)), int(m.group(2))) if m else None
 
 
 def partidos_de_rondas(texto: str, anio: int, torneo: str, anio_fin: int | None = None,
