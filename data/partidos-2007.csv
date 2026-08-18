@@ -71,7 +71,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2007-03-25,18:30,Godoy Cruz,Boca Juniors,0,1,,,Primera Division - Clausura,2007,zonas,,Fecha 7,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-03-30,21:10,Banfield,Godoy Cruz,0,0,,,Primera Division - Clausura,2007,zonas,,Fecha 8,Florencio Sola,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-03-31,16:10,Boca Juniors,Nueva Chicago,2,0,,,Primera Division - Clausura,2007,zonas,,Fecha 8,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
-2007-03-31,21:10,Quilmes,Racing Club,2,3,,,Primera Division - Clausura,2007,zonas,,Fecha 8,Centenario,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-01,11:00,Arsenal,Argentinos Juniors,0,2,,,Primera Division - Clausura,2007,zonas,,Fecha 8,El Viaducto,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-01,14:00,Belgrano,Vélez Sarsfield,3,0,,,Primera Division - Clausura,2007,zonas,,Fecha 8,Chateau Carreras,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-01,16:00,Gimnasia y Esgrima (J),Newell's Old Boys,0,1,,,Primera Division - Clausura,2007,zonas,,Fecha 8,23 de Agosto,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
@@ -88,7 +87,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2007-04-08,16:30,Godoy Cruz,Rosario Central,2,1,,,Primera Division - Clausura,2007,zonas,,Fecha 9,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-08,18:30,River Plate,Belgrano,1,1,,,Primera Division - Clausura,2007,zonas,,Fecha 9,Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-13,21:10,Colón,Racing Club,1,1,,,Primera Division - Clausura,2007,zonas,,Fecha 10,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
-2007-04-14,15:30,Quilmes,Arsenal,0,1,,,Primera Division - Clausura,2007,zonas,,Fecha 10,Centenario,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-14,18:20,San Lorenzo,Gimnasia y Esgrima (LP),1,0,,,Primera Division - Clausura,2007,zonas,,Fecha 10,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-14,21:10,Independiente,Godoy Cruz,0,2,,,Primera Division - Clausura,2007,zonas,,Fecha 10,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-15,14:00,Banfield,Vélez Sarsfield,2,3,,,Primera Division - Clausura,2007,zonas,,Fecha 10,Florencio Sola,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
@@ -107,7 +105,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2007-04-22,16:10,Godoy Cruz,San Lorenzo,1,2,,,Primera Division - Clausura,2007,zonas,,Fecha 11,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-22,18:30,Racing Club,Belgrano,3,3,,,Primera Division - Clausura,2007,zonas,,Fecha 11,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-22,18:30,Vélez Sarsfield,Rosario Central,0,2,,,Primera Division - Clausura,2007,zonas,,Fecha 11,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
-2007-04-23,21:30,Gimnasia y Esgrima (LP),Arsenal,1,1,,,Primera Division - Apertura,2007,zonas,,Fecha 19,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
 2007-04-25,21:00,Rosario Central,Gimnasia y Esgrima (LP),1,0,,,Primera Division - Clausura,2007,zonas,,Fecha 8,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-27,21:00,Belgrano,Argentinos Juniors,0,2,,,Primera Division - Clausura,2007,zonas,,Fecha 12,Chateau Carreras,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-27,21:00,Colón,Arsenal,1,1,,,Primera Division - Clausura,2007,zonas,,Fecha 12,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
@@ -120,6 +117,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2007-04-29,16:10,Boca Juniors,Racing Club,2,2,,,Primera Division - Clausura,2007,zonas,,Fecha 12,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-04-29,18:30,San Lorenzo,Nueva Chicago,3,2,,,Primera Division - Clausura,2007,zonas,,Fecha 12,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-05-02,16:10,Colón,River Plate,0,0,,,Primera Division - Clausura,2007,zonas,,Fecha 8,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
+2007-05-02,21:10,Quilmes,Racing Club,2,3,,,Primera Division - Clausura,2007,zonas,,Fecha 8,Centenario,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-05-04,18:00,Arsenal,Belgrano,4,3,,,Primera Division - Clausura,2007,zonas,,Fecha 13,El Viaducto,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-05-04,21:10,Nueva Chicago,Estudiantes (LP),1,2,,,Primera Division - Clausura,2007,zonas,,Fecha 13,Nueva Chicago,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-05-05,15:30,Quilmes,Colón,2,1,,,Primera Division - Clausura,2007,zonas,,Fecha 13,Centenario,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
@@ -130,6 +128,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2007-05-06,15:30,Lanús,Gimnasia y Esgrima (J),1,1,,,Primera Division - Clausura,2007,zonas,,Fecha 13,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-05-06,16:10,River Plate,Independiente,1,1,,,Primera Division - Clausura,2007,zonas,,Fecha 13,Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-05-06,18:30,Argentinos Juniors,Boca Juniors,3,3,,,Primera Division - Clausura,2007,zonas,,Fecha 13,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
+2007-05-08,15:30,Quilmes,Arsenal,0,1,,,Primera Division - Clausura,2007,zonas,,Fecha 10,Centenario,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-05-11,21:00,Belgrano,Quilmes,3,0,,,Primera Division - Clausura,2007,zonas,,Fecha 14,Chateau Carreras,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-05-11,21:10,Independiente,Newell's Old Boys,1,1,,,Primera Division - Clausura,2007,zonas,,Fecha 14,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
 2007-05-12,18:20,Rosario Central,Racing Club,1,0,,,Primera Division - Clausura,2007,zonas,,Fecha 14,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2007_(Argentina)
@@ -213,7 +212,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2007-08-12,,Aldosivi,Almagro,1,0,,,Primera Nacional,2007,zonas,,Fecha 1,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2007-08-12,,San Martín (T),Unión,1,0,,,Primera Nacional,2007,zonas,,Fecha 1,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2007-08-12,11:45,Estudiantes (LP),Gimnasia y Esgrima (J),1,0,,,Primera Division - Apertura,2007,zonas,,Fecha 2,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
-2007-08-12,14:10,River Plate,Newell's Old Boys,3,1,,,Primera Division - Apertura,2007,zonas,,Fecha 2,Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
 2007-08-12,16:10,Lanús,Huracán,1,1,,,Primera Division - Apertura,2007,zonas,,Fecha 2,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
 2007-08-12,16:10,Tigre,Independiente,0,3,,,Primera Division - Apertura,2007,zonas,,Fecha 2,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
 2007-08-12,18:30,Argentinos Juniors,Boca Juniors,3,2,,,Primera Division - Apertura,2007,zonas,,Fecha 2,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
@@ -289,6 +287,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2007-09-02,16:10,Racing Club,River Plate,1,1,,,Primera Division - Apertura,2007,zonas,,Fecha 6,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
 2007-09-02,18:30,Boca Juniors,Huracán,1,0,,,Primera Division - Apertura,2007,zonas,,Fecha 6,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
 2007-09-04,,Platense,Quilmes,1,1,,,Primera Nacional,2007,zonas,,Fecha 4,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
+2007-09-05,14:10,River Plate,Newell's Old Boys,3,1,,,Primera Division - Apertura,2007,zonas,,Fecha 2,Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
 2007-09-07,,Independiente Rivadavia,Talleres (C),2,1,,,Primera Nacional,2007,zonas,,Fecha 5,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2007-09-07,17:00,Gimnasia y Esgrima (J),Tigre,0,2,,,Primera Division - Apertura,2007,zonas,,Fecha 7,23 de agosto,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
 2007-09-07,19:00,Olimpo,Argentinos Juniors,1,1,,,Primera Division - Apertura,2007,zonas,,Fecha 7,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
@@ -598,7 +597,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2008-02-24,,Aldosivi,Talleres (C),4,2,,,Primera Nacional,2007,zonas,,Fecha 22,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2008-02-24,,CAI,Nueva Chicago,3,0,,,Primera Nacional,2007,zonas,,Fecha 22,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2008-02-26,,Ferro Carril Oeste,San Martín (T),0,1,,,Primera Nacional,2007,zonas,,Fecha 22,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
-2008-02-29,,Ferro Carril Oeste,Independiente Rivadavia,1,1,,,Primera Nacional,2007,zonas,,Fecha 19,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
+2008-02-28,,Ferro Carril Oeste,Independiente Rivadavia,1,1,,,Primera Nacional,2007,zonas,,Fecha 19,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08
 2008-02-29,,Quilmes,Platense,1,1,,,Primera Nacional,2007,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2008-03-01,,Almirante Brown,Unión,0,0,,,Primera Nacional,2007,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2008-03-01,,Ben Hur,Almagro,0,2,,,Primera Nacional,2007,zonas,,Fecha 23,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
@@ -679,6 +678,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2008-04-20,,Ben Hur,Nueva Chicago,0,2,,,Primera Nacional,2007,zonas,,Fecha 30,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2008-04-20,,CAI,Instituto,0,0,,,Primera Nacional,2007,zonas,,Fecha 30,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2008-04-22,,Almagro,Belgrano,0,1,,,Primera Nacional,2007,zonas,,Fecha 30,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
+2008-04-23,21:30,Gimnasia y Esgrima (LP),Arsenal,1,1,,,Primera Division - Apertura,2007,zonas,,Fecha 19,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2007_(Argentina)
 2008-04-25,,Chacarita Juniors,Talleres (C),2,1,,,Primera Nacional,2007,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2008-04-26,,Almirante Brown,Independiente Rivadavia,1,0,,,Primera Nacional,2007,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/
 2008-04-26,,Atlético de Rafaela,Platense,2,1,,,Primera Nacional,2007,zonas,,Fecha 31,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2007-08 + https://www.worldfootball.net/

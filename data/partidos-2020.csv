@@ -11,57 +11,24 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-01-05,19:20,Godoy Cruz,Estudiantes (LP),1,0,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-05,19:20,Huracán,Argentinos Juniors,0,1,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 4,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-05,21:30,Atlético Tucumán,Colón,0,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 4,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-07,,Estudiantes (RC),Chaco For Ever,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Nuevo Monumental,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2020-01-09,17:10,Lanús,Rosario Central,2,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-09,17:10,Unión,Patronato,1,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,15 de Abril,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-09,19:20,Racing Club,Newell's Old Boys,3,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,El Cilindro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-09,19:20,Vélez Sarsfield,Godoy Cruz,3,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-09,21:30,Argentinos Juniors,Boca Juniors,2,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-09,21:30,River Plate,Independiente,0,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-10,17:10,Defensa y Justicia,Aldosivi,4,4,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-10,19:20,Arsenal,Huracán,1,0,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-10,21:30,Banfield,San Lorenzo,4,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-10,21:30,Colón,Talleres (C),1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Brigadier General López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-10,21:30,Gimnasia y Esgrima (LP),Atlético Tucumán,0,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-01-11,21:30,Estudiantes (LP),Central Córdoba (SdE),1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-01-14,,Colón,Cipolletti,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Presbítero Bartolomé Grella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-01-20,,Rosario Central,Boca Unidos,0,3,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-01-28,,Arsenal,Huracán Las Heras,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-02-17,,Vélez Sarsfield,Deportivo Camioneros,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-02-18,,San Lorenzo,Liniers,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,José María Minella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-02-19,,Defensores de Belgrano,Almirante Brown,4,2,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-02-23,,Lanús,Real Pilar,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2020-01-14,17:10,Defensa y Justicia,Aldosivi,4,4,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,El Viaducto,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-02-25,,Gimnasia y Esgrima (LP),Sportivo Barracas,2,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Centenario Ciudad de Quilmes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2020-02-26,,Aldosivi,Talleres (RdE),1,3,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-01,,San Martín (T),San Martín (SJ),0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-02,,Defensa y Justicia,Estudiantes (BA),1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-03,,Boca Juniors,Claypole,2,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2020-03-04,,Central Córdoba (SdE),San Telmo,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Padre Ernesto Martearena,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-10,,Atlético Tucumán,Comunicaciones,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-10,,Banfield,Güemes (SdE),2,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-10,,Independiente,Villa Mitre,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,José María Minella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2020-03-10,,Platense,Deportivo Madryn,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2020-03-11,,Argentinos Juniors,Cañuelas,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2020-03-11,,Sarmiento (J),Douglas Haig,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Centenario Ciudad de Quilmes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-17,,Colón,Argentinos Juniors,0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-17,,Deportivo Laferrere,San Telmo,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-17,,Racing Club,Sportivo Belgrano,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-23,,Gimnasia y Esgrima (LP),Dock Sud,5,0,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-25,,San Lorenzo,Defensa y Justicia,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Florencio Sola,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-03-31,,Banfield,Vélez Sarsfield,3,2,,,Copa de la Liga,2020,eliminacion,,,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-04-07,,Atlético Tucumán,River Plate,1,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Ciudad de La Plata,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-04-21,,Huracán Las Heras,Estudiantes (RC),1,4,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-04-28,,Deportivo Madryn,Banfield,0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-05-12,,Sportivo Estudiantes (SL),Villa San Carlos,1,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Coloso del Ruca Quimey,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-05-13,,Boca Unidos,Godoy Cruz,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Julio César Villagra,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-05-17,,Newell's Old Boys,Sarmiento (J),0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-05-19,,Talleres (RdE),Temperley,0,4,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-07-13,,Villa San Carlos,Patronato,0,1,,,Copa Argentina,2020,eliminacion,,Octavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-07-14,,San Telmo,Banfield,1,0,,,Copa Argentina,2020,eliminacion,,Octavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-07-20,,Sarmiento (J),Temperley,0,1,,,Copa Argentina,2020,eliminacion,,Octavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-08-04,,Tigre,Independiente,2,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-10-06,,Godoy Cruz,Tigre,1,0,,,Copa Argentina,2020,eliminacion,,Cuartos,Mario Alberto Kempes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
-2020-10-13,,Argentinos Juniors,San Telmo,2,1,,,Copa Argentina,2020,eliminacion,,Cuartos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2020-10-30,19:00,Gimnasia y Esgrima (LP),Patronato,3,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 1,Del Bosque,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-10-30,21:15,Talleres (C),Newell's Old Boys,3,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-10-31,14:00,Aldosivi,Estudiantes (LP),0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
@@ -74,7 +41,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-11-01,18:45,Central Córdoba (SdE),Independiente,0,1,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 1,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-01,21:15,River Plate,Banfield,1,3,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 1,Libertadores de América,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-02,21:15,Rosario Central,Godoy Cruz,2,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 1,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-03,,Boca Juniors,Argentinos Juniors,1,0,,,Copa Argentina,2020,eliminacion,,Semifinales,Malvinas Argentinas,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2020-11-06,19:00,Patronato,Huracán,1,2,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 2,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-06,21:15,Argentinos Juniors,Aldosivi,0,1,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 2,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-07,16:00,Banfield,Godoy Cruz,1,0,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 2,Florencio Sola,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
@@ -111,9 +77,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-11-22,21:30,San Lorenzo,Argentinos Juniors,2,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 4,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-23,19:00,Godoy Cruz,Rosario Central,0,1,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 4,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-23,21:15,Newell's Old Boys,Talleres (C),1,1,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 4,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-27,17:10,Huracán,Patronato,1,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 5,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-27,19:20,Godoy Cruz,Banfield,0,0,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 5,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-11-27,21:30,Vélez Sarsfield,Gimnasia y Esgrima (LP),0,1,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 5,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-28,17:10,Almagro,Gimnasia y Esgrima (J),1,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2020-11-28,17:10,Atlanta,Platense,0,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Don León Kolbowsky,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2020-11-28,17:10,Barracas Central,Independiente Rivadavia,2,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
@@ -124,11 +87,14 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-11-28,19:10,Instituto,Chacarita Juniors,2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2020-11-28,19:10,Mitre (SdE),Belgrano,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2020-11-28,19:20,Colón,Independiente,1,2,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
+2020-11-28,19:20,Godoy Cruz,Banfield,0,0,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 5,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-28,20:30,Alvarado,Guillermo Brown,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2020-11-28,21:30,Rosario Central,River Plate,0,2,,,Copa de la Liga,2020,zonas,Grupo C,Fecha 5,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
+2020-11-28,21:30,Vélez Sarsfield,Gimnasia y Esgrima (LP),0,1,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 5,José Amalfitani,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-29,17:10,Defensa y Justicia,Central Córdoba (SdE),2,3,,,Copa de la Liga,2020,zonas,Grupo B,Fecha 5,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-29,17:10,Defensores de Belgrano,Gimnasia y Esgrima (M),0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 1,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2020-11-29,17:10,Estudiantes (BA),Agropecuario,3,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
+2020-11-29,17:10,Huracán,Patronato,1,0,,,Copa de la Liga,2020,zonas,Grupo F,Fecha 5,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-29,18:00,San Martín (SJ),Nueva Chicago,1,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2020-11-29,19:20,Boca Juniors,Newell's Old Boys,2,0,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 5,La Bombonera,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-29,21:30,Lanús,Talleres (C),1,0,,,Copa de la Liga,2020,zonas,Grupo D,Fecha 5,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
@@ -139,7 +105,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-11-30,18:00,Estudiantes (RC),Deportivo Morón,0,0,,,Primera Nacional,2020,zonas,Zona A,Fecha 1,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2020-11-30,19:20,Atlético Tucumán,Arsenal,3,2,,,Copa de la Liga,2020,zonas,Grupo A,Fecha 5,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2020-11-30,21:30,Estudiantes (LP),San Lorenzo,0,0,,,Copa de la Liga,2020,zonas,Grupo E,Fecha 5,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
-2020-12-01,,Talleres (C),Godoy Cruz,1,0,,,Copa Argentina,2020,eliminacion,,Semifinales,Juan Gilberto Funes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2020-12-03,17:10,Chacarita Juniors,Brown de Adrogué,0,0,,,Primera Nacional,2020,zonas,Zona B,Fecha 2,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2020-12-04,17:10,Círculo Deportivo,Sol de Mayo (V),0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 1,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
 2020-12-04,17:10,Defensores de Belgrano (VR),Juventud Unida (G),0,3,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 1,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
@@ -415,6 +380,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-01-05,17:10,Sacachispas,Los Andes,2,0,,,Primera B,2020,zonas,Grupo B,Fecha 5,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
 2021-01-05,17:10,UAI Urquiza,Argentino de Quilmes,3,3,,,Primera B,2020,zonas,Grupo B,Fecha 5,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
 2021-01-05,19:00,Instituto,Quilmes,2,1,,,Primera Nacional,2020,zonas,Zona B,Fecha 6,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
+2021-01-07,,Estudiantes (RC),Chaco For Ever,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Nuevo Monumental,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2021-01-09,18:00,Cipolletti,Sportivo Estudiantes (SL),0,0,,,Torneo Federal A,2020,zonas,Grupo Sur,Fecha 7,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
 2021-01-10,17:10,Barracas Central,Nueva Chicago,0,1,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2021-01-10,17:10,Belgrano,Alvarado,2,2,,,Primera Nacional,2020,zonas,Zona A,Fecha 7,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
@@ -438,7 +404,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-01-11,,Comunicaciones,Acassuso,2,0,,,Primera B,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
 2021-01-11,,Tristán Suárez,Argentino de Quilmes,1,1,11,10,Primera B,2020,eliminacion,,,Estadio Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
 2021-01-11,,Villa San Carlos,San Telmo,2,4,,,Primera B,2020,eliminacion,,,Estadio Julio Humberto Grondona,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
-2021-01-11,17:10,Deportivo Merlo,Deportivo Laferrere,1,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 7,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-11,17:10,Dock Sud,Argentino de Merlo,3,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 7,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-11,17:30,Chaco For Ever,Sarmiento (R),0,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 7,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
 2021-01-11,17:30,Defensores de Pronunciamiento,Güemes (SdE),0,2,,,Torneo Federal A,2020,zonas,Grupo Norte,Fecha 7,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
@@ -452,6 +417,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-01-12,17:10,Excursionistas,Luján,2,1,,,Primera C,2020,zonas,Grupo B,Fecha 4,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-12,17:10,Ituzaingó,Victoriano Arenas,3,1,,,Primera C,2020,zonas,Grupo A,Fecha 4,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-12,17:10,Sportivo Italiano,San Martín (B),0,0,,,Primera C,2020,zonas,Grupo A,Fecha 4,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
+2021-01-13,17:10,Deportivo Merlo,Deportivo Laferrere,1,1,,,Primera C,2020,zonas,Etapa clasificatoria,Fecha 7,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
+2021-01-14,,Colón,Cipolletti,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Presbítero Bartolomé Grella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2021-01-15,17:10,Cañuelas,Real Pilar,0,0,,,Primera C,2020,eliminacion,,Fase primer ascenso,Jorge Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-16,,Rosario Central,Vélez Sarsfield,1,3,,,Copa de la Liga,2020,eliminacion,,Final,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
 2021-01-16,,Sarmiento (J),Estudiantes (RC),1,1,4,3,Primera Nacional,2020,eliminacion,,Final,Estadio 15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
@@ -476,6 +443,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-01-17,20:00,Sarmiento (R),Huracán Las Heras,2,1,,,Torneo Federal A,2020,eliminacion,,Primera fase,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
 2021-01-18,,J. J. de Urquiza,San Telmo,0,4,,,Primera B,2020,eliminacion,,Semifinales,Estadio Julio Humberto Grondona,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
 2021-01-18,,Tristán Suárez,Comunicaciones,1,0,,,Primera B,2020,eliminacion,,Semifinales,Estadio Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
+2021-01-20,,Rosario Central,Boca Unidos,0,3,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2021-01-21,,Atlanta,Ferro Carril Oeste,2,1,,,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2021-01-21,,Defensores de Belgrano,Quilmes,0,1,,,Primera Nacional,2020,eliminacion,,,Estadio Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2021-01-21,,Deportivo Morón,Deportivo Riestra,0,1,,,Primera Nacional,2020,eliminacion,,,Estadio José Dellagiovanna,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
@@ -497,8 +465,40 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2021-01-27,,Estudiantes (RC),Estudiantes (BA),1,0,,,Primera Nacional,2020,eliminacion,,Semifinales,Estadio Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2021-01-27,,General Lamadrid,Deportivo Merlo,2,2,6,7,Primera C,2020,eliminacion,,Semifinales,Estadio Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-27,17:30,Deportivo Maipú,Sarmiento (R),2,0,,,Torneo Federal A,2020,eliminacion,,Semifinales,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
+2021-01-28,,Arsenal,Huracán Las Heras,0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
 2021-01-31,,Dock Sud,Deportivo Merlo,1,2,,,Primera C,2020,eliminacion,,Final,Estadio Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_C_2020_(Argentina)
 2021-01-31,,Estudiantes (RC),Platense,1,1,2,4,Primera Nacional,2020,eliminacion,,Final,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_Nacional_2020
 2021-01-31,17:15,Deportivo Maipú,Deportivo Madryn,2,0,,,Torneo Federal A,2020,eliminacion,,Final,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
 2021-02-04,,San Telmo,Deportivo Madryn,0,0,3,1,Primera B,2020,eliminacion,,,Estadio Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_Transición_de_Primera_B_2020_(Argentina)
 2021-02-04,21:30,San Telmo,Deportivo Madryn,0,0,,,Torneo Federal A,2020,eliminacion,,Tercer ascenso,Marcelo Bielsa,true,https://es.wikipedia.org/wiki/Torneo_Transición_Federal_A_2020
+2021-02-17,,Vélez Sarsfield,Deportivo Camioneros,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-02-18,,San Lorenzo,Liniers,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,José María Minella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-02-19,,Defensores de Belgrano,Almirante Brown,4,2,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-02-23,,Lanús,Real Pilar,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-01,,San Martín (T),San Martín (SJ),0,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-02,,Defensa y Justicia,Estudiantes (BA),1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-03,,Boca Juniors,Claypole,2,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-10,,Atlético Tucumán,Comunicaciones,3,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-10,,Banfield,Güemes (SdE),2,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-10,,Independiente,Villa Mitre,1,0,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,José María Minella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-17,,Colón,Argentinos Juniors,0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-17,,Deportivo Laferrere,San Telmo,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-17,,Racing Club,Sportivo Belgrano,3,1,,,Copa Argentina,2020,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-23,,Gimnasia y Esgrima (LP),Dock Sud,5,0,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-25,,San Lorenzo,Defensa y Justicia,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Florencio Sola,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-03-31,,Banfield,Vélez Sarsfield,3,2,,,Copa de la Liga,2020,eliminacion,,,Estadio San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Copa_de_la_Liga_Profesional_2020
+2021-04-07,,Atlético Tucumán,River Plate,1,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Ciudad de La Plata,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-04-21,,Huracán Las Heras,Estudiantes (RC),1,4,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-04-28,,Deportivo Madryn,Banfield,0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-05-12,,Sportivo Estudiantes (SL),Villa San Carlos,1,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Coloso del Ruca Quimey,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-05-13,,Boca Unidos,Godoy Cruz,0,2,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Julio César Villagra,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-05-17,,Newell's Old Boys,Sarmiento (J),0,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-05-19,,Talleres (RdE),Temperley,0,4,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Ciudad de Caseros,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-07-13,,Villa San Carlos,Patronato,0,1,,,Copa Argentina,2020,eliminacion,,Octavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-07-14,,San Telmo,Banfield,1,0,,,Copa Argentina,2020,eliminacion,,Octavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-07-20,,Sarmiento (J),Temperley,0,1,,,Copa Argentina,2020,eliminacion,,Octavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-08-04,,Tigre,Independiente,2,1,,,Copa Argentina,2020,eliminacion,,Dieciseisavos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-10-06,,Godoy Cruz,Tigre,1,0,,,Copa Argentina,2020,eliminacion,,Cuartos,Mario Alberto Kempes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-10-13,,Argentinos Juniors,San Telmo,2,1,,,Copa Argentina,2020,eliminacion,,Cuartos,Único de San Nicolás,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-11-03,,Boca Juniors,Argentinos Juniors,1,0,,,Copa Argentina,2020,eliminacion,,Semifinales,Malvinas Argentinas,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20
+2021-12-01,,Talleres (C),Godoy Cruz,1,0,,,Copa Argentina,2020,eliminacion,,Semifinales,Juan Gilberto Funes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2019-20

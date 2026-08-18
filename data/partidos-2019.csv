@@ -95,7 +95,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-08-17,18:00,Belgrano,San Martín (SJ),1,1,,,Primera Nacional,2019,zonas,Zona A,Fecha 1,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-08-17,20:00,Racing Club,River Plate,1,6,,,Primera Division,2019,zonas,,Fecha 3,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-08-18,11:00,Patronato,Huracán,2,1,,,Primera Division,2019,zonas,,Fecha 3,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
-2019-08-18,13:00,Almagro,San Martín (T),0,1,,,Primera Nacional,2019,zonas,Zona B,Fecha 1,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-08-18,15:05,Guillermo Brown,Barracas Central,0,2,,,Primera Nacional,2019,zonas,Zona A,Fecha 1,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-08-18,15:30,Acassuso,Los Andes,2,0,,,Primera B,2019,zonas,Torneo Apertura,Fecha 2,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-08-18,15:30,Central Córdoba (R),El Porvenir,2,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 4,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
@@ -264,10 +263,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-09-08,19:05,Los Andes,Talleres (RdE),1,0,,,Primera B,2019,zonas,Torneo Apertura,Fecha 5,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-09-08,21:05,Gimnasia y Esgrima (J),Tigre,0,0,,,Primera Nacional,2019,zonas,Zona B,Fecha 4,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-09-09,15:30,Dock Sud,Deportivo Laferrere,0,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 7,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
-2019-09-09,15:30,J. J. de Urquiza,Defensores Unidos,2,1,,,Primera B,2019,zonas,Torneo Apertura,Fecha 5,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
-2019-09-09,15:30,Sportivo Italiano,Excursionistas,1,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 7,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-09-09,20:30,Ramón Santamarina,Brown de Adrogué,2,1,,,Primera Nacional,2019,zonas,Zona B,Fecha 4,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-09-09,21:05,Atlético de Rafaela,Quilmes,0,0,,,Primera Nacional,2019,zonas,Zona B,Fecha 4,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
+2019-09-10,15:30,J. J. de Urquiza,Defensores Unidos,2,1,,,Primera B,2019,zonas,Torneo Apertura,Fecha 5,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
+2019-09-10,15:30,Sportivo Italiano,Excursionistas,1,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 7,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-09-10,21:30,Chaco For Ever,Boca Unidos,2,2,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 2,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-09-12,21:05,Belgrano,Temperley,3,1,,,Primera Nacional,2019,zonas,Zona A,Fecha 5,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-09-13,15:30,Tristán Suárez,Colegiales,3,1,,,Primera B,2019,zonas,Torneo Apertura,Fecha 6,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
@@ -515,15 +514,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-10-11,,River Plate,Almagro,2,0,,,Copa Argentina,2019,eliminacion,,Cuartos,Malvinas Argentinas,true,https://es.wikipedia.org/wiki/Copa_Argentina_2018-19
 2019-10-11,21:30,Chaco For Ever,Gimnasia y Esgrima (CdU),4,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-11,22:00,Güemes (SdE),Sarmiento (R),1,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
-2019-10-12,13:00,Victoriano Arenas,General Lamadrid,0,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 12,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
-2019-10-12,13:15,Tristán Suárez,Los Andes,1,1,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-10-12,15:30,Defensores Unidos,Argentino de Quilmes,2,0,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,Mario Losinno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-10-12,15:30,Real Pilar,Ferrocarril Midland,2,2,,,Primera C,2019,zonas,Torneo Apertura,Fecha 12,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
-2019-10-12,15:30,Sacachispas,J. J. de Urquiza,1,1,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-10-12,15:30,UAI Urquiza,Villa San Carlos,1,4,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
-2019-10-12,16:00,Deportivo Merlo,Deportivo Laferrere,0,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 12,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
-2019-10-12,16:40,Tigre,Villa Dálmine,1,0,,,Primera Nacional,2019,zonas,Zona B,Fecha 9,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
-2019-10-12,18:00,Estudiantes (BA),Atlanta,1,2,,,Primera Nacional,2019,zonas,Zona A,Fecha 9,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-12,18:40,Belgrano,Ferro Carril Oeste,2,2,,,Primera Nacional,2019,zonas,Zona A,Fecha 9,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-13,15:10,Almirante Brown,San Miguel,3,0,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-10-13,15:30,All Boys,Ramón Santamarina,1,1,,,Primera Nacional,2019,zonas,Zona B,Fecha 9,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
@@ -531,12 +524,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-10-13,15:30,Cañuelas,Argentino de Merlo,2,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 12,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-10-13,15:30,Deportivo Armenio,Flandria,1,1,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-10-13,15:30,Excursionistas,Dock Sud,0,3,,,Primera C,2019,zonas,Torneo Apertura,Fecha 12,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
-2019-10-13,15:30,Fénix,Comunicaciones,0,3,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-10-13,15:30,Ituzaingó,El Porvenir,1,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 12,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-10-13,15:30,Luján,Central Córdoba (R),0,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 12,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-10-13,15:30,Sol de Mayo (V),Deportivo Maipú,1,2,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-13,16:00,Defensores de Pronunciamiento,Juventud Unida (G),0,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
-2019-10-13,16:00,Douglas Haig,Central Norte (S),3,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-13,16:00,Guillermo Brown,Nueva Chicago,2,0,,,Primera Nacional,2019,zonas,Zona A,Fecha 9,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-13,16:00,Sansinena,Cipolletti,1,3,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-13,16:15,Juventud Unida Universitario,Deportivo Camioneros,1,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
@@ -557,10 +548,16 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-10-14,19:00,Desamparados,Villa Mitre,0,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-14,20:00,Atlético de Rafaela,Instituto,3,2,,,Primera Nacional,2019,zonas,Zona B,Fecha 9,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-14,21:10,Quilmes,San Martín (T),1,4,,,Primera Nacional,2019,zonas,Zona B,Fecha 9,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
+2019-10-15,13:00,Victoriano Arenas,General Lamadrid,0,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 12,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
+2019-10-15,13:15,Tristán Suárez,Los Andes,1,1,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-10-15,15:30,Defensores de Belgrano,Almagro,1,1,,,Primera Nacional,2019,zonas,Zona B,Fecha 9,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
+2019-10-15,15:30,Sacachispas,J. J. de Urquiza,1,1,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
+2019-10-15,16:00,Deportivo Merlo,Deportivo Laferrere,0,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 12,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
+2019-10-15,16:40,Tigre,Villa Dálmine,1,0,,,Primera Nacional,2019,zonas,Zona B,Fecha 9,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-15,20:00,Chacarita Juniors,Deportivo Riestra,1,1,,,Primera Nacional,2019,zonas,Zona B,Fecha 9,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-16,,Central Córdoba (SdE),Estudiantes (LP),1,0,,,Copa Argentina,2019,eliminacion,,Cuartos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2018-19
 2019-10-16,15:30,Barracas Central,Temperley,0,1,,,Primera Nacional,2019,zonas,Zona A,Fecha 9,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
+2019-10-16,15:30,Fénix,Comunicaciones,0,3,,,Primera B,2019,zonas,Torneo Apertura,Fecha 10,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2019-10-18,19:00,Arsenal,River Plate,3,3,,,Primera Division,2019,zonas,,Fecha 10,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-10-18,21:00,Cipolletti,Sol de Mayo (V),2,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 8,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-18,21:00,Ferro Carril Oeste (GP),Sansinena,1,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 8,El Coloso del Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
@@ -576,7 +573,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-10-19,15:30,Deportivo Madryn,Sportivo Estudiantes (SL),0,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-19,15:30,Independiente,Argentinos Juniors,0,1,,,Primera Division,2019,zonas,,Fecha 10,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-10-19,15:30,Nueva Chicago,Alvarado,0,1,,,Primera Nacional,2019,zonas,Zona A,Fecha 10,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
-2019-10-19,16:00,Deportivo Camioneros,Círculo Deportivo,1,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 8,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-19,16:00,Gimnasia y Esgrima (CdU),Crucero del Norte,1,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 8,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-19,16:00,Sportivo Peñarol (C),Huracán Las Heras,1,2,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 8,Ramón Pablo Rojas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-19,17:00,San Martín (F),Güemes (SdE),1,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 8,17 de Octubre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
@@ -619,6 +615,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-10-21,20:30,Ramón Santamarina,Gimnasia y Esgrima (J),0,0,,,Primera Nacional,2019,zonas,Zona B,Fecha 10,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-21,21:10,Ferro Carril Oeste,Estudiantes (BA),1,0,,,Primera Nacional,2019,zonas,Zona A,Fecha 10,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-21,21:20,Colón,Godoy Cruz,2,1,,,Primera Division,2019,zonas,,Fecha 10,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
+2019-10-24,13:00,Almagro,San Martín (T),0,1,,,Primera Nacional,2019,zonas,Zona B,Fecha 1,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-24,16:00,Círculo Deportivo,Villa Mitre,0,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 9,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-24,16:00,Huracán Las Heras,Sportivo Estudiantes (SL),1,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 9,General San Martín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-24,16:00,Sansinena,Sportivo Peñarol (C),2,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 9,Luis Molina,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
@@ -634,6 +631,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-10-24,22:00,Chaco For Ever,Central Norte (S),1,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 9,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-24,22:00,Güemes (SdE),Sportivo Las Parejas,0,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 9,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-25,,Independiente,Lanús,0,2,,,Copa Argentina,2019,eliminacion,,Cuartos,Marcelo Bielsa,true,https://es.wikipedia.org/wiki/Copa_Argentina_2018-19
+2019-10-28,18:00,Estudiantes (BA),Atlanta,1,2,,,Primera Nacional,2019,zonas,Zona A,Fecha 9,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-28,18:10,Temperley,Deportivo Morón,3,0,,,Primera Nacional,2019,zonas,Zona A,Fecha 10,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2019-10-29,15:00,Godoy Cruz,Aldosivi,3,2,,,Primera Division,2019,zonas,,Fecha 11,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-10-29,15:30,Real Pilar,Central Córdoba (R),3,3,,,Primera C,2019,zonas,Torneo Apertura,Fecha 14,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
@@ -643,6 +641,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-10-29,19:10,Newell's Old Boys,Gimnasia y Esgrima (LP),0,4,,,Primera Division,2019,zonas,,Fecha 11,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-10-29,21:20,River Plate,Colón,2,1,,,Primera Division,2019,zonas,,Fecha 11,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-10-30,15:00,Argentinos Juniors,Talleres (C),1,0,,,Primera Division,2019,zonas,,Fecha 11,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
+2019-10-30,16:00,Deportivo Camioneros,Círculo Deportivo,1,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 8,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-10-30,17:00,San Lorenzo,Defensa y Justicia,1,3,,,Primera Division,2019,zonas,,Fecha 11,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-10-30,19:10,Unión,Independiente,2,2,,,Primera Division,2019,zonas,,Fecha 11,15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-10-30,20:00,Sportivo Las Parejas,Defensores de Pronunciamiento,0,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 10,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
@@ -923,6 +922,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-12-01,20:30,Sportivo Las Parejas,Crucero del Norte,0,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 14,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-12-01,21:45,Aldosivi,Independiente,0,0,,,Primera Division,2019,zonas,,Fecha 15,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-12-01,21:45,Central Córdoba (SdE),Rosario Central,1,1,,,Primera Division,2019,zonas,,Fecha 15,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
+2019-12-02,16:00,Douglas Haig,Central Norte (S),3,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 7,Miguel Morales,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-12-02,17:00,Deportivo Español,Central Córdoba (R),2,2,,,Primera C,2019,zonas,Torneo Apertura,Fecha 18,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-12-02,17:00,Excursionistas,Luján,0,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 18,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-12-02,17:00,Real Pilar,San Martín (B),2,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 18,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
@@ -947,7 +947,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-12-07,17:00,Círculo Deportivo,Deportivo Madryn,2,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 15,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-12-07,17:00,Deportivo Camioneros,Sportivo Estudiantes (SL),2,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 15,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-12-07,17:00,Deportivo Laferrere,Deportivo Español,3,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 19,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
-2019-12-07,17:00,General Lamadrid,El Porvenir,3,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 19,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-12-07,17:00,Gimnasia y Esgrima (CdU),Sarmiento (R),0,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 15,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-12-07,17:00,Sol de Mayo (V),Sansinena,0,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 15,Sol de Mayo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2019-12-07,17:00,UAI Urquiza,Almirante Brown,0,0,,,Primera B,2019,zonas,Torneo Apertura,Fecha 17,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
@@ -977,6 +976,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2019-12-08,21:45,River Plate,San Lorenzo,0,1,,,Primera Division,2019,zonas,,Fecha 16,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2019-12-09,17:00,Berazategui,Sportivo Italiano,3,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 19,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-12-09,17:00,Deportivo Merlo,Ituzaingó,0,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 19,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
+2019-12-09,17:00,General Lamadrid,El Porvenir,3,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 19,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-12-09,17:00,Luján,Victoriano Arenas,2,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 19,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-12-09,17:00,San Martín (B),Excursionistas,2,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 19,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2019-12-09,19:00,Patronato,Vélez Sarsfield,0,1,,,Primera Division,2019,zonas,,Fecha 16,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
@@ -1094,7 +1094,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-02-07,21:30,Gimnasia y Esgrima (J),Deportivo Riestra,0,1,,,Primera Nacional,2019,zonas,Zona B,Fecha 16,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2020-02-08,17:00,Almirante Brown,Sacachispas,1,1,,,Primera B,2019,zonas,Torneo Clausura,Fecha 3,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2020-02-08,17:00,Comunicaciones,Colegiales,1,0,,,Primera B,2019,zonas,Torneo Clausura,Fecha 3,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
-2020-02-08,17:00,Defensores de Belgrano,Gimnasia y Esgrima (M),1,0,,,Primera Nacional,2019,zonas,Zona B,Fecha 16,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2020-02-08,17:00,Deportivo Español,Real Pilar,0,2,,,Primera C,2019,zonas,Torneo Clausura,Fecha 4,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2020-02-08,17:00,Talleres (RdE),San Telmo,1,1,,,Primera B,2019,zonas,Torneo Clausura,Fecha 3,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2020-02-08,17:05,All Boys,Chacarita Juniors,1,1,,,Primera Nacional,2019,zonas,Zona B,Fecha 16,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
@@ -1111,6 +1110,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-02-09,17:00,Argentino de Quilmes,Los Andes,1,2,,,Primera B,2019,zonas,Torneo Clausura,Fecha 3,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2020-02-09,17:00,Cañuelas,San Martín (B),0,1,,,Primera C,2019,zonas,Torneo Clausura,Fecha 4,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2020-02-09,17:00,Círculo Deportivo,Sansinena,0,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 18,Guillermo Trama,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
+2020-02-09,17:00,Defensores de Belgrano,Gimnasia y Esgrima (M),1,0,,,Primera Nacional,2019,zonas,Zona B,Fecha 16,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2020-02-09,17:00,Deportivo Camioneros,Huracán Las Heras,1,1,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 18,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2020-02-09,17:00,General Lamadrid,Berazategui,0,2,,,Primera C,2019,zonas,Torneo Clausura,Fecha 4,Enrique Sexto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2020-02-09,17:00,Villa San Carlos,San Miguel,1,2,,,Primera B,2019,zonas,Torneo Clausura,Fecha 3,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
@@ -1165,7 +1165,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-02-15,20:00,Ferro Carril Oeste,Independiente Rivadavia,1,0,,,Primera Nacional,2019,zonas,Zona A,Fecha 17,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2020-02-15,20:35,Tigre,Atlético de Rafaela,2,0,,,Primera Nacional,2019,zonas,Zona B,Fecha 17,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2020-02-15,21:00,Alvarado,Barracas Central,2,0,,,Primera Nacional,2019,zonas,Zona A,Fecha 17,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
-2020-02-15,21:00,Deportivo Laferrere,El Porvenir,2,1,,,Primera C,2019,zonas,Torneo Clausura,Fecha 5,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2020-02-15,21:30,Mitre (SdE),Atlanta,0,1,,,Primera Nacional,2019,zonas,Zona A,Fecha 17,Doctores José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2020-02-15,21:50,Talleres (C),San Lorenzo,1,0,,,Primera Division,2019,zonas,,Fecha 20,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2020-02-16,17:00,Berazategui,Dock Sud,2,3,,,Primera C,2019,zonas,Torneo Clausura,Fecha 5,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
@@ -1200,6 +1199,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-02-17,19:00,Estudiantes (LP),Defensa y Justicia,1,2,,,Primera Division,2019,zonas,,Fecha 20,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
 2020-02-17,21:10,Estudiantes (RC),Platense,3,2,,,Primera Nacional,2019,zonas,Zona A,Fecha 17,Antonio Candini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
 2020-02-17,21:10,Independiente,Arsenal,1,1,,,Primera Division,2019,zonas,,Fecha 20,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
+2020-02-18,21:00,Deportivo Laferrere,El Porvenir,2,1,,,Primera C,2019,zonas,Torneo Clausura,Fecha 5,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2020-02-18,21:10,Los Andes,Defensores Unidos,1,0,,,Primera B,2019,zonas,Torneo Clausura,Fecha 4,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2020-02-21,17:00,Dock Sud,Central Córdoba (R),1,0,,,Primera C,2019,zonas,Torneo Clausura,Fecha 6,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2020-02-21,19:00,Banfield,Aldosivi,0,1,,,Primera Division,2019,zonas,,Fecha 21,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2019-20_(Argentina)
@@ -1389,7 +1389,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-03-13,22:00,Güemes (SdE),San Martín (F),1,0,,,Torneo Federal A,2019,zonas,Etapa clasificatoria,Fecha 23,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2019-20
 2020-03-14,13:10,Los Andes,Almirante Brown,1,3,,,Primera B,2019,zonas,Torneo Clausura,Fecha 8,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2020-03-14,14:10,Comunicaciones,Talleres (RdE),2,1,,,Primera B,2019,zonas,Torneo Clausura,Fecha 8,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
-2020-03-14,16:00,Acassuso,Argentino de Quilmes,1,0,,,Primera B,2019,zonas,Torneo Clausura,Fecha 8,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2020-03-14,16:00,Colegiales,Deportivo Armenio,1,2,,,Primera B,2019,zonas,Torneo Clausura,Fecha 8,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)
 2020-03-14,16:00,Deportivo Laferrere,Berazategui,1,0,,,Primera C,2019,zonas,Torneo Clausura,Fecha 9,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2020-03-14,16:00,Estudiantes (BA),Temperley,2,2,,,Primera Nacional,2019,zonas,Zona A,Fecha 21,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2019-20
@@ -1436,3 +1435,4 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2020-07-28,15:30,Ituzaingó,Luján,2,1,,,Primera C,2019,zonas,Torneo Apertura,Fecha 1,Carlos Alberto Sacaan,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2020-07-28,15:30,Sportivo Italiano,Central Córdoba (R),1,0,,,Primera C,2019,zonas,Torneo Apertura,Fecha 1,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
 2020-07-30,15:30,Deportivo Español,Deportivo Merlo,0,3,,,Primera C,2019,zonas,Torneo Apertura,Fecha 1,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2019-20_(Argentina)
+2020-11-29,16:00,Acassuso,Argentino de Quilmes,1,0,,,Primera B,2019,zonas,Torneo Clausura,Fecha 8,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2019-20_(Argentina)

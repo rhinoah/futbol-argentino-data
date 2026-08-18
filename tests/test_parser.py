@@ -1020,3 +1020,101 @@ def test_la_columna_fecha_no_convierte_una_llave_en_fase_regular():
              "|}\n")
     ps = parser.partidos(texto, 2011, "Prueba", anio_fin=2012)
     assert len(ps) == 1 and ps[0].fase == "eliminacion"
+
+
+# --------------------------------------------------------------------------
+# el anio y la nota al pie de la fecha
+# --------------------------------------------------------------------------
+def test_el_anio_que_escribe_la_celda_le_gana_a_la_regla():
+    """El Apertura 2007 se jugo entre agosto y diciembre, pero un partido quedo
+    postergado hasta abril y la pagina escribe el anio: '23 de abril de 2008'.
+    Deducirlo por el mes lo mandaba a abril de 2007, cuando el torneo ni existia."""
+    assert parser.a_iso("23 de abril de 2008", 2007) == "2008-04-23"
+    assert parser.a_iso("23 de abril", 2007) == "2007-04-23"
+
+
+def test_sin_anio_escrito_la_regla_de_la_temporada_sigue_valiendo():
+    assert parser.a_iso("22 de enero", 2016, 2017, 8) == "2017-01-22"
+    assert parser.a_iso("22 de septiembre", 2016, 2017, 8) == "2016-09-22"
+
+
+def test_la_nota_dice_cuando_se_jugo_de_verdad():
+    """La celda de un partido postergado guarda el dia para el que ESTABA
+    previsto. El dataset dice cuando se jugo."""
+    fila = ("|Villa Dálmine\n|1 - 3\n|Ferro Carril Oeste\n"
+            "|28 de junio<ref group=\"n.\">Suspendido por lluvia. "
+            "Se jugó el 29 de julio, a partir de las 15:00.</ref>\n|21:30")
+    assert parser._fecha_de_la_nota(fila, 2015, None, 8) == "2015-07-29"
+
+
+def test_completar_un_partido_no_es_jugarlo_otro_dia():
+    """`se completó` es el partido que EMPEZO ese dia y se termino despues: la
+    fecha buena sigue siendo la primera. Son 105 casos, y meterlos en la misma
+    bolsa que los 296 de `se jugó` los mandaria al dia equivocado."""
+    fila = "|2 de marzo<ref>Suspendido. Se completó el 4 de marzo, a las 20:00.</ref>"
+    assert parser._fecha_de_la_nota(fila, 2025, None, 8) == ""
+
+
+def test_la_fecha_jugada_nunca_cae_antes_de_la_programada():
+    """Un partido no se juega antes del dia para el que estaba previsto, asi que
+    si la regla de la temporada lo pone antes, el anio es el que sigue. El caso
+    real es de la pandemia: previsto para el 14 de marzo de 2020 y jugado el 29
+    de noviembre, que por el mes la regla contesta 2019."""
+    fila = "|14 de marzo<ref>Suspendido. Se jugó el 29 de noviembre, a las 17:10.</ref>"
+    assert parser._fecha_de_la_nota(fila, 2019, 2020, 8, "2020-03-14") == "2020-11-29"
+    assert parser._fecha_de_la_nota(fila, 2019, 2020, 8) == "2019-11-29"
+
+
+def test_los_pipes_de_una_nota_no_crean_celdas():
+    """Una `{{Cita web |url=...|fechaacceso=...}}` mete tres celdas falsas y corre
+    todo lo que viene despues. El Apertura 2025 publicaba partidos cuya HORA era
+    el titulo de la nota."""
+    fila = ("|Banfield\n|1 - 1\n|Independiente\n|Florencio Sola\n|2 de marzo"
+            "<ref>{{Cita web |url=http://x |título=Se suspendió |sitioweb=TyC}}</ref>\n|21:30")
+    assert [parser._celda(c)[1] for c in parser._partir(fila)][-1] == "21:30"
+
+
+def test_la_nota_se_conserva_aunque_se_le_saquen_los_pipes():
+    """No se borra: adentro esta la fecha en que se jugo el partido postergado.
+    Sin pipes queda pegada a su celda, que es la de la fecha."""
+    fila = "|28 de junio{{refn|group=n.|Suspendido. Se jugó el 29 de julio.}}"
+    assert "29 de julio" in parser._partir(fila)[0]
+
+
+# la nota, de punta a punta y con la forma que de verdad tiene en Wikipedia:
+# un `<ref>` de varias lineas, que es lo unico que llega a partir la fila.
+_FILA_CON_NOTA = """{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Villa Dálmine
+|1 - 3
+|Ferro Carril Oeste
+|El Coliseo
+|28 de junio<ref>{{Cita web
+|url=http://x
+|título=Suspendido por lluvia. Se jugó el 29 de julio, a partir de las 15:00.
+|fechaacceso=26 de enero de 2022}}</ref>
+|21:30
+|}"""
+
+
+def test_la_fecha_del_partido_sale_de_la_nota_y_no_de_la_celda():
+    """De punta a punta: no alcanza con que `_fecha_de_la_nota` sepa leerla, la
+    tiene que USAR el que arma el partido."""
+    p = parser.partidos_de_tabla(_FILA_CON_NOTA, 2015, "X")[0]
+    assert p.fecha == "2015-07-29"
+
+
+def test_una_nota_de_varias_lineas_no_corre_las_columnas():
+    """Los `\n|url=`, `\n|título=` y `\n|fechaacceso=` de una cita son tres
+    celdas falsas. Con ellas adentro, la HORA del partido pasa a ser el titulo de
+    la nota, y la fecha, la de consulta de la cita."""
+    p = parser.partidos_de_tabla(_FILA_CON_NOTA, 2015, "X")[0]
+    assert p.hora == "21:30"
+    assert p.estadio == "El Coliseo"
+    assert not p.fecha.startswith("2022")

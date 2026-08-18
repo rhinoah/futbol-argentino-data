@@ -161,7 +161,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-05-30,21:10,Godoy Cruz,Gimnasia y Esgrima (LP),2,2,,,Primera Division - Clausura,2011,zonas,,Fecha 16,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-03,21:10,Arsenal,Olimpo,2,0,,,Primera Division - Clausura,2011,zonas,,Fecha 17,El Viaducto,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-04,17:15,Banfield,All Boys,3,1,,,Primera Division - Clausura,2011,zonas,,Fecha 17,Florencio Sola,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
-2011-06-04,19:30,Newell's Old Boys,San Lorenzo,0,0,,,Primera Division - Clausura,2011,zonas,,Fecha 17,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-05,14:00,Quilmes,Boca Juniors,2,2,,,Primera Division - Clausura,2011,zonas,,Fecha 17,Centenario,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-05,16:00,Gimnasia y Esgrima (LP),Racing Club,0,0,,,Primera Division - Clausura,2011,zonas,,Fecha 17,Juan Carmelo Zerillo,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-05,18:10,Huracán,Tigre,3,2,,,Primera Division - Clausura,2011,zonas,,Fecha 17,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
@@ -179,6 +178,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-06-12,18:10,Lanús,Argentinos Juniors,0,1,,,Primera Division - Clausura,2011,zonas,,Fecha 18,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-12,20:20,Boca Juniors,Banfield,1,1,,,Primera Division - Clausura,2011,zonas,,Fecha 18,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-13,20:10,Racing Club,Godoy Cruz,2,3,,,Primera Division - Clausura,2011,zonas,,Fecha 18,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
+2011-06-15,19:30,Newell's Old Boys,San Lorenzo,0,0,,,Primera Division - Clausura,2011,zonas,,Fecha 17,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-18,15:00,Argentinos Juniors,Tigre,1,1,,,Primera Division - Clausura,2011,zonas,,Fecha 19,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-18,15:00,Gimnasia y Esgrima (LP),Boca Juniors,2,2,,,Primera Division - Clausura,2011,zonas,,Fecha 19,Juan Carmelo Zerillo,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
 2011-06-18,15:00,Independiente,Huracán,5,1,,,Primera Division - Clausura,2011,zonas,,Fecha 19,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2011_(Argentina)
@@ -813,7 +813,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-10-30,15:30,UAI Urquiza,Villa Dálmine,0,0,,,Primera C,2011,zonas,,Fecha 13,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina)
 2011-10-30,16:00,Cipolletti,Juventud Unida Universitario,1,1,,,Torneo Argentino A,2011,zonas,,Fecha 9,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-30,16:00,Lanús,Godoy Cruz,2,1,,,Primera Division - Apertura,2011,zonas,,Fecha 13,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
-2011-10-30,16:00,San Lorenzo,All Boys,0,1,,,Primera Division - Apertura,2011,zonas,,Fecha 13,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-10-30,16:30,Defensores de Belgrano (VR),Huracán (TA),4,1,,,Torneo Argentino A,2011,zonas,,Fecha 9,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-30,16:30,Racing (C),Crucero del Norte,1,2,,,Torneo Argentino A,2011,zonas,,Fecha 11,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-10-30,17:30,Unión (S),Gimnasia y Tiro (S),0,1,,,Torneo Argentino A,2011,zonas,,Fecha 11,De La Avenida,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
@@ -885,6 +884,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-11-11,21:30,Gimnasia y Esgrima (CdU),Racing (O),1,1,,,Torneo Argentino A,2011,zonas,,Fecha 11,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-11,21:30,Racing (C),Gimnasia y Tiro (S),3,0,,,Torneo Argentino A,2011,zonas,,Fecha 13,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
 2011-11-11,22:00,Juventud Antoniana,Crucero del Norte,0,0,,,Torneo Argentino A,2011,zonas,,Fecha 13,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12
+2011-11-12,16:00,San Lorenzo,All Boys,0,1,,,Primera Division - Apertura,2011,zonas,,Fecha 13,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina)
 2011-11-12,17:00,Acassuso,Villa San Carlos,0,2,,,Primera B,2011,zonas,,Fecha 16,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-11-12,17:00,Comunicaciones,Defensores de Belgrano,0,1,,,Primera B,2011,zonas,,Fecha 16,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina)
 2011-11-12,17:00,Defensa y Justicia,Quilmes,2,1,,,Primera Nacional,2011,zonas,,Fecha 14,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12

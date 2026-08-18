@@ -1,5 +1,4 @@
 date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
-2014-01-26,16:00,Boca Unidos,Argentinos Juniors,0,4,,,Primera Nacional,2014,zonas,Zona A,Fecha 12,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-02-07,17:00,Estudiantes (LP),Arsenal,1,0,,,Primera Division - Final,2014,zonas,,Fecha 1,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Final_2014_(Argentina)
 2014-02-07,19:15,Vélez Sarsfield,Tigre,0,0,,,Primera Division - Final,2014,zonas,,Fecha 1,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Final_2014_(Argentina)
 2014-02-07,21:30,Olimpo,San Lorenzo,2,0,,,Primera Division - Final,2014,zonas,,Fecha 1,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Final_2014_(Argentina)
@@ -322,7 +321,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-08-23,15:30,Defensores de Belgrano,Dock Sud,3,0,,,Primera C,2014,zonas,Zona A,Fecha 4,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-08-23,15:30,J. J. de Urquiza,Luján,1,0,,,Primera C,2014,zonas,Zona A,Fecha 4,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-08-23,15:30,Sacachispas,Argentino de Merlo,4,0,,,Primera C,2014,zonas,Zona B,Fecha 4,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
-2014-08-23,16:30,Ramón Santamarina,Unión,2,2,,,Primera Nacional,2014,zonas,Zona B,Fecha 3,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-08-23,17:15,Newell's Old Boys,Belgrano,3,3,,,Primera Division,2014,zonas,,Fecha 3,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-08-23,18:30,Argentinos Juniors,Gimnasia y Esgrima (J),0,2,,,Primera Nacional,2014,zonas,Zona A,Fecha 3,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-08-23,19:30,San Martín (SJ),Instituto,2,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 3,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
@@ -336,6 +334,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-08-24,16:00,Ferro Carril Oeste,Boca Unidos,0,1,,,Primera Nacional,2014,zonas,Zona A,Fecha 3,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-08-24,16:00,Guaraní Antonio Franco,Aldosivi,0,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 3,Clemente A. F. de Oliveira,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-08-24,16:00,Patronato,Temperley,0,1,,,Primera Nacional,2014,zonas,Zona B,Fecha 3,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
+2014-08-24,16:30,Ramón Santamarina,Unión,2,2,,,Primera Nacional,2014,zonas,Zona B,Fecha 3,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-08-24,18:00,Sportivo Belgrano,Independiente Rivadavia,2,1,,,Primera Nacional,2014,zonas,Zona B,Fecha 3,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-08-24,18:15,Boca Juniors,Atlético de Rafaela,0,3,,,Primera Division,2014,zonas,,Fecha 3,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-08-24,21:30,Godoy Cruz,River Plate,0,4,,,Primera Division,2014,zonas,,Fecha 3,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
@@ -431,7 +430,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-09-04,15:30,Luján,Dock Sud,1,2,,,Primera C,2014,zonas,Zona A,Fecha 6,Municipal de la ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-09-04,15:30,San Telmo,Excursionistas,0,0,,,Primera C,2014,zonas,Zona B,Fecha 6,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-09-06,11:00,Almagro,Sportivo Italiano,1,1,,,Primera B,2014,zonas,Zona B,Fecha 8,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
-2014-09-06,11:00,Colegiales,Deportivo Merlo,0,1,,,Primera B,2014,zonas,Zona A,Fecha 8,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-09-06,11:00,Fénix,Brown de Adrogué,2,1,,,Primera B,2014,zonas,Zona A,Fecha 8,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-09-06,11:00,Villa San Carlos,UAI Urquiza,2,0,,,Primera B,2014,zonas,Zona B,Fecha 8,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-09-06,11:05,Los Andes,Acassuso,2,1,,,Primera B,2014,zonas,Zona B,Fecha 8,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
@@ -509,7 +507,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-09-14,15:15,Lanús,Banfield,1,0,,,Primera Division,2014,zonas,,Fecha 7,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-09-14,16:15,Belgrano,Vélez Sarsfield,1,0,,,Primera Division,2014,zonas,,Fecha 7,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-09-14,18:15,Boca Juniors,Racing Club,1,2,,,Primera Division,2014,zonas,,Fecha 7,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
-2014-09-14,21:30,Arsenal,River Plate,1,1,,,Primera Division,2014,zonas,,Fecha 7,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-09-15,15:00,Deportivo Morón,UAI Urquiza,2,0,,,Primera B,2014,zonas,Zona B,Fecha 10,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-09-15,15:30,Argentino de Merlo,Juventud Unida,2,2,,,Primera C,2014,zonas,Zona B,Fecha 8,Argentino (M),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-09-15,15:30,Colegiales,Deportivo Español,1,2,,,Primera B,2014,zonas,Zona A,Fecha 10,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
@@ -552,7 +549,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-09-21,11:00,Flandria,Central Córdoba (R),0,0,,,Primera C,2014,zonas,Zona B,Fecha 9,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-09-21,11:00,Juventud Unida,Argentino de Quilmes,2,1,,,Primera C,2014,zonas,Zona B,Fecha 9,Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-09-21,15:00,All Boys,Temperley,0,0,,,Primera Nacional,2014,zonas,Zona B,Fecha 9,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
-2014-09-21,15:15,Godoy Cruz,Tigre,4,3,,,Primera Division,2014,zonas,,Fecha 8,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-09-21,15:30,Acassuso,Barracas Central,3,1,,,Primera B,2014,zonas,Zona B,Fecha 11,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-09-21,15:30,Excursionistas,Argentino de Merlo,1,0,,,Primera C,2014,zonas,Zona B,Fecha 9,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-09-21,16:00,Boca Unidos,Aldosivi,1,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 9,José Antonio Romero Feris,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
@@ -574,7 +570,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-09-23,20:10,San Martín (SJ),Argentinos Juniors,2,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 9,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-09-23,21:05,Villa Dálmine,Chacarita Juniors,1,1,,,Primera B,2014,zonas,Zona A,Fecha 11,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-09-24,,Rosario Central,Tigre,1,0,,,Copa Argentina,2014,eliminacion,,Octavos,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2013-14
+2014-09-24,11:00,Colegiales,Deportivo Merlo,0,1,,,Primera B,2014,zonas,Zona A,Fecha 8,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-09-24,20:00,Ferro Carril Oeste,Colón,1,1,,,Primera Nacional,2014,zonas,Zona A,Fecha 9,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
+2014-09-25,21:30,Arsenal,River Plate,1,1,,,Primera Division,2014,zonas,,Fecha 7,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-09-26,15:30,Sportivo Italiano,Deportivo Armenio,0,2,,,Primera B,2014,zonas,Zona B,Fecha 12,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-09-26,17:30,Estudiantes (LP),Vélez Sarsfield,3,2,,,Primera Division,2014,zonas,,Fecha 9,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-09-26,20:00,Aldosivi,Instituto,2,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 10,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
@@ -716,6 +714,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-10-13,18:30,San Martín (SJ),Boca Unidos,1,1,,,Primera Nacional,2014,zonas,Zona A,Fecha 13,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-10-13,20:30,Arsenal,San Lorenzo,0,0,,,Primera Division,2014,zonas,,Fecha 11,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-10-14,16:30,Acassuso,UAI Urquiza,2,2,,,Primera B,2014,zonas,Zona B,Fecha 15,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
+2014-10-15,15:15,Godoy Cruz,Tigre,4,3,,,Primera Division,2014,zonas,,Fecha 8,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-10-17,15:30,Deportivo Español,Deportivo Merlo,2,0,,,Primera B,2014,zonas,Zona A,Fecha 16,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-10-17,18:10,Gimnasia y Esgrima (LP),Olimpo,0,0,,,Primera Division,2014,zonas,,Fecha 12,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-10-17,20:30,Quilmes,Atlético de Rafaela,0,0,,,Primera Division,2014,zonas,,Fecha 12,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
@@ -810,6 +809,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-10-28,15:30,Flandria,Defensores de Cambaceres,2,1,,,Primera C,2014,zonas,Zona B,Fecha 15,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-10-28,15:30,Juventud Unida,Sacachispas,2,1,,,Primera C,2014,zonas,Zona B,Fecha 15,Ciudad de San Miguel,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-10-28,21:15,Chacarita Juniors,Almirante Brown,2,2,,,Primera B,2014,zonas,Zona A,Fecha 18,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
+2014-10-30,16:00,Boca Unidos,Argentinos Juniors,0,4,,,Primera Nacional,2014,zonas,Zona A,Fecha 12,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-10-31,15:30,Deportivo Merlo,Colegiales,3,3,,,Primera B,2014,zonas,Zona A,Fecha 19,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-10-31,18:10,All Boys,Crucero del Norte,1,0,,,Primera Nacional,2014,zonas,Zona B,Fecha 16,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-10-31,20:30,Banfield,Olimpo,3,0,,,Primera Division,2014,zonas,,Fecha 14,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
@@ -840,10 +840,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-11-02,15:30,Central Córdoba (R),Juventud Unida,3,1,,,Primera C,2014,zonas,Zona B,Fecha 16,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-11-02,16:00,San Lorenzo,Boca Juniors,2,0,,,Primera Division,2014,zonas,,Fecha 14,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-02,16:00,Tigre,Lanús,3,0,,,Primera Division,2014,zonas,,Fecha 14,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
-2014-11-02,18:15,Arsenal,Independiente,1,1,,,Primera Division,2014,zonas,,Fecha 14,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
-2014-11-02,21:30,River Plate,Estudiantes (LP),0,1,,,Primera Division,2014,zonas,,Fecha 14,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
-2014-11-03,18:10,Aldosivi,Argentinos Juniors,2,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 16,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
-2014-11-03,20:30,Defensa y Justicia,Newell's Old Boys,1,0,,,Primera Division,2014,zonas,,Fecha 14,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-04,16:30,Los Andes,UAI Urquiza,1,2,,,Primera B,2014,zonas,Zona B,Fecha 20,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-11-04,21:05,Deportivo Morón,Acassuso,0,1,,,Primera B,2014,zonas,Zona B,Fecha 20,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-11-05,15:05,Tristán Suárez,Deportivo Español,3,0,,,Primera B,2014,zonas,Zona A,Fecha 20,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
@@ -911,9 +907,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-11-11,20:00,Aldosivi,Ferro Carril Oeste,2,1,,,Primera Nacional,2014,zonas,Zona A,Fecha 18,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-11,20:00,Sportivo Italiano,Los Andes,1,1,,,Primera B,2014,zonas,Zona B,Fecha 21,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-11-11,21:00,Guaraní Antonio Franco,San Martín (SJ),2,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 18,Clemente A. F. de Oliveira,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
+2014-11-12,21:30,River Plate,Estudiantes (LP),0,1,,,Primera Division,2014,zonas,,Fecha 14,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-13,17:00,Defensores Unidos,Ferrocarril Midland,0,0,,,Primera C,2014,zonas,Zona A,Fecha 16,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-11-13,17:00,Defensores de Cambaceres,Deportivo Laferrere,0,0,,,Primera C,2014,zonas,Zona B,Fecha 16,Talleres de Remedios de Escalada,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-11-13,17:00,Luján,Talleres (RdE),0,2,,,Primera C,2014,zonas,Zona A,Fecha 16,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
+2014-11-13,18:15,Arsenal,Independiente,1,1,,,Primera Division,2014,zonas,,Fecha 14,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-13,20:45,Argentino de Merlo,Argentino de Quilmes,2,1,,,Primera C,2014,zonas,Zona B,Fecha 16,Argentino (M),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-11-14,17:00,J. J. de Urquiza,Berazategui,2,0,,,Primera C,2014,zonas,Zona A,Fecha 18,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-11-14,19:10,Defensa y Justicia,Atlético de Rafaela,2,1,,,Primera Division,2014,zonas,,Fecha 16,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
@@ -925,6 +923,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-11-15,17:00,Deportivo Armenio,UAI Urquiza,1,0,,,Primera B,2014,zonas,Zona B,Fecha 22,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-11-15,17:00,Gimnasia y Esgrima (LP),Banfield,1,1,,,Primera Division,2014,zonas,,Fecha 16,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-15,17:00,San Lorenzo,Belgrano,4,0,,,Primera Division,2014,zonas,,Fecha 16,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
+2014-11-15,18:10,Aldosivi,Argentinos Juniors,2,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 16,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-15,18:10,Unión,Temperley,2,0,,,Primera Nacional,2014,zonas,Zona B,Fecha 19,15 de abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
 2014-11-15,20:30,Quilmes,Racing Club,0,1,,,Primera Division,2014,zonas,,Fecha 16,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-16,17:00,Boca Unidos,Nueva Chicago,0,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 19,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014
@@ -958,6 +957,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-11-20,17:00,Defensores de Belgrano,Ferrocarril Midland,3,0,,,Primera C,2014,zonas,Zona A,Fecha 18,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
 2014-11-20,17:00,Fénix,Deportivo Español,0,3,,,Primera B,2014,zonas,Zona A,Fecha 22,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina)
 2014-11-20,17:00,Talleres (RdE),Deportivo Riestra,0,1,,,Primera C,2014,zonas,Zona A,Fecha 18,Talleres de Remedios de Escalada,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina)
+2014-11-20,20:30,Defensa y Justicia,Newell's Old Boys,1,0,,,Primera Division,2014,zonas,,Fecha 14,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-21,20:30,Banfield,Quilmes,3,1,,,Primera Division,2014,zonas,,Fecha 17,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-22,17:00,Atlético de Rafaela,San Lorenzo,2,0,,,Primera Division,2014,zonas,,Fecha 17,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina)
 2014-11-22,17:00,Sarmiento (J),Crucero del Norte,1,1,,,Primera Nacional,2014,zonas,Zona B,Fecha 20,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014

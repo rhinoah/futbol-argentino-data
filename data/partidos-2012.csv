@@ -10,7 +10,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-02-12,19:10,Racing Club,Tigre,0,0,,,Primera Division - Clausura,2012,zonas,,Fecha 1,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2012_(Argentina)
 2012-02-12,19:10,Vélez Sarsfield,Godoy Cruz,1,1,,,Primera Division - Clausura,2012,zonas,,Fecha 1,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2012_(Argentina)
 2012-02-12,22:10,Argentinos Juniors,Unión,0,0,,,Primera Division - Clausura,2012,zonas,,Fecha 1,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2012_(Argentina)
-2012-02-13,19:15,Quilmes,Tigre,0,0,,,Primera Division - Inicial,2012,zonas,,Fecha 19,Centenario,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-02-13,22:10,Colón,Arsenal,0,0,,,Primera Division - Clausura,2012,zonas,,Fecha 1,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2012_(Argentina)
 2012-02-17,19:00,Olimpo,Belgrano,4,1,,,Primera Division - Clausura,2012,zonas,,Fecha 2,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2012_(Argentina)
 2012-02-17,21:15,Banfield,Vélez Sarsfield,0,4,,,Primera Division - Clausura,2012,zonas,,Fecha 2,Florencio Sola,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2012_(Argentina)
@@ -258,7 +257,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-08-11,16:10,All Boys,Quilmes,1,1,,,Primera Division - Inicial,2012,zonas,,Fecha 2,Islas Malvinas,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-11,16:10,Belgrano,San Lorenzo,0,0,,,Primera Division - Inicial,2012,zonas,,Fecha 2,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-11,18:15,Rosario Central,Sarmiento (J),0,1,,,Primera Nacional,2012,zonas,,Fecha 1,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
-2012-08-11,20:20,Independiente,Vélez Sarsfield,0,0,,,Primera Division - Inicial,2012,zonas,,Fecha 2,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-12,11:00,Colegiales,Temperley,1,1,,,Primera B,2012,zonas,,Fecha 2,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2012-08-12,12:15,Talleres (RdE),Deportivo Laferrere,1,0,,,Primera C,2012,zonas,,Fecha 2,Talleres (RE),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2012-08-12,14:50,Argentinos Juniors,Racing Club,0,2,,,Primera Division - Inicial,2012,zonas,,Fecha 2,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
@@ -276,21 +274,20 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-08-13,15:30,San Miguel,Luján,1,0,,,Primera C,2012,zonas,,Fecha 2,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2012-08-13,16:30,Atlético de Rafaela,Arsenal,0,0,,,Primera Division - Inicial,2012,zonas,,Fecha 2,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-13,16:30,Ferro Carril Oeste,Olimpo,0,0,,,Primera Nacional,2012,zonas,,Fecha 1,Arquitecto Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
+2012-08-13,20:20,Independiente,Vélez Sarsfield,0,0,,,Primera Division - Inicial,2012,zonas,,Fecha 2,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-14,15:30,Fénix,General Lamadrid,3,0,,,Primera C,2012,zonas,,Fecha 2,Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2012-08-14,15:30,Sacachispas,Berazategui,0,1,,,Primera C,2012,zonas,,Fecha 2,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2012-08-14,15:35,Chacarita Juniors,Atlanta,0,0,,,Primera B,2012,zonas,,Fecha 2,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2012-08-14,21:05,Defensores de Belgrano,Platense,0,1,,,Primera B,2012,zonas,,Fecha 2,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
-2012-08-17,19:00,Huracán,Gimnasia y Esgrima (LP),2,4,,,Primera Nacional,2012,zonas,,Fecha 2,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
-2012-08-17,21:10,Colón,Belgrano,2,2,,,Primera Division - Inicial,2012,zonas,,Fecha 3,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-18,11:10,Almirante Brown,Instituto,2,0,,,Primera Nacional,2012,zonas,,Fecha 2,Fragata Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
-2012-08-18,14:00,Racing Club,Independiente,2,0,,,Primera Division - Inicial,2012,zonas,,Fecha 3,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-18,14:00,Sarmiento (J),Deportivo Merlo,0,0,,,Primera Nacional,2012,zonas,,Fecha 2,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-18,15:30,Independiente Rivadavia,Douglas Haig,1,0,,,Primera Nacional,2012,zonas,,Fecha 2,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-18,16:10,Boca Juniors,All Boys,3,1,,,Primera Division - Inicial,2012,zonas,,Fecha 3,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-18,18:10,Boca Unidos,Rosario Central,1,2,,,Primera Nacional,2012,zonas,,Fecha 2,José A. Romero Feris,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-18,19:00,Platense,Chacarita Juniors,1,0,,,Primera B,2012,zonas,,Fecha 3,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2012-08-18,20:20,San Lorenzo,Estudiantes (LP),0,1,,,Primera Division - Inicial,2012,zonas,,Fecha 3,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
-2012-08-19,15:00,Banfield,Aldosivi,1,1,,,Primera Nacional,2012,zonas,,Fecha 2,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
+2012-08-18,21:10,Colón,Belgrano,2,2,,,Primera Division - Inicial,2012,zonas,,Fecha 3,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
+2012-08-19,14:00,Racing Club,Independiente,2,0,,,Primera Division - Inicial,2012,zonas,,Fecha 3,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-19,15:00,Godoy Cruz,Atlético de Rafaela,2,0,,,Primera Division - Inicial,2012,zonas,,Fecha 3,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-19,15:00,Tiro Federal,Alumni (VM),1,1,,,Torneo Argentino A,2012,zonas,,Fecha 1,Fortín de Ludueña,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2012-08-19,15:30,Atlético Tucumán,Ferro Carril Oeste,3,0,,,Primera Nacional,2012,zonas,,Fecha 2,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
@@ -303,8 +300,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-08-19,16:30,Racing (C),Central Córdoba (SdE),0,2,,,Torneo Argentino A,2012,zonas,,Fecha 1,Miguel Sancho,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2012-08-19,16:35,Central Norte (S),Sportivo Belgrano,1,4,,,Torneo Argentino A,2012,zonas,,Fecha 1,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2012-08-19,17:15,Vélez Sarsfield,Lanús,0,2,,,Primera Division - Inicial,2012,zonas,,Fecha 3,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
+2012-08-19,19:00,Huracán,Gimnasia y Esgrima (LP),2,4,,,Primera Nacional,2012,zonas,,Fecha 2,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-19,19:15,Tigre,River Plate,2,3,,,Primera Division - Inicial,2012,zonas,,Fecha 3,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-20,14:05,Atlanta,Barracas Central,0,1,,,Primera B,2012,zonas,,Fecha 3,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
+2012-08-20,15:00,Banfield,Aldosivi,1,1,,,Primera Nacional,2012,zonas,,Fecha 2,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-20,15:00,Nueva Chicago,Gimnasia y Esgrima (J),0,0,,,Primera Nacional,2012,zonas,,Fecha 2,República de Mataderos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-20,15:00,Quilmes,Unión,2,1,,,Primera Division - Inicial,2012,zonas,,Fecha 3,Centenario,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-20,15:30,Almagro,Flandria,0,0,,,Primera B,2012,zonas,,Fecha 3,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
@@ -334,7 +333,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-08-25,13:00,Villa Dálmine,Deportivo Morón,3,1,,,Primera B,2012,zonas,,Fecha 4,Villa Dálmine,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2012-08-25,15:30,Aldosivi,Nueva Chicago,2,1,,,Primera Nacional,2012,zonas,,Fecha 3,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-25,15:30,Colegiales,Almagro,2,2,,,Primera B,2012,zonas,,Fecha 4,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
-2012-08-25,15:30,Deportivo Merlo,Boca Unidos,1,0,,,Primera Nacional,2012,zonas,,Fecha 3,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-25,15:30,Sacachispas,Deportivo Español,1,0,,,Primera C,2012,zonas,,Fecha 4,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2012-08-25,15:35,Flandria,Central Córdoba (R),2,2,,,Primera B,2012,zonas,,Fecha 4,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2012-08-25,15:40,Barracas Central,Platense,0,0,,,Primera B,2012,zonas,,Fecha 4,"Claudio ""Chiqui"" Tapia",false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
@@ -350,6 +348,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-08-26,15:00,Gimnasia y Esgrima (LP),Banfield,1,0,,,Primera Nacional,2012,zonas,,Fecha 3,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-26,15:10,Belgrano,Newell's Old Boys,0,0,,,Primera Division - Inicial,2012,zonas,,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-08-26,15:30,Deportivo Armenio,Villa San Carlos,0,1,,,Primera B,2012,zonas,,Fecha 4,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
+2012-08-26,15:30,Deportivo Merlo,Boca Unidos,1,0,,,Primera Nacional,2012,zonas,,Fecha 3,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-26,15:30,Douglas Haig,Almirante Brown,1,1,,,Primera Nacional,2012,zonas,,Fecha 3,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-26,15:30,Ferro Carril Oeste,Patronato,0,1,,,Primera Nacional,2012,zonas,,Fecha 3,Arquitecto Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2012-08-26,15:30,Luján,Liniers,0,2,,,Primera C,2012,zonas,,Fecha 4,Municipal de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
@@ -854,7 +853,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-10-28,20:00,Central Córdoba (SdE),Juventud Antoniana,0,1,,,Torneo Argentino A,2012,zonas,,Fecha 12,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2012-10-29,17:05,San Jorge (T),Talleres (C),1,1,,,Torneo Argentino A,2012,zonas,,Fecha 12,Senador Luis Cruz,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2012-10-29,18:00,Colón,Godoy Cruz,1,1,,,Primera Division - Inicial,2012,zonas,,Fecha 12,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
-2012-10-29,20:00,Independiente,Tigre,1,1,,,Primera Division - Inicial,2012,zonas,,Fecha 12,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2012-10-29,21:00,Racing (O),Guillermo Brown,2,1,,,Torneo Argentino A,2012,zonas,,Fecha 10,José Buglione Martinese,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2012-10-30,15:40,Deportivo Español,Argentino de Merlo,0,0,,,Primera C,2012,zonas,,Fecha 13,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2012-10-30,20:00,Deportivo Laferrere,Dock Sud,2,0,,,Primera C,2012,zonas,,Fecha 13,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
@@ -1268,6 +1266,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2013-02-03,17:40,San Jorge (T),Libertad (S),0,0,,,Torneo Argentino A,2012,zonas,,Fecha 21,Senador Luis Cruz,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2013-02-03,18:30,Boca Unidos,Aldosivi,3,1,,,Primera Nacional,2012,zonas,,Fecha 19,José Romero Feris,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-02-03,19:00,Gimnasia y Tiro (S),Juventud Antoniana,1,2,,,Torneo Argentino A,2012,zonas,,Fecha 21,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
+2013-02-03,20:00,Independiente,Tigre,1,1,,,Primera Division - Inicial,2012,zonas,,Fecha 12,Libertadores de América,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2013-02-03,20:30,Sportivo Belgrano,Central Córdoba (SdE),1,0,,,Torneo Argentino A,2012,zonas,,Fecha 21,Óscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2013-02-03,20:45,Deportivo Maipú,Cipolletti,1,0,,,Torneo Argentino A,2012,zonas,,Fecha 18,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2013-02-03,21:00,Gimnasia y Esgrima (CdU),Desamparados,1,0,,,Torneo Argentino A,2012,zonas,,Fecha 18,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
@@ -1333,6 +1332,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2013-02-13,17:00,Flandria,Chacarita Juniors,4,2,,,Primera B,2012,zonas,,Fecha 16,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2013-02-13,17:00,San Telmo,Almagro,0,0,,,Primera B,2012,zonas,,Fecha 17,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2013-02-13,17:00,Villa San Carlos,Acassuso,0,2,,,Primera B,2012,zonas,,Fecha 14,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
+2013-02-13,19:15,Quilmes,Tigre,0,0,,,Primera Division - Inicial,2012,zonas,,Fecha 19,Centenario,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2012_(Argentina)
 2013-02-15,19:10,Aldosivi,Banfield,1,1,,,Primera Nacional,2012,zonas,,Fecha 21,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-02-15,21:00,Deportivo Laferrere,Defensores de Cambaceres,0,1,,,Primera C,2012,zonas,,Fecha 23,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2013-02-15,21:30,Gimnasia y Esgrima (J),Nueva Chicago,1,0,,,Primera Nacional,2012,zonas,,Fecha 21,23 de agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
@@ -1530,7 +1530,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2013-03-16,15:30,Tristán Suárez,Deportivo Armenio,2,2,,,Primera B,2012,zonas,,Fecha 31,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2013-03-16,15:30,UAI Urquiza,San Miguel,2,0,,,Primera C,2012,zonas,,Fecha 27,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2013-03-16,16:00,Deportivo Laferrere,Sportivo Italiano,0,0,,,Primera C,2012,zonas,,Fecha 27,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
-2013-03-16,16:00,Sarmiento (J),Banfield,2,0,,,Primera Nacional,2012,zonas,,Fecha 25,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-03-16,16:15,Libertad (S),Central Norte (S),2,1,,,Torneo Argentino A,2012,zonas,,Fecha 2,Hogar de los Tigres,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2013-03-16,17:00,Rivadavia (L),Desamparados,0,0,,,Torneo Argentino A,2012,zonas,,Fecha 2,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2013-03-16,17:10,Los Andes,Brown de Adrogué,0,4,,,Primera B,2012,zonas,,Fecha 31,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
@@ -1594,6 +1593,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2013-03-24,20:25,Atlético Tucumán,Rosario Central,3,4,,,Primera Nacional,2012,zonas,,Fecha 26,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-03-25,13:00,Defensores de Cambaceres,Liniers,1,1,,,Primera C,2012,zonas,,Fecha 28,Talleres (RE),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2013-03-26,15:30,Excursionistas,UAI Urquiza,1,2,,,Primera C,2012,zonas,,Fecha 28,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
+2013-03-28,16:00,Sarmiento (J),Banfield,2,0,,,Primera Nacional,2012,zonas,,Fecha 25,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-03-29,15:00,Defensa y Justicia,Crucero del Norte,0,0,,,Primera Nacional,2012,zonas,,Fecha 27,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-03-29,15:30,Argentino de Merlo,Dock Sud,1,0,,,Primera C,2012,zonas,,Fecha 29,Argentino (M),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2013-03-29,15:30,Talleres (RdE),J. J. de Urquiza,0,1,,,Primera C,2012,zonas,,Fecha 29,Talleres (RE),false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
@@ -1753,7 +1753,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2013-04-21,11:00,Luján,Fénix,2,0,,,Primera C,2012,zonas,,Fecha 32,Municipal de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2013-04-21,13:00,Deportivo Morón,Atlanta,0,1,,,Primera B,2012,zonas,,Fecha 37,Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2013-04-21,13:00,Los Andes,Almagro,1,3,,,Primera B,2012,zonas,,Fecha 37,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
-2013-04-21,14:15,Atlético Tucumán,Huracán,1,1,,,Primera Nacional,2012,zonas,,Fecha 30,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-04-21,15:30,Defensa y Justicia,Gimnasia y Esgrima (J),1,0,,,Primera Nacional,2012,zonas,,Fecha 30,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-04-21,15:30,Desamparados,Cipolletti,0,2,,,Torneo Argentino A,2012,zonas,,Fecha 7,Bicentenario de San Juan,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13
 2013-04-21,15:30,Excursionistas,Talleres (RdE),1,0,,,Primera C,2012,zonas,,Fecha 32,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
@@ -1915,6 +1914,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2013-05-20,15:30,Dock Sud,Defensores Unidos,3,0,,,Primera C,2012,zonas,,Fecha 36,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2012-13_(Argentina)
 2013-05-20,16:00,Ferro Carril Oeste,Sarmiento (J),1,1,,,Primera Nacional,2012,zonas,,Fecha 34,Arquitecto Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-05-21,21:00,Acassuso,Tristán Suárez,1,1,,,Primera B,2012,zonas,,Fecha 41,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
+2013-05-22,14:15,Atlético Tucumán,Huracán,1,1,,,Primera Nacional,2012,zonas,,Fecha 30,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2012-13
 2013-05-25,13:00,Almagro,Chacarita Juniors,3,0,,,Primera B,2012,zonas,,Fecha 42,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2013-05-25,13:00,Atlanta,Villa Dálmine,1,1,,,Primera B,2012,zonas,,Fecha 42,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)
 2013-05-25,13:00,Temperley,Brown de Adrogué,0,1,,,Primera B,2012,zonas,,Fecha 42,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2012-13_(Argentina)

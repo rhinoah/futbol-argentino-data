@@ -553,6 +553,27 @@ MUTANTES = [
      "        if p.fase != \"zonas\" or not p.jornada or not p.local or not p.visita:",
      "        if p.fase != \"zonas\" or not p.local or not p.visita:"),
 
+    # --- la fecha: el anio y la nota al pie ---
+    ("fad/parser.py", "ignorar el anio que escribe la celda y deducirlo igual",
+     '    y = int(m.group(3)) if m.group(3) else (anio if (anio_fin is None or mes >= mes_inicio) else anio_fin)',
+     '    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin'),
+
+    ("fad/parser.py", "no leer la nota que dice cuando se jugo de verdad",
+     '            fecha=(_fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada)',
+     '            fecha=(""'),
+
+    ("fad/parser.py", "tomar tambien `se completo` como si fuera otra fecha",
+     'r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron)\s+(?:el\s+)?"',
+     'r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron|complet[oó])\s+(?:el\s+)?"'),
+
+    ("fad/parser.py", "dejar que la fecha jugada caiga antes de la programada",
+     '    if jugada and programada and jugada < programada:',
+     '    if False:'),
+
+    ("fad/parser.py", "dejar que los pipes de la nota partan la fila",
+     '    fila = _NOTA_AL_PIE.sub("", fila)',
+     '    fila = fila'),
+
     ("fad/parser.py", "dejar el superindice de la nota al pie pegado al nombre",
      "    s = re.sub(r\"[\\u00b9\\u00b2\\u00b3\\u2070-\\u209f]+$\", \"\", s).strip()",
      "    s = s"),
@@ -627,12 +648,12 @@ MUTANTES = [
      "            c = porjornada.setdefault((p.zona, p.jornada), Counter())"),
 
     ("fad/parser.py", "ignorar que la temporada cruza de anio",
-     "    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin",
+     "    y = int(m.group(3)) if m.group(3) else (anio if (anio_fin is None or mes >= mes_inicio) else anio_fin)",
      "    y = anio"),
 
     ("fad/parser.py", "corte de temporada fijo en agosto (la 2019-20 arranco en julio)",
-     "    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin",
-     "    y = anio if (anio_fin is None or mes >= 8) else anio_fin"),
+     "    y = int(m.group(3)) if m.group(3) else (anio if (anio_fin is None or mes >= mes_inicio) else anio_fin)",
+     "    y = int(m.group(3)) if m.group(3) else (anio if (anio_fin is None or mes >= 8) else anio_fin)"),
 
     ("fad/parser.py", "no leer la fecha que viene en {{fecha|D|M|Y}}",
      '            fecha=(_fecha_de_plantilla(campos.get("fecha", ""))\n'

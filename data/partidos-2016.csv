@@ -50,7 +50,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-02-07,18:00,Unión (VK),Deportivo Maipú,1,4,,,Torneo Federal A,2016,zonas,Zona B,Fecha 1,San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-02-07,18:30,Libertad (S),Sportivo Las Parejas,1,1,,,Torneo Federal A,2016,zonas,Zona G,Fecha 1,Dr. Plácido Tita,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-02-07,19:00,Deportivo Español,Almirante Brown,0,1,,,Primera B,2016,zonas,,Fecha 1,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
-2016-02-07,19:00,River Plate,Quilmes,5,1,,,Primera Division,2016,zonas,Zona 1,Fecha 1,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-02-07,19:00,San Lorenzo de Alem,Altos Hornos Zapla,1,2,,,Torneo Federal A,2016,zonas,Zona D,Fecha 1,Emilio Fabrizzi,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-02-07,19:15,Colón,Arsenal,2,1,,,Primera Division,2016,zonas,Zona 1,Fecha 1,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-02-07,20:00,Alvarado,General Belgrano (SR),2,0,,,Torneo Federal A,2016,zonas,Zona C,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
@@ -63,6 +62,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-02-08,17:00,Estudiantes (BA),Deportivo Armenio,0,0,,,Primera B,2016,zonas,,Fecha 1,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-02-08,17:00,Fénix,UAI Urquiza,5,1,,,Primera B,2016,zonas,,Fecha 1,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-02-08,19:00,Estudiantes (LP),Lanús,0,1,,,Primera Division,2016,zonas,Zona 2,Fecha 1,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
+2016-02-08,19:00,River Plate,Quilmes,5,1,,,Primera Division,2016,zonas,Zona 1,Fecha 1,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-02-08,21:15,Sarmiento (J),Vélez Sarsfield,1,0,,,Primera Division,2016,zonas,Zona 1,Fecha 1,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-02-09,17:00,Dock Sud,Excursionistas,0,0,,,Primera C,2016,zonas,,Fecha 1,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-02-09,17:00,Ferrocarril Midland,Berazategui,1,2,,,Primera C,2016,zonas,,Fecha 1,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
@@ -81,7 +81,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-02-13,17:00,Brown de Adrogué,Guillermo Brown,2,2,,,Primera Nacional,2016,zonas,,Fecha 3,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-02-13,17:00,Concepción FC,Mitre (SdE),1,2,,,Torneo Federal A,2016,zonas,Zona E,Fecha 2,Stewart Shipton,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-02-13,17:00,Deportivo Armenio,Deportivo Morón,0,2,,,Primera B,2016,zonas,,Fecha 2,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
-2016-02-13,17:00,Tigre,Huracán,1,2,,,Primera Division,2016,zonas,Zona 2,Fecha 2,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-02-13,17:00,Tristán Suárez,Comunicaciones,2,1,,,Primera B,2016,zonas,,Fecha 2,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-02-13,18:05,Atlanta,Deportivo Español,3,0,,,Primera B,2016,zonas,,Fecha 2,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-02-13,19:00,Aldosivi,Argentinos Juniors,3,2,,,Primera Division,2016,zonas,Zona 2,Fecha 2,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
@@ -128,7 +127,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-02-16,17:00,Almirante Brown,Fénix,0,1,,,Primera B,2016,zonas,,Fecha 2,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-02-16,17:00,J. J. de Urquiza,Cañuelas,1,2,,,Primera C,2016,zonas,,Fecha 2,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-02-16,19:15,Banfield,Quilmes,1,1,,,Primera Division,2016,zonas,Zona 1,Fecha 3,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
-2016-02-16,19:15,Huracán,Aldosivi,2,0,,,Primera Division,2016,zonas,Zona 2,Fecha 3,Tomas A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-02-16,19:15,Olimpo,San Lorenzo,0,2,,,Primera Division,2016,zonas,Zona 1,Fecha 3,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-02-16,21:05,Talleres (RdE),Flandria,3,2,,,Primera B,2016,zonas,,Fecha 2,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-02-16,21:30,Argentinos Juniors,Vélez Sarsfield,0,3,,,Primera Division,2016,zonas,Interzonal,Fecha 3,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
@@ -147,7 +145,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-02-19,21:00,Ferro Carril Oeste (GP),Alvarado,1,1,,,Torneo Federal A,2016,zonas,Zona C,Fecha 3,El Coloso del Bo. Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-02-19,21:00,Instituto,Sportivo Estudiantes (SL),2,0,,,Primera Nacional,2016,zonas,,Fecha 4,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-02-20,17:00,Argentino de Quilmes,Sportivo Barracas,1,0,,,Primera C,2016,zonas,,Fecha 3,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
-2016-02-20,17:00,Argentinos Juniors,Huracán,0,0,,,Primera Division,2016,zonas,Zona 2,Fecha 4,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-02-20,17:00,Cañuelas,Berazategui,1,1,,,Primera C,2016,zonas,,Fecha 3,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-02-20,17:00,Central Córdoba (R),Deportivo Laferrere,0,1,,,Primera C,2016,zonas,,Fecha 3,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-02-20,17:00,Liniers,Defensores Unidos,0,1,,,Primera C,2016,zonas,,Fecha 3,Juan Antonio Arias,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
@@ -381,6 +378,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-03-14,21:05,Platense,Fénix,0,0,,,Primera B,2016,zonas,,Fecha 6,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-03-14,21:15,Deportivo Maipú,Unión (VK),0,1,,,Torneo Federal A,2016,zonas,Zona B,Fecha 6,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-03-15,21:05,Talleres (C),Instituto,1,1,,,Primera Nacional,2016,zonas,,Fecha 7,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
+2016-03-16,17:00,Tigre,Huracán,1,2,,,Primera Division,2016,zonas,Zona 2,Fecha 2,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-03-16,20:00,Argentino de Merlo,Sacachispas,0,0,,,Primera C,2016,zonas,,Fecha 2,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-03-18,16:00,J. J. de Urquiza,San Martín (B),2,1,,,Primera C,2016,zonas,,Fecha 7,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-03-18,19:00,Aldosivi,San Martín (SJ),2,2,,,Primera Division,2016,zonas,Zona 2,Fecha 8,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
@@ -442,6 +440,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-03-21,21:15,Atlético de Rafaela,Racing Club,3,6,,,Primera Division,2016,zonas,Zona 2,Fecha 8,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-03-21,21:15,Tigre,Newell's Old Boys,3,3,,,Primera Division,2016,zonas,Zona 2,Fecha 8,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-03-22,21:05,Defensores de Belgrano,Tristán Suárez,1,2,,,Primera B,2016,zonas,,Fecha 7,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
+2016-03-24,19:15,Huracán,Aldosivi,2,0,,,Primera Division,2016,zonas,Zona 2,Fecha 3,Tomas A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-03-25,13:00,Deportivo Laferrere,Liniers,1,0,,,Primera C,2016,zonas,,Fecha 8,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-03-25,15:00,Luján,Cañuelas,0,2,,,Primera C,2016,zonas,,Fecha 8,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-03-25,16:00,Argentino de Merlo,J. J. de Urquiza,0,0,,,Primera C,2016,zonas,,Fecha 8,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
@@ -483,18 +482,17 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-03-27,20:00,Guaraní Antonio Franco,Sportivo Patria,2,1,,,Torneo Federal A,2016,zonas,Zona F,Fecha 8,C. A. Fernández de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-03-27,20:15,Vélez Sarsfield,Quilmes,1,2,,,Primera Division,2016,zonas,Zona 1,Fecha 7,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-03-28,16:00,Defensores de Cambaceres,Deportivo Merlo,2,3,,,Primera C,2016,zonas,,Fecha 8,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
+2016-03-28,17:00,Argentinos Juniors,Huracán,0,0,,,Primera Division,2016,zonas,Zona 2,Fecha 4,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-03-28,20:30,General Belgrano (SR),Defensores de Belgrano (VR),1,1,,,Torneo Federal A,2016,zonas,Zona C,Fecha 8,Nuevo Rancho Grande,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-03-28,21:05,Ramón Santamarina,Los Andes,0,1,,,Primera Nacional,2016,zonas,,Fecha 9,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-03-28,22:00,Unión (VK),Gimnasia y Esgrima (M),0,0,,,Torneo Federal A,2016,zonas,Zona B,Fecha 8,San Juan del Bicentenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-03-29,16:00,Excursionistas,Defensores Unidos,4,3,,,Primera C,2016,zonas,,Fecha 8,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-03-30,21:05,Talleres (C),Crucero del Norte,2,1,,,Primera Nacional,2016,zonas,,Fecha 9,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-03-31,16:00,Dock Sud,Argentino de Merlo,0,0,,,Primera C,2016,zonas,,Fecha 3,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
-2016-04-01,15:00,Deportivo Merlo,San Miguel,1,0,,,Primera C,2016,zonas,,Fecha 9,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-01,15:00,Estudiantes (BA),Comunicaciones,1,1,,,Primera B,2016,zonas,,Fecha 9,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-01,15:30,Deportivo Riestra,UAI Urquiza,1,1,,,Primera B,2016,zonas,,Fecha 9,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-01,19:00,Atlético Tucumán,Huracán,2,1,,,Primera Division,2016,zonas,Zona 2,Fecha 9,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-01,21:00,Güemes (SdE),Concepción FC,1,2,,,Torneo Federal A,2016,zonas,Zona E,Fecha 9,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
-2016-04-01,21:05,Defensores de Belgrano,Platense,3,1,,,Primera B,2016,zonas,,Fecha 9,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-01,21:15,Olimpo,Rosario Central,1,1,,,Primera Division,2016,zonas,Zona 1,Fecha 9,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-01,21:15,Temperley,Estudiantes (LP),1,3,,,Primera Division,2016,zonas,Zona 2,Fecha 9,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-02,13:00,Defensores Unidos,San Martín (B),2,2,,,Primera C,2016,zonas,,Fecha 9,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
@@ -503,13 +501,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-04-02,13:05,Nueva Chicago,Brown de Adrogué,1,2,,,Primera Nacional,2016,zonas,,Fecha 10,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-04-02,14:00,Almagro,Ramón Santamarina,1,1,,,Primera Nacional,2016,zonas,,Fecha 10,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-04-02,14:00,Douglas Haig,Boca Unidos,1,3,,,Primera Nacional,2016,zonas,,Fecha 10,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
-2016-04-02,14:00,Villa San Carlos,Atlanta,3,3,,,Primera B,2016,zonas,,Fecha 9,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-02,15:30,Barracas Central,Almirante Brown,3,2,,,Primera B,2016,zonas,,Fecha 9,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-02,15:30,Racing Club,Tigre,3,3,,,Primera Division,2016,zonas,Zona 2,Fecha 9,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-02,17:45,Boca Juniors,Atlético de Rafaela,3,0,,,Primera Division,2016,zonas,Zona 2,Fecha 9,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-02,20:00,Banfield,Colón,1,1,,,Primera Division,2016,zonas,Zona 1,Fecha 9,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-02,20:00,Patronato,River Plate,2,1,,,Primera Division,2016,zonas,Zona 1,Fecha 9,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
-2016-04-03,11:00,San Telmo,Deportivo Armenio,1,2,,,Primera B,2016,zonas,,Fecha 9,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-03,13:00,J. J. de Urquiza,Luján,2,0,,,Primera C,2016,zonas,,Fecha 9,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-03,14:00,Newell's Old Boys,Aldosivi,1,1,,,Primera Division,2016,zonas,Zona 2,Fecha 9,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-03,15:00,Cañuelas,Deportivo Laferrere,0,2,,,Primera C,2016,zonas,,Fecha 9,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
@@ -538,15 +534,18 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-04-03,18:00,Sportivo Belgrano,Unión (VK),0,0,,,Torneo Federal A,2016,zonas,Zona B,Fecha 9,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-03,19:30,Vélez Sarsfield,Godoy Cruz,1,4,,,Primera Division,2016,zonas,Zona 1,Fecha 9,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-03,20:00,Sarmiento (J),Independiente,0,0,,,Primera Division,2016,zonas,Zona 1,Fecha 9,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
+2016-04-04,14:00,Villa San Carlos,Atlanta,3,3,,,Primera B,2016,zonas,,Fecha 9,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-04,15:00,Berazategui,Argentino de Merlo,2,1,,,Primera C,2016,zonas,,Fecha 9,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-04,15:00,Ferrocarril Midland,Defensores de Cambaceres,1,1,,,Primera C,2016,zonas,,Fecha 9,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-04,15:30,Dock Sud,Argentino de Quilmes,0,2,,,Primera C,2016,zonas,,Fecha 9,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-04,15:30,Fénix,Deportivo Español,0,1,,,Primera B,2016,zonas,,Fecha 9,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-04,15:30,Sacachispas,Central Córdoba (R),1,1,,,Primera C,2016,zonas,,Fecha 9,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
+2016-04-04,21:05,Defensores de Belgrano,Platense,3,1,,,Primera B,2016,zonas,,Fecha 9,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-04,21:05,Instituto,Chacarita Juniors,0,3,,,Primera Nacional,2016,zonas,,Fecha 10,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-04-04,21:15,Gimnasia y Esgrima (LP),Quilmes,1,0,,,Primera Division,2016,zonas,Zona 1,Fecha 9,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-04,21:15,Unión,Lanús,0,4,,,Primera Division,2016,zonas,Zona 2,Fecha 9,15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-04,22:00,Central Córdoba (SdE),Juventud Unida (G),3,3,,,Primera Nacional,2016,zonas,,Fecha 10,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
+2016-04-05,15:00,Deportivo Merlo,San Miguel,1,0,,,Primera C,2016,zonas,,Fecha 9,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-05,16:00,Deportivo Morón,Flandria,0,0,,,Primera B,2016,zonas,,Fecha 9,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-05,21:05,Acassuso,Tristán Suárez,3,1,,,Primera B,2016,zonas,,Fecha 9,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-08,15:30,Defensores de Cambaceres,Liniers,1,1,,,Primera C,2016,zonas,,Fecha 10,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
@@ -577,7 +576,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-04-09,17:00,Sarmiento (R),Sportivo Patria,1,2,,,Torneo Federal A,2016,zonas,Zona F,Fecha 10,Centenario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-09,17:45,Defensa y Justicia,Temperley,2,1,,,Primera Division,2016,zonas,Zona 2,Fecha 10,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-09,17:45,River Plate,Sarmiento (J),2,2,,,Primera Division,2016,zonas,Zona 1,Fecha 10,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
-2016-04-09,18:00,Gimnasia y Esgrima (CdU),Unión (S),1,2,,,Torneo Federal A,2016,zonas,Zona G,Fecha 10,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-09,20:00,Alvarado,Tiro Federal (BB),2,1,,,Torneo Federal A,2016,zonas,Zona C,Fecha 10,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-09,20:00,Ferro Carril Oeste (GP),Defensores de Belgrano (VR),0,0,,,Torneo Federal A,2016,zonas,Zona C,Fecha 10,El Coloso del Bo. Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-09,20:00,Independiente,Olimpo,0,0,,,Primera Division,2016,zonas,Zona 1,Fecha 10,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
@@ -623,13 +621,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-04-13,22:00,Gimnasia y Tiro (S),Juventud Antoniana,0,0,,,Torneo Federal A,2016,zonas,Zona D,Fecha 11,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-13,22:00,Mitre (SdE),Güemes (SdE),1,0,,,Torneo Federal A,2016,zonas,Zona E,Fecha 11,Dres. J. y A. Castiglione,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-14,20:00,Alvarado,General Belgrano (SR),2,0,,,Torneo Federal A,2016,zonas,Zona C,Fecha 11,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
-2016-04-15,15:00,San Telmo,UAI Urquiza,1,0,,,Primera B,2016,zonas,,Fecha 11,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
-2016-04-15,15:30,Liniers,San Miguel,3,1,,,Primera C,2016,zonas,,Fecha 11,Juan Antonio Arias,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-15,15:35,Crucero del Norte,Chacarita Juniors,1,1,,,Primera Nacional,2016,zonas,,Fecha 12,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-04-15,19:00,Sarmiento (J),Colón,1,0,,,Primera Division,2016,zonas,Zona 1,Fecha 11,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-15,21:15,Gimnasia y Esgrima (LP),Godoy Cruz,2,2,,,Primera Division,2016,zonas,Zona 1,Fecha 11,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-16,11:00,Ferrocarril Midland,Argentino de Quilmes,1,2,,,Primera C,2016,zonas,,Fecha 11,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
-2016-04-16,11:00,J. J. de Urquiza,Sportivo Barracas,3,2,,,Primera C,2016,zonas,,Fecha 11,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-16,13:05,Colegiales,Flandria,2,1,,,Primera B,2016,zonas,,Fecha 11,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-16,13:15,Deportivo Riestra,Atlanta,0,2,,,Primera B,2016,zonas,,Fecha 11,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-16,14:00,Lanús,Atlético de Rafaela,2,1,,,Primera Division,2016,zonas,Zona 2,Fecha 11,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
@@ -649,13 +644,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-04-17,11:00,Los Andes,Brown de Adrogué,0,1,,,Primera Nacional,2016,zonas,,Fecha 12,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-04-17,15:30,Acassuso,Platense,0,0,,,Primera B,2016,zonas,,Fecha 11,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-17,15:30,Almagro,All Boys,0,2,,,Primera Nacional,2016,zonas,,Fecha 12,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
-2016-04-17,15:30,Barracas Central,Tristán Suárez,0,0,,,Primera B,2016,zonas,,Fecha 11,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-17,15:30,Defensores de Pronunciamiento,Unión (S),2,0,,,Torneo Federal A,2016,zonas,Zona G,Fecha 12,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-17,15:30,Excursionistas,Argentino de Merlo,2,1,,,Primera C,2016,zonas,,Fecha 11,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-17,15:30,San Lorenzo,Rosario Central,2,1,,,Primera Division,2016,zonas,Zona 1,Fecha 11,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-17,16:00,Concepción FC,Mitre (SdE),0,1,,,Torneo Federal A,2016,zonas,Zona E,Fecha 12,Stewart Shipton,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-17,16:00,Deportivo Madryn,Cipolletti,3,1,,,Torneo Federal A,2016,zonas,Zona A,Fecha 12,Coliseo del Golfo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
-2016-04-17,16:00,Douglas Haig,Independiente Rivadavia,4,0,,,Primera Nacional,2016,zonas,,Fecha 12,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-04-17,16:00,Güemes (SdE),San Martín (T),1,2,,,Torneo Federal A,2016,zonas,Zona E,Fecha 12,Arturo Miranda,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-17,16:00,Instituto,Juventud Unida (G),0,1,,,Primera Nacional,2016,zonas,,Fecha 12,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-04-17,16:00,Sportivo Estudiantes (SL),Boca Unidos,0,1,,,Primera Nacional,2016,zonas,,Fecha 12,El Coliseo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
@@ -674,14 +667,12 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-04-17,21:00,Guaraní Antonio Franco,Sarmiento (R),1,0,,,Torneo Federal A,2016,zonas,Zona F,Fecha 12,C. A. Fernández de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-18,15:30,Berazategui,Deportivo Laferrere,0,2,,,Primera C,2016,zonas,,Fecha 11,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-18,15:30,Defensores Unidos,Luján,1,2,,,Primera C,2016,zonas,,Fecha 11,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
+2016-04-18,15:30,Liniers,San Miguel,3,1,,,Primera C,2016,zonas,,Fecha 11,Juan Antonio Arias,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-18,15:30,Tiro Federal (BB),Defensores de Belgrano (VR),1,4,,,Torneo Federal A,2016,zonas,Zona C,Fecha 12,Onofre Pirrone,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
-2016-04-18,15:30,Villa San Carlos,Talleres (RdE),0,3,,,Primera B,2016,zonas,,Fecha 11,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-18,16:00,Gutiérrez,Sportivo Belgrano,1,1,,,Torneo Federal A,2016,zonas,Zona B,Fecha 12,General Gutiérrez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-18,19:00,Arsenal,Belgrano,3,3,,,Primera Division,2016,zonas,Zona 1,Fecha 11,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-04-18,20:00,General Belgrano (SR),Ferro Carril Oeste (GP),1,1,,,Torneo Federal A,2016,zonas,Zona C,Fecha 12,Nuevo Rancho Grande,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-18,21:10,Gimnasia y Esgrima (J),Talleres (C),1,2,,,Primera Nacional,2016,zonas,,Fecha 12,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
-2016-04-19,15:30,Deportivo Morón,Deportivo Español,2,0,,,Primera B,2016,zonas,,Fecha 11,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
-2016-04-19,15:30,Dock Sud,Sacachispas,0,1,,,Primera C,2016,zonas,,Fecha 11,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-19,21:05,Ferro Carril Oeste,Villa Dálmine,1,3,,,Primera Nacional,2016,zonas,,Fecha 12,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-04-22,15:30,Flandria,Acassuso,1,0,,,Primera B,2016,zonas,,Fecha 12,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-22,15:30,Talleres (RdE),Barracas Central,1,1,,,Primera B,2016,zonas,,Fecha 12,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
@@ -742,7 +733,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-04-26,15:15,Defensores de Cambaceres,J. J. de Urquiza,0,2,,,Primera C,2016,zonas,,Fecha 12,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-26,15:30,Almirante Brown,UAI Urquiza,0,2,,,Primera B,2016,zonas,,Fecha 12,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-26,15:30,Argentino de Quilmes,Liniers,2,0,,,Primera C,2016,zonas,,Fecha 12,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
+2016-04-26,15:30,Barracas Central,Tristán Suárez,0,0,,,Primera B,2016,zonas,,Fecha 11,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-26,21:05,Atlanta,Deportivo Armenio,2,1,,,Primera B,2016,zonas,,Fecha 12,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
+2016-04-27,18:00,Gimnasia y Esgrima (CdU),Unión (S),1,2,,,Torneo Federal A,2016,zonas,Zona G,Fecha 10,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-04-29,14:00,San Telmo,Almirante Brown,1,1,,,Primera B,2016,zonas,,Fecha 13,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-04-29,15:30,Defensores Unidos,Sportivo Barracas,2,1,,,Primera C,2016,zonas,,Fecha 13,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-04-29,15:30,Los Andes,Guillermo Brown,1,3,,,Primera Nacional,2016,zonas,,Fecha 14,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
@@ -805,6 +798,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-05-03,21:00,Banfield,Sarmiento (J),0,0,,,Primera Division,2016,zonas,Zona 1,Fecha 13,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-05-04,,Colón,Almagro,0,1,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
 2016-05-04,,Independiente,San Telmo,2,1,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
+2016-05-04,11:00,J. J. de Urquiza,Sportivo Barracas,3,2,,,Primera C,2016,zonas,,Fecha 11,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-06,15:30,Luján,Argentino de Merlo,3,1,,,Primera C,2016,zonas,,Fecha 14,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-06,15:30,Sacachispas,Liniers,2,1,,,Primera C,2016,zonas,,Fecha 14,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-06,15:30,Talleres (RdE),Deportivo Armenio,2,0,,,Primera B,2016,zonas,,Fecha 14,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
@@ -816,7 +810,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-05-07,12:00,Dock Sud,Ferrocarril Midland,2,0,,,Primera C,2016,zonas,,Fecha 14,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-07,15:30,All Boys,Douglas Haig,1,0,,,Primera Nacional,2016,zonas,,Fecha 15,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-05-07,15:30,Brown de Adrogué,Atlético Paraná,1,1,,,Primera Nacional,2016,zonas,,Fecha 15,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
-2016-05-07,15:30,Comunicaciones,Villa San Carlos,1,0,,,Primera B,2016,zonas,,Fecha 14,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-05-07,15:30,Defensores de Pronunciamiento,Libertad (S),1,1,,,Torneo Federal A,2016,zonas,Zona G,Fecha 15,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-05-07,15:30,Newell's Old Boys,Defensa y Justicia,0,1,,,Primera Division,2016,zonas,Zona 2,Fecha 14,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-05-07,15:30,San Martín (SJ),Temperley,2,0,,,Primera Division,2016,zonas,Zona 2,Fecha 14,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
@@ -866,7 +859,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-05-10,15:30,Deportivo Laferrere,San Martín (B),1,1,,,Primera C,2016,zonas,,Fecha 14,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-10,15:30,Deportivo Merlo,Sportivo Italiano,0,1,,,Primera C,2016,zonas,,Fecha 14,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-10,15:35,Fénix,Colegiales,1,0,,,Primera B,2016,zonas,,Fecha 14,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
+2016-05-10,16:00,Douglas Haig,Independiente Rivadavia,4,0,,,Primera Nacional,2016,zonas,,Fecha 12,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-05-11,,Vélez Sarsfield,Sportivo Barracas,1,0,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
+2016-05-11,15:30,Dock Sud,Sacachispas,0,1,,,Primera C,2016,zonas,,Fecha 11,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
+2016-05-11,15:30,Villa San Carlos,Talleres (RdE),0,3,,,Primera B,2016,zonas,,Fecha 11,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-05-12,,Newell's Old Boys,Sansinena,5,2,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,Eva Perón,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
 2016-05-13,14:00,Deportivo Armenio,Platense,2,3,,,Primera B,2016,zonas,,Fecha 15,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-05-13,15:30,San Telmo,Atlanta,1,3,,,Primera B,2016,zonas,,Fecha 15,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
@@ -875,9 +871,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-05-13,21:15,Atlético Tucumán,San Martín (SJ),3,2,,,Primera Division,2016,zonas,Zona 2,Fecha 15,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-05-13,21:15,Defensa y Justicia,Racing Club,2,1,,,Primera Division,2016,zonas,Zona 2,Fecha 15,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-05-14,12:35,Colegiales,Estudiantes (BA),1,2,,,Primera B,2016,zonas,,Fecha 15,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
-2016-05-14,13:30,Los Andes,Villa Dálmine,3,3,,,Primera Nacional,2016,zonas,,Fecha 16,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-05-14,14:35,Almagro,Juventud Unida (G),2,2,,,Primera Nacional,2016,zonas,,Fecha 16,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
-2016-05-14,14:35,Nueva Chicago,Central Córdoba (SdE),3,1,,,Primera Nacional,2016,zonas,,Fecha 16,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-05-14,15:20,Villa San Carlos,Deportivo Español,0,0,,,Primera B,2016,zonas,,Fecha 15,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-05-14,15:30,Cañuelas,Sacachispas,1,2,,,Primera C,2016,zonas,,Fecha 15,José Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-14,15:30,Colón,San Lorenzo,0,2,,,Primera Division,2016,zonas,Zona 1,Fecha 15,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
@@ -924,6 +918,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-05-17,15:35,Almirante Brown,Tristán Suárez,3,1,,,Primera B,2016,zonas,,Fecha 15,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-05-18,,Gimnasia y Esgrima (LP),Deportivo Madryn,2,1,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
 2016-05-18,,San Martín (SJ),Instituto,0,1,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
+2016-05-18,15:30,Deportivo Morón,Deportivo Español,2,0,,,Primera B,2016,zonas,,Fecha 11,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
+2016-05-19,11:00,San Telmo,Deportivo Armenio,1,2,,,Primera B,2016,zonas,,Fecha 9,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-05-20,15:30,Deportivo Merlo,Liniers,2,0,,,Primera C,2016,zonas,,Fecha 16,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-20,20:00,Arsenal,River Plate,2,1,,,Primera Division,2016,zonas,Zona 1,Fecha 16,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016_(Argentina)
 2016-05-20,20:05,Talleres (C),Ramón Santamarina,1,0,,,Primera Nacional,2016,zonas,,Fecha 17,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
@@ -979,6 +975,8 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-05-24,15:30,Dock Sud,Cañuelas,3,2,,,Primera C,2016,zonas,,Fecha 16,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-24,15:30,Ferrocarril Midland,Sportivo Italiano,0,1,,,Primera C,2016,zonas,,Fecha 16,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-25,,Racing Club,Gimnasia y Tiro (S),2,0,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,Antonio Romero,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
+2016-05-25,15:00,San Telmo,UAI Urquiza,1,0,,,Primera B,2016,zonas,,Fecha 11,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
+2016-05-25,15:30,Comunicaciones,Villa San Carlos,1,0,,,Primera B,2016,zonas,,Fecha 14,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-05-26,,Arsenal,Talleres (RdE),2,1,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,Alfredo Beranger,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
 2016-05-26,,Banfield,Defensores de Belgrano (VR),1,0,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
 2016-05-27,22:00,Gimnasia y Esgrima (J),Villa Dálmine,1,1,,,Primera Nacional,2016,zonas,,Fecha 18,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
@@ -997,8 +995,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-05-28,16:00,Independiente Rivadavia,Brown de Adrogué,1,1,,,Primera Nacional,2016,zonas,,Fecha 18,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-05-29,11:00,Ramón Santamarina,All Boys,2,1,,,Primera Nacional,2016,zonas,,Fecha 18,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-05-29,14:15,Douglas Haig,Guillermo Brown,1,2,,,Primera Nacional,2016,zonas,,Fecha 18,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
-2016-05-29,15:30,San Telmo,Tristán Suárez,1,0,,,Primera B,2016,zonas,,Fecha 17,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
-2016-05-29,15:30,Sportivo Italiano,Deportivo Laferrere,1,0,,,Primera C,2016,zonas,,Fecha 17,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-29,16:00,Alvarado,Libertad (S),3,6,,,Torneo Federal A,2016,eliminacion,,Partidos de ida,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-05-29,16:00,Ferro Carril Oeste (GP),Unión Aconquija,1,2,,,Torneo Federal A,2016,eliminacion,,Partidos de ida,El Coloso del Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-05-29,16:00,Sportivo Belgrano,San Martín (T),0,1,,,Torneo Federal A,2016,eliminacion,,Partidos de ida,Oscar Carlos Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
@@ -1016,7 +1012,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-05-30,22:00,Juventud Antoniana,Defensores de Belgrano (VR),2,1,,,Torneo Federal A,2016,eliminacion,,Partidos de ida,Fray Honorato Pistoia,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016
 2016-05-31,15:30,Argentino de Merlo,Defensores de Cambaceres,1,2,,,Primera C,2016,zonas,,Fecha 17,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-05-31,15:30,J. J. de Urquiza,Dock Sud,1,0,,,Primera C,2016,zonas,,Fecha 17,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
+2016-05-31,15:30,San Telmo,Tristán Suárez,1,0,,,Primera B,2016,zonas,,Fecha 17,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
+2016-05-31,15:30,Sportivo Italiano,Deportivo Laferrere,1,0,,,Primera C,2016,zonas,,Fecha 17,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina)
 2016-06-01,,Defensa y Justicia,Talleres (C),2,0,,,Copa Argentina,2016,eliminacion,,Treintaidosavos,Florencio Sola,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
+2016-06-01,14:35,Nueva Chicago,Central Córdoba (SdE),3,1,,,Primera Nacional,2016,zonas,,Fecha 16,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
+2016-06-02,13:30,Los Andes,Villa Dálmine,3,3,,,Primera Nacional,2016,zonas,,Fecha 16,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-06-04,15:30,Brown de Adrogué,Ramón Santamarina,2,2,,,Primera Nacional,2016,zonas,,Fecha 19,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016
 2016-06-04,15:30,Colegiales,San Telmo,1,0,,,Primera B,2016,zonas,,Fecha 18,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
 2016-06-04,15:30,Comunicaciones,UAI Urquiza,1,2,,,Primera B,2016,zonas,,Fecha 18,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016_(Argentina)
@@ -1129,14 +1129,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-08-26,19:30,Talleres (RdE),Estudiantes (BA),2,2,,,Primera B,2016,zonas,,Fecha 1,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-08-26,21:15,Godoy Cruz,Huracán,1,0,,,Primera Division,2016,zonas,,Fecha 1,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-08-27,13:05,All Boys,Boca Unidos,0,1,,,Primera Nacional,2016,zonas,,Fecha 1,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
-2016-08-27,13:05,Barracas Central,Platense,2,1,,,Primera B,2016,zonas,,Fecha 1,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-08-27,14:00,Gimnasia y Esgrima (LP),Vélez Sarsfield,2,0,,,Primera Division,2016,zonas,,Fecha 1,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-08-27,15:30,Acassuso,Comunicaciones,0,1,,,Primera B,2016,zonas,,Fecha 1,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2016-08-27,15:30,Argentino de Quilmes,Sportivo Barracas,1,1,,,Primera C,2016,zonas,,Fecha 1,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-08-27,15:30,Brown de Adrogué,Ramón Santamarina,2,0,,,Primera Nacional,2016,zonas,,Fecha 1,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-08-27,15:30,Excursionistas,Deportivo Riestra,1,2,,,Primera B,2016,zonas,,Fecha 1,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-08-27,15:30,Sportivo Italiano,Berazategui,1,1,,,Primera C,2016,zonas,,Fecha 1,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2016-08-27,15:30,Villa Dálmine,Juventud Unida (G),5,0,,,Primera Nacional,2016,zonas,,Fecha 1,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-08-27,16:00,Rosario Central,Defensa y Justicia,0,0,,,Primera Division,2016,zonas,,Fecha 1,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-08-27,16:30,Atlético Paraná,Flandria,0,2,,,Primera Nacional,2016,zonas,,Fecha 1,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-08-27,17:05,Chacarita Juniors,Instituto,1,1,,,Primera Nacional,2016,zonas,,Fecha 1,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
@@ -1157,7 +1154,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-08-28,16:15,Unión,Olimpo,1,0,,,Primera Division,2016,zonas,,Fecha 1,15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-08-28,18:00,River Plate,Banfield,4,1,,,Primera Division,2016,zonas,,Fecha 1,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-08-28,20:00,Lanús,Boca Juniors,1,0,,,Primera Division,2016,zonas,,Fecha 1,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
+2016-08-29,13:05,Barracas Central,Platense,2,1,,,Primera B,2016,zonas,,Fecha 1,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-08-29,14:30,Sportivo Estudiantes (SL),Gimnasia y Esgrima (J),1,0,,,Primera Nacional,2016,zonas,,Fecha 1,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2016-08-29,15:30,Argentino de Quilmes,Sportivo Barracas,1,1,,,Primera C,2016,zonas,,Fecha 1,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-08-29,15:30,Colegiales,Atlanta,0,3,,,Primera B,2016,zonas,,Fecha 1,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-08-29,15:30,Defensores de Cambaceres,Sacachispas,3,3,,,Primera C,2016,zonas,,Fecha 1,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-08-29,15:30,Deportivo Merlo,J. J. de Urquiza,2,0,,,Primera C,2016,zonas,,Fecha 1,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
@@ -1166,6 +1165,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-08-29,19:00,Aldosivi,Colón,0,2,,,Primera Division,2016,zonas,,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-08-29,21:05,Crucero del Norte,Nueva Chicago,2,2,,,Primera Nacional,2016,zonas,,Fecha 1,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-08-29,21:15,Temperley,Patronato,1,0,,,Primera Division,2016,zonas,,Fecha 1,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
+2016-08-30,15:30,Villa Dálmine,Juventud Unida (G),5,0,,,Primera Nacional,2016,zonas,,Fecha 1,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-08-30,15:30,Villa San Carlos,Almirante Brown,2,1,,,Primera B,2016,zonas,,Fecha 1,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-08-30,21:05,Deportivo Morón,Tristán Suárez,1,2,,,Primera B,2016,zonas,,Fecha 1,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-09-02,15:30,Berazategui,Argentino de Quilmes,0,1,,,Primera C,2016,zonas,,Fecha 2,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
@@ -1211,7 +1211,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-09-04,17:00,Central Córdoba (SdE),Almagro,1,1,,,Primera Nacional,2016,zonas,,Fecha 2,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-04,17:00,Gimnasia y Esgrima (J),Douglas Haig,1,1,,,Primera Nacional,2016,zonas,,Fecha 2,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-04,19:05,Atlanta,Talleres (RdE),3,2,,,Primera B,2016,zonas,,Fecha 2,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2016-09-05,15:30,Dock Sud,Sportivo Italiano,0,2,,,Primera C,2016,zonas,,Fecha 2,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-09-05,15:30,Sportivo Barracas,El Porvenir,1,1,,,Primera C,2016,zonas,,Fecha 2,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-09-05,21:10,Argentinos Juniors,Crucero del Norte,1,0,,,Primera Nacional,2016,zonas,,Fecha 2,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-06,14:05,UAI Urquiza,Defensores de Belgrano,0,0,,,Primera B,2016,zonas,,Fecha 3,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
@@ -1222,6 +1221,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-09-07,15:30,Fénix,San Telmo,1,2,,,Primera B,2016,zonas,,Fecha 3,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-09-07,19:30,Talleres (RdE),Comunicaciones,2,0,,,Primera B,2016,zonas,,Fecha 3,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-09-07,21:05,Deportivo Morón,Atlanta,2,1,,,Primera B,2016,zonas,,Fecha 3,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2016-09-08,15:30,Dock Sud,Sportivo Italiano,0,2,,,Primera C,2016,zonas,,Fecha 2,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-09-08,15:30,Villa San Carlos,Deportivo Riestra,0,1,,,Primera B,2016,zonas,,Fecha 3,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-09-09,15:30,Cañuelas,Argentino de Merlo,4,1,,,Primera C,2016,zonas,,Fecha 3,Jose Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-09-09,15:30,Defensores Unidos,Deportivo Laferrere,0,0,,,Primera C,2016,zonas,,Fecha 3,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
@@ -1263,7 +1263,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-09-11,16:00,Desamparados,Gimnasia y Esgrima (M),0,0,,,Torneo Federal A,2016,zonas,Zona 3,Fecha 2,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-11,16:00,Guaraní Antonio Franco,Sarmiento (R),1,2,,,Torneo Federal A,2016,zonas,Zona 6,Fecha 2,Clemente A. Fernández de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-11,16:00,Guillermo Brown,Flandria,0,1,,,Primera Nacional,2016,zonas,,Fecha 3,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
-2016-09-11,16:00,San Lorenzo de Alem,Juventud Unida Universitario,1,1,,,Torneo Federal A,2016,zonas,Zona 4,Fecha 2,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-11,16:00,Unión (S),Defensores de Pronunciamiento,3,0,,,Torneo Federal A,2016,zonas,Zona 7,Fecha 2,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-11,16:00,Vélez Sarsfield,Rosario Central,2,0,,,Primera Division,2016,zonas,,Fecha 2,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-09-11,16:15,Deportivo Maipú,Unión (VK),1,1,,,Torneo Federal A,2016,zonas,Zona 3,Fecha 2,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -1374,15 +1373,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-09-24,21:00,Guaraní Antonio Franco,Chaco For Ever,1,2,,,Torneo Federal A,2016,zonas,Zona 6,Fecha 4,Clemente A. Fernández de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-25,11:00,Almirante Brown,San Telmo,2,1,,,Primera B,2016,zonas,,Fecha 6,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-09-25,11:00,San Jorge (T),Concepción FC,2,0,,,Torneo Federal A,2016,zonas,Zona 5,Fecha 4,Senador Luis Cruz,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
-2016-09-25,13:30,Los Andes,All Boys,3,1,,,Primera Nacional,2016,zonas,,Fecha 6,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-25,14:00,Estudiantes (LP),Temperley,3,0,,,Primera Division,2016,zonas,,Fecha 4,Ciudad de La Plata,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
-2016-09-25,15:00,Juventud Unida (G),Ferro Carril Oeste,0,0,,,Primera Nacional,2016,zonas,,Fecha 6,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-25,15:00,Unión,Belgrano,0,2,,,Primera Division,2016,zonas,,Fecha 4,15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
-2016-09-25,15:05,Nueva Chicago,Brown de Adrogué,0,1,,,Primera Nacional,2016,zonas,,Fecha 6,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-25,15:30,Central Córdoba (R),Argentino de Merlo,2,0,,,Primera C,2016,zonas,,Fecha 5,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-09-25,15:30,Defensores Unidos,Defensores de Cambaceres,3,0,,,Primera C,2016,zonas,,Fecha 5,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2016-09-25,15:30,Flandria,Almagro,1,0,,,Primera Nacional,2016,zonas,,Fecha 6,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
-2016-09-25,15:30,Ramón Santamarina,Central Córdoba (SdE),1,2,,,Primera Nacional,2016,zonas,,Fecha 6,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-25,15:30,Rivadavia (L),Ferro Carril Oeste (GP),2,2,,,Torneo Federal A,2016,zonas,Zona 2,Fecha 4,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-25,15:30,San Miguel,Dock Sud,3,2,,,Primera C,2016,zonas,,Fecha 5,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-09-25,15:45,Talleres (C),Banfield,0,0,,,Primera Division,2016,zonas,,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
@@ -1393,19 +1387,15 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-09-25,16:00,Villa Mitre,Independiente (N),3,2,,,Torneo Federal A,2016,zonas,Zona 1,Fecha 4,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-25,16:15,Gutiérrez,Gimnasia y Esgrima (M),1,2,,,Torneo Federal A,2016,zonas,Zona 3,Fecha 4,General Gutiérrez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-25,17:00,Altos Hornos Zapla,Juventud Antoniana,1,0,,,Torneo Federal A,2016,zonas,Zona 5,Fecha 4,Emilio Fabrizzi,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
-2016-09-25,17:00,Instituto,Villa Dálmine,1,1,,,Primera Nacional,2016,zonas,,Fecha 6,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
-2016-09-25,17:00,San Martín (T),Sportivo Estudiantes (SL),2,0,,,Primera Nacional,2016,zonas,,Fecha 6,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-25,17:00,Sportivo Belgrano,San Lorenzo de Alem,0,0,,,Torneo Federal A,2016,zonas,Zona 4,Fecha 4,Oscar C. Boero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-25,17:00,Sportivo Las Parejas,Unión (S),3,2,,,Torneo Federal A,2016,zonas,Zona 7,Fecha 4,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-25,18:00,Boca Juniors,Quilmes,4,1,,,Primera Division,2016,zonas,,Fecha 4,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
-2016-09-25,18:00,Independiente Rivadavia,Boca Unidos,3,2,,,Primera Nacional,2016,zonas,,Fecha 6,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-25,18:00,Lanús,Aldosivi,0,0,,,Primera Division,2016,zonas,,Fecha 4,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-09-25,20:00,Defensa y Justicia,River Plate,3,3,,,Primera Division,2016,zonas,,Fecha 4,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-09-26,14:05,Colegiales,Deportivo Morón,1,2,,,Primera B,2016,zonas,,Fecha 6,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-09-26,15:30,Argentino de Quilmes,Deportivo Laferrere,3,0,,,Primera C,2016,zonas,,Fecha 5,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-09-26,15:30,Ferrocarril Midland,Deportivo Armenio,0,0,,,Primera C,2016,zonas,,Fecha 5,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-09-26,15:30,Sportivo Italiano,Sacachispas,0,1,,,Primera C,2016,zonas,,Fecha 5,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2016-09-26,15:35,Argentinos Juniors,Atlético Paraná,1,0,,,Primera Nacional,2016,zonas,,Fecha 6,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-09-26,19:00,Arsenal,Gimnasia y Esgrima (LP),2,2,,,Primera Division,2016,zonas,,Fecha 4,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-09-26,20:30,Defensores de Belgrano (VR),Alvarado,0,0,,,Torneo Federal A,2016,zonas,Zona 2,Fecha 4,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-09-26,21:00,Deportivo Maipú,Desamparados,1,1,,,Torneo Federal A,2016,zonas,Zona 3,Fecha 4,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -1516,13 +1506,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-10-14,19:00,Defensa y Justicia,Banfield,1,0,,,Primera Division,2016,zonas,,Fecha 6,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-10-14,20:05,Platense,Estudiantes (BA),1,2,,,Primera B,2016,zonas,,Fecha 9,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-10-14,21:15,Belgrano,Aldosivi,0,0,,,Primera Division,2016,zonas,,Fecha 6,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
-2016-10-15,12:00,San Telmo,Tristán Suárez,2,2,,,Primera B,2016,zonas,,Fecha 9,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-10-15,13:05,Almirante Brown,Deportivo Riestra,0,5,,,Primera B,2016,zonas,,Fecha 9,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-10-15,14:00,Vélez Sarsfield,Colón,2,1,,,Primera Division,2016,zonas,,Fecha 6,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-10-15,15:00,Central Córdoba (R),Sportivo Barracas,2,3,,,Primera C,2016,zonas,,Fecha 9,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-15,15:30,Deportivo Armenio,Berazategui,2,0,,,Primera C,2016,zonas,,Fecha 9,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-15,15:30,Excursionistas,Deportivo Morón,0,1,,,Primera B,2016,zonas,,Fecha 9,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2016-10-15,15:30,Ferrocarril Midland,J. J. de Urquiza,2,1,,,Primera C,2016,zonas,,Fecha 9,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-15,15:30,San Miguel,Defensores de Cambaceres,2,2,,,Primera C,2016,zonas,,Fecha 9,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-15,16:00,Atlético de Rafaela,Racing Club,3,2,,,Primera Division,2016,zonas,,Fecha 6,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-10-15,16:00,Huracán,Temperley,1,2,,,Primera Division,2016,zonas,,Fecha 6,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
@@ -1536,7 +1524,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-10-16,14:00,Lanús,Godoy Cruz,3,0,,,Primera Division,2016,zonas,,Fecha 6,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-10-16,14:00,Olimpo,Tigre,1,4,,,Primera Division,2016,zonas,,Fecha 6,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-10-16,15:05,Nueva Chicago,Almagro,0,1,,,Primera Nacional,2016,zonas,,Fecha 10,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
-2016-10-16,15:30,Argentino de Quilmes,Deportivo Merlo,2,1,,,Primera C,2016,zonas,,Fecha 9,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-16,16:00,Agropecuario,Defensores de Belgrano (VR),1,1,,,Torneo Federal A,2016,zonas,Zona 2,Fecha 7,De la Calle Carlos Arroyo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-10-16,16:00,Alvarado,Ferro Carril Oeste (GP),1,1,,,Torneo Federal A,2016,zonas,Zona 2,Fecha 7,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-10-16,16:00,Boca Juniors,Sarmiento (J),2,0,,,Primera Division,2016,zonas,,Fecha 6,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
@@ -1557,7 +1544,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-10-16,18:00,Crucero del Norte,Atlético Paraná,0,2,,,Primera Nacional,2016,zonas,,Fecha 10,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-10-16,19:30,Gimnasia y Esgrima (M),Desamparados,4,1,,,Torneo Federal A,2016,zonas,Zona 3,Fecha 7,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-10-16,20:00,Patronato,River Plate,2,1,,,Primera Division,2016,zonas,,Fecha 6,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
+2016-10-17,12:00,San Telmo,Tristán Suárez,2,2,,,Primera B,2016,zonas,,Fecha 9,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-10-17,15:30,El Porvenir,Luján,2,1,,,Primera C,2016,zonas,,Fecha 9,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2016-10-17,15:30,Ferrocarril Midland,J. J. de Urquiza,2,1,,,Primera C,2016,zonas,,Fecha 9,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-17,15:30,UAI Urquiza,Acassuso,1,1,,,Primera B,2016,zonas,,Fecha 9,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-10-17,15:30,Villa San Carlos,Colegiales,0,1,,,Primera B,2016,zonas,,Fecha 9,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-10-17,19:30,Instituto,All Boys,0,1,,,Primera Nacional,2016,zonas,,Fecha 10,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
@@ -1566,14 +1555,15 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-10-17,21:00,Unión,Quilmes,1,1,,,Primera Division,2016,zonas,,Fecha 6,15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-10-17,21:05,Argentinos Juniors,Ferro Carril Oeste,3,1,,,Primera Nacional,2016,zonas,,Fecha 10,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-10-17,21:30,Gimnasia y Esgrima (J),Central Córdoba (SdE),2,0,,,Primera Nacional,2016,zonas,,Fecha 10,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2016-10-18,15:30,Argentino de Quilmes,Deportivo Merlo,2,1,,,Primera C,2016,zonas,,Fecha 9,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-18,15:30,Fénix,Atlanta,0,0,,,Primera B,2016,zonas,,Fecha 9,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-10-18,20:00,Argentino de Merlo,Dock Sud,0,0,,,Primera C,2016,zonas,,Fecha 9,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-18,21:05,Chacarita Juniors,Guillermo Brown,0,2,,,Primera Nacional,2016,zonas,,Fecha 10,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-10-19,,Racing Club,Gimnasia y Esgrima (LP),0,1,,,Copa Argentina,2016,eliminacion,,Octavos,Ciudad de Lanús,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
-2016-10-19,15:30,San Martín (B),Sacachispas,0,1,,,Primera C,2016,zonas,,Fecha 9,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-19,16:30,Libertad (S),Sportivo Las Parejas,1,1,,,Torneo Federal A,2016,zonas,Zona 7,Fecha 7,Dr. Plácido Tita,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-10-19,20:30,Defensores de Pronunciamiento,Unión (S),2,1,,,Torneo Federal A,2016,zonas,Zona 7,Fecha 7,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-10-21,13:30,Rivadavia (L),Alvarado,1,1,,,Torneo Federal A,2016,zonas,Zona 2,Fecha 8,El Coliseo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
+2016-10-21,15:30,San Martín (B),Sacachispas,0,1,,,Primera C,2016,zonas,,Fecha 9,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-10-21,15:30,Tristán Suárez,Almirante Brown,0,0,,,Primera B,2016,zonas,,Fecha 10,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-10-21,19:00,Sarmiento (J),Olimpo,1,1,,,Primera Division,2016,zonas,,Fecha 7,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-10-21,20:00,Deportivo Morón,Deportivo Español,2,0,,,Primera B,2016,zonas,,Fecha 10,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
@@ -1720,17 +1710,27 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-10-31,21:15,Unión,Sarmiento (J),1,0,,,Primera Division,2016,zonas,,Fecha 8,15 de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-11-01,15:30,Deportivo Laferrere,Deportivo Armenio,1,1,,,Primera C,2016,zonas,,Fecha 12,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-01,15:30,Luján,Cañuelas,0,1,,,Primera C,2016,zonas,,Fecha 12,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2016-11-01,17:00,Instituto,Villa Dálmine,1,1,,,Primera Nacional,2016,zonas,,Fecha 6,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-11-01,20:00,Talleres (RdE),Barracas Central,1,0,,,Primera B,2016,zonas,,Fecha 12,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-11-01,20:30,Deportivo Morón,UAI Urquiza,2,0,,,Primera B,2016,zonas,,Fecha 12,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-11-02,,Rosario Central,Boca Juniors,2,1,,,Copa Argentina,2016,eliminacion,,Cuartos,Mario Alberto Kempes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16
+2016-11-02,13:30,Los Andes,All Boys,3,1,,,Primera Nacional,2016,zonas,,Fecha 6,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2016-11-02,15:00,Juventud Unida (G),Ferro Carril Oeste,0,0,,,Primera Nacional,2016,zonas,,Fecha 6,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2016-11-02,15:05,Nueva Chicago,Brown de Adrogué,0,1,,,Primera Nacional,2016,zonas,,Fecha 6,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-11-02,15:30,Argentino de Quilmes,Central Córdoba (R),1,0,,,Primera C,2016,zonas,,Fecha 12,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-02,15:30,Defensores Unidos,San Miguel,1,0,,,Primera C,2016,zonas,,Fecha 12,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-02,15:30,Deportivo Merlo,San Martín (B),0,1,,,Primera C,2016,zonas,,Fecha 12,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2016-11-02,15:30,Flandria,Almagro,1,0,,,Primera Nacional,2016,zonas,,Fecha 6,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2016-11-02,15:35,Argentinos Juniors,Atlético Paraná,1,0,,,Primera Nacional,2016,zonas,,Fecha 6,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2016-11-02,16:00,San Lorenzo de Alem,Juventud Unida Universitario,1,1,,,Torneo Federal A,2016,zonas,Zona 4,Fecha 2,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-11-02,16:00,Sportivo Italiano,El Porvenir,1,0,,,Primera C,2016,zonas,,Fecha 12,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2016-11-02,17:00,San Martín (T),Sportivo Estudiantes (SL),2,0,,,Primera Nacional,2016,zonas,,Fecha 6,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-11-03,15:30,Defensores de Cambaceres,Ferrocarril Midland,3,0,,,Primera C,2016,zonas,,Fecha 12,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-03,15:30,Dock Sud,Berazategui,1,0,,,Primera C,2016,zonas,,Fecha 12,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-03,15:30,J. J. de Urquiza,Sportivo Barracas,1,3,,,Primera C,2016,zonas,,Fecha 12,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2016-11-03,15:30,Ramón Santamarina,Central Córdoba (SdE),1,2,,,Primera Nacional,2016,zonas,,Fecha 6,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-11-03,15:30,Sacachispas,Argentino de Merlo,4,1,,,Primera C,2016,zonas,,Fecha 12,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2016-11-03,18:00,Independiente Rivadavia,Boca Unidos,3,2,,,Primera Nacional,2016,zonas,,Fecha 6,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-11-04,15:30,San Telmo,Acassuso,3,0,,,Primera B,2016,zonas,,Fecha 13,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-11-04,21:00,Cipolletti,Deportivo Roca,3,0,,,Torneo Federal A,2016,zonas,Zona 1,Fecha 11,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-11-04,21:00,Gimnasia y Esgrima (CdU),Sportivo Las Parejas,1,1,,,Torneo Federal A,2016,zonas,Zona 7,Fecha 11,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -1782,11 +1782,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-11-07,20:00,All Boys,Crucero del Norte,3,2,,,Primera Nacional,2016,zonas,,Fecha 13,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-11-07,21:00,Atlético Paraná,Villa Dálmine,1,0,,,Primera Nacional,2016,zonas,,Fecha 13,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-11-07,21:05,Almagro,Chacarita Juniors,3,0,,,Primera Nacional,2016,zonas,,Fecha 13,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
-2016-11-07,21:15,Atlético Tucumán,Unión,1,1,,,Primera Division,2016,zonas,,Fecha 9,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-11-08,15:30,Berazategui,J. J. de Urquiza,1,1,,,Primera C,2016,zonas,,Fecha 13,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-08,15:30,Brown de Adrogué,Douglas Haig,0,1,,,Primera Nacional,2016,zonas,,Fecha 13,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-11-08,20:00,Platense,Colegiales,1,1,,,Primera B,2016,zonas,,Fecha 13,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-11-08,21:05,Defensores de Belgrano,Atlanta,0,0,,,Primera B,2016,zonas,,Fecha 13,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2016-11-08,21:15,Atlético Tucumán,Unión,1,1,,,Primera Division,2016,zonas,,Fecha 9,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2016-11-08,22:00,Central Córdoba (SdE),Instituto,0,0,,,Primera Nacional,2016,zonas,,Fecha 13,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2016-11-09,15:30,Ferrocarril Midland,Luján,1,0,,,Primera C,2016,zonas,,Fecha 13,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-09,15:30,San Martín (B),Defensores Unidos,0,3,,,Primera C,2016,zonas,,Fecha 13,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
@@ -1820,7 +1820,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-11-13,15:30,Argentino de Quilmes,San Miguel,0,3,,,Primera C,2016,zonas,,Fecha 14,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-13,15:30,Colegiales,San Telmo,2,4,,,Primera B,2016,zonas,,Fecha 14,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2016-11-13,15:30,Deportivo Laferrere,Berazategui,2,0,,,Primera C,2016,zonas,,Fecha 14,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2016-11-13,15:30,El Porvenir,Central Córdoba (R),1,1,,,Primera C,2016,zonas,,Fecha 14,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-13,15:30,J. J. de Urquiza,Dock Sud,0,2,,,Primera C,2016,zonas,,Fecha 14,Ramón Roque Martí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-13,15:30,Luján,Argentino de Merlo,0,0,,,Primera C,2016,zonas,,Fecha 14,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-13,16:00,Alvarado,Rivadavia (L),2,1,,,Torneo Federal A,2016,zonas,Zona 2,Fecha 13,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -1847,6 +1846,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-11-13,20:00,Cipolletti,Villa Mitre,1,0,,,Torneo Federal A,2016,zonas,Zona 1,Fecha 13,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-11-13,20:00,Gimnasia y Esgrima (M),Deportivo Maipú,3,0,,,Torneo Federal A,2016,zonas,Zona 3,Fecha 13,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2016-11-13,20:00,San Martín (T),Almagro,1,1,,,Primera Nacional,2016,zonas,,Fecha 14,La Ciudadela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2016-11-14,15:30,El Porvenir,Central Córdoba (R),1,1,,,Primera C,2016,zonas,,Fecha 14,Gildo Francisco Ghersinich,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-14,17:00,Defensores Unidos,Cañuelas,2,2,,,Primera C,2016,zonas,,Fecha 14,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-14,17:00,Defensores de Cambaceres,Deportivo Armenio,2,0,,,Primera C,2016,zonas,,Fecha 14,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-11-14,17:00,Deportivo Español,UAI Urquiza,1,2,,,Primera B,2016,zonas,,Fecha 14,Nueva España,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
@@ -2227,26 +2227,16 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2016-12-20,17:00,Dock Sud,Deportivo Merlo,2,2,,,Primera C,2016,zonas,,Fecha 19,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2016-12-20,17:05,Deportivo Riestra,Deportivo Morón,0,1,,,Primera B,2016,zonas,,Fecha 19,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-03-04,17:00,Comunicaciones,Acassuso,2,1,,,Primera B,2016,zonas,,Fecha 20,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-03-04,17:00,Defensores de Belgrano,Deportivo Español,1,0,,,Primera B,2016,zonas,,Fecha 20,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-03-04,17:00,Deportivo Riestra,Excursionistas,1,3,,,Primera B,2016,zonas,,Fecha 20,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-03-04,17:00,Ferrocarril Midland,San Martín (B),3,0,,,Primera C,2016,zonas,,Fecha 20,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2017-03-05,17:00,Deportivo Armenio,El Porvenir,1,1,,,Primera C,2016,zonas,,Fecha 20,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2017-03-05,17:00,Sacachispas,Defensores de Cambaceres,2,1,,,Primera C,2016,zonas,,Fecha 20,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-03-05,17:00,Sportivo Barracas,Argentino de Quilmes,0,1,,,Primera C,2016,zonas,,Fecha 20,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2017-03-05,17:05,Estudiantes (BA),Talleres (RdE),3,2,,,Primera B,2016,zonas,,Fecha 20,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-03-06,17:00,Almirante Brown,Villa San Carlos,1,0,,,Primera B,2016,zonas,,Fecha 20,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-03-06,17:00,Argentino de Merlo,San Miguel,0,0,,,Primera C,2016,zonas,,Fecha 20,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-03-06,17:00,Berazategui,Sportivo Italiano,0,2,,,Primera C,2016,zonas,,Fecha 20,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2017-03-06,17:00,Cañuelas,Central Córdoba (R),3,1,,,Primera C,2016,zonas,,Fecha 20,Jose Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-03-06,17:00,Dock Sud,Defensores Unidos,0,2,,,Primera C,2016,zonas,,Fecha 20,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-03-06,17:00,J. J. de Urquiza,Deportivo Merlo,1,0,,,Primera C,2016,zonas,,Fecha 20,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2017-03-06,17:00,Tristán Suárez,Deportivo Morón,1,1,,,Primera B,2016,zonas,,Fecha 20,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-03-06,21:05,Platense,Barracas Central,2,0,,,Primera B,2016,zonas,,Fecha 20,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-03-07,17:00,Deportivo Laferrere,Luján,2,0,,,Primera C,2016,zonas,,Fecha 20,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2017-03-07,17:00,San Telmo,UAI Urquiza,1,0,,,Primera B,2016,zonas,,Fecha 20,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-03-07,21:05,Atlanta,Colegiales,1,1,,,Primera B,2016,zonas,,Fecha 20,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-03-09,21:00,Vélez Sarsfield,Estudiantes (LP),3,2,,,Primera Division,2016,zonas,,Fecha 15,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-03-10,17:00,Brown de Adrogué,Boca Unidos,1,1,,,Primera Nacional,2016,zonas,,Fecha 22,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2017-03-10,17:00,Deportivo Laferrere,Luján,2,0,,,Primera C,2016,zonas,,Fecha 20,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2017-03-10,17:00,Sacachispas,Defensores de Cambaceres,2,1,,,Primera C,2016,zonas,,Fecha 20,Beto Larrosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2017-03-10,17:00,San Telmo,UAI Urquiza,1,0,,,Primera B,2016,zonas,,Fecha 20,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-03-10,17:00,Sportivo Patria,Sarmiento (R),1,3,,,Torneo Federal A,2016,zonas,Zona A,Fecha 1,Antonio Romero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-03-10,17:05,Chacarita Juniors,Nueva Chicago,2,3,,,Primera Nacional,2016,zonas,,Fecha 22,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-03-10,19:00,Altos Hornos Zapla,Juventud Antoniana,0,1,,,Torneo Federal A,2016,zonas,Zona A,Fecha 1,Emilio Fabrizzi,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -2265,15 +2255,19 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-03-10,22:00,Gimnasia y Tiro (S),Unión (VK),2,1,,,Torneo Federal A,2016,zonas,Zona A,Fecha 1,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-03-11,17:00,Atlético Paraná,Independiente Rivadavia,1,1,,,Primera Nacional,2016,zonas,,Fecha 22,Pedro Mutio,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-03-11,17:00,Defensa y Justicia,Newell's Old Boys,1,0,,,Primera Division,2016,zonas,,Fecha 15,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
+2017-03-11,17:00,Defensores de Belgrano,Deportivo Español,1,0,,,Primera B,2016,zonas,,Fecha 20,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2017-03-11,17:00,Ferrocarril Midland,San Martín (B),3,0,,,Primera C,2016,zonas,,Fecha 20,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-03-11,17:00,Guillermo Brown,Central Córdoba (SdE),0,0,,,Primera Nacional,2016,zonas,,Fecha 22,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-03-11,17:00,San Lorenzo,Belgrano,2,1,,,Primera Division,2016,zonas,,Fecha 15,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-03-11,17:00,Villa Dálmine,Ramón Santamarina,2,2,,,Primera Nacional,2016,zonas,,Fecha 22,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2017-03-11,17:05,Estudiantes (BA),Talleres (RdE),3,2,,,Primera B,2016,zonas,,Fecha 20,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-03-11,19:05,All Boys,Almagro,1,1,,,Primera Nacional,2016,zonas,,Fecha 22,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-03-11,19:10,Banfield,Boca Juniors,0,2,,,Primera Division,2016,zonas,,Fecha 15,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-03-11,20:00,San Martín (SJ),Huracán,0,1,,,Primera Division,2016,zonas,,Fecha 15,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-03-11,20:00,Sportivo Estudiantes (SL),Juventud Unida (G),0,2,,,Primera Nacional,2016,zonas,,Fecha 22,Héctor Odicino-Pedro Benoza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
-2017-03-11,21:10,Talleres (C),Independiente,0,2,,,Primera Division,2016,zonas,,Fecha 15,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
+2017-03-11,21:05,Atlanta,Colegiales,1,1,,,Primera B,2016,zonas,,Fecha 20,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-03-12,17:00,Defensores de Pronunciamiento,Libertad (S),1,1,,,Torneo Federal A,2016,zonas,Zona C,Fecha 1,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
+2017-03-12,17:00,Deportivo Armenio,El Porvenir,1,1,,,Primera C,2016,zonas,,Fecha 20,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-03-12,17:00,General Belgrano (SR),Ferro Carril Oeste (GP),1,1,,,Torneo Federal A,2016,zonas,Zona A,Fecha 1,Nuevo Rancho Grande,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-03-12,17:00,Gimnasia y Esgrima (LP),Quilmes,3,1,,,Primera Division,2016,zonas,,Fecha 15,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-03-12,17:00,Independiente (N),Deportivo Maipú,2,0,,,Torneo Federal A,2016,zonas,Zona A,Fecha 1,La Nueva Caldera,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -2286,9 +2280,14 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-03-12,19:10,River Plate,Unión,0,0,,,Primera Division,2016,zonas,,Fecha 15,Monumental,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-03-12,19:10,Rosario Central,Godoy Cruz,0,1,,,Primera Division,2016,zonas,,Fecha 15,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-03-12,21:20,Atlético Tucumán,Sarmiento (J),2,1,,,Primera Division,2016,zonas,,Fecha 15,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
+2017-03-13,17:00,Cañuelas,Central Córdoba (R),3,1,,,Primera C,2016,zonas,,Fecha 20,Jose Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2017-03-13,17:00,Deportivo Riestra,Excursionistas,1,3,,,Primera B,2016,zonas,,Fecha 20,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2017-03-13,17:00,Tristán Suárez,Deportivo Morón,1,1,,,Primera B,2016,zonas,,Fecha 20,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-03-13,19:00,Aldosivi,Atlético de Rafaela,1,0,,,Primera Division,2016,zonas,,Fecha 15,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
+2017-03-13,21:05,Platense,Barracas Central,2,0,,,Primera B,2016,zonas,,Fecha 20,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-03-13,21:15,Colón,Olimpo,1,1,,,Primera Division,2016,zonas,,Fecha 15,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-03-14,15:30,Brown de Adrogué,Argentinos Juniors,1,0,,,Primera Nacional,2016,zonas,,Fecha 7,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2017-03-14,17:00,Argentino de Merlo,San Miguel,0,0,,,Primera C,2016,zonas,,Fecha 20,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-03-14,21:00,Douglas Haig,San Martín (T),2,1,,,Primera Nacional,2016,zonas,,Fecha 7,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-03-14,21:05,Ferro Carril Oeste,Los Andes,0,0,,,Primera Nacional,2016,zonas,,Fecha 7,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-03-15,16:00,Almagro,Juventud Unida (G),1,1,,,Primera Nacional,2016,zonas,,Fecha 7,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
@@ -2456,7 +2455,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-01,16:05,All Boys,Independiente Rivadavia,2,2,,,Primera Nacional,2016,zonas,,Fecha 25,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-01,16:15,Sportivo Patria,Gimnasia y Tiro (S),3,1,,,Torneo Federal A,2016,zonas,Zona A,Fecha 4,Antonio Romero,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-01,16:30,Gutiérrez,Concepción FC,2,2,,,Torneo Federal A,2016,zonas,Zona B,Fecha 5,General Gutiérrez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
-2017-04-01,16:30,Villa Mitre,Agropecuario,0,0,,,Torneo Federal A,2016,zonas,Zona B,Fecha 4,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-01,17:00,Gimnasia y Esgrima (CdU),Sportivo Belgrano,1,1,,,Torneo Federal A,2016,zonas,Zona C,Fecha 5,Manuel y Ramón Núñez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-01,17:00,Temperley,Aldosivi,1,0,,,Primera Division,2016,zonas,,Fecha 18,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-01,17:00,Unión (S),Deportivo Madryn,3,1,,,Torneo Federal A,2016,zonas,Zona B,Fecha 4,De la Avenida,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -2481,7 +2479,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-02,15:30,Atlanta,Deportivo Español,1,3,,,Primera B,2016,zonas,,Fecha 24,Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-02,15:30,Central Córdoba (R),Luján,0,2,,,Primera C,2016,zonas,,Fecha 23,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-02,15:30,Comunicaciones,Excursionistas,5,0,,,Primera B,2016,zonas,,Fecha 24,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-04-02,16:00,Guillermo Brown,Ramón Santamarina,0,0,,,Primera Nacional,2016,zonas,,Fecha 25,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-02,16:15,Lanús,Banfield,4,2,,,Primera Division,2016,zonas,,Fecha 18,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-02,16:30,San Jorge (T),Juventud Unida Universitario,3,0,,,Torneo Federal A,2016,zonas,Zona B,Fecha 5,Senador Luis Cruz,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-02,16:30,Sol de América (F),Libertad (S),1,3,,,Torneo Federal A,2016,zonas,Zona C,Fecha 5,Sol de América,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -2495,6 +2492,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-03,15:30,Defensores Unidos,Sacachispas,3,0,,,Primera C,2016,zonas,,Fecha 23,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-03,15:30,Deportivo Riestra,Barracas Central,2,1,,,Primera B,2016,zonas,,Fecha 24,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-03,15:30,Tristán Suárez,UAI Urquiza,2,4,,,Primera B,2016,zonas,,Fecha 24,20 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2017-04-03,16:00,Guillermo Brown,Ramón Santamarina,0,0,,,Primera Nacional,2016,zonas,,Fecha 25,Raúl Conti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-03,16:00,Sportivo Italiano,Deportivo Laferrere,4,0,,,Primera C,2016,zonas,,Fecha 23,República de Italia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-03,19:00,Olimpo,San Martín (SJ),0,0,,,Primera Division,2016,zonas,,Fecha 18,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-03,21:05,Crucero del Norte,Argentinos Juniors,1,1,,,Primera Nacional,2016,zonas,,Fecha 25,Comandante Andrés Guacurarí,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
@@ -2502,7 +2500,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-04,15:30,Ferrocarril Midland,Argentino de Merlo,1,0,,,Primera C,2016,zonas,,Fecha 23,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-04,20:05,Defensores de Belgrano,Fénix,4,3,,,Primera B,2016,zonas,,Fecha 24,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-05,16:00,Unión Aconquija,Sarmiento (R),1,2,,,Torneo Federal A,2016,zonas,Zona A,Fecha 5,Municipal de Aconquija,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
-2017-04-05,17:00,Deportivo Madryn,Villa Mitre,0,0,,,Torneo Federal A,2016,zonas,Zona B,Fecha 5,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-05,20:30,Agropecuario,Cipolletti,1,0,,,Torneo Federal A,2016,zonas,Zona B,Fecha 5,De la Calle Carlos Arroyo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-05,20:30,Alvarado,Unión (S),1,2,,,Torneo Federal A,2016,zonas,Zona B,Fecha 5,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-05,21:00,Sportivo Las Parejas,Defensores de Belgrano (VR),1,1,,,Torneo Federal A,2016,zonas,Zona B,Fecha 5,4 de Septiembre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -2521,7 +2518,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-08,14:00,Arsenal,Newell's Old Boys,0,1,,,Primera Division,2016,zonas,,Fecha 19,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-08,15:30,Defensores de Cambaceres,Defensores Unidos,0,1,,,Primera C,2016,zonas,,Fecha 24,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-08,15:30,Excursionistas,Acassuso,0,0,,,Primera B,2016,zonas,,Fecha 25,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-04-08,15:30,Flandria,Guillermo Brown,0,0,,,Primera Nacional,2016,zonas,,Fecha 26,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-08,15:30,J. J. de Urquiza,El Porvenir,1,2,,,Primera C,2016,zonas,,Fecha 24,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-08,15:35,Nueva Chicago,Douglas Haig,0,1,,,Primera Nacional,2016,zonas,,Fecha 26,Nueva Chicago,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-08,16:00,San Lorenzo,Sarmiento (J),1,0,,,Primera Division,2016,zonas,,Fecha 19,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
@@ -2534,7 +2530,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-08,18:05,Chacarita Juniors,San Martín (T),1,0,,,Primera Nacional,2016,zonas,,Fecha 26,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-08,19:00,Instituto,Crucero del Norte,2,1,,,Primera Nacional,2016,zonas,,Fecha 26,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-08,19:30,Talleres (C),Lanús,3,1,,,Primera Division,2016,zonas,,Fecha 19,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
-2017-04-09,12:00,San Telmo,Almirante Brown,1,2,,,Primera B,2016,zonas,,Fecha 25,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-09,13:35,Villa San Carlos,Atlanta,0,0,,,Primera B,2016,zonas,,Fecha 25,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-09,14:00,Banfield,Belgrano,2,0,,,Primera Division,2016,zonas,,Fecha 19,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-09,15:30,Argentino de Merlo,Central Córdoba (R),3,1,,,Primera C,2016,zonas,,Fecha 24,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
@@ -2562,15 +2557,16 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-09,19:30,Juventud Unida (G),Brown de Adrogué,1,3,,,Primera Nacional,2016,zonas,,Fecha 26,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-09,20:15,Vélez Sarsfield,Boca Juniors,1,3,,,Primera Division,2016,zonas,,Fecha 19,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-10,15:30,Deportivo Laferrere,Argentino de Quilmes,0,1,,,Primera C,2016,zonas,,Fecha 24,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2017-04-10,15:30,Fénix,Deportivo Riestra,2,2,,,Primera B,2016,zonas,,Fecha 25,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-10,15:30,UAI Urquiza,Estudiantes (BA),0,2,,,Primera B,2016,zonas,,Fecha 25,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-10,16:30,Gutiérrez,San Lorenzo de Alem,2,1,,,Torneo Federal A,2016,zonas,Zona B,Fecha 6,General Gutiérrez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-10,19:00,Defensa y Justicia,Olimpo,1,1,,,Primera Division,2016,zonas,,Fecha 19,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-10,20:30,Ramón Santamarina,All Boys,1,0,,,Primera Nacional,2016,zonas,,Fecha 26,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-10,21:10,Argentinos Juniors,Sportivo Estudiantes (SL),4,1,,,Primera Nacional,2016,zonas,,Fecha 26,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-10,21:15,Gimnasia y Esgrima (LP),Temperley,1,1,,,Primera Division,2016,zonas,,Fecha 19,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
-2017-04-11,15:30,Barracas Central,Tristán Suárez,2,2,,,Primera B,2016,zonas,,Fecha 25,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2017-04-11,12:00,San Telmo,Almirante Brown,1,2,,,Primera B,2016,zonas,,Fecha 25,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2017-04-11,15:30,Fénix,Deportivo Riestra,2,2,,,Primera B,2016,zonas,,Fecha 25,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-11,21:05,Deportivo Morón,Colegiales,1,0,,,Primera B,2016,zonas,,Fecha 25,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2017-04-12,15:30,Barracas Central,Tristán Suárez,2,2,,,Primera B,2016,zonas,,Fecha 25,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-13,15:30,Argentino de Merlo,Deportivo Armenio,0,0,,,Primera C,2016,zonas,,Fecha 25,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-13,15:30,Cañuelas,Berazategui,1,0,,,Primera C,2016,zonas,,Fecha 25,Jose Alfredo Arín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-13,15:30,Defensores Unidos,Luján,2,1,,,Primera C,2016,zonas,,Fecha 25,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
@@ -2650,6 +2646,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-19,16:00,Gimnasia y Esgrima (J),Brown de Adrogué,2,0,,,Primera Nacional,2016,zonas,,Fecha 28,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-19,16:00,Independiente (N),Deportivo Roca,0,1,,,Torneo Federal A,2016,zonas,Zona A,Fecha 8,La Nueva Caldera,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-19,16:30,San Jorge (T),San Lorenzo de Alem,0,2,,,Torneo Federal A,2016,zonas,Zona B,Fecha 8,Stewart Shipton,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
+2017-04-19,16:30,Villa Mitre,Agropecuario,0,0,,,Torneo Federal A,2016,zonas,Zona B,Fecha 4,El Fortín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-19,17:00,Libertad (S),Gimnasia y Esgrima (CdU),3,0,,,Torneo Federal A,2016,zonas,Zona C,Fecha 8,Dr. Plácido Tita,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-19,19:05,Chacarita Juniors,Sportivo Estudiantes (SL),2,0,,,Primera Nacional,2016,zonas,,Fecha 28,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-19,20:00,Defensores de Pronunciamiento,Sportivo Belgrano,4,1,,,Torneo Federal A,2016,zonas,Zona C,Fecha 8,Delio Cardozo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -2657,6 +2654,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-19,21:00,Instituto,Douglas Haig,1,1,,,Primera Nacional,2016,zonas,,Fecha 28,Juan Domingo Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-19,21:05,Argentinos Juniors,Villa Dálmine,2,0,,,Primera Nacional,2016,zonas,,Fecha 28,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-19,21:10,Guaraní Antonio Franco,Sol de América (F),2,1,,,Torneo Federal A,2016,zonas,Zona C,Fecha 8,Clemente A. Fernández de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
+2017-04-19,21:10,Talleres (C),Independiente,0,2,,,Primera Division,2016,zonas,,Fecha 15,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-19,21:15,Juventud Unida Universitario,Concepción FC,0,0,,,Torneo Federal A,2016,zonas,Zona B,Fecha 8,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-19,21:30,Deportivo Maipú,Ferro Carril Oeste (GP),1,2,,,Torneo Federal A,2016,zonas,Zona A,Fecha 8,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-19,21:30,Desamparados,Gutiérrez,2,2,,,Torneo Federal A,2016,zonas,Zona B,Fecha 8,El Serpentario,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
@@ -2723,9 +2721,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-24,21:05,Douglas Haig,Chacarita Juniors,0,0,,,Primera Nacional,2016,zonas,,Fecha 29,Miguel Morales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-24,21:15,Colón,Tigre,2,1,,,Primera Division,2016,zonas,,Fecha 21,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-24,22:00,Central Córdoba (SdE),Ramón Santamarina,3,0,,,Primera Nacional,2016,zonas,,Fecha 29,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
-2017-04-25,15:30,Argentino de Merlo,Berazategui,3,0,,,Primera C,2016,zonas,,Fecha 27,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-25,15:30,Deportivo Armenio,Sportivo Barracas,1,0,,,Primera C,2016,zonas,,Fecha 27,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-25,15:30,San Martín (B),Deportivo Laferrere,1,1,,,Primera C,2016,zonas,,Fecha 27,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2017-04-26,15:30,Argentino de Merlo,Berazategui,3,0,,,Primera C,2016,zonas,,Fecha 27,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2017-04-26,17:00,Deportivo Madryn,Villa Mitre,0,0,,,Torneo Federal A,2016,zonas,Zona B,Fecha 5,Abel Sastre,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-04-27,21:05,Deportivo Morón,Excursionistas,5,0,,,Primera B,2016,zonas,,Fecha 28,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-04-28,15:30,Defensores Unidos,Sportivo Italiano,3,1,,,Primera C,2016,zonas,,Fecha 28,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-04-28,15:30,Deportivo Merlo,Argentino de Quilmes,1,5,,,Primera C,2016,zonas,,Fecha 28,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
@@ -2780,7 +2779,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-04-30,19:00,Ramón Santamarina,Boca Unidos,1,1,,,Primera Nacional,2016,zonas,,Fecha 30,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-04-30,19:10,Boca Juniors,Arsenal,3,0,,,Primera Division,2016,zonas,,Fecha 22,La Bombonera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-04-30,19:30,Olimpo,Atlético de Rafaela,1,2,,,Primera Division,2016,zonas,,Fecha 22,Roberto N. Carminatti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
-2017-04-30,20:15,Atlético Tucumán,River Plate,0,3,,,Primera Division,2016,zonas,,Fecha 22,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-05-02,14:00,Dock Sud,Argentino de Merlo,0,1,,,Primera C,2016,zonas,,Fecha 28,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-05-02,15:30,J. J. de Urquiza,Ferrocarril Midland,0,1,,,Primera C,2016,zonas,,Fecha 28,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-05-02,16:30,Belgrano,Defensa y Justicia,0,1,,,Primera Division,2016,zonas,,Fecha 22,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
@@ -2833,11 +2831,10 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-05-07,18:15,San Lorenzo,Rosario Central,2,1,,,Primera Division,2016,zonas,,Fecha 23,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-05-07,20:15,Colón,Atlético Tucumán,2,2,,,Primera Division,2016,zonas,,Fecha 23,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-05-07,20:15,Newell's Old Boys,Independiente,2,4,,,Primera Division,2016,zonas,,Fecha 23,Marcelo Bielsa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
-2017-05-08,15:30,Argentino de Merlo,J. J. de Urquiza,0,1,,,Primera C,2016,zonas,,Fecha 29,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
-2017-05-08,15:30,Argentino de Quilmes,Defensores Unidos,3,2,,,Primera C,2016,zonas,,Fecha 29,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-05-08,15:30,San Martín (B),Defensores de Cambaceres,1,1,,,Primera C,2016,zonas,,Fecha 29,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-05-08,20:10,Banfield,Sarmiento (J),2,0,,,Primera Division,2016,zonas,,Fecha 23,Florencio Sola,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-05-08,21:15,Vélez Sarsfield,Belgrano,1,2,,,Primera Division,2016,zonas,,Fecha 23,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
+2017-05-09,15:30,Argentino de Merlo,J. J. de Urquiza,0,1,,,Primera C,2016,zonas,,Fecha 29,Merlo,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-05-09,15:30,Comunicaciones,Platense,1,0,,,Primera B,2016,zonas,,Fecha 30,Alfredo Ramos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-05-09,15:30,Estudiantes (BA),Almirante Brown,0,1,,,Primera B,2016,zonas,,Fecha 30,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-05-09,15:30,Flandria,Independiente Rivadavia,3,0,,,Primera Nacional,2016,zonas,,Fecha 32,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
@@ -2982,11 +2979,11 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-05-22,20:05,Argentinos Juniors,Almagro,0,0,,,Primera Nacional,2016,zonas,,Fecha 34,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-05-22,21:15,Gimnasia y Esgrima (LP),River Plate,0,3,,,Primera Division,2016,zonas,,Fecha 25,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-05-23,15:30,Defensores de Cambaceres,Argentino de Merlo,3,0,,,Primera C,2016,zonas,,Fecha 32,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2017-05-23,15:30,Flandria,Guillermo Brown,0,0,,,Primera Nacional,2016,zonas,,Fecha 26,Carlos V,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-05-23,21:05,Deportivo Morón,Barracas Central,1,1,,,Primera B,2016,zonas,,Fecha 32,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-05-24,14:00,Chaco For Ever,Villa Mitre,2,1,,,Torneo Federal A,2016,eliminacion,,Partidos de ida,Juan Alberto García,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-05-24,22:00,Altos Hornos Zapla,Sarmiento (R),0,0,,,Torneo Federal A,2016,eliminacion,,Partidos de ida,Emilio Fabrizzi,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-05-24,22:00,Juventud Antoniana,Cipolletti,1,1,,,Torneo Federal A,2016,eliminacion,,Partidos de ida,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
-2017-05-25,15:30,Gutiérrez,Defensores de Belgrano (VR),2,1,,,Torneo Federal A,2016,eliminacion,,Partidos de ida,General Gutiérrez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-05-26,15:30,Berazategui,Deportivo Laferrere,5,1,,,Primera C,2016,zonas,,Fecha 33,Norman Lee,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-05-26,15:30,San Martín (B),Sportivo Italiano,4,2,,,Primera C,2016,zonas,,Fecha 33,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-05-26,15:30,San Miguel,Argentino de Quilmes,2,0,,,Primera C,2016,zonas,,Fecha 33,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
@@ -3035,11 +3032,13 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-05-29,15:30,Dock Sud,J. J. de Urquiza,1,0,,,Primera C,2016,zonas,,Fecha 33,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-05-29,15:30,Ferrocarril Midland,Deportivo Merlo,1,1,,,Primera C,2016,zonas,,Fecha 33,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-05-29,19:00,Estudiantes (LP),Unión,2,0,,,Primera Division,2016,zonas,,Fecha 26,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
-2017-05-29,20:30,Defensores de Belgrano (VR),Gutiérrez,1,0,,,Torneo Federal A,2016,eliminacion,,Partidos de vuelta,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-05-29,21:15,Vélez Sarsfield,Quilmes,0,0,,,Primera Division,2016,zonas,,Fecha 26,José Amalfitani,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-05-30,21:05,Defensores de Belgrano,Comunicaciones,1,2,,,Primera B,2016,zonas,,Fecha 33,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2017-05-31,15:30,Argentino de Quilmes,Defensores Unidos,3,2,,,Primera C,2016,zonas,,Fecha 29,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2017-05-31,20:15,Atlético Tucumán,River Plate,0,3,,,Primera Division,2016,zonas,,Fecha 22,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-06-02,15:30,Colegiales,Almirante Brown,2,0,,,Primera B,2016,zonas,,Fecha 34,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-06-02,15:30,Deportivo Laferrere,Dock Sud,0,0,,,Primera C,2016,zonas,,Fecha 34,Ciudad de Laferrere,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
+2017-06-02,15:30,Gutiérrez,Defensores de Belgrano (VR),2,1,,,Torneo Federal A,2016,eliminacion,,Partidos de ida,General Gutiérrez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-06-02,15:30,Villa San Carlos,UAI Urquiza,3,1,,,Primera B,2016,zonas,,Fecha 34,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-06-02,19:00,Sarmiento (J),Defensa y Justicia,1,0,,,Primera Division,2016,zonas,,Fecha 27,Eva Perón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-06-02,20:05,Sportivo Estudiantes (SL),Guillermo Brown,0,0,,,Primera Nacional,2016,zonas,,Fecha 36,Juan Gilberto Funes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
@@ -3083,6 +3082,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-06-05,21:15,Racing Club,Aldosivi,1,1,,,Primera Division,2016,zonas,,Fecha 27,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2016-17_(Argentina)
 2017-06-06,15:30,Argentino de Quilmes,San Martín (B),2,1,,,Primera C,2016,zonas,,Fecha 34,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-06-06,20:10,Deportivo Morón,Platense,2,1,,,Primera B,2016,zonas,,Fecha 34,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
+2017-06-06,20:30,Defensores de Belgrano (VR),Gutiérrez,1,0,,,Torneo Federal A,2016,eliminacion,,Partidos de vuelta,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-06-08,21:00,Central Córdoba (SdE),Chacarita Juniors,0,2,,,Primera Nacional,2016,zonas,,Fecha 37,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-06-09,15:30,Dock Sud,Sacachispas,2,2,,,Primera C,2016,zonas,,Fecha 35,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-06-09,15:30,Ferrocarril Midland,Sportivo Italiano,1,1,,,Primera C,2016,zonas,,Fecha 35,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
@@ -3247,7 +3247,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-06-30,15:00,Deportivo Merlo,Dock Sud,1,1,,,Primera C,2016,zonas,,Fecha 38,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-06-30,15:00,Deportivo Morón,Deportivo Riestra,1,1,,,Primera B,2016,zonas,,Fecha 38,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-06-30,15:00,Excursionistas,Defensores de Belgrano,1,1,,,Primera B,2016,zonas,,Fecha 38,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
-2017-06-30,15:00,Luján,J. J. de Urquiza,1,1,,,Primera C,2016,zonas,,Fecha 38,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-06-30,15:00,Mitre (SdE),Defensores de Belgrano (VR),1,0,,,Torneo Federal A,2016,eliminacion,,Partidos de vuelta,Dres. José y Antonio Castiglione,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-06-30,15:00,Talleres (RdE),Tristán Suárez,3,1,,,Primera B,2016,zonas,,Fecha 38,Talleres,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
 2017-06-30,15:00,UAI Urquiza,Platense,0,0,,,Primera B,2016,zonas,,Fecha 38,Monumental de Villa Lynch,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)
@@ -3267,6 +3266,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2017-07-01,20:00,Gimnasia y Esgrima (M),Cipolletti,1,1,,,Torneo Federal A,2016,eliminacion,,Partidos de vuelta,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2016-17
 2017-07-02,14:30,Juventud Unida (G),Instituto,2,1,,,Primera Nacional,2016,zonas,,Fecha 41,De los Eucaliptos,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-07-02,15:00,Gimnasia y Esgrima (J),Nueva Chicago,2,2,,,Primera Nacional,2016,zonas,,Fecha 41,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
+2017-07-02,15:00,Luján,J. J. de Urquiza,1,1,,,Primera C,2016,zonas,,Fecha 38,Municipal de la Ciudad de Luján,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016-17_(Argentina)
 2017-07-02,16:00,Boca Unidos,Sportivo Estudiantes (SL),0,1,,,Primera Nacional,2016,zonas,,Fecha 41,Leoncio Benítez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-07-03,21:05,Central Córdoba (SdE),Douglas Haig,2,3,,,Primera Nacional,2016,zonas,,Fecha 41,Alfredo Terrera,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2016-17
 2017-07-04,,Atlanta,Deportivo Español,0,1,,,Primera B,2016,eliminacion,,Cuartos,Estadio Don León Kolbovsky,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2016-17_(Argentina)

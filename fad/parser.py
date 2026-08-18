@@ -214,6 +214,9 @@ def articulos_de_la_pagina(texto: str) -> dict[str, str]:
     return {v: next(iter(d.values())) for v, d in vistos.items() if len(d) == 1}
 
 
+_NOTA_AL_PIE = re.compile(r"<ref[^>]*>.*?</ref>|<ref[^>]*/>", re.S | re.I)
+
+
 def _partir(fila: str) -> list[str]:
     """Las celdas crudas de una fila, en los DOS estilos que usa Wikipedia.
 
@@ -237,6 +240,18 @@ def _partir(fila: str) -> list[str]:
     columna y `venue` terminaba diciendo "2 de febrero". El partido salia sin
     fecha y con una fecha por cancha, que es peor que salir sin nada.
     """
+    # Y la nota al pie se saca ANTES de partir, porque adentro trae pipes: una
+    # `{{Cita web\n|url=...\n|fechaacceso=...}}` escrita en varias lineas mete
+    # tres celdas falsas y corre todo lo que viene despues. Es la misma forma de
+    # fallar que las celdas vacias del parrafo anterior, y tampoco falla
+    # ruidosamente: el Apertura 2025 publicaba nueve partidos cuya HORA era
+    # "título=Tras muerte del Papa Francisco la AFA suspende partidos del futbol
+    # argentino", y dos quedaban con la fecha de consulta de la cita.
+    #
+    # Se puede borrar sin perder nada aunque la nota traiga el dato de cuando se
+    # jugo el partido postergado, porque eso se lee de la FILA CRUDA -- ver
+    # `_fecha_de_la_nota` --, antes de llegar aca.
+    fila = _NOTA_AL_PIE.sub("", fila)
     partes = re.split(r"\n\|", "\n" + fila.replace("||", "\n|"))
     return partes[1:]
 
@@ -250,6 +265,45 @@ def _partir(fila: str) -> list[str]:
 MES_INICIO_HABITUAL = 8
 
 
+# "Suspendido por lluvia. Se jugó el 29 de julio, a partir de las 15:00." La
+# nota dice CUANDO SE JUGO, y esa es la fecha del partido.
+#
+# `completó`, `reanudó` y `terminó` quedan afuera A PROPOSITO, y no es un olvido:
+# ahi el partido EMPEZO el dia de la celda y se termino despues -- son los 105
+# casos de "se completó el 5 de marzo" --, asi que la fecha buena sigue siendo la
+# primera. Meterlos en el mismo saco moveria 105 partidos al dia equivocado.
+_SE_JUGO = re.compile(
+    r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron)\s+(?:el\s+)?"
+    r"(\d{1,2}\s*de\s+[a-záéíóúñ]+(?:\s*de\s+\d{4})?)")
+
+
+def _fecha_de_la_nota(fila: str, anio: int, anio_fin: int | None,
+                      mes_inicio: int, programada: str = "") -> str:
+    """La fecha en que se jugo de verdad, cuando la nota al pie la dice.
+
+    Se lee de la FILA cruda y no de la celda, por dos motivos. Uno, que para
+    cuando la celda esta armada `limpiar` ya borro el `<ref>` con la nota
+    adentro. Dos, que la nota es de la fila: puede colgar de la celda de la
+    fecha, de la del resultado o de la del estadio, y en las tres esta hablando
+    del mismo partido. Sacarla de la fila las agarra a las tres sin que el texto
+    de la nota se meta en la columna de la que colgaba.
+    """
+    m = _SE_JUGO.search(fila)
+    if not m:
+        return ""
+    jugada = a_iso(m.group(1), anio, anio_fin, mes_inicio)
+    # Un partido no se juega ANTES del dia para el que estaba programado, asi que
+    # si la regla de la temporada lo puso antes, el anio que le toca es el que
+    # sigue. Pasa una sola vez en las 296 notas, y es el caso que la regla no
+    # puede saber: Acassuso-Argentino de Quilmes de la Primera B 2019-20, previsto
+    # para el 14 de marzo de 2020 y jugado el 29 de noviembre, cuando volvio el
+    # futbol. Por noviembre la regla contesta 2019, que es medio anio antes de
+    # que lo suspendieran.
+    if jugada and programada and jugada < programada:
+        jugada = f"{int(jugada[:4]) + 1}{jugada[4:]}"
+    return jugada
+
+
 def a_iso(texto: str, anio: int, anio_fin: int | None = None,
           mes_inicio: int = MES_INICIO_HABITUAL) -> str:
     """'22 de enero' -> '2026-01-22'. Cadena vacia si no se entiende.
@@ -260,15 +314,24 @@ def a_iso(texto: str, anio: int, anio_fin: int | None = None,
     por el mes, y equivocarse ahi no falla: fecha media temporada un anio entero
     para atras, el partido queda antes de que el torneo empezara, y cualquiera
     que despues filtre por fecha lo lee donde no corresponde.
+
+    SALVO QUE LA CELDA LO DIGA. Cuando la pagina escribe el anio, gana ella y no
+    se deduce nada: es un dato de la fuente contra una regla nuestra. Y no es
+    raro ni decorativo -- lo escribe justo cuando la regla se equivocaria, que es
+    el partido postergado fuera de su temporada. "23 de abril de 2008{{refn|
+    Postergado por la participacion de Arsenal en la final de la Copa
+    Sudamericana}}" es del Apertura 2007, y por el mes caia en abril de 2007,
+    cuando el torneo todavia no existia. Son 39 partidos en seis paginas, 34 de
+    ellos de la Copa Argentina 2019-20, que la pandemia estiro hasta 2021.
     """
-    m = re.search(r"(\d{1,2})\s*de\s+([a-záéíóúñ]+)", texto, re.I)
+    m = re.search(r"(\d{1,2})\s*de\s+([a-záéíóúñ]+)(?:\s*de\s+(\d{4}))?", texto, re.I)
     if not m:
         return ""
     mes_txt = unicodedata.normalize("NFKD", m.group(2).lower()).encode("ascii", "ignore").decode()
     mes = MESES.get(mes_txt)
     if not mes:
         return ""
-    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin
+    y = int(m.group(3)) if m.group(3) else (anio if (anio_fin is None or mes >= mes_inicio) else anio_fin)
     return f"{y}-{mes:02d}-{int(m.group(1)):02d}"
 
 
@@ -488,8 +551,11 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
         goles = _marcador(valores["resultado"])
         if not goles or not valores["local"] or not valores["visita"]:
             continue
+        programada = a_iso(valores["fecha"], anio, anio_fin, mes_inicio)
         partidos.append(Partido(
-            fecha=a_iso(valores["fecha"], anio, anio_fin, mes_inicio), hora=valores["hora"],
+            fecha=(_fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada)
+                   or programada),
+            hora=valores["hora"],
             local=valores["local"], visita=valores["visita"],
             goles_local=goles[0], goles_visita=goles[1],
             torneo=torneo, fase="eliminacion" if ronda else "zonas",

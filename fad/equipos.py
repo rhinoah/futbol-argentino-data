@@ -209,8 +209,15 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Tristán Suárez", alias=("T. Suárez",)),
 
     # entran por las ediciones viejas de la Copa Argentina, que mezclan mas
-    # divisiones todavia. Ojo: es el TERCER Liniers del padron.
-    Equipo("Liniers (SJ)"),
+    # divisiones todavia.
+    #
+    # Aca vivia un "Liniers (SJ)" que NO era un tercer club sino el mismo de mas
+    # abajo escrito de otra forma: los dos salen del articulo
+    # `Club Social y Deportivo Liniers`, y por eso ahora es su alias. El otro,
+    # `Liniers (BB)`, si es otro club y tiene otro articulo
+    # (`Club Atlético Liniers`, de Bahia Blanca). Partido en dos, el mismo club
+    # salia al CSV como "Liniers" en sus 360 partidos de Primera B y C y como
+    # "Liniers (SJ)" en su unico partido de la Copa Argentina 2022.
     Equipo("Pacífico"),
     # entran por las primeras ediciones de la Copa Argentina
     Equipo("Andino"),
@@ -398,7 +405,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Kimberley'),
     Equipo('Leandro N. Alem'),
     Equipo('Leones de Rosario'),
-    Equipo('Liniers'),
+    Equipo('Liniers', alias=('Liniers (SJ)',)),
     Equipo('Los Andes'),
     Equipo('Lugano'),
     Equipo('Luján'),
@@ -519,6 +526,21 @@ ARTICULOS: dict[str, str] = {
     'Club Atlético Kimberley': 'Kimberley',
     'Club Atlético Lanús': 'Lanús',
     'Club Atlético Liniers': 'Liniers (BB)',
+    # Los siete de abajo no cambian ningun partido de hoy: los siete resuelven ya
+    # por su nombre pelado, que es justo el problema. Son los articulos de los
+    # clubes cuyo nombre canonico NO lleva desambiguador teniendo homonimos que
+    # si -- Independiente e Independiente (C), Union y Union (S), Ferro Carril
+    # Oeste y el (GP) --, y sobre 4307 lados de partido que llevan uno de esos
+    # nombres, el articulo hoy desambigua en el 16%: en el resto `buscar` cae al
+    # nombre y el enlace queda de adorno. Entran para que el dia que una pagina
+    # escriba el nombre pelado del club equivocado, el articulo lo desmienta.
+    'Club Atlético Independiente': 'Independiente',
+    'Club Ferro Carril Oeste': 'Ferro Carril Oeste',
+    'Club Atlético Unión (Santa Fe)': 'Unión',
+    'Club Atlético Defensores de Belgrano': 'Defensores de Belgrano',
+    'Club Social y Deportivo Liniers': 'Liniers',
+    'Club Atlético Tiro Federal Argentino': 'Tiro Federal',
+    'Club Deportivo y Social Juventud Unida': 'Juventud Unida',
     'Club Atlético Los Andes': 'Los Andes',
     'Club Atlético Lugano': 'Lugano',
     'Club Atlético Mitre (Santiago del Estero)': 'Mitre (SdE)',

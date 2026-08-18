@@ -116,11 +116,9 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-02-17,,Aldosivi,San Miguel,3,0,,,Copa Argentina,2026,eliminacion,,Treintaidosavos,Norberto Tomaghello,true,https://es.wikipedia.org/wiki/Copa_Argentina_2026
 2026-02-17,,River Plate,Ciudad de Bolívar,1,0,,,Copa Argentina,2026,eliminacion,,Treintaidosavos,Único La Pedrera,true,https://es.wikipedia.org/wiki/Copa_Argentina_2026
 2026-02-17,,Tigre,Claypole,2,0,,,Copa Argentina,2026,eliminacion,,Treintaidosavos,Nuevo Francisco Urbano,true,https://es.wikipedia.org/wiki/Copa_Argentina_2026
-2026-02-19,17:15,Defensa y Justicia,Belgrano,1,1,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
-2026-02-19,17:15,San Lorenzo,Estudiantes (RC),2,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
-2026-02-19,19:30,Independiente Rivadavia,Independiente,3,2,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
-2026-02-19,19:30,Instituto,Atlético Tucumán,2,1,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Monumental Presidente Perón,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
+2026-02-20,17:15,Defensa y Justicia,Belgrano,1,1,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Norberto Tomaghello,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
 2026-02-20,17:45,Estudiantes (LP),Sarmiento (J),1,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Jorge Luis Hirschi,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
+2026-02-20,19:30,Instituto,Atlético Tucumán,2,1,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Monumental Presidente Perón,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
 2026-02-20,20:00,Boca Juniors,Racing Club,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,La Bombonera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
 2026-02-20,20:00,Excursionistas,Dock Sud,1,0,,,Primera B,2026,zonas,,Fecha 2,Excursionistas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2026_(Argentina)
 2026-02-20,22:15,Gimnasia y Esgrima (M),Gimnasia y Esgrima (LP),0,1,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Víctor Hugo Legrotaglie,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
@@ -142,6 +140,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-02-21,19:00,Ferro Carril Oeste,San Miguel,1,1,,,Primera Nacional,2026,zonas,Zona A,Fecha 2,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2026
 2026-02-21,19:15,Banfield,Newell's Old Boys,3,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Florencio Sola,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
 2026-02-21,19:15,Deportivo Riestra,Huracán,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Guillermo Laza,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
+2026-02-21,19:30,Independiente Rivadavia,Independiente,3,2,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
 2026-02-21,20:00,Deportivo Maipú,Atlético de Rafaela,2,1,,,Primera Nacional,2026,zonas,Zona B,Fecha 2,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2026
 2026-02-21,20:00,Patronato,Gimnasia y Tiro (S),1,2,,,Primera Nacional,2026,zonas,Zona B,Fecha 2,Presbítero Bartolomé Grella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2026
 2026-02-21,20:00,Quilmes,Ferrocarril Midland,0,0,,,Primera Nacional,2026,zonas,Zona B,Fecha 2,Centenario Ciudad de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2026
@@ -163,6 +162,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-02-22,17:00,Victoriano Arenas,Puerto Nuevo,0,1,,,Primera C,2026,zonas,Zona A,Fecha 1,Saturnino Moure,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2026_(Argentina)
 2026-02-22,17:00,Villa Dálmine,Deportivo Merlo,0,1,,,Primera B,2026,zonas,,Fecha 2,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2026_(Argentina)
 2026-02-22,17:00,Villa San Carlos,Ituzaingó,3,1,,,Primera B,2026,zonas,,Fecha 2,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2026_(Argentina)
+2026-02-22,17:15,San Lorenzo,Estudiantes (RC),2,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
 2026-02-22,18:00,Central Norte (S),Colón,0,0,,,Primera Nacional,2026,zonas,Zona A,Fecha 2,Padre Ernesto Martearena,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2026
 2026-02-22,19:15,Vélez Sarsfield,River Plate,1,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 6,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina)
 2026-02-22,20:00,Brown de Adrogué,Deportivo Armenio,0,0,,,Primera B,2026,zonas,,Fecha 2,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2026_(Argentina)
