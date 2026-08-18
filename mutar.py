@@ -522,8 +522,8 @@ MUTANTES = [
      "    if _ES_RONDA.match(titulo):"),
 
     ("fad/parser.py", "no mirar la fase que contiene a la seccion",
-     "                                                         or _LLAVE_ELIMINATORIA.search(fase)),",
-     "                                                         or False),"),
+     "                                                    or bool(_LLAVE_ELIMINATORIA.search(fase)),",
+     "                                                    or False,"),
 
     ("fad/parser.py", "tomar la fase en vez de la seccion como nombre de la ronda",
      "        ronda = jornada = zona_defecto or llave",
@@ -628,6 +628,16 @@ MUTANTES = [
     ("fad/parser.py", "tomar por anulado un PP de un solo lado",
      'r"(?i)^' + chr(92) + 's*PP' + chr(92) + 's*-' + chr(92) + 's*PP' + chr(92) + 's*$"',
      'r"(?i)PP"'),
+
+    ("fad/parser.py", "que el nombre de la seccion pise al rotulo de la tabla",
+     "                                   fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))" + chr(10) +
+     "                                                     and not _rotula_fechas(cuerpo))",
+     "                                   fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))" + chr(10) +
+     "                                                     and True)"),
+
+    ("fad/parser.py", "no mirar el nombre de la seccion en el primer camino",
+     "                                   fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))",
+     "                                   fuera_de_la_liga=(False"),
 
     # --- el titulo que ademas nombra una ronda ---
     ("fad/parser.py", "que un titulo corte la jornada pero no diga que ronda es",

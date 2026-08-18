@@ -1205,8 +1205,26 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
         zonas += partidos_de_tabla(cuerpo, anio, torneo, anio_fin, mes_inicio,
                                    zona_defecto=_como_zona(titulo), llave=fase,
                                    arts=arts,
-                                   fuera_de_la_liga=bool(_ES_RONDA.match(titulo)
-                                                         or _LLAVE_ELIMINATORIA.search(fase)),
+                                   # El nombre de la seccion NO decide solo: si la
+                                   # tabla rotula sus bloques "Fecha N", es una
+                                   # mini-liga aunque la seccion se llame como una
+                                   # llave. La `Ronda de desempate` del Federal A
+                                   # 2018-19 son tres clubes empatados en la tabla
+                                   # de descenso jugando un triangular de tres
+                                   # fechas, con su propia tabla de posiciones: no
+                                   # es una llave y quedaba en `eliminacion`.
+                                   #
+                                   # Es la misma pregunta que ya hace el camino de
+                                   # respaldo, y ahora los dos coinciden. Se midio
+                                   # antes de tocarla: de las dieciseis secciones
+                                   # del corpus cuyo titulo parece una ronda, esta
+                                   # es la UNICA que rotula fechas. Las otras
+                                   # quince -- octavos, cuartos, semis, finales,
+                                   # primera/segunda/tercera ronda -- no rotulan
+                                   # ninguna, asi que no se mueven.
+                                   fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))
+                                                     and not _rotula_fechas(cuerpo))
+                                                    or bool(_LLAVE_ELIMINATORIA.search(fase)),
                                    ambiguas=ambiguas)
 
     # Las tablas de partidos que NO cuelgan de un "Resultados". Los reducidos,

@@ -2123,13 +2123,41 @@ descartaba entero**: el desempate por el descenso del Argentino A 2005-06,
 General Paz Juniors–Cipolletti, no existía en el dataset. Es uno solo en las 131
 páginas, y esa es exactamente la razón por la que no se veía.
 
+## El triangular que estaba como llave
+
+El chequeo de PJ dejó abierto un último caso: tres partidos del Federal A 2018-19
+en fase de eliminación teniendo jornada `Fecha 1`, `2` y `3`. **Y mi propia nota
+sobre por qué era falsa** — decía «su tabla no rotula los bloques con `colspan`»,
+y las tres tablas los rotulan.
+
+Lo que pasaba es otra cosa. Gimnasia y Tiro, Juventud Antoniana y San Martín (F)
+terminaron empatados en 25 puntos en la tabla de descenso, y jugaron un
+**triangular** de tres fechas —una por ronda, con un libre cada vez— para definir
+quién bajaba. La sección se llama `Ronda de desempate`, y ese nombre lo matchea
+`_ES_RONDA`, así que la sección le ganaba al rótulo de la tabla.
+
+Una mini-liga no es una llave. Ahora **la tabla decide**: si rotula sus bloques
+`Fecha N`, es fase regular aunque la sección se llame como una ronda. Es la misma
+pregunta que ya hacía el camino de respaldo, así que los dos coinciden.
+
+Se midió antes de tocarlo, porque el riesgo era tragarse las llaves de verdad: de
+las **dieciséis** secciones del corpus cuyo título parece una ronda, ésta es la
+**única** que rotula fechas. Las otras quince —octavos, cuartos, semis, finales,
+primera, segunda y tercera ronda— no rotulan ninguna y no se mueven. Cambian tres
+partidos, y ninguno más.
+
+Y hay confirmación independiente, que no busqué: al pasar a fase de zonas, esa
+mini-liga entra al cruce contra **su propia tabla de posiciones**, y coincide
+clavado en los tres clubes — `2, 3-3` / `2, 2-2` / `2, 1-1` de un lado y del
+otro. La página se verifica sola.
+
 ## Tests
 
-675 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+678 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 230 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 233 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

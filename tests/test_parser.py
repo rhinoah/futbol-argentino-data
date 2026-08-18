@@ -1348,3 +1348,49 @@ def test_la_tanda_sobrevive_a_un_rowspan():
     assert [p.local for p in ps] == ["San Martín (T)", "San Martín (T)"], "el rowspan se rompio"
     assert (ps[0].penales_local, ps[0].penales_visita) == (None, None)
     assert (ps[1].penales_local, ps[1].penales_visita) == (3, 4)
+
+
+# --------------------------------------------------------------------------
+# una mini-liga que se llama como una llave
+# --------------------------------------------------------------------------
+def _seccion_ronda(rotula):
+    """Un `Resultados` colgado de una seccion con nombre de ronda."""
+    bloque = ("!colspan=6|Fecha 1\n|-\n" if rotula else "")
+    return f"""== Descenso ==
+=== Ronda de desempate ===
+==== Resultados ====
+{{|class="wikitable"
+{bloque}!Equipo 1
+!Resultado
+!Equipo 2
+!Estadio
+!Fecha
+|-align=center
+|San Martín (F)
+|2 - 2
+|Gimnasia y Tiro
+|Miguel Sancho
+|3 de abril
+|}}
+"""
+
+
+def test_una_mini_liga_no_es_una_llave_aunque_la_seccion_se_llame_ronda():
+    """La `Ronda de desempate` del Federal A 2018-19 son tres clubes empatados en
+    la tabla de descenso jugando un triangular de tres fechas, con su propia tabla
+    de posiciones. No es una llave, y quedaba en `eliminacion`.
+
+    Lo que decide es la TABLA: si rotula sus bloques `Fecha N`, es fase regular
+    aunque la seccion se llame como una ronda."""
+    p = parser.partidos(_seccion_ronda(rotula=True), 2018, "X")[0]
+    assert p.fase == "zonas"
+    assert p.jornada == "Fecha 1"
+
+
+def test_una_llave_de_verdad_sigue_siendo_una_llave():
+    """La salvedad no puede tragarse a las llaves. De las dieciseis secciones del
+    corpus cuyo titulo parece una ronda, quince NO rotulan fechas -- octavos,
+    cuartos, semis, finales, primera/segunda/tercera ronda -- y tienen que seguir
+    en eliminacion."""
+    p = parser.partidos(_seccion_ronda(rotula=False), 2018, "X")[0]
+    assert p.fase == "eliminacion"
