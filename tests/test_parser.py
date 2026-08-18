@@ -7,6 +7,8 @@ estuvo en el codigo y que ninguna excepcion delataba.
 """
 from __future__ import annotations
 
+import re
+
 import pytest
 
 from fad import parser
@@ -1460,3 +1462,136 @@ def test_una_ronda_anidada_en_otra_no_se_lee_dos_veces():
     assert len(ps) == 1, "la semifinal entro dos veces"
     assert (ps[0].local, ps[0].visita) == ("Boca Juniors", "Deportivo Merlo")
     assert (ps[0].penales_local, ps[0].penales_visita) == (5, 4)
+
+
+# --------------------------------------------------------------------------
+# el resaltado contra sus propios digitos
+# --------------------------------------------------------------------------
+def _grilla(*filas: str) -> str:
+    """Una grilla con la forma Local | Resultado | Visitante."""
+    return '{| class="wikitable"\n' + "\n".join(filas) + "\n|}"
+
+
+FILA_SANA = ('|-\n|bgcolor=#D0E7FF|\'\'\'Banfield\n|2 - 0\n|Aldosivi')
+FILA_QUE_DESMIENTE = ('|-\n|bgcolor=#D0E7FF|\'\'\'Platense\n|1 - 4\n|Belgrano')
+
+
+def test_el_resaltado_que_acompania_no_dice_nada():
+    """La mitad del chequeo es lo que NO hace. Cuando el color va sobre el que
+    los digitos dan por ganador no esta confirmando nada: es el mismo dato
+    escrito dos veces por la misma mano. Medido contra los 33 marcadores ya
+    arbitrados, ese acuerdo banco al digito FALSO 12 de 12 veces."""
+    assert parser.resaltado_que_desmiente(_grilla(FILA_SANA)) == []
+
+
+def test_el_resaltado_que_contradice_acusa():
+    avisos = parser.resaltado_que_desmiente(_grilla(FILA_QUE_DESMIENTE))
+    assert len(avisos) == 1
+    assert "Platense 1-4 Belgrano" in avisos[0]
+    assert "gano Belgrano" in avisos[0] and "marca a Platense" in avisos[0]
+
+
+def test_el_empate_resaltado_sobre_el_marcador_es_la_convencion():
+    """Cuando el partido termino empatado la pagina pinta la celda del MARCADOR
+    en vez de un club. Es la convencion, no una contradiccion."""
+    fila = '|-\n|Banfield\n|bgcolor=#D0E7FF|\'\'\'1 - 1\n|Aldosivi'
+    assert parser.resaltado_que_desmiente(_grilla(fila)) == []
+
+
+def test_el_marcador_pintado_sobre_un_no_empate_acusa():
+    """Y al reves: la celda del marcador pintada cuando los digitos NO empatan.
+    Es el caso Deportivo Moron 1-3 Belgrano, donde la verdad era 1-1."""
+    fila = '|-\n|Deportivo Morón\n|bgcolor=#D0E7FF|\'\'\'1 - 3\n|Belgrano'
+    avisos = parser.resaltado_que_desmiente(_grilla(fila))
+    assert len(avisos) == 1 and "marca un empate" in avisos[0]
+
+
+def test_el_aviso_no_propone_un_marcador():
+    """El color da la DIRECCION, no los goles: no distingue un 2-1 de un 3-0.
+    Un aviso que propusiera un marcador estaria inventando la magnitud, que es
+    justo el error que el modulo entero trata de no cometer."""
+    aviso = parser.resaltado_que_desmiente(_grilla(FILA_QUE_DESMIENTE))[0]
+    assert "no propone un marcador" in aviso
+    assert not re.search(r"deberia|tendria que|corregir a", aviso)
+
+
+def test_dos_celdas_pintadas_no_acusan():
+    """Con el azul en las DOS celdas no se sabe cual habla del partido, y el
+    chequeo se calla: su modo de fallar tiene que ser el silencio y no una
+    acusacion falsa. Sin la guarda tomaria la primera y acusaria al visitante.
+
+    Hoy no pasa -- son 0 filas en las 131 paginas -- y va igual porque es lo que
+    la condicion afirma: UNA marca, no al menos una."""
+    fila = "|-\n|bgcolor=#D0E7FF|Platense\n|0 - 1\n|bgcolor=#D0E7FF|Colegiales"
+    assert parser.resaltado_que_desmiente(_grilla(fila)) == []
+
+
+def test_el_rojo_del_descenso_no_tapa_al_azul():
+    """El caso real de dos colores es este: azul sobre el ganador y rojo sobre el
+    que desciende. Como el rojo no entra en `_AZUL_DEL_GANADOR` queda UNA marca y
+    la fila se sigue leyendo, en vez de perderse por ambigua."""
+    fila = ("|-\n|bgcolor=#D0E7FF|'''Rosario Central\n|1 - 0\n"
+            "|bgcolor=#FFCCCC|Deportivo Merlo [[Archivo:1downarrow red.svg|12px]]")
+    assert parser.resaltado_que_desmiente(_grilla(fila)) == []
+    assert len(parser.resaltado_que_desmiente(
+        _grilla(fila.replace("|1 - 0", "|0 - 1")))) == 1
+
+
+def test_el_verde_no_es_el_azul_del_ganador():
+    """Los verdes quieren decir clasifica/asciende/avanza, y se ponen sobre el
+    que PASA, que puede haber empatado o perdido ese partido. Tomarlos por
+    "gano" convierte 88 filas legitimas en acusaciones falsas."""
+    fila = '|-\n|bgcolor=#cfc|Kimberley\n|1 - 2\n|Sarmiento (R)'
+    assert parser.resaltado_que_desmiente(_grilla(fila)) == []
+
+
+def test_la_fila_con_tanda_no_acusa():
+    """En una llave el color marca a QUIEN AVANZO, no quien gano los noventa
+    minutos, asi que un 0-0 con un lado pintado es exactamente lo correcto."""
+    fila = ('|-\n|bgcolor=#D0E7FF|\'\'\'Sarmiento (R)\n'
+            '|{{small|(5)}} 0 - 0 {{small|(4)}}\n|Ciudad de Bolívar')
+    assert parser.resaltado_que_desmiente(_grilla(fila)) == []
+
+
+def test_la_fila_con_nota_al_pie_no_acusa():
+    """Ahi no hay error de nadie: hay dos marcadores legitimos, el que se jugo y
+    el que puso el tribunal, y el color puede estar sobre cualquiera sin mentir."""
+    fila = ('|-\n|bgcolor=#D0E7FF|\'\'\'Sarmiento (R)\n|0 - 1\n|Unión (S)\n'
+            '|14 de julio{{refn|group=n.|Se le dio por perdido al equipo local.}}')
+    assert parser.resaltado_que_desmiente(_grilla(fila)) == []
+
+
+def test_la_hora_no_es_un_marcador():
+    """`21:30` entra como un 21-30 si el separador acepta dos puntos, y entonces
+    las celdas de al lado -- la fecha, el estadio -- pasan por clubes. Son 239
+    filas del corpus, y por eso este chequeo busca con guion solo."""
+    fila = '|-\n|bgcolor=#D0E7FF|Malvinas Argentinas\n|21:30\n|Colegiales'
+    assert parser.resaltado_que_desmiente(_grilla(fila)) == []
+
+
+def test_el_corte_de_fila_tolera_el_espacio():
+    """`\\n |-` con un espacio adelante aparece 386 veces en 8 paginas. Sin
+    tolerarlo el bloque se traga la tabla siguiente y su bgcolor termina
+    contando como resaltado de un partido que no es."""
+    grilla = '{| class="wikitable"\n |-\n|Deportivo Morón\n|bgcolor=#D0E7FF|\'\'\'1 - 3\n|Belgrano\n|}'
+    assert len(parser.resaltado_que_desmiente(grilla)) == 1
+
+
+def test_lo_ya_arbitrado_no_se_acusa_de_nuevo():
+    """El chequeo lee el wikitexto crudo, asi que sin esta puerta seguiria
+    acusando para siempre a las filas que el repo ya arreglo -- justamente las
+    cuatro en que acerto --, y un aviso que no se puede cerrar nunca es un aviso
+    que se aprende a ignorar."""
+    ya = {("Platense", "Belgrano", 1, 4)}
+    assert parser.resaltado_que_desmiente(_grilla(FILA_QUE_DESMIENTE), ya) == []
+    # y no tapa a las demas
+    assert len(parser.resaltado_que_desmiente(
+        _grilla(FILA_QUE_DESMIENTE, '|-\n|bgcolor=#D0E7FF|\'\'\'Agropecuario\n|1 - 3\n|Belgrano'),
+        ya)) == 1
+
+
+def test_el_arbitrado_se_identifica_por_lo_que_dice_la_pagina():
+    """La clave es el marcador que la pagina ESCRIBE, no el arreglado. Con el
+    arreglado nunca engancharia: la fila del wikitexto sigue teniendo el falso."""
+    assert parser.resaltado_que_desmiente(
+        _grilla(FILA_QUE_DESMIENTE), {("Platense", "Belgrano", 1, 0)}) != []

@@ -642,6 +642,127 @@ def partidos_anulados(texto: str) -> list[str]:
     return list(dict.fromkeys(fuera))
 
 
+# El azul con que estas paginas pintan la celda del GANADOR. Se acepta tambien
+# `#DOE7FF` con la letra O en vez del cero, que es un typo tan comun que en el
+# Federal A 2024 son 187 de sus 534 filas -- y que en el navegador ni siquiera
+# pinta, asi que nadie lo vio nunca.
+#
+# Los otros colores NO entran, y no es por prolijidad: significan otra cosa. Los
+# verdes (`#cfc`, `#ccffcc`, `#90ee90`, `#81f781`) quieren decir clasifica,
+# asciende o avanza la llave -- se ponen sobre el que PASA, que puede haber
+# empatado o hasta perdido ese partido --, los rojos (`#fcc`, `#ffcccc`)
+# descienden, `#ffa` juega la promocion y `gold` es campeon. Meterlos en la misma
+# bolsa convierte 88 filas legitimas en acusaciones falsas.
+_AZUL_DEL_GANADOR = re.compile(r"""bgcolor\s*=\s*["']?#?(?:d0e7ff|doe7ff)\b""", re.I)
+
+# Una fila con nota al pie no se mira. Ahi no hay error de nadie: hay DOS
+# marcadores legitimos -- el que se jugo y el que puso el tribunal --, y el
+# resaltado puede estar sobre cualquiera de los dos sin mentir.
+_TIENE_NOTA = re.compile(r"<ref|\{\{\s*refn", re.I)
+
+# Ni una fila con tanda de penales, por el mismo motivo al reves: ahi el color
+# marca a QUIEN AVANZO y no quien gano los noventa minutos, asi que un 0-0 con un
+# lado pintado es exactamente lo que tiene que ser.
+_TIENE_TANDA = re.compile(r"\{\{\s*small|\bpen\.|\(\d+\)")
+
+# Y el marcador se busca con GUION SOLO, sin los dos puntos que acepta
+# `_SEPARADOR`. Es la unica diferencia con el resto del modulo y es a proposito:
+# con `:` adentro, `21:30` entra como un 21-30 y las celdas de al lado -- la
+# fecha, el estadio -- pasan por clubes. Son 239 filas del corpus.
+_MARCADOR_SOLO = re.compile(r"^\s*(\d+)\s*-\s*(\d+)\s*$")
+
+# Las filas se cortan tolerando espacios antes del `|-`: con un espacio adelante
+# aparece 386 veces en 8 paginas del corpus, y sin tolerarlo el bloque se traga
+# la tabla siguiente entera.
+#
+# MEDIDO: hoy no cambia ninguna de las 19 acusaciones, y no es casualidad. Este
+# chequeo corta en el PRIMER marcador de cada bloque, asi que un bloque de mas
+# se detiene igual en la primera fila y la basura de la tabla siguiente nunca
+# llega a ser vecina de un marcador. Va igual porque es el corte correcto, pero
+# no se le atribuye un merito que en esta funcion no tiene.
+_CORTE_DE_FILA = re.compile(r"\n\s*\|-")
+
+
+def resaltado_que_desmiente(
+        texto: str,
+        ya_arbitrados: set[tuple[str, str, int, int]] = frozenset()) -> list[str]:
+    """Las filas de la grilla cuyo resaltado contradice a sus propios digitos.
+
+    Estas paginas pintan de azul al ganador de cada partido, y cuando el partido
+    fue empate pintan la celda del MARCADOR en vez de un club. O sea que cada
+    fila dice quien gano dos veces: con los numeros y con el color. Cuando las
+    dos versiones no coinciden, alguna de las dos esta mal y la fila merece que
+    la miren.
+
+    LO QUE ESTA FUNCION NO HACE, Y ES LA MITAD DE POR QUE EXISTE: no absuelve.
+    Que el color acompanie a los digitos NO es evidencia de que los digitos esten
+    bien, y creer que si lo era fue un error que ya se cometio una vez aca. Se
+    midio contra la verdad que el propio repo tiene arbitrada -- los 33
+    marcadores de `correcciones.MARCADORES`, cada uno con su fuente -- y da esto:
+
+        el arreglo no cambia la direccion, el color no puede opinar   16
+        el color ACOMPANIA a los digitos ... y los digitos son falsos 12
+        el color CONTRADICE a los digitos ... y tiene razon            4
+
+    Doce de doce. Cuando el color acompania al numero no confirma nada: es el
+    mismo dato escrito dos veces por la misma mano en la misma edicion, y si la
+    mano se equivoco, se equivoco en las dos. La unica vez que aporta informacion
+    es cuando rompe esa correlacion, y ahi acerto 4 de 4.
+
+    Por eso es un chequeo de TRIAGE y no un veredicto: dice que fila mirar, nunca
+    que escribir. La direccion tampoco alcanza para corregir sola -- que el color
+    diga "gano el local" no distingue un 2-1 de un 3-0 --, asi que el aviso manda
+    a buscar una cronica y no propone marcador.
+
+    `ya_arbitrados` son las filas que `correcciones.MARCADORES` ya resolvio, como
+    (local, visita, gol_local, gol_visita) del marcador QUE LA PAGINA ESCRIBE. Se
+    saltean, y no es cosmetico: el chequeo lee el wikitexto crudo, asi que sin
+    esto seguiria acusando para siempre a las filas que el repo ya arreglo --
+    justamente las cuatro donde acerto --, y un aviso que no se puede cerrar
+    nunca es un aviso que se aprende a ignorar.
+
+    Dispara 23 veces en las 131 paginas, repartidas en 13. Cuatro son las de
+    verdad conocida, que salen por `ya_arbitrados`; quedan 19 abiertas.
+    """
+    fuera = []
+    for bloque in _CORTE_DE_FILA.split(texto):
+        if _TIENE_NOTA.search(bloque):
+            continue
+        celdas = _partir(bloque)
+        for k in range(1, max(0, len(celdas) - 1)):
+            if _TIENE_TANDA.search(celdas[k]):
+                break
+            m = _MARCADOR_SOLO.match(_celda(celdas[k])[1])
+            if not m:
+                continue
+            gl, gv = int(m.group(1)), int(m.group(2))
+            pintadas = [bool(_AZUL_DEL_GANADOR.search(c))
+                        for c in (celdas[k - 1], celdas[k], celdas[k + 1])]
+            # Dos celdas pintadas es la fila que ademas marca en rojo al que
+            # desciende, o en dorado al campeon: ahi no se sabe cual de los dos
+            # colores habla del partido y el chequeo se calla. Cero pintadas es
+            # una pagina que no usa la convencion.
+            if sum(pintadas) != 1:
+                break
+            dice = "LEV"[pintadas.index(True)]
+            segun_numeros = "L" if gl > gv else ("V" if gv > gl else "E")
+            if dice != segun_numeros:
+                local, visita = _celda(celdas[k - 1])[1], _celda(celdas[k + 1])[1]
+                if (local, visita, gl, gv) in ya_arbitrados:
+                    break
+                numeros = ("empate" if segun_numeros == "E"
+                           else f"gano {local if segun_numeros == 'L' else visita}")
+                color = ("un empate" if dice == "E"
+                         else f"a {local if dice == 'L' else visita}")
+                fuera.append(
+                    f"{local} {gl}-{gv} {visita}: los numeros dicen {numeros} y el "
+                    f"resaltado de la MISMA fila marca {color}. Uno de los dos "
+                    f"esta mal y la fila no dice cual, asi que hay que ir a buscar "
+                    f"una cronica. Y OJO: esto no propone un marcador, porque el "
+                    f"color da la direccion y no los goles")
+            break
+    return list(dict.fromkeys(fuera))
+
 # El separador del marcador puede ser un guion, dos puntos, o una RAYA: `1 – 0`
 # con raya media (U+2013) en vez de guion. Se ve igual y no lo es, asi que la
 # fila no tenia marcador y el partido se descartaba entero -- el desempate por el

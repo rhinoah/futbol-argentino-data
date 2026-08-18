@@ -851,6 +851,35 @@ MUTANTES = [
      '            "Gimnasia y Esgrima (Mendoza)")),'),
 
     # --- el partido que la pagina tiene y no se puede leer ---
+    # --- el resaltado contra sus propios digitos ---
+    ("fad/parser.py", "acusar tambien cuando el color acompania a los digitos",
+     "            if dice != segun_numeros:", "            if dice == segun_numeros:"),
+
+    ("fad/parser.py", "tomar cualquier color por el azul del ganador",
+     '_AZUL_DEL_GANADOR = re.compile(r"""bgcolor\\s*=\\s*["\']?#?(?:d0e7ff|doe7ff)\\b""", re.I)',
+     '_AZUL_DEL_GANADOR = re.compile(r"""bgcolor""", re.I)'),
+
+    ("fad/parser.py", "acusar a las filas con tanda de penales",
+     "            if _TIENE_TANDA.search(celdas[k]):", "            if False:"),
+
+    ("fad/parser.py", "acusar a las filas con nota al pie",
+     "        if _TIENE_NOTA.search(bloque):", "        if False:"),
+
+    ("fad/parser.py", "dejar que la hora entre como marcador",
+     '_MARCADOR_SOLO = re.compile(r"^\\s*(\\d+)\\s*-\\s*(\\d+)\\s*$")',
+     '_MARCADOR_SOLO = re.compile(r"^\\s*(\\d+)\\s*[-:]\\s*(\\d+)\\s*$")'),
+
+    ("fad/parser.py", "acusar aunque haya dos celdas pintadas",
+     "            if sum(pintadas) != 1:", "            if sum(pintadas) < 1:"),
+
+    ("fad/parser.py", "acusar de nuevo lo que ya esta arbitrado",
+     "                if (local, visita, gl, gv) in ya_arbitrados:",
+     "                if False:"),
+
+    ("fad/parser.py", "identificar lo arbitrado por el marcador arreglado",
+     "                if (local, visita, gl, gv) in ya_arbitrados:",
+     "                if (local, visita, gv, gl) in ya_arbitrados:"),
+
     ("fad/correcciones.py", "no agregar el partido que la pagina no deja leer",
      "        aplicadas += 1" + chr(10) + chr(10) + "    # Los homonimos van DESPUES",
      "        continue" + chr(10) + chr(10) + "    # Los homonimos van DESPUES"),

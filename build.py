@@ -324,6 +324,15 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # significa "la pagina no dijo nada".
     avisos += [validar.Aviso(f"{t.pagina}: un fallo que no se supo leer", d, grave=False)
                for d in parser.fallos_sin_leer(texto)]
+    # El resaltado de la grilla contra sus propios digitos. Es el UNICO uso
+    # legitimo de ese color: acusa, nunca absuelve. Medido contra los 33
+    # marcadores ya arbitrados, cuando el color acompania al numero banco al
+    # digito falso 12 de 12; cuando lo contradice acerto 4 de 4.
+    avisos += [validar.Aviso(f"{t.pagina}: el resaltado desmiente al marcador", d,
+                             grave=False)
+               for d in parser.resaltado_que_desmiente(
+                   texto, {(m.local, m.visita) + m.dice
+                           for m in correcciones.MARCADORES if m.pagina == t.pagina})]
     # Y los que quedan afuera por tener DOS resultados, uno por club. No es un
     # problema del parseo sino del esquema, y por eso se nombran uno por uno.
     avisos += [validar.Aviso(f"{t.pagina}: un partido con dos resultados", d, grave=False)
