@@ -488,6 +488,26 @@ def test_un_numero_pegado_al_final_si_es_parte_del_nombre():
     assert parser.limpiar("Douglas Haig 9") == "Douglas Haig 9"
 
 
+@pytest.mark.parametrize("crudo, limpio", [
+    ("Unión (Sunchales) <sup>1</sup>", "Unión (Sunchales)"),    # Argentino A 2011-12
+    ("Deportivo Merlo<sup>2</sup>", "Deportivo Merlo"),
+    ("Cipolletti (*)", "Cipolletti"),                           # Argentino A 2005-06
+    ("Gimnasia y Esgrima (CdU) (**)", "Gimnasia y Esgrima (CdU)"),
+])
+def test_la_llamada_a_una_nota_al_pie_tampoco_es_parte_del_nombre(crudo, limpio):
+    """El mismo problema que el superindice unicode, pero escrito en ASCII. El
+    barrido general de tags saca el `<sup>` y deja el numero suelto, asi que el
+    club terminaba llamandose "Unión (Sunchales) 1" y quedaba fuera del padron:
+    diez de los 44 nombres que la tabla tenia sin arbitro eran esto."""
+    assert parser.limpiar(crudo) == limpio
+
+
+def test_una_celda_que_es_solo_el_marcador_no_queda_vacia():
+    """El asterisco se saca si queda nombre atras. Vaciar una celda es peor que
+    dejarla rara: `dataset` no puede avisar de lo que no existe."""
+    assert parser.limpiar("(*)") == "(*)"
+
+
 # --------------------------------------------------------------------------
 # donde termina una {{Partido}}
 # --------------------------------------------------------------------------

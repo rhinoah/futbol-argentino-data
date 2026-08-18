@@ -135,6 +135,13 @@ def limpiar(texto: str) -> str:
     s = re.sub(r"\[\[\s*(?:Archivo|File|Imagen|Image)\s*:[^\]]*\]\]", "", s, flags=re.I)
     s = re.sub(r"\[\[([^\]|]*\|)?([^\]]*)\]\]", r"\2", s)    # [[destino|texto]] -> texto
     s = s.replace("'''", "").replace("''", "")
+    # `<sup>` se borra CON su contenido, como `<ref>`: en este corpus nunca lleva
+    # un dato, siempre es la llamada a una nota al pie. El barrido general de
+    # tags de abajo saca el `<sup>` pero deja el numero suelto, y el club pasa a
+    # llamarse "Unión (Sunchales) 1". Se reviso una por una las 195 apariciones:
+    # digitos, ordinales de infobox ("1<sup>.er</sup> título") y una sola con un
+    # wikilink adentro, que es prosa de un articulo de club y no una celda.
+    s = re.sub(r"<sup[^>]*>.*?</sup>", "", s, flags=re.S | re.I)
     s = re.sub(r"<[^>]+>", " ", s)
     s = re.sub(r"\s+", " ", s).strip()
     # Un superindice de nota al pie no es parte del nombre: "Atlético Tucumán¹"
@@ -143,7 +150,11 @@ def limpiar(texto: str) -> str:
     # Va con escapes y no con los caracteres pelados porque `¹²³` viven fuera del
     # bloque ⁰-₟ donde estan los demas superindices, y escritos a mano
     # el rango parece un error de tipeo.
-    return re.sub(r"[\u00b9\u00b2\u00b3\u2070-\u209f]+$", "", s).strip()
+    s = re.sub(r"[\u00b9\u00b2\u00b3\u2070-\u209f]+$", "", s).strip()
+    # La misma nota al pie pero en ASCII: `Cipolletti (*)`, `Gimnasia y Esgrima
+    # (CdU) (**)`. Se saca solo si queda nombre atras, para no vaciar una celda
+    # que sea unicamente el marcador.
+    return re.sub(r"^(.+?)\s*\(\*+\)$", r"\1", s).strip()
 
 
 def _celda(bruta: str) -> tuple[int, str]:

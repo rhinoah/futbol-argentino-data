@@ -42,7 +42,7 @@ from __future__ import annotations
 import re
 from collections import Counter
 
-from fad import equipos, parser
+from fad import correcciones, equipos, parser
 
 # Pts, PJ, PG, PE, PP, GF, GC, DIF: las ocho columnas numericas de la fila.
 _COLUMNAS = 8
@@ -231,7 +231,7 @@ def _por_plantillas(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, t
     return fuera
 
 
-def tabla(texto: str, arts: dict[str, str] | None = None) -> dict[str, tuple[int, int, int]]:
+def tabla(texto: str, arts: dict[str, str] | None = None, pagina: str = "") -> dict[str, tuple[int, int, int]]:
     """{club canonico: (PJ, GF, GC)} segun las tablas que publica la pagina.
 
     Se busca por DOS caminos, y hacen falta los dos:
@@ -259,7 +259,7 @@ def tabla(texto: str, arts: dict[str, str] | None = None) -> dict[str, tuple[int
     arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
     fuera: dict[str, tuple[int, int, int]] = {}
     for club, articulo, datos in _todas_las_filas(texto, arts):
-        canonico = equipos.canonizar(club, articulo)
+        canonico = _canonico(club, articulo, pagina)
         if canonico not in fuera or datos[0] > fuera[canonico][0]:
             fuera[canonico] = datos
     return fuera
@@ -287,7 +287,18 @@ def _filas(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tuple[int,
     return _por_plantillas(bloque, arts) or _por_wikitabla(bloque, arts)
 
 
-def fuera_del_padron(texto: str, arts: dict[str, str] | None = None) -> list[str]:
+def _canonico(nombre: str, articulo: str, pagina: str) -> str:
+    """El nombre de una fila de tabla, ya resuelto: padron y homonimos.
+
+    Es la UNICA puerta por la que un nombre de tabla se vuelve canonico. Va junto
+    porque las dos resoluciones tienen que ser la misma que la de los partidos:
+    si una fila resuelve por un camino distinto, no falla, se saltea el cruce.
+    """
+    return correcciones.homonimo(pagina, equipos.canonizar(nombre, articulo))
+
+
+def fuera_del_padron(texto: str, arts: dict[str, str] | None = None,
+                     pagina: str = "") -> list[str]:
     """Los clubes que la tabla nombra y el padron no conoce.
 
     Los nombres de la TABLA nunca pasaban por ningun control. El del padron mira
@@ -318,6 +329,38 @@ def fuera_del_padron(texto: str, arts: dict[str, str] | None = None) -> list[str
             + ", que el padron no conoce: esa fila no engancha con ningun partido "
               "y se cae del cruce en silencio"
             for club, art in sorted(vistos.items())]
+
+
+def sin_partidos(ps: list, texto: str, arts: dict[str, str] | None = None,
+                 pagina: str = "") -> list[str]:
+    """Los clubes que la tabla nombra y que en la pagina no jugaron nunca.
+
+    Es el hermano general de `fuera_del_padron`, y agarra mas que el: aquel pide
+    que el nombre sea ilegible, y este solo que la fila no tenga con que cruzarse.
+    Un nombre puede estar perfectamente en el padron y aun asi apuntar al club
+    equivocado -- el Argentino A 2005-06 escribe "Juventud Unida" en la tabla y
+    "Juventud Unida Universitario" en los partidos, y son dos clubes distintos de
+    verdad, asi que `canonizar` los deja como estan y nadie se queja. La fila se
+    cae del cruce igual que si el nombre no existiera.
+
+    Se mide contra el ALCANCE, no contra el torneo entero: una tabla de zona
+    tiene que cruzarse con los partidos de su zona. Y solo se mira lo que la
+    tabla afirma de mas; que un club jugo y no tiene fila es otra cosa (pasa en
+    toda reválida, donde la tabla cubre a la mitad del torneo) y no se avisa.
+    """
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    huerfanos: dict[str, str] = {}
+    for alcance, filas in _alcance_de_cada_tabla(texto, arts, ps, pagina):
+        jugaron = {p.local for p in ps if not alcance or p.llave == alcance}
+        jugaron |= {p.visita for p in ps if not alcance or p.llave == alcance}
+        for club in filas:
+            if club not in jugaron:
+                huerfanos.setdefault(club, alcance)
+    return [f"la tabla de \"{alcance or 'la pagina'}\" tiene una fila de {club}, "
+            f"que ahi no jugo ningun partido: o la tabla lo nombra de otra forma "
+            f"que la grilla -- y entonces va un homonimo en fad/correcciones.py --, "
+            f"o le sobra una fila"
+            for club, alcance in sorted(huerfanos.items())]
 
 
 def _por_wikitabla(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, tuple[int, int, int]]]:
@@ -399,7 +442,7 @@ def sumar(ps: list) -> dict[str, tuple[int, int, int]]:
 _NIVEL_2 = re.compile(r"^==[^=][^\n]*==\s*$", re.M)
 
 
-def _alcance_de_cada_tabla(texto: str, arts: dict[str, str], ps: list):
+def _alcance_de_cada_tabla(texto: str, arts: dict[str, str], ps: list, pagina: str = ""):
     """(alcance, {club: (PJ, GF, GC)}) para cada tabla que publica la pagina.
 
     El ALCANCE es la seccion de nivel 2 en que vive la tabla, y solo cuando esa
@@ -451,20 +494,21 @@ def _alcance_de_cada_tabla(texto: str, arts: dict[str, str], ps: list):
             continue
         vistas.add(m.group(0))
         sumar_a(alcance_en(m.start()),
-                {equipos.canonizar(n, a): d for n, a, d in _por_wikitabla(m.group(0), arts)})
+                {_canonico(n, a, pagina): d for n, a, d in _por_wikitabla(m.group(0), arts)})
     # Y las que entran por el titulo de la seccion, que incluyen el formato de
     # plantillas. Ahi el alcance sale igual, del nivel 2 que las contiene.
     for m in _ENCABEZADO.finditer(texto):
         sig = _CUALQUIER_ENCABEZADO.search(texto, m.end())
         bloque = texto[m.end():sig.start()] if sig else texto[m.end():]
         sumar_a(alcance_en(m.start()),
-                {equipos.canonizar(n, a): d for n, a, d in _filas(bloque, arts)})
+                {_canonico(n, a, pagina): d for n, a, d in _filas(bloque, arts)})
     for alcance, filas in por_alcance.items():
         if filas:
             yield alcance, filas
 
 
-def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None) -> list[str]:
+def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
+               pagina: str = "") -> list[str]:
     """Los clubes cuyos totales no coinciden con la tabla de la pagina.
 
     Solo se comparan los clubes que estan en las dos partes. Un club de la tabla
@@ -481,7 +525,7 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None) -> list
     # Es lo que dejaba sin arbitro al Argentino A 2005-06 aun despues de que sus
     # tablas se encontraran.
     publicada, contada = {}, {}
-    for alcance, filas in _alcance_de_cada_tabla(texto, arts, ps):
+    for alcance, filas in _alcance_de_cada_tabla(texto, arts, ps, pagina):
         propios = sumar([p for p in ps if not alcance or p.llave == alcance])
         for club, datos in filas.items():
             if club not in publicada or datos[0] > publicada[club][0]:
@@ -513,7 +557,8 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None) -> list
     return fuera
 
 
-def desbalance(ps: list, texto: str, arts: dict[str, str] | None = None) -> list[str]:
+def desbalance(ps: list, texto: str, arts: dict[str, str] | None = None,
+               pagina: str = "") -> list[str]:
     """La tabla publicada que no cierra CONSIGO MISMA: suma de GF != suma de GC.
 
     Todo gol convertido es un gol recibido por alguien. En una tabla que cubre un
@@ -554,7 +599,7 @@ def desbalance(ps: list, texto: str, arts: dict[str, str] | None = None) -> list
     # Sumando la pagina entera, una que reparte por fase nunca cuadra -- la tabla
     # dice once partidos y la suma da veintidos -- y el chequeo se calla siempre.
     fuera = []
-    for alcance, publicada in _alcance_de_cada_tabla(texto, arts, ps):
+    for alcance, publicada in _alcance_de_cada_tabla(texto, arts, ps, pagina):
         contada = sumar([p for p in ps if not alcance or p.llave == alcance])
         if not publicada or set(publicada) != set(contada):
             continue

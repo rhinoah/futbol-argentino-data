@@ -242,3 +242,86 @@ def test_los_reemplazos_nombran_su_testigo():
 def test_ningun_reemplazo_deja_el_partido_igual():
     for r in correcciones.REEMPLAZOS:
         assert r.dice != r.debe, f"{r.jornada}: reemplazo que no reemplaza nada"
+
+
+# --------------------------------------------------------------------------
+# homonimos: el club mal escrito en TODA la pagina
+# --------------------------------------------------------------------------
+UN_HOMONIMO = correcciones.Homonimo(
+    pagina="Una Pagina", dice="Juventud Unida", debe="Juventud Unida Universitario",
+    porque="de prueba")
+
+
+def test_un_homonimo_renombra_al_club_de_los_dos_lados(monkeypatch):
+    monkeypatch.setattr(correcciones, "HOMONIMOS", (UN_HOMONIMO,))
+    ps = [partido("Juventud Unida", "Belgrano"), partido("All Boys", "Juventud Unida")]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert avisos == []
+    assert [(p.local, p.visita) for p in ps] == [
+        ("Juventud Unida Universitario", "Belgrano"),
+        ("All Boys", "Juventud Unida Universitario")]
+
+
+def test_un_homonimo_no_toca_al_club_que_se_llama_parecido(monkeypatch):
+    """Es todo el punto: `Juventud Unida` y `Juventud Unida Universitario` son
+    dos clubes, y el segundo ya esta bien escrito."""
+    monkeypatch.setattr(correcciones, "HOMONIMOS", (UN_HOMONIMO,))
+    ps = [partido("Juventud Unida Universitario", "Belgrano")]
+    correcciones.aplicar(ps, "Una Pagina")
+    assert ps[0].local == "Juventud Unida Universitario"
+
+
+def test_un_homonimo_no_sale_de_su_pagina(monkeypatch):
+    """Un alias global arreglaria una pagina y romperia las otras seis, donde
+    `Juventud Unida` es de verdad el club de Primera C."""
+    monkeypatch.setattr(correcciones, "HOMONIMOS", (UN_HOMONIMO,))
+    ps = [partido("Juventud Unida", "Belgrano")]
+    assert correcciones.aplicar(ps, "Otra Pagina") == (0, [])
+    assert ps[0].local == "Juventud Unida"
+
+
+def test_un_homonimo_que_ya_no_engancha_avisa(monkeypatch):
+    """Cuando alguien arregle la pagina esto queda sin efecto, y hay que sacarlo.
+    Este aviso es el que descubrio que cinco homonimos que se habian escrito ya
+    estaban resueltos como `Correccion`."""
+    monkeypatch.setattr(correcciones, "HOMONIMOS", (UN_HOMONIMO,))
+    avisos = correcciones.homonimos_huerfanos("Una Pagina", {"All Boys", "Belgrano"})
+    assert avisos and "sacalo de fad/correcciones.py" in avisos[0]
+
+
+def test_un_homonimo_que_solo_arregla_la_tabla_no_se_denuncia_solo(monkeypatch):
+    """El control mira los dos lados juntos. Adentro de `aplicar`, que solo ve los
+    partidos, un homonimo que corrige unicamente la tabla de posiciones se
+    declaraba vencido a si mismo -- y el aviso decia lo contrario de la verdad."""
+    monkeypatch.setattr(correcciones, "HOMONIMOS", (UN_HOMONIMO,))
+    ps = [partido("Juventud Unida Universitario", "Belgrano")]   # la grilla ya esta bien
+    assert correcciones.aplicar(ps, "Una Pagina") == (0, [])
+    # el nombre corto lo escribe la tabla, y por eso el homonimo sigue haciendo falta
+    escritos = {"Juventud Unida Universitario", "Belgrano", "Juventud Unida"}
+    assert correcciones.homonimos_huerfanos("Una Pagina", escritos) == []
+
+
+def test_un_homonimo_vale_para_la_tabla_igual_que_para_los_partidos(monkeypatch):
+    """Las dos puertas tienen que dar el mismo nombre. Si la tabla resolviera por
+    su cuenta, el cruce no encontraria al club en las dos partes y se saltearia
+    la fila -- que es exactamente lo que el homonimo vino a arreglar."""
+    monkeypatch.setattr(correcciones, "HOMONIMOS", (UN_HOMONIMO,))
+    assert correcciones.homonimo("Una Pagina", "Juventud Unida") == "Juventud Unida Universitario"
+    assert correcciones.homonimo("Otra Pagina", "Juventud Unida") == "Juventud Unida"
+
+
+def test_los_homonimos_corren_despues_de_las_correcciones():
+    """El orden no es indistinto: una `Correccion` se identifica por el nombre
+    EQUIVOCADO. Si el homonimo renombrara antes, la correccion se apagaria sola
+    y nadie se enteraria."""
+    dice = correcciones.HOMONIMOS[0].dice
+    assert not any(dice in (c.dice[0], c.dice[1])
+                   for c in correcciones.CORRECCIONES
+                   if c.pagina == correcciones.HOMONIMOS[0].pagina), (
+        "hay una Correccion escrita sobre el nombre que el homonimo pisa")
+
+
+def test_los_homonimos_nombran_su_testigo():
+    for h in correcciones.HOMONIMOS:
+        assert len(h.porque) > 40, f"{h.dice}: falta la evidencia"
+        assert h.dice != h.debe

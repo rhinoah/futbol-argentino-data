@@ -39,6 +39,27 @@ Si algun dia se parsea una fuente de ascenso que escriba "Sarmiento" a secas, ha
 que resolver el alias por contexto y no globalmente. Queda anotado porque es la
 clase de cosa que no falla: le da los partidos al club equivocado.
 
+Ya paso: el Argentino A 2010-11 escribe los partidos con el nombre pelado y sus
+36 partidos de "Juventud Unida" caian en el club de Primera C que se llama asi.
+Se resuelve por pagina en `correcciones.HOMONIMOS`, no aca.
+
+LOS ALIAS CON EL DESAMBIGUADOR DESPLEGADO
+-----------------------------------------
+La misma pagina escribe el club de dos maneras: los partidos usan la sigla
+("Central Córdoba (SdE)") y la TABLA DE POSICIONES despliega el nombre entero
+("Central Córdoba (Santiago del Estero)"). La celda de la tabla no lleva
+wikilink, asi que no hay articulo con que resolverla y el club se queda sin
+arbitro -- la tabla no se puede comparar contra los partidos de un club que el
+padron no reconoce.
+
+Son 34 nombres, todos del Argentino A y el Federal A, que es donde los clubes
+comparten nombre. No se emparejaron por parecido sino por cardinalidad: la tabla
+tiene tantas filas como clubes el plantel, asi que si en una zona sobra un solo
+nombre desconocido y falta un solo club, la identidad esta forzada. Los tres que
+no cerraban asi se resolvieron uno por uno, y uno de ellos ("Juventud Unida (SL)")
+resulto ser Universitario y no el homonimo, que es exactamente el error que este
+archivo viene avisando desde arriba.
+
 EL ID DE AFA
 ------------
 `afa` es el numero con el que la AFA identifica al club en su propio feed
@@ -79,15 +100,18 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Belgrano", 124, ("Belgrano (C)", "Belgrano de Córdoba", "Belgrano (Cba)")),
     Equipo("Boca Juniors", 5, ("Boca",)),
     Equipo("Central Córdoba (SdE)", 1485,
-           ("Central Córdoba (SE)", "C.Córdoba (SE)", "Central Córdoba")),
+           ("Central Córdoba (SE)", "C.Córdoba (SE)", "Central Córdoba",
+            "Central Córdoba (Santiago del Estero)")),
     Equipo("Defensa y Justicia", 129, alias=("Defensa", "Def. Y Justicia", "Def. y Justicia",)),
     Equipo("Deportivo Riestra", 788, ("Dep. Riestra", "Riestra")),
     Equipo("Estudiantes (LP)", 7, ("Estudiantes", "Estudiantes de La Plata")),
-    Equipo("Estudiantes (RC)", 834, ("Estudiantes RC", "Estudiantes de Río Cuarto")),
+    Equipo("Estudiantes (RC)", 834, ("Estudiantes RC", "Estudiantes de Río Cuarto",
+                                     "Estudiantes (Río Cuarto)")),
     Equipo("Gimnasia y Esgrima (LP)", 8,
            ("Gimnasia", "Gimnasia y Esgrima La Plata", "Gimnasia (LP)")),
     Equipo("Gimnasia y Esgrima (M)", 816,
-           ("Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza")),
+           ("Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza",
+            "Gimnasia y Esgrima (Mendoza)")),
     Equipo("Huracán", 100),
     Equipo("Independiente", 10),
     # "Independiente M." es Independiente de MENDOZA, y hay que tener cuidado:
@@ -141,7 +165,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Argentino (MM)"),
     Equipo("Argentino de Merlo", alias=("Argentino (M)",)),
     Equipo("Atenas (RC)"),
-    Equipo("Alumni (VM)"),      # Villa María, Córdoba
+    Equipo("Alumni (VM)", alias=("Alumni (Villa María)",)),      # Villa María, Córdoba
     Equipo("Atlanta"),
     Equipo("Atlético de Rafaela", alias=("Atlético Rafaela", "Atlético de Rafela",
                                         "Alético de Rafaela", "Atl. Rafaela")),
@@ -167,18 +191,20 @@ PADRON: tuple[Equipo, ...] = (
     # La B Nacional 2007-2011 lo escribe "Gimnasia (J)", sin enlace. Lo
     # confirma la segunda fuente: el id te930 es "Gimnasia de Jujuy".
     Equipo("Gimnasia y Esgrima (J)", alias=("Gimnasia (J)",)),
-    Equipo("Gimnasia y Tiro (S)", alias=("Gimnasia y Tiro", "Gimnasia y Tiro",)),
+    Equipo("Gimnasia y Tiro (S)", alias=("Gimnasia y Tiro", "Gimnasia y Tiro (Salta)")),
     Equipo("Godoy Cruz"),
     Equipo("Ituzaingó"),
     Equipo("Olimpo"),
     Equipo("Real Pilar"),
-    Equipo("San Martín (F)"),
+    Equipo("San Martín (F)", alias=("San Martín (Formosa)",)),
     Equipo("San Martín (SJ)"),
-    Equipo("San Martín (T)"),
+    Equipo("San Martín (T)", alias=("San Martín (Tucumán)",)),
     Equipo("San Miguel"),
     Equipo("Sarmiento (LB)"),
     Equipo("Sportivo Barracas"),
-    Equipo("Sportivo Belgrano", alias=("Sportivo Belgrano (SF)",)),
+    Equipo("Sportivo Belgrano", alias=("Sportivo Belgrano (SF)",
+                                       "Sportivo Belgrano (San Francisco)",
+                                       "Sp. Belgrano")),
     Equipo("Temperley"),
     Equipo("Tristán Suárez", alias=("T. Suárez",)),
 
@@ -190,16 +216,16 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Andino"),
     # verificados por el articulo al que enlaza la pagina
     Equipo("CAI", alias=("C.A.I.", "Comisión de Actividades Infantiles")),
-    Equipo("Unión (MdP)"),
+    Equipo("Unión (MdP)", alias=("Unión (Mar del Plata)",)),
     Equipo("Atlético Policial"),
     Equipo("Guaymallén"),
-    Equipo("Racing (O)"),
+    Equipo("Racing (O)", alias=("Racing (Olavarría)",)),
     Equipo("Racing (T)"),
     Equipo("La Emilia"),
     Equipo("Viale FBC"),
     # jugaron Primera en la era Apertura/Clausura y hoy no estan
-    Equipo("Huracán (TA)"),
-    Equipo("Tiro Federal", alias=("Tiro Federal (R)",)),
+    Equipo("Huracán (TA)", alias=("Huracán (Tres Arroyos)",)),
+    Equipo("Tiro Federal", alias=("Tiro Federal (R)", "Tiro Federal (Rosario)")),
     Equipo("Sportivo Rivadavia (VT)"),
 
     # --- historico del ascenso 2016-2023 ---
@@ -213,16 +239,16 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Deportivo Roca"),
     # "Desamprados", sin la segunda A, en un partido del Argentino A 2010-11.
     Equipo("Desamparados", alias=("Desamprados", "Sp. Desamparados")),
-    Equipo("General Belgrano (SR)"),
+    Equipo("General Belgrano (SR)", alias=("General Belgrano (Santa Rosa)",)),
     # "Anotonio" es un typo del Argentino A 2012-13, en un solo partido.
     Equipo("Guaraní Antonio Franco", alias=("Guaraní Anotonio Franco",)),
-    Equipo("Independiente (N)"),
-    Equipo("Juventud Unida (G)"),
+    Equipo("Independiente (N)", alias=("Independiente (Neuquén)",)),
+    Equipo("Juventud Unida (G)", alias=("Juventud Unida (Gualeguaychú)",)),
     # La pagina omite el desambiguador a veces, igual que con Sol de America.
     # Es el unico Libertad del padron.
-    Equipo("Libertad (S)", alias=("Libertad",)),
+    Equipo("Libertad (S)", alias=("Libertad", "Libertad (Sunchales)")),
     Equipo("Liniers (BB)"),
-    Equipo("Rivadavia (L)"),
+    Equipo("Rivadavia (L)", alias=("Rivadavia (Lincoln)",)),
     # "San Jorge (S)" NO es un club: es "San Jorge (T)" con la letra equivocada en
     # 2 de sus 16 partidos del Federal A 2016-17 (la pagina enlaza un solo
     # articulo, [[Club Social y Deportivo San Jorge]], de Tucuman).
@@ -233,12 +259,12 @@ PADRON: tuple[Equipo, ...] = (
     # convierte en un club fantasma con dos partidos, y ningun chequeo protesta
     # porque el padron es justamente el que dice que clubes existen.
     # Lo encontro `localias_repartidas`, que no le pregunta al padron nada.
-    Equipo("San Jorge (T)", alias=("San Jorge (S)",)),
+    Equipo("San Jorge (T)", alias=("San Jorge (S)", "San Jorge (Tucumán)")),
     Equipo("San Lorenzo de Alem"),
     Equipo("Sportivo Patria", alias=("Sp. Patria",)),
     Equipo("Sportivo Peñarol (C)"),
-    Equipo("Tiro Federal (BB)"),
-    Equipo("Unión (VK)"),
+    Equipo("Tiro Federal (BB)", alias=("Tiro Federal (Bahía Blanca)",)),
+    Equipo("Unión (VK)", alias=("Unión (Villa Krause)",)),
     Equipo("Unión Aconquija"),
 
     # --- los del Argentino A 2005-06, todos del interior ---
@@ -308,7 +334,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Central Córdoba (R)'),
     # "Centrl Norte", sin la A, en un partido del Argentino A 2010-11. Es el
     # unico Central Norte del padron, asi que el typo no puede apuntar a otro.
-    Equipo('Central Norte (S)', alias=('Centrl Norte',)),
+    Equipo('Central Norte (S)', alias=('Centrl Norte', 'Central Norte (Salta)')),
     Equipo('Centro Español'),
     # "Cipoletti", con una L, en dos partidos del Argentino A 2010-11.
     Equipo('Cipolletti', alias=('Cipoletti',)),
@@ -319,7 +345,8 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Círculo Deportivo'),
     Equipo('Defensores Unidos'),
     Equipo('Defensores de Belgrano', alias=("D. de Belgrano",)),
-    Equipo('Defensores de Belgrano (VR)'),
+    Equipo('Defensores de Belgrano (VR)',
+           alias=('Defensores de Belgrano (Villa Ramallo)',)),
     Equipo("Defensores de Cambaceres", alias=("Cambaceres",)),
     Equipo("Defensores de Pronunciamiento",
            alias=("Defensores de Pronunciamento", "Def. de Pronunciamiento", "DEPRO")),
@@ -348,20 +375,26 @@ PADRON: tuple[Equipo, ...] = (
     # "Ferro CO" es el nombre corto de la segunda fuente, y el usuario confirmo
     # que es el de Caballito.
     Equipo('Ferro Carril Oeste', alias=("Ferro", "Ferro CO")),
-    Equipo('Ferro Carril Oeste (GP)'),
+    Equipo('Ferro Carril Oeste (GP)',
+           alias=('Ferro Carril Oeste (General Pico)',)),
     Equipo('Flandria'),
     Equipo('Fénix'),
     Equipo('General Lamadrid'),
     Equipo('Germinal'),
     Equipo("Guillermo Brown", alias=("Guillermon Brown", "Guillermo Brown (PM)")),
     Equipo("Gutiérrez", alias=("Gutiérrez SC",)),
-    Equipo('Güemes (SdE)'),
+    Equipo('Güemes (SdE)', alias=('Güemes (Santiago del Estero)',)),
     Equipo('Huracán Las Heras'),
     Equipo('Independiente (C)'),
     Equipo("J. J. de Urquiza", alias=("J. J. Urquiza",)),
     Equipo('Juventud Antoniana'),
     Equipo('Juventud Unida'),
-    Equipo("Juventud Unida Universitario", alias=("Juventud U. U.", "Juventud Unida U.",)),
+    # "Juventud Unida (SL)" es ESTE y no el `Juventud Unida` de arriba: el
+    # Argentino A 2011-12 lo escribe con el wikilink puesto,
+    # `[[Club Atlético Juventud Unida Universitario|Juventud Unida (SL)]]`.
+    Equipo("Juventud Unida Universitario", alias=("Juventud U. U.", "Juventud Unida U.",
+                                                  "Juv. U. Universitario",
+                                                  "Juventud Unida (SL)")),
     Equipo('Kimberley'),
     Equipo('Leandro N. Alem'),
     Equipo('Leones de Rosario'),
@@ -370,21 +403,25 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Lugano'),
     Equipo('Luján'),
     Equipo('Mercedes'),
-    Equipo("Mitre (SdE)", alias=("Mitre",)),
+    Equipo("Mitre (SdE)", alias=("Mitre", "Mitre (Santiago del Estero)")),
     Equipo('Muñiz'),
     Equipo('Nueva Chicago'),
     Equipo('Puerto Nuevo'),
-    Equipo('Racing (C)'),
+    Equipo('Racing (C)', alias=('Racing (Córdoba)',)),
     Equipo("Ramón Santamarina", alias=("Santamarina",)),
     Equipo('Sacachispas'),
     Equipo('San Martín (B)'),
     Equipo('San Telmo'),
     Equipo('Sansinena'),
-    Equipo('Sarmiento (R)'),
+    Equipo('Sarmiento (R)', alias=('Sarmiento (Resistencia)',)),
     Equipo("Sol de Mayo (V)", alias=("Sol de Mayo",)),
-    Equipo('Sportivo Estudiantes (SL)'),
+    Equipo('Sportivo Estudiantes (SL)', alias=('Sportivo Estudiantes (San Luis)',)),
     Equipo("Sportivo Italiano", alias=("Deportivo Italiano", "Sp. Italiano")),
-    Equipo('Sportivo Las Parejas'),
+    # "Sportivo AC" es Sportivo Atlético Club, el nombre formal de este. No sale
+    # del parecido: la fila de la Reválida del Federal A 2017-18 dice
+    # G=5 E=2 P=3 GF=13 GC=8 y esos son sus numeros exactos, contra 3-2-3 y 12:11
+    # de Sportivo Belgrano, que era el otro Sportivo de esa tabla.
+    Equipo('Sportivo Las Parejas', alias=('Sportivo AC',)),
     # Remedios de Escalada. La Primera C 2009-10 lo abrevia "(RE)" y el resto del
     # catalogo "(RdE)"; es el mismo club y el mismo articulo.
     Equipo('Talleres (RdE)', alias=("Talleres (RE)",)),
@@ -408,7 +445,8 @@ PADRON: tuple[Equipo, ...] = (
     # 2010-11. El desambiguador alcanza: es el unico CdU.
     Equipo("Gimnasia y Esgrima (CdU)",
            alias=("Gimnasia y Esgrisma (CDU)", "Gimmasia y Esgrima (CdU)",
-                  "Gimnasia (CdU)")),
+                  "Gimnasia (CdU)", "Gimnasia y Esgrima (CU)",
+                  "Gimnasia y Esgrima (Concepción del Uruguay)")),
     # la pagina omite la provincia a veces
     Equipo('Sol de América (F)', alias=('Sol de América',)),
 )

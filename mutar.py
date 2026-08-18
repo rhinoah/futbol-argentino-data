@@ -192,11 +192,11 @@ MUTANTES = [
      '    sf_dir = Path(__file__).resolve().parent / "data" / "sin-fecha"'),
 
     ("build.py", "no cruzar contra la tabla de posiciones",
-     "               for d in posiciones.contrastar(ps, texto)]",
+     "               for d in posiciones.contrastar(ps, texto, pagina=t.pagina)]",
      "               for d in []]"),
 
     ("build.py", "no chequear que la tabla cierre consigo misma",
-     "               for d in posiciones.desbalance(ps, texto)]",
+     "               for d in posiciones.desbalance(ps, texto, pagina=t.pagina)]",
      "               for d in []]"),
 
     ("fad/posiciones.py", "denunciar el desbalance aunque la tabla y la grilla "
@@ -554,7 +554,15 @@ MUTANTES = [
      "        if p.fase != \"zonas\" or not p.local or not p.visita:"),
 
     ("fad/parser.py", "dejar el superindice de la nota al pie pegado al nombre",
-     "    return re.sub(r\"[\\u00b9\\u00b2\\u00b3\\u2070-\\u209f]+$\", \"\", s).strip()",
+     "    s = re.sub(r\"[\\u00b9\\u00b2\\u00b3\\u2070-\\u209f]+$\", \"\", s).strip()",
+     "    s = s"),
+
+    ("fad/parser.py", "dejar pegada la llamada al pie escrita en ASCII",
+     "    s = re.sub(r\"<sup[^>]*>.*?</sup>\", \"\", s, flags=re.S | re.I)",
+     "    s = s"),
+
+    ("fad/parser.py", "leer el asterisco de la nota como parte del nombre",
+     "    return re.sub(r\"^(.+?)\\s*\\(\\*+\\)$\", r\"\\1\", s).strip()",
      "    return s"),
 
     ("fad/fechas.py", "completar aunque el marcador no coincida",
@@ -697,11 +705,37 @@ MUTANTES = [
      '    Equipo("Gimnasia y Esgrima (LP)", 8,\n'
      '           ("Gimnasia", "Gimnasia y Esgrima La Plata", "Gimnasia (LP)")),\n'
      '    Equipo("Gimnasia y Esgrima (M)", 816,\n'
-     '           ("Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza")),',
+     '           ("Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza",\n'
+     '            "Gimnasia y Esgrima (Mendoza)")),',
      '    Equipo("Gimnasia y Esgrima (LP)", 8,\n'
      '           ("Gimnasia y Esgrima La Plata", "Gimnasia (LP)")),\n'
      '    Equipo("Gimnasia y Esgrima (M)", 816,\n'
-     '           ("Gimnasia", "Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza")),'),
+     '           ("Gimnasia", "Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza",\n'
+     '            "Gimnasia y Esgrima (Mendoza)")),'),
+
+    # --- homonimos: el mismo nombre, dos clubes ---
+    ("fad/correcciones.py", "no resolver el homonimo en los partidos",
+     "            if p.local == h.dice:", "            if False:"),
+
+    ("fad/correcciones.py", "aplicar el homonimo de una pagina en todas",
+     "        if h.pagina != pagina:\n            continue\n        for p in ps:",
+     "        for p in ps:"),
+
+    ("fad/correcciones.py", "resolver el homonimo de la tabla en cualquier pagina",
+     "        if h.pagina == pagina and h.dice == club:",
+     "        if h.dice == club:"),
+
+    ("fad/posiciones.py", "leer la tabla sin resolver los homonimos de la pagina",
+     "    return correcciones.homonimo(pagina, equipos.canonizar(nombre, articulo))",
+     "    return equipos.canonizar(nombre, articulo)"),
+
+    ("fad/posiciones.py", "no denunciar la fila cuyo club no jugo",
+     "            if club not in jugaron:", "            if False:"),
+
+    ("fad/posiciones.py", "medir esa fila contra el torneo y no contra su alcance",
+     "        jugaron = {p.local for p in ps if not alcance or p.llave == alcance}\n"
+     "        jugaron |= {p.visita for p in ps if not alcance or p.llave == alcance}",
+     "        jugaron = {p.local for p in ps} | {p.visita for p in ps}"),
 
     ("fad/equipos.py", "no detectar un alias peleado por dos clubes",
      "            if clave in indice and indice[clave] is not eq:",

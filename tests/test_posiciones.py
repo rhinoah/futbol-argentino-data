@@ -489,6 +489,32 @@ def test_el_sup_de_la_llamada_al_pie_no_se_pega_al_nombre():
     assert posiciones.fuera_del_padron(pagina(sucia)) == []
 
 
+def test_solo_el_wikilink_de_la_fila_separa_a_dos_clubes_que_se_ven_igual():
+    """El testigo del wikilink de la wikitabla, cuando NADA MAS puede resolverlo.
+
+    Los otros dos tests de esta parte pasan igual si la celda se resuelve por el
+    nombre visible, porque `articulos_de_la_pagina` termina dando el mismo
+    articulo por otro camino. Aca no: si la pagina escribe dos clubes distintos
+    con el mismo nombre visible, ese indice se abstiene a proposito -- devuelve
+    {} -- y el unico dato que queda es el enlace de la propia fila.
+
+    Va con su historia porque es la segunda vez que pasa lo mismo en el repo: a
+    este mutante lo mataba el test del `<sup>` de "Deportivo Merlo 1", y cuando
+    `limpiar` aprendio a sacar la llamada al pie sola, el wikilink dejo de hacer
+    falta ALLI y el mutante quedo vivo sin que ningun test se pusiera rojo. Un
+    arreglo en un lado apaga el testigo del otro."""
+    dos = pagina("|- style=\"text-align:center\"\n"
+                 "||'''1º'''||align=\"left\"|"
+                 "[[Club Atlético Gimnasia y Esgrima (Mendoza)|Gimnasia]]\n"
+                 "||'''4'''||2||1||1||0||3||1||2",
+                 "|- style=\"text-align:center\"\n"
+                 "||'''2º'''||align=\"left\"|"
+                 "[[Club de Gimnasia y Esgrima La Plata|Gimnasia]]\n"
+                 "||'''1'''||2||0||1||1||1||3||-2")
+    assert posiciones.tabla(dos) == {"Gimnasia y Esgrima (M)": (2, 3, 1),
+                                     "Gimnasia y Esgrima (LP)": (2, 1, 3)}
+
+
 def test_el_wikilink_de_la_wikitabla_desambigua_igual_que_en_la_plantilla():
     """El articulo manda sobre el nombre visible en los dos formatos, no en uno."""
     mendoza = ("|-\n||'''1º'''||align=\"left\"|"
@@ -720,3 +746,55 @@ def test_el_dif_negativo_sigue_leyendose():
                 "||'''1º'''||align=\"left\"|[[Boca Juniors]]\n"
                 "||'''1'''||2||0||1||1||1||3||-2")
     assert posiciones.tabla(pagina(negativo)) == {"Boca Juniors": (2, 1, 3)}
+
+
+# --------------------------------------------------------------------------
+# la fila que no tiene contra que cruzarse
+# --------------------------------------------------------------------------
+def test_denuncia_la_fila_de_un_club_que_no_jugo():
+    """El hermano general de `fuera_del_padron`, y agarra mas que el: aquel pide
+    que el nombre sea ilegible, y a este le alcanza con que la fila no enganche.
+
+    El caso real es el Argentino A 2005-06: la tabla escribe "Juventud Unida" y
+    la grilla "Juventud Unida Universitario". Los dos existen en el padron y son
+    dos clubes de verdad, asi que nadie se quejaba y la fila se caia del cruce
+    -- que ademas apagaba el chequeo de balance de esa tabla entera."""
+    texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
+                   fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3))
+    ps = [zona("Boca Juniors", "Racing Club", 3, 1)]
+    avisos = posiciones.sin_partidos(ps, texto)
+    assert len(avisos) == 1 and "River Plate" in avisos[0]
+
+
+def test_un_club_que_jugo_y_no_tiene_fila_no_se_denuncia():
+    """La otra direccion no es un error: en toda revalida la tabla cubre a la
+    mitad del torneo. Avisar por eso seria opinar de mas."""
+    texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1))
+    ps = [zona("Boca Juniors", "River Plate", 3, 1)]
+    assert posiciones.sin_partidos(ps, texto) == []
+
+
+def test_la_fila_se_mide_contra_su_alcance_y_no_contra_el_torneo():
+    """Una tabla de zona tiene que cruzarse con los partidos de SU zona. Contra
+    el torneo entero, un club que jugo en la otra fase alcanzaria para tapar el
+    aviso, y la tabla del Apertura podria nombrar a cualquiera."""
+    texto = ("== Torneo Apertura ==\n"
+             + _wikitabla(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
+                          fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3))
+             + "\n== Torneo Clausura ==\n"
+             + _wikitabla(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 2, 0)))
+    ps = [_de_llave("Torneo Apertura", "Boca Juniors", "Racing Club", 3, 1),
+          _de_llave("Torneo Clausura", "River Plate", "Boca Juniors", 0, 2)]
+    avisos = posiciones.sin_partidos(ps, texto)
+    assert len(avisos) == 1 and "River Plate" in avisos[0] and "Torneo Apertura" in avisos[0]
+
+
+def test_el_homonimo_de_la_pagina_vale_tambien_para_la_tabla():
+    """Las dos puertas -- partidos y tabla -- tienen que dar el mismo nombre. Si
+    la tabla resolviera por su cuenta, el cruce no encontraria al club en las dos
+    partes y se saltearia la fila, que es justo lo que el homonimo vino a
+    arreglar. Se prueba con el caso real, no con uno inventado."""
+    texto = pagina(fila(1, "Juventud Unida", 3, 1, 1, 0, 0, 3, 1))
+    assert list(posiciones.tabla(texto)) == ["Juventud Unida"]
+    assert list(posiciones.tabla(texto, pagina="Torneo Argentino A 2005-06")) == \
+        ["Juventud Unida Universitario"]

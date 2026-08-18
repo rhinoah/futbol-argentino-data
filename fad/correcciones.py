@@ -838,6 +838,68 @@ class Cancha:
     porque: str
 
 
+@dataclass(frozen=True)
+class Homonimo:
+    """Un club que la pagina escribe pelado y que en el padron son varios.
+
+    `fad/equipos.py` avisa desde su docstring que los alias sin desambiguar
+    ("Sarmiento", "Gimnasia y Esgrima") son ambiguos fuera de Primera, y que si
+    alguna vez se parseaba una fuente de ascenso que los usara habia que
+    resolverlos POR CONTEXTO. Esto es ese contexto: la pagina, y nada mas.
+
+    Por que no puede ser un alias global: el Argentino A 2010-11 escribe
+    "Juventud Unida" a secas y son 36 partidos que hoy caen en el club de
+    Primera C que se llama igual. Poner el alias en el padron arreglaria esta
+    pagina y romperia las otras seis, que son ese club de verdad. Y no falla
+    ruidosamente: los partidos quedan prolijos, en el club equivocado.
+
+    Cada uno se decide con la pagina misma, no por parecido. Sirven dos testigos:
+    el WIKILINK cuando existe -- 2011-12 escribe
+    `[[Club Atlético Juventud Unida Universitario|Juventud Unida (SL)]]` y ahi
+    no hay nada que adivinar -- y la FECHA LIBRE cuando no: en una jornada cada
+    club juega una sola vez, asi que si el rival de ese partido esta en la fecha
+    N y de los cinco San Martin del padron cuatro ya juegan esa fecha, el quinto
+    es ese. Sin uno de los dos, no entra.
+
+    CUANDO NO USAR ESTO
+    -------------------
+    Cuando son uno o dos partidos sueltos, va `Correccion`, que identifica la
+    fila entera y deja el resto del club en paz. Hay cinco casos asi resueltos
+    ahi arriba -- "Gimnasia y Esgrima" y "Central Norte (SE)" del Argentino A
+    2010-11, "9 de Julio" y "Alumni" del 2005-06, "San Martín" de la Primera
+    Nacional 2022 -- y se probo pasarlos a homonimo: no aporta nada y encima
+    pisa el testigo, porque el `dice` de la correccion es justamente el nombre
+    equivocado. Esto es para cuando la pagina llama mal al club en TODOS sus
+    partidos y una correccion por fila serian treinta y seis.
+    """
+    pagina: str
+    dice: str
+    debe: str
+    porque: str
+
+
+HOMONIMOS: tuple[Homonimo, ...] = (
+    Homonimo(
+        pagina="Torneo Argentino A 2010-11", dice="Juventud Unida",
+        debe="Juventud Unida Universitario",
+        porque="es el de San Luis: la pagina lo lista en participantes como "
+               "[[Club Atlético Juventud Unida Universitario]] y no hay otro "
+               "Juventud Unida en el torneo. El del padron sin parentesis es el "
+               "Club Deportivo y Social Juventud Unida, de Primera C, que se "
+               "estaba quedando con estos 36 partidos sin que nada avisara",
+    ),
+    Homonimo(
+        pagina="Torneo Argentino A 2005-06", dice="Juventud Unida",
+        debe="Juventud Unida Universitario",
+        porque="al reves que el de arriba: aca los partidos lo escriben entero y "
+               "la que abrevia es la TABLA. Las dos tablas tienen 24 filas y el "
+               "torneo 24 clubes, sobra este de un lado y falta Universitario del "
+               "otro, y el unico Juventud Unida que la pagina enlaza es "
+               "[[Club Atlético Juventud Unida Universitario]]",
+    ),
+)
+
+
 CANCHAS: tuple[Cancha, ...] = (
     Cancha(
         pagina="Campeonato de Primera Nacional 2022",
@@ -978,6 +1040,39 @@ REEMPLAZOS: tuple[Reemplazo, ...] = (
 )
 
 
+def homonimo(pagina: str, club: str) -> str:
+    """Como se llama de verdad `club` en `pagina`.
+
+    Un homonimo es una afirmacion sobre la PAGINA, no sobre los partidos, asi
+    que vale para los dos lados: los partidos lo aplican en `aplicar` y las
+    tablas de posiciones por aca. Tienen que ser el mismo mapa o el arbitro se
+    apaga solo -- si la tabla dice "Juventud Unida" y los partidos, ya
+    corregidos, dicen "Juventud Unida Universitario", el cruce no encuentra al
+    club en las dos partes y se saltea la fila sin avisar.
+    """
+    for h in HOMONIMOS:
+        if h.pagina == pagina and h.dice == club:
+            return h.debe
+    return club
+
+
+def homonimos_huerfanos(pagina: str, escritos: set[str]) -> list[str]:
+    """Los homonimos de `pagina` cuyo nombre ya no aparece en ningun lado.
+
+    `escritos` son todos los nombres que la pagina produjo antes de resolverlos:
+    los de los partidos y los de las filas de la tabla. Van juntos a proposito.
+    Cuando esto vivia adentro de `aplicar`, que solo ve los partidos, un homonimo
+    que arreglaba unicamente la tabla se denunciaba a si mismo como vencido.
+
+    Vale la pena tenerlo: este aviso fue el que descubrio que cinco de los seis
+    homonimos que se habian escrito ya estaban resueltos como `Correccion`.
+    """
+    return [f"el homonimo {h.dice!r} -> {h.debe!r} no engancha con nada: la "
+            f"pagina ya no escribe ese nombre, ni en los partidos ni en la "
+            f"tabla. Si la arreglaron, sacalo de fad/correcciones.py"
+            for h in HOMONIMOS if h.pagina == pagina and h.dice not in escritos]
+
+
 def arbitrados(pagina: str) -> set[tuple[str, str, str]]:
     """(jornada, local, visitante) de los partidos ya arbitrados de `pagina`.
 
@@ -1032,6 +1127,26 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
             continue
         candidatos[0].goles_local, candidatos[0].goles_visita = m.debe
         aplicadas += 1
+
+    # Los homonimos van DESPUES de `CORRECCIONES`, y no es indistinto: una
+    # correccion se identifica por como escribe la pagina, o sea por el nombre
+    # equivocado. Si el homonimo lo renombrara antes, la correccion ya no
+    # engancharia con su fila y se apagaria sola.
+    for h in HOMONIMOS:
+        if h.pagina != pagina:
+            continue
+        for p in ps:
+            if p.local == h.dice:
+                p.local = h.debe
+                aplicadas += 1
+            if p.visita == h.dice:
+                p.visita = h.debe
+                aplicadas += 1
+    # Aca NO va el aviso de "ya no engancha", que los otros tres tipos si tienen:
+    # un homonimo puede tocar solo la tabla de posiciones -- el Argentino A
+    # 2005-06 escribe "Juventud Unida" en la tabla y el nombre entero en la
+    # grilla -- y desde aca los partidos se ven pero la tabla no. El control de
+    # vigencia es `homonimos_huerfanos`, que se llama con los dos lados juntos.
 
     for c in CANCHAS:
         if c.pagina != pagina:

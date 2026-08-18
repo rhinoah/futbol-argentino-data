@@ -245,6 +245,11 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # porque lo que arreglan -- un club mal escrito -- es justamente lo que los
     # chequeos van a mirar. Ver `fad/correcciones.py`: hay una sola y esta ahi
     # documentada con su evidencia.
+    # Como escribe la pagina a cada club, de los dos lados y antes de resolver
+    # nada: es contra esto que se chequea si un homonimo sigue haciendo falta.
+    # La tabla se pide sin `pagina` justamente para que NO aplique homonimos.
+    escritos = ({p.local for p in ps} | {p.visita for p in ps}
+                | set(posiciones.tabla(texto)))
     arregladas, dudas = correcciones.aplicar(ps, t.pagina)
     borradas = _borrar_jornadas_falsas(ps)
     # La segunda fuente va DESPUES de borrar las jornadas falsas y ANTES de
@@ -271,19 +276,29 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # de dos fuentes tiene razon sobre un marcador, sin traer una tercera.
     avisos += [validar.Aviso(f"{t.pagina}: no cierra con su tabla de posiciones", d,
                              grave=False)
-               for d in posiciones.contrastar(ps, texto)]
+               for d in posiciones.contrastar(ps, texto, pagina=t.pagina)]
     # Y la tabla contra si misma. No compara contra nuestra grilla: suma sus dos
     # columnas de goles y las encuentra distintas, que es imposible. Cuando este
     # salta no hay nada que arbitrar -- la equivocada es la pagina.
     avisos += [validar.Aviso(f"{t.pagina}: su tabla de posiciones no cierra sola", d,
                              grave=False)
-               for d in posiciones.desbalance(ps, texto)]
+               for d in posiciones.desbalance(ps, texto, pagina=t.pagina)]
     # Un club que la tabla nombra y el padron no conoce. No afecta a los datos --
     # por eso no es grave-- pero apaga el arbitro en esa fila sin decir nada, que
     # es peor: el chequeo sigue corriendo y ya no mira todo.
     avisos += [validar.Aviso(f"{t.pagina}: un club de la tabla no esta en el padron", d,
                              grave=False)
                for d in posiciones.fuera_del_padron(texto)]
+    # Y su hermano general: la fila cuyo club no jugo ni un partido en ese
+    # alcance. El de arriba pide que el nombre sea ilegible; a este le alcanza
+    # con que la fila no tenga contra que cruzarse, que es lo que de verdad
+    # apaga al arbitro.
+    avisos += [validar.Aviso(f"{t.pagina}: un club de la tabla no jugo ahi", d,
+                             grave=False)
+               for d in posiciones.sin_partidos(ps, texto, pagina=t.pagina)]
+    # Y si algun homonimo dejo de hacer falta porque arreglaron la pagina.
+    avisos += [validar.Aviso(f"{t.pagina}: un homonimo quedo sin uso", d, grave=False)
+               for d in correcciones.homonimos_huerfanos(t.pagina, escritos)]
     # Un enlace donde el nombre visible y el articulo se contradicen. Mira el
     # wikitexto y no los partidos, asi que no puede ir en `validar`: lo que
     # denuncia es que la fuente se contradice al NOMBRAR, antes de que eso llegue

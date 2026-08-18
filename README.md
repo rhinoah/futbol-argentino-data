@@ -1715,13 +1715,82 @@ Quedan tres partidos del Federal A 2018-19 con la misma firma que **no** cambian
 su tabla no rotula `Fecha N` con `colspan`. Se dejan anotados en vez de aflojar el
 criterio para que entren.
 
+## 34 nombres que apagaban al árbitro, y uno que le daba los partidos a otro club
+
+La tabla de posiciones y la grilla de resultados están en la misma página y se
+escriben distinto. La grilla usa la sigla —`Central Córdoba (SdE)`— y la tabla
+despliega el nombre entero: `Central Córdoba (Santiago del Estero)`. Son 34
+nombres así, todos del Argentino A y el Federal A, que es donde los clubes
+comparten nombre. La celda de la tabla no lleva wikilink, así que no hay artículo
+con que resolverla: la fila queda a nombre de un club que el padrón no conoce y
+**se cae del cruce sin decir nada**.
+
+Diez de los 44 que se contaron al principio no eran nombres sino **llamadas al
+pie**: `Cipolletti (*)`, `Unión (Sunchales) <sup>1</sup>`. El barrido general de
+tags saca el `<sup>` y deja el número suelto, y el club pasa a llamarse «Unión
+(Sunchales) 1». Eso es limpieza, no padrón, y se arregló en `limpiar`.
+
+Los 34 restantes **no se emparejaron por parecido** — el propio
+[`fad/equipos.py`](fad/equipos.py) prohíbe eso desde su docstring, con el ejemplo
+de que «Estudiantes» a secas es sólo el de La Plata. Se emparejaron por
+**cardinalidad**: la tabla tiene tantas filas como clubes el plantel, así que si
+en una zona sobra un solo nombre desconocido y falta un solo club, la identidad
+está forzada. Treinta cerraron así. De los otros cuatro, tres cerraron por
+eliminación dentro de su zona, y el último —`Sportivo AC`— por sus números: su
+fila dice `G=5 E=2 P=3, 13:8` y ésos son exactamente los de Sportivo Las Parejas
+en esa reválida, contra `3-2-3, 12:11` del otro Sportivo de la misma tabla.
+
+**229 filas de tabla pasaron a tener árbitro**, en ocho páginas.
+
+### El que no era lo que parecía
+
+`Juventud Unida (SL)` cerraba por cardinalidad contra el `Juventud Unida` pelado
+del padrón. Era falso: la página escribe
+`[[Club Atlético Juventud Unida Universitario|Juventud Unida (SL)]]`, o sea que
+es el de San Luis. La cardinalidad había emparejado **dos errores**, porque del
+otro lado el Argentino A 2010-11 escribe la grilla con el nombre pelado y sus 36
+partidos estaban cayendo en el club de Primera C que se llama igual.
+
+Eso no se arregla con un alias: el alias arregla esta página y rompe las otras
+seis, donde `Juventud Unida` es de verdad el de Primera C. Va por página, en
+`correcciones.HOMONIMOS`, que es exactamente lo que el docstring del padrón venía
+prediciendo que iba a hacer falta.
+
+Se escribieron seis homónimos y **cinco eran redundantes**: ya estaban resueltos
+uno por uno como `Correccion`, con el mismo razonamiento. Lo descubrió el aviso
+de «este homónimo no engancha con nada», que se había escrito en el mismo commit.
+
+### El detector que faltaba
+
+`fuera_del_padron` pide que el nombre sea **ilegible**. Pero un nombre puede estar
+perfectamente en el padrón y apuntar al club equivocado, y entonces nadie se
+queja. El chequeo general es otro: **una fila de tabla cuyo club no jugó ningún
+partido en ese alcance**. Encontró un caso más —el Argentino A 2005-06, donde la
+que abrevia es la tabla y no la grilla— y al resolverlo apareció un desbalance
+que estaba tapado hacía rato: la tabla del Clausura suma 406 goles a favor y 408
+en contra sobre los mismos partidos, y tienen que dar igual. El chequeo de
+balance exige que los clubes de la tabla y de la grilla sean el mismo conjunto, y
+el nombre distinto rompía esa igualdad: **un nombre mal escrito estaba apagando
+un chequeo que no tiene nada que ver con los nombres.**
+
+### Y el testigo que se apagó solo
+
+Al enseñarle a `limpiar` a sacar el `<sup>`, murió el test que mantenía vivo a
+otro mutante: el que resolvía la wikitabla por el nombre visible en vez del
+wikilink. Lo mataba el caso de «Deportivo Merlo 1», y cuando la limpieza dejó de
+necesitar el wikilink **ahí**, el mutante quedó vivo sin que ningún test se
+pusiera rojo. Es la segunda vez que pasa lo mismo en este repo. El testigo se
+repuso con el único caso donde el wikilink es irremplazable: dos filas con el
+mismo nombre visible y distinto artículo, donde el índice de la página se
+abstiene a propósito.
+
 ## Tests
 
-595 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+613 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 186 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 194 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
