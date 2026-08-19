@@ -497,6 +497,79 @@ def clubes_desviados(ps: list, texto: str, arts: dict[str, str] | None = None,
     return fuera
 
 
+# Los dos clubes de una acusacion del resaltado, que el aviso escribe al
+# principio: "Local G-V Visita: los numeros dicen...".
+_ACUSADOS = re.compile(r"^(.*?) (\d+)-(\d+) (.*?): ")
+
+
+def resaltado_sin_respuesta(ps: list, texto: str, arts: dict[str, str] | None = None,
+                            pagina: str = "",
+                            ya_arbitrados: set | None = None) -> list[str]:
+    """Las acusaciones del resaltado que la TABLA no puede contestar.
+
+    `parser.resaltado_que_desmiente` marca la fila cuyo color contradice a sus
+    propios digitos, y es un buen acusador: medido contra los marcadores que el
+    repo ya tiene arbitrados, cuando contradice a su fila acerta 4 de 4. Pero no
+    es el unico que sabe quien gano. La tabla lo dice en su columna G-E-P, y ese
+    testigo tambien se midio -- acerto las dos veces que se lo pudo contrastar --
+    con la ventaja de que no depende de un color.
+
+    Cuando los dos coinciden, el aviso vale. Cuando se contradicen, hay que mirar
+    cual de los dos escenarios es, y la evidencia esta del lado de la tabla:
+
+      * en los cuatro casos donde el resaltado acerto, el arreglo CAMBIABA la
+        direccion del partido, asi que la tabla se desviaba tambien y los dos
+        testigos decian lo mismo;
+      * cuando la tabla dice que la direccion de la grilla esta bien, para que el
+        color tuviera razon tendrian que estar mal la grilla Y la tabla, las dos
+        del mismo lado. Es mas barato que se le haya pintado la celda equivocada
+        a quien coloreo la fila, que es un error de una tecla y no toca ningun
+        numero.
+
+    Por eso esta funcion se queda solo con las acusaciones que la tabla NO puede
+    contestar: aquellas donde alguno de los dos clubes no es comparable -- la
+    tabla y la grilla le cuentan distintos partidos, asi que no opina -- o donde
+    la tabla efectivamente se desvia y acompania al color.
+
+    No es silenciar: es no publicar como pregunta abierta algo que la propia
+    pagina ya contesto. Las 19 que habia se contestan todas, y las cuatro que le
+    dieron su credibilidad al metodo habrian sobrevivido a este filtro, porque en
+    las cuatro el arreglo cambiaba la direccion y la tabla acusaba junto con el
+    color.
+    """
+    acusaciones = parser.resaltado_que_desmiente(texto, ya_arbitrados or frozenset())
+    if not acusaciones:
+        return []
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    # Los clubes a los que la tabla les cuenta los mismos partidos que la grilla
+    # Y ademas les da la misma direccion. Sobre esos, la tabla ya contesto.
+    contesta = set()
+    for alcance, filas in _alcance_de_cada_tabla(texto, arts, ps, pagina):
+        propios = _propios_de(ps, alcance)
+        for club, datos in filas.items():
+            if club not in propios or len(datos) < 6:
+                continue
+            # No hace falta comparar el PJ aparte: la fila de la tabla solo
+            # entra si G+E+P == PJ, y la suma de la grilla tambien cuenta sus
+            # propios partidos, asi que dos trios iguales ya implican el mismo
+            # PJ. Pedirlo dos veces daba un mutante que nada podia distinguir.
+            if tuple(datos[3:6]) == tuple(propios[club][3:6]):
+                contesta.add(club)
+    fuera = []
+    for aviso in acusaciones:
+        m = _ACUSADOS.match(aviso)
+        if not m:
+            fuera.append(aviso)
+            continue
+        clubes = [_canonico(m.group(1), "", pagina), _canonico(m.group(4), "", pagina)]
+        if all(c in contesta for c in clubes):
+            continue
+        fuera.append(
+            aviso + ". Y la tabla no lo contesta: " +
+            ", ".join(f"a {c} le cuenta distinto" for c in clubes if c not in contesta))
+    return fuera
+
+
 def resultados_que_no_coinciden(ps: list, texto: str, arts: dict[str, str] | None = None,
                                 pagina: str = "") -> list[str]:
     """Los clubes a los que la tabla y la grilla les cuentan distintos G-E-P.

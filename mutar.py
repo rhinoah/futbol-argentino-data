@@ -920,6 +920,19 @@ MUTANTES = [
      "            if club not in propios or propios[club][0] != datos[0]:",
      "            if club not in propios or propios[club][0] != datos[0] or correcciones.revisado(pagina, club):"),
 
+    # --- el resaltado contra la tabla ---
+    ("fad/posiciones.py", "publicar la acusacion que la tabla ya contesto",
+     "        if all(c in contesta for c in clubes):" + chr(10) + "            continue",
+     "        if False:" + chr(10) + "            continue"),
+
+    ("fad/posiciones.py", "callar la acusacion que la tabla acompania",
+     "        if all(c in contesta for c in clubes):", "        if any(c in contesta for c in clubes):"),
+
+    ("fad/posiciones.py", "dar por contestado aunque la tabla se desvie",
+     "            if tuple(datos[3:6]) == tuple(propios[club][3:6]):" + chr(10) +
+     "                contesta.add(club)",
+     "            if True:" + chr(10) + "                contesta.add(club)"),
+
     ("fad/correcciones.py", "no agregar el partido que la pagina no deja leer",
      "        aplicadas += 1" + chr(10) + chr(10) + "    # Los homonimos van DESPUES",
      "        continue" + chr(10) + chr(10) + "    # Los homonimos van DESPUES"),

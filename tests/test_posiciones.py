@@ -10,7 +10,7 @@ from __future__ import annotations
 import re
 from unittest import mock
 
-from fad import correcciones, posiciones
+from fad import correcciones, parser, posiciones
 from fad.parser import Partido
 
 
@@ -1254,3 +1254,81 @@ def test_el_revisado_tambien_calla_el_aviso_de_goles_y_solo_en_su_pagina():
     with mock.patch.object(correcciones, "REVISADOS", (ajena,)):
         assert [a for a in posiciones.contrastar(ps, texto, pagina="Una Pagina")
                 if a.startswith("Boca Juniors")], "una verificacion ajena no puede callar"
+
+
+# --------------------------------------------------------------------------
+# el resaltado contra la tabla: quien contesta a quien
+# --------------------------------------------------------------------------
+def _fila_resaltada(local, gl, gv, visita, pinta):
+    """Una fila de grilla con el azul sobre `pinta`: 'L', 'E' o 'V'."""
+    c = "bgcolor=#D0E7FF|'''"
+    return ("|-\n|" + (c if pinta == "L" else "") + local
+            + "\n|" + (c if pinta == "E" else "") + f"{gl} - {gv}"
+            + "\n|" + (c if pinta == "V" else "") + visita)
+
+
+def _pagina(grilla_filas, tabla_filas):
+    return ('{| class="wikitable"\n' + "\n".join(grilla_filas) + "\n|}\n"
+            + _tabla_gep(*tabla_filas))
+
+
+def test_si_la_tabla_banca_a_los_digitos_la_acusacion_queda_contestada():
+    """El color acusa y la tabla absuelve. Para que el color tuviera razon
+    tendrian que estar mal la grilla Y la tabla, las dos del mismo lado; es mas
+    barato que se haya pintado la celda equivocada, que es un error de una tecla
+    y no toca ningun numero. Las 19 que habia se contestaban todas asi."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _pagina([_fila_resaltada("Boca Juniors", 0, 1, "River Plate", "L")],
+                    [_fila_gep("Boca Juniors", 0, 1, 0, 0, 1, 0, 1),
+                     _fila_gep("River Plate", 3, 1, 1, 0, 0, 1, 0)])
+    assert parser.resaltado_que_desmiente(texto), "el acusador tiene que acusar"
+    assert posiciones.resaltado_sin_respuesta(ps, texto, pagina="Una Pagina") == []
+
+
+def test_si_la_tabla_acompania_al_color_la_acusacion_sobrevive():
+    """Es el caso que le dio credibilidad al metodo: en los cuatro aciertos
+    conocidos el arreglo CAMBIABA la direccion, asi que la tabla se desviaba
+    tambien y los dos testigos decian lo mismo. El filtro no puede comerse eso."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    # la tabla le da la victoria a Boca, igual que el color y al reves que los digitos
+    texto = _pagina([_fila_resaltada("Boca Juniors", 0, 1, "River Plate", "L")],
+                    [_fila_gep("Boca Juniors", 3, 1, 1, 0, 0, 1, 0),
+                     _fila_gep("River Plate", 0, 1, 0, 0, 1, 0, 1)])
+    quedan = posiciones.resaltado_sin_respuesta(ps, texto, pagina="Una Pagina")
+    assert len(quedan) == 1
+    assert "la tabla no lo contesta" in quedan[0]
+
+
+def test_si_la_tabla_no_puede_opinar_la_acusacion_sobrevive():
+    """Con distinto PJ la tabla no habla del mismo conjunto de partidos, asi que
+    no contesta nada y la acusacion sigue abierta."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _pagina([_fila_resaltada("Boca Juniors", 0, 1, "River Plate", "L")],
+                    [_fila_gep("Boca Juniors", 0, 5, 0, 0, 5, 0, 5),
+                     _fila_gep("River Plate", 15, 5, 5, 0, 0, 5, 0)])
+    quedan = posiciones.resaltado_sin_respuesta(ps, texto, pagina="Una Pagina")
+    assert len(quedan) == 1 and "le cuenta distinto" in quedan[0]
+
+
+def test_sin_acusacion_no_hay_nada_que_arbitrar():
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _pagina([_fila_resaltada("Boca Juniors", 0, 1, "River Plate", "V")],
+                    [_fila_gep("Boca Juniors", 0, 1, 0, 0, 1, 0, 1),
+                     _fila_gep("River Plate", 3, 1, 1, 0, 0, 1, 0)])
+    assert posiciones.resaltado_sin_respuesta(ps, texto, pagina="Una Pagina") == []
+
+
+def test_alcanza_con_que_la_tabla_no_conteste_por_UNO_de_los_dos():
+    """La acusacion es sobre un PARTIDO, y un partido tiene dos clubes. Si la
+    tabla contesta por uno y del otro no puede opinar, no contesto: los goles del
+    que no mira son justamente los que estan en discusion. Por eso la condicion
+    es que los conteste a LOS DOS."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    # Boca: la tabla coincide con la grilla (perdio). River: PJ distinto, no opina.
+    texto = _pagina([_fila_resaltada("Boca Juniors", 0, 1, "River Plate", "L")],
+                    [_fila_gep("Boca Juniors", 0, 1, 0, 0, 1, 0, 1),
+                     _fila_gep("River Plate", 15, 5, 5, 0, 0, 5, 0)])
+    quedan = posiciones.resaltado_sin_respuesta(ps, texto, pagina="Una Pagina")
+    assert len(quedan) == 1
+    assert "River Plate" in quedan[0] and "le cuenta distinto" in quedan[0]
+    assert "a Boca Juniors le cuenta distinto" not in quedan[0]
