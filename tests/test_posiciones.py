@@ -1236,9 +1236,15 @@ def test_cada_revisado_dice_contra_que_se_verifico():
         # se desvia solo, y un marcador mal leido toca a dos. Se la reconoce por la
         # idea y no por como quedo redactada la primera entrada, que es el error
         # que ya se cometio con la prueba de no-copia.
+        # La prueba interna tiene una sola idea con varias formas de escribirse:
+        # NO EXISTE PAREJA POSIBLE. Un marcador mal leido mueve a dos clubes con
+        # deltas espejados, asi que un desvio sin su espejo no lo puede explicar
+        # ningun partido. Se la reconoce por la idea, no por la redaccion de la
+        # primera entrada -- el error que ya se cometio dos veces en este archivo.
         interna = any(f in r.porque.lower() for f in
                       ("prueba es interna", "prueba interna", "se desvia solo",
-                       "otra mitad del par"))
+                       "otra mitad del par", "que lo aparee", "sin pareja",
+                       "unico club desviado", "auto-espejado"))
         assert externa or interna, f"{r.pagina} {r.club}: no dice contra que se verifico"
 
 

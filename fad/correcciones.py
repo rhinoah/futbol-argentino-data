@@ -1630,6 +1630,38 @@ class Revisado:
 
 REVISADOS: tuple[Revisado, ...] = (
     Revisado(
+        pagina="Torneo Federal A 2024", club="Círculo Deportivo",
+        porque="Se desvia en (0, +1) y no hay ningun club que lo aparee: para que un "
+               "partido lo explicara haria falta otro desviado en (+1, 0), y el unico "
+               "otro club desviado de la fase es Deportivo Camioneros, que va en "
+               "(0, -1). Ademas no se cruzan entre si en la grilla, y ninguno de sus "
+               "rivales quedo fuera del cruce. Sin pareja posible no hay marcador que "
+               "corregir: la equivocada es la fila de la tabla."),
+    Revisado(
+        pagina="Torneo Federal A 2024", club="Deportivo Camioneros",
+        porque="Mismo caso que Circulo Deportivo en la misma fase y por el mismo "
+               "motivo: su delta (0, -1) pediria una pareja en (-1, 0) que no existe, "
+               "los dos desviados no se cruzan, y ninguno de sus rivales quedo fuera "
+               "del cruce. La fila de la tabla es la que esta mal."),
+    Revisado(
+        pagina="Campeonato de Primera Nacional 2021", club="Deportivo Maipú",
+        porque="Es el unico club desviado de su zona una vez resueltos los otros dos "
+               "-- Almirante Brown y Mitre (SdE), que se cerraron con el 0-0 de la "
+               "Fecha 19 --, y ninguno de sus rivales quedo fuera del cruce. Un "
+               "marcador mal leido toca siempre a dos clubes; aca se mueve uno solo, "
+               "asi que ningun partido puede explicarlo y la equivocada es la fila de "
+               "la tabla."),
+    Revisado(
+        pagina="Campeonato de Primera C 2026 (Argentina)", club="Juventud Unida",
+        porque="Su delta es (1, 1), que es auto-espejado: la pareja tendria que ser "
+               "otro club desviado tambien en (1, 1). El unico otro desviado de la "
+               "pagina es Cañuelas, que va en (0, 1), y ademas ninguno de los rivales "
+               "de Juventud Unida quedo fuera del cruce. Sin pareja no hay partido que "
+               "lo explique.\n"
+               "OJO que el torneo es de la temporada en curso, asi que esta "
+               "verificacion puede caducar sola cuando la pagina se siga editando; si "
+               "eso pasa, `revisados_huerfanos` lo va a denunciar."),
+    Revisado(
         pagina="Campeonato de Primera C 2015 (Argentina)", club="Talleres (RdE)",
         porque="Las dos ruedas con Argentino de Quilmes estan bien y la equivocada es "
                "la tabla. La segunda tiene ademas una explicacion que la aritmetica no "
