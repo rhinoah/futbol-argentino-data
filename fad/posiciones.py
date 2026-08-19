@@ -300,7 +300,7 @@ def _canonico(nombre: str, articulo: str, pagina: str) -> str:
     porque las dos resoluciones tienen que ser la misma que la de los partidos:
     si una fila resuelve por un camino distinto, no falla, se saltea el cruce.
     """
-    return equipos.canonizar(nombre, articulo)
+    return correcciones.homonimo(pagina, equipos.canonizar(nombre, articulo))
 
 
 def fuera_del_padron(texto: str, arts: dict[str, str] | None = None,
