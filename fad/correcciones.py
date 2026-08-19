@@ -335,6 +335,55 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 MARCADORES: tuple[Marcador, ...] = (
     Marcador(
+        pagina="Torneo Argentino A 2011-12", jornada="Fecha 14",
+        local="Defensores de Belgrano (VR)", visita="Racing (O)",
+        dice=(1, 0), debe=(0, 1),
+        porque="El G-E-P de la tabla decia que un partido entero estaba al reves "
+               "en este par, y de los dos cruces la aritmetica dejaba vivo solo "
+               "este. Lo confirma la prensa de Olavarria, dos veces y con dos "
+               "manos distintas. Infoeme del 28/11/2011, el dia despues, cita al "
+               "zaguero de Racing hablando de \"este triunfo en Villa Ramallo\" y "
+               "publica las posiciones tras la 14a fecha; recalculadas desde la "
+               "grilla, esas posiciones solo salen con el 0-1. Y una nota de "
+               "Infoeme del 10/10/2012 repasa los cuatro cruces de 2011 entre los "
+               "dos clubes y nombra \"la victoria 1-0 en Ramallo con gol de "
+               "Baroni\" -- Gonzalo Baroni era delantero de Racing (O), lo "
+               "confirma su ficha en bdfa.com.ar --, o sea 0-1 para el visitante. "
+               "Un tercer testigo da el gol a los 53 de penal.\n"
+               "NO COPIA A WIKIPEDIA: esa misma nota de 2012 coincide con la "
+               "pagina en los otros TRES cruces de ese anio (el 0-0 de la fecha 3 "
+               "en el Buglione Martinese, el 1-0 de Racing por Copa Argentina y el "
+               "0-0 del Endecagonal) y difiere solo en este.\n"
+               "OJO CON RSSSF, que es la trampa de este caso: su GRILLA copia el "
+               "1-0 igual que Wikipedia, pero su propia TABLA da a Racing 34 "
+               "puntos y a Defensores 36, y esos totales solo cierran con el 0-1. "
+               "Arrastra la misma inconsistencia. Leer solo su grilla y darla por "
+               "verificacion fue un error que se cometio aca antes de corregirlo."),
+    Marcador(
+        pagina="Campeonato de Primera Nacional 2021", jornada="Fecha 17",
+        local="Gimnasia y Esgrima (J)", visita="Defensores de Belgrano",
+        dice=(3, 1), debe=(1, 3),
+        porque="El G-E-P de la tabla pedia un resultado invertido entre estos dos "
+               "y el otro cruce era imposible por aritmetica: quedaba este solo. "
+               "La cronica da los goles con su minuto -- Facundo Suarez a los 60 "
+               "para Gimnasia (J); Ivan Sandoval a los 43, Juan Manuel Olivares a "
+               "los 72 de penal y un tercero para Defensores --, que es "
+               "exactamente lo que no se puede copiar de una tabla.\n"
+               "NO COPIA A WIKIPEDIA: el archivo de ESPN reproduce el OTRO cruce "
+               "entre los mismos clubes en la misma temporada, la fecha 34 del "
+               "15/11/2021 en el Juan Pasquale, igual que la pagina, y difiere "
+               "solo en este."),
+    Marcador(
+        pagina="Campeonato de Primera B 2022 (Argentina)", jornada="Fecha 12",
+        local="Cañuelas", visita="Ituzaingó", dice=(2, 2), debe=(3, 2),
+        porque="Es el unico par de la pagina con el G-E-P corrido y tenia un solo "
+               "cruce posible. La cronica da los tres goles de Cañuelas con su "
+               "minuto: Lautaro Suarez Costa a los 40 y a los 80, y Gabriel "
+               "Mendoza a los 87. Un 2-2 no tiene donde poner el tercero.\n"
+               "NO COPIA A WIKIPEDIA, por partida doble: ESPN y RSSSF coinciden "
+               "con la pagina en el otro Cañuelas-Ituzaingó de 2022 -- el 1-1 del "
+               "Apertura, fecha 12, del 30/04/2022 -- y difieren solo en este."),
+    Marcador(
         pagina="Torneo Argentino A 2010-11", jornada="Fecha 7",
         local="Gimnasia y Esgrima (CdU)", visita="Central Norte (S)",
         dice=(2, 0), debe=(1, 0),
@@ -1360,6 +1409,86 @@ def arbitrados(pagina: str) -> set[tuple[str, str, str]]:
     quede no tiene que frenar la fecha.
     """
     return {(m.jornada, m.local, m.visita) for m in MARCADORES if m.pagina == pagina}
+
+
+@dataclass(frozen=True)
+class Revisado:
+    """Un desvio que se fue a verificar y resulto NO ser un error del dataset.
+
+    Es el tipo que le faltaba a este modulo, y su ausencia se notaba en el unico
+    lugar donde se nota de verdad: la lista de avisos no bajaba nunca. Los otros
+    seis tipos arreglan algo; este no arregla nada, y esa es exactamente su
+    funcion. Cuando la tabla de una pagina no cierra con su grilla, hay dos
+    desenlaces posibles y hasta ahora solo uno se podia anotar:
+
+      * la grilla esta mal -> entra un `Marcador` y el aviso desaparece porque el
+        dato cambio;
+      * la TABLA esta mal -> no hay nada que corregir, el aviso queda abierto, y
+        vuelve a aparecer en cada corrida hasta el fin de los tiempos.
+
+    El segundo desenlace es tan legitimo como el primero -- de seis casos que se
+    contrastaron contra la prensa, en dos la equivocada era la tabla -- y era el
+    que no tenia donde escribirse. Sin eso, verificar un aviso y no encontrarle
+    error se parece demasiado a no haberlo mirado: el proximo que pase lo va a
+    volver a investigar desde cero.
+
+    LA VARA ES LA MISMA QUE PARA CORREGIR, y tiene que serlo: silenciar un aviso
+    sin mirar es peor que dejarlo abierto. Asi que `porque` tiene que decir que
+    se verifico y contra que, con la fuente nombrada. Un `Revisado` sin fuente
+    externa solo vale cuando la prueba es INTERNA y cerrada -- el caso de los
+    goles que coinciden exacto, donde ningun partido puede explicar el desvio y
+    no hay a donde ir a buscar.
+
+    Y no se acumula en silencio: `revisados_huerfanos` denuncia al que ya no
+    engancha con ningun desvio, porque eso quiere decir que la pagina cambio y
+    que la verificacion que sostiene esta entrada quedo vieja.
+    """
+    pagina: str
+    club: str
+    porque: str
+
+
+REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Campeonato de Primera Nacional 2025", club="Defensores de Belgrano",
+        porque="Este no necesita fuente de afuera porque la prueba es interna y "
+               "cierra sola. La tabla dice 12-13-9 y la grilla da 12-12-10 -- un "
+               "empate menos y una derrota mas -- pero los GOLES coinciden exacto, "
+               "GF y GC. Un marcador mal leido mueve siempre los goles: cambiarle "
+               "un digito a un partido le toca el GF o el GC a los dos clubes. Un "
+               "resultado corrido con los goles intactos no lo puede explicar "
+               "ningun partido, asi que lo que esta mal es el G-E-P de la fila y "
+               "no hay a donde ir a buscar. Ademas no aparea con nadie: es el "
+               "unico club desviado de su zona."),
+)
+
+
+def revisado(pagina: str, club: str) -> Revisado | None:
+    """La verificacion que cierra el desvio de ese club, si alguien la hizo."""
+    for r in REVISADOS:
+        if r.pagina == pagina and r.club == club:
+            return r
+    return None
+
+
+def revisados_huerfanos(pagina: str, desviados: set[str]) -> list[str]:
+    """Los `Revisado` de esta pagina que ya no enganchan con ningun desvio.
+
+    Un `Revisado` silencia un aviso, asi que tiene que caducar solo. Si la pagina
+    se corrigio -- o si le cambiaron la tabla --, la verificacion que sostiene
+    esta entrada hablaba de otra cosa y hay que rehacerla. Sin esto, una entrada
+    vieja sigue tapando un desvio nuevo del mismo club y nadie se entera.
+    """
+    fuera = []
+    for r in REVISADOS:
+        if r.pagina != pagina or r.club in desviados:
+            continue
+        fuera.append(
+            f"la verificacion de {r.club} ya no engancha con ningun desvio: o la "
+            f"pagina se arreglo, o le cambiaron la tabla. Sacala de "
+            f"fad/correcciones.py, porque mientras siga ahi puede estar tapando "
+            f"un desvio nuevo del mismo club")
+    return fuera
 
 
 def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:

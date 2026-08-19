@@ -308,6 +308,14 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: una fila de la tabla no cierra sola", d,
                              grave=False)
                for d in posiciones.filas_que_no_cierran(texto, pagina=t.pagina)]
+    # Y las verificaciones que caducaron. Un `Revisado` silencia un aviso, asi
+    # que tiene que denunciarse solo cuando deja de enganchar: si la pagina
+    # cambio, esa verificacion hablaba de otra cosa y puede estar tapando un
+    # desvio nuevo del mismo club.
+    avisos += [validar.Aviso(f"{t.pagina}: una verificacion que ya no engancha", d,
+                             grave=False)
+               for d in correcciones.revisados_huerfanos(
+                   t.pagina, posiciones.clubes_desviados(ps, texto, pagina=t.pagina))]
     # Y los RESULTADOS, que es la otra mitad de la misma tabla: `contrastar`
     # pregunta cuantos goles y este pregunta quien gano. Separa un digito mal
     # leido de un partido entero al reves, y eso cambia que hay que ir a buscar.
@@ -330,13 +338,6 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # significa "la pagina no dijo nada".
     avisos += [validar.Aviso(f"{t.pagina}: un fallo que no se supo leer", d, grave=False)
                for d in parser.fallos_sin_leer(texto)]
-    # La tercera cosa que publica la pagina, despues de la grilla y la tabla: en
-    # que puesto iba cada club fecha por fecha. No se chequea el contenido -- eso
-    # pide simular la tabla y da 12% de ruido -- sino la FORMA de la columna, que
-    # se decide sola.
-    avisos += [validar.Aviso(f"{t.pagina}: la evolucion de posiciones no rankea", d,
-                             grave=False)
-               for d in posiciones.evolucion_mal_rankeada(texto)]
     # El resaltado de la grilla contra sus propios digitos. Es el UNICO uso
     # legitimo de ese color: acusa, nunca absuelve. Medido contra los 33
     # marcadores ya arbitrados, cuando el color acompania al numero banco al

@@ -172,8 +172,10 @@ MUTANTES = [
      "        if p.goles_local is None or p.goles_visita is None:"),
 
     ("fad/posiciones.py", "denunciar a un club de la tabla que no jugo",
-     "        if club not in contada:",
-     "        if False:"),
+     "        if club not in contada or correcciones.revisado(pagina, club):" + chr(10) +
+     "            continue" + chr(10) + "        pj2, gf2, gc2 = contada[club][:3]",
+     "        if correcciones.revisado(pagina, club):" + chr(10) +
+     "            continue" + chr(10) + "        pj2, gf2, gc2 = contada[club][:3]"),
 
     ("fad/fechas.py", "tomar la fecha de cualquier marcador distinto",
      "            if (p.jornada, p.local, p.visita) not in (arbitrados or ()):",
@@ -880,69 +882,43 @@ MUTANTES = [
      "                if (local, visita, gl, gv) in ya_arbitrados:",
      "                if (local, visita, gv, gl) in ya_arbitrados:"),
 
-    # --- la evolucion de las posiciones ---
-    ("fad/posiciones.py", "pedirle a la columna que sea una permutacion de 1..N",
-     "        if p != lugar and p != anterior:", "        if p != lugar:"),
+    ("fad/posiciones.py", "no distinguir la fila mal tipeada del partido al reves",
+     "        if tuple(datos[1:3]) == tuple(contada[club][1:3]):",
+     "        if False:"),
 
-    ("fad/posiciones.py", "aceptar cualquier ordinal despues de un empate",
-     "        if p != lugar and p != anterior:", "        if p != lugar and p < anterior:"),
+    ("fad/posiciones.py", "mandar a buscar un partido cuando los goles ya coinciden",
+     "        if tuple(datos[1:3]) == tuple(contada[club][1:3]):",
+     "        if tuple(datos[1:3]) != tuple(contada[club][1:3]):"),
 
-    ("fad/posiciones.py", "arrancar el ranking en cero",
-     "    anterior = 0" + chr(10) + "    for lugar, p in enumerate(sorted(posiciones), start=1):",
-     "    anterior = 0" + chr(10) + "    for lugar, p in enumerate(sorted(posiciones), start=0):"),
+    # --- el desvio verificado que no era nuestro ---
+    ("fad/posiciones.py", "callar el desvio revisado tambien en `contrastar` sin mirar la pagina",
+     "        if club not in contada or correcciones.revisado(pagina, club):" + chr(10) +
+     "            continue" + chr(10) + "        pj2, gf2, gc2 = contada[club][:3]",
+     "        if club not in contada or any(r.club == club for r in correcciones.REVISADOS):" + chr(10) +
+     "            continue" + chr(10) + "        pj2, gf2, gc2 = contada[club][:3]"),
 
-    ("fad/posiciones.py", "mirar la columna sin ordenarla",
-     "    for lugar, p in enumerate(sorted(posiciones), start=1):",
-     "    for lugar, p in enumerate(posiciones, start=1):"),
+    ("fad/posiciones.py", "callar el desvio revisado en todas las paginas",
+     "        if club not in contada or correcciones.revisado(pagina, club):" + chr(10) +
+     "            continue" + chr(10) + "        pj, suyo = datos[0], tuple(datos[3:6])",
+     "        if club not in contada or any(r.club == club for r in correcciones.REVISADOS):" + chr(10) +
+     "            continue" + chr(10) + "        pj, suyo = datos[0], tuple(datos[3:6])"),
 
-    ("fad/posiciones.py", "mirar tambien las columnas incompletas",
-     "        if len(columna) != clubes:" + chr(10) + "            continue",
-     "        if False:" + chr(10) + "            continue"),
+    ("fad/posiciones.py", "no callar nada aunque este revisado",
+     "        if club not in contada or correcciones.revisado(pagina, club):" + chr(10) +
+     "            continue" + chr(10) + "        pj, suyo = datos[0], tuple(datos[3:6])",
+     "        if club not in contada:" + chr(10) +
+     "            continue" + chr(10) + "        pj, suyo = datos[0], tuple(datos[3:6])"),
 
-    ("fad/posiciones.py", "numerar las fechas por posicion en vez de por encabezado",
-     "                if etiqueta.isdigit():" + chr(10) + "                    fechas.append(int(etiqueta))",
-     "                if etiqueta.isdigit():" + chr(10) + "                    fechas.append(len(fechas) + 1)"),
+    ("fad/correcciones.py", "no denunciar la verificacion que caduco",
+     "        if r.pagina != pagina or r.club in desviados:", "        if True:"),
 
-    ("fad/posiciones.py", "mirar cualquier tabla, no solo la de evolucion",
-     "        if not _CAB_EVOLUCION.search(bloque):", "        if False:"),
+    ("fad/correcciones.py", "dar por huerfano al que si engancha",
+     "        if r.pagina != pagina or r.club in desviados:",
+     "        if r.pagina != pagina:"),
 
-    # --- el cuadro: siembra, marcas con enlace, nombres que no resuelven ---
-    ("fad/parser.py", "dejarle al club la siembra pegada",
-     '            club = _SIEMBRA.sub("", club)', "            pass"),
-
-    ("fad/parser.py", "tomar por club a las marcas que llevan wikilink",
-     "            if articulo in _ARTICULOS_QUE_NO_SON_CLUB:", "            if False:"),
-
-    ("fad/parser.py", "descartar por el NOMBRE de la marca en vez de por su articulo",
-     "            if articulo in _ARTICULOS_QUE_NO_SON_CLUB:",
-     "            if club in _ARTICULOS_QUE_NO_SON_CLUB:"),
-
-    ("fad/posiciones.py", "volver a callarse con los nombres que el padron no reconoce",
-     "        if not equipos.buscar(crudo, articulo):" + chr(10) + "            desconocidos.append(",
-     "        if False:" + chr(10) + "            desconocidos.append("),
-
-    ("fad/posiciones.py", "perder los avisos de padron al juntarlos",
-     "    fuera = desconocidos + fuera", "    fuera = list(fuera)"),
-
-    # --- la tabla y la grilla dando distinto ganador ---
-    ("fad/posiciones.py", "comparar goles en vez de resultados",
-     "        mio = tuple(contada[club][3:6])", "        mio = tuple(contada[club][:3])"),
-
-    ("fad/posiciones.py", "opinar aunque las dos partes cuenten distintos partidos",
-     "        if contada[club][0] != pj:", "        if False:"),
-
-    ("fad/posiciones.py", "leer el G-E-P de la tabla corrido un lugar",
-     "        pj, suyo = datos[0], tuple(datos[3:6])",
-     "        pj, suyo = datos[0], tuple(datos[2:5])"),
-
-    ("fad/posiciones.py", "contar el empate como victoria del local",
-     "        if p.goles_local > p.goles_visita:" + chr(10) +
-     "            g[p.local] += 1" + chr(10) + "            pp[p.visita] += 1",
-     "        if p.goles_local >= p.goles_visita:" + chr(10) +
-     "            g[p.local] += 1" + chr(10) + "            pp[p.visita] += 1"),
-
-    ("fad/posiciones.py", "ensancharle la tupla a la tabla publica",
-     "            fuera[canonico] = tuple(datos[:3])", "            fuera[canonico] = datos"),
+    ("fad/posiciones.py", "preguntar por los desvios ya filtrados por revisado",
+     "            if club not in propios or propios[club][0] != datos[0]:",
+     "            if club not in propios or propios[club][0] != datos[0] or correcciones.revisado(pagina, club):"),
 
     ("fad/correcciones.py", "no agregar el partido que la pagina no deja leer",
      "        aplicadas += 1" + chr(10) + chr(10) + "    # Los homonimos van DESPUES",

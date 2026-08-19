@@ -8,8 +8,9 @@ un arbitro que opina de mas es peor que no tener arbitro.
 from __future__ import annotations
 
 import re
+from unittest import mock
 
-from fad import posiciones
+from fad import correcciones, posiciones
 from fad.parser import Partido
 
 
@@ -1053,98 +1054,6 @@ def test_las_marcas_no_entran_ni_al_leer_el_cuadro():
 
 
 # --------------------------------------------------------------------------
-# la evolucion de las posiciones
-# --------------------------------------------------------------------------
-def _evolucion(*filas: str, fechas=(1, 2)) -> str:
-    """Una tabla de evolucion con `fechas` columnas."""
-    cab = "\n".join(f"! {n}" for n in fechas)
-    return ('{| class="wikitable"\n! width="170" |Equipo / Fecha\n' + cab + "\n"
-            + "\n".join(filas) + "\n|}")
-
-
-def _fila(club: str, *posiciones) -> str:
-    return "|-\n|" + club + "\n|" + "||".join(f"{p}.º" for p in posiciones)
-
-
-def test_una_columna_sana_no_avisa():
-    tabla = _evolucion(_fila("Boca Juniors", 1, 2), _fila("River Plate", 2, 1),
-                       _fila("Lanús", 3, 3))
-    assert posiciones.evolucion_mal_rankeada(tabla) == []
-
-
-def test_el_empate_comparte_ordinal_y_saltea_el_siguiente():
-    """Dos clubes en 1.º y ninguno en 2.º es CORRECTO: es como se escribe un
-    empate. Pedirle a la columna que fuera una permutacion de 1..N daba 564
-    columnas "rotas" de 2928, y no habia ni una: eran 564 fechas con empates."""
-    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 1, 2),
-                       _fila("Lanús", 3, 3))
-    assert posiciones.evolucion_mal_rankeada(tabla) == []
-
-
-def test_el_salto_sin_empate_avisa():
-    """`[1, 2, 4]`: nadie empata en 2.º, asi que el tercero tiene que ser 3.º."""
-    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 2, 2),
-                       _fila("Lanús", 4, 3))
-    avisos = posiciones.evolucion_mal_rankeada(tabla)
-    assert len(avisos) == 1
-    assert "fecha 1" in avisos[0] and "dice 4.º" in avisos[0] and "Lanús" in avisos[0]
-
-
-def test_el_ordinal_de_mas_despues_de_un_empate_avisa():
-    """`[1, 1, 2]`: con dos primeros el que sigue es 3.º, nunca 2.º."""
-    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 1, 2),
-                       _fila("Lanús", 2, 3))
-    assert len(posiciones.evolucion_mal_rankeada(tabla)) == 1
-
-
-def test_una_columna_incompleta_no_se_mira():
-    """Si a un club le falta la celda, las posiciones no reparten 1..N y el hueco
-    no es un error de ranking sino una fecha que ese club no jugo. Son 119 de
-    2928 columnas."""
-    tabla = _evolucion("|-\n|Boca Juniors\n|1.º||1.º", "|-\n|River Plate\n|3.º||2.º",
-                       "|-\n|Lanús\n| ||3.º")
-    assert posiciones.evolucion_mal_rankeada(tabla) == []
-
-
-def test_la_fecha_sale_del_encabezado_y_no_de_la_posicion():
-    """Una tabla de segunda rueda arranca en la fecha 20. Contando desde 1 sus
-    columnas quedarian corridas diecinueve lugares y el aviso nombraria la fecha
-    equivocada, que es peor que no avisar."""
-    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 2, 2),
-                       _fila("Lanús", 4, 3), fechas=(20, 21))
-    avisos = posiciones.evolucion_mal_rankeada(tabla)
-    assert len(avisos) == 1 and "fecha 20" in avisos[0]
-
-
-def test_solo_mira_tablas_de_evolucion():
-    """Sin la cabecera `Equipo / Fecha` no es una tabla de evolucion, y una tabla
-    de posiciones cualquiera tiene numeros que se le parecen."""
-    tabla = ('{| class="wikitable"\n! Equipo\n! 1\n! 2\n'
-             + _fila("Boca Juniors", 1, 1) + "\n" + _fila("River Plate", 4, 2) + "\n|}")
-    assert posiciones.evolucion_mal_rankeada(tabla) == []
-
-
-def test_el_aviso_dice_que_no_habla_de_la_grilla():
-    """Es una errata de la tabla de evolucion. Verificar el CONTENIDO -- que el
-    puesto sea el que sale de la grilla -- pide simular la tabla fecha por fecha,
-    y esa version daba 12% de desvios: un modelo incompleto haciendo ruido."""
-    tabla = _evolucion(_fila("Boca Juniors", 1, 1), _fila("River Plate", 2, 2),
-                       _fila("Lanús", 4, 3))
-    assert "no dice nada sobre la grilla" in posiciones.evolucion_mal_rankeada(tabla)[0]
-
-
-def test_los_ordinales_se_escriben_de_varias_formas():
-    """`8.º`, `8º`, `8°` y `8` pelado conviven en el corpus."""
-    tabla = ('{| class="wikitable"\n! Equipo / Fecha\n! 1\n'
-             "|-\n|Boca Juniors\n|1.º\n|-\n|River Plate\n|2º\n"
-             "|-\n|Lanús\n|3°\n|-\n|Tigre\n|5\n|}")
-    avisos = posiciones.evolucion_mal_rankeada(tabla)
-    assert len(avisos) == 1 and "dice 5.º" in avisos[0]
-
-
-# --------------------------------------------------------------------------
-# la tabla y la grilla dando distinto ganador
-# --------------------------------------------------------------------------
 def _tabla_gep(*filas: str) -> str:
     """Una tabla con las ocho columnas: PTS PJ G E P GF GC DIF."""
     cab = ('{| class="wikitable"\n'
@@ -1214,3 +1123,123 @@ def test_la_tabla_publica_sigue_devolviendo_tres():
     llamador a saber de una columna que no le importa."""
     texto = _tabla_gep(_fila_gep("Boca Juniors", 4, 2, 1, 1, 0, 3, 1))
     assert posiciones.tabla(texto)["Boca Juniors"] == (2, 3, 1)
+
+
+def test_si_los_goles_coinciden_no_hay_partido_que_buscar():
+    """Un marcador mal leido mueve SIEMPRE los goles: cambiarle un digito le toca
+    el GF o el GC a los dos clubes. Asi que un resultado corrido con los goles
+    intactos no lo puede explicar ningun partido, y el aviso tiene que decir que
+    no hay nada que ir a buscar -- que es tan util como decir donde buscar.
+
+    Es uno en el corpus: Defensores de Belgrano en la Primera Nacional 2025, con
+    la tabla en 12-13-9 y la grilla en 12-12-10 sobre los mismos goles."""
+    ps = [zona("Boca Juniors", "River Plate", 1, 1),
+          zona("River Plate", "Boca Juniors", 2, 0)]
+    # Boca: grilla 0-1-1 con GF1 GC3; la tabla le pone 0-2-0 y los MISMOS goles
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 2, 2, 0, 2, 0, 1, 3),
+                       _fila_gep("River Plate", 4, 2, 1, 1, 0, 3, 1))
+    avisos = posiciones.resultados_que_no_coinciden(ps, texto)
+    boca = [a for a in avisos if a.startswith("Boca Juniors")]
+    assert len(boca) == 1
+    assert "los GOLES coinciden exacto" in boca[0]
+    assert "la que esta mal es la fila de la tabla" in boca[0]
+    assert "PARTIDO ENTERO" not in boca[0]
+
+
+def test_si_los_goles_tambien_se_desvian_manda_a_buscar_el_partido():
+    """La otra forma: ahi si hay un partido posible y el aviso dice como
+    localizarlo."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 3, 1, 1, 0, 0, 1, 0),
+                       _fila_gep("River Plate", 0, 1, 0, 0, 1, 0, 1))
+    aviso = [a for a in posiciones.resultados_que_no_coinciden(ps, texto)
+             if a.startswith("Boca Juniors")][0]
+    assert "PARTIDO ENTERO" in aviso
+    assert "el cruce entre los dos" in aviso
+    assert "no hay nada que ir a buscar" not in aviso
+
+
+# --------------------------------------------------------------------------
+# el desvio que se verifico y no era nuestro
+# --------------------------------------------------------------------------
+def test_un_revisado_calla_el_aviso_de_ese_club():
+    """Los otros seis tipos arreglan algo; este no arregla nada y esa es su
+    funcion. Cuando la equivocada es la TABLA no hay marcador que corregir, y sin
+    donde anotarlo el aviso volvia en cada corrida para siempre."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 3, 1, 1, 0, 0, 1, 0),
+                       _fila_gep("River Plate", 0, 1, 0, 0, 1, 0, 1))
+    assert posiciones.resultados_que_no_coinciden(ps, texto, pagina="Una Pagina")
+    r = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (r,)):
+        quedan = posiciones.resultados_que_no_coinciden(ps, texto, pagina="Una Pagina")
+    assert not [a for a in quedan if a.startswith("Boca Juniors")]
+
+
+def test_un_revisado_no_calla_a_otra_pagina():
+    """Una verificacion vale para la pagina en que se hizo. Aplicarla en todas
+    silenciaria desvios que nadie miro."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 3, 1, 1, 0, 0, 1, 0),
+                       _fila_gep("River Plate", 0, 1, 0, 0, 1, 0, 1))
+    r = correcciones.Revisado(pagina="Otra Pagina", club="Boca Juniors", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (r,)):
+        quedan = posiciones.resultados_que_no_coinciden(ps, texto, pagina="Una Pagina")
+    assert [a for a in quedan if a.startswith("Boca Juniors")]
+
+
+def test_un_revisado_que_ya_no_engancha_se_denuncia():
+    """Caduca solo. Si la pagina se arreglo, la verificacion hablaba de otra cosa
+    y mientras siga ahi puede tapar un desvio nuevo del mismo club."""
+    r = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (r,)):
+        assert correcciones.revisados_huerfanos("Una Pagina", {"Boca Juniors"}) == []
+        huerfanos = correcciones.revisados_huerfanos("Una Pagina", {"River Plate"})
+    assert len(huerfanos) == 1 and "Boca Juniors" in huerfanos[0]
+
+
+def test_los_huerfanos_se_preguntan_sobre_los_desvios_CRUDOS():
+    """`clubes_desviados` no filtra por revisado, y no es un detalle: si filtrara,
+    cada `Revisado` se justificaria a si mismo -- tapa el desvio, el desvio
+    desaparece, y por lo tanto nunca aparece como huerfano."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 3, 1, 1, 0, 0, 1, 0),
+                       _fila_gep("River Plate", 0, 1, 0, 0, 1, 0, 1))
+    r = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (r,)):
+        crudos = posiciones.clubes_desviados(ps, texto, pagina="Una Pagina")
+    assert "Boca Juniors" in crudos, "el revisado se tapo a si mismo"
+
+
+def test_cada_revisado_dice_contra_que_se_verifico():
+    """La vara es la misma que para corregir: silenciar un aviso sin mirar es peor
+    que dejarlo abierto. O nombra una fuente de afuera, o la prueba es INTERNA y
+    cerrada -- el caso de los goles que coinciden exacto, donde ningun partido
+    puede explicar el desvio y no hay a donde ir a buscar."""
+    for r in correcciones.REVISADOS:
+        assert len(r.porque) > 120, f"{r.pagina} {r.club}: la evidencia es muy flaca"
+        externa = any(f in r.porque for f in ("RSSSF", "rsssf", "cronica", "La ", "diario"))
+        interna = "prueba es interna" in r.porque or "otra mitad del par" in r.porque
+        assert externa or interna, f"{r.pagina} {r.club}: no dice contra que se verifico"
+
+
+def test_el_revisado_tambien_calla_el_aviso_de_goles_y_solo_en_su_pagina():
+    """El desvio de un club sale por DOS puertas -- `contrastar` mira los goles y
+    `resultados_que_no_coinciden` los resultados -- y una verificacion cierra las
+    dos: es el mismo desvio visto de dos maneras. Pero en las dos la entrada vale
+    para SU pagina, porque una verificacion se hizo sobre una tabla concreta."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 3, 1, 1, 0, 0, 5, 0),
+                       _fila_gep("River Plate", 0, 1, 0, 0, 1, 0, 5))
+    assert [a for a in posiciones.contrastar(ps, texto, pagina="Una Pagina")
+            if a.startswith("Boca Juniors")]
+
+    suya = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (suya,)):
+        assert not [a for a in posiciones.contrastar(ps, texto, pagina="Una Pagina")
+                    if a.startswith("Boca Juniors")]
+
+    ajena = correcciones.Revisado(pagina="Otra Pagina", club="Boca Juniors", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (ajena,)):
+        assert [a for a in posiciones.contrastar(ps, texto, pagina="Una Pagina")
+                if a.startswith("Boca Juniors")], "una verificacion ajena no puede callar"
