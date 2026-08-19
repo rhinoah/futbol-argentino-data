@@ -335,6 +335,78 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 MARCADORES: tuple[Marcador, ...] = (
     Marcador(
+        pagina="Campeonato de Primera B Nacional 2011-12", jornada="Fecha 17",
+        local="Huracán", visita="Defensa y Justicia", dice=(1, 3), debe=(2, 3),
+        porque="Falta el gol de Gaston Machin a los 43. El timeline de ESPN da los "
+               "cinco goles con minuto y autor -- Piriz Alvez 5 y 51 y Ricci 82 para "
+               "Defensa; Pablo Lopez 35 y Machin 43 para Huracan -- y ademas el "
+               "entretiempo 2-1 a favor de Huracan, que es incompatible con un 1-3: "
+               "con un solo gol no se puede ir ganando al descanso. El archivo del "
+               "propio club dice \"termino perdiendo 3 a 2\" y lista dos goleadores "
+               "quemeros.\n"
+               "NO COPIA A WIKIPEDIA: ESPN, el archivo del club y Transfermarkt "
+               "coinciden con la pagina en la otra rueda -- el 4-2 de la Fecha 36, y "
+               "ESPN hasta con sus seis goleadores -- y difieren solo en esta. Ademas "
+               "sumando los 38 partidos de Huracan en cualquiera de esas dos fuentes "
+               "da GF43 GC50, que es exactamente lo que dice la tabla; con el 1-3 da "
+               "42.\n"
+               "OJO CON RSSSF: arrastra el mismo 1-3 y la misma tabla, asi que su "
+               "grilla no cierra con su propia tabla. No sirve de arbitro aca."),
+    Marcador(
+        pagina="Torneo Argentino A 2011-12", jornada="Fecha 1",
+        local="Crucero del Norte", visita="Tiro Federal", dice=(0, 0), debe=(1, 1),
+        porque="Una cronica del 23/08/2011, dos dias despues del partido y con fuente "
+               "atribuida a afa.org.ar, resume la fecha entera: \"Crucero del Norte de "
+               "Posadas, con gol de Gabriel Mosevich, empato con Tiro Federal de "
+               "Rosario 1-1. Igualo, Bernardo Cuesta\". Es contemporanea y nombra a "
+               "los dos goleadores.\n"
+               "Y LA FILA DE ESA FECHA TIENE OTRA CELDA CORROMPIDA, que sirve de "
+               "testigo: en el mismo renglon, Talleres (C) - Libertad (S) figura hoy "
+               "como 2-0, pero la revision de Wikipedia de agosto de 2011 "
+               "(oldid=49189384) lo escribia 1-1 CON DOS REFERENCIAS, Soccerway y La "
+               "Voz del Interior. Alguien lo degrado despues. O sea que el que "
+               "escribio esta fila se comio goles en mas de un partido, y en el caso "
+               "que se puede auditar por historial la tabla tenia razon.\n"
+               "OJO CON RSSSF: su tabla es la oficial pero su grilla suma 30/20 y "
+               "25/27, o sea que falla su propia aritmetica igual que Wikipedia."),
+    Marcador(
+        pagina="Campeonato de Primera Nacional 2021", jornada="Fecha 19",
+        local="Almirante Brown", visita="Mitre (SdE)", dice=(1, 1), debe=(0, 0),
+        porque="La sintesis de Solo Ascenso trae las dos formaciones completas, el "
+               "arbitro (Hernan Mastrangelo), la hora de inicio y NINGUN gol. Un 1-1 "
+               "tendria dos goleadores que nadie nombra.\n"
+               "NO COPIA A WIKIPEDIA: coincide con la pagina en la otra rueda -- el "
+               "3-2 de la Fecha 2, con sus cinco goles y sus asistencias -- y difiere "
+               "solo en esta."),
+    Marcador(
+        pagina="Torneo Federal A 2017-18", jornada="Fecha 15",
+        local="Guaraní Antonio Franco", visita="Deportivo Mandiyú",
+        dice=(2, 1), debe=(4, 1),
+        porque="La cronica da los cinco goles: Alan Almiron a los 4 y a los 12, "
+               "Nicolas Monje a los 30, y los demas. Un 2-1 se come dos.\n"
+               "NO COPIA A WIKIPEDIA: la misma fuente coincide con la pagina en la "
+               "otra rueda entre estos clubes -- el 0-1 de la Fecha 6, con el gol de "
+               "Ostrowski sobre el final -- y difiere solo en esta."),
+    Marcador(
+        pagina="Torneo Federal A 2022", jornada="Fecha 2",
+        local="San Martín (F)", visita="Central Norte (S)", dice=(2, 2), debe=(0, 0),
+        porque="El Tribuno de Salta publico la cronica del partido esa misma noche: "
+               "\"igualo 0 a 0 con San Martin, por la segunda fecha de la zona 2 del "
+               "Federal A\", con los dos tiempos narrados sin goles. Ascenso del "
+               "Interior da el mismo 0-0 con las dos formaciones, escritas aparte "
+               "(difieren en un nombre de pila). Transfermarkt coincide.\n"
+               "NO COPIA A WIKIPEDIA: el mismo diario cubrio las dos ruedas y coincide "
+               "con la pagina en la otra, el 3-3 de la Fecha 19.\n"
+               "OJO, Y ES IMPORTANTE: esta correccion NO hace cerrar la pagina, y no "
+               "tiene por que. Los tres clubes desviados de esa zona -- San Martin (F), "
+               "Central Norte (S) y Crucero del Norte -- NO se desvian en espejo, asi "
+               "que ningun arreglo a un solo partido entre dos de ellos puede "
+               "reconciliar las tres filas: hay mas de un error. Con este arreglo la "
+               "fila de Central Norte cierra y la de San Martin se corre para el otro "
+               "lado. Se carga igual porque el marcador es el que se jugo, que es lo "
+               "que el dataset guarda; que la tabla siga sin cerrar es un problema de "
+               "la tabla."),
+    Marcador(
         pagina="Campeonato de Primera B 2024 (Argentina)", jornada="Fecha 8",
         local="Deportivo Armenio", visita="Argentino de Quilmes",
         dice=(3, 1), debe=(2, 1),
@@ -1557,6 +1629,53 @@ class Revisado:
 
 
 REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Campeonato de Primera C 2015 (Argentina)", club="Talleres (RdE)",
+        porque="Las dos ruedas con Argentino de Quilmes estan bien y la equivocada es "
+               "la tabla. La segunda tiene ademas una explicacion que la aritmetica no "
+               "podia adivinar: el 0-1 de la Fecha 36 es un resultado ADMINISTRATIVO. "
+               "En la cancha gano Argentino de Quilmes 1-0 y el Tribunal de Disciplina "
+               "se lo dio ganado a Talleres el 20/11/2015 por mala inclusion de un "
+               "jugador. La grilla publica el fallo, que es lo que corresponde.\n"
+               "El arreglo que pedia la aritmetica -- tres goles mas repartidos -- era "
+               "la senal de que el problema estaba del otro lado: una grilla no pierde "
+               "tres goles por un tipeo."),
+    Revisado(
+        pagina="Campeonato de Primera C 2015 (Argentina)", club="Argentino de Quilmes",
+        porque="La otra mitad del par con Talleres (RdE), incluido el partido que el "
+               "Tribunal le dio por perdido. Mismas fuentes, mismo desenlace: la grilla "
+               "tiene razon. Entrada propia porque el aviso se emite por club."),
+    Revisado(
+        pagina="Torneo Argentino A 2012-13", club="Ramón Santamarina",
+        porque="Las dos ruedas con Deportivo Maipu estan bien. La Fecha 5 fue 2-0 con "
+               "los goles de Roman Strada a los 33 segundos y Arnaldo Gonzalez a los 34 "
+               "del segundo tiempo. Y la Fecha 16 es otro resultado por fallo: iba 1-2 "
+               "cuando se suspendio a los 37 del segundo tiempo por incidentes de la "
+               "barra local con la policia, y se homologo 0-2. La grilla publica el "
+               "homologado.\n"
+               "Por eso el arreglo de cuatro goles que pedia la aritmetica no podia "
+               "existir: la tabla esta contando ese partido con una mezcla del marcador "
+               "de cancha y el de escritorio."),
+    Revisado(
+        pagina="Torneo Argentino A 2012-13", club="Deportivo Maipú",
+        porque="La otra mitad del par con Ramon Santamarina, incluido el partido "
+               "suspendido y homologado 0-2. Misma cronica, mismo desenlace. Entrada "
+               "propia porque el aviso es por club."),
+    Revisado(
+        pagina="Torneo Argentino A 2012-13", club="Juventud Unida Universitario",
+        porque="Las dos ruedas con Guillermo Brown estan bien. El 3-0 de la Fecha 8 lo "
+               "confirma una cronica con los goleadores y las jugadas. Y el 4-2 de la "
+               "Fecha 19 tiene una particularidad que explica el desvio: el partido se "
+               "jugo en DOS DIAS -- se suspendio 1-1 el 10/02 y se completo el 11/02 --, "
+               "asi que hay fuentes que lo cuentan partido y otras entero.\n"
+               "Ademas una tabla de Superdepor del 31/10/2012, contemporanea y anterior "
+               "a la fecha 19, ya trae los totales del torneo, o sea que no puede "
+               "derivar de la Wikipedia de hoy."),
+    Revisado(
+        pagina="Torneo Argentino A 2012-13", club="Guillermo Brown",
+        porque="La otra mitad del par con Juventud Unida Universitario, incluido el "
+               "partido que se jugo en dos dias. Mismas fuentes, mismo desenlace. "
+               "Entrada propia porque el aviso es por club."),
     Revisado(
         pagina="Campeonato de Primera B Nacional 2012-13", club="Atlético Tucumán",
         porque="El 2-0 de la grilla es el correcto y la tabla es la equivocada. La "
