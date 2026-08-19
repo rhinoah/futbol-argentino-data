@@ -308,6 +308,12 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: una fila de la tabla no cierra sola", d,
                              grave=False)
                for d in posiciones.filas_que_no_cierran(texto, pagina=t.pagina)]
+    # Y los RESULTADOS, que es la otra mitad de la misma tabla: `contrastar`
+    # pregunta cuantos goles y este pregunta quien gano. Separa un digito mal
+    # leido de un partido entero al reves, y eso cambia que hay que ir a buscar.
+    avisos += [validar.Aviso(f"{t.pagina}: la tabla y la grilla dan distinto ganador", d,
+                             grave=False)
+               for d in posiciones.resultados_que_no_coinciden(ps, texto, pagina=t.pagina)]
     # Y el PJ, que `contrastar` mira para CALLARSE y que aca se mira para hablar.
     avisos += [validar.Aviso(f"{t.pagina}: la tabla y la grilla cuentan distintos partidos", d,
                              grave=False)

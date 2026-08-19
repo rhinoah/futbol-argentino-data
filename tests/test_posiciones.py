@@ -7,6 +7,8 @@ un arbitro que opina de mas es peor que no tener arbitro.
 """
 from __future__ import annotations
 
+import re
+
 from fad import posiciones
 from fad.parser import Partido
 
@@ -1118,3 +1120,77 @@ def test_los_ordinales_se_escriben_de_varias_formas():
              "|-\n|Lanús\n|3°\n|-\n|Tigre\n|5\n|}")
     avisos = posiciones.evolucion_mal_rankeada(tabla)
     assert len(avisos) == 1 and "dice 5.º" in avisos[0]
+
+
+# --------------------------------------------------------------------------
+# la tabla y la grilla dando distinto ganador
+# --------------------------------------------------------------------------
+def _tabla_gep(*filas: str) -> str:
+    """Una tabla con las ocho columnas: PTS PJ G E P GF GC DIF."""
+    cab = ('{| class="wikitable"\n'
+           "! Pos !! Equipo !! Pts !! PJ !! G !! E !! P !! GF !! GC !! Dif\n")
+    return "== Tabla de posiciones ==\n" + cab + "\n".join(filas) + "\n|}"
+
+
+def _fila_gep(club, pts, pj, g, e, p, gf, gc):
+    return (f"|-\n| 1 || {club} || {pts} || {pj} || {g} || {e} || {p} || "
+            f"{gf} || {gc} || {gf - gc:+d}")
+
+
+def test_si_el_gep_coincide_no_avisa():
+    """Aunque los goles no cierren. Son dos preguntas distintas sobre la misma
+    tabla, y esta funcion solo contesta la de quien gano."""
+    ps = [zona("Boca Juniors", "River Plate", 3, 0),
+          zona("River Plate", "Boca Juniors", 1, 1)]
+    # Boca: 1 ganado 1 empatado; la tabla dice lo mismo pero le pone un gol de mas
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 4, 2, 1, 1, 0, 5, 1),
+                       _fila_gep("River Plate", 1, 2, 0, 1, 1, 1, 5))
+    assert posiciones.resultados_que_no_coinciden(ps, texto) == []
+
+
+def test_avisa_cuando_la_tabla_le_da_el_partido_al_otro():
+    ps = [zona("Boca Juniors", "River Plate", 0, 1),
+          zona("River Plate", "Boca Juniors", 1, 1)]
+    # la tabla le da a Boca una victoria que la grilla le da a River
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 4, 2, 1, 1, 0, 2, 2),
+                       _fila_gep("River Plate", 1, 2, 0, 1, 1, 2, 2))
+    avisos = posiciones.resultados_que_no_coinciden(ps, texto)
+    assert len(avisos) == 2
+    assert any("Boca Juniors" in a and "1-1-0" in a and "0-1-1" in a for a in avisos)
+
+
+def test_el_aviso_no_propone_un_marcador():
+    """Es un testigo de DIRECCION: dice quien gano, nunca cuantos goles. Un 2-1 y
+    un 3-0 le dan lo mismo, asi que proponer marcador seria inventar la magnitud."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 3, 1, 1, 0, 0, 1, 1),
+                       _fila_gep("River Plate", 0, 1, 0, 0, 1, 1, 1))
+    aviso = posiciones.resultados_que_no_coinciden(ps, texto)[0]
+    assert "PARTIDO ENTERO" in aviso
+    # los unicos numeros que trae son G-E-P y PJ; no hay marcador propuesto
+    assert not re.search(r"deber[ií]a|tendr[ií]a que|corregir a|marcador", aviso)
+
+
+def test_con_distinto_PJ_no_opina():
+    """Misma guarda que `contrastar` y por el mismo motivo: si las dos partes no
+    cuentan los mismos partidos, comparar no significa nada."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 3, 2, 1, 1, 0, 1, 1),
+                       _fila_gep("River Plate", 0, 2, 0, 1, 1, 1, 1))
+    assert posiciones.resultados_que_no_coinciden(ps, texto) == []
+
+
+def test_sumar_cuenta_los_resultados_junto_con_los_goles():
+    """Van juntos y no en dos recorridos: son las dos mitades de la misma
+    pregunta y tienen que salir del MISMO conjunto de partidos."""
+    ps = [zona("Boca Juniors", "River Plate", 2, 0),
+          zona("River Plate", "Boca Juniors", 1, 1)]
+    assert posiciones.sumar(ps)["Boca Juniors"] == (2, 3, 1, 1, 1, 0)
+    assert posiciones.sumar(ps)["River Plate"] == (2, 1, 3, 0, 1, 1)
+
+
+def test_la_tabla_publica_sigue_devolviendo_tres():
+    """`tabla` es la vieja y publica. Ensancharle la tupla obligaria a cada
+    llamador a saber de una columna que no le importa."""
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 4, 2, 1, 1, 0, 3, 1))
+    assert posiciones.tabla(texto)["Boca Juniors"] == (2, 3, 1)

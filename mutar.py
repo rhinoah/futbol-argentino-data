@@ -253,8 +253,8 @@ MUTANTES = [
      "    return True"),
 
     ("fad/posiciones.py", "comparar cada tabla contra el torneo entero y no contra su fase",
-     "        propios = sumar([p for p in ps if not alcance or p.llave == alcance])",
-     "        propios = sumar(ps)"),
+     "    return sumar([p for p in ps if not alcance or p.llave == alcance])",
+     "    return sumar(ps)"),
 
     ("fad/posiciones.py", "usar la seccion como alcance aunque no sea una llave de los partidos",
      "        return previos[-1] if previos and previos[-1] in llaves else \"\"",
@@ -923,6 +923,26 @@ MUTANTES = [
 
     ("fad/posiciones.py", "perder los avisos de padron al juntarlos",
      "    fuera = desconocidos + fuera", "    fuera = list(fuera)"),
+
+    # --- la tabla y la grilla dando distinto ganador ---
+    ("fad/posiciones.py", "comparar goles en vez de resultados",
+     "        mio = tuple(contada[club][3:6])", "        mio = tuple(contada[club][:3])"),
+
+    ("fad/posiciones.py", "opinar aunque las dos partes cuenten distintos partidos",
+     "        if contada[club][0] != pj:", "        if False:"),
+
+    ("fad/posiciones.py", "leer el G-E-P de la tabla corrido un lugar",
+     "        pj, suyo = datos[0], tuple(datos[3:6])",
+     "        pj, suyo = datos[0], tuple(datos[2:5])"),
+
+    ("fad/posiciones.py", "contar el empate como victoria del local",
+     "        if p.goles_local > p.goles_visita:" + chr(10) +
+     "            g[p.local] += 1" + chr(10) + "            pp[p.visita] += 1",
+     "        if p.goles_local >= p.goles_visita:" + chr(10) +
+     "            g[p.local] += 1" + chr(10) + "            pp[p.visita] += 1"),
+
+    ("fad/posiciones.py", "ensancharle la tupla a la tabla publica",
+     "            fuera[canonico] = tuple(datos[:3])", "            fuera[canonico] = datos"),
 
     ("fad/correcciones.py", "no agregar el partido que la pagina no deja leer",
      "        aplicadas += 1" + chr(10) + chr(10) + "    # Los homonimos van DESPUES",

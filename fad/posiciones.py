@@ -227,7 +227,8 @@ def _por_plantillas(bloque: str, arts: dict[str, str]) -> list[tuple[str, str, t
         if not club:
             continue
         fuera.append((club, articulo,
-                      (nums["g"] + nums["e"] + nums["p"], nums["gf"], nums["gc"])))
+                      (nums["g"] + nums["e"] + nums["p"], nums["gf"], nums["gc"],
+                       nums["g"], nums["e"], nums["p"])))
     return fuera
 
 
@@ -261,7 +262,11 @@ def tabla(texto: str, arts: dict[str, str] | None = None, pagina: str = "") -> d
     for club, articulo, datos in _todas_las_filas(texto, arts):
         canonico = _canonico(club, articulo, pagina)
         if canonico not in fuera or datos[0] > fuera[canonico][0]:
-            fuera[canonico] = datos
+            # Se recorta a (PJ, GF, GC) a proposito. Las filas traen tambien el
+            # G-E-P -- lo usa `resultados_que_no_coinciden` --, pero esta funcion
+            # es la vieja y publica, y ensancharle la tupla obligaria a cada
+            # llamador a saber de una columna que no le importa.
+            fuera[canonico] = tuple(datos[:3])
     return fuera
 
 
@@ -583,6 +588,72 @@ def filas_que_no_cierran(texto: str, arts: dict[str, str] | None = None,
     return [v for _, v in sorted(vistas.items())]
 
 
+def resultados_que_no_coinciden(ps: list, texto: str, arts: dict[str, str] | None = None,
+                                pagina: str = "") -> list[str]:
+    """Los clubes a los que la tabla y la grilla les cuentan distintos G-E-P.
+
+    `contrastar` compara GOLES y este compara RESULTADOS, y esa diferencia es
+    todo el punto. Los dos miran la misma tabla y la misma grilla, pero preguntan
+    cosas distintas: cuantos goles hubo, y quien gano. Un aviso de `contrastar`
+    hoy tapa dos averias que no se arreglan igual:
+
+      * si el G-E-P COINCIDE, todos los partidos de ese club estan del lado
+        correcto y lo que falla es un DIGITO. La correccion, si aparece, no puede
+        cambiar el resultado de ningun partido -- y eso refuta candidatos sin
+        mirar una sola fuente de afuera.
+      * si el G-E-P DIFIERE, y difiere en espejo con otro club, entonces hay un
+        partido entero al reves entre esos dos. Es mas grave y mas facil de
+        localizar: son los cruces del par donde el arreglo CAMBIA el ganador.
+
+    Es un testigo de direccion y no de magnitud: dice quien gano, nunca cuantos
+    goles. Por eso no propone marcadores -- un 2-1 y un 3-0 le dan lo mismo -- y
+    por eso vale, porque no es la misma pregunta que ya hace `contrastar`.
+
+    Medido sobre las 131 paginas: 545 clubes coinciden y 31 se desvian,
+    repartidos en 4 paginas. Y el desvio cae donde tiene que caer: tres de esas
+    cuatro son paginas cuya tabla ya no cerraba.
+
+    Lo que hizo en el Argentino A 2010-11, que es para lo que se escribio: sus
+    seis clubes desviados forman tres pares, y hasta aca los tres se veian igual.
+    El G-E-P los parte en dos clases -- dos pares con el G-E-P intacto y uno con
+    una victoria cambiada de dueno -- y con eso, de los nueve arreglos posibles
+    quedan cuatro: dos pares con candidato UNICO y uno con dos. Ninguno se aplica
+    -- localizar no es arbitrar --, pero el conjunto a verificar se achico a la
+    mitad y cada sobreviviente dice exactamente que hay que buscar.
+    """
+    arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
+    publicada, contada = {}, {}
+    for alcance, filas in _alcance_de_cada_tabla(texto, arts, ps, pagina):
+        propios = _propios_de(ps, alcance)
+        for club, datos in filas.items():
+            if len(datos) < 6:
+                continue
+            if club not in publicada or datos[0] > publicada[club][0]:
+                publicada[club] = datos
+                if club in propios:
+                    contada[club] = propios[club]
+    fuera = []
+    for club, datos in sorted(publicada.items()):
+        if club not in contada:
+            continue
+        pj, suyo = datos[0], tuple(datos[3:6])
+        # Misma guarda que `contrastar`, y por el mismo motivo: con distinta
+        # cantidad de partidos las dos partes no hablan del mismo conjunto y
+        # comparar no significa nada.
+        if contada[club][0] != pj:
+            continue
+        mio = tuple(contada[club][3:6])
+        if suyo == mio:
+            continue
+        fuera.append(
+            f"{club}: la tabla dice {suyo[0]}-{suyo[1]}-{suyo[2]} (G-E-P) en {pj} "
+            f"partidos y la grilla da {mio[0]}-{mio[1]}-{mio[2]}. No es un digito "
+            f"mal leido sino un PARTIDO ENTERO que las dos partes dan a distinto "
+            f"ganador. Buscá el otro club desviado al reves: el cruce entre los "
+            f"dos donde el arreglo cambie el ganador es el sospechoso")
+    return fuera
+
+
 def pj_que_no_coincide(ps: list, texto: str, arts: dict[str, str] | None = None,
                        pagina: str = "") -> list[str]:
     """Los clubes a los que la tabla y la grilla les cuentan distintos partidos.
@@ -779,15 +850,24 @@ def _por_wikitabla(bloque: str, arts: dict[str, str],
             if descartadas is not None:
                 descartadas.append((club, (pts, pj, pg, pe, pp, gf, gc, dif)))
             continue
-        fuera.append((club, articulo, (pj, gf, gc)))
+        fuera.append((club, articulo, (pj, gf, gc, pg, pe, pp)))
     return fuera
 
 
-def sumar(ps: list) -> dict[str, tuple[int, int, int]]:
-    """{club: (PJ, GF, GC)} sumando los partidos parseados."""
+def sumar(ps: list) -> dict[str, tuple[int, int, int, int, int, int]]:
+    """{club: (PJ, GF, GC, G, E, P)} sumando los partidos parseados.
+
+    El G-E-P va junto con los goles y no aparte porque son las dos mitades de la
+    misma pregunta y tienen que salir del MISMO conjunto de partidos. Sumarlos en
+    dos recorridos con dos filtros parecidos es exactamente como se cuelan los
+    desvios que despues nadie entiende.
+    """
     pj: Counter = Counter()
     gf: Counter = Counter()
     gc: Counter = Counter()
+    g: Counter = Counter()
+    e: Counter = Counter()
+    pp: Counter = Counter()
     for p in ps:
         # Solo la fase regular. La tabla de posiciones cuenta esos partidos y no
         # los del reducido ni los de la promocion, que viven en la misma pagina.
@@ -799,7 +879,16 @@ def sumar(ps: list) -> dict[str, tuple[int, int, int]]:
         gc[p.local] += p.goles_visita
         gf[p.visita] += p.goles_visita
         gc[p.visita] += p.goles_local
-    return {c: (pj[c], gf[c], gc[c]) for c in pj}
+        if p.goles_local > p.goles_visita:
+            g[p.local] += 1
+            pp[p.visita] += 1
+        elif p.goles_local < p.goles_visita:
+            g[p.visita] += 1
+            pp[p.local] += 1
+        else:
+            e[p.local] += 1
+            e[p.visita] += 1
+    return {c: (pj[c], gf[c], gc[c], g[c], e[c], pp[c]) for c in pj}
 
 
 _NIVEL_2 = re.compile(r"^==[^=][^\n]*==\s*$", re.M)
@@ -870,6 +959,17 @@ def _alcance_de_cada_tabla(texto: str, arts: dict[str, str], ps: list, pagina: s
             yield alcance, filas
 
 
+def _propios_de(ps: list, alcance: str) -> dict:
+    """Los partidos que le tocan a una tabla de ese alcance, ya sumados.
+
+    Existe para que `contrastar` y `resultados_que_no_coinciden` no puedan mirar
+    conjuntos distintos: preguntan cosas distintas -- cuantos goles y quien gano
+    -- sobre EL MISMO conjunto, y si el recorte se escribe dos veces, tarde o
+    temprano se escriben distinto.
+    """
+    return sumar([p for p in ps if not alcance or p.llave == alcance])
+
+
 def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
                pagina: str = "") -> list[str]:
     """Los clubes cuyos totales no coinciden con la tabla de la pagina.
@@ -889,7 +989,7 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
     # tablas se encontraran.
     publicada, contada = {}, {}
     for alcance, filas in _alcance_de_cada_tabla(texto, arts, ps, pagina):
-        propios = sumar([p for p in ps if not alcance or p.llave == alcance])
+        propios = _propios_de(ps, alcance)
         for club, datos in filas.items():
             if club not in publicada or datos[0] > publicada[club][0]:
                 publicada[club] = datos
@@ -899,13 +999,14 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
         return []
     # Cuantos clubes se desvian en total. Sirve para decir DE QUE LADO esta el
     # error, que es la mitad util del aviso -- ver `_de_quien_es_la_culpa`.
-    desviados = sum(1 for c, (pj, gf, gc) in publicada.items()
-                    if c in contada and contada[c][0] == pj and contada[c][1:] != (gf, gc))
+    desviados = sum(1 for c, (pj, gf, gc, *_) in publicada.items()
+                    if c in contada and contada[c][0] == pj
+                    and contada[c][1:3] != (gf, gc))
     fuera = []
-    for club, (pj, gf, gc) in sorted(publicada.items()):
+    for club, (pj, gf, gc, *_) in sorted(publicada.items()):
         if club not in contada:
             continue
-        pj2, gf2, gc2 = contada[club]
+        pj2, gf2, gc2 = contada[club][:3]
         # Si no coincide la CANTIDAD de partidos, las dos partes no estan
         # hablando del mismo conjunto -- una tabla por zona contra los partidos
         # de todas, o una temporada con reducido -- y comparar goles no significa
