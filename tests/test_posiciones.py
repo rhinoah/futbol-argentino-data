@@ -134,6 +134,19 @@ def test_un_club_de_la_tabla_que_no_jugo_no_se_denuncia():
 # --------------------------------------------------------------------------
 # los marcadores arbitrados
 # --------------------------------------------------------------------------
+def _prueba_de_no_copia(porque: str) -> bool:
+    """Si la entrada invoca la divergencia selectiva, escrita como se escriba.
+
+    Es una sola idea -- la fuente coincide con la pagina en los OTROS cruces entre
+    los mismos clubes y difiere solo en el discutido, cosa que una fuente derivada
+    no puede hacer -- y las entradas la redactan distinto. Buscar una frase
+    literal hacia que el test dependiera de como quedo escrita la primera.
+    """
+    b = porque.lower()
+    return ("no copia a wikipedia" in b or "no copian a wikipedia" in b
+            or "no la esta copiando" in b or "no esta copiando" in b)
+
+
 def test_los_marcadores_arbitrados_estan_justificados():
     """Cada correccion tiene que nombrar a su testigo.
 
@@ -165,8 +178,7 @@ def test_los_marcadores_arbitrados_estan_justificados():
         prensa = any(p in m.porque for p in ("gol", "Boletin"))
         # la tercera forma pide DOS cosas: que la fuente diverja, y que se diga
         # en que otro partido coincide. Sin lo segundo no se puede auditar.
-        no_copia = "no la esta copiando" in m.porque or "no esta copiando" in m.porque
-        assert tabla_ or prensa or no_copia, (
+        assert tabla_ or prensa or _prueba_de_no_copia(m.porque), (
             f"{m.jornada} {m.local}: el testigo no queda nombrado")
 
 
@@ -179,8 +191,7 @@ def test_la_prensa_arbitro_los_que_la_tabla_no_podia():
                   if "tabla de posiciones" not in m.porque]
     assert por_prensa, "ninguna correccion se apoya en la prensa: se perdio el metodo"
     for m in por_prensa:
-        no_copia = "no la esta copiando" in m.porque or "no esta copiando" in m.porque
-        assert "gol" in m.porque or "Boletin" in m.porque or no_copia, (
+        assert "gol" in m.porque or "Boletin" in m.porque or _prueba_de_no_copia(m.porque), (
             f"{m.jornada} {m.local}: sin tabla, sin goleadores y sin la prueba de "
             f"que la fuente no copia a la pagina, no hay evidencia")
 

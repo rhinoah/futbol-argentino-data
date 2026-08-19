@@ -256,7 +256,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2011-08-17,19:10,Belgrano,Olimpo,1,1,,,Primera Division - Apertura,2011,zonas,,Fecha 2,Gigante de Alberdi,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina),
 2011-08-17,21:15,Racing Club,Godoy Cruz,3,0,,,Primera Division - Apertura,2011,zonas,,Fecha 2,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina),
 2011-08-19,19:10,Quilmes,Almirante Brown,2,0,,,Primera Nacional,2011,zonas,,Fecha 2,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12,
-2011-08-19,21:05,Talleres (C),Libertad (S),2,0,,,Torneo Argentino A,2011,zonas,,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12,
+2011-08-19,21:05,Talleres (C),Libertad (S),1,1,,,Torneo Argentino A,2011,zonas,,Fecha 1,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12,
 2011-08-19,21:15,Arsenal,Vélez Sarsfield,0,1,,,Primera Division - Apertura,2011,zonas,,Fecha 3,El Viaducto,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2011_(Argentina),
 2011-08-19,22:00,Gimnasia y Tiro (S),Central Córdoba (SdE),1,0,,,Torneo Argentino A,2011,zonas,,Fecha 1,El Gigante del Norte,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12,
 2011-08-20,11:00,Huracán,Gimnasia y Esgrima (J),0,2,,,Primera Nacional,2011,zonas,,Fecha 2,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12,
@@ -1459,7 +1459,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2012-03-10,20:00,Aldosivi,Boca Unidos,2,1,,,Primera Nacional,2011,zonas,,Fecha 24,José María Minella,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12,
 2012-03-11,17:00,Acassuso,Tristán Suárez,3,2,,,Primera B,2011,zonas,,Fecha 30,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina),
 2012-03-11,17:00,Brown de Adrogué,Defensores de Belgrano,3,0,,,Primera B,2011,zonas,,Fecha 30,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2011-12_(Argentina),
-2012-03-11,17:00,Chacarita Juniors,Atlanta,0,1,,,Primera Nacional,2011,zonas,,Fecha 24,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2011-12,escritorio
 2012-03-11,17:00,Cipolletti,Deportivo Maipú,1,0,,,Torneo Argentino A,2011,zonas,,Fecha 1,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2011-12,
 2012-03-11,17:00,Deportivo Laferrere,San Miguel,3,0,,,Primera C,2011,zonas,,Fecha 27,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina),
 2012-03-11,17:00,Ferrocarril Midland,Sacachispas,4,1,,,Primera C,2011,zonas,,Fecha 27,Ciudad de Libertad,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina),

@@ -335,6 +335,67 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 MARCADORES: tuple[Marcador, ...] = (
     Marcador(
+        pagina="Torneo Argentino A 2011-12", jornada="Fecha 1",
+        local="Talleres (C)", visita="Libertad (S)", dice=(2, 0), debe=(1, 1),
+        porque="Soccerway contemporaneo, rescatado del Web Archive con capturas de "
+               "2011: la ficha de la fecha 1 da \"Talleres Cordoba vs. Libertad "
+               "1 - 1\" con entretiempo 0-0, y los goles de Claudio Riano a los 49 "
+               "para Talleres y Paolo Berardi a los 56 para Libertad. Un 2-0 no "
+               "tiene donde poner el gol de Libertad.\n"
+               "NO COPIA A WIKIPEDIA: la ficha archivada de la fecha 14, del mismo "
+               "sitio y del mismo mes, da el 1-2 igual que la pagina. Coincide en "
+               "una rueda y difiere en la otra.\n"
+               "Y OJO CON RSSSF, que aca vuelve a ser la trampa: su grilla copia el "
+               "mismo 2-0 que Wikipedia. Mirarle solo la grilla habria confirmado "
+               "el error."),
+    Marcador(
+        pagina="Torneo Federal A 2024", jornada="Fecha 11",
+        local="Independiente (C)", visita="El Linqueño", dice=(0, 0), debe=(0, 1),
+        porque="Dos sitios de ascenso con cronica propia dan Independiente de "
+               "Chivilcoy 0 - El Linqueño 1, con el gol de Andres Mc Cormick sobre "
+               "el final: Solo Ascenso (sintesis 41178, estadio Raul Lungarzo, "
+               "arbitro Cristian Rubiano) y Ascenso del Interior (nota 33058, que "
+               "ademas cuenta un penal errado). Un 0-0 no tiene donde ponerlo.\n"
+               "NO COPIAN A WIKIPEDIA: los dos coinciden con la pagina en la fecha 2 "
+               "(0-0 en Lincoln, estadio Leonardo Costa, arbitro Billone) y en un "
+               "tercer cruce. Difieren solo en este."),
+    Marcador(
+        pagina="Torneo Federal A 2023", jornada="Fecha 11",
+        local="Douglas Haig", visita="Independiente (C)", dice=(1, 0), debe=(0, 1),
+        porque="La prensa de las DOS ciudades cuenta el mismo partido desde lados "
+               "opuestos y coincide: La Razon de Chivilcoy titula \"Enorme triunfo "
+               "de Independiente en Pergamino\" y La Opinion de Pergamino, "
+               "\"Douglas Haig perdio su invicto como local\". Los dos diarios "
+               "narran una derrota del local. RSSSF ademas lo publica en su grilla "
+               "de la Zona 3: \"CA Douglas Haig 0- 1 CA Independiente\".\n"
+               "NO COPIA A WIKIPEDIA: en 2023 estos dos se cruzaron CUATRO veces "
+               "(zona de 9 clubes, cuadruple rueda) y las fuentes coinciden con la "
+               "pagina en las otras tres. Difieren solo en esta."),
+    Marcador(
+        pagina="Torneo Federal A 2023", jornada="Fecha 11",
+        local="Unión (S)", visita="Sportivo Las Parejas", dice=(0, 1), debe=(1, 0),
+        porque="Ascenso del Interior publica una cronica propia de cada rueda, con "
+               "formaciones, cuerpo arbitral y estadio. La de esta (nota 31594) "
+               "titula \"Union (Sunchales) 1 - 0 Sportivo A.C. (L. Parejas)\" y "
+               "cuenta que \"Alexandro Ponce hizo estallar el festejo Albiverde en "
+               "tiempo de descuento\". RSSSF coincide.\n"
+               "NO COPIA A WIKIPEDIA: su cronica de la fecha 2 (nota 31240) da "
+               "\"Sportivo A.C. 1 - 0 Union\" con gol de Jonatan Font a los 67, "
+               "igual que la pagina. Coincide en una rueda y difiere en esta."),
+    Marcador(
+        pagina="Torneo Federal A 2023", jornada="Fecha 34",
+        local="Crucero del Norte", visita="Central Norte (S)", dice=(1, 2), debe=(1, 1),
+        porque="La pagina publica la fecha 34 con el MISMO marcador que la fecha 16, "
+               "y no es casualidad: le copio el resultado. Ascenso del Interior tiene "
+               "las dos ruedas en notas separadas, con sintesis propia cada una -- la "
+               "31733 da la fecha 16 como Crucero 1-2 Central Norte (Reyes a los 5, "
+               "Rostagno a los 37), y la 32136 da la fecha 34, en el Comandante "
+               "Andres Guacurari, como Crucero 1-1 Central Norte, con Ivan Benitez a "
+               "los 44 y el empate de Central Norte.\n"
+               "NO COPIA A WIKIPEDIA: coincide con la pagina en las otras ruedas, "
+               "incluido el 1-1 de Salta de la fecha 25 que confirma tambien el sitio "
+               "oficial de Crucero del Norte."),
+    Marcador(
         pagina="Torneo Argentino A 2011-12", jornada="Fecha 14",
         local="Defensores de Belgrano (VR)", visita="Racing (O)",
         dice=(1, 0), debe=(0, 1),
@@ -994,6 +1055,27 @@ class Dividido:
 
 DIVIDIDOS: tuple[Dividido, ...] = (
     Dividido(
+        pagina="Campeonato de Primera B Nacional 2011-12",
+        local="Chacarita Juniors", visita="Atlanta", dice=(0, 1),
+        porque="El clasico del 11/03/2012 termino 1-1 en la cancha -- Lucas "
+               "Mancinelli a los 53 para Atlanta y Sebastian Pena en el descuento "
+               "para Chacarita, lo dan ESPN y la cronica de La Nacion \"Pena se "
+               "vistio de heroe para Chacarita\" --, y despues el Tribunal de "
+               "Disciplina fallo por los incidentes de la parcialidad local.\n"
+               "Y fallo ASIMETRICO, que es lo que lo trae a esta familia: a "
+               "Chacarita le dio el partido por perdido y ademas le quito un punto; "
+               "Atlanta conservo el punto del empate. La aritmetica lo confirma sin "
+               "ambiguedad en la tabla final, que es la misma en Wikipedia y en "
+               "RSSSF: Atlanta 6-16-16 y 34 puntos, que exige EMPATE aca (con la "
+               "victoria serian 36), y Chacarita 6-15-17 y 32, que es una derrota "
+               "mas la quita. El mismo partido con dos resultados segun de que lado "
+               "se lo mire.\n"
+               "La grilla lo publica como 0-1, o sea afirmando que Atlanta GANO un "
+               "partido que Atlanta empato. Sale, como los otros: una fila tiene un "
+               "home_score y un away_score y aca hay dos resultados.\n"
+               "RSSSF lo escribe explicito y vale citarlo: \"Chacarita Juniors 1-1 "
+               "Atlanta [Later Atlanta won points 0-1]\"."),
+    Dividido(
         pagina="Anexo:Torneo Clausura 2005 (Argentina)",
         local="Almagro", visita="Boca Juniors", dice=(0, 2),
         porque="la nota dice: Suspendido por invasion de campo [...] a los 64', con "
@@ -1449,6 +1531,38 @@ class Revisado:
 
 
 REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Torneo Federal A 2025", club="Cipolletti",
+        porque="Las dos ruedas con Villa Mitre se fueron a verificar y las dos "
+               "estan bien: la fecha 4 (Villa Mitre 0-2 Cipolletti, goles de "
+               "Cristian Ibarra a los 23 de chilena y de Gonzalo Crespo) la cuentan "
+               "La Nueva de Bahia Blanca y LM Cipolletti, o sea la prensa de las dos "
+               "ciudades desde lados opuestos; y la fecha 13 (Cipolletti 1-1 Villa "
+               "Mitre, Enzo Gonzalez 37 PT y Matias Paez 41) la publica Ascenso del "
+               "Interior. Ademas las cronicas traen los puntajes acumulados que "
+               "calcula el periodista, y esos totales solo cierran con estos "
+               "marcadores. No hay nada que corregir en la grilla: la equivocada es "
+               "la tabla de posiciones."),
+    Revisado(
+        pagina="Torneo Federal A 2025", club="Villa Mitre",
+        porque="La otra mitad del par con Cipolletti: sus deltas son los de aquel. "
+               "Las mismas dos ruedas verificadas con la prensa de Bahia Blanca y de "
+               "Cipolletti, mismo desenlace. Va como entrada propia porque el aviso "
+               "se emite POR CLUB, y callar uno solo dejaria el par denunciado a "
+               "medias."),
+    Revisado(
+        pagina="Torneo Federal A 2025", club="Círculo Deportivo",
+        porque="Las dos ruedas con Sol de Mayo verificadas y las dos estan bien. La "
+               "fecha 6 (Circulo Deportivo 1-0, gol de Imanol Iriberri de penal a "
+               "los 31) la cuentan TRES diarios de las dos puntas -- Rio Negro y "
+               "NoticiasNet desde Viedma, El Marplatense desde Otamendi --, cada uno "
+               "con el goleador y su minuto. La fecha 15 (Sol de Mayo 4-1) tambien "
+               "queda confirmada. La equivocada es la tabla."),
+    Revisado(
+        pagina="Torneo Federal A 2025", club="Sol de Mayo (V)",
+        porque="La otra mitad del par con Circulo Deportivo: mismas dos ruedas, "
+               "mismas fuentes de las dos ciudades, mismo desenlace. Entrada propia "
+               "porque el aviso es por club."),
     Revisado(
         pagina="Campeonato de Primera Nacional 2025", club="Defensores de Belgrano",
         porque="Este no necesita fuente de afuera porque la prueba es interna y "
