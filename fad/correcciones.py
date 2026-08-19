@@ -335,6 +335,32 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 MARCADORES: tuple[Marcador, ...] = (
     Marcador(
+        pagina="Campeonato de Primera B 2024 (Argentina)", jornada="Fecha 8",
+        local="Deportivo Armenio", visita="Argentino de Quilmes",
+        dice=(3, 1), debe=(2, 1),
+        porque="La cronica da los dos goles con su minuto y no hay un tercero: Tomas "
+               "Jerez Sayago a los 51 para Armenio y Alejo Osella en contra a los 84, "
+               "que es el gol de Argentino de Quilmes. Un 3-1 no tiene donde poner el "
+               "que falta.\n"
+               "NO COPIA A WIKIPEDIA: la misma fuente reproduce el resto de la fecha "
+               "igual que la pagina y difiere solo en este."),
+    Marcador(
+        pagina="Torneo Federal A 2024", jornada="Fecha 10",
+        local="Atenas (RC)", visita="Ferro Carril Oeste (GP)", dice=(2, 0), debe=(1, 0),
+        porque="Un solo gol, de Ezequiel Bardin de penal sobre el cierre del segundo "
+               "tiempo, y las cronicas lo cuentan como el unico del partido. El 2-0 "
+               "de la grilla le agrega uno que nadie convirtio.\n"
+               "NO COPIA A WIKIPEDIA: las fuentes coinciden con la pagina en los otros "
+               "partidos de la fecha."),
+    Marcador(
+        pagina="Campeonato de Primera B 2021 (Argentina)", jornada="Fecha 5",
+        local="Defensores Unidos", visita="Los Andes", dice=(0, 1), debe=(0, 2),
+        porque="El historial del propio club visitante da dos goles, de Facundo "
+               "Quintana y E. Lopez. El 0-1 se come uno.\n"
+               "NO COPIA A WIKIPEDIA: es un historial de club, armado partido por "
+               "partido desde su propio archivo, y coincide con la pagina en el resto "
+               "del torneo."),
+    Marcador(
         pagina="Torneo Argentino A 2011-12", jornada="Fecha 1",
         local="Talleres (C)", visita="Libertad (S)", dice=(2, 0), debe=(1, 1),
         porque="Soccerway contemporaneo, rescatado del Web Archive con capturas de "
@@ -1531,6 +1557,108 @@ class Revisado:
 
 
 REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Campeonato de Primera B Nacional 2012-13", club="Atlético Tucumán",
+        porque="El 2-0 de la grilla es el correcto y la tabla es la equivocada. La "
+               "Gaceta de Tucuman, en una nota sobre el gol de Gabriel Mendez desde "
+               "mitad de cancha, dice textual que \"Atletico ya ganaba 1-0 y se jugaba "
+               "tiempo de descuento\": eso CUENTA los goles y excluye cualquier otro "
+               "entre el 1-0 y el descuento. El compilado historiayfutbol lista los "
+               "goleadores de esa fecha y en este partido nombra exactamente dos, Luis "
+               "Rodriguez y Gabriel Mendez. La unica fuente que da 3-0 es ESPN, que "
+               "agrega un gol en contra a los 76 que no aparece en ninguna otra parte "
+               "-- un gol fantasma en su feed, no uno que se le escapo a la cronica."),
+    Revisado(
+        pagina="Campeonato de Primera B Nacional 2012-13", club="Olimpo",
+        porque="La otra mitad del par con Atletico Tucuman. Mismo partido verificado "
+               "con La Gaceta y el compilado de goleadores, mismo desenlace: la grilla "
+               "tiene razon. Entrada propia porque el aviso se emite por club."),
+    Revisado(
+        pagina="Campeonato de Primera B Nacional 2013-14", club="Talleres (C)",
+        porque="El 1-4 de la grilla esta bien y el arreglo que pedia la aritmetica "
+               "(1-8) era la senal de que el problema estaba del otro lado: cuatro "
+               "goles de diferencia no son un digito mal transcripto. La cronica da "
+               "los cinco goles con su minuto -- Juan Sanchez Sotelo de penal a los 35 "
+               "para Talleres; Sproat a los 32, Guerrero y los demas para Brown --. La "
+               "equivocada es la fila de la tabla."),
+    Revisado(
+        pagina="Campeonato de Primera B Nacional 2013-14", club="Brown de Adrogué",
+        porque="La otra mitad del par con Talleres (C): mismo partido, misma cronica "
+               "con los cinco goleadores, mismo desenlace. Entrada propia porque el "
+               "aviso es por club."),
+    Revisado(
+        pagina="Campeonato de Primera B Nacional 2014", club="Instituto",
+        porque="El 1-2 de la grilla esta bien. La cronica da los tres goles con su "
+               "minuto: Gotti a los 30 y Bernardi a los 61 para Instituto, Pinero da "
+               "Silva a los 66 para Guarani. El 0-2 que pedia la tabla borraria un gol "
+               "que la cronica nombra con su autor. La equivocada es la tabla."),
+    Revisado(
+        pagina="Campeonato de Primera B Nacional 2014", club="Guaraní Antonio Franco",
+        porque="La otra mitad del par con Instituto: el gol que la tabla querria "
+               "borrar es justamente el suyo, el de Pinero da Silva a los 66. Entrada "
+               "propia porque el aviso es por club."),
+    Revisado(
+        pagina="Campeonato de Primera C 2015 (Argentina)", club="Central Córdoba (R)",
+        porque="El 0-2 de la grilla esta bien: los dos goles son de Central Cordoba de "
+               "Rosario, Cristian Vella a los 7 y Federico Ferrari a los 87, los dos "
+               "con su minuto en la cronica. El 0-1 que pedia la tabla tendria que "
+               "borrar uno de esos dos. La equivocada es la tabla."),
+    Revisado(
+        pagina="Campeonato de Primera C 2015 (Argentina)", club="Sacachispas",
+        porque="La otra mitad del par con Central Cordoba (R): mismo partido, misma "
+               "cronica con los dos goleadores. Entrada propia porque el aviso es por "
+               "club."),
+    Revisado(
+        pagina="Torneo Argentino A 2010-11", club="Sportivo Belgrano",
+        porque="Este es el mas interesante de los cinco: el 0-2 de la grilla es un "
+               "resultado HOMOLOGADO, no el que quedo en la cancha. La cronica de La "
+               "Voz del Interior del 25/04/2011, rescatada del Web Archive, da el "
+               "partido 1-2 -- Perez a los 27 del primer tiempo para Sportivo "
+               "Belgrano; Oga a los 5 y Serrizuela a los 39 del segundo para Central "
+               "Norte -- y cuenta que a los 43 del segundo tiempo expulsaron al arquero "
+               "Barucco, la hinchada local desbordo y el arbitro Ariel Montero "
+               "suspendio el partido a los 44. Se homologo 0-2.\n"
+               "Por eso el arreglo de 1-4 que pedia la aritmetica es un artefacto: la "
+               "tabla no esta contando este partido con el marcador de la cancha ni "
+               "con el homologado, sino con una mezcla. La grilla publica el "
+               "homologado, que es lo que corresponde. No hay nada que corregir."),
+    Revisado(
+        pagina="Torneo Argentino A 2010-11", club="Central Norte (S)",
+        porque="La otra mitad del par con Sportivo Belgrano, en el partido suspendido "
+               "y homologado 0-2. Misma cronica de La Voz del Interior, mismo "
+               "desenlace. Entrada propia porque el aviso es por club."),
+    Revisado(
+        pagina="Campeonato de Primera B Nacional 2009-10", club="Platense",
+        porque="Se desvia SOLO, y eso alcanza para cerrarlo sin fuente de afuera. Un "
+               "marcador mal leido toca siempre a dos clubes, con deltas espejados; "
+               "aca ningun otro club de la tabla se desvia y ninguno de los rivales de "
+               "Platense quedo fuera del cruce -- la tabla y la grilla les cuentan a "
+               "todos los mismos partidos --, asi que no hay ningun partido que pueda "
+               "explicarlo. La equivocada es la fila de la tabla."),
+    Revisado(
+        pagina="Anexo:Torneo Final 2013 (Argentina)", club="Unión",
+        porque="Se desvia solo y ninguno de sus rivales quedo fuera del cruce, asi que "
+               "ningun partido puede explicarlo: un marcador mal leido movería a dos "
+               "clubes y aca se mueve uno. La equivocada es la fila de la tabla, no la "
+               "grilla. Es la misma prueba interna que cierra a Platense en el B "
+               "Nacional 2009-10."),
+    Revisado(
+        pagina="Copa de la Liga Profesional 2023", club="Racing Club",
+        porque="Se desvia solo en su zona y ninguno de sus rivales quedo fuera del "
+               "cruce. Sin un segundo club desviado en espejo no hay partido que "
+               "explique la diferencia, asi que la fila de la tabla es la que esta "
+               "mal. Prueba interna, no hace falta fuente externa."),
+    Revisado(
+        pagina="Campeonato de Primera C 2024 (Argentina)", club="J. J. de Urquiza",
+        porque="Se desvia solo en el Torneo Clausura y todos sus rivales son "
+               "comparables. Ningun marcador mal leido puede mover a un club sin mover "
+               "a otro, asi que la equivocada es la fila de la tabla."),
+    Revisado(
+        pagina="Torneo Federal A 2016-17", club="Gutiérrez",
+        porque="Se desvia solo en la primera fase y ninguno de sus rivales quedo fuera "
+               "del cruce. Su delta es ademas de dos goles en cada columna, que "
+               "necesitaria dos partidos mal leidos y por lo tanto hasta cuatro clubes "
+               "desviados; no hay ninguno mas. La equivocada es la fila de la tabla."),
     Revisado(
         pagina="Torneo Federal A 2025", club="Cipolletti",
         porque="Las dos ruedas con Villa Mitre se fueron a verificar y las dos "

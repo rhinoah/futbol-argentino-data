@@ -1229,8 +1229,16 @@ def test_cada_revisado_dice_contra_que_se_verifico():
     puede explicar el desvio y no hay a donde ir a buscar."""
     for r in correcciones.REVISADOS:
         assert len(r.porque) > 120, f"{r.pagina} {r.club}: la evidencia es muy flaca"
-        externa = any(f in r.porque for f in ("RSSSF", "rsssf", "cronica", "La ", "diario"))
-        interna = "prueba es interna" in r.porque or "otra mitad del par" in r.porque
+        externa = any(f in r.porque for f in
+                       ("RSSSF", "rsssf", "cronica", "La ", "diario", "compilado",
+                        "historial", "Web Archive"))
+        # La prueba INTERNA de este modulo es una sola y siempre la misma: el club
+        # se desvia solo, y un marcador mal leido toca a dos. Se la reconoce por la
+        # idea y no por como quedo redactada la primera entrada, que es el error
+        # que ya se cometio con la prueba de no-copia.
+        interna = any(f in r.porque.lower() for f in
+                      ("prueba es interna", "prueba interna", "se desvia solo",
+                       "otra mitad del par"))
         assert externa or interna, f"{r.pagina} {r.club}: no dice contra que se verifico"
 
 
