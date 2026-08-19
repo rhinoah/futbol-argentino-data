@@ -335,6 +335,29 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 MARCADORES: tuple[Marcador, ...] = (
     Marcador(
+        pagina="Torneo Argentino A 2010-11", jornada="Fecha 28",
+        local="Villa Mitre", visita="Ramón Santamarina", dice=(0, 2), debe=(0, 1),
+        porque="La tabla de la Primera fase le pone a Santamarina un gol a favor "
+               "de mas y a Villa Mitre uno en contra de mas, y los dos se desvian "
+               "en espejo, asi que el error esta en un partido entre ellos. De los "
+               "cuatro cruces, tres quedan descartados sin salir de la pagina: uno "
+               "pediria goles negativos y los otros dos cambiarian el resultado, "
+               "cosa que el G-E-P de la propia tabla prohibe -- coincide exacto "
+               "con la grilla para los dos clubes. Queda este solo.\n"
+               "Y lo confirman dos fuentes independientes. La Nueva de Bahia "
+               "Blanca, al dia siguiente del partido: \"La derrota 1-0 ante Ramon "
+               "Santamarina no hizo mas que profundizar una herida que no "
+               "cicatriza\", con el gol de Brittes a los 2 minutos "
+               "(lanueva.com/nota/2011-3-21-9-0-0-santamarina-profundizo-la-herida"
+               "-de-villa-mitre). Y el historial de BeSoccer entre los dos clubes, "
+               "que da \"Villa Mitre 0-1 Dep. Santamarina\" y ademas reproduce los "
+               "otros tres cruces igual que la grilla -- 0-0, 1-1 y 1-1 --, o sea "
+               "que no esta copiando de Wikipedia, que en este difiere.\n"
+               "De yapa, La Nueva confirma tambien la Fecha 21 (Santamarina 1-1 "
+               "Villa Mitre, Gucci a los 26 y Carrillo a los 37), que es justo uno "
+               "de los candidatos que el G-E-P habia refutado. El testigo interno "
+               "y la prensa dijeron lo mismo."),
+    Marcador(
         pagina="Torneo Federal A 2019-20",
         jornada="Fecha 14", local="San Martín (F)", visita="Unión (S)",
         dice=(2, 0), debe=(3, 0),
