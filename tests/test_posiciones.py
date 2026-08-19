@@ -139,16 +139,34 @@ def test_los_marcadores_arbitrados_estan_justificados():
     Antes el testigo era siempre la tabla de posiciones y el test pedia esa
     frase. Ya no alcanza: la tabla LOCALIZA el partido y no lo arbitra, y de los
     seis casos que se probaron contra la prensa, en dos la equivocada era ella.
-    Asi que ahora el testigo puede ser la tabla o una cronica -- pero tiene que
-    estar nombrado, y una cronica solo vale si dice quien hizo los goles. Un
+    Asi que el testigo puede ser la tabla o una cronica -- pero tiene que estar
+    nombrado, y una cronica solo vale si dice quien hizo los goles.
+
+    LA TERCERA FORMA, y por que se agrego. La regla de los goleadores es un PROXY
+    de lo que de verdad importa, que esta escrito en su propio motivo: "un
     marcador suelto en un sitio de estadisticas puede venir de la misma fuente
-    que estamos tratando de verificar."""
+    que estamos tratando de verificar". Los goleadores valen porque no se copian
+    de una tabla. Pero hay otra forma de mostrar que una fuente no esta copiando,
+    y es mas directa: que COINCIDA con la pagina en los partidos de al lado y
+    difiera solo en el que esta en discusion. Una fuente derivada coincidiria en
+    todos.
+
+    Esa prueba entro con el Argentino A 2010-11 Fecha 21, donde no hay cronica
+    con goleadores al alcance -- la de La Capital solo existe en el Web Archive,
+    que las herramientas no alcanzan -- y si hay dos archivos de resultados que
+    dan el partido al reves que Wikipedia mientras reproducen su vecino tal cual.
+    Se la acepta, pero hay que ESCRIBIRLA: el `porque` tiene que nombrar el
+    partido en que la fuente coincide, para que se pueda auditar."""
     from fad import correcciones
     for m in correcciones.MARCADORES:
         assert len(m.porque) > 80, f"{m.jornada} {m.local}: la evidencia es muy flaca"
         tabla_ = "tabla de posiciones" in m.porque
         prensa = any(p in m.porque for p in ("gol", "Boletin"))
-        assert tabla_ or prensa, f"{m.jornada} {m.local}: el testigo no queda nombrado"
+        # la tercera forma pide DOS cosas: que la fuente diverja, y que se diga
+        # en que otro partido coincide. Sin lo segundo no se puede auditar.
+        no_copia = "no la esta copiando" in m.porque or "no esta copiando" in m.porque
+        assert tabla_ or prensa or no_copia, (
+            f"{m.jornada} {m.local}: el testigo no queda nombrado")
 
 
 def test_la_prensa_arbitro_los_que_la_tabla_no_podia():
@@ -160,8 +178,10 @@ def test_la_prensa_arbitro_los_que_la_tabla_no_podia():
                   if "tabla de posiciones" not in m.porque]
     assert por_prensa, "ninguna correccion se apoya en la prensa: se perdio el metodo"
     for m in por_prensa:
-        assert "gol" in m.porque or "Boletin" in m.porque, (
-            f"{m.jornada} {m.local}: sin tabla y sin goleadores no hay evidencia")
+        no_copia = "no la esta copiando" in m.porque or "no esta copiando" in m.porque
+        assert "gol" in m.porque or "Boletin" in m.porque or no_copia, (
+            f"{m.jornada} {m.local}: sin tabla, sin goleadores y sin la prueba de "
+            f"que la fuente no copia a la pagina, no hay evidencia")
 
 
 def test_el_arbitraje_no_le_da_siempre_la_razon_al_mismo():

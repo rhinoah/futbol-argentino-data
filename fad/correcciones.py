@@ -335,6 +335,54 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 MARCADORES: tuple[Marcador, ...] = (
     Marcador(
+        pagina="Torneo Argentino A 2010-11", jornada="Fecha 7",
+        local="Gimnasia y Esgrima (CdU)", visita="Central Norte (S)",
+        dice=(2, 0), debe=(1, 0),
+        porque="La tabla de la Primera fase le pone a Gimnasia un gol a favor de "
+               "mas y a Central Norte uno en contra de mas, espejados, asi que el "
+               "error esta en un cruce entre ellos. De los cuatro, dos pedirian "
+               "goles negativos y el tercero cambiaria un empate en victoria, que "
+               "el G-E-P de la propia tabla prohibe. Queda este.\n"
+               "Lo confirman dos fuentes contemporaneas de autores distintos. El "
+               "blog de Central Norte de Salta, el 6/10/2010: \"El conjunto "
+               "dirigido por Gustavo Coleoni perdio 1 a 0 en su visita a Gimnasia "
+               "y Esgrima de Concepcion del Uruguay\", con el gol de Conrado Besel "
+               "a los 25 del primer tiempo y las dos formaciones completas "
+               "(central-norte-salta.blogspot.com/2010/10/un-paso-para-atras.html). "
+               "Y el blog misionero metagoles, del 4/10/2010 -- la noche del "
+               "partido --, que publica los cuatro resultados de la Zona 3: "
+               "\"Gimnasia CdU 1-0 Central Norte\". Los otros tres de esa lista "
+               "coinciden exactamente con Wikipedia, asi que no la esta copiando: "
+               "difiere solo en este.\n"
+               "El renglon del 2-0 es de los pocos de la Fecha 7 que la pagina "
+               "carga SIN referencia: sus tres refs de esa fecha son todas de la "
+               "Zona 1."),
+    Marcador(
+        pagina="Torneo Argentino A 2010-11", jornada="Fecha 21",
+        local="Unión (MdP)", visita="Huracán (TA)", dice=(2, 0), debe=(0, 1),
+        porque="Este par es el unico de la pagina donde el G-E-P de la tabla NO "
+               "coincide con la grilla, y no coincide en espejo: la tabla le da a "
+               "Huracan una victoria que la grilla le da a Union. O sea que no es "
+               "un digito sino un partido entero al reves, y tiene que ser uno de "
+               "los dos cruces que el arreglo da vuelta -- la Fecha 7 o esta --.\n"
+               "Es esta. RSSSF publica la Zona 1 fecha por fecha y da, textual, "
+               "\"Union 2-1 Huracan\" en la ronda 7 del 3 de octubre y \"Union 0-1 "
+               "Huracan\" en la ronda 21 del 6 de febrero "
+               "(rsssf.org/tablesa/arg2011.html). Futbol24 coincide: Union Mar del "
+               "Plata 0-1 Huracan Tres Arroyos, Argentino A Zona 1. Y La Capital "
+               "de Mar del Plata cubrio la derrota local en su edicion del "
+               "7/2/2011.\n"
+               "NINGUNA DE LAS DOS COPIA A WIKIPEDIA, y eso se puede auditar: "
+               "RSSSF da el cruce de la ronda 7 entre estos mismos clubes como "
+               "2-1, igual que la pagina, y difiere solo en este. Una fuente "
+               "derivada coincidiria en los dos. Cronica con goleadores no hay al "
+               "alcance: la de La Capital del 7/2/2011 solo existe en el Web "
+               "Archive, que las herramientas no alcanzan." + chr(10) +
+               "Que la Fecha 7 quede confirmada COMO ESTA es la otra mitad del "
+               "resultado: con el par cerrado por un lado, el otro cruce deja de "
+               "ser candidato. Los dos testigos, el interno y el externo, "
+               "coincidieron en cual de los dos era."),
+    Marcador(
         pagina="Torneo Argentino A 2010-11", jornada="Fecha 28",
         local="Villa Mitre", visita="Ramón Santamarina", dice=(0, 2), debe=(0, 1),
         porque="La tabla de la Primera fase le pone a Santamarina un gol a favor "
