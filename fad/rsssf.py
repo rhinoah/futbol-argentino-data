@@ -266,7 +266,11 @@ def descargar(archivo: str, usar_cache: bool = True) -> str:
     return texto
 
 
-_INTERZONAL = re.compile(r"interzonal\s+(\d+\s*-\s*\d+)", re.I)
+# El par de una ronda interzonal, escrito de las dos formas que usa la fuente:
+# `Round 21 [interzonal 1-2]` en 2008-09 y el encabezado `Interzonal Group A-B`
+# en 2007-08. Por eso admite letras y no solo digitos.
+_INTERZONAL = re.compile(r"interzonal\s+(?:group\s+)?([A-Za-z0-9]+\s*-\s*[A-Za-z0-9]+)",
+                         re.I)
 
 
 def _par_interzonal(anotacion: str) -> str:
@@ -297,6 +301,8 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
     raros: list[str] = []
     # De que par es la ronda interzonal abierta ("1-2"), o "" si no lo es.
     interzonal = ""
+    # Un encabezado interzonal ya visto, esperando a su ronda.
+    pendiente = ""
     zona = llave = ""
     ronda: int | None = None
     fecha: tuple[int, int] | None = None
@@ -306,7 +312,14 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         pelada = cruda.strip()
         if not pelada:
             continue
-        if (pelada.startswith(("Torneo ", "Zona ", "Zone ", "First Phase",
+        # Un encabezado interzonal NO abre una seccion: dice que la ronda que
+        # viene abajo pertenece a DOS grupos y esta impresa bajo los dos. Se
+        # anota como pendiente y se aplica a la proxima ronda, una sola vez; si
+        # borrara la zona, sus partidos se quedarian sin ella.
+        if _par_interzonal(pelada) and pelada.lower().startswith("interzonal"):
+            pendiente = _par_interzonal(pelada)
+            continue
+        if (pelada.startswith(("Torneo ", "Zona ", "Zone ", "Group ", "First Phase",
                                "Second Phase", "Final", "Promoci",
                                "NB:", "Champion", "Relegation"))
                 or _LLAVE_PELADA.match(pelada)):
@@ -324,7 +337,7 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                 # mapa de 2005-06 -- porque el cruce contra la tabla de Wikipedia
                 # agrupa por llave, y dos vocabularios no cruzan.
                 llave, zona = "Torneo " + m_llave.group(1), ""
-            elif pelada.startswith(("Zona ", "Zone ")):
+            elif pelada.startswith(("Zona ", "Zone ", "Group ")):
                 # RSSSF escribe "Zona" en unas temporadas y "Zone" en otras -- el
                 # Argentino A 2008-09 usa `Zone 1`, `Zone 2`, `Zone 3` --. Sin
                 # reconocerlo, sus tres zonas no son encabezados de nada: la
@@ -334,12 +347,17 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
             else:
                 zona = ""
             ronda = fecha = None
+            interzonal = pendiente = ""
             continue
         m = _RONDA.match(pelada)
         if m:
             ronda = int(m.group(1))
             fecha = (_MESES[m.group(2)], int(m.group(3))) if m.group(2) else None
-            interzonal = _par_interzonal(m.group(4))
+            # El pendiente manda sobre la anotacion de la linea, y se consume:
+            # vale para UNA ronda. Si sobreviviera, la ronda normal que viene
+            # despues del bloque se saltearia bajo la segunda zona del par.
+            interzonal = pendiente or _par_interzonal(m.group(4))
+            pendiente = ""
             continue
         m = _SOLO_FECHA.match(pelada)
         if m:

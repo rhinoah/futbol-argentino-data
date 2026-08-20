@@ -267,6 +267,29 @@ def test_la_prosa_con_forma_de_partido_no_es_un_partido():
     assert avisos == [], "y ni siquiera tiene que avisar: no son partidos"
 
 
+def test_el_interzonal_tambien_viene_como_encabezado():
+    """En 2008-09 el marcador cuelga de la ronda -- `Round 21 [interzonal 1-2]` --
+    y en 2007-08 es un encabezado propio, `Interzonal Group A-B`, seguido de su
+    ronda. Las dos formas dicen lo mismo: esa ronda pertenece a los dos grupos y
+    RSSSF la imprime bajo los dos, asi que se lee una sola vez.
+
+    Y vale para UNA ronda: la que viene despues del bloque es normal, y si el
+    marcador sobreviviera se saltearia bajo el segundo grupo del par.
+    """
+    mapa = {g: {"La Plata FC": "La Plata FC", "Villa Mitre": "Villa Mitre"}
+            for g in ("Group A", "Group B")}
+    texto = ("Group A\nInterzonal Group A-B\nRound 5 (Sep 15)\n"
+             "La Plata FC                  2-0 Villa Mitre\n"
+             "Round 6 (Sep 23)\n"
+             "Villa Mitre                  1-1 La Plata FC\n"
+             "Group B\nInterzonal Group A-B\nRound 5 (Sep 15)\n"
+             "La Plata FC                  2-0 Villa Mitre\n")
+    ajenos, _ = rsssf.leer(texto, mapa, 2007, 2008, 8)
+    assert len(ajenos) == 2, "el interzonal entra una vez, la ronda normal tambien"
+    assert sorted(a.jornada for a in ajenos) == [5, 6]
+    assert all(a.zona == "Group A" for a in ajenos)
+
+
 def test_la_zona_tambien_se_escribe_en_ingles():
     """RSSSF pone "Zona" en unas temporadas y "Zone" en otras: el Argentino A
     2008-09 usa `Zone 1`, `Zone 2` y `Zone 3`. Sin reconocerlo no son encabezados
