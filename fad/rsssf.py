@@ -273,6 +273,24 @@ _INTERZONAL = re.compile(r"interzonal\s+(?:group\s+)?([A-Za-z0-9]+\s*-\s*[A-Za-z
                          re.I)
 
 
+_SEDE = re.compile(r"\s*\(at\s[^)]*\)\s*$", re.I)
+
+
+def _sin_sede(nombre: str) -> str:
+    """El nombre sin la cancha pegada.
+
+    RSSSF pone la sede en una columna aparte cuando se juega fuera de casa --
+    `Boca Unidos 4-1 Alumni    (at Huracán)` -- y ahi el separador de dos
+    espacios la deja afuera sola. Pero cuando el nombre del club YA termina en
+    parentesis queda pegada a un solo espacio: `Gimnasia y Esgr. (CdU) (at
+    Huracán-C)`. Sin despegarla, el mismo club entra como tres clubes distintos
+    -- son 2 en el Argentino A 2007-08, que hacian declarar 18 nombres donde
+    hay 16 -- y ninguno de los tres esta en el padron, asi que sus partidos se
+    caen del cruce sin ruido.
+    """
+    return _SEDE.sub("", nombre).strip()
+
+
 def _par_interzonal(anotacion: str) -> str:
     """El par de una ronda interzonal ("1-2"), o "" si la ronda no lo es."""
     m = _INTERZONAL.search(anotacion or "")
@@ -404,7 +422,8 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                             goles_local=marcador[0], goles_visita=marcador[1],
                             llave=llave, zona=zona, status=estado))
             continue
-        local, gl, gv, visita = m.group(1).strip(), int(m.group(2)), int(m.group(3)), m.group(4).strip()
+        local, gl, gv = m.group(1).strip(), int(m.group(2)), int(m.group(3))
+        visita = _sin_sede(m.group(4).strip())
         cl, cv = mapa[zona].get(local), mapa[zona].get(visita)
         for nombre, c in ((local, cl), (visita, cv)):
             if c is None:

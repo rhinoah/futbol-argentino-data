@@ -267,6 +267,23 @@ def test_la_prosa_con_forma_de_partido_no_es_un_partido():
     assert avisos == [], "y ni siquiera tiene que avisar: no son partidos"
 
 
+def test_la_cancha_prestada_no_es_parte_del_nombre():
+    """RSSSF pone la sede aparte cuando se juega fuera de casa. Con dos espacios
+    el separador la deja afuera sola, pero si el club YA termina en parentesis
+    queda pegada a uno: `Gimnasia y Esgr. (CdU) (at Huracán-C)`. Sin despegarla el
+    mismo club entra como tres, y ninguno de los tres esta en el padron, asi que
+    sus partidos se caen del cruce sin ruido."""
+    mapa = {"Group A": {"La Plata FC": "La Plata FC",
+                        "Gimnasia y Esgr. (CdU)": "Gimnasia y Esgrima (CdU)"}}
+    ajenos, _ = rsssf.leer(
+        "Group A\nRound 1 (Aug 21)\n"
+        "La Plata FC               2-0 Gimnasia y Esgr. (CdU) (at Huracán-C)\n"
+        "La Plata FC               1-1 Gimnasia y Esgr. (CdU)   (at Libertad)\n",
+        mapa, 2007, 2008, 8)
+    assert len(ajenos) == 2, "los dos son del mismo club, con y sin dos espacios"
+    assert {a.visita for a in ajenos} == {"Gimnasia y Esgrima (CdU)"}
+
+
 def test_el_interzonal_tambien_viene_como_encabezado():
     """En 2008-09 el marcador cuelga de la ronda -- `Round 21 [interzonal 1-2]` --
     y en 2007-08 es un encabezado propio, `Interzonal Group A-B`, seguido de su
