@@ -42,6 +42,7 @@ def test_limpiar(crudo, limpio):
     ("bgcolor=#d0e7ff|'''River Plate", 1, "River Plate"),
     ("width=21%|Local", 1, "Local"),
 ])
+
 def test_celda(celda, filas, valor):
     assert parser._celda(celda) == (filas, valor)
 
@@ -1654,3 +1655,30 @@ def test_el_nombre_corto_lo_desata_la_pagina_que_lo_usa():
     su alias. Por eso el nombre corto puede entrar sin tapar al otro."""
     assert equipos.buscar("Def. de Belgrano", "").nombre == "Defensores de Belgrano"
     assert equipos.buscar("Def. de Belgrano (VR)", "").nombre == "Defensores de Belgrano (VR)"
+
+def test_una_plantilla_con_los_parametros_indentados_no_se_pierde():
+    """`{{Partido}}` se escribe de las dos formas y las dos son validas.
+
+    El corte era `cuerpo.split("\\n|")`, que no corta nada cuando la pagina
+    indenta: el cuerpo entero quedaba como UN campo llamado `local`, no habia
+    `resultado`, y la plantilla se descartaba en silencio. Eran quince en tres
+    paginas -- las Copas de la Liga 2021, 2022 y 2023 -- y con ellas se caian sus
+    fases finales enteras.
+    """
+    indentada = ("=== Cuartos de final ===\n"
+                 "{{Partido\n"
+                 "  |local= Boca Juniors\n"
+                 "  |resultado= 2:0\n"
+                 "  |visita= River Plate\n"
+                 "  |fecha= 11 de mayo, 18:30\n"
+                 "  |estadio= La Bombonera\n"
+                 "}}\n")
+    ps = parser.partidos_de_plantillas(indentada, 2021, "Prueba")
+    assert len(ps) == 1, "la plantilla indentada tiene que entrar"
+    assert (ps[0].local, ps[0].goles_local, ps[0].goles_visita, ps[0].visita) == \
+        ("Boca Juniors", 2, 0, "River Plate")
+    assert ps[0].estadio == "La Bombonera", "y con todos sus campos, no solo el marcador"
+
+    pegada = indentada.replace("\n  |", "\n|")
+    assert len(parser.partidos_de_plantillas(pegada, 2021, "Prueba")) == 1, \
+        "y la forma sin indentar tiene que seguir andando"

@@ -1176,7 +1176,14 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
     # no se encadenan entre si. Cual es cual lo dice la seccion de nivel 2.
     for pos, cuerpo in _plantillas_partido(texto):
         campos = {}
-        for linea in cuerpo.split("\n|"):
+        # Se corta con `\n\s*\|` y no con `\n|`: hay paginas que INDENTAN los
+        # parametros (`\n  |local=`), y ahi el corte no cortaba nada. El cuerpo
+        # entero quedaba como UN solo campo llamado `local`, no habia
+        # `resultado`, y la plantilla se descartaba sin ruido en el `continue`
+        # de abajo. Son 15 plantillas en tres paginas -- las Copas de la Liga
+        # 2021, 2022 y 2023 -- y con ellas se caian sus fases finales enteras:
+        # cuartos, semifinales y final.
+        for linea in re.split(r"\n\s*\|", cuerpo):
             if "=" not in linea:
                 continue
             k, v = linea.split("=", 1)
