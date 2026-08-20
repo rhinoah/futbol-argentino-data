@@ -987,19 +987,28 @@ def test_el_cuadro_arbitra_la_fase_final():
         [zona("River Plate", "Boca Juniors", 0, 1)], texto) == []
 
 
-def test_el_aviso_distingue_falta_el_partido_de_no_coinciden():
-    """Son dos cosas distintas y el dato las separa solo: si los dos clubes nunca
-    aparecen juntos en la grilla, falta el partido; si aparecen con otro numero,
-    es un desacuerdo. Medido: 10 y 41."""
+def test_el_aviso_distingue_los_tres_estados():
+    """Son TRES cosas distintas y el dato las separa solo. La pregunta no es si
+    los dos clubes aparecen juntos en la pagina -- en una liga se cruzaron en la
+    zona y eso no dice nada del cuadro -- sino si aparecen en la FASE FINAL.
+    Con la pregunta mal hecha, 37 de los 42 avisos se llamaban "desacuerdo"
+    cuando lo que pasa es que esas paginas no tienen fase final en la grilla."""
     texto = _cuadro("| RD1-team1 = [[Boca Juniors]]", "| RD1-team2 = [[River Plate]]",
                     "| RD1-score1 = 1", "| RD1-score2 = 0")
     solo = posiciones.marcadores_del_cuadro([zona("Racing Club", "Independiente", 0, 0)],
                                             texto)
     assert solo and "falta el partido" in solo[0]
 
-    otro = posiciones.marcadores_del_cuadro([zona("Boca Juniors", "River Plate", 3, 3)],
+    # cruzados en la fase regular, pero sin fase final entre ellos
+    liga = posiciones.marcadores_del_cuadro([zona("Boca Juniors", "River Plate", 3, 3)],
                                             texto)
-    assert otro and "no coinciden" in otro[0]
+    assert liga and "no tiene fase final entre estos dos" in liga[0]
+
+    # y el desacuerdo de verdad: hay llave entre los dos, con otro numero
+    llave = Partido(fecha="2010-01-01", local="Boca Juniors", visita="River Plate",
+                    goles_local=3, goles_visita=3, fase="eliminacion", jornada="Final")
+    hay = posiciones.marcadores_del_cuadro([llave], texto)
+    assert hay and "desacuerdo que arbitrar" in hay[0]
 
 
 def test_el_revisado_tambien_calla_el_aviso_de_PJ():

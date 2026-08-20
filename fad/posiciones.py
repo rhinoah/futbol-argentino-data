@@ -839,6 +839,7 @@ def marcadores_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
     tiene = {(frozenset((p.local, p.visita)),
               frozenset(((p.local, p.goles_local), (p.visita, p.goles_visita))))
              for p in ps}
+    en_llave = {frozenset((p.local, p.visita)) for p in ps if p.fase == "eliminacion"}
     fuera = []
     for na, aa, nb, ab, patas in cruces:
         if not equipos.buscar(na, aa) or not equipos.buscar(nb, ab):
@@ -850,19 +851,24 @@ def marcadores_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
                       frozenset(((ca, x), (cb, y)))) not in tiene]
         if not faltan:
             continue
-        # Las dos cosas que esto encuentra no son la misma, y el propio dato las
-        # separa: si los dos clubes NUNCA aparecen juntos en la grilla, falta el
-        # partido; si aparecen con otro numero, hay un desacuerdo. Decirlo hace
-        # la diferencia entre un aviso que se puede trabajar y uno que hay que
-        # ir a investigar desde cero.
-        juntos = frozenset((ca, cb)) in {p for p, _ in tiene}
+        # Lo que esto encuentra son TRES cosas distintas y el dato las separa
+        # solo. La pregunta no es si los dos clubes aparecen juntos en la pagina
+        # -- en una liga se cruzaron en la zona y eso no dice nada del cuadro --
+        # sino si aparecen juntos EN LA FASE FINAL, que es de lo que el cuadro
+        # habla. Con la pregunta mal hecha, las 19 llaves del Argentino A 2005-06
+        # salian como "desacuerdo" cuando lo que pasa es que esa pagina no tiene
+        # fase final en la grilla.
         dice = ", ".join(f"{x}-{y}" for x, y in faltan)
-        fuera.append(
-            f"{ca} vs {cb}: el cuadro de llaves publica {dice} y "
-            + (f"la grilla les da otro marcador: el cuadro y la grilla no "
-               f"coinciden en este cruce"
-               if juntos else
-               f"la grilla no tiene NINGUN partido entre los dos: falta el partido"))
+        if frozenset((ca, cb)) in en_llave:
+            que = ("la grilla les da otro marcador en la fase final: hay un "
+                   "desacuerdo que arbitrar")
+        elif frozenset((ca, cb)) in {par for par, _ in tiene}:
+            que = ("la grilla no tiene fase final entre estos dos, aunque si los "
+                   "cruza en la fase regular: o falta el partido, o quedo "
+                   "clasificado como fecha de liga")
+        else:
+            que = "la grilla no tiene NINGUN partido entre los dos: falta el partido"
+        fuera.append(f"{ca} vs {cb}: el cuadro de llaves publica {dice} y {que}")
     return fuera
 
 
