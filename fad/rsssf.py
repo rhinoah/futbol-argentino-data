@@ -90,6 +90,14 @@ _MESES = {m: i + 1 for i, m in enumerate(
     "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split())}
 
 _RONDA = re.compile(r"^Round\s+(\d+)(?:\s*\[([A-Z][a-z]{2})\s+(\d+)\])?\s*$")
+# "Apertura 2006" / "Clausura 2007": la llave sin la palabra "Torneo" adelante.
+# RSSSF escribe las dos formas segun la temporada, y la diferencia no es cosmetica:
+# el Argentino A 2006-07 corre un Apertura y un Clausura sobre LAS MISMAS tres
+# zonas, los dos numerando sus fechas de 1 a 14. Leyendo esta linea como texto
+# suelto, las dos mitades caian en la misma casilla y cada zona terminaba con el
+# doble de partidos por fecha -- 112 donde van 56 --, que es como se encontro.
+_LLAVE_PELADA = re.compile(r"^(Apertura|Clausura)\s+\d{4}$")
+
 _SOLO_FECHA = re.compile(r"^\[([A-Z][a-z]{2})\s+(\d+)\]\s*$")
 # Dos espacios o mas separan las columnas. El nombre del local no puede tener
 # corchetes: si los tiene es una anotacion encabalgada, no un partido.
@@ -159,8 +167,9 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         pelada = cruda.strip()
         if not pelada:
             continue
-        if pelada.startswith(("Torneo ", "Zona ", "Second Phase", "Final", "Promoci",
-                              "NB:", "Champion", "Relegation")):
+        if (pelada.startswith(("Torneo ", "Zona ", "Second Phase", "Final", "Promoci",
+                               "NB:", "Champion", "Relegation"))
+                or _LLAVE_PELADA.match(pelada)):
             # Cualquier encabezado cierra la ronda abierta: un `[Aug 27]` no cruza
             # de una seccion a la siguiente.
             #
@@ -169,6 +178,12 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
             # de 1 a 11 y sin eso "Fecha 5" no identifica un partido.
             if pelada.startswith("Torneo "):
                 llave, zona = pelada, ""
+            elif m_llave := _LLAVE_PELADA.match(pelada):
+                # La misma llave, escrita sin el "Torneo" adelante. Se normaliza al
+                # nombre largo -- el que usa nuestro parser y el que quedo en el
+                # mapa de 2005-06 -- porque el cruce contra la tabla de Wikipedia
+                # agrupa por llave, y dos vocabularios no cruzan.
+                llave, zona = "Torneo " + m_llave.group(1), ""
             elif pelada.startswith("Zona "):
                 zona = pelada
             else:
@@ -198,7 +213,8 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
             continue
         fuera.append(Ajeno(fecha=_fecha_iso(*fecha, anio, anio_fin, mes_inicio),
                            jornada=ronda, local=cl, visita=cv,
-                           goles_local=gl, goles_visita=gv, llave=llave))
+                           goles_local=gl, goles_visita=gv, llave=llave,
+                           zona=zona))
     avisos = ([f"{len(desconocidos)} nombres de RSSSF que el mapa no traduce: "
                + "; ".join(sorted(desconocidos)[:6])] if desconocidos else [])
     return fuera, avisos
@@ -216,10 +232,15 @@ def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
 
     LOS CAMPOS QUE `Ajeno` NO TRAE QUEDAN VACIOS, no inventados. RSSSF publica
     fecha, jornada, clubes y marcador, y nada mas: no trae hora, ni cancha, ni
-    penales, ni si se jugo en cancha neutral. Rellenar eso con un valor plausible
-    -- `neutral=False` porque "casi siempre es asi" -- seria afirmar algo que
-    nadie verifico, que es justo lo que este repo no hace. Vacio se lee como
-    vacio; un `false` inventado se lee como un dato.
+    penales. Rellenar eso con un valor plausible seria afirmar algo que nadie
+    verifico, que es justo lo que este repo no hace. Vacio se lee como vacio; un
+    dato inventado se lee como un dato.
+
+    `neutral` es la excepcion, y no por descuido: no lo pone esta funcion sino
+    `dataset.a_fila`, a partir de la declaracion del TORNEO. Es un dato del
+    torneo y no del partido -- la Copa Argentina se juega entera en cancha
+    neutral, una liga no --, asi que vale igual venga la fila de donde venga. Por
+    eso ninguna de las filas del dataset lo tiene vacio.
 
     `fuente_fecha` lleva el credito de RSSSF, que es lo que despues termina en la
     columna `source` de esa fila. Un consumidor que quiera solo lo que tambien
@@ -242,9 +263,9 @@ def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
             goles_visita=a.goles_visita,
             torneo=torneo,
             fase="zonas",
-            zona=a.llave or "",
+            zona=a.zona,
             jornada=f"Fecha {a.jornada}",
-            llave=a.llave or "",
+            llave=a.llave,
             fuente_fecha=CREDITO,
         ))
     return fuera
@@ -313,7 +334,7 @@ ARGENTINO_A_2005 = {
 # es cual sin ambiguedad:
 #
 #   Zona A  "Dep. Santamarina"         -> Ramon Santamarina
-#   Zona A  "La Plata FC"              -> La Plata
+#   Zona A  "La Plata FC"              -> La Plata FC
 #   Zona B  "Indep. Rivadavia"         -> Independiente Rivadavia
 #   Zona B  "Juv. Unida Universitario" -> Juventud Unida Universitario
 #   Zona C  "Juv. Antoniana"           -> Juventud Antoniana
@@ -331,7 +352,7 @@ ARGENTINO_A_2006 = {
         "Gimnasia y Esgrima (CdU)": "Gimnasia y Esgrima (CdU)",
         "Guillermo Brown": "Guillermo Brown",
         "Juventud": "Juventud (P)",
-        "La Plata FC": "La Plata",
+        "La Plata FC": "La Plata FC",
         "Real Arroyo Seco": "Real Arroyo Seco",
         "Rivadavia": "Rivadavia (L)",
     },
@@ -348,7 +369,7 @@ ARGENTINO_A_2006 = {
     "Zona C": {
         "9 de Julio": "9 de Julio (R)",
         "Atl. Tucumán": "Atlético Tucumán",
-        "Central Norte": "Central Norte",
+        "Central Norte": "Central Norte (S)",
         "Juv. Antoniana": "Juventud Antoniana",
         "La Florida": "La Florida",
         "Sp. Patria": "Sportivo Patria",

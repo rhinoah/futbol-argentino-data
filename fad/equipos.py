@@ -308,7 +308,12 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("La Florida"),
     # El punto importa: `normalizar` lo cambia por espacio, asi que "La Plata F.C."
     # y "La Plata FC" son dos claves distintas y hacen falta las dos.
-    Equipo("La Plata FC", alias=("La Plata F.C.",)),
+    # "La Plata" a secas es como lo nombra la tabla de posiciones del Argentino
+    # A 2006-07, sin enlace que lo desambigue. Es tambien una ciudad, pero el
+    # padron resuelve CLUBES: los dos grandes de esa ciudad entran por su propio
+    # nombre -- Estudiantes (LP) y Gimnasia y Esgrima (LP) --, y "La Plata" solo
+    # no le corresponde a ningun otro club del corpus.
+    Equipo("La Plata FC", alias=("La Plata F.C.", "La Plata")),
     Equipo("Luján de Cuyo"),
     Equipo("Ñuñorco"),
     Equipo("Real Arroyo Seco"),
@@ -347,7 +352,8 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Central Córdoba (R)'),
     # "Centrl Norte", sin la A, en un partido del Argentino A 2010-11. Es el
     # unico Central Norte del padron, asi que el typo no puede apuntar a otro.
-    Equipo('Central Norte (S)', alias=('Centrl Norte', 'Central Norte (Salta)')),
+    Equipo('Central Norte (S)', alias=('Centrl Norte', 'Central Norte (Salta)',
+                                     'Central Norte')),
     Equipo('Centro Español'),
     # "Cipoletti", con una L, en dos partidos del Argentino A 2010-11.
     Equipo('Cipolletti', alias=('Cipoletti',)),

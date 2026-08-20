@@ -1652,16 +1652,6 @@ REVISADOS: tuple[Revisado, ...] = (
                "asi que ningun partido puede explicarlo y la equivocada es la fila de "
                "la tabla."),
     Revisado(
-        pagina="Campeonato de Primera C 2026 (Argentina)", club="Juventud Unida",
-        porque="Su delta es (1, 1), que es auto-espejado: la pareja tendria que ser "
-               "otro club desviado tambien en (1, 1). El unico otro desviado de la "
-               "pagina es Cañuelas, que va en (0, 1), y ademas ninguno de los rivales "
-               "de Juventud Unida quedo fuera del cruce. Sin pareja no hay partido que "
-               "lo explique.\n"
-               "OJO que el torneo es de la temporada en curso, asi que esta "
-               "verificacion puede caducar sola cuando la pagina se siga editando; si "
-               "eso pasa, `revisados_huerfanos` lo va a denunciar."),
-    Revisado(
         pagina="Campeonato de Primera C 2015 (Argentina)", club="Talleres (RdE)",
         porque="Las dos ruedas con Argentino de Quilmes estan bien y la equivocada es "
                "la tabla. La segunda tiene ademas una explicacion que la aritmetica no "

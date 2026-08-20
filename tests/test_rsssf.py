@@ -134,6 +134,55 @@ def test_la_llave_separa_dos_torneos_con_la_misma_numeracion():
     assert [a.fecha for a in ajenos] == ["2005-09-25", "2006-02-12"]
 
 
+def test_la_llave_tambien_viene_escrita_sin_la_palabra_torneo():
+    """RSSSF rotula "Torneo Apertura" en una temporada y "Apertura 2006" en otra.
+
+    No es cosmetico: el Argentino A 2006-07 corre las dos mitades sobre LAS MISMAS
+    zonas, numerando las dos del 1 al 14. Sin reconocer la forma pelada, las dos
+    caen en la misma casilla y cada zona termina con el doble de partidos por
+    fecha. Se normaliza al nombre largo porque el cruce contra la tabla de
+    Wikipedia agrupa por llave, y dos vocabularios no cruzan.
+    """
+    ajenos, _ = leer("Apertura 2005\nZona A - Sur\nRound 5 [Sep 25]\n"
+                     "La Plata FC                  1-1 Villa Mitre\n"
+                     "Clausura 2006\nZona A - Sur\nRound 5 [Feb 12]\n"
+                     "La Plata FC                  1-1 Villa Mitre\n")
+    assert [a.llave for a in ajenos] == ["Torneo Apertura", "Torneo Clausura"]
+    assert [a.fecha for a in ajenos] == ["2005-09-25", "2006-02-12"]
+
+
+def test_apertura_sin_anio_no_es_un_encabezado():
+    """El regex pide el anio, y por eso pide el anio: un encabezado resetea la
+    zona, asi que una palabra suelta confundida con uno se lleva puestos en
+    silencio todos los partidos que vengan atras."""
+    ajenos, _ = leer("Torneo Apertura\nZona A - Sur\nRound 5 [Sep 25]\n"
+                     "Apertura\n"
+                     "La Plata FC                  1-1 Villa Mitre\n")
+    assert len(ajenos) == 1, "la linea suelta no tenia que apagar la zona"
+
+
+def test_la_zona_del_partido_es_la_zona_y_no_la_llave():
+    """`a_partidos` copiaba la llave en los dos campos, asi que la columna `group`
+    del dataset decia "Torneo Apertura" donde va "Zona A - Sur"."""
+    ajenos, _ = leer("Apertura 2005\nZona A - Sur\nRound 1 [Aug 21]\n"
+                     "Sportivo Desamparados        0-1 Villa Mitre\n")
+    ps = rsssf.a_partidos(ajenos, "Torneo Argentino A", 2005)
+    assert [p.zona for p in ps] == ["Zona A - Sur"]
+    assert [p.llave for p in ps] == ["Torneo Apertura"]
+
+
+def test_dos_zonas_con_la_misma_ronda_no_se_pisan():
+    """Cada zona numera sus fechas desde 1. Es lo que separa `validar` para saber
+    quien juega dos veces, y sin la zona los tres grupos son una sola casilla."""
+    ajenos, _ = leer("Apertura 2005\nZona A - Sur\nRound 1 [Aug 21]\n"
+                     "Sportivo Desamparados        0-1 Villa Mitre\n"
+                     "Zona B - Norte\nRound 1 [Aug 21]\n"
+                     "Ñuñorco                      1-0 Talleres\n")
+    ps = rsssf.a_partidos(ajenos, "Torneo Argentino A", 2005)
+    assert {p.jornada for p in ps} == {"Fecha 1"}
+    assert [p.zona for p in ps] == ["Zona A - Sur", "Zona B - Norte"]
+
+
 def test_el_anio_sale_del_mes_porque_la_temporada_cruza_el_calendario():
     ajenos, _ = leer("Torneo Clausura\nZona A - Sur\nRound 1 [Feb 12]\n"
                      "La Plata FC                  1-1 Villa Mitre\n")

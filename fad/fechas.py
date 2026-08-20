@@ -112,6 +112,17 @@ class Ajeno:
     # de 2006 que para las del Apertura es imposible.
     llave: str = ""
 
+    # La zona, cuando la fuente reparte el torneo en grupos. Vacio = no se usa.
+    #
+    # Es el mismo problema que `llave` un escalon mas abajo, y se descubrio igual:
+    # el Argentino A 2006-07 corre tres zonas en paralelo y CADA UNA numera sus
+    # jornadas desde 1, asi que "Fecha 1" son tres partidos distintos. Importando
+    # sin la zona, `validar.una_vez_por_jornada` -- que agrupa por (llave, zona,
+    # jornada) -- veia a los tres grupos en la misma casilla y acusaba a medio
+    # torneo de jugar dos veces por fecha: catorce avisos graves que no eran del
+    # dato sino de esta linea faltando.
+    zona: str = ""
+
 
 # Cache propia, al lado de la de Wikipedia y por la misma razon: durante el
 # desarrollo la misma temporada se lee decenas de veces. Aca ademas importa por

@@ -301,6 +301,14 @@ ASCENSO_HISTORICO = [
     # todos sacados del articulo que enlaza su propia tabla de participantes.
     Torneo('Torneo Argentino A 2005-06', 'Torneo Argentino A', 2005,
            anio_fin=2006, rsssf='arg3-int06'),
+    # El primer torneo del repo cuyos partidos NO salen de Wikipedia. Su articulo
+    # publica los participantes, la tabla final de cada zona y la fase final, y
+    # ningun resultado fecha por fecha -- se comprobo catalogandola sin el flag,
+    # que dio cero partidos --. RSSSF si los tiene, y `source` lo dice fila por
+    # fila. La tabla de posiciones de Wikipedia sigue estando, asi que estas filas
+    # pasan por el mismo cruce que todas las demas.
+    Torneo('Torneo Argentino A 2006-07', 'Torneo Argentino A', 2006,
+           anio_fin=2007, rsssf='arg3-int07', sin_grilla=True),
 
     Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),
