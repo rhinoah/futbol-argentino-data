@@ -1321,7 +1321,19 @@ def test_cada_revisado_dice_contra_que_se_verifico():
         fallo = any(f in r.porque.lower() for f in
                     ("dividido", "dos resultados", "resultado distinto para cada club",
                      "homolog", "publica el fallo", "fuera del cruce"))
-        assert externa or interna or fallo, \
+        # LA CUARTA: la pagina se desmiente a si misma. No hace falta razonar sobre
+        # lo que un partido puede o no puede hacer -- que es lo que sostiene a la
+        # familia "interna" -- porque hay OTRA tabla de la MISMA pagina diciendo lo
+        # contrario. Varias paginas publican tres juegos de tablas (cada mitad del
+        # torneo y una acumulada), y ahi la acumulada que no es la suma de sus
+        # mitades queda desmentida por las dos que la componen.
+        #
+        # Es la mas fuerte de las internas y por eso vale distinguirla: las otras
+        # concluyen "ningun partido puede explicarlo", esta muestra el desmentido.
+        sola = any(f in r.porque.lower() for f in
+                   ("se contradice sola", "se desmiente", "la desmienten",
+                    "no es la suma de sus mitades", "otra tabla de la misma pagina"))
+        assert externa or interna or fallo or sola, \
             f"{r.pagina} {r.club}: no dice contra que se verifico"
 
 

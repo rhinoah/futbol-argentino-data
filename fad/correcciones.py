@@ -1947,6 +1947,24 @@ REVISADOS: tuple[Revisado, ...] = (
                "dos columnas dicen la misma derrota.\n"
                "No hay nada que ir a buscar: del partido se sabe todo salvo como "
                "escribir su resultado, que es precisamente lo que no se puede."),
+    Revisado(
+        pagina="Torneo Argentino A 2006-07", club="Sportivo Patria",
+        porque="La tabla acumulada le da 12-5-11 (G-E-P) y la grilla 12-4-12: un "
+               "empate donde va una derrota. Los GOLES coinciden exacto, 32-38 de "
+               "los dos lados, y un marcador mal leido mueve siempre los goles, asi "
+               "que ningun partido puede explicarlo.\n"
+               "Y hay algo mejor que ese argumento, porque no hace falta razonar "
+               "sobre lo que un partido puede o no puede hacer: LA PAGINA SE "
+               "CONTRADICE SOLA. Publica tres juegos de tablas -- Apertura, Clausura "
+               "y la acumulada de las de descenso -- y las dos mitades de Patria "
+               "suman 9-2-3 mas 3-2-9, o sea 12-4-12, que es exactamente lo que dice "
+               "la grilla. La equivocada es la fila acumulada, y las otras dos tablas "
+               "de la misma pagina la desmienten.\n"
+               "Es uno de los tres clubes de las 24 filas donde la acumulada no es la "
+               "suma de sus mitades. Los otros dos son San Martin (SM) y Atletico "
+               "Tucuman, los dos tocados por partidos que no estan en la grilla; "
+               "Patria no tiene ninguno, asi que aca no queda ni esa excusa. No hay "
+               "a donde ir a buscar."),
 )
 
 
