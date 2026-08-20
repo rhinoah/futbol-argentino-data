@@ -536,6 +536,7 @@ ARTICULOS: dict[str, str] = {
     'Club Atlético Central Córdoba (Rosario)': 'Central Córdoba (R)',
     'Club Atlético Central Córdoba (Santiago del Estero)': 'Central Córdoba (SdE)',
     'Club Atlético Central Norte (Salta)': 'Central Norte (S)',
+    'Club Atlético Huracán (Tres Arroyos)': 'Huracán (TA)',
     'Club Atlético Chacarita Juniors': 'Chacarita Juniors',
     'Club Atlético Chaco For Ever': 'Chaco For Ever',
     'Club Atlético Claypole': 'Claypole',

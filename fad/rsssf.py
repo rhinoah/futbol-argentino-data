@@ -538,7 +538,79 @@ ARGENTINO_A_2006 = {
 }
 
 
+# El Argentino A 2008-09. Forzado por cardinalidad contra las tablas de la pagina,
+# igual que 2006-07, y con una sorpresa que la cardinalidad misma destapo: RSSSF
+# rotula `Zone 1`, `Zone 2` y `Zone 3`, pero sus Zone 1 y 2 NO son las Zona 1 y 2
+# de la pagina. Traen los MISMOS 16 clubes -- son dos etapas sobre un mismo grupo,
+# y por eso su membresia es identica -- mientras que la pagina reparte esos 16 en
+# dos zonas de 8. La Zone 3 si es la Zona 3, y balancea 9 contra 9.
+#
+# Con la correspondencia bien hecha la cuenta cierra sola: 16 contra 16 y 9 contra
+# 9, ocho nombres coinciden exacto en el primer grupo y dos en el segundo, y cada
+# sobrante tiene UN solo candidato posible:
+#
+#   "9 de Julio"              -> 9 de Julio (R)          el otro esta en la Zone 3
+#   "Dvo Santamarina"         -> Ramón Santamarina
+#   "Gimnasia y Esgrima (CU)" -> Gimnasia y Esgrima (CdU)  el (M) esta en la Zone 3
+#   "Juventud"                -> Juventud (P)            Juventud Unida, en la 3
+#   "Libertad" "Rivadavia" "Unión" -> (S) (L) (S)        uno solo de cada uno
+#   "Sp. Desamparados" "Dvo Maipú" "Talleres" "Racing" "Alumni"
+#   "Central Córdoba" "Juventud Unida Univ."             idem, uno solo de cada uno
+#
+# Ninguno se aparea por parecido: el que no queda forzado no entra.
+ARGENTINO_A_2008: dict[str, dict[str, str]] = {
+    "Zone 1": {
+        "9 de Julio": "9 de Julio (R)",
+        "Alvarado": "Alvarado",
+        "Ben Hur": "Ben Hur",
+        "Boca Unidos": "Boca Unidos",
+        "Cipolletti": "Cipolletti",
+        "Dvo Santamarina": "Ramón Santamarina",
+        "Gimnasia y Esgrima (CU)": "Gimnasia y Esgrima (CdU)",
+        "Guillermo Brown": "Guillermo Brown",
+        "Huracán (TA)": "Huracán (TA)",
+        "Juventud": "Juventud (P)",
+        "Libertad": "Libertad (S)",
+        "Patronato": "Patronato",
+        "Real Arroyo Seco": "Real Arroyo Seco",
+        "Rivadavia": "Rivadavia (L)",
+        "Unión": "Unión (S)",
+        "Villa Mitre": "Villa Mitre",
+    },
+    "Zone 2": {
+        "9 de Julio": "9 de Julio (R)",
+        "Alvarado": "Alvarado",
+        "Ben Hur": "Ben Hur",
+        "Boca Unidos": "Boca Unidos",
+        "Cipolletti": "Cipolletti",
+        "Dvo Santamarina": "Ramón Santamarina",
+        "Gimnasia y Esgrima (CU)": "Gimnasia y Esgrima (CdU)",
+        "Guillermo Brown": "Guillermo Brown",
+        "Huracán (TA)": "Huracán (TA)",
+        "Juventud": "Juventud (P)",
+        "Libertad": "Libertad (S)",
+        "Patronato": "Patronato",
+        "Real Arroyo Seco": "Real Arroyo Seco",
+        "Rivadavia": "Rivadavia (L)",
+        "Unión": "Unión (S)",
+        "Villa Mitre": "Villa Mitre",
+    },
+    "Zone 3": {
+        "Alumni": "Alumni (VM)",
+        "Central Córdoba": "Central Córdoba (SdE)",
+        "Dvo Maipú": "Deportivo Maipú",
+        "Gimnasia y Esgrima (M)": "Gimnasia y Esgrima (M)",
+        "Juventud Antoniana": "Juventud Antoniana",
+        "Juventud Unida Univ.": "Juventud Unida Universitario",
+        "Racing": "Racing (C)",
+        "Sp. Desamparados": "Desamparados",
+        "Talleres": "Talleres (P)",
+    },
+}
+
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
+    "Torneo Argentino A 2008-09": ("arg3-int09", ARGENTINO_A_2008),
 }
