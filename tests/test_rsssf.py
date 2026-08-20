@@ -267,6 +267,18 @@ def test_la_prosa_con_forma_de_partido_no_es_un_partido():
     assert avisos == [], "y ni siquiera tiene que avisar: no son partidos"
 
 
+def test_la_zona_tambien_se_escribe_en_ingles():
+    """RSSSF pone "Zona" en unas temporadas y "Zone" en otras: el Argentino A
+    2008-09 usa `Zone 1`, `Zone 2` y `Zone 3`. Sin reconocerlo no son encabezados
+    de nada, y la temporada entera -- 400 partidos -- entra en cero y sin ruido,
+    que es como este modulo fallo las cuatro veces anteriores."""
+    mapa = {"Zone A": {"La Plata FC": "La Plata FC", "Villa Mitre": "Villa Mitre"}}
+    ajenos, _ = rsssf.leer(
+        "Zone A\nRound 1 [Aug 21]\n"
+        "La Plata FC                  2-0 Villa Mitre\n", mapa, 2005, 2006, 8)
+    assert len(ajenos) == 1 and ajenos[0].zona == "Zone A"
+
+
 def test_la_llave_tambien_viene_escrita_sin_la_palabra_torneo():
     """RSSSF rotula "Torneo Apertura" en una temporada y "Apertura 2006" en otra.
 

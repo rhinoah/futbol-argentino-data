@@ -289,7 +289,8 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         pelada = cruda.strip()
         if not pelada:
             continue
-        if (pelada.startswith(("Torneo ", "Zona ", "Second Phase", "Final", "Promoci",
+        if (pelada.startswith(("Torneo ", "Zona ", "Zone ", "First Phase",
+                               "Second Phase", "Final", "Promoci",
                                "NB:", "Champion", "Relegation"))
                 or _LLAVE_PELADA.match(pelada)):
             # Cualquier encabezado cierra la ronda abierta: un `[Aug 27]` no cruza
@@ -306,7 +307,12 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                 # mapa de 2005-06 -- porque el cruce contra la tabla de Wikipedia
                 # agrupa por llave, y dos vocabularios no cruzan.
                 llave, zona = "Torneo " + m_llave.group(1), ""
-            elif pelada.startswith("Zona "):
+            elif pelada.startswith(("Zona ", "Zone ")):
+                # RSSSF escribe "Zona" en unas temporadas y "Zone" en otras -- el
+                # Argentino A 2008-09 usa `Zone 1`, `Zone 2`, `Zone 3` --. Sin
+                # reconocerlo, sus tres zonas no son encabezados de nada: la
+                # temporada entera entra con cero partidos y sin ruido, que es
+                # como fallo este modulo las cuatro veces anteriores.
                 zona = pelada
             else:
                 zona = ""
