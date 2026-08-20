@@ -1443,6 +1443,34 @@ class Homonimo:
 
 HOMONIMOS: tuple[Homonimo, ...] = (
     Homonimo(
+        pagina="Campeonato de Primera B 2015 (Argentina)", dice="Estudiantes (LP)",
+        debe="Estudiantes (BA)",
+        porque="El de Caseros. El cuadro de llaves escribe \"Estudiantes\" a secas "
+               "y el padron lo resuelve al de La Plata, que es un club de Primera: "
+               "en esta pagina el UNICO Estudiantes que juega es el (BA), en todos "
+               "sus partidos.\n"
+               "Y no es un nombre suelto que haya que interpretar: los partidos que "
+               "el cuadro anuncia estan en la grilla con el marcador exacto -- Estudiantes (BA) 1-3 Almagro en las Semifinales, y el cuadro dice 1-3 --. "
+               "O sea que el cuadro y la grilla hablan del mismo partido y lo unico "
+               "que los separaba era a que club apuntaba el nombre.\n"
+               "Es el caso que `fuera_del_cuadro` ya describia en su docstring y "
+               "que nadie habia escrito: la Primera B 2014, 2015 y 2017-18 lo tienen "
+               "igual."),
+    Homonimo(
+        pagina="Campeonato de Primera B 2017-18 (Argentina)", dice="Estudiantes (LP)",
+        debe="Estudiantes (BA)",
+        porque="El de Caseros. El cuadro de llaves escribe \"Estudiantes\" a secas "
+               "y el padron lo resuelve al de La Plata, que es un club de Primera: "
+               "en esta pagina el UNICO Estudiantes que juega es el (BA), en todos "
+               "sus partidos.\n"
+               "Y no es un nombre suelto que haya que interpretar: los partidos que "
+               "el cuadro anuncia estan en la grilla con el marcador exacto -- Estudiantes (BA) 4-1 Talleres (RdE) en Cuartos y el 3-1 y el 2-1 con UAI Urquiza en Semifinales, todos con el numero que dice el cuadro --. "
+               "O sea que el cuadro y la grilla hablan del mismo partido y lo unico "
+               "que los separaba era a que club apuntaba el nombre.\n"
+               "Es el caso que `fuera_del_cuadro` ya describia en su docstring y "
+               "que nadie habia escrito: la Primera B 2014, 2015 y 2017-18 lo tienen "
+               "igual."),
+    Homonimo(
         pagina="Torneo Argentino A 2005-06", dice="Talleres (C)", debe="Talleres (P)",
         porque="El de Perico, Jujuy. \"Talleres (C)\" aparece UNA SOLA VEZ en toda "
                "la pagina y es adentro del cuadro de llaves, pegado a un "
