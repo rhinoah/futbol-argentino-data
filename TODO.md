@@ -7,19 +7,19 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 39 890 | 71 | 132 | 761 | 264 |
+| 39 890 | 71 | 132 | 763 | 264 |
 
 ## 2004–2026 — Cerrado
 
 **Todo lo que Wikipedia da de esta era está adentro**
 
-`39 890` partidos, cero filas sin fecha. Lo único que queda son verificaciones de calidad, no partidos faltantes: `285` avisos abiertos, y todos los que quedan pueden mover un dato.
+`39 890` partidos, cero filas sin fecha. Lo único que queda son verificaciones de calidad, no partidos faltantes: `284` avisos abiertos, y todos los que quedan pueden mover un dato.
 
 - **Las 4 tablas que siguen sin cerrar.** Primera C 2011-12 (3) y Primera C 2026 (1). Las de 2011-12 sobreviven una búsqueda *exhaustiva* sobre sus seis cruces con toda combinación de uno, dos y tres arreglos: ninguna cierra. Existe solución matemática sólo si hay errores que se cancelan en clubes que nunca aparecen desviados, lo cual no se decide desde adentro. Y Cañuelas (2026) tiene un *rival ciego*, Central Córdoba (R), no comparable: un partido entre ellos podría explicarlo y no lo vemos. Las cuatro necesitan contrastar la temporada de esos clubes contra una fuente externa.
 - **Fechar un desacuerdo.** Ninguno de los testigos actuales puede decir *cuándo* la página cambió de opinión, y ésa es la deuda más cara que queda. La "Evolución de las posiciones" era el camino y no alcanzó: chequear su contenido pide simular la tabla fecha por fecha —puntajes que cambian, byes, zonas, postergados que mueven el corte al calendario— y medido dio 12% de desvíos, que es un modelo incompleto haciendo ruido. Hay que terminar ese modelo, empezando por el corte por fecha de calendario, o cruzar contra una fuente de afuera.
 - **Las tres temporadas de RSSSF que faltan.** `2006-07` ya entró: 334 partidos, cero graves, con `source` acreditando a las dos fuentes. Faltan `2007-08` (`arg3-int08`) y `2008-09` (`arg3-int09`), y encontrar la de `2009-10`, que **no** está en `arg3-int10` — da 404 —. El mapa de cada una se arma con la misma técnica de cardinalidad, pero `2007-08` **no** tiene la forma de las otras dos y hay que mirarla antes de forzar nada: sus secciones son `First Phase - Fase Campeonato`, `Group A` — *Group*, no *Zona* — y rondas `Interzonal Group A-B` intercaladas, así que no es un Apertura y un Clausura sobre las mismas zonas. `2008-09` no muestra ningún encabezado reconocible y todavía no sabemos qué forma tiene. Las dos traen además cuatro líneas con el marcador escrito en palabras (`abd` / `awd`), que el lector ya sabe leer desde que se arregló 2006-07.
 
-- **Las cinco fases finales que sólo existen como cuadro.** Son los 37 avisos del árbitro nuevo, y están *bloqueados*, no pendientes. En Primera C 2008-09 y 2011-12 y en Argentino A 2005-06, 2011-12 y 2012-13, la sección de la fase final —«Torneo reducido», «Segunda fase», «Quinta y sexta fase»— contiene el cuadro de llaves y **nada más**: ni tabla de resultados ni plantillas `{{Partido}}`. Y un cuadro no sabe quién fue local, medido: la convención *arriba es local en la ida* acierta 55.6% contra 761 patas donde la grilla sí lo dice, así que escribir esas filas sería inventarle la localía a la mitad. Son ~80 patas y necesitan una fuente de afuera, igual que las 4 tablas que no cierran. Ojo con una trampa: buscarlas por par+marcador da falsos positivos, porque esos clubes también se cruzaron en la liga y los marcadores bajos se repiten.
+- **Las cinco fases finales que sólo existen como cuadro.** Son 37 de los 40 avisos del árbitro nuevo, y están *bloqueados*, no pendientes. En Primera C 2008-09 y 2011-12 y en Argentino A 2005-06, 2011-12 y 2012-13, la sección de la fase final —«Torneo reducido», «Segunda fase», «Quinta y sexta fase»— contiene el cuadro de llaves y **nada más**: ni tabla de resultados ni plantillas `{{Partido}}`. Y un cuadro no sabe quién fue local, medido: la convención *arriba es local en la ida* acierta 55.6% contra 761 patas donde la grilla sí lo dice, así que escribir esas filas sería inventarle la localía a la mitad. Son ~80 patas y necesitan una fuente de afuera, igual que las 4 tablas que no cierran. Ojo con una trampa: buscarlas por par+marcador da falsos positivos, porque esos clubes también se cruzaron en la liga y los marcadores bajos se repiten.
 
 ## 1997–2003 — Lo próximo
 
