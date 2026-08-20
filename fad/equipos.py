@@ -723,7 +723,30 @@ ARTICULOS: dict[str, str] = {
     'Gregorio de Laferrere (Buenos Aires)': 'Deportivo Laferrere',
     'Gutiérrez Sport Club': 'Gutiérrez',
     'Instituto Atlético Central Córdoba': 'Instituto',
-    'Racing Club (Trelew)': 'Racing Club',
+    # Racing de TRELEW (Chubut), no el de Avellaneda: el mismo error que el de
+    # Cordoba de mas arriba, en el otro Racing. Los dos titulos son redirecciones
+    # al articulo "Asociación Civil Racing Club" -- el club de Trelew fundado en
+    # 1920 que juega la Liga del Valle --, y el de Avellaneda es "Racing Club" a
+    # secas, que es justo el canonico al que esto apuntaba.
+    #
+    # A diferencia del de Cordoba, este no llego a costar un partido, y se midio:
+    # de las dos paginas de la cache que enlazan el titulo, una es la ficha de
+    # Huracan de Comodoro -- que no esta en el catalogo -- y la otra lo usa en una
+    # nota al pie sobre un estadio: "Estadio de [[Racing Club (Trelew)|Racing
+    # Club]], de Trelew", en la Primera B Nacional 2017-18. Ninguna de las dos es
+    # un partido. Los nueve enlaces que SI son partidos -- las Copas Argentina
+    # 2011-12 a 2013-14 -- usan el otro titulo y lo muestran como "Racing (T)",
+    # asi que resolvian bien por el nombre y el articulo no hacia falta.
+    #
+    # Que no toque ningun dato hoy no lo hace menos error, y el camino por el que
+    # llegaria esta abierto: esa nota al pie mete "Racing Club" en el mapa de
+    # `articulos_de_la_pagina`, que es por donde se resuelve un nombre pelado de
+    # una tabla. `articulos_que_contradicen` no lo veia porque pide que el nombre
+    # visible traiga su propio parentesis, y "Racing Club" no trae ninguno: el
+    # unico testigo que quedaba era leer el mapa.
+    'Racing Club (Trelew)': 'Racing (T)',
+    'Asociación Civil Racing Club (Trelew)': 'Racing (T)',
+    'Asociación Civil Racing Club': 'Racing (T)',
     'Real Pilar Fútbol Club': 'Real Pilar',
     'Sacachispas Fútbol Club': 'Sacachispas',
 }

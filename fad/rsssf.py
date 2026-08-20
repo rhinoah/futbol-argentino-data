@@ -767,6 +767,24 @@ ARGENTINO_A_2007: dict[str, dict[str, str]] = {
     },
 }
 
+# QUE TEMPORADAS PUBLICA RSSSF, Y CON QUE NOMBRE DE ARCHIVO
+# ---------------------------------------------------------
+# Buscar `arg3-int10` para 2009-10 da 404, y la conclusion facil -- "no la
+# publican" -- es falsa. Lo que cambio es la convencion del NOMBRE: dos digitos
+# hasta 2008-09 y cuatro desde 2009-10.
+#
+#   arg3-int05 .. arg3-int09   2004-05 .. 2008-09
+#   arg3-int2010               2009-10
+#   arg3-int2013               2012-13
+#
+# 2010-11 y 2011-12 no tienen archivo de partidos: el resumen anual (`arg2011`,
+# `arg2012`) trae sus TABLAS finales y nada mas. No hace falta: 2010-11 ya entra
+# por Wikipedia, que si publica la grilla.
+#
+# El camino para encontrarlos no fue adivinar nombres sino dejar que la fuente lo
+# dijera: cada archivo enlaza al de la temporada anterior y al de la siguiente, y
+# `arg3-int09` apunta derecho a `arg3-int2010.html`. Vale para la proxima vez.
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
