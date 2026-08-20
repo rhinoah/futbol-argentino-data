@@ -351,7 +351,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: una verificacion que ya no engancha", d,
                              grave=False)
                for d in correcciones.revisados_huerfanos(
-                   t.pagina, posiciones.clubes_desviados(ps, texto, pagina=t.pagina))]
+                   t.pagina, posiciones.clubes_desviados(ps, texto, pagina=t.pagina),
+                   posiciones.marcadores_del_cuadro(ps, texto, t.pagina, crudo=True))]
     # Y los RESULTADOS, que es la otra mitad de la misma tabla: `contrastar`
     # pregunta cuantos goles y este pregunta quien gano. Separa un digito mal
     # leido de un partido entero al reves, y eso cambia que hay que ir a buscar.

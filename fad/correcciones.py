@@ -1764,8 +1764,43 @@ class Revisado:
     club: str
     porque: str
 
+    # El rival, cuando lo que se verifico es una LLAVE y no una fila de tabla.
+    #
+    # Hace falta y se aprendio probando lo contrario: dejar que el chequeo del
+    # cuadro mirara los `Revisado` por club calló cinco avisos que nadie habia
+    # arbitrado -- llaves del Argentino A 2005-06 que compartian un club con el
+    # `Revisado` del partido dividido del Clausura, que habla de otra cosa --. Un
+    # desvio de tabla es una afirmacion sobre UN club; una llave lo es sobre DOS,
+    # y reusar el alcance chico para el problema grande suprime de mas.
+    contra: str = ""
+
 
 REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Torneo Federal A 2025", club="9 de Julio (R)", contra="Germinal",
+        porque="La vuelta del 12/10/2025 termino 5-0, que es lo que dice la grilla. "
+               "El que esta mal es el CUADRO DE LLAVES, que publica 4-0 con un "
+               "global de 5-1. No hay nada que corregir en el dataset: la fila ya "
+               "esta bien.\n"
+               "LA PAGINA SE CONTRADICE SOLA y se desmiente a si misma sin ayuda. "
+               "Ademas del cuadro trae una tabla resumen de las llaves con los "
+               "GLOBALES, y ahi dice \"9 de Julio (R) 6 - 1 Germinal\": con el 1-1 "
+               "de la ida, eso exige 5-0. Esa tabla es confiable en su propio "
+               "contexto -- la llave de al lado, \"Atenas (RC) 5 - 0 Sarmiento (R)\", "
+               "cierra exacto con su cuadro --.\n"
+               "Y la prensa lo decide sin margen. Diario Jornada (Trelew) publico la "
+               "cronica la misma noche del partido, 12/10/2025 18:16, con CINCO "
+               "goleadores y sus minutos -- Ibanez y Peralta en el primer tiempo, "
+               "Abondetto, Del Sole y Bonilla en el segundo --, las dos formaciones "
+               "y el arbitro. Cinco goles con cinco autores distintos no se "
+               "reconcilian con un 4-0: sobraria un gol y un goleador.\n"
+               "El global lo confirma por otra via y desde los dos lados de la "
+               "serie: Canal 12 de Chubut (12/10/2025 19:57, el lado de Germinal) y "
+               "Diario Castellanos de Rafaela (18/10/2025, el lado de 9 de Julio) "
+               "dicen los dos \"global 6-1\". El 5-1 del cuadro no aparece en "
+               "ninguna fuente.\n"
+               "Es 9 de Julio de RAFAELA y no el de Morteros: las cronicas ubican "
+               "el partido en el German Soltermam."),
     Revisado(
         pagina="Torneo Federal A 2024", club="Círculo Deportivo",
         porque="Se desvia en (0, +1) y no hay ningun club que lo aparee: para que un "
@@ -2103,12 +2138,26 @@ REVISADOS: tuple[Revisado, ...] = (
 def revisado(pagina: str, club: str) -> Revisado | None:
     """La verificacion que cierra el desvio de ese club, si alguien la hizo."""
     for r in REVISADOS:
-        if r.pagina == pagina and r.club == club:
+        # Los que nombran rival NO contestan aca: verifican una llave, no la fila
+        # de un club en la tabla.
+        if r.pagina == pagina and r.club == club and not r.contra:
             return r
     return None
 
 
-def revisados_huerfanos(pagina: str, desviados: set[str]) -> list[str]:
+def revisado_llave(pagina: str, uno: str, otro: str) -> "Revisado | None":
+    """La verificacion que cierra el desacuerdo de esa LLAVE, si alguien la hizo.
+
+    Pide los dos clubes y en cualquier orden, porque una llave no tiene local.
+    """
+    for r in REVISADOS:
+        if r.pagina == pagina and r.contra and {r.club, r.contra} == {uno, otro}:
+            return r
+    return None
+
+
+def revisados_huerfanos(pagina: str, desviados: set[str],
+                        llaves: set | None = None) -> list[str]:
     """Los `Revisado` de esta pagina que ya no enganchan con ningun desvio.
 
     Un `Revisado` silencia un aviso, asi que tiene que caducar solo. Si la pagina
@@ -2118,7 +2167,15 @@ def revisados_huerfanos(pagina: str, desviados: set[str]) -> list[str]:
     """
     fuera = []
     for r in REVISADOS:
-        if r.pagina != pagina or r.club in desviados:
+        if r.pagina != pagina:
+            continue
+        # Los de llave se preguntan contra los pares acusados por el cuadro;
+        # los de club, contra los desvios de tabla. Son dos chequeos distintos
+        # y cada uno tiene que mirar SU conjunto o la guarda no guarda.
+        if r.contra:
+            if llaves is None or frozenset((r.club, r.contra)) in llaves:
+                continue
+        elif r.club in desviados:
             continue
         fuera.append(
             f"la verificacion de {r.club} ya no engancha con ningun desvio: o la "

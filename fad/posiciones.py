@@ -815,7 +815,8 @@ def fuera_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
     return fuera
 
 
-def marcadores_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
+def marcadores_del_cuadro(ps: list, texto: str, pagina: str = "",
+                          crudo: bool = False):
     """Marcadores que el CUADRO afirma y la grilla no tiene para ese cruce.
 
     La fase final es la region donde ningun chequeo de este modulo puede opinar:
@@ -835,7 +836,7 @@ def marcadores_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
     """
     cruces = parser.cruces_del_cuadro(texto)
     if not cruces:
-        return []
+        return set() if crudo else []
     tiene = {(frozenset((p.local, p.visita)),
               frozenset(((p.local, p.goles_local), (p.visita, p.goles_visita))))
              for p in ps}
@@ -850,6 +851,14 @@ def marcadores_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
                   if (frozenset((ca, cb)),
                       frozenset(((ca, x), (cb, y)))) not in tiene]
         if not faltan:
+            continue
+        if crudo:                      # los pares acusados, SIN filtrar
+            fuera.append(frozenset((ca, cb)))
+            continue
+        # Un desacuerdo arbitrado tiene que poder callarse. El registro es de PAR
+        # y no de club -- ver `Revisado.contra` --, justamente para no callar la
+        # llave de al lado que comparte un club y que nadie miro.
+        if correcciones.revisado_llave(pagina, ca, cb):
             continue
         # Lo que esto encuentra son TRES cosas distintas y el dato las separa
         # solo. La pregunta no es si los dos clubes aparecen juntos en la pagina
@@ -869,7 +878,7 @@ def marcadores_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
         else:
             que = "la grilla no tiene NINGUN partido entre los dos: falta el partido"
         fuera.append(f"{ca} vs {cb}: el cuadro de llaves publica {dice} y {que}")
-    return fuera
+    return set(fuera) if crudo else fuera
 
 
 def _por_wikitabla(bloque: str, arts: dict[str, str],

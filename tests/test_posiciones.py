@@ -987,6 +987,44 @@ def test_el_cuadro_arbitra_la_fase_final():
         [zona("River Plate", "Boca Juniors", 0, 1)], texto) == []
 
 
+def test_un_revisado_de_club_NO_calla_una_llave():
+    """El alcance importa y se aprendio probando lo contrario.
+
+    Dandole al chequeo del cuadro la puerta de `Revisado` por club, se callaron
+    cinco avisos que nadie habia arbitrado: llaves del Argentino A 2005-06 que
+    compartian UN club con el `Revisado` del partido dividido del Clausura, que
+    habla de otra cosa. Un desvio de tabla es una afirmacion sobre un club; una
+    llave lo es sobre dos.
+    """
+    texto = _cuadro("| RD1-team1 = [[Boca Juniors]]", "| RD1-team2 = [[River Plate]]",
+                    "| RD1-score1 = 1", "| RD1-score2 = 0")
+    ps = [Partido(fecha="2010-01-01", local="Boca Juniors", visita="River Plate",
+                  goles_local=3, goles_visita=3, fase="eliminacion", jornada="Final")]
+    assert posiciones.marcadores_del_cuadro(ps, texto, "Una Pagina")
+
+    porclub = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (porclub,)):
+        assert posiciones.marcadores_del_cuadro(ps, texto, "Una Pagina"), \
+            "un revisado de club no puede callar una llave"
+
+    porpar = correcciones.Revisado(pagina="Una Pagina", club="River Plate",
+                                   contra="Boca Juniors", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (porpar,)):
+        assert posiciones.marcadores_del_cuadro(ps, texto, "Una Pagina") == [], \
+            "y el de par si, en cualquier orden"
+
+
+def test_un_revisado_de_llave_no_contesta_por_la_tabla():
+    """Al reves tambien: el que verifica una llave no explica el desvio de una
+    fila de posiciones, asi que `revisado()` no lo devuelve."""
+    porpar = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors",
+                                   contra="River Plate", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (porpar,)):
+        assert correcciones.revisado("Una Pagina", "Boca Juniors") is None
+        assert correcciones.revisado_llave("Una Pagina", "River Plate",
+                                           "Boca Juniors") is porpar
+
+
 def test_el_aviso_distingue_los_tres_estados():
     """Son TRES cosas distintas y el dato las separa solo. La pregunta no es si
     los dos clubes aparecen juntos en la pagina -- en una liga se cruzaron en la
