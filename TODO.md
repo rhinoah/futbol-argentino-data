@@ -7,17 +7,18 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 39 539 | 71 | 131 | 739 | 264 |
+| 39 873 | 71 | 132 | 745 | 264 |
 
 ## 2004–2026 — Cerrado
 
 **Todo lo que Wikipedia da de esta era está adentro**
 
-`39 539` partidos, cero filas sin fecha. Lo único que queda son verificaciones de calidad, no partidos faltantes: `237` avisos abiertos, y todos los que quedan pueden mover un dato.
+`39 873` partidos, cero filas sin fecha. Lo único que queda son verificaciones de calidad, no partidos faltantes: `246` avisos abiertos, y todos los que quedan pueden mover un dato.
 
 - **Las 4 tablas que siguen sin cerrar.** Primera C 2011-12 (3) y Primera C 2026 (1). Las de 2011-12 sobreviven una búsqueda *exhaustiva* sobre sus seis cruces con toda combinación de uno, dos y tres arreglos: ninguna cierra. Existe solución matemática sólo si hay errores que se cancelan en clubes que nunca aparecen desviados, lo cual no se decide desde adentro. Y Cañuelas (2026) tiene un *rival ciego*, Central Córdoba (R), no comparable: un partido entre ellos podría explicarlo y no lo vemos. Las cuatro necesitan contrastar la temporada de esos clubes contra una fuente externa.
 - **Fechar un desacuerdo.** Ninguno de los testigos actuales puede decir *cuándo* la página cambió de opinión, y ésa es la deuda más cara que queda. La "Evolución de las posiciones" era el camino y no alcanzó: chequear su contenido pide simular la tabla fecha por fecha —puntajes que cambian, byes, zonas, postergados que mueven el corte al calendario— y medido dio 12% de desvíos, que es un modelo incompleto haciendo ruido. Hay que terminar ese modelo, empezando por el corte por fecha de calendario, o cruzar contra una fuente de afuera.
-- **RSSSF como fuente: falta el camino de importación, no el mapa.** El mapa de `2006-07` ya está en `fad/rsssf.py`, forzado por cardinalidad y verificado: 24 de 24 nombres, ninguno por parecido. Pero cargarlo da **cero partidos**, porque `fechas.completar` sólo rellena *fechas* de partidos que ya existen y nunca agrega filas: RSSSF está cableada como fuente de fechas, no de filas. Lo que falta es `rsssf.a_partidos()` y su enchufe en `build.py`, con cuatro cuidados: los campos que `Ajeno` no trae van *vacíos*, no inventados; `source` dice RSSSF; las filas importadas pasan por `contrastar` y `resultados_que_no_coinciden` igual que las de Wikipedia — la tabla de esa página existe, así que el cedazo está disponible—; y la condición de importar tiene que ser un flag explícito en `Torneo` (`sin_grilla=True`) y **no** "si el parser devolvió vacío", porque una grilla rota por un bug se vería igual y la importación taparía la regresión. Con eso, las otras dos temporadas entran de corrido: su mapa se arma con la misma técnica, cortando las zonas por nivel de título.
+- **Las tres temporadas de RSSSF que faltan.** `2006-07` ya entró: 332 partidos, cero graves, con `source` acreditando a las dos fuentes. Faltan `2007-08` (`arg3-int08`) y `2008-09` (`arg3-int09`), y encontrar la de `2009-10`, que **no** está en `arg3-int10` — da 404 —. El mapa de cada una se arma con la misma técnica de cardinalidad, pero `2007-08` **no** tiene la forma de las otras dos y hay que mirarla antes de forzar nada: sus secciones son `First Phase - Fase Campeonato`, `Group A` — *Group*, no *Zona* — y rondas `Interzonal Group A-B` intercaladas, así que no es un Apertura y un Clausura sobre las mismas zonas. `2008-09` no muestra ningún encabezado reconocible y todavía no sabemos qué forma tiene.
+- **Los 4 partidos del Argentino A 2006-07 que RSSSF no publica.** La tabla de la página los cuenta y la grilla importada no los tiene. Se descomponen de forma forzada, así que hay exactamente cuatro cosas que buscar: Desamparados–San Martín en la Zona B, y en la Zona C el Central Norte–9 de Julio que la propia RSSSF marca como *homologado* (`award ... in round 14 Clausura`), más Talleres–Atlético Tucumán y Talleres–La Florida. Los ocho avisos abiertos de esa página son estos cuatro partidos contados dos veces, una por club.
 
 ## 1997–2003 — Lo próximo
 
