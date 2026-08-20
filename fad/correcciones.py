@@ -1775,7 +1775,37 @@ class Revisado:
     contra: str = ""
 
 
+# Los dos clubes del partido dado por perdido del Argentino A 2007-08
+# comparten la explicacion porque comparten el partido: escribirla dos
+# veces serian dos textos que se pueden desincronizar.
+_AWD_2007 = (
+    "El desvio es de UN gol y lo explica entero un solo partido, el Lujan "
+    "de Cuyo vs Juventud Unida Universitario de la fecha 26 (16/03/2008), "
+    "que se abandono y se fallo en escritorio.\n"
+    "LAS DOS FUENTES DAN FALLOS DISTINTOS. RSSSF lo publica con la nota "
+    "textual `(awarded 0-2, abandoned at 1-1 in 86')` y de ahi sale la "
+    "fila del dataset, 0-2. La tabla de la pagina lo conto 0-1, que es la "
+    "forma habitual de la perdida de puntos en Argentina.\n"
+    "LA ARITMETICA LO FUERZA, y no deja lugar a otra lectura: si la "
+    "diferencia fuera un partido mal leido moveria cuatro celdas. Mueve "
+    "DOS, y son exactamente las dos que separan un 0-1 de un 0-2. Nuestro "
+    "GF de Juventud Unida da 49 contra los 48 de la tabla, y nuestro GC "
+    "de Lujan de Cuyo da 58 contra 57; las otras dos celdas del mismo "
+    "partido -- el GF de Lujan y el GC de Juventud Unida, cero con "
+    "cualquiera de los dos fallos -- coinciden exacto, igual que los 32 "
+    "PJ de los dos.\n"
+    "No hay nada que corregir: la fila dice lo que dice su fuente y la "
+    "tabla dice lo que dice la suya. Se anota el desacuerdo; no se "
+    "inventa un tercer marcador. "
+)
+
 REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Torneo Argentino A 2007-08", club="Juventud Unida Universitario",
+        porque=_AWD_2007),
+    Revisado(
+        pagina="Torneo Argentino A 2007-08", club="Luján de Cuyo",
+        porque=_AWD_2007),
     Revisado(
         pagina="Torneo Federal A 2025", club="9 de Julio (R)", contra="Germinal",
         porque="La vuelta del 12/10/2025 termino 5-0, que es lo que dice la grilla. "

@@ -598,6 +598,10 @@ ARTICULOS: dict[str, str] = {
     # muestran como "Racing", "Racing (C)", "Racing (Cba.)" o "Racing (Córdoba)",
     # y ninguna como el de Avellaneda.
     'Club Atlético Racing': 'Racing (C)',
+    # El Argentino A 2007-08 lo enlaza con el desambiguador desplegado. Va al
+    # mismo club que el de arriba, y por la misma razon: el de Avellaneda es
+    # "Racing Club".
+    'Club Atlético Racing (Córdoba)': 'Racing (C)',
     'Club Atlético River Plate': 'River Plate',
     'Club Atlético Rosario Central': 'Rosario Central',
     'Club Atlético San Lorenzo de Alem': 'San Lorenzo de Alem',
@@ -643,6 +647,19 @@ ARTICULOS: dict[str, str] = {
     'Club Ferro Carril Oeste (General Pico)': 'Ferro Carril Oeste (GP)',
     'Club General Belgrano': 'General Belgrano (SR)',
     'Club Gimnasia y Esgrima (Concepción del Uruguay)': 'Gimnasia y Esgrima (CdU)',
+    # Los cuatro que enlaza la seccion Interzonales del Argentino A 2007-08. Los
+    # dos primeros son de los que MIENTEN, no de los que no resuelven: la pagina
+    # los escribe con el nombre pelado -- [[Club Atlético Unión de Sunchales|Unión]]
+    # y [[Huracán de Tres Arroyos|Huracán]] --, y sin el articulo esos displays caen
+    # en Unión de SANTA FE (afa 137) y en Huracán de PARQUE PATRICIOS (afa 100), que
+    # son otros clubes y encima de Primera. Es el riesgo que anuncia el docstring de
+    # arriba, con nombre y apellido.
+    'Club Atlético Unión de Sunchales': 'Unión (S)',
+    'Huracán de Tres Arroyos': 'Huracán (TA)',
+    # Estos dos hoy aciertan por el display, pero el articulo es la clave estable:
+    # si manana la pagina abrevia, aciertan igual.
+    'Libertad de Sunchales': 'Libertad (S)',
+    'Juventud Antoniana de Salta': 'Juventud Antoniana',
     'Club Mutual Crucero del Norte': 'Crucero del Norte',
     'Club Rivadavia': 'Rivadavia (L)',
     # Los diez del Argentino A 2005-06. Dos tienen dos titulos: uno es redireccion
@@ -662,6 +679,9 @@ ARTICULOS: dict[str, str] = {
     # El Argentino A 2010-11 lo enlaza asi y escribe "Rivadavia" a secas, que
     # el padron no resuelve -- hay tres. El articulo si.
     'Rivadavia de Lincoln': 'Rivadavia (L)',
+    # Y el Argentino A 2007-08 lo enlaza con el "Club" adelante, que es un tercer
+    # titulo del mismo club.
+    'Club Rivadavia de Lincoln': 'Rivadavia (L)',
     'Club Social y Atlético Guillermo Brown': 'Guillermo Brown',
     'Club Social y Cultural Deportivo Laferrere': 'Deportivo Laferrere',
     'Club Social y Deportivo Central Ballester': 'Central Ballester',
@@ -690,6 +710,12 @@ ARTICULOS: dict[str, str] = {
     'Club Villa Mitre': 'Villa Mitre',
     'Club de Gimnasia y Esgrima de La Plata': 'Gimnasia y Esgrima (LP)',
     'Club de Gimnasia y Tiro': 'Gimnasia y Tiro (S)',
+    # Santamarina de Tandil tiene dos titulos, y el Argentino A 2007-08 usa UNO EN
+    # CADA SECCION de la misma pagina: "Club Deportivo Santamarina" en la tabla de
+    # participantes y "Club y Biblioteca Ramón Santamarina" en la de posiciones.
+    # Que son el mismo club lo dice la propia pagina: su Zona 3 tiene nueve clubes,
+    # ocho ya identificados, y queda un solo lugar para los dos titulos.
+    'Club Deportivo Santamarina': 'Ramón Santamarina',
     'Club y Biblioteca Ramón Santamarina': 'Ramón Santamarina',
     'Concepción Fútbol Club': 'Concepción FC',
     'Círculo Deportivo de Comandante Nicanor Otamendi': 'Círculo Deportivo',

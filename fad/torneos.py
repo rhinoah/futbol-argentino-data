@@ -309,6 +309,13 @@ ASCENSO_HISTORICO = [
     # pasan por el mismo cruce que todas las demas.
     Torneo('Torneo Argentino A 2006-07', 'Torneo Argentino A', 2006,
            anio_fin=2007, rsssf='arg3-int07', sin_grilla=True),
+    # La tercera sin grilla, y la que enseño a no dar por buena la analogia con la
+    # anterior: sus `Group A` y `Group B` SI son dos zonas de 8 -- la Zona 1 y la
+    # Zona 2 --, aunque cada bloque nombre 16 clubes. Los otros 8 son los rivales
+    # del interzonal, que RSSSF imprime bajo los dos grupos. Lo zanja la cuenta de
+    # partidos, no la de nombres: 112 + 112 + 32 + 144 = 400.
+    Torneo('Torneo Argentino A 2007-08', 'Torneo Argentino A', 2007,
+           anio_fin=2008, rsssf='arg3-int08', sin_grilla=True),
     # La segunda sin grilla, y la que enseño que la correspondencia de zonas no se
     # da por hecha: RSSSF la parte en `Zone 1`, `Zone 2` y `Zone 3`, pero sus dos
     # primeras son ETAPAS sobre los mismos 16 clubes y la pagina las reparte en dos

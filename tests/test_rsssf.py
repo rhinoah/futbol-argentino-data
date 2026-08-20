@@ -423,3 +423,38 @@ def test_lo_descargado_queda_cacheado_y_no_se_vuelve_a_pedir(monkeypatch, tmp_pa
     rsssf.descargar("arg3-int06")
     rsssf.descargar("arg3-int06")
     assert len(llamadas) == 1
+
+
+def test_2007_08_los_dos_grupos_nombran_los_mismos_clubes():
+    """`Group A` y `Group B` son dos zonas de 8 -- la Zona 1 y la Zona 2 --, pero
+    cada bloque nombra 16 clubes: los otros 8 son los rivales del interzonal, que
+    RSSSF imprime bajo los dos grupos. Por eso los dos dicts tienen que conocer a
+    los mismos 16 sin ser el mismo grupo.
+
+    Se prueba sobre los clubes CANONICOS y no sobre las claves porque las claves
+    difieren a proposito -- cada grupo trae alguna grafia suelta que el otro no --.
+    Lo que no puede diferir es a quien apuntan. Si alguna vez alguien edita un
+    grupo y se olvida del otro, los partidos de la segunda etapa se le van a otro
+    club, que es la unica falla de este repo que no hace ruido.
+    """
+    a = rsssf.ARGENTINO_A_2007["Group A"]
+    b = rsssf.ARGENTINO_A_2007["Group B"]
+    assert set(a.values()) == set(b.values())
+    assert len(set(a.values())) == 16
+    assert len(set(rsssf.ARGENTINO_A_2007["Group C"].values())) == 9
+
+
+def test_2007_08_el_talleres_pelado_se_traduce_en_el_mapa_y_no_en_el_padron():
+    """RSSSF escribe `Talleres` a secas en UNA linea de 2007-08, y ahi es el de
+    Perico. Globalmente NO lo es: "Talleres" pelado es el de Cordoba.
+
+    Por eso la traduccion vive en el mapa de la temporada, que es por zona, y no
+    en los alias del padron. Este test es el que se rompe si alguien decide
+    "simplificar" moviendo el alias arriba: ese dia Perico se quedaria con las
+    temporadas de Cordoba.
+    """
+    from fad import equipos
+
+    assert rsssf.ARGENTINO_A_2007["Group A"]["Talleres"] == "Talleres (P)"
+    pelado = equipos.buscar("Talleres")
+    assert pelado is not None and pelado.nombre != "Talleres (P)"

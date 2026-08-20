@@ -671,8 +671,105 @@ ARGENTINO_A_2008: dict[str, dict[str, str]] = {
 }
 
 
+# El Argentino A 2007-08. NO tiene la forma de 2008-09, aunque de lejos la imita:
+# aca `Group A` es la Zona 1 de la pagina y `Group B` es la Zona 2, dos zonas de 8
+# de verdad. Lo que confunde es que cada bloque nombra 16 clubes, y por eso la
+# primera lectura fue que eran dos etapas sobre un plantel unico, como en 2008-09.
+# No lo son, y lo dice la cuenta de partidos: 8 clubes todos contra todos, ida y
+# vuelta, dos ruedas, son 112, y eso es exactamente lo que trae cada bloque en sus
+# rondas normales -- 112 y 112 --, contra los 480 que tendria un grupo de 16. La
+# Zona 3 son 9 clubes y 144.
+#
+# Los otros 8 nombres de cada bloque entran por el INTERZONAL, que RSSSF imprime
+# bajo los dos grupos: 8 pares por 4 cruces = 32 partidos, escritos 64 veces. Por
+# eso el mapa de `Group A` tiene que conocer igual a los clubes de la Zona 2 -- sus
+# rivales interzonales --, y el de `Group B` a los de la Zona 1. De ahi que los dos
+# dicts nombren los mismos 16 clubes sin ser el mismo grupo.
+#
+# La cuenta cierra sola: 112 + 112 + 32 + 144 = 400 partidos.
+#
+# Contra el plantel de la pagina emparejan solos 13 de 16 y 7 de 9. Los que
+# faltaban no se aparearon por parecerse:
+#
+#   "Juv.Antoniana"    -> Juventud Antoniana   la Zona 1 tiene 8, siete ya ocupados
+#   "Dep. Santamarina" -> Ramón Santamarina    la Zona 3 tiene 9, ocho ya ocupados
+#   "Gimnasia y Esgr. (CdU)" y "Talleres" no son clubes que falten sino SEGUNDAS
+#     GRAFIAS de dos que ya estaban. La prueba es del torneo, no del texto: en una
+#     zona todos se enfrentan con todos, y ninguna de las dos grafias cortas juega
+#     nunca contra su larga ni aporta un solo rival que la larga no tenga. La corta
+#     de Gimnasia aparece en 2 partidos de 34; "Talleres" en 1 de 36, contra Lujan
+#     de Cuyo, que es de su misma zona. Y las dos cierran los PJ: 31 + 1 = 32, que
+#     es lo que la tabla final del propio RSSSF le da a Talleres (Perico).
+#   "Alumni" -> Alumni (VM)                  recien una vez colapsada la de Gimnasia
+#     queda un solo nombre libre en la Zona 2 y un solo club sin duenio.
+#
+# Las cuatro las confirma ademas la TABLA FINAL de RSSSF, que ahi si escribe los
+# nombres enteros -- "Alumni (Villa Maria) ... (Cordoba)", "Talleres (Perico) ...
+# (Jujuy)", "Deportivo Santamarina (Tandil)", "Juventud Antoniana (Salta)" -- y da
+# fojas que coinciden digito por digito con las sumadas sobre la grilla.
+#
+# `Talleres` pelado se traduce ACA y no en el padron a proposito: global, "Talleres"
+# es el de Cordoba, que ademas JUEGA en este mismo documento -- el playoff de
+# promocion contra Racing (C) --, asi que un alias global le daria a Perico partidos
+# de un club que esta en la misma pagina.
+ARGENTINO_A_2007: dict[str, dict[str, str]] = {
+    # Los mismos 16 clubes bajo los dos rotulos: son dos etapas, no dos zonas.
+    "Group A": {
+        "9 De Julio (R)": "9 de Julio (R)",
+        "Alumni": "Alumni (VM)",
+        "Atl. Tucuman": "Atlético Tucumán",
+        "Boca Unidos": "Boca Unidos",
+        "Gimnasia y Esgr. (CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Esgrima (CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Esgrima (M)": "Gimnasia y Esgrima (M)",
+        "Juv.Antoniana": "Juventud Antoniana",
+        "Juventud U. U.": "Juventud Unida Universitario",
+        "La Florida": "La Florida",
+        "Libertad": "Libertad (S)",
+        "Lujan de Cuyo": "Luján de Cuyo",
+        "Racing (C)": "Racing (C)",
+        "Sp. Desamparados": "Desamparados",
+        "Sp. Patria": "Sportivo Patria",
+        "Talleres": "Talleres (P)",
+        "Talleres (P)": "Talleres (P)",
+        "Unión (S)": "Unión (S)",
+    },
+    "Group B": {
+        "9 De Julio (R)": "9 de Julio (R)",
+        "Alumni": "Alumni (VM)",
+        "Atl. Tucuman": "Atlético Tucumán",
+        "Boca Unidos": "Boca Unidos",
+        "Gimnasia y Esgr. (CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Esgrima (CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Esgrima (M)": "Gimnasia y Esgrima (M)",
+        "Juv.Antoniana": "Juventud Antoniana",
+        "Juventud U. U.": "Juventud Unida Universitario",
+        "La Florida": "La Florida",
+        "Libertad": "Libertad (S)",
+        "Lujan de Cuyo": "Luján de Cuyo",
+        "Racing (C)": "Racing (C)",
+        "Sp. Desamparados": "Desamparados",
+        "Sp. Patria": "Sportivo Patria",
+        "Talleres": "Talleres (P)",
+        "Talleres (P)": "Talleres (P)",
+        "Unión (S)": "Unión (S)",
+    },
+    "Group C": {
+        "Cipolletti": "Cipolletti",
+        "Dep. Santamarina": "Ramón Santamarina",
+        "Guillermo Brown": "Guillermo Brown",
+        "Huracan (TA)": "Huracán (TA)",
+        "Juventud (P)": "Juventud (P)",
+        "La Plata FC": "La Plata FC",
+        "Real Arroyo Seco": "Real Arroyo Seco",
+        "Rivadavia (L)": "Rivadavia (L)",
+        "Villa Mitre": "Villa Mitre",
+    },
+}
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
+    "Torneo Argentino A 2007-08": ("arg3-int08", ARGENTINO_A_2007),
     "Torneo Argentino A 2008-09": ("arg3-int09", ARGENTINO_A_2008),
 }
