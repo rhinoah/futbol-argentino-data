@@ -335,6 +335,29 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 MARCADORES: tuple[Marcador, ...] = (
     Marcador(
+        pagina="Campeonato de Primera C 2025 (Argentina)",
+        jornada="Primera fase", local="J. J. de Urquiza", visita="Sportivo Barracas",
+        dice=(0, 3), debe=(0, 2),
+        porque="Vuelta de los octavos del reducido, 5 de octubre de 2025. Lo destapo "
+               "el cuadro de llaves, que es el unico arbitro que la fase final tiene: "
+               "publica 0-2 con un global de 5-0, y la grilla 0-3, que daria 6-0.\n"
+               "LA PAGINA SE CONTRADICE SOLA Y DE DOS MANERAS. La plantilla del "
+               "partido trae `resultado = 0:3` y, tres lineas mas abajo, "
+               "`global = 0:5`; con el 3-0 de la ida, 3+3 da 6 y no 5. Y el cuadro "
+               "de llaves de la misma pagina dice 0-2, que si cierra.\n"
+               "Afuera no aparece un solo 0-3. La cronica del propio J. J. de "
+               "Urquiza (jjurquiza.com.ar, 6/10/2025, por Gustavo Aroldo) titula "
+               "\"J.J.Urquiza 0 vs Sportivo Barracas 2\" y da \"Goles: 62m Facundo "
+               "Figueroa y 68m Julio Barrionuevo (SPB)\", con las dos formaciones "
+               "completas, el expulsado, el arbitro y los dos jueces de linea, mas "
+               "el partido entero en video. DOS goles nombrados, no tres: para un "
+               "0-3 falta un gol que nadie escribio.\n"
+               "Lo confirman por su cuenta Sofascore -- mismos dos goleadores, a los "
+               "63 y 69, un minuto corridos, que es senal de recoleccion propia y no "
+               "de copia -- y ESPN en tres paginas distintas, con "
+               "\"Sportivo Barracas advance 5-0 on aggregate\".",
+    ),
+    Marcador(
         pagina="Campeonato de Primera B Nacional 2011-12", jornada="Fecha 17",
         local="Huracán", visita="Defensa y Justicia", dice=(1, 3), debe=(2, 3),
         porque="Falta el gol de Gaston Machin a los 43. El timeline de ESPN da los "
