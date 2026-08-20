@@ -272,8 +272,16 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # Como escribe la pagina a cada club, de los dos lados y antes de resolver
     # nada: es contra esto que se chequea si un homonimo sigue haciendo falta.
     # La tabla se pide sin `pagina` justamente para que NO aplique homonimos.
+    # El cuadro de llaves va TAMBIEN, y por la misma razon por la que se sumo la
+    # tabla en su momento: un homonimo que arregla un nombre que solo vive en el
+    # cuadro no engancha con los partidos ni con la tabla, y se denunciaria a si
+    # mismo como vencido. Es el caso del "Talleres (C)" del Argentino A 2005-06,
+    # que aparece una unica vez en toda la pagina y es adentro del cuadro.
     escritos = ({p.local for p in ps} | {p.visita for p in ps}
-                | set(posiciones.tabla(texto)))
+                | set(posiciones.tabla(texto))
+                | {equipos.canonizar(crudo, art)
+                   for crudo, art in parser.clubes_del_cuadro(texto).items()
+                   if equipos.conocido(crudo, art)})
     arregladas, dudas = correcciones.aplicar(ps, t.pagina)
     borradas = _borrar_jornadas_falsas(ps)
     # La segunda fuente va DESPUES de borrar las jornadas falsas y ANTES de

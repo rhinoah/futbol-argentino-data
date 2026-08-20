@@ -1443,6 +1443,21 @@ class Homonimo:
 
 HOMONIMOS: tuple[Homonimo, ...] = (
     Homonimo(
+        pagina="Torneo Argentino A 2005-06", dice="Talleres (C)", debe="Talleres (P)",
+        porque="El de Perico, Jujuy. \"Talleres (C)\" aparece UNA SOLA VEZ en toda "
+               "la pagina y es adentro del cuadro de llaves, pegado a un "
+               "\"Racing (C)\" que si es de Cordoba: el parentesis se contagio del "
+               "vecino. Las otras 28 menciones de Talleres en la pagina dicen (P) o "
+               "Perico.\n"
+               "La tabla de participantes de la propia pagina lo desata sola: "
+               "[[Club Atlético Talleres (Perico)]], Perico, Jujuy, Liga Jujeña de "
+               "Futbol. Y RSSSF lo confirma desde afuera -- en sus tres tablas el "
+               "unico Talleres del torneo es \"Talleres (Perico) ... (Jujuy)\", y no "
+               "hay ningun Talleres de Cordoba --.\n"
+               "Sin esto, el cuadro nombraba un club que en la grilla no juega ni un "
+               "partido, que es la firma de una mala atribucion. Aca no lo era: era "
+               "un nombre mal escrito en un solo lugar."),
+    Homonimo(
         pagina="Torneo Argentino A 2010-11", dice="Juventud Unida",
         debe="Juventud Unida Universitario",
         porque="es el de San Luis: la pagina lo lista en participantes como "

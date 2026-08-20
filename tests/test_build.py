@@ -155,6 +155,37 @@ CERRADO_A = Torneo("Anexo:Prueba A", "Prueba", 2016)
 CERRADO_B = Torneo("Anexo:Prueba B", "Prueba", 2016)   # MISMO torneo y temporada
 
 
+def test_un_homonimo_que_arregla_solo_el_cuadro_no_queda_huerfano():
+    """`escritos` es contra lo que se chequea si un homonimo sigue haciendo falta,
+    y tiene que incluir los nombres del CUADRO DE LLAVES.
+
+    Ya paso una vez con la tabla de posiciones: mientras `escritos` eran solo los
+    partidos, un homonimo que arreglaba unicamente una fila de la tabla se
+    denunciaba a si mismo como vencido. El cuadro es el tercer lugar donde una
+    pagina escribe un nombre, y hay nombres que viven SOLO ahi -- el "Talleres (C)"
+    del Argentino A 2005-06 aparece una unica vez en toda la pagina y es adentro
+    del cuadro.
+    """
+    from unittest import mock
+    from fad import correcciones
+
+    texto = tabla(("Boca Juniors", "River Plate")) + """
+=== Segunda fase ===
+{{Copa de 4 clubes
+| RD1-equipo1 = Racing Club
+| RD1-equipo2 = Independiente
+| RD1-goles1 = 1
+| RD1-goles2 = 0
+}}
+"""
+    h = correcciones.Homonimo(pagina="Anexo:Prueba", dice="Racing Club",
+                              debe="Boca Juniors", porque="de prueba")
+    with mock.patch.object(correcciones, "HOMONIMOS", (h,)):
+        _, avisos = build.procesar(texto, T)
+    assert not [a for a in avisos if "homonimo" in a.que], \
+        "el nombre esta en el cuadro, asi que el homonimo hace falta"
+
+
 def test_un_torneo_cerrado_no_se_vuelve_a_bajar(monkeypatch, tmp_path):
     """El Apertura 2004 no va a cambiar nunca. Volver a bajarlo todos los dias no
     solo gasta pedidos: le da a una pagina de hace veinte anios la posibilidad de
