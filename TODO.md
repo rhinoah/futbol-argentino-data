@@ -7,18 +7,18 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 39 873 | 71 | 132 | 745 | 264 |
+| 39 875 | 71 | 132 | 754 | 264 |
 
 ## 2004–2026 — Cerrado
 
 **Todo lo que Wikipedia da de esta era está adentro**
 
-`39 873` partidos, cero filas sin fecha. Lo único que queda son verificaciones de calidad, no partidos faltantes: `246` avisos abiertos, y todos los que quedan pueden mover un dato.
+`39 875` partidos, cero filas sin fecha. Lo único que queda son verificaciones de calidad, no partidos faltantes: `246` avisos abiertos, y todos los que quedan pueden mover un dato.
 
 - **Las 4 tablas que siguen sin cerrar.** Primera C 2011-12 (3) y Primera C 2026 (1). Las de 2011-12 sobreviven una búsqueda *exhaustiva* sobre sus seis cruces con toda combinación de uno, dos y tres arreglos: ninguna cierra. Existe solución matemática sólo si hay errores que se cancelan en clubes que nunca aparecen desviados, lo cual no se decide desde adentro. Y Cañuelas (2026) tiene un *rival ciego*, Central Córdoba (R), no comparable: un partido entre ellos podría explicarlo y no lo vemos. Las cuatro necesitan contrastar la temporada de esos clubes contra una fuente externa.
 - **Fechar un desacuerdo.** Ninguno de los testigos actuales puede decir *cuándo* la página cambió de opinión, y ésa es la deuda más cara que queda. La "Evolución de las posiciones" era el camino y no alcanzó: chequear su contenido pide simular la tabla fecha por fecha —puntajes que cambian, byes, zonas, postergados que mueven el corte al calendario— y medido dio 12% de desvíos, que es un modelo incompleto haciendo ruido. Hay que terminar ese modelo, empezando por el corte por fecha de calendario, o cruzar contra una fuente de afuera.
-- **Las tres temporadas de RSSSF que faltan.** `2006-07` ya entró: 332 partidos, cero graves, con `source` acreditando a las dos fuentes. Faltan `2007-08` (`arg3-int08`) y `2008-09` (`arg3-int09`), y encontrar la de `2009-10`, que **no** está en `arg3-int10` — da 404 —. El mapa de cada una se arma con la misma técnica de cardinalidad, pero `2007-08` **no** tiene la forma de las otras dos y hay que mirarla antes de forzar nada: sus secciones son `First Phase - Fase Campeonato`, `Group A` — *Group*, no *Zona* — y rondas `Interzonal Group A-B` intercaladas, así que no es un Apertura y un Clausura sobre las mismas zonas. `2008-09` no muestra ningún encabezado reconocible y todavía no sabemos qué forma tiene.
-- **Los 4 partidos del Argentino A 2006-07 que RSSSF no publica.** La tabla de la página los cuenta y la grilla importada no los tiene. Se descomponen de forma forzada, así que hay exactamente cuatro cosas que buscar: Desamparados–San Martín en la Zona B, y en la Zona C el Central Norte–9 de Julio que la propia RSSSF marca como *homologado* (`award ... in round 14 Clausura`), más Talleres–Atlético Tucumán y Talleres–La Florida. Los ocho avisos abiertos de esa página son estos cuatro partidos contados dos veces, una por club.
+- **Las tres temporadas de RSSSF que faltan.** `2006-07` ya entró: 334 partidos, cero graves, con `source` acreditando a las dos fuentes. Faltan `2007-08` (`arg3-int08`) y `2008-09` (`arg3-int09`), y encontrar la de `2009-10`, que **no** está en `arg3-int10` — da 404 —. El mapa de cada una se arma con la misma técnica de cardinalidad, pero `2007-08` **no** tiene la forma de las otras dos y hay que mirarla antes de forzar nada: sus secciones son `First Phase - Fase Campeonato`, `Group A` — *Group*, no *Zona* — y rondas `Interzonal Group A-B` intercaladas, así que no es un Apertura y un Clausura sobre las mismas zonas. `2008-09` no muestra ningún encabezado reconocible y todavía no sabemos qué forma tiene. Las dos traen además cuatro líneas con el marcador escrito en palabras (`abd` / `awd`), que el lector ya sabe leer desde que se arregló 2006-07.
+- **El partido dividido del Argentino A 2005-06.** RSSSF dice `La Florida awd Sportivo Patria [abandoned at 2-2 in 90', awarded 0-1 against both]` en la Fecha 10 del Clausura, o sea un fallo contra los dos clubes. A diferencia de los de 2006-07, esta página **sí** saca sus filas de la grilla de Wikipedia, así que hay que ver qué publica: si publica un marcador, esa fila afirma un resultado donde hay dos y va a `DIVIDIDOS`. Buscando el partido en `data/` no aparece ninguno de La Florida contra Sportivo Patria en el Clausura 2005-06, así que puede que además falte. El aviso ya lo emite el build.
 
 ## 1997–2003 — Lo próximo
 
