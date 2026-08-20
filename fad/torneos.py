@@ -49,6 +49,13 @@ class Torneo:
     # los escribe cortos y resolverlos por el padron da el club equivocado, que
     # es peor que un error.
     rsssf: str | None = None
+
+    # La pagina no tiene grilla y los partidos salen de `rsssf`. Es un flag
+    # EXPLICITO y no "si el parser devolvio vacio", y la diferencia importa:
+    # una grilla que dejo de parsearse por un bug se ve exactamente igual que
+    # una que no existe, y con la regla automatica la importacion taparia la
+    # regresion en silencio. Asi, importar es una decision escrita.
+    sin_grilla: bool = False
     # El feed de ESPN. La liga, los rangos de fecha y el mapa de nombres viven en
     # `fad/espn.py`, indexados por pagina.
     espn: bool = False

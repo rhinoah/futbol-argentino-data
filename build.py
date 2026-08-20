@@ -236,8 +236,32 @@ def procesar(texto: str, t) -> tuple[list, list]:
     tratan dos grafias como dos clubes y los chequeos dejan pasar justo lo que
     tenian que agarrar.
     """
-    ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato,
-                         anio_fin=t.anio_fin, mes_inicio=t.mes_inicio)
+    if t.sin_grilla:
+        # La pagina no publica resultados y los partidos salen de RSSSF. Es el
+        # unico camino del repo por el que una fila NO viene de Wikipedia, y va
+        # detras de un flag escrito a mano -- ver `Torneo.sin_grilla` -- para que
+        # nunca se dispare por accidente cuando una grilla real deje de parsearse.
+        #
+        # Todo lo que sigue -- canonizar, corregir, y los chequeos contra la tabla
+        # de posiciones de la propia pagina -- corre igual sobre estas filas. La
+        # tabla SI esta en Wikipedia, asi que el cedazo es el mismo que para
+        # cualquier otro torneo: entran auditadas o no entran.
+        from fad import rsssf
+        archivo, mapa = rsssf.FUENTES[t.pagina]
+        try:
+            crudo = rsssf.descargar(archivo)
+        except OSError as e:
+            return [], [validar.Aviso(
+                f"{t.pagina}: RSSSF no respondio y esta pagina no tiene grilla "
+                f"propia, asi que el torneo queda sin partidos", repr(e), grave=True)]
+        ajenos, mas = rsssf.leer(crudo, mapa, t.temporada,
+                                 t.anio_fin or t.temporada, t.mes_inicio)
+        importados = [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False) for d in mas]
+        ps = rsssf.a_partidos(ajenos, t.torneo, t.temporada)
+    else:
+        importados = []
+        ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato,
+                             anio_fin=t.anio_fin, mes_inicio=t.mes_inicio)
     for p in ps:
         p.local = equipos.canonizar(p.local, p.local_art)
         p.visita = equipos.canonizar(p.visita, p.visita_art)
@@ -265,7 +289,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     #
     # Antes de validar, porque si no `fechas_presentes` se queja de los mismos
     # partidos que este paso viene a arreglar.
-    avisos = _completar_fechas(ps, t) if t.wf else []
+    avisos = list(importados)
+    avisos += _completar_fechas(ps, t) if t.wf else []
     avisos += _completar_fechas_rsssf(ps, t) if t.rsssf else []
     avisos += _completar_fechas_espn(ps, t) if t.espn else []
     avisos += validar.revisar(ps)

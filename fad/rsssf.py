@@ -204,6 +204,52 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
     return fuera, avisos
 
 
+def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
+    """Los `Ajeno` de RSSSF convertidos en filas del dataset.
+
+    ES EL UNICO LUGAR DEL REPO DONDE UNA FILA NO SALE DE WIKIPEDIA, y por eso vale
+    decir cuando corresponde usarlo: cuando la pagina de Wikipedia NO TIENE
+    GRILLA. Pasa con el Argentino A entre 2006-07 y 2009-10, cuyos articulos
+    publican los equipos, la tabla final de cada zona y la fase final, y ningun
+    resultado fecha por fecha. Ahi no hay un segundo testigo que elegir: hay una
+    sola fuente o no hay temporada.
+
+    LOS CAMPOS QUE `Ajeno` NO TRAE QUEDAN VACIOS, no inventados. RSSSF publica
+    fecha, jornada, clubes y marcador, y nada mas: no trae hora, ni cancha, ni
+    penales, ni si se jugo en cancha neutral. Rellenar eso con un valor plausible
+    -- `neutral=False` porque "casi siempre es asi" -- seria afirmar algo que
+    nadie verifico, que es justo lo que este repo no hace. Vacio se lee como
+    vacio; un `false` inventado se lee como un dato.
+
+    `fuente_fecha` lleva el credito de RSSSF, que es lo que despues termina en la
+    columna `source` de esa fila. Un consumidor que quiera solo lo que tambien
+    esta en Wikipedia puede filtrar por ahi.
+
+    La `fase` es "zonas" porque `leer` solo devuelve las secciones que el mapa
+    nombra, y el mapa nombra zonas: los playoffs mezclan las dos y ahi un nombre
+    corto deja de identificar a un club, asi que no se leen. Si algun dia se leen,
+    esto tiene que dejar de ser una constante.
+    """
+    from fad.parser import Partido
+
+    fuera = []
+    for a in ajenos:
+        fuera.append(Partido(
+            fecha=a.fecha,
+            local=a.local,
+            visita=a.visita,
+            goles_local=a.goles_local,
+            goles_visita=a.goles_visita,
+            torneo=torneo,
+            fase="zonas",
+            zona=a.llave or "",
+            jornada=f"Fecha {a.jornada}",
+            llave=a.llave or "",
+            fuente_fecha=CREDITO,
+        ))
+    return fuera
+
+
 # --------------------------------------------------------------------------
 # Los mapas, uno por torneo. A mano y por zona: ver el docstring de arriba.
 # --------------------------------------------------------------------------
