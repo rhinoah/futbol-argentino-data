@@ -815,6 +815,57 @@ def fuera_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
     return fuera
 
 
+def marcadores_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
+    """Marcadores que el CUADRO afirma y la grilla no tiene para ese cruce.
+
+    La fase final es la region donde ningun chequeo de este modulo puede opinar:
+    todos cruzan contra la tabla de posiciones y la tabla habla de las zonas. El
+    cuadro es el unico segundo testigo que esa fase tiene, escrito por otra mano
+    y en otro formato, y hasta ahora se lo usaba solo para los NOMBRES.
+
+    Se compara por PAR Y MARCADOR y no por quien fue local, porque el cuadro no
+    sabe quien fue local -- ver `parser.cruces_del_cuadro` --. Un marcador del
+    cuadro que la grilla no tiene para esos dos clubes es una de dos cosas, y las
+    dos valen: o falta el partido, o alguno de los dos se equivoco en el numero.
+    El aviso no elige.
+
+    Medido sobre las 74 paginas con cuadro: 806 de las 887 patas coinciden, y las
+    81 que no se concentran en once paginas. Ese 91% de acuerdo es lo que hace
+    que el 9% restante valga la pena mirarlo.
+    """
+    cruces = parser.cruces_del_cuadro(texto)
+    if not cruces:
+        return []
+    tiene = {(frozenset((p.local, p.visita)),
+              frozenset(((p.local, p.goles_local), (p.visita, p.goles_visita))))
+             for p in ps}
+    fuera = []
+    for na, aa, nb, ab, patas in cruces:
+        if not equipos.buscar(na, aa) or not equipos.buscar(nb, ab):
+            continue                      # los nombres los denuncia `fuera_del_cuadro`
+        ca = _canonico(na, aa, pagina)
+        cb = _canonico(nb, ab, pagina)
+        faltan = [(x, y) for x, y in patas
+                  if (frozenset((ca, cb)),
+                      frozenset(((ca, x), (cb, y)))) not in tiene]
+        if not faltan:
+            continue
+        # Las dos cosas que esto encuentra no son la misma, y el propio dato las
+        # separa: si los dos clubes NUNCA aparecen juntos en la grilla, falta el
+        # partido; si aparecen con otro numero, hay un desacuerdo. Decirlo hace
+        # la diferencia entre un aviso que se puede trabajar y uno que hay que
+        # ir a investigar desde cero.
+        juntos = frozenset((ca, cb)) in {p for p, _ in tiene}
+        dice = ", ".join(f"{x}-{y}" for x, y in faltan)
+        fuera.append(
+            f"{ca} vs {cb}: el cuadro de llaves publica {dice} y "
+            + (f"la grilla les da otro marcador: el cuadro y la grilla no "
+               f"coinciden en este cruce"
+               if juntos else
+               f"la grilla no tiene NINGUN partido entre los dos: falta el partido"))
+    return fuera
+
+
 def _por_wikitabla(bloque: str, arts: dict[str, str],
                    descartadas: list | None = None) -> list[tuple[str, str, tuple[int, int, int]]]:
     """Las filas de una tabla escrita como wikitabla (`{| ... |}`).

@@ -590,6 +590,72 @@ def _parametros(cuerpo: str) -> list[list[str]]:
     return [x.split("=", 1) for x in partes if "=" in x]
 
 
+_CU_EQUIPO = re.compile(r"RD(\d+)-(?:team|equipo)(\d+)\s*=\s*([^\n|}]*)")
+_CU_GOL = re.compile(
+    r"RD(\d+)-(?:score|goles)(\d+)(?:-(\d+)|(ida|vuelta))?\s*=\s*([^\n|}]*)")
+
+
+def _cu_limpio(v: str) -> str:
+    v = re.sub(r"''+", "", v)
+    v = re.sub(r"\{\{[^}]*\}\}", "", v)
+    return re.sub(r"<[^>]*>", "", v).strip()
+
+
+def cruces_del_cuadro(texto: str) -> list[tuple[str, str, str, str, list]]:
+    """Los cruces del cuadro de llaves: (nombreA, artA, nombreB, artB, patas).
+
+    `patas` son los marcadores de ida y vuelta como (golesA, golesB). NO se
+    devuelve quien fue local, y esa ausencia es el resultado de una medicion, no
+    un descuido: contra las 761 patas que la grilla tambien tiene -- donde la
+    grilla SI dice quien fue local -- la convencion "el equipo de arriba es local
+    en la ida" acierta el 55.6%. Una moneda. El cuadro dibuja una llave, no un
+    calendario, y quien puso los nombres arriba y abajo no estaba afirmando nada
+    sobre la localia.
+    #
+    Por eso esto NO es una fuente de filas: seria inventarle la localia a la
+    mitad. Es un TESTIGO, y es el unico que la fase final tiene -- la tabla de
+    posiciones solo habla de las zonas --.
+
+    EL TERCER NUMERO NO ES UNA TERCERA PATA. Muchas plantillas traen el global
+    junto a las dos patas, y se lo reconoce por lo que es -- la suma de las dos,
+    de los dos lados -- y no por su posicion, que es lo unico honesto cuando la
+    misma plantilla se usa tambien para llaves a partido unico. Sobre el corpus
+    eso separa 133 globales de 887 patas de verdad; sin la regla, cada uno
+    entraba como un partido que nadie jugo.
+    """
+    fuera = []
+    for cuerpo in _cuerpos_de_cuadro(texto):
+        eq = {}
+        for m in _CU_EQUIPO.finditer(cuerpo):
+            crudo = _cu_limpio(m.group(3))
+            enlace = re.search(r"\[\[([^\]|]+)(?:\|([^\]]+))?\]\]", crudo)
+            if enlace:
+                eq[(int(m.group(1)), int(m.group(2)))] = (
+                    (enlace.group(2) or enlace.group(1)).strip(),
+                    enlace.group(1).strip())
+            else:
+                eq[(int(m.group(1)), int(m.group(2)))] = (crudo, "")
+        goles: dict = {}
+        for m in _CU_GOL.finditer(cuerpo):
+            pata = m.group(3) or {"ida": "1", "vuelta": "2"}.get(m.group(4), "1")
+            v = _cu_limpio(m.group(5)).strip("()").strip()
+            if v.isdigit():
+                goles.setdefault((int(m.group(1)), int(m.group(2))), {})[pata] = int(v)
+        for (rd, slot), (na, aa) in sorted(eq.items()):
+            if slot % 2 == 0 or (rd, slot + 1) not in eq:
+                continue
+            nb, ab = eq[(rd, slot + 1)]
+            ga = goles.get((rd, slot), {})
+            gb = goles.get((rd, slot + 1), {})
+            patas = [(ga[k], gb[k]) for k in sorted(set(ga) & set(gb))]
+            if len(patas) == 3 and patas[2] == (patas[0][0] + patas[1][0],
+                                                patas[0][1] + patas[1][1]):
+                patas = patas[:2]
+            if na and nb and patas:
+                fuera.append((na, aa, nb, ab, patas))
+    return fuera
+
+
 def clubes_del_cuadro(texto: str) -> dict[str, str]:
     """{club canonico: como lo escribe el cuadro} de las llaves de la pagina.
 

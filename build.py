@@ -394,6 +394,11 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: el cuadro y la grilla no coinciden", d,
                              grave=False)
                for d in posiciones.fuera_del_cuadro(ps, texto, t.pagina)]
+    # Y el cuadro tambien sabe MARCADORES, que es lo unico que puede arbitrar la
+    # fase final: la tabla de posiciones solo habla de las zonas.
+    avisos += [validar.Aviso(f"{t.pagina}: el cuadro dice otro marcador", d,
+                             grave=False)
+               for d in posiciones.marcadores_del_cuadro(ps, texto, t.pagina)]
     # Y si algun homonimo dejo de hacer falta porque arreglaron la pagina.
     avisos += [validar.Aviso(f"{t.pagina}: un homonimo quedo sin uso", d, grave=False)
                for d in correcciones.homonimos_huerfanos(t.pagina, escritos)]

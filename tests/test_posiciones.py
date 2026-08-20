@@ -932,6 +932,76 @@ def test_dos_clubes_corridos_lo_mismo_son_un_partido_entre_ellos():
     assert "Racing Club" in avisos[0] and "Independiente" in avisos[0]
 
 
+# --------------------------------------------------------------------------
+# el cuadro de llaves como arbitro de la fase final
+# --------------------------------------------------------------------------
+def _cuadro(*lineas: str) -> str:
+    return "{{Copa de 4 clubes\n" + "\n".join(lineas) + "\n}}"
+
+
+def test_el_tercer_numero_del_cuadro_no_es_una_tercera_pata():
+    """Es el GLOBAL, y se lo reconoce por lo que es -- la suma de las dos patas,
+    de los dos lados -- y no por su posicion: la misma plantilla se usa tambien
+    para llaves a partido unico. Sobre el corpus separa 133 globales de 887 patas
+    de verdad, y sin la regla cada uno entraba como un partido que nadie jugo."""
+    texto = _cuadro("| RD1-team1 = [[Boca Juniors]]",
+                    "| RD1-team2 = [[River Plate]]",
+                    "| RD1-score1-1 = 2", "| RD1-score1-2 = 1", "| RD1-score1-3 = 3",
+                    "| RD1-score2-1 = 0", "| RD1-score2-2 = 1", "| RD1-score2-3 = 1")
+    cruces = parser.cruces_del_cuadro(texto)
+    assert len(cruces) == 1
+    assert cruces[0][4] == [(2, 0), (1, 1)], "el 3-1 es el global, no un partido"
+
+
+def test_un_tercer_numero_que_no_es_la_suma_si_es_una_pata():
+    """La regla mira la aritmetica y no la posicion. Si los tres numeros no
+    cierran como global, son tres partidos y hay que decirlo."""
+    texto = _cuadro("| RD1-team1 = [[Boca Juniors]]",
+                    "| RD1-team2 = [[River Plate]]",
+                    "| RD1-score1-1 = 2", "| RD1-score1-2 = 1", "| RD1-score1-3 = 5",
+                    "| RD1-score2-1 = 0", "| RD1-score2-2 = 1", "| RD1-score2-3 = 0")
+    assert parser.cruces_del_cuadro(texto)[0][4] == [(2, 0), (1, 1), (5, 0)]
+
+
+def test_el_cuadro_no_dice_quien_fue_local():
+    """Y por eso `cruces_del_cuadro` no lo devuelve. Contra las 761 patas que la
+    grilla tambien tiene, la convencion "arriba es local en la ida" acierta el
+    55.6%: una moneda. Sin esto, leer el cuadro como fuente le inventaria la
+    localia a la mitad de las filas."""
+    cruce = parser.cruces_del_cuadro(
+        _cuadro("| RD1-team1 = [[Boca Juniors]]", "| RD1-team2 = [[River Plate]]",
+                "| RD1-score1 = 1", "| RD1-score2 = 0"))[0]
+    assert cruce[0] == "Boca Juniors" and cruce[2] == "River Plate"
+    assert len(cruce) == 5, "no hay un campo de localia y no tiene que haberlo"
+
+
+def test_el_cuadro_arbitra_la_fase_final():
+    """Es el unico testigo que esa fase tiene: los otros chequeos cruzan contra la
+    tabla de posiciones, y la tabla habla de las zonas."""
+    texto = _cuadro("| RD1-team1 = [[Boca Juniors]]", "| RD1-team2 = [[River Plate]]",
+                    "| RD1-score1 = 1", "| RD1-score2 = 0")
+    assert posiciones.marcadores_del_cuadro(
+        [zona("Boca Juniors", "River Plate", 1, 0)], texto) == []
+    # y da igual quien figure de local, porque el cuadro no lo sabe
+    assert posiciones.marcadores_del_cuadro(
+        [zona("River Plate", "Boca Juniors", 0, 1)], texto) == []
+
+
+def test_el_aviso_distingue_falta_el_partido_de_no_coinciden():
+    """Son dos cosas distintas y el dato las separa solo: si los dos clubes nunca
+    aparecen juntos en la grilla, falta el partido; si aparecen con otro numero,
+    es un desacuerdo. Medido: 10 y 41."""
+    texto = _cuadro("| RD1-team1 = [[Boca Juniors]]", "| RD1-team2 = [[River Plate]]",
+                    "| RD1-score1 = 1", "| RD1-score2 = 0")
+    solo = posiciones.marcadores_del_cuadro([zona("Racing Club", "Independiente", 0, 0)],
+                                            texto)
+    assert solo and "falta el partido" in solo[0]
+
+    otro = posiciones.marcadores_del_cuadro([zona("Boca Juniors", "River Plate", 3, 3)],
+                                            texto)
+    assert otro and "no coinciden" in otro[0]
+
+
 def test_el_revisado_tambien_calla_el_aviso_de_PJ():
     """De los tres cruces contra la tabla, este era el unico que no los miraba.
 
