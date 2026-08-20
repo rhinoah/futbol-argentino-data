@@ -138,6 +138,112 @@ _PARTIDO = re.compile(
     r"^([^\[\]]{3,34}?)\s+(\d+)-(\d+)\s+([^\[\]\s](?:[^\[\]]*?[^\[\]\s])?)(?:\s{2,}.*)?$")
 
 
+# Un partido cuyo marcador NO ES UN MARCADOR. RSSSF escribe una palabra en la
+# columna del resultado -- `abd` abandonado, `awd` fallado -- y cuelga la
+# explicacion entre corchetes:
+#
+#     La Florida               abd Talleres (P)   [abandoned at 3-2 in 88';
+#     Sp. Patria               3-1 9 de Julio      result stood]
+#
+# Estas lineas se venian SALTEANDO EN SILENCIO, que es la cuarta vez que este
+# modulo falla de la misma manera. Son diez en las cuatro temporadas, y no todas
+# significan lo mismo: dos eran partidos que faltaban de verdad en el dataset y el
+# resto son casos que efectivamente no tienen que entrar. El lector no las podia
+# distinguir porque nunca las miraba.
+#
+# El token va suelto -- cualquier palabra corta -- en vez de una lista cerrada,
+# porque la lista se queda corta sola en cuanto la fuente use otra abreviatura. Lo
+# que hace segura esa laxitud es el filtro de abajo: LOS DOS FLANCOS TIENEN QUE
+# TRADUCIR POR EL MAPA DE LA ZONA. Una linea de prosa -- "Douglas Haig and Villa
+# Mitre to overall semifinals" -- tambien tiene forma de partido, pero sus flancos
+# no son dos clubes del mapa. Medido sobre las dos temporadas catalogadas: con el
+# token suelto y sin el filtro entran 74 lineas de prosa; con el filtro quedan las
+# 6 reales y ni una de mas.
+#
+# Los dos espacios antes del token tampoco son decoracion. Con uno solo, el `local`
+# no-codicioso parte "Central Norte  awd  9 de Julio" en local="Central",
+# token="Norte", y el partido se pierde igual que antes.
+_SIN_MARCADOR = re.compile(
+    r"^([^\[\]]{3,34}?)\s{2,}([A-Za-z][A-Za-z.]{1,5})\s+"
+    r"([^\[\]\s](?:[^\[\]]*?[^\[\]\s])?)(?:\s{2,}(.*))?$")
+
+def _cola(texto: str) -> str:
+    """Lo que sobra de una linea despues de lo que ya es otra cosa.
+
+    La nota se derrama sobre la columna libre de la derecha, y esa columna convive
+    con lo que la linea de abajo tenga por su cuenta: otro partido, o una fecha
+    suelta. Las dos se sacan y queda la cola.
+    """
+    m = re.match(r"\s*[\[(][A-Z][a-z]{2}\s+\d+[\])]", texto)
+    if m:
+        return texto[m.end():].strip()
+    if _PARTIDO.match(texto) or _SIN_MARCADOR.match(texto):
+        partes = re.split(r"\s{2,}", texto.strip())
+        return partes[-1].strip() if len(partes) > 1 else ""
+    return texto.strip()
+
+
+def _anotacion(lineas: list[str], i: int, desde: int = 0) -> str:
+    """La nota entre corchetes que explica un marcador que no es un marcador.
+
+    Puede arrancar en la linea del partido o varias mas abajo, y sigue hasta que
+    cierre. `desde` es donde termina el nombre del visitante, y hace falta: sin
+    el, el parentesis de "Talleres (P)" abre la nota y la nota queda siendo "(P)".
+    """
+    trozos: list[str] = []
+    profundidad = 0
+    for j in range(i, min(i + 5, len(lineas))):
+        texto = lineas[j].rstrip()[desde:] if j == i else _cola(lineas[j].rstrip())
+        texto = texto.strip()
+        if not profundidad:
+            corte = [texto.index(c) for c in "[(" if c in texto]
+            if not corte:
+                if trozos or j > i + 2:
+                    break                    # ya cerro, o no habia nota que buscar
+                continue
+            texto = texto[min(corte):]
+        elif not texto:
+            continue
+        trozos.append(texto)
+        profundidad += texto.count("[") + texto.count("(")
+        profundidad -= texto.count("]") + texto.count(")")
+        if profundidad <= 0:
+            break
+    return " ".join(trozos).strip()
+
+
+_FALLADO = re.compile(r"awarded\s+(\d+)\s*-\s*(\d+)")
+_ABANDONADO = re.compile(r"abandoned at\s+(\d+)\s*-\s*(\d+)")
+
+
+def _leer_anotacion(nota: str) -> tuple[tuple[int, int] | None, str, str]:
+    """(marcador, status, motivo). Marcador None = esta fila NO entra.
+
+    El eje del `status` es el de `parser.status_de_la_fila` y con su misma
+    precedencia, que no es un detalle: NO LLEGAR AL FINAL MANDA SOBRE EL FALLO.
+    Un partido abandonado a los 72' cuyo resultado despues puso un tribunal es
+    "suspendido" y no "escritorio", porque lo que la fuente dice sin ambiguedad es
+    que no se jugaron los noventa.
+    """
+    n = nota.lower()
+    if "to both" in n or "against both" in n:
+        return None, "", ("el fallo le dio derrota a los DOS clubes: son dos "
+                          "resultados para un partido y una fila tiene un solo "
+                          "marcador, asi que va a `correcciones.DIVIDIDOS`")
+    m_ab = _ABANDONADO.search(n)
+    m_fa = _FALLADO.search(n)
+    if m_ab and "result stood" not in n and not m_fa:
+        return None, "", ("se abandono y la nota no dice que el resultado quedara "
+                          "firme: si se completo despues, la fila que entra es la "
+                          "del partido completo")
+    if m_fa:
+        return ((int(m_fa.group(1)), int(m_fa.group(2))),
+                "suspendido" if m_ab else "escritorio", "")
+    if m_ab:
+        return (int(m_ab.group(1)), int(m_ab.group(2))), "suspendido", ""
+    return None, "", "la nota no dice como termino" if nota else "no hay nota que leer"
+
+
 def descargar(archivo: str, usar_cache: bool = True) -> str:
     """El texto de la pagina de RSSSF, en latin-1."""
     destino = _CACHE / f"{archivo}.txt"
@@ -173,10 +279,12 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
     """
     fuera: list[Ajeno] = []
     desconocidos: set[str] = set()
+    raros: list[str] = []
     zona = llave = ""
     ronda: int | None = None
     fecha: tuple[int, int] | None = None
-    for linea in texto.split("\n"):
+    lineas = texto.split("\n")
+    for idx, linea in enumerate(lineas):
         cruda = linea.rstrip()
         pelada = cruda.strip()
         if not pelada:
@@ -217,6 +325,35 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
             continue
         m = _PARTIDO.match(cruda)
         if not m:
+            # Puede ser un partido cuyo marcador no es un marcador. Se decide con
+            # la nota, y PASE LO QUE PASE se avisa: la unica forma de fallar que
+            # este modulo tuvo siempre es callarse.
+            m2 = _SIN_MARCADOR.match(cruda)
+            if m2:
+                loc, vis = m2.group(1).strip(), m2.group(3).strip()
+                cl2, cv2 = mapa[zona].get(loc), mapa[zona].get(vis)
+                # Y la COLA decide, que es lo que separa un partido de la prosa.
+                # RSSSF siempre explica por que el marcador no es un marcador, asi
+                # que despues del visitante o no hay nada -- la nota arranca en la
+                # linea de abajo -- o hay una nota. Si lo que sigue son palabras,
+                # la linea es prosa: "La Florida and Talleres (P) to overall
+                # semifinals" tiene forma de partido y hasta dos clubes del mapa.
+                cola = (m2.group(4) or "").lstrip()
+                if cl2 and cv2 and (not cola or cola[0] in "[("):
+                    nota = _anotacion(lineas, idx, m2.end(3))
+                    marcador, estado, motivo = _leer_anotacion(nota)
+                    donde = f"{llave} {zona} ronda {ronda}: {cl2} {m2.group(2)} {cv2}"
+                    if marcador is None:
+                        raros.append(f"{donde} NO entra -- {motivo}")
+                    else:
+                        raros.append(f"{donde} entra {marcador[0]}-{marcador[1]}"
+                                     f"{' (' + estado + ')' if estado else ''}"
+                                     f" por la nota: {nota}")
+                        fuera.append(Ajeno(
+                            fecha=_fecha_iso(*fecha, anio, anio_fin, mes_inicio),
+                            jornada=ronda, local=cl2, visita=cv2,
+                            goles_local=marcador[0], goles_visita=marcador[1],
+                            llave=llave, zona=zona, status=estado))
             continue
         local, gl, gv, visita = m.group(1).strip(), int(m.group(2)), int(m.group(3)), m.group(4).strip()
         cl, cv = mapa[zona].get(local), mapa[zona].get(visita)
@@ -231,6 +368,7 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                            zona=zona))
     avisos = ([f"{len(desconocidos)} nombres de RSSSF que el mapa no traduce: "
                + "; ".join(sorted(desconocidos)[:6])] if desconocidos else [])
+    avisos += raros
     return fuera, avisos
 
 
@@ -280,6 +418,7 @@ def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
             zona=a.zona,
             jornada=f"Fecha {a.jornada}",
             llave=a.llave,
+            status=a.status,
             fuente_fecha=CREDITO,
         ))
     return fuera

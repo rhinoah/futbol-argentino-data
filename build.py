@@ -291,7 +291,10 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # partidos que este paso viene a arreglar.
     avisos = list(importados)
     avisos += _completar_fechas(ps, t) if t.wf else []
-    avisos += _completar_fechas_rsssf(ps, t) if t.rsssf else []
+    # `sin_grilla` no pasa por aca: sus filas YA salieron de RSSSF con su fecha
+    # puesta, asi que completarlas es leer la misma pagina dos veces y emitir
+    # cada aviso por duplicado.
+    avisos += _completar_fechas_rsssf(ps, t) if t.rsssf and not t.sin_grilla else []
     avisos += _completar_fechas_espn(ps, t) if t.espn else []
     avisos += validar.revisar(ps)
     # La tabla de posiciones de la propia pagina, contra la suma de los partidos.

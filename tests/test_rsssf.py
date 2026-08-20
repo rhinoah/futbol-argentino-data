@@ -155,6 +155,118 @@ def test_la_ronda_tambien_trae_el_dia_entre_parentesis():
     assert [a.fecha for a in ajenos] == ["2005-08-24"]
 
 
+# --------------------------------------------------------------------------
+# el marcador que no es un marcador
+#
+# Las lineas de esta seccion estan copiadas TAL CUAL de RSSSF, con su sangria y
+# sus columnas, porque lo que se prueba es justamente que se lean columnas.
+# --------------------------------------------------------------------------
+MAPA_C = {
+    "Zona C": {
+        "La Florida": "La Florida",
+        "Talleres (P)": "Talleres (P)",
+        "Atl. Tucumán": "Atlético Tucumán",
+        "Sp. Patria": "Sportivo Patria",
+        "9 de Julio": "9 de Julio (R)",
+        "Central Norte": "Central Norte (S)",
+    },
+}
+
+
+def leer_c(texto):
+    return rsssf.leer(texto, MAPA_C, 2006, 2007, 8)
+
+
+def test_un_marcador_que_no_es_un_marcador_no_se_saltea_en_silencio():
+    """`abd` con el resultado firme es un partido, y entraba en ninguna parte.
+
+    Se venia salteando en silencio, que es la cuarta vez que este modulo falla de
+    la misma forma. Son diez lineas asi en las cuatro temporadas de RSSSF, y dos
+    de ellas eran partidos que al dataset le faltaban de verdad.
+    """
+    ajenos, avisos = leer_c(
+        "Zona C\n"
+        "Round 11 [Oct 22]\n"
+        "La Florida               abd Talleres (P)             [abandoned at 3-2 in 88';\n"
+        "Sp. Patria               3-1 9 de Julio                result stood]\n")
+    assert len(ajenos) == 2, "tienen que entrar los dos, no uno"
+    abd = [a for a in ajenos if a.local == "La Florida"][0]
+    assert (abd.goles_local, abd.goles_visita) == (3, 2)
+    assert abd.status == "suspendido", "no llego al final, y eso es lo que la fuente dice"
+    assert abd.fecha == "2006-10-22"
+    assert any("entra 3-2" in a for a in avisos), "y ademas lo tiene que decir"
+
+
+def test_el_parentesis_del_nombre_de_un_club_no_abre_la_nota():
+    """"Talleres (P)" trae un parentesis antes de la nota, y la nota es lo que
+    decide si el partido entra y con que marcador. Leyendo desde el primer
+    parentesis, la nota resultaba ser "(P)" y el partido se caia."""
+    _, avisos = leer_c(
+        "Zona C\n"
+        "Round 11 [Oct 22]\n"
+        "La Florida               abd Talleres (P)             [abandoned at 3-2 in 88';\n"
+        "Sp. Patria               3-1 9 de Julio                result stood]\n")
+    assert not any("(P)             [" in a for a in avisos), "se comio el nombre"
+
+
+def test_la_nota_puede_empezar_en_la_linea_de_abajo():
+    """Y ahi convive con lo que esa linea tenga por su cuenta."""
+    ajenos, avisos = leer_c(
+        "Zona C\n"
+        "Round 14\n"
+        "[Nov 11]\n"
+        "Atl. Tucumán             awd Talleres (P)             [awarded 0-1; abandoned\n"
+        "[Nov 12]                                                at 3-0 in 72']\n")
+    assert len(ajenos) == 1
+    a = ajenos[0]
+    assert (a.goles_local, a.goles_visita) == (0, 1), "el marcador es el del fallo"
+    # Y el status sale del mismo eje que `parser.status_de_la_fila`, con su misma
+    # precedencia: NO LLEGAR AL FINAL manda sobre el fallo.
+    assert a.status == "suspendido"
+
+
+def test_el_fallo_contra_los_dos_clubes_no_entra_y_se_dice():
+    """Dos resultados para un partido no caben en una fila. La linea no se ignora:
+    se nombra, para que la decision quede escrita y no parezca un olvido."""
+    ajenos, avisos = leer_c(
+        "Zona C\n"
+        "Round 14 [Apr 29]\n"
+        "Central Norte            awd 9 de Julio\n"
+        "  [awarded 0-1 loss to both; originally 1-1; both teams to start with\n"
+        "   -6 points 2007/08]\n")
+    assert ajenos == []
+    assert any("NO entra" in a and "DOS clubes" in a for a in avisos)
+
+
+def test_un_abandonado_sin_resultado_firme_no_entra():
+    """Si no dice que el resultado quedo firme, lo mas probable es que se haya
+    completado despues -- y esa fila, la del partido completo, es la que entra."""
+    ajenos, avisos = leer_c(
+        "Zona C\n"
+        "Round 1\n"
+        "[Jan 26]\n"
+        "Atl. Tucumán             abd La Florida               [abandoned at 1-1 in 42']\n"
+        "[Jan 29]\n"
+        "Atl. Tucumán             1-1 La Florida               [remaining 48']\n")
+    assert len(ajenos) == 1, "entra el completo y no el abandonado"
+    assert ajenos[0].fecha == "2007-01-29"
+    assert any("NO entra" in a for a in avisos)
+
+
+def test_la_prosa_con_forma_de_partido_no_es_un_partido():
+    """El token va suelto -- cualquier palabra corta -- y lo que hace segura esa
+    laxitud es exigir que los DOS flancos traduzcan por el mapa de la zona. RSSSF
+    esta lleno de lineas con forma de partido que son prosa."""
+    ajenos, avisos = leer_c(
+        "Zona C\n"
+        "Round 11 [Oct 22]\n"
+        "La Florida               and Talleres (P)             to overall semifinals\n"
+        "Sp. Patria               vs 9 de Julio                is not a match either\n"
+        "Douglas Haig             and Villa Mitre              to overall semifinals\n")
+    assert ajenos == []
+    assert avisos == [], "y ni siquiera tiene que avisar: no son partidos"
+
+
 def test_la_llave_tambien_viene_escrita_sin_la_palabra_torneo():
     """RSSSF rotula "Torneo Apertura" en una temporada y "Apertura 2006" en otra.
 

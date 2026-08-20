@@ -1238,8 +1238,15 @@ DIVIDIDOS: tuple[Dividido, ...] = (
                "RSSSF lo llama por su nombre y ademas lo usa para explicar una "
                "anomalia: \"2 more losses than wins and overall goal difference -1 "
                "due to award Central Norte-9 de Julio in round 14 Clausura\".\n"
-               "No entra. Y aca no hay siquiera una fila que sacar: RSSSF, que es de "
-               "donde salen los partidos de esta pagina, no lo publica.",
+               "Y RSSSF, que es de donde salen las filas de esta pagina, lo dice con "
+               "todas las letras en la linea del partido: `Central Norte awd 9 de "
+               "Julio [awarded 0-1 loss to both; originally 1-1; both teams to start "
+               "with -6 points 2007/08]`. LOSS TO BOTH, textual.\n"
+               "OJO con una discrepancia que conviene dejar escrita en vez de "
+               "elegir: sobre el marcador JUGADO, Wikipedia dice 1-0 y RSSSF dice "
+               "1-1. Como ninguno de los dos entra al dataset, la diferencia no "
+               "cambia una fila, pero cambia el relato y no hay que taparla.\n"
+               "No entra: la fila no existe y no tiene que existir.",
     ),
     Dividido(
         pagina="Torneo Argentino A 2006-07",
@@ -1264,6 +1271,12 @@ DIVIDIDOS: tuple[Dividido, ...] = (
                "la pagina donde la acumulada no es la suma de sus mitades, asi que "
                "para este caso vale la del Clausura, que es la que aparea con el "
                "rival.\n"
+               "Y RSSSF lo dice textual en la linea del partido: `San Martin awd Sp. "
+               "Desamparados [awarded 0-1 loss to both; originally 0-0; both teams "
+               "have 9 points deducted in the aggregate table]`. Confirma las tres "
+               "cosas de una: el fallo contra los dos, el 0-0 de la cancha y los "
+               "nueve puntos -- y no diez, como dice el relato de Wikipedia en otro "
+               "parrafo de la misma pagina.\n"
                "No entra, por lo mismo que el otro.",
     ),
 )
@@ -1965,6 +1978,21 @@ REVISADOS: tuple[Revisado, ...] = (
                "Tucuman, los dos tocados por partidos que no estan en la grilla; "
                "Patria no tiene ninguno, asi que aca no queda ni esa excusa. No hay "
                "a donde ir a buscar."),
+    Revisado(
+        pagina="Torneo Argentino A 2006-07", club="Atlético Tucumán",
+        porque="La tabla acumulada le da 14-7-7 (G-E-P) y la grilla 13-7-8: un ganado "
+               "donde va un perdido. Los GOLES coinciden exacto, 42-30 de los dos "
+               "lados.\n"
+               "LA PAGINA SE CONTRADICE SOLA, igual que con Sportivo Patria: sus dos "
+               "mitades suman 5-3-6 mas 8-4-2, o sea 13-7-8, que es lo que dice la "
+               "grilla. La fila acumulada es la equivocada y las otras dos tablas de la "
+               "misma pagina la desmienten.\n"
+               "Y se sabe de que partido se trata, que es lo lindo del caso: el "
+               "Atletico Tucuman-Talleres de la Fecha 14 del Apertura se abandono con "
+               "Atletico Tucuman ganando 3-0 a los 72' y despues se lo dieron perdido "
+               "0-1 -- RSSSF: `awarded 0-1; abandoned at 3-0 in 72'`. La acumulada "
+               "anota la CANCHA y las mitades anotan el FALLO. No hay a donde ir a "
+               "buscar: las dos versiones estan en la pagina."),
 )
 
 

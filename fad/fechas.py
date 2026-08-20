@@ -123,6 +123,11 @@ class Ajeno:
     # dato sino de esta linea faltando.
     zona: str = ""
 
+    # De donde salio el marcador, con el mismo vocabulario que
+    # `parser.status_de_la_fila`: "" / "suspendido" / "escritorio". Vacio es lo
+    # normal y quiere decir "la fuente no dijo otra cosa".
+    status: str = ""
+
 
 # Cache propia, al lado de la de Wikipedia y por la misma razon: durante el
 # desarrollo la misma temporada se lee decenas de veces. Aca ademas importa por
