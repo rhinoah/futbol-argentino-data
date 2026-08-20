@@ -1211,7 +1211,19 @@ DIVIDIDOS: tuple[Dividido, ...] = (
                "resolvio darles por perdido el encuentro a ambos equipos por 1 a 0. "
                "Los dos perdieron, y una fila tiene que tener un ganador o un "
                "empate. Salia en sin-fecha/ publicando el 2-2 de la cancha, que no "
-               "es el resultado de ninguno de los dos",
+               "es el resultado de ninguno de los dos.\n"
+               "SON TRES TESTIGOS Y NO UNO, y conviene anotarlo porque esta "
+               "familia SACA una fila del dataset. La pagina lo cuenta DOS VECES, "
+               "en dos lugares y con palabras distintas: la nota de arriba, que "
+               "cuelga de la grilla, y otra bajo la tabla de posiciones -- \"El "
+               "partido La Florida-Sportivo Patria correspondiente a la fecha 10 "
+               "termino 2-2, pero fue anulado; se considero como 0-1 para "
+               "ambos\" --. Dos redacciones que no se copian una a la otra.\n"
+               "Y el tercero es de afuera: RSSSF, en la ronda 10 del Clausura, "
+               "escribe `La Florida awd Sportivo Patria [abandoned at 2-2 in "
+               "90', awarded 0-1 against both]`, y lo repite en su NB al pie de "
+               "la zona. Coincide en el minuto, en el 2-2 y en el fallo contra "
+               "los dos.",
     ),
     Dividido(
         pagina="Torneo Federal A 2018-19",
@@ -1993,7 +2005,32 @@ REVISADOS: tuple[Revisado, ...] = (
                "0-1 -- RSSSF: `awarded 0-1; abandoned at 3-0 in 72'`. La acumulada "
                "anota la CANCHA y las mitades anotan el FALLO. No hay a donde ir a "
                "buscar: las dos versiones estan en la pagina."),
+    Revisado(
+        pagina="Torneo Argentino A 2005-06", club="La Florida",
+        porque="La tabla del Clausura le cuenta un partido que la grilla no "
+               "tiene, y no falta: es el La Florida-Sportivo Patria de la "
+               "Fecha 10, que termino 2-2 en la cancha, se anulo y se "
+               "considero 0-1 PARA LOS DOS. Dos resultados para un partido no "
+               "entran en una fila, asi que la fila sale -- esta en "
+               "`DIVIDIDOS` con sus tres testigos, dos de la propia pagina y "
+               "uno de RSSSF.\n"
+               "No hay nada que ir a buscar: del partido se sabe todo, hasta "
+               "el minuto en que se interrumpio. Lo unico que no se puede es "
+               "escribirlo."),
+    Revisado(
+        pagina="Torneo Argentino A 2005-06", club="Sportivo Patria",
+        porque="La tabla del Clausura le cuenta un partido que la grilla no "
+               "tiene, y no falta: es el Sportivo Patria-La Florida de la "
+               "Fecha 10, que termino 2-2 en la cancha, se anulo y se "
+               "considero 0-1 PARA LOS DOS. Dos resultados para un partido no "
+               "entran en una fila, asi que la fila sale -- esta en "
+               "`DIVIDIDOS` con sus tres testigos, dos de la propia pagina y "
+               "uno de RSSSF.\n"
+               "No hay nada que ir a buscar: del partido se sabe todo, hasta "
+               "el minuto en que se interrumpio. Lo unico que no se puede es "
+               "escribirlo."),
 )
+
 
 
 
