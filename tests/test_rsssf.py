@@ -134,6 +134,27 @@ def test_la_llave_separa_dos_torneos_con_la_misma_numeracion():
     assert [a.fecha for a in ajenos] == ["2005-09-25", "2006-02-12"]
 
 
+def test_el_dia_entre_parentesis_es_un_dia():
+    """2007-08 escribe TODAS sus fechas asi, y 2006-07 una sola.
+
+    Lo que hace falta probar no es que la reconozca sino que el partido de abajo
+    no se quede con la fecha anterior: no reconocerla no lo deja afuera, le pone
+    una fecha que no es, que es la unica de las dos formas de fallar que despues
+    no se nota.
+    """
+    ajenos, _ = leer("Torneo Apertura\nZona A - Sur\nRound 10\n[Oct 15]\n"
+                     "La Plata FC                  2-0 Cipolletti\n"
+                     "(Oct 16)\n"
+                     "Villa Mitre                  1-0 Guillermo Brown\n")
+    assert [a.fecha for a in ajenos] == ["2005-10-15", "2005-10-16"]
+
+
+def test_la_ronda_tambien_trae_el_dia_entre_parentesis():
+    ajenos, _ = leer("Torneo Apertura\nZona A - Sur\nRound 1 (Aug 24)\n"
+                     "La Plata FC                  2-0 Cipolletti\n")
+    assert [a.fecha for a in ajenos] == ["2005-08-24"]
+
+
 def test_la_llave_tambien_viene_escrita_sin_la_palabra_torneo():
     """RSSSF rotula "Torneo Apertura" en una temporada y "Apertura 2006" en otra.
 

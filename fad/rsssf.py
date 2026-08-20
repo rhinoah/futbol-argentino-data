@@ -89,7 +89,21 @@ _CACHE = Path(__file__).resolve().parent.parent / ".cache" / "rsssf"
 _MESES = {m: i + 1 for i, m in enumerate(
     "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split())}
 
-_RONDA = re.compile(r"^Round\s+(\d+)(?:\s*\[([A-Z][a-z]{2})\s+(\d+)\])?\s*$")
+# El dia viene entre corchetes o entre parentesis segun la temporada, y no hay una
+# forma "correcta": 2005-06 y 2008-09 escriben `[Oct 14]` en las 106 y las 120
+# lineas, 2007-08 escribe `(Aug 24)` en las 195 sin un solo corchete, y 2006-07
+# mezcla -- 175 corchetes y un unico parentesis --.
+#
+# Aceptar una sola forma no deja el partido afuera, que seria lo benigno: la fecha
+# ANTERIOR sigue viva y se les pega a los partidos de abajo. Ese unico parentesis
+# de 2006-07 fecho `La Plata FC 1-2 Juventud` el 15 de octubre cuando la linea de
+# arriba dice 16. Y 2007-08 entero habria entrado con cero partidos, sin ruido.
+#
+# El par desparejo -- `[Oct 16)` -- tambien pasa, y esta bien que pase: la forma ya
+# es inconfundible por dentro (mes de tres letras y dia, solos en la linea), asi
+# que ser laxo con el delimitador no admite nada que no sea una fecha.
+_DIA = r"[\[(]([A-Z][a-z]{2})\s+(\d+)[\])]"
+_RONDA = re.compile(r"^Round\s+(\d+)(?:\s*" + _DIA + r")?\s*$")
 # "Apertura 2006" / "Clausura 2007": la llave sin la palabra "Torneo" adelante.
 # RSSSF escribe las dos formas segun la temporada, y la diferencia no es cosmetica:
 # el Argentino A 2006-07 corre un Apertura y un Clausura sobre LAS MISMAS tres
@@ -98,7 +112,7 @@ _RONDA = re.compile(r"^Round\s+(\d+)(?:\s*\[([A-Z][a-z]{2})\s+(\d+)\])?\s*$")
 # doble de partidos por fecha -- 112 donde van 56 --, que es como se encontro.
 _LLAVE_PELADA = re.compile(r"^(Apertura|Clausura)\s+\d{4}$")
 
-_SOLO_FECHA = re.compile(r"^\[([A-Z][a-z]{2})\s+(\d+)\]\s*$")
+_SOLO_FECHA = re.compile(r"^" + _DIA + r"\s*$")
 # Dos espacios o mas separan las columnas. El nombre del local no puede tener
 # corchetes: si los tiene es una anotacion encabalgada, no un partido.
 #
