@@ -246,6 +246,73 @@ ARGENTINO_A_2005 = {
 }
 
 # {pagina de Wikipedia: (archivo en RSSSF, mapa)}
+# Torneo Argentino A 2006-07. Tres zonas de ocho.
+#
+# ESTA TEMPORADA NO TIENE GRILLA EN WIKIPEDIA. Su articulo publica los equipos
+# participantes, la tabla de posiciones final de cada zona y la fase final, y
+# ningun resultado fecha por fecha -- se comprobo cargandola al catalogo, que dio
+# cero partidos y cien avisos, y se revirtio. Asi que aca RSSSF no es el segundo
+# testigo de nada: es la unica fuente que tiene esos partidos, y `source` lo dice
+# fila por fila.
+#
+# COMO SE ARMO EL MAPA, porque no se puede emparejar por parecido: los nombres de
+# RSSSF son cortos y el mismo "Racing" es Cordoba aca y Olavarria en 2005-06. Se
+# forzo por CARDINALIDAD contra los clubes de cada zona, que salen de las tablas
+# de posiciones de la propia Wikipedia -- lo unico que esa pagina si publica --.
+# Ocho nombres de RSSSF contra ocho clubes por zona, en las tres.
+#
+# Dieciocho entraron por el padron o por coincidencia exacta dentro de su zona.
+# Los seis restantes no resolvian por texto y quedaron forzados porque en cada
+# zona sobraban exactamente dos nombres y dos clubes, y la abreviatura dice cual
+# es cual sin ambiguedad:
+#
+#   Zona A  "Dep. Santamarina"         -> Ramon Santamarina
+#   Zona A  "La Plata FC"              -> La Plata
+#   Zona B  "Indep. Rivadavia"         -> Independiente Rivadavia
+#   Zona B  "Juv. Unida Universitario" -> Juventud Unida Universitario
+#   Zona C  "Juv. Antoniana"           -> Juventud Antoniana
+#   Zona C  "Union de Sunchales"       -> Union (S)
+#
+# El corte de las zonas de Wikipedia hay que hacerlo por NIVEL de titulo y no
+# hasta el proximo `==`: los `Zona A/B/C` son de nivel 3 adentro de una seccion
+# de nivel 2, asi que cortar en el proximo `==` se lleva las tres tablas juntas.
+# Con eso Zona A daba 24 clubes en vez de 8 y "Juventud" quedaba ambiguo entre
+# los tres Juventud del torneo, cuando en su zona hay uno solo.
+ARGENTINO_A_2006 = {
+    "Zona A": {
+        "Dep. Santamarina": "Ramón Santamarina",
+        "Douglas Haig": "Douglas Haig",
+        "Gimnasia y Esgrima (CdU)": "Gimnasia y Esgrima (CdU)",
+        "Guillermo Brown": "Guillermo Brown",
+        "Juventud": "Juventud (P)",
+        "La Plata FC": "La Plata",
+        "Real Arroyo Seco": "Real Arroyo Seco",
+        "Rivadavia": "Rivadavia (L)",
+    },
+    "Zona B": {
+        "Alumni": "Alumni (VM)",
+        "Gimnasia y Esgrima (M)": "Gimnasia y Esgrima (M)",
+        "Indep. Rivadavia": "Independiente Rivadavia",
+        "Juv. Unida Universitario": "Juventud Unida Universitario",
+        "Luján de Cuyo": "Luján de Cuyo",
+        "Racing": "Racing (C)",
+        "San Martín": "San Martín (SM)",
+        "Sp. Desamparados": "Desamparados",
+    },
+    "Zona C": {
+        "9 de Julio": "9 de Julio (R)",
+        "Atl. Tucumán": "Atlético Tucumán",
+        "Central Norte": "Central Norte",
+        "Juv. Antoniana": "Juventud Antoniana",
+        "La Florida": "La Florida",
+        "Sp. Patria": "Sportivo Patria",
+        "Talleres (P)": "Talleres (P)",
+        "Unión de Sunchales": "Unión (S)",
+    },
+}
+
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
+    "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
 }
