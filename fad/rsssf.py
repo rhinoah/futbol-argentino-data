@@ -103,7 +103,12 @@ _MESES = {m: i + 1 for i, m in enumerate(
 # es inconfundible por dentro (mes de tres letras y dia, solos en la linea), asi
 # que ser laxo con el delimitador no admite nada que no sea una fecha.
 _DIA = r"[\[(]([A-Z][a-z]{2})\s+(\d+)[\])]"
-_RONDA = re.compile(r"^Round\s+(\d+)(?:\s*" + _DIA + r")?\s*$")
+# Una ronda puede traer anotaciones colgadas: `Round 21 [interzonal 1-2]`,
+# `Round 29 [Apr 12] [interzonal 1-2]`. Sin tolerarlas la linea no es una ronda,
+# no es una fecha y no es un partido, asi que cae al piso y los partidos que
+# vienen abajo se quedan con la RONDA Y LA FECHA ANTERIORES. No faltan: mienten,
+# que es la unica forma de fallar que no se nota.
+_RONDA = re.compile(r"^Round\s+(\d+)(?:\s*" + _DIA + r")?((?:\s*\[[^\]]*\])*)\s*$")
 # "Apertura 2006" / "Clausura 2007": la llave sin la palabra "Torneo" adelante.
 # RSSSF escribe las dos formas segun la temporada, y la diferencia no es cosmetica:
 # el Argentino A 2006-07 corre un Apertura y un Clausura sobre LAS MISMAS tres
@@ -112,7 +117,8 @@ _RONDA = re.compile(r"^Round\s+(\d+)(?:\s*" + _DIA + r")?\s*$")
 # doble de partidos por fecha -- 112 donde van 56 --, que es como se encontro.
 _LLAVE_PELADA = re.compile(r"^(Apertura|Clausura)\s+\d{4}$")
 
-_SOLO_FECHA = re.compile(r"^" + _DIA + r"\s*$")
+# La fecha tambien la trae adentro: `[Sep 27, interzonal 1-2]`.
+_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(,[^\])]*)?[\])]\s*$")
 # Dos espacios o mas separan las columnas. El nombre del local no puede tener
 # corchetes: si los tiene es una anotacion encabalgada, no un partido.
 #
@@ -260,6 +266,15 @@ def descargar(archivo: str, usar_cache: bool = True) -> str:
     return texto
 
 
+_INTERZONAL = re.compile(r"interzonal\s+(\d+\s*-\s*\d+)", re.I)
+
+
+def _par_interzonal(anotacion: str) -> str:
+    """El par de una ronda interzonal ("1-2"), o "" si la ronda no lo es."""
+    m = _INTERZONAL.search(anotacion or "")
+    return m.group(1).replace(" ", "") if m else ""
+
+
 def _fecha_iso(mes: int, dia: int, anio: int, anio_fin: int, mes_inicio: int) -> str:
     """El anio sale de si el mes cae antes o despues del arranque de temporada.
 
@@ -280,6 +295,8 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
     fuera: list[Ajeno] = []
     desconocidos: set[str] = set()
     raros: list[str] = []
+    # De que par es la ronda interzonal abierta ("1-2"), o "" si no lo es.
+    interzonal = ""
     zona = llave = ""
     ronda: int | None = None
     fecha: tuple[int, int] | None = None
@@ -322,12 +339,20 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         if m:
             ronda = int(m.group(1))
             fecha = (_MESES[m.group(2)], int(m.group(3))) if m.group(2) else None
+            interzonal = _par_interzonal(m.group(4))
             continue
         m = _SOLO_FECHA.match(pelada)
         if m:
             fecha = (_MESES[m.group(1)], int(m.group(2)))
+            interzonal = _par_interzonal(m.group(3)) or interzonal
             continue
         if zona not in mapa or ronda is None or fecha is None:
+            continue
+        # Una ronda INTERZONAL pertenece a las dos zonas, y RSSSF la imprime dos
+        # veces: una bajo el listado de cada una. Se lee bajo la PRIMERA del par y
+        # se saltea bajo la segunda, o cada partido entra dos veces -- son 16 en el
+        # Argentino A 2008-09, y con ellos 20 avisos graves.
+        if interzonal and not zona.rstrip().endswith(interzonal.split("-")[0]):
             continue
         m = _PARTIDO.match(cruda)
         if not m:

@@ -309,6 +309,12 @@ ASCENSO_HISTORICO = [
     # pasan por el mismo cruce que todas las demas.
     Torneo('Torneo Argentino A 2006-07', 'Torneo Argentino A', 2006,
            anio_fin=2007, rsssf='arg3-int07', sin_grilla=True),
+    # La segunda sin grilla, y la que enseño que la correspondencia de zonas no se
+    # da por hecha: RSSSF la parte en `Zone 1`, `Zone 2` y `Zone 3`, pero sus dos
+    # primeras son ETAPAS sobre los mismos 16 clubes y la pagina las reparte en dos
+    # zonas de 8. Ver el mapa en `fad/rsssf.py`.
+    Torneo('Torneo Argentino A 2008-09', 'Torneo Argentino A', 2008,
+           anio_fin=2009, rsssf='arg3-int09', sin_grilla=True),
 
     Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),
