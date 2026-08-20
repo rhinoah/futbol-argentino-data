@@ -932,6 +932,62 @@ def test_dos_clubes_corridos_lo_mismo_son_un_partido_entre_ellos():
     assert "Racing Club" in avisos[0] and "Independiente" in avisos[0]
 
 
+def test_el_revisado_tambien_calla_el_aviso_de_PJ():
+    """De los tres cruces contra la tabla, este era el unico que no los miraba.
+
+    El hueco tenia consecuencia: un desvio de PJ con la explicacion ya escrita no
+    tenia forma de callarse. Pasa cuando la tabla cuenta un partido que el esquema
+    no puede escribir -- los dos partidos arreglados de la ultima fecha del
+    Clausura 2007 en el Argentino A 2006-07, que terminaron con un resultado
+    distinto para cada club.
+    """
+    texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
+                   fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3),
+                   fila(3, "Racing Club", 3, 2, 1, 0, 1, 2, 1),
+                   fila(4, "Independiente", 0, 2, 0, 0, 2, 0, 3))
+    ps = [zona("Boca Juniors", "River Plate", 3, 1),
+          zona("Racing Club", "Independiente", 2, 0)]      # a los dos les falta uno
+    assert posiciones.pj_que_no_coincide(ps, texto, pagina="Una Pagina")
+
+    revisados = tuple(correcciones.Revisado(pagina="Una Pagina", club=c, porque="x")
+                      for c in ("Racing Club", "Independiente"))
+    with mock.patch.object(correcciones, "REVISADOS", revisados):
+        assert posiciones.pj_que_no_coincide(ps, texto, pagina="Una Pagina") == []
+
+
+def test_el_revisado_de_PJ_vale_solo_en_su_pagina():
+    """Como los otros dos: una verificacion se hizo sobre una tabla concreta."""
+    texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
+                   fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3),
+                   fila(3, "Racing Club", 3, 2, 1, 0, 1, 2, 1),
+                   fila(4, "Independiente", 0, 2, 0, 0, 2, 0, 3))
+    ps = [zona("Boca Juniors", "River Plate", 3, 1),
+          zona("Racing Club", "Independiente", 2, 0)]
+    ajena = tuple(correcciones.Revisado(pagina="Otra Pagina", club=c, porque="x")
+                  for c in ("Racing Club", "Independiente"))
+    with mock.patch.object(correcciones, "REVISADOS", ajena):
+        assert posiciones.pj_que_no_coincide(ps, texto, pagina="Una Pagina")
+
+
+def test_un_desvio_de_PJ_tambien_es_un_desvio_para_los_huerfanos():
+    """`clubes_desviados` se salteaba a los clubes con el PJ distinto, porque su
+    unico consumidor comparaba goles. Con `Revisado` cerrando tambien desvios de
+    PJ, esa omision hacia que la entrada que lo explica no enganchara con nada y
+    `revisados_huerfanos` la denunciara por no existir un problema que si existe."""
+    texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
+                   fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3),
+                   fila(3, "Racing Club", 3, 2, 1, 0, 1, 2, 1),
+                   fila(4, "Independiente", 0, 2, 0, 0, 2, 0, 3))
+    ps = [zona("Boca Juniors", "River Plate", 3, 1),
+          zona("Racing Club", "Independiente", 2, 0)]
+    crudos = posiciones.clubes_desviados(ps, texto, pagina="Una Pagina")
+    assert {"Racing Club", "Independiente"} <= crudos
+
+    r = correcciones.Revisado(pagina="Una Pagina", club="Racing Club", porque="x")
+    with mock.patch.object(correcciones, "REVISADOS", (r,)):
+        assert correcciones.revisados_huerfanos("Una Pagina", crudos) == []
+
+
 def test_si_se_mueve_mas_de_media_tabla_no_opina():
     """La guarda no es un umbral sobre la diferencia sino sobre CUANTA TABLA SE
     MUEVE. Un club mal atribuido corre uno o dos de veinte; una tabla que cuenta
@@ -1229,8 +1285,14 @@ def test_cada_revisado_dice_contra_que_se_verifico():
     puede explicar el desvio y no hay a donde ir a buscar."""
     for r in correcciones.REVISADOS:
         assert len(r.porque) > 120, f"{r.pagina} {r.club}: la evidencia es muy flaca"
+        # "La " estuvo en esta lista y habia que sacarlo: matchea "La tabla", "La
+        # grilla" y "La Fecha 5", o sea prosa comun de cualquier entrada. Siete de
+        # las 33 pasaban SOLO por ahi, y ninguna de las siete nombraba una fuente
+        # de afuera -- lo que tenian era una prueba de la TERCERA familia, que
+        # abajo por fin se reconoce. Un marcador que se cumple sin querer no
+        # guarda nada.
         externa = any(f in r.porque for f in
-                       ("RSSSF", "rsssf", "cronica", "La ", "diario", "compilado",
+                       ("RSSSF", "rsssf", "cronica", "diario", "compilado",
                         "historial", "Web Archive"))
         # La prueba INTERNA de este modulo es una sola y siempre la misma: el club
         # se desvia solo, y un marcador mal leido toca a dos. Se la reconoce por la
@@ -1245,7 +1307,22 @@ def test_cada_revisado_dice_contra_que_se_verifico():
                       ("prueba es interna", "prueba interna", "se desvia solo",
                        "otra mitad del par", "que lo aparee", "sin pareja",
                        "unico club desviado", "auto-espejado"))
-        assert externa or interna, f"{r.pagina} {r.club}: no dice contra que se verifico"
+        # LA TERCERA FAMILIA: el desvio no viene de un dato mal leido sino de un
+        # FALLO. El partido existe y se conoce entero; lo que no se puede es
+        # escribirlo, porque el tribunal le dio un resultado distinto a cada club,
+        # o porque la fuente publica el homologado y no lo jugado. Tampoco hay a
+        # donde ir a buscar, y por eso cierra igual que las otras dos.
+        #
+        # Ya habia tres entradas de esta familia antes de que se la nombrara --
+        # Camioneros, Talleres (RdE) y Ramon Santamarina --, y las tres pasaban de
+        # rebote por el "La " de la lista de arriba. Es la tercera vez en este
+        # archivo que un marcador se queda corto porque se lo escribio mirando
+        # una sola entrada.
+        fallo = any(f in r.porque.lower() for f in
+                    ("dividido", "dos resultados", "resultado distinto para cada club",
+                     "homolog", "publica el fallo", "fuera del cruce"))
+        assert externa or interna or fallo, \
+            f"{r.pagina} {r.club}: no dice contra que se verifico"
 
 
 def test_el_revisado_tambien_calla_el_aviso_de_goles_y_solo_en_su_pagina():

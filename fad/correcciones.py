@@ -1220,6 +1220,52 @@ DIVIDIDOS: tuple[Dividido, ...] = (
                "dio por perdido a ambos equipos. Es el unico de los cinco que no "
                "entraba ya, porque su celda no se puede leer como marcador",
     ),
+    Dividido(
+        pagina="Torneo Argentino A 2006-07",
+        local="Central Norte (S)", visita="9 de Julio (R)", dice=None,
+        porque="Ultima fecha del Clausura 2007, y el primero de los dos escandalos de "
+               "arreglo que cuenta la propia pagina: Central Norte, ya descendido, le "
+               "concedio a 9 de Julio un penal sobre el final para que clasificara a "
+               "la fase final y de paso quedara afuera su clasico rival, Juventud "
+               "Antoniana. En la cancha termino 1-0.\n"
+               "Lo que lo trae a esta familia es como quedo anotado. En la tabla del "
+               "Clausura los DOS clubes figuran con un partido mas que la grilla y "
+               "con un PERDIDO de mas: Central Norte 3-5-6 contra 3-5-5, y 9 de Julio "
+               "7-2-5 contra 7-2-4. O sea que hasta 9 de Julio, que gano en la "
+               "cancha, esta anotado perdiendo. La columna de goles lo dice por su "
+               "cuenta y sin que se lo pregunten: los dos con cero a favor y uno en "
+               "contra, los dos perdiendo 0-1. Un partido, dos derrotas.\n"
+               "RSSSF lo llama por su nombre y ademas lo usa para explicar una "
+               "anomalia: \"2 more losses than wins and overall goal difference -1 "
+               "due to award Central Norte-9 de Julio in round 14 Clausura\".\n"
+               "No entra. Y aca no hay siquiera una fila que sacar: RSSSF, que es de "
+               "donde salen los partidos de esta pagina, no lo publica.",
+    ),
+    Dividido(
+        pagina="Torneo Argentino A 2006-07",
+        local="San Martín (SM)", visita="Desamparados", dice=None,
+        porque="Tres dias despues del otro y con el mismo desenlace. San Martin de "
+               "Mendoza de local y Desamparados de visitante -- lo dice la pagina, "
+               "que Desamparados \"actuaba como visitante\", y coincide con lo que "
+               "exige el fixture: dentro de cada llave la Fecha 14 es el reverso de "
+               "la Fecha 7, y en la Fecha 7 el local fue Desamparados --. Termino 0-0 "
+               "en la cancha, que era lo que les servia a los dos.\n"
+               "Juventud Unida denuncio, y despues aparecio un video de Leon Bustos, "
+               "jugador de San Martin, admitiendo que le habian ofrecido treinta mil "
+               "pesos al plantel para no ganar. El Consejo Federal les dio el partido "
+               "por perdido 1 a 0 A LOS DOS y les quito nueve puntos a cada uno.\n"
+               "La tabla del Clausura lo confirma sin que haya que creerle al relato: "
+               "Desamparados 4-0-10 contra 4-0-9 en la grilla y San Martin 3-4-7 "
+               "contra 3-4-6, los dos con un perdido de mas, y los dos con cero goles "
+               "a favor y uno en contra.\n"
+               "OJO con la tabla acumulada, que aca se contradice con la del "
+               "Clausura: a San Martin le falta ese gol en contra -- da 24-26 donde "
+               "la suma de sus dos mitades da 24-27 --. Es uno de los tres clubes de "
+               "la pagina donde la acumulada no es la suma de sus mitades, asi que "
+               "para este caso vale la del Clausura, que es la que aparea con el "
+               "rival.\n"
+               "No entra, por lo mismo que el otro.",
+    ),
 )
 
 
@@ -1843,7 +1889,66 @@ REVISADOS: tuple[Revisado, ...] = (
                "ningun partido, asi que lo que esta mal es el G-E-P de la fila y "
                "no hay a donde ir a buscar. Ademas no aparea con nadie: es el "
                "unico club desviado de su zona."),
+    # Los cuatro clubes de los dos partidos arreglados. El desvio es real y esta
+    # explicado: ver los `Dividido` de esta misma pagina.
+    Revisado(
+        pagina="Torneo Argentino A 2006-07", club="Central Norte (S)",
+        porque="La tabla le cuenta un partido que la grilla no tiene, y el partido no "
+               "falta: es el del penal regalado, contra 9 de Julio (R), uno de los dos que la ultima fecha "
+               "del Clausura 2007 termino con UN RESULTADO DISTINTO PARA CADA CLUB. "
+               "El fallo del Consejo Federal les dio derrota a los dos, y una fila "
+               "tiene un solo marcador, asi que queda afuera -- esta en `DIVIDIDOS` "
+               "con toda la evidencia.\n"
+               "Lo confirma la propia tabla del Clausura por dos columnas que no "
+               "dependen una de la otra: Central Norte (S) figura con un PERDIDO de mas que la "
+               "grilla, y ademas con cero goles a favor y uno en contra de mas. Las "
+               "dos columnas dicen la misma derrota.\n"
+               "No hay nada que ir a buscar: del partido se sabe todo salvo como "
+               "escribir su resultado, que es precisamente lo que no se puede."),
+    Revisado(
+        pagina="Torneo Argentino A 2006-07", club="9 de Julio (R)",
+        porque="La tabla le cuenta un partido que la grilla no tiene, y el partido no "
+               "falta: es el del penal regalado, contra Central Norte (S), uno de los dos que la ultima fecha "
+               "del Clausura 2007 termino con UN RESULTADO DISTINTO PARA CADA CLUB. "
+               "El fallo del Consejo Federal les dio derrota a los dos, y una fila "
+               "tiene un solo marcador, asi que queda afuera -- esta en `DIVIDIDOS` "
+               "con toda la evidencia.\n"
+               "Lo confirma la propia tabla del Clausura por dos columnas que no "
+               "dependen una de la otra: 9 de Julio (R) figura con un PERDIDO de mas que la "
+               "grilla, y ademas con cero goles a favor y uno en contra de mas. Las "
+               "dos columnas dicen la misma derrota. Y es el mas contundente de los cuatro: 9 de Julio GANO 1-0 en la cancha y la tabla lo anota perdiendo.\n"
+               "No hay nada que ir a buscar: del partido se sabe todo salvo como "
+               "escribir su resultado, que es precisamente lo que no se puede."),
+    Revisado(
+        pagina="Torneo Argentino A 2006-07", club="San Martín (SM)",
+        porque="La tabla le cuenta un partido que la grilla no tiene, y el partido no "
+               "falta: es el del soborno denunciado, contra Desamparados, uno de los dos que la ultima fecha "
+               "del Clausura 2007 termino con UN RESULTADO DISTINTO PARA CADA CLUB. "
+               "El fallo del Consejo Federal les dio derrota a los dos, y una fila "
+               "tiene un solo marcador, asi que queda afuera -- esta en `DIVIDIDOS` "
+               "con toda la evidencia.\n"
+               "Lo confirma la propia tabla del Clausura por dos columnas que no "
+               "dependen una de la otra: San Martín (SM) figura con un PERDIDO de mas que la "
+               "grilla, y ademas con cero goles a favor y uno en contra de mas. Las "
+               "dos columnas dicen la misma derrota.\n"
+               "No hay nada que ir a buscar: del partido se sabe todo salvo como "
+               "escribir su resultado, que es precisamente lo que no se puede."),
+    Revisado(
+        pagina="Torneo Argentino A 2006-07", club="Desamparados",
+        porque="La tabla le cuenta un partido que la grilla no tiene, y el partido no "
+               "falta: es el del soborno denunciado, contra San Martín (SM), uno de los dos que la ultima fecha "
+               "del Clausura 2007 termino con UN RESULTADO DISTINTO PARA CADA CLUB. "
+               "El fallo del Consejo Federal les dio derrota a los dos, y una fila "
+               "tiene un solo marcador, asi que queda afuera -- esta en `DIVIDIDOS` "
+               "con toda la evidencia.\n"
+               "Lo confirma la propia tabla del Clausura por dos columnas que no "
+               "dependen una de la otra: Desamparados figura con un PERDIDO de mas que la "
+               "grilla, y ademas con cero goles a favor y uno en contra de mas. Las "
+               "dos columnas dicen la misma derrota.\n"
+               "No hay nada que ir a buscar: del partido se sabe todo salvo como "
+               "escribir su resultado, que es precisamente lo que no se puede."),
 )
+
 
 
 def revisado(pagina: str, club: str) -> Revisado | None:

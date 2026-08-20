@@ -490,9 +490,18 @@ def clubes_desviados(ps: list, texto: str, arts: dict[str, str] | None = None,
     for alcance, filas in _alcance_de_cada_tabla(texto, arts, ps, pagina):
         propios = _propios_de(ps, alcance)
         for club, datos in filas.items():
-            if club not in propios or propios[club][0] != datos[0]:
+            if club not in propios:
                 continue
-            if tuple(datos[1:3]) != tuple(propios[club][1:3]) or                     (len(datos) >= 6 and tuple(datos[3:6]) != tuple(propios[club][3:6])):
+            # El PJ distinto tambien es un desvio, y hace falta decirlo aca: si no,
+            # un `Revisado` que explica un desvio de PJ no engancha con nada y
+            # `revisados_huerfanos` lo denuncia por no existir un problema que si
+            # existe. Antes se salteaba porque el unico consumidor comparaba goles.
+            if propios[club][0] != datos[0]:
+                fuera.add(club)
+                continue
+            if (tuple(datos[1:3]) != tuple(propios[club][1:3])
+                    or (len(datos) >= 6
+                        and tuple(datos[3:6]) != tuple(propios[club][3:6]))):
                 fuera.add(club)
     return fuera
 
@@ -684,6 +693,19 @@ def pj_que_no_coincide(ps: list, texto: str, arts: dict[str, str] | None = None,
         comunes = sorted(set(publicada) & set(contada))
         desviados = [c for c in comunes if publicada[c][0] != contada[c][0]]
         if not comunes or len(desviados) * 2 > len(comunes):
+            continue
+        # La guarda de arriba mira los desvios CRUDOS a proposito: cuanta tabla se
+        # mueve es un hecho de la pagina y no cambia porque nosotros hayamos
+        # revisado un club. Recien despues salen los revisados.
+        #
+        # Este era el unico de los tres cruces contra la tabla que no los miraba
+        # -- `contrastar` y `resultados_que_no_coinciden` si --, y el hueco tenia
+        # consecuencia: un desvio de PJ con explicacion escrita no tenia forma de
+        # callarse. Lo destaparon los dos partidos arreglados del Argentino A
+        # 2006-07, donde la tabla cuenta un partido que el esquema no puede
+        # escribir porque termino con dos resultados. Ver `DIVIDIDOS`.
+        desviados = [c for c in desviados if not correcciones.revisado(pagina, c)]
+        if not desviados:
             continue
         # Los desvios se agrupan por su DELTA, porque un partido toca a DOS
         # clubes: si dos se corren lo mismo y para el mismo lado, lo que hay es
