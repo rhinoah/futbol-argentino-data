@@ -357,7 +357,17 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Crucero del Norte'),
     Equipo('Círculo Deportivo'),
     Equipo('Defensores Unidos'),
-    Equipo('Defensores de Belgrano', alias=("D. de Belgrano",)),
+    Equipo('Defensores de Belgrano',
+           # `Def. de Belgrano` a secas es ESTE, el de Villa Crespo, y no el de
+           # Villa Ramallo. Lo dice la pagina que lo usa sin enlazar: el cuadro de
+           # la Copa Argentina 2011-12 le pone `{{bandera|Buenos Aires}}`, la de la
+           # ciudad, mientras que al de Ramallo le pone `Provincia de Buenos
+           # Aires`. Y en la Copa 2015-16 el mismo nombre corto SI va enlazado, a
+           # `Club Atlético Defensores de Belgrano`, que es el de Villa Crespo.
+           # El otro nunca aparece pelado: siempre lleva su `(VR)`, que ya es su
+           # alias. Sin esto, el unico nombre del cuadro que el padron no
+           # reconocia quedaba abierto para siempre.
+           alias=("D. de Belgrano", "Def. de Belgrano")),
     Equipo('Defensores de Belgrano (VR)',
            # `Def. de Belgrano (VR)` es del cuadro y va con el sufijo puesto: es lo
            # unico que lo separa de `Defensores de Belgrano`, que en la Copa

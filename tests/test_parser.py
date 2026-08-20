@@ -1641,8 +1641,16 @@ def test_los_cuatro_alias_que_solo_usa_el_cuadro():
     assert equipos.buscar("Güemes", "").nombre == "Güemes (SdE)"
 
 
-def test_el_nombre_ambiguo_no_se_resuelve_a_la_fuerza():
-    """`Def. de Belgrano` a secas NO entra al padron: en la Copa Argentina 2015-16
-    juegan los DOS Defensores de Belgrano en la misma pagina y el cuadro no lo
-    enlaza. Resolverlo por parecido acertaria la mitad de las veces."""
-    assert equipos.buscar("Def. de Belgrano", "") is None
+def test_el_nombre_corto_lo_desata_la_pagina_que_lo_usa():
+    """`Def. de Belgrano` a secas parecia irresoluble -- hay dos Defensores de
+    Belgrano -- y este test afirmaba que no se resolvia. Se resolvio, y no por
+    parecido sino leyendo a la pagina: el cuadro de la Copa Argentina 2011-12, que
+    es la unica que lo escribe sin enlace, le pone la bandera de la CIUDAD de
+    Buenos Aires, mientras que al de Villa Ramallo le pone la de la PROVINCIA. Y
+    la Copa 2015-16 usa el mismo nombre corto pero enlazado, al articulo del de
+    Villa Crespo.
+
+    El de Villa Ramallo nunca aparece pelado: siempre lleva su `(VR)`, que ya es
+    su alias. Por eso el nombre corto puede entrar sin tapar al otro."""
+    assert equipos.buscar("Def. de Belgrano", "").nombre == "Defensores de Belgrano"
+    assert equipos.buscar("Def. de Belgrano (VR)", "").nombre == "Defensores de Belgrano (VR)"

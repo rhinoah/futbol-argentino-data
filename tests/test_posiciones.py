@@ -1014,9 +1014,9 @@ def test_denuncia_el_nombre_del_cuadro_que_el_padron_no_reconoce():
     nadie -- no entran por ningun partido, asi que `nombres_en_el_padron` tampoco
     las ve --. Se resolvio sacando el ruido en `clubes_del_cuadro`, no
     tolerandolo: de 26 nombres desconocidos quedo uno, y ese uno es real."""
-    texto = _con_cuadro("Def. de Belgrano", "Boca Juniors")
+    texto = _con_cuadro("Deportivo Inventado", "Boca Juniors")
     avisos = posiciones.fuera_del_cuadro([zona("Boca Juniors", "River Plate", 1, 0)], texto)
-    assert any("Def. de Belgrano" in a and "no lo reconoce" in a for a in avisos)
+    assert any("Deportivo Inventado" in a and "no lo reconoce" in a for a in avisos)
 
 
 def test_el_aviso_del_desconocido_dice_si_la_pagina_lo_enlaza():
@@ -1024,11 +1024,11 @@ def test_el_aviso_del_desconocido_dice_si_la_pagina_lo_enlaza():
     sin enlace puede no haber forma, que es el caso de `Def. de Belgrano` en la
     Copa Argentina 2015-16, donde juegan los dos Defensores de Belgrano."""
     sin = posiciones.fuera_del_cuadro(
-        [zona("Boca Juniors", "River Plate", 1, 0)], _con_cuadro("Def. de Belgrano"))
+        [zona("Boca Juniors", "River Plate", 1, 0)], _con_cuadro("Deportivo Inventado"))
     assert "no lo enlaza" in sin[0]
     con = posiciones.fuera_del_cuadro(
         [zona("Boca Juniors", "River Plate", 1, 0)],
-        _con_cuadro("[[Club Atlético Inventado|Def. de Belgrano]]"))
+        _con_cuadro("[[Club Atlético Inventado|Deportivo Inventado]]"))
     assert "Club Atlético Inventado" in con[0] and "no lo enlaza" not in con[0]
 
 
@@ -1036,7 +1036,7 @@ def test_el_desconocido_no_tapa_a_los_otros_avisos():
     """Van los dos: el nombre que no resuelve es un problema del padron y el club
     que no juega es uno del cruce. Juntarlos perdiendo uno deja media pagina sin
     denunciar."""
-    texto = _con_cuadro("Def. de Belgrano", "Racing Club", "Independiente", "Boca Juniors")
+    texto = _con_cuadro("Deportivo Inventado", "Racing Club", "Independiente", "Boca Juniors")
     avisos = posiciones.fuera_del_cuadro([zona("Boca Juniors", "River Plate", 1, 0)], texto)
     assert any("no lo reconoce" in a for a in avisos)
     assert any("no juegan ningun partido" in a for a in avisos)
