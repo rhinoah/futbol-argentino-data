@@ -1473,6 +1473,16 @@ def _como_zona(titulo: str) -> str:
 _TITULO = re.compile(r"^(=+)\s*([^=\n]+?)\s*=+\s*$", re.M)
 
 
+# Titulos de nivel 2 que aparecen en las paginas de torneo y NO son una parte del
+# torneo. Es una lista corta y cerrada a proposito: lo que se quiere excluir son
+# las secciones de cierre que toda pagina tiene, no adivinar que es una fase.
+_NO_SON_FASE = frozenset({
+    "entrenadores", "goleadores", "goleadoras", "plantel", "planteles",
+    "estadios", "vease tambien", "véase también", "referencias",
+    "enlaces externos", "notas", "bibliografia", "bibliografía",
+})
+
+
 def _contexto(pos: int, nivel: int, texto: str) -> str:
     """El titulo de la seccion que CONTIENE a esta.
 
@@ -1485,7 +1495,21 @@ def _contexto(pos: int, nivel: int, texto: str) -> str:
     ctx = ""
     for m in _TITULO.finditer(texto[:pos]):
         if len(m.group(1)) < nivel:
-            ctx = _seccion(limpiar(m.group(2)))
+            titulo = _seccion(limpiar(m.group(2)))
+            # Una seccion que NO es una parte del torneo no puede ser la llave de
+            # un partido, y hay paginas que la meten en el medio. El Campeonato
+            # Transicion de Primera Nacional 2020 abre `== Entrenadores ==` y
+            # cuelga de ahi su `=== Etapa eliminatoria ===`, asi que sus 18
+            # partidos de eliminacion salian con la llave "Entrenadores".
+            #
+            # No rompe el CSV -- `llave` no se exporta -- pero `validar` agrupa
+            # por ella, y una llave inventada arma un cuadro de eliminacion que
+            # no existe. Se ignora el titulo y sigue valiendo el anterior, que es
+            # la fase de verdad; si no hay anterior, queda vacio, que es lo
+            # honesto.
+            if titulo.lower() in _NO_SON_FASE:
+                continue
+            ctx = titulo
     return ctx
 
 

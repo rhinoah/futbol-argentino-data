@@ -1682,3 +1682,21 @@ def test_una_plantilla_con_los_parametros_indentados_no_se_pierde():
     pegada = indentada.replace("\n  |", "\n|")
     assert len(parser.partidos_de_plantillas(pegada, 2021, "Prueba")) == 1, \
         "y la forma sin indentar tiene que seguir andando"
+
+
+def test_una_seccion_que_no_es_del_torneo_no_puede_ser_la_llave():
+    """El Campeonato Transicion de Primera Nacional 2020 abre `== Entrenadores ==`
+    y cuelga de ahi su `=== Etapa eliminatoria ===`, asi que sus 18 partidos de
+    eliminacion salian con la llave "Entrenadores". No rompe el CSV -- `llave` no
+    se exporta -- pero `validar` agrupa por ella y arma un cuadro que no existe.
+    """
+    texto = ("== Fase segundo ascenso ==\n\ntexto\n\n"
+             "== Entrenadores ==\n\nuna tabla de DT\n\n"
+             "=== Etapa eliminatoria ==\n\nAQUI\n")
+    assert parser._contexto(texto.index("AQUI"), 3, texto) == "Fase segundo ascenso"
+
+
+def test_y_si_no_hay_seccion_de_torneo_antes_la_llave_queda_vacia():
+    """Vacio es lo honesto: mejor sin llave que con una inventada."""
+    texto = "== Goleadores ==\n\n=== Etapa eliminatoria ==\n\nAQUI\n"
+    assert parser._contexto(texto.index("AQUI"), 3, texto) == ""
