@@ -482,6 +482,32 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
     return avisos
 
 
+# La MISMA ronda escrita de otra manera. Es una lista corta, exacta y cerrada, y
+# eso es todo el punto: "Cuartos de final" y "Cuartos" son la misma ronda sin
+# ninguna ambiguedad, mientras que "Primera ronda" o "Reválida" NO se pueden
+# mapear sin decidir en que escalon de la escalera van, que es justo lo que este
+# modulo no hace. Se midio antes de escribirla: de las 51 paginas donde el
+# chequeo se apaga, esto destraba UNA -- el Torneo Federal A 2022 --. Las otras
+# cincuenta no tienen la ronda escrita en ningun campo, ni en `jornada` ni en
+# `llave`, asi que no hay de donde normalizarlas.
+#
+# Se normaliza SOLO para el chequeo. El dato publicado sigue diciendo lo que dice
+# la pagina: `jornada` sale en el CSV y su trabajo es ser fiel, no prolijo.
+_SINONIMOS = {
+    "cuartos de final": "cuartos",
+    "octavos de final": "octavos",
+    "dieciseisavos de final": "dieciseisavos",
+    "treintaidosavos de final": "treintaidosavos",
+    "semifinal": "semifinales",
+}
+
+
+def _ronda(jornada: str) -> str:
+    """La jornada en el vocabulario de `RONDAS`, para poder ordenarla."""
+    j = (jornada or "").lower()
+    return _SINONIMOS.get(j, j)
+
+
 def _por_ronda(elim: list[Partido]) -> list[tuple[str, list[Partido]]] | None:
     """Agrupa la eliminacion en rondas ordenadas, de la mas lejana a la final.
 
@@ -497,12 +523,12 @@ def _por_ronda(elim: list[Partido]) -> list[tuple[str, list[Partido]]] | None:
     from fad.parser import RONDAS
 
     orden = {r.lower(): i for i, r in enumerate(RONDAS)}
-    if not all((p.jornada or "").lower() in orden for p in elim):
+    if not all(_ronda(p.jornada) in orden for p in elim):
         return None
     grupos: dict[str, list[Partido]] = {}
     for p in elim:
         grupos.setdefault(p.jornada, []).append(p)
-    return sorted(grupos.items(), key=lambda kv: orden[kv[0].lower()])
+    return sorted(grupos.items(), key=lambda kv: orden[_ronda(kv[0])])
 
 
 def _ganador(p: Partido) -> str:
