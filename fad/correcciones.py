@@ -320,6 +320,18 @@ class Marcador:
     debe: tuple[int, int]
     porque: str
 
+    # Los penales, cuando lo que esta mal son ELLOS y no los goles. Hizo falta al
+    # llegar el primero de esa clase: la Copa Argentina 2018-19 publica
+    # "Almagro 1-1 Atletico de Rafaela" con los penales 3-4, y el 1-1 es correcto
+    # -- lo que esta dado vuelta es la tanda --. Sin esto la correccion no existia
+    # como idea: `debe == dice` la salteaba entera y no habia donde escribirla.
+    #
+    # `penales_debe` en None quiere decir "no los toques". Para BORRARLOS no hace
+    # falta decirlo: si `debe` deja de ser empate, la tanda no pudo existir, y
+    # `penales_solo_en_empates` lo denunciaria acto seguido.
+    penales_dice: tuple[int, int] | None = None
+    penales_debe: tuple[int, int] | None = None
+
 
 def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
     return Marcador(
@@ -334,6 +346,58 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 
 MARCADORES: tuple[Marcador, ...] = (
+    # --- Copa Argentina 2018-19: los dos que destapo la cadena de llaves ---
+    #
+    # No los encontro nadie leyendo la pagina. Los encontro el chequeo que
+    # pregunta si el que juega una ronda gano la anterior: los dos clubes
+    # seguian jugando -- y ganando -- despues de un partido que, segun la
+    # grilla, habian perdido.
+    #
+    # OJO, quedan DOS diferencias mas sin arbitrar en esa misma ronda, que
+    # aparecieron al medir la divergencia y que ningun chequeo denuncia porque
+    # el que pasa es el mismo en las dos versiones: Defensa y Justicia -
+    # Gimnasia y Tiro (2-1 en la pagina, 1-0 en RSSSF) y Nueva Chicago -
+    # Central Cordoba (1-2 contra 0-1). No se tocan sin mirarlas una por una.
+    Marcador(
+        pagina="Copa Argentina 2018-19",
+        jornada="Treintaidosavos", local="Almagro", visita="Atlético de Rafaela",
+        dice=(1, 1), debe=(1, 1), penales_dice=(3, 4), penales_debe=(4, 2),
+        porque="7 de marzo de 2019, Centenario Ciudad de Quilmes. El 1-1 esta bien; "
+               "lo que esta dado vuelta es la TANDA. La pagina publica los penales "
+               "3-4, o sea que paso Rafaela.\nLA PROPIA PAGINA SE DESMIENTE, y no "
+               "hace falta salir para verlo: Almagro juega los dieciseisavos seis "
+               "dias despues, le gana a Boca Juniors por penales y llega a cuartos, "
+               "donde pierde con River. Un club eliminado no juega tres rondas "
+               "mas.\nRSSSF lo arbitra desde afuera y corrige tambien el numero: "
+               "`Club Almagro [4] 1-1 [2] AMSyD Atletico de Rafaela`, misma fecha y "
+               "mismo estadio. No solo el ganador estaba al reves: la tanda fue 4-2 y "
+               "no 4-3.\nY RSSSF no esta copiando a Wikipedia, que es lo que haria "
+               "dudar de un marcador suelto: sobre los 18 cruces de esa misma ronda "
+               "que se pueden comparar, coincide con la pagina en 14, goles Y penales "
+               "exactos. Una fuente derivada coincidiria en los 18. Difiere en "
+               "cuatro, y en este el suyo es el unico que cierra con lo que pasa "
+               "despues. "),
+    Marcador(
+        pagina="Copa Argentina 2018-19",
+        jornada="Treintaidosavos", local="Newell's Old Boys", visita="Villa Mitre",
+        dice=(0, 0), debe=(1, 2), penales_dice=(5, 3),
+        porque="24 de marzo de 2019, 15 de Abril de Santa Fe. La grilla publica un "
+               "0-0 con penales 5-3 para Newell's, de donde saldria que paso "
+               "Newell's. Pero Villa Mitre juega los dieciseisavos, le gana a San "
+               "Martin (SJ) y llega a octavos.\nEL CUADRO DE LA MISMA PAGINA YA DECIA "
+               "OTRA COSA: le pone 1 a Newell's y 2 a Villa Mitre, y a Villa Mitre lo "
+               "marca como el que pasa. Un 1-2, sin tanda ninguna.\nRSSSF cierra la "
+               "discusion y ademas explica de donde sale el lio: `CA Newell's Old "
+               "Boys 1-2 Club Villa Mitre`, con la nota `abandoned in 90+1, score "
+               "stood on Apr 5`. El partido se abandono a los 90+1 y el resultado "
+               "quedo firme recien el 5 de abril; el 0-0 con penales no describe "
+               "ningun partido que se haya jugado.\nY RSSSF no esta copiando a "
+               "Wikipedia, que es lo que haria dudar de un marcador suelto: sobre los "
+               "18 cruces de esa misma ronda que se pueden comparar, coincide con la "
+               "pagina en 14, goles Y penales exactos. Una fuente derivada "
+               "coincidiria en los 18. Difiere en cuatro, y en este el suyo es el "
+               "unico que cierra con lo que pasa despues.\nLos penales se borran "
+               "solos: un 1-2 no es empate, asi que la tanda no pudo existir. "),
     Marcador(
         pagina="Campeonato de Primera C 2025 (Argentina)",
         jornada="Primera fase", local="J. J. de Urquiza", visita="Sportivo Barracas",
@@ -2245,18 +2309,28 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
         aplicadas += 1
 
     for m in MARCADORES:
-        if m.pagina != pagina or m.debe == m.dice:
-            continue                      # `debe == dice`: la pagina ya esta bien
+        # `debe == dice` y sin penales que tocar: la pagina ya esta bien y de la
+        # otra fuente se toma solo la FECHA.
+        if m.pagina != pagina or (m.debe == m.dice and m.penales_debe is None
+                                  and m.penales_dice is None):
+            continue
         candidatos = [p for p in ps
                       if p.jornada == m.jornada and p.local == m.local
                       and p.visita == m.visita
-                      and (p.goles_local, p.goles_visita) == m.dice]
+                      and (p.goles_local, p.goles_visita) == m.dice
+                      and (m.penales_dice is None
+                           or (p.penales_local, p.penales_visita) == m.penales_dice)]
         if len(candidatos) != 1:
             avisos.append(f"el marcador arbitrado de {m.jornada} ({m.local} vs "
                           f"{m.visita}) engancha con {len(candidatos)} partidos y no se "
                           f"aplica: si la fuente se corrigio, sacalo de fad/correcciones.py")
             continue
         candidatos[0].goles_local, candidatos[0].goles_visita = m.debe
+        if m.penales_debe is not None:
+            candidatos[0].penales_local, candidatos[0].penales_visita = m.penales_debe
+        elif m.debe[0] != m.debe[1]:
+            # El marcador corregido no es empate: la tanda no pudo existir.
+            candidatos[0].penales_local = candidatos[0].penales_visita = None
         aplicadas += 1
 
     # Los divididos se SACAN. Antes que todo lo demas, porque una fila que no
