@@ -75,6 +75,7 @@ ZONA, y lo que no esta en el mapa no se empareja.
 """
 from __future__ import annotations
 
+import html
 import re
 import urllib.request
 from pathlib import Path
@@ -264,11 +265,24 @@ def _leer_anotacion(nota: str) -> tuple[tuple[int, int] | None, str, str]:
     return None, "", "la nota no dice como termino" if nota else "no hay nota que leer"
 
 
+
+def _sin_etiquetas(texto: str) -> str:
+    """El texto sin HTML. Se guarda crudo en la cache y se limpia al leer.
+
+    Hasta 2012-13 no hizo falta y por eso no estaba: los archivos viejos traen sus
+    115 etiquetas en la cabecera y el pie, lejos de los partidos, asi que el lector
+    nunca las cruzaba. El de 2012-13 las mete ENTRE las filas, y el efecto no fue un
+    error sino un cero: la temporada entera leia 0 partidos, sin ruido, que es la
+    forma en que este modulo fallo las cinco veces anteriores.
+    """
+    return html.unescape(re.sub(r"<[^>]+>", "", texto))
+
+
 def descargar(archivo: str, usar_cache: bool = True) -> str:
     """El texto de la pagina de RSSSF, en latin-1."""
     destino = _CACHE / f"{archivo}.txt"
     if usar_cache and destino.exists():
-        return destino.read_text(encoding="utf-8")
+        return _sin_etiquetas(destino.read_text(encoding="utf-8"))
     url = f"https://www.rsssf.org/tablesa/{archivo}.html"
     req = urllib.request.Request(url, headers={"User-Agent": wiki.UA})
     with urllib.request.urlopen(req, timeout=60) as r:
@@ -277,7 +291,7 @@ def descargar(archivo: str, usar_cache: bool = True) -> str:
     texto = crudo.decode("latin-1")
     destino.parent.mkdir(parents=True, exist_ok=True)
     destino.write_text(texto, encoding="utf-8")
-    return texto
+    return _sin_etiquetas(texto)
 
 
 # El par de una ronda interzonal, escrito de las dos formas que usa la fuente:
@@ -351,8 +365,8 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         if _par_interzonal(pelada) and pelada.lower().startswith("interzonal"):
             pendiente = _par_interzonal(pelada)
             continue
-        if (pelada.startswith(("Torneo ", "Zona ", "Zone ", "Group ", "First Phase",
-                               "Second Phase", "Final", "Promoci",
+        if (pelada.startswith(("Torneo ", "Zona ", "Zone ", "Group ", "Undecagonal",
+                               "First Phase", "Second Phase", "Final", "Promoci",
                                "NB:", "Champion", "Relegation"))
                 or _LLAVE_PELADA.match(pelada)):
             # Cualquier encabezado cierra la ronda abierta: un `[Aug 27]` no cruza
@@ -381,7 +395,12 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                 if nueva == llave:
                     continue
                 llave, zona = nueva, ""
-            elif pelada.startswith(("Zona ", "Zone ", "Group ")):
+            elif pelada.startswith(("Zona ", "Zone ", "Group ", "Undecagonal")):
+                # "Undecagonal Final" es una seccion de once equipos que el
+                # Argentino A 2012-13 corre despues de las dos zonas. Sin
+                # reconocerla, sus partidos se quedan sin seccion y no entran --
+                # y son exactamente los 28 que Wikipedia publica sin fecha, o sea
+                # los unicos que esta fuente tenia para aportar.
                 # RSSSF escribe "Zona" en unas temporadas y "Zone" en otras -- el
                 # Argentino A 2008-09 usa `Zone 1`, `Zone 2`, `Zone 3` --. Sin
                 # reconocerlo, sus tres zonas no son encabezados de nada: la
@@ -945,10 +964,96 @@ ARGENTINO_A_2009: dict[str, dict[str, str]] = {
     },
 }
 
+
+# El Argentino A 2012-13. La mas facil de las cinco, y por una razon que conviene
+# anotar: esta fuente escribe LA CIUDAD al lado del club -- "Racing (Olavarria)",
+# "Central Cordoba (Sgo.del Estero)", "Union (Mar del Plata)" --, asi que los
+# nombres se desambiguan solos y el padron resuelve casi todos sin ayuda. Es lo
+# contrario de 2007-08, donde el mismo club era "Talleres" a secas.
+#
+# Lo que queda no son homonimos sino ABREVIATURAS, y el mismo club aparece hasta
+# de tres formas: "Alvarado (Mar d Plata)", "Alvarado (Mar del Plata)" y
+# "Alvarado (MdP)". Las tres van al mapa apuntando al mismo canonico. Las unicas
+# que el padron no reconocia de ninguna manera son "Guarani A.Franco",
+# "Juv.Unida Univ." y "Gimnasia y Esgrima (Cd Uruguay)", y las cierra la propia
+# `Table:` del archivo, que arriba de cada zona escribe el nombre entero con la
+# ciudad: en la temporada hay un solo club de cada uno.
+#
+# Van en el mapa y no en el padron por la regla de siempre: son grafias de ESTA
+# fuente en ESTA temporada, y un alias global las suelta sobre todas las demas.
+ARGENTINO_A_2012: dict[str, dict[str, str]] = {
+    "Undecagonal Final": {
+        "Deportivo Maipú (Mza)": "Deportivo Maipú",
+        "Gimnasia y Esgrima (CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Esgrima(CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Tiro (S)": "Gimnasia y Tiro (S)",
+        "Juv.Unida Univ. (SL)": "Juventud Unida Universitario",
+        "Juventud Antoniana (S)": "Juventud Antoniana",
+        "Racing (Olavarría)": "Racing (O)",
+        "Ramón Santamarina (T)": "Ramón Santamarina",
+        "San Jorge (Tucumán)": "San Jorge (T)",
+        "San Martín (Tucumán)": "San Martín (T)",
+        "Sp.Belgrano (S.Fco)": "Sportivo Belgrano",
+        "Talleres (Córdoba)": "Talleres (C)",
+    },
+    "Zona Norte": {
+        "Alumni (Villa María)": "Alumni (VM)",
+        "Central Córdoba (SdE)": "Central Córdoba (SdE)",
+        "Central Norte (Salta)": "Central Norte (S)",
+        "Gimnasia y Tiro (Salta)": "Gimnasia y Tiro (S)",
+        "Guaraní A.Franco (P)": "Guaraní Antonio Franco",
+        "Juventud Antoniana (S)": "Juventud Antoniana",
+        "Libertad (Sunchales)": "Libertad (S)",
+        "Racing (Córdoba)": "Racing (C)",
+        "San Jorge (Tucumán)": "San Jorge (T)",
+        "San Martín (Tucumán)": "San Martín (T)",
+        "Sp.Belgrano (S.Fco)": "Sportivo Belgrano",
+        "Talleres (Córdoba)": "Talleres (C)",
+        "Tiro Federal (Ros)": "Tiro Federal",
+    },
+    "Zona Sur": {
+        "Alvarado (Mar d Plata)": "Alvarado",
+        "Alvarado (Mar del Plata)": "Alvarado",
+        "Alvarado (MdP)": "Alvarado",
+        "Central Córdoba (SdE)": "Central Córdoba (SdE)",
+        "Central Córdoba (Sgo.del Estero)": "Central Córdoba (SdE)",
+        "Cipolletti (Río Negro)": "Cipolletti",
+        "Def.de Belgrano (VR)": "Defensores de Belgrano (VR)",
+        "Defensores de Belgrano (Villa Ramallo)": "Defensores de Belgrano (VR)",
+        "Deportivo Maipú (Mendoza)": "Deportivo Maipú",
+        "Deportivo Maipú (Mza)": "Deportivo Maipú",
+        "Gimnasia y Esgrima (CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Esgrima (Concepción del Uruguay)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Esgrima(CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Tiro (Salta)": "Gimnasia y Tiro (S)",
+        "Guaraní A.Franco (P)": "Guaraní Antonio Franco",
+        "Guaraní A.Franco (Posadas)": "Guaraní Antonio Franco",
+        "Guillermo Brown (PM)": "Guillermo Brown",
+        "Juv.Unida Univ. (SL)": "Juventud Unida Universitario",
+        "Juventud Antoniana (S)": "Juventud Antoniana",
+        "Juventud Antoniana (Salta)": "Juventud Antoniana",
+        "Juventud Unida Universitario (San Luis)": "Juventud Unida Universitario",
+        "Libertad (Sunchales)": "Libertad (S)",
+        "Racing (Olavarría)": "Racing (O)",
+        "Ramón Santamarina (T)": "Ramón Santamarina",
+        "Ramón Santamarina (Tandil)": "Ramón Santamarina",
+        "Rivadavia (Lincoln)": "Rivadavia (L)",
+        "San Jorge (Tucumán)": "San Jorge (T)",
+        "San Martín (Tucumán)": "San Martín (T)",
+        "Sp.Desamparados (SJ)": "Desamparados",
+        "Sportivo Belgrano (SF)": "Sportivo Belgrano",
+        "Sportivo Belgrano (San Francisco)": "Sportivo Belgrano",
+        "Tiro Federal (Rosario)": "Tiro Federal",
+        "Unión (Mar del Plata)": "Unión (MdP)",
+        "Unión (MdP)": "Unión (MdP)",
+    },
+}
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
     "Torneo Argentino A 2007-08": ("arg3-int08", ARGENTINO_A_2007),
     "Torneo Argentino A 2008-09": ("arg3-int09", ARGENTINO_A_2008),
     "Torneo Argentino A 2009-10": ("arg3-int2010", ARGENTINO_A_2009),
+    "Torneo Argentino A 2012-13": ("arg3-int2013", ARGENTINO_A_2012),
 }

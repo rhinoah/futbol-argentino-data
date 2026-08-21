@@ -226,7 +226,10 @@ ASCENSO_VIEJO = [
     # El Torneo Federal A se llamo "Torneo Argentino A" hasta 2014. Va con su
     # nombre historico: es la misma categoria pero no el mismo torneo.
     Torneo("Torneo Argentino A 2011-12", "Torneo Argentino A", 2011, anio_fin=2012),
-    Torneo("Torneo Argentino A 2012-13", "Torneo Argentino A", 2012, anio_fin=2013),
+    # Con grilla propia en Wikipedia; RSSSF entra solo a FECHAR los 28 partidos
+    # que la pagina publica sin fecha y que por eso quedaban afuera.
+    Torneo("Torneo Argentino A 2012-13", "Torneo Argentino A", 2012, anio_fin=2013,
+           rsssf="arg3-int2013"),
     Torneo("Torneo Argentino A 2013-14", "Torneo Argentino A", 2013, anio_fin=2014),
 ]
 
