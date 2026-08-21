@@ -483,9 +483,23 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
         # haber perdido en la otra llave. Acusarlos daba 17 avisos falsos sobre 20.
         #
         # Lo que SI es un error es el que jugo antes y sigue jugando sin haber
-        # ganado. Esa distincion deja los 3 avisos reales del Federal A 2023 --
-        # Douglas Haig, Independiente (C) y Ciudad de Bolivar, los tres perdieron
-        # y reaparecen -- y calla los 17 que no lo eran.
+        # ganado. Esa distincion calla 30 avisos que eran falsos.
+        #
+        # UN EMPATE SIN PENALES NO DICE QUIEN PASO. `_ganador` devuelve "" y los
+        # DOS clubes quedan afuera de `ganadores`, asi que el que avanzo se
+        # denuncia solo. Y avanzo de verdad: en el reducido argentino, si el
+        # partido unico termina igualado pasa el mejor ubicado de la tabla, una
+        # regla que vive FUERA del partido y que ninguna columna trae. Eran los 3
+        # ultimos avisos del Federal A 2023 -- Douglas Haig 0-0, Independiente (C)
+        # 1-1 y Ciudad de Bolivar 1-1 --, y los tres estaban bien jugados.
+        #
+        # Cuando el marcador no alcanza para saberlo, los dos se admiten. Pero no
+        # se pierde todo: de una llave igualada pasa UNO, asi que si aparecen LOS
+        # DOS en la ronda siguiente sigue siendo un error, y ese se sigue diciendo.
+        indecisos: list[frozenset] = [frozenset((p.local, p.visita)) for p in previa
+                                      if not _ganador(p) and p.local and p.visita]
+        siguen = {e for p in actual for e in (p.local, p.visita) if e}
+        excusados = {e for par in indecisos if len(par & siguen) < 2 for e in par}
         frescos = sorted({e for p in actual for e in (p.local, p.visita)
                           if e and e not in vistos})
         if frescos:
@@ -497,7 +511,8 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
                 grave=False))
         for p in actual:
             for equipo in (p.local, p.visita):
-                if equipo and equipo not in ganadores and equipo in vistos:
+                if (equipo and equipo not in ganadores and equipo in vistos
+                        and equipo not in excusados):
                     avisos.append(Aviso(
                         "juega una ronda sin haber ganado la anterior",
                         f"{ronda}: {equipo} ({p.fecha} vs "

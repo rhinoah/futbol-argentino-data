@@ -591,3 +591,47 @@ def test_el_que_nunca_jugo_no_perdio_nada():
     ps.append(p("Semifinales", "B", "C", 0, 1, "2024-11-08"))
     avisos = [str(a) for a in validar.cadena_de_llaves(ps)]
     assert any("sin haber ganado la anterior" in a and "B" in a for a in avisos), avisos
+
+
+def test_un_empate_sin_penales_no_dice_quien_paso_y_no_se_acusa_a_ninguno():
+    """`_ganador` devuelve "" en un empate sin penales, asi que los DOS clubes
+    quedan afuera de los ganadores y el que avanzo se denuncia solo.
+
+    Y avanzo de verdad: en el reducido argentino, si el partido único termina
+    igualado pasa el mejor ubicado de la tabla — una regla que vive FUERA del
+    partido y que ninguna columna trae. Pasaba en 44 avisos, entre ellos los tres
+    últimos del Federal A 2023 y el Talleres (C) de la Copa Argentina 2019-20,
+    cuyo 0-0 de treintaidosavos quedó sin penales en la página.
+
+    Pero no se pierde todo: de una llave igualada pasa UNO. Si aparecen los DOS en
+    la ronda siguiente, eso sigue siendo un error y se sigue diciendo.
+    """
+    from fad.dataset import Partido
+
+    def p(ronda, local, visita, gl, gv, fecha, pl=None, pv=None):
+        return Partido(fecha=fecha, hora="", local=local, visita=visita,
+                       goles_local=gl, goles_visita=gv, penales_local=pl,
+                       penales_visita=pv, torneo="T", fase="eliminacion", zona="",
+                       jornada=ronda, llave="Reducido", estadio="", status="")
+
+    # A y B empatan sin penales; A avanza por ventaja deportiva.
+    ps = [p("Primera fase", "A", "B", 1, 1, "2024-11-01"),
+          p("Primera fase", "C", "D", 2, 0, "2024-11-01"),
+          p("Semifinales", "A", "C", 1, 0, "2024-11-08")]
+    avisos = [str(a) for a in validar.cadena_de_llaves(ps)]
+    assert not any("sin haber ganado la anterior" in a for a in avisos), avisos
+
+    # Pero si avanzan LOS DOS de la llave igualada, uno sobra y hay que decirlo.
+    ps.append(p("Semifinales", "B", "D", 1, 0, "2024-11-08"))
+    avisos = [str(a) for a in validar.cadena_de_llaves(ps)]
+    acusa = [a for a in avisos if "sin haber ganado la anterior" in a]
+    assert acusa, avisos
+    assert any("A" in a for a in acusa) and any("B" in a for a in acusa), acusa
+
+    # Y con penales, el ganador se conoce: el perdedor sigue siendo un error.
+    # Van tres partidos porque con menos el chequeo se abstiene de entrada.
+    ps = [p("Primera fase", "A", "B", 1, 1, "2024-11-01", pl=5, pv=3),
+          p("Primera fase", "C", "D", 2, 0, "2024-11-01"),
+          p("Semifinales", "B", "C", 1, 0, "2024-11-08")]
+    avisos = [str(a) for a in validar.cadena_de_llaves(ps)]
+    assert any("sin haber ganado la anterior" in a and "B" in a for a in avisos), avisos
