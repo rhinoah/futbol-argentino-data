@@ -355,6 +355,35 @@ def test_un_cuadro_de_una_sola_ronda_no_es_una_cadena_salteada():
     assert validar.cadena_de_llaves(una) == []
 
 
+def test_las_dos_semifinales_son_una_ronda_y_no_dos():
+    """"Semifinal 1" y "Semifinal 2" son las dos llaves de la MISMA ronda.
+
+    Tomarlas por rondas consecutivas acusa dos veces y las dos mal: al que gana
+    una lo pone jugando la otra sin haberla ganado, y al finalista que salio de la
+    primera lo pone llegando a la final sin ganar nada. Paso de verdad en el
+    reducido de la B Nacional 2015 y en la Primera Division 2015.
+    """
+    ps = [llave("Boca", "River", 2, 0, "2026-05-01", ronda="Semifinal 1"),
+          llave("Colón", "Tigre", 1, 0, "2026-05-01", ronda="Semifinal 2"),
+          llave("Boca", "Colón", 1, 0, "2026-05-08", ronda="Final")]
+    assert validar.cadena_de_llaves(ps) == []
+
+
+def test_la_ronda_se_despega_de_la_rama_del_torneo():
+    """El Argentino A numera las rondas de su revalida con la rama adelante."""
+    assert validar._ronda("Revalida - Segunda ronda") == "segunda fase"
+    assert validar._ronda("Semifinal 2") == "semifinales"
+
+
+def test_pelar_la_etiqueta_solo_vale_si_abajo_hay_una_ronda():
+    """La condicion que hace segura a la regla de al lado. "Llave" y "Partido" no
+    son rondas, asi que "Llave 1" y "Partido 2" no se tocan -- y ese es justo el
+    caso donde colapsarlas estaria mal: son llaves distintas, no una ronda."""
+    assert validar._ronda("Llave 1") == "llave 1"
+    assert validar._ronda("Partido 2") == "partido 2"
+    assert validar._ronda("Promoción - Algo raro") == "promoción - algo raro"
+
+
 def test_llaves_en_paralelo_se_nombran_en_vez_de_llamarse_cuadro():
     """"Promocion 1" y "Promocion 2" son dos promociones distintas, no dos rondas
     de un cuadro. Se sabe sin mirar el titulo: no comparten ningun club, o sea que

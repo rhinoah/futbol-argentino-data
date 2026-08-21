@@ -578,9 +578,42 @@ _SINONIMOS = {
 
 
 def _ronda(jornada: str) -> str:
-    """La jornada en el vocabulario de `RONDAS`, para poder ordenarla."""
-    j = (jornada or "").lower()
-    return _SINONIMOS.get(j, j)
+    """La jornada en el vocabulario de `RONDAS`, para poder ordenarla.
+
+    Ademas de los sinonimos hay dos formas que las paginas le agregan ALREDEDOR
+    del nombre de la ronda, y que se sacan siempre que lo que queda sea una ronda
+    de verdad. Esa condicion es la que las hace seguras: si al pelarla no queda
+    una ronda conocida, no se toca nada y el chequeo se sigue absteniendo.
+
+      - un numero atras, para partir una ronda en sus llaves: "Semifinal 1" y
+        "Semifinal 2" son las dos semifinales, no dos rondas. "Llave 1" no se
+        toca, porque "Llave" no es una ronda -- y ese es justo el caso donde
+        colapsar estaria mal.
+      - un prefijo con guion, para decir de que rama del torneo es la ronda:
+        "Revalida - Segunda ronda". El Argentino A escribe asi las dos rondas de
+        su revalida.
+
+    Destraba cuatro paginas. Se midio que ningun par de jornadas distintas de una
+    misma llave cae en el mismo nombre por esto, que seria peor que no revisar:
+    compararia contra el conjunto equivocado en vez de abstenerse.
+    """
+    j = (jornada or "").lower().strip()
+    if j in _SINONIMOS:
+        return _SINONIMOS[j]
+    from fad.parser import RONDAS
+
+    conocidas = {r.lower() for r in RONDAS}
+
+    def pelada(x: str) -> str:
+        return _SINONIMOS.get(x, x)
+
+    sin_numero = re.sub(r"\s+\d+$", "", j)
+    if sin_numero != j and pelada(sin_numero) in conocidas:
+        return pelada(sin_numero)
+    sin_rama = re.sub(r"^.+?\s+-\s+", "", j)
+    if sin_rama != j and pelada(sin_rama) in conocidas:
+        return pelada(sin_rama)
+    return j
 
 
 def _por_ronda(elim: list[Partido]) -> list[tuple[str, list[Partido]]] | None:
@@ -600,10 +633,24 @@ def _por_ronda(elim: list[Partido]) -> list[tuple[str, list[Partido]]] | None:
     orden = {r.lower(): i for i, r in enumerate(RONDAS)}
     if not all(_ronda(p.jornada) in orden for p in elim):
         return None
+    # Se agrupa por el nombre NORMALIZADO, no por el que trae la pagina. Agrupar
+    # por el original dejaba dos grupos distintos con el mismo lugar en el orden
+    # -- "Semifinal 1" y "Semifinal 2" --, y entonces el zip de mas abajo los
+    # tomaba como rondas consecutivas: el que gana una semifinal aparece jugando
+    # la otra sin haberla ganado, y el finalista que salio de la primera aparece
+    # llegando a la final sin ganar nada. Cuatro acusaciones falsas en dos
+    # paginas, y el bug ya estaba latente para cualquier pagina que escribiera
+    # "Cuartos" y "Cuartos de final" en el mismo cuadro.
     grupos: dict[str, list[Partido]] = {}
+    nombres: dict[str, set[str]] = {}
     for p in elim:
-        grupos.setdefault(p.jornada, []).append(p)
-    return sorted(grupos.items(), key=lambda kv: orden[_ronda(kv[0])])
+        r = _ronda(p.jornada)
+        grupos.setdefault(r, []).append(p)
+        nombres.setdefault(r, set()).add(p.jornada)
+    # Para el aviso se muestran los nombres de la pagina, no el normalizado: el
+    # que lee tiene que poder encontrar la ronda ahi.
+    return sorted(((" / ".join(sorted(nombres[r])), ps) for r, ps in grupos.items()),
+                  key=lambda kv: orden[_ronda(kv[0].split(" / ")[0])])
 
 
 def _ganador(p: Partido) -> str:

@@ -847,6 +847,21 @@ MUTANTES = [
     # El guard de las llaves paralelas, de los dos lados: si nunca se cumple vuelve
     # el aviso equivocado en diez llaves, y si se cumple siempre se come al aviso
     # que si corresponde en las diecinueve que quedan.
+    # Los tres de la normalizacion de rondas: agrupar por el nombre de la pagina
+    # en vez del normalizado deja dos grupos con el mismo lugar en el orden, y sin
+    # cada pelada vuelven a trabarse las paginas que destraban.
+    ("fad/validar.py", "agrupar por el nombre que trae la pagina",
+     "        r = _ronda(p.jornada)",
+     "        r = p.jornada"),
+
+    ("fad/validar.py", "no despegar el numero de llave",
+     'sin_numero = re.sub(r"\\s+\\d+$", "", j)',
+     "sin_numero = j"),
+
+    ("fad/validar.py", "no despegar la rama del torneo",
+     'sin_rama = re.sub(r"^.+?\\s+-\\s+", "", j)',
+     "sin_rama = j"),
+
     ("fad/validar.py", "ninguna llave es paralela",
      "        if not any(clubes[a] & clubes[b]",
      "        if False and any(clubes[a] & clubes[b]"),
