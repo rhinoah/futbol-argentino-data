@@ -61,7 +61,7 @@ jobs:
             # que nadie se enterara, porque el commit igual entraba: el reporte
             # quedo ciego y el trabajo siguio andando.
             delta=$(git diff --numstat -- data/ \
-              | awk '{a+=$1; b+=$2; n++} END {if (n) printf "+%d -%d en %d archivo(s)", a, b, n}')
+              | awk '{a+=$1; b+=$2; n++} END {if (n) printf "+%d -%d filas en %d archivo(s)", a, b, n}')
             # Y si sale vacio se dice, en vez de dejar un parentesis mudo.
             echo "delta=${delta:-sin detalle}" >> "$GITHUB_OUTPUT"
           fi
@@ -72,7 +72,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/
-          git commit -m "Actualizar dataset (${{ steps.cambios.outputs.delta }} filas)" \
+          git commit -m "Actualizar dataset (${{ steps.cambios.outputs.delta }})" \
                      -m "Automático: $(date -u +%Y-%m-%d). Fuente: Wikipedia en español."
           git push
 
@@ -86,7 +86,7 @@ jobs:
             echo "## Dataset"
             echo ""
             if [ "${{ steps.cambios.outputs.hay }}" = "si" ]; then
-              echo "Cambio: \`${{ steps.cambios.outputs.delta }}\` filas — commiteado."
+              echo "Cambio: \`${{ steps.cambios.outputs.delta }}\` — commiteado."
             else
               echo "Sin cambios."
             fi
