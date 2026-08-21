@@ -619,6 +619,16 @@ ARTICULOS: dict[str, str] = {
     'Club Atlético Tucumán': 'Atlético Tucumán',
     'Club Atlético Tucumán Central': 'Tucumán Central',
     'Club Atlético Unión (Sunchales)': 'Unión (S)',
+    # Los tres que enlaza el Argentino A 2009-10 y que faltaban. El de Mar del
+    # Plata importa: sin el, su display "Club Atlético Unión" no resuelve a
+    # nadie, y el pelado "Unión" cae en el de Santa Fe.
+    'Club Atlético Unión (Mar del Plata)': 'Unión (MdP)',
+    # Estudiantes de RIO CUARTO. Su articulo no lleva la palabra Estudiantes
+    # adelante, asi que sin esta clave el display pelado cae en el de La Plata.
+    'Asociación Atlética Estudiantes': 'Estudiantes (RC)',
+    # Redireccion a 'Club Sportivo Belgrano', San Francisco. La pagina de
+    # 2009-10 lo muestra como "Belgrano (SF)", que el padron no resuelve.
+    'Sportivo Belgrano': 'Sportivo Belgrano',
     'Club Atlético Unión (Villa Krause)': 'Unión (VK)',
     'Club Atlético Victoriano Arenas': 'Victoriano Arenas',
     'Club Atlético Villa San Carlos': 'Villa San Carlos',

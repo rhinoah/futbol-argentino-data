@@ -108,14 +108,28 @@ _DIA = r"[\[(]([A-Z][a-z]{2})\s+(\d+)[\])]"
 # no es una fecha y no es un partido, asi que cae al piso y los partidos que
 # vienen abajo se quedan con la RONDA Y LA FECHA ANTERIORES. No faltan: mienten,
 # que es la unica forma de fallar que no se nota.
-_RONDA = re.compile(r"^Round\s+(\d+)(?:\s*" + _DIA + r")?((?:\s*\[[^\]]*\])*)\s*$")
+# La cola de una ronda admite las DOS formas en que la fuente marca el
+# interzonal: entre corchetes -- `Round 21 [interzonal 1-2]`, 2008-09 -- o
+# detras de un guion -- `Round 5 - Interzonal 1-2`, 2009-10 --. La segunda hacia
+# fallar el patron entero, y el efecto era el peor posible: la linea dejaba de
+# ser una ronda, sus partidos heredaban la ronda ANTERIOR y entraban dos veces,
+# una por zona, porque tampoco se los reconocia como interzonales.
+_RONDA = re.compile(r"^Round\s+(\d+)(?:\s*" + _DIA + r")?"
+                    r"((?:\s*\[[^\]]*\])*"
+                    r"(?:\s*-\s*[Ii]nterzonal[^\[]*)?)\s*$")
 # "Apertura 2006" / "Clausura 2007": la llave sin la palabra "Torneo" adelante.
 # RSSSF escribe las dos formas segun la temporada, y la diferencia no es cosmetica:
 # el Argentino A 2006-07 corre un Apertura y un Clausura sobre LAS MISMAS tres
 # zonas, los dos numerando sus fechas de 1 a 14. Leyendo esta linea como texto
 # suelto, las dos mitades caian en la misma casilla y cada zona terminaba con el
 # doble de partidos por fecha -- 112 donde van 56 --, que es como se encontro.
-_LLAVE_PELADA = re.compile(r"^(Apertura|Clausura)\s+\d{4}$")
+# La llave escrita sin el "Torneo" adelante, con anio ("Apertura 2005") o sin el
+# ("Apertura", que es como los rotula 2009-10). El anio es opcional y hace falta
+# que lo sea: sin reconocer la forma pelada, los dos torneos de 2009-10 caian bajo
+# la misma llave y sus jornadas chocaban -- la fecha 8 del Apertura contra la fecha
+# 8 del Clausura --, que es un error ruidoso pero que se arregla en el lugar
+# equivocado si uno cree que el problema son los nombres.
+_LLAVE_PELADA = re.compile(r"^(Apertura|Clausura)(?:\s+\d{4})?$")
 
 # La fecha tambien la trae adentro: `[Sep 27, interzonal 1-2]`.
 _SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(,[^\])]*)?[\])]\s*$")
@@ -354,7 +368,19 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                 # nombre largo -- el que usa nuestro parser y el que quedo en el
                 # mapa de 2005-06 -- porque el cruce contra la tabla de Wikipedia
                 # agrupa por llave, y dos vocabularios no cruzan.
-                llave, zona = "Torneo " + m_llave.group(1), ""
+                #
+                # UNA LLAVE QUE NO CAMBIA LA LLAVE NO CIERRA NADA, y esa condicion
+                # es la que deja convivir dos temporadas que se contradicen. El
+                # 2009-10 rotula sus dos torneos con la palabra sola -- `Apertura`,
+                # `Clausura` -- y sin reconocerla sus jornadas chocan de a pares.
+                # Pero una palabra suelta REPETIDA adentro de una zona ya abierta no
+                # es un encabezado, y tratarla como tal apaga la zona y se lleva en
+                # silencio todos los partidos que vengan atras. Al exigir que la
+                # llave cambie, la primera se lee y la segunda no hace nada.
+                nueva = "Torneo " + m_llave.group(1)
+                if nueva == llave:
+                    continue
+                llave, zona = nueva, ""
             elif pelada.startswith(("Zona ", "Zone ", "Group ")):
                 # RSSSF escribe "Zona" en unas temporadas y "Zone" en otras -- el
                 # Argentino A 2008-09 usa `Zone 1`, `Zone 2`, `Zone 3` --. Sin
@@ -785,9 +811,144 @@ ARGENTINO_A_2007: dict[str, dict[str, str]] = {
 # dijera: cada archivo enlaza al de la temporada anterior y al de la siguiente, y
 # `arg3-int09` apunta derecho a `arg3-int2010.html`. Vale para la proxima vez.
 
+
+# El Argentino A 2009-10. Dos torneos en un archivo -- Apertura y Clausura -- y la
+# novedad de la temporada: LOS CLUBES SE REPARTEN DISTINTO EN CADA UNO. La Zone 1
+# del Apertura no tiene el mismo plantel que la Zone 1 del Clausura, asi que el
+# forzado se hizo por (torneo, zona) y recien despues se unio por rotulo, que es la
+# clave que usa `leer`. Al unir se verifico que ningun nombre apunte a dos clubes:
+# ninguno lo hace.
+#
+# Zone 1 y Zone 2 son de 8 clubes -- 14 fechas intrazonales mas 2 rondas
+# `Round N - Interzonal 1-2`, que son de 8 partidos porque cruzan las dos zonas
+# enteras -- y por eso sus dos mapas terminan siendo el mismo: cada bloque tiene que
+# poder traducir a los 16. Zone 3 es de 9 y no tiene interzonal.
+#
+# LA PRUEBA ES LA FOJA, y esta fuente la regala: cada zona termina en un bloque
+# `Final Table:` que escribe los clubes ENTEROS y con la ciudad -- "Rivadavia
+# (Lincoln)", "Atletico Union (Mar del Plata)", "Deportivo Santamarina (Tandil)" --
+# junto a PJ, G, E, P y GF-GC. Asi que cada nombre corto se cierra sumando sus
+# partidos y buscando la fila que coincida en las seis cifras. Cerraron las diez
+# secciones y los 25 clubes, sin un solo ambiguo.
+#
+# Las tres grafias dobles salieron de la misma prueba, no del parecido: "Dvo.
+# Santamarina" da 15 partidos y "Dvo Santamarina" 1, y ninguna cierra sola; juntas
+# dan exacto el 16 6-5-5 15-16 de su fila. Y no se enfrentan nunca, que en una zona
+# de todos contra todos es imposible entre dos clubes. Idem "Svo. Belgrano" (15+1) y
+# "Svo. Desamparados".
+#
+# OJO, ACA "Talleres" ES EL DE CORDOBA y no el de Perico como en 2007-08 y 2008-09.
+# No es una regresion: en todo el documento no hay una sola mencion de Perico ni de
+# Jujuy, las tres tablas finales dicen "Talleres (Cordoba)" y la pagina lo enlaza a
+# [[Club Atletico Talleres (Cordoba)]]. Perico no jugo esta temporada. Es justamente
+# la razon por la que el mapa es por temporada y no un alias del padron.
+#
+# Lo mismo con los otros pelados, que el padron resuelve al club de PRIMERA y que
+# aca son del ascenso: "Huracan" es el de Tres Arroyos y no el de Parque Patricios,
+# "Estudiantes" el de Rio Cuarto y no el de La Plata, "Racing" el de Cordoba y no el
+# de Avellaneda, "Union-S" el de Sunchales y no el de Santa Fe.
+#
+# NO se mapean las secciones de semifinales, final y promocion, igual que en las
+# temporadas anteriores: los playoffs mezclan zonas. Queda anotado que ahi RSSSF
+# escribe "Union" SIN TILDE -- un string distinto de "Union" con tilde --, y que esa
+# cadena hoy resuelve a Union de Santa Fe. Si algun dia se mapea ese bloque, es
+# Union (S), de Sunchales: lo fuerzan el NB del Apertura y la seccion Semifinales de
+# la pagina, con los mismos 2-1, 3-2 y los penales 2:4.
+ARGENTINO_A_2009: dict[str, dict[str, str]] = {
+    "Group A": {
+        "Crucero del Norte": "Crucero del Norte",
+        "Dvo Santamarina": "Ramón Santamarina",
+        "Estudiantes": "Estudiantes (RC)",
+        "Huracán": "Huracán (TA)",
+        "Juv. Antoniana": "Juventud Antoniana",
+        "Libertad": "Libertad (S)",
+        "Patronato": "Patronato",
+        "Svo Desamparados": "Desamparados",
+        "Talleres": "Talleres (C)",
+        "Unión": "Unión (S)",
+    },
+    "Group B": {
+        "Central Córdoba": "Central Córdoba (SdE)",
+        "Cipolletti": "Cipolletti",
+        "Crucero del Norte": "Crucero del Norte",
+        "Dvo Maipú": "Deportivo Maipú",
+        "Gimnasia y Esgrima CdU": "Gimnasia y Esgrima (CdU)",
+        "Guillermo Brown": "Guillermo Brown",
+        "Huracán": "Huracán (TA)",
+        "Juv. Antoniana": "Juventud Antoniana",
+        "Patronato": "Patronato",
+        "Rivadavia": "Rivadavia (L)",
+    },
+    "Zone 1": {
+        "9 de Julio": "9 de Julio (R)",
+        "Ben Hur": "Ben Hur",
+        "Central Córdoba": "Central Córdoba (SdE)",
+        "Cipolletti": "Cipolletti",
+        "Crucero del Norte": "Crucero del Norte",
+        "Dvo Santamarina": "Ramón Santamarina",
+        "Dvo. Santamarina": "Ramón Santamarina",
+        "Gimnasia y Esgrima CdU": "Gimnasia y Esgrima (CdU)",
+        "Guillermo Brown": "Guillermo Brown",
+        "Huracán": "Huracán (TA)",
+        "Juv. Antoniana": "Juventud Antoniana",
+        "Juventud": "Juventud (P)",
+        "Libertad": "Libertad (S)",
+        "Patronato": "Patronato",
+        "Racing": "Racing (C)",
+        "Rivadavia": "Rivadavia (L)",
+        "Svo Belgrano": "Sportivo Belgrano",
+        "Svo. Belgrano": "Sportivo Belgrano",
+        "Talleres": "Talleres (C)",
+        "Unión-MdP": "Unión (MdP)",
+        "Unión-S": "Unión (S)",
+        "Villa Mitre": "Villa Mitre",
+    },
+    "Zone 2": {
+        "9 de Julio": "9 de Julio (R)",
+        "Ben Hur": "Ben Hur",
+        "Central Córdoba": "Central Córdoba (SdE)",
+        "Cipolletti": "Cipolletti",
+        "Crucero del Norte": "Crucero del Norte",
+        "Dvo Santamarina": "Ramón Santamarina",
+        "Dvo. Santamarina": "Ramón Santamarina",
+        "Gimnasia y Esgrima CdU": "Gimnasia y Esgrima (CdU)",
+        "Guillermo Brown": "Guillermo Brown",
+        "Huracán": "Huracán (TA)",
+        "Juv. Antoniana": "Juventud Antoniana",
+        "Juventud": "Juventud (P)",
+        "Libertad": "Libertad (S)",
+        "Patronato": "Patronato",
+        "Racing": "Racing (C)",
+        "Rivadavia": "Rivadavia (L)",
+        "Svo Belgrano": "Sportivo Belgrano",
+        "Svo. Belgrano": "Sportivo Belgrano",
+        "Talleres": "Talleres (C)",
+        "Unión-MdP": "Unión (MdP)",
+        "Unión-S": "Unión (S)",
+        "Villa Mitre": "Villa Mitre",
+    },
+    "Zone 3": {
+        "Alumni": "Alumni (VM)",
+        "Central Córdoba": "Central Córdoba (SdE)",
+        "Cipolletti": "Cipolletti",
+        "Dvo Maipú": "Deportivo Maipú",
+        "Estudiantes": "Estudiantes (RC)",
+        "Guillermo Brown": "Guillermo Brown",
+        "Huracán": "Huracán (TA)",
+        "Juv. Antoniana": "Juventud Antoniana",
+        "Juventud Unida Univ.": "Juventud Unida Universitario",
+        "Racing": "Racing (C)",
+        "Svo Desamparados": "Desamparados",
+        "Svo. Desamparados": "Desamparados",
+        "Talleres": "Talleres (C)",
+        "Villa Mitre": "Villa Mitre",
+    },
+}
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
     "Torneo Argentino A 2007-08": ("arg3-int08", ARGENTINO_A_2007),
     "Torneo Argentino A 2008-09": ("arg3-int09", ARGENTINO_A_2008),
+    "Torneo Argentino A 2009-10": ("arg3-int2010", ARGENTINO_A_2009),
 }

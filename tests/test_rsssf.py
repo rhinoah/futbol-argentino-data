@@ -458,3 +458,52 @@ def test_2007_08_el_talleres_pelado_se_traduce_en_el_mapa_y_no_en_el_padron():
     assert rsssf.ARGENTINO_A_2007["Group A"]["Talleres"] == "Talleres (P)"
     pelado = equipos.buscar("Talleres")
     assert pelado is not None and pelado.nombre != "Talleres (P)"
+
+
+def test_la_ronda_interzonal_tambien_se_escribe_detras_de_un_guion():
+    """`Round 5 - Interzonal 1-2` es la tercera forma que usa la fuente, y la que
+    estreno el Argentino A 2009-10.
+
+    Importa mas de lo que parece porque falla en silencio a medias: sin reconocer
+    la cola, la linea deja de ser una ronda, sus partidos heredan la ronda ANTERIOR
+    -- aparecen como si fueran de la fecha 4 -- y ademas entran DOS veces, una bajo
+    cada zona, porque tampoco se los reconoce como interzonales. Los partidos estan
+    todos; lo que esta mal es cuando se jugaron.
+    """
+    mapa = {"Zone 1": {"La Plata FC": "La Plata FC", "Villa Mitre": "Villa Mitre"},
+            "Zone 2": {"La Plata FC": "La Plata FC", "Villa Mitre": "Villa Mitre"}}
+    texto = ("Zone 1\nRound 4 [Sep 12]\n"
+             "La Plata FC                  1-0 Villa Mitre\n"
+             "Round 5 - Interzonal 1-2\n[Sep 18]\n"
+             "Villa Mitre                  2-1 La Plata FC\n"
+             "Zone 2\nRound 5 - Interzonal 1-2\n[Sep 18]\n"
+             "Villa Mitre                  2-1 La Plata FC\n")
+    ajenos, _ = rsssf.leer(texto, mapa, 2009, 2010, 8)
+    assert [a.jornada for a in ajenos] == [4, 5], \
+        "el interzonal tiene que ser su propia ronda, no la anterior"
+    assert len(ajenos) == 2, "el interzonal esta impreso dos veces y entra una"
+
+
+def test_la_llave_pelada_abre_seccion_pero_repetida_no_cierra_nada():
+    """Dos temporadas piden cosas opuestas de la misma linea.
+
+    El 2009-10 rotula sus dos torneos con la palabra sola, y sin leerla las dos
+    mitades caen en la misma casilla: la fecha 8 del Apertura choca con la del
+    Clausura. Pero una palabra suelta repetida adentro de una zona ya abierta NO es
+    un encabezado, y tratarla como tal apaga la zona y se lleva los partidos de
+    atras sin decir nada. Lo que concilia las dos es exigir que la llave CAMBIE.
+    """
+    mapa = {"Zone 1": {"La Plata FC": "La Plata FC", "Villa Mitre": "Villa Mitre"}}
+    ajenos, _ = rsssf.leer("Apertura\nZone 1\nRound 8 [Sep 25]\n"
+                           "La Plata FC                  1-1 Villa Mitre\n"
+                           "Clausura\nZone 1\nRound 8 [Feb 12]\n"
+                           "La Plata FC                  2-2 Villa Mitre\n",
+                           mapa, 2009, 2010, 8)
+    assert [a.llave for a in ajenos] == ["Torneo Apertura", "Torneo Clausura"]
+
+    # Y la repetida, que es contra lo que protege el test de al lado.
+    ajenos, _ = rsssf.leer("Apertura\nZone 1\nRound 8 [Sep 25]\n"
+                           "Apertura\n"
+                           "La Plata FC                  1-1 Villa Mitre\n",
+                           mapa, 2009, 2010, 8)
+    assert len(ajenos) == 1, "la linea repetida no tenia que apagar la zona"

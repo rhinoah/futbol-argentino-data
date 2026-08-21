@@ -322,6 +322,11 @@ ASCENSO_HISTORICO = [
     # zonas de 8. Ver el mapa en `fad/rsssf.py`.
     Torneo('Torneo Argentino A 2008-09', 'Torneo Argentino A', 2008,
            anio_fin=2009, rsssf='arg3-int09', sin_grilla=True),
+    # La cuarta sin grilla, y la primera con DOS torneos adentro: Apertura y
+    # Clausura reparten los clubes distinto, asi que el mapa se forzo por (torneo,
+    # zona) y despues se unio. Ver `fad/rsssf.py`.
+    Torneo('Torneo Argentino A 2009-10', 'Torneo Argentino A', 2009,
+           anio_fin=2010, rsssf='arg3-int2010', sin_grilla=True),
 
     Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),
