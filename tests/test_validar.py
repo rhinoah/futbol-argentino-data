@@ -327,12 +327,32 @@ def test_una_ronda_que_todavia_no_se_jugo_no_es_un_error():
 
 def test_sin_rondas_reconocidas_avisa_en_vez_de_saltear_calladito():
     """Un chequeo salteado en silencio es peor que uno ausente: parece que algo
-    se esta mirando."""
-    sin_ronda = [llave("Boca", "River", 1, 0, "2026-05-01", ronda=""),
-                 llave("Racing", "Belgrano", 2, 0, "2026-05-02", ronda=""),
-                 llave("Boca", "Racing", 1, 0, "2026-05-10", ronda="")]
+    se esta mirando.
+
+    Las rondas van con DOS etiquetas distintas a proposito: con una sola no hay
+    cadena que revisar, y entonces no hay nada que saltear -- ese es el caso del
+    test de al lado.
+    """
+    sin_ronda = [llave("Boca", "River", 1, 0, "2026-05-01", ronda="Partidos"),
+                 llave("Racing", "Belgrano", 2, 0, "2026-05-02", ronda="Partidos"),
+                 llave("Boca", "Racing", 1, 0, "2026-05-10", ronda="Desempate")]
     avisos = validar.cadena_de_llaves(sin_ronda)
     assert len(avisos) == 1 and "salteo" in avisos[0].detalle
+
+
+def test_un_cuadro_de_una_sola_ronda_no_es_una_cadena_salteada():
+    """Con una sola ronda no hay anterior contra la cual preguntar, asi que no se
+    saltea nada: no hay nada que saltear.
+
+    Son ocho llaves del corpus -- promociones, permanencias, desempates -- que
+    rotulan su unica ronda con algo que no es un nombre de ronda. Avisar ahi manda
+    a buscar un problema que no existe, y este chequeo ya tuvo su temporada de
+    decir cosas que no eran.
+    """
+    una = [llave("Boca", "River", 1, 0, "2026-05-01", ronda="Promoción"),
+           llave("Racing", "Belgrano", 2, 0, "2026-05-02", ronda="Promoción"),
+           llave("Colón", "Tigre", 1, 0, "2026-05-03", ronda="Promoción")]
+    assert validar.cadena_de_llaves(una) == []
 
 
 def test_cadena_con_muy_pocos_partidos_no_dice_nada():

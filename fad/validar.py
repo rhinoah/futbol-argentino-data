@@ -464,6 +464,14 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
 
     grupos = _por_ronda(elim)
     if grupos is None:
+        # UN CUADRO DE UNA SOLA RONDA NO TIENE CADENA. No se saltea nada porque no
+        # hay nada que saltear: la pregunta de este chequeo es si el que juega una
+        # ronda gano la anterior, y con una sola ronda no hay anterior. Decir que
+        # se salteo manda a buscar un problema que no existe, y son ocho llaves
+        # -- promociones, permanencias, desempates -- que rotulan su unica ronda
+        # con algo que no es un nombre de ronda ("Promocion", "Partidos", vacio).
+        if len({p.jornada for p in elim}) < 2:
+            return []
         return [Aviso("no se pudo revisar el cuadro de eliminacion",
                       "hay partidos sin ronda reconocida; el chequeo se salteo",
                       grave=False)]

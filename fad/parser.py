@@ -1401,7 +1401,8 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
 # Argentino A 2011-12 y 2012-13 y el Federal A 2021 la juegan. Sin ese escalon
 # la pagina entera se queda sin revisar la cadena de llaves, que es lo que
 # `_por_ronda` hace -- bien -- apenas una etiqueta no esta.
-RONDAS = ("Primera fase", "Segunda fase", "Tercera fase", "Cuarta fase",
+RONDAS = ("Preclasificatorio", "Ronda previa",
+          "Primera fase", "Segunda fase", "Tercera fase", "Cuarta fase",
           "Treintaidosavos", "Dieciseisavos", "Octavos", "Cuartos",
           "Semifinales", "Final")
 
@@ -1413,10 +1414,17 @@ RONDAS = ("Primera fase", "Segunda fase", "Tercera fase", "Cuarta fase",
 # no se miran nunca: eran 35 partidos, escritos en tablas del mismo formato que
 # las demas.
 #
-# Van SOLO aca y no en `RONDAS`, a proposito: a la Ronda previa entran cuarenta
-# equipos frescos que no ganaron el Preclasificatorio, asi que pedirle a la
-# cadena de llaves que cada uno venga de la ronda anterior da cuarenta y ocho
-# avisos falsos. Se saltea con uno solo, que es mas barato y no miente.
+# YA NO van solo aca. Estuvieron fuera de `RONDAS` a proposito mientras la cadena
+# de llaves no sabia distinguir a un club que perdio de uno que nunca jugo: a la
+# Ronda previa de la Copa Argentina entran CUARENTA equipos frescos que no ganaron
+# el Preclasificatorio, y pedirle a cada uno que viniera de la ronda anterior daba
+# cuarenta y ocho avisos falsos. Salteando la pagina entera se pagaba uno solo.
+#
+# Ese era el precio de una limitacion, no una propiedad del torneo, y la
+# limitacion se levanto: `cadena_de_llaves` ahora dice "entran sin venir de la
+# ronda anterior" en vez de acusarlos. Con eso la Copa Argentina 2012-13 se puede
+# revisar entera -- 63 partidos que nadie miraba -- y los ocho que SI vienen del
+# Preclasificatorio se chequean de verdad.
 _TITULO_RONDA = re.compile(
     r"^=+\s*(Primera fase|Segunda fase|Tercera fase|Treintaidosavos|Dieciseisavos"
     r"|Octavos|Cuartos|Semifinales|Semifinal|Final"

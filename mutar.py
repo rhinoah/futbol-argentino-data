@@ -832,8 +832,15 @@ MUTANTES = [
      "        ganadores = {p.local for p in previa} | {p.visita for p in previa}"),
 
     ("fad/validar.py", "saltear el chequeo del cuadro calladito",
-     "    if grupos is None:\n        return [Aviso(",
-     "    if grupos is None:\n        return []\n    if False:\n        return [Aviso("),
+     "        if len({p.jornada for p in elim}) < 2:\n            return []\n        return [Aviso(",
+     "        if True:\n            return []\n        return [Aviso("),
+
+    # La regla de al lado tiene su propio mutante porque es una excepcion, y una
+    # excepcion mal puesta se come al chequeo entero: con "< 1" no se cumple nunca
+    # y vuelve el aviso en las ocho llaves de una sola ronda.
+    ("fad/validar.py", "una sola ronda tampoco se libra del aviso",
+     "if len({p.jornada for p in elim}) < 2:",
+     "if len({p.jornada for p in elim}) < 1:"),
 
     ("fad/dataset.py", "escribir siempre neutral=false",
      '"neutral": str(neutral if p.neutral is None else p.neutral).lower()',
