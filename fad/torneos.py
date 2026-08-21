@@ -370,6 +370,30 @@ ASCENSO_HISTORICO = [
 # La era Apertura/Clausura, 2004-2015. El parser no necesito un solo cambio: el
 # formato de tabla es el mismo que el de hoy. Lo unico que crecio fue el padron.
 VIEJO = [
+    # 1997-2003, la mitad de la era vieja que SI publica fechas. Las paginas
+    # estaban cacheadas desde hace rato y el parser ya las leia: 190 partidos por
+    # temporada, que es veinte clubes todos contra todos una vez.
+    #
+    # La linea esta en 1997 y es nitida: desde el Apertura de ese anio las tablas
+    # traen la fecha de cada partido, y antes no. Las de 1991 al Clausura 1997
+    # quedan afuera a proposito -- 2270 partidos sin una sola fecha --, porque una
+    # fila sin fecha no se escribe. Necesitan segunda fuente; RSSSF publica
+    # Primera de esos anios. El Clausura 1997 esta de ese lado: de sus 190
+    # partidos, 10 traen fecha.
+    Torneo("Anexo:Torneo Apertura 1997 (Argentina)", "Primera Division - Apertura", 1997),
+    Torneo("Anexo:Torneo Apertura 1998 (Argentina)", "Primera Division - Apertura", 1998),
+    Torneo("Anexo:Torneo Apertura 1999 (Argentina)", "Primera Division - Apertura", 1999),
+    Torneo("Anexo:Torneo Apertura 2000 (Argentina)", "Primera Division - Apertura", 2000),
+    Torneo("Anexo:Torneo Apertura 2001 (Argentina)", "Primera Division - Apertura", 2001),
+    Torneo("Anexo:Torneo Apertura 2002 (Argentina)", "Primera Division - Apertura", 2002),
+    Torneo("Anexo:Torneo Apertura 2003 (Argentina)", "Primera Division - Apertura", 2003),
+    Torneo("Anexo:Torneo Clausura 1998 (Argentina)", "Primera Division - Clausura", 1998),
+    Torneo("Anexo:Torneo Clausura 1999 (Argentina)", "Primera Division - Clausura", 1999),
+    Torneo("Anexo:Torneo Clausura 2000 (Argentina)", "Primera Division - Clausura", 2000),
+    Torneo("Anexo:Torneo Clausura 2001 (Argentina)", "Primera Division - Clausura", 2001),
+    Torneo("Anexo:Torneo Clausura 2002 (Argentina)", "Primera Division - Clausura", 2002),
+    Torneo("Anexo:Torneo Clausura 2003 (Argentina)", "Primera Division - Clausura", 2003),
+
     Torneo("Anexo:Torneo Apertura 2004 (Argentina)", "Primera Division - Apertura", 2004),
     Torneo("Anexo:Torneo Apertura 2005 (Argentina)", "Primera Division - Apertura", 2005),
     Torneo("Anexo:Torneo Apertura 2006 (Argentina)", "Primera Division - Apertura", 2006),

@@ -563,3 +563,23 @@ def test_una_temporada_que_se_queda_sin_filas_no_deja_su_archivo_viejo(tmp_path)
     cambiados = dataset.escribir_por_temporada([f2], tmp_path)
     assert {p.name for p in tmp_path.glob("partidos-*.csv")} == {"partidos-2007.csv"}
     assert cambiados.get("partidos-2005.csv") == 0, "el que se vacio tiene que aparecer como cambiado"
+
+
+def test_una_baja_en_sin_fecha_se_puede_excusar():
+    """`salvo` existe para un caso y conviene que quede fijado.
+
+    En `sin-fecha/` una baja NO es una pérdida si el dataset principal creció para
+    el mismo torneo: esos partidos consiguieron fecha y se mudaron. Sin la excusa,
+    la guarda frena por una mejora — y frenar así no escribe NADA, ni siquiera lo
+    que estaba bien, con lo cual desde afuera parece que no pasó nada.
+    """
+    def fila(t, s):
+        return {"tournament": t, "season": s}
+
+    antes = [fila("T", 2012)] * 28
+    ahora = [fila("T", 2012)] * 8
+    assert dataset.regresiones(ahora, antes), "sin excusa tiene que denunciarlo"
+    assert not dataset.regresiones(ahora, antes, salvo=frozenset({("T", "2012")}))
+    # Y la excusa es de esa clave nada más: otro torneo sigue denunciándose.
+    otros = [fila("U", 2012)] * 5
+    assert dataset.regresiones([], otros, salvo=frozenset({("T", "2012")}))

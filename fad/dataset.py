@@ -115,7 +115,8 @@ def escribir(filas: list[dict], destino: Path) -> int:
     return len(filas)
 
 
-def regresiones(nuevas: list[dict], anteriores: list[dict]) -> list[str]:
+def regresiones(nuevas: list[dict], anteriores: list[dict],
+                salvo: frozenset = frozenset()) -> list[str]:
     """Torneos que perdieron partidos respecto del CSV que ya estaba.
 
     Existe por el modo de fallar de una tarea automatica, que no es explotar. Si
@@ -146,7 +147,13 @@ def regresiones(nuevas: list[dict], anteriores: list[dict]) -> list[str]:
     avisos = []
     for clave, cuantos in sorted(antes.items()):
         tenia_ahora = ahora.get(clave, 0)
-        if tenia_ahora < cuantos:
+        # `salvo` existe para UNA cosa: en `sin-fecha/` una baja no es una perdida
+        # si el dataset principal crecio para el mismo torneo, porque entonces esos
+        # partidos no se fueron a ningun lado -- consiguieron fecha y se mudaron.
+        # Quien sabe eso es el que tiene las dos carpetas a la vista, o sea
+        # `build.py`, asi que la decision se pasa desde afuera en vez de adivinarla
+        # aca.
+        if tenia_ahora < cuantos and clave not in salvo:
             torneo, temporada = clave
             avisos.append(f"{torneo} {temporada}: tenia {cuantos} partidos y ahora "
                           f"{tenia_ahora}" + ("  (DESAPARECIO)" if not tenia_ahora else ""))

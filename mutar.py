@@ -391,7 +391,7 @@ MUTANTES = [
 
     # --- correr solo ---
     ("fad/dataset.py", "no mirar si el dataset se achico",
-     "        if tenia_ahora < cuantos:",
+     "        if tenia_ahora < cuantos and clave not in salvo:",
      "        if False:"),
 
     ("fad/dataset.py", "comparar season como entero de un lado y texto del otro",

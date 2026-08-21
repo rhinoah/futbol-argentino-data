@@ -495,8 +495,35 @@ def main(argv=None) -> int:
 
     # Y la que importa cuando esto corre solo: que el dataset no se achique.
     # Un chequeo de `validar` mira los partidos que HAY; este mira los que ya no.
+    # Los torneos que perdieron filas en `sin-fecha/` Y ganaron en `data/`: esos
+    # partidos consiguieron fecha y se mudaron, que es lo contrario de perderse.
+    #
+    # Frenar por una mejora sale caro de un modo particular: el build no escribe
+    # NADA, ni siquiera lo que estaba bien, y el conteo de `data/` queda igual que
+    # ayer -- asi que desde afuera parece que no paso nada. Estuvo frenando cuatro
+    # commits de esta sesion sin que lo mirara: veinte partidos del Argentino A
+    # 2012 que acababan de conseguir su fecha.
+    def _por_torneo(fs):
+        c: dict[tuple, int] = {}
+        for f in fs:
+            k = (f["tournament"], str(f["season"]))
+            c[k] = c.get(k, 0) + 1
+        return c
+
+    antes_sf, ahora_sf = _por_torneo(anterior_sf), _por_torneo(sin_fecha)
+    antes_d, ahora_d = _por_torneo(anterior), _por_torneo(filas)
+    # Que `data/` haya crecido no alcanza: tiene que haber crecido con filas QUE
+    # TRAEN FECHA. Si alguna llega sin ella, lo que paso no es que se fecharan
+    # sino que se volcaron, y ahi la baja de `sin-fecha/` es exactamente la
+    # perdida que esta guarda existe para ver. Sin esta condicion, mandar las
+    # filas sin fecha al dataset principal se disfraza de mejora.
+    todas_fechadas = all((f.get("date") or "").strip() for f in filas)
+    fechados = frozenset(k for k, n in antes_sf.items()
+                         if todas_fechadas
+                         and ahora_sf.get(k, 0) < n
+                         and ahora_d.get(k, 0) > antes_d.get(k, 0))
     perdidos = (dataset.regresiones(filas, anterior)
-                + dataset.regresiones(sin_fecha, anterior_sf))
+                + dataset.regresiones(sin_fecha, anterior_sf, salvo=fechados))
     if perdidos and not args.forzar:
         print("\nEl dataset se ACHICO respecto del que ya estaba:", file=sys.stderr)
         for p in perdidos:
