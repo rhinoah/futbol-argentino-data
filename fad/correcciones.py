@@ -346,58 +346,160 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
 
 
 MARCADORES: tuple[Marcador, ...] = (
-    # --- Copa Argentina 2018-19: los dos que destapo la cadena de llaves ---
+    # --- Copa Argentina 2018-19: seis filas mal en una sola ronda ---
     #
-    # No los encontro nadie leyendo la pagina. Los encontro el chequeo que
-    # pregunta si el que juega una ronda gano la anterior: los dos clubes
-    # seguian jugando -- y ganando -- despues de un partido que, segun la
-    # grilla, habian perdido.
+    # No las encontro nadie leyendo la pagina. Empezo el chequeo de la cadena de
+    # llaves, que pregunta si el que juega una ronda gano la anterior: dos clubes
+    # seguian jugando -- y ganando -- despues de un partido que, segun la grilla,
+    # habian perdido. Al ir a buscar el testigo de afuera aparecieron las otras
+    # cuatro, que ningun chequeo ve porque el que pasa es el mismo en las dos
+    # versiones y solo cambia el marcador.
     #
-    # OJO, quedan DOS diferencias mas sin arbitrar en esa misma ronda, que
-    # aparecieron al medir la divergencia y que ningun chequeo denuncia porque
-    # el que pasa es el mismo en las dos versiones: Defensa y Justicia -
-    # Gimnasia y Tiro (2-1 en la pagina, 1-0 en RSSSF) y Nueva Chicago -
-    # Central Cordoba (1-2 contra 0-1). No se tocan sin mirarlas una por una.
+    # Que la grilla de un articulo pueda estar mal mientras su anexo esta bien es
+    # lo que deja este caso: son dos partes de la MISMA fuente y no se hablan.
     Marcador(
         pagina="Copa Argentina 2018-19",
-        jornada="Treintaidosavos", local="Almagro", visita="Atlético de Rafaela",
+        jornada="Treintaidosavos", local="Almagro",
+        visita="Atlético de Rafaela",
         dice=(1, 1), debe=(1, 1), penales_dice=(3, 4), penales_debe=(4, 2),
         porque="7 de marzo de 2019, Centenario Ciudad de Quilmes. El 1-1 esta bien; "
-               "lo que esta dado vuelta es la TANDA. La pagina publica los penales "
-               "3-4, o sea que paso Rafaela.\nLA PROPIA PAGINA SE DESMIENTE, y no "
-               "hace falta salir para verlo: Almagro juega los dieciseisavos seis "
-               "dias despues, le gana a Boca Juniors por penales y llega a cuartos, "
-               "donde pierde con River. Un club eliminado no juega tres rondas "
-               "mas.\nRSSSF lo arbitra desde afuera y corrige tambien el numero: "
-               "`Club Almagro [4] 1-1 [2] AMSyD Atletico de Rafaela`, misma fecha y "
-               "mismo estadio. No solo el ganador estaba al reves: la tanda fue 4-2 y "
-               "no 4-3.\nY RSSSF no esta copiando a Wikipedia, que es lo que haria "
-               "dudar de un marcador suelto: sobre los 18 cruces de esa misma ronda "
-               "que se pueden comparar, coincide con la pagina en 14, goles Y penales "
-               "exactos. Una fuente derivada coincidiria en los 18. Difiere en "
-               "cuatro, y en este el suyo es el unico que cierra con lo que pasa "
-               "despues. "),
+               "lo que esta dado vuelta es la TANDA. La grilla publica los penales "
+               "3-4, o sea que paso Rafaela.\nLA PROPIA PAGINA SE DESMIENTE: Almagro "
+               "juega los dieciseisavos seis dias despues, le gana a Boca Juniors por "
+               "penales y llega a cuartos, donde pierde con River. Un club eliminado "
+               "no juega tres rondas mas.\nRSSSF corrige tambien el numero: `Club "
+               "Almagro [4] 1-1 [2] AMSyD Atletico de Rafaela`, misma fecha y mismo "
+               "estadio. La tanda fue 4-2 y no 4-3.\nLA RONDA ENTERA, MEDIDA. De los "
+               "27 cruces de estos treintaidosavos que se pueden comparar contra "
+               "RSSSF, la grilla coincide en 20 y difiere en 7. Eso ya dice que RSSSF "
+               "no esta copiando a Wikipedia -- una fuente derivada coincidiria en "
+               "los 27 --, y ademas deja repartir la culpa: de esas 7, SEIS son "
+               "errores de la grilla, cada uno confirmado ademas por el anexo de la "
+               "propia Wikipedia, y UNA es de RSSSF, que escribe 1-2 en el Patronato "
+               "- Dock Sud cuando fue 1-1 definido por penales. Ahi la grilla tiene "
+               "razon y no se toca. No se elige una fuente: se arbitra partido por "
+               "partido. "),
     Marcador(
         pagina="Copa Argentina 2018-19",
-        jornada="Treintaidosavos", local="Newell's Old Boys", visita="Villa Mitre",
+        jornada="Treintaidosavos", local="Newell's Old Boys",
+        visita="Villa Mitre",
         dice=(0, 0), debe=(1, 2), penales_dice=(5, 3),
         porque="24 de marzo de 2019, 15 de Abril de Santa Fe. La grilla publica un "
                "0-0 con penales 5-3 para Newell's, de donde saldria que paso "
                "Newell's. Pero Villa Mitre juega los dieciseisavos, le gana a San "
-               "Martin (SJ) y llega a octavos.\nEL CUADRO DE LA MISMA PAGINA YA DECIA "
-               "OTRA COSA: le pone 1 a Newell's y 2 a Villa Mitre, y a Villa Mitre lo "
-               "marca como el que pasa. Un 1-2, sin tanda ninguna.\nRSSSF cierra la "
-               "discusion y ademas explica de donde sale el lio: `CA Newell's Old "
-               "Boys 1-2 Club Villa Mitre`, con la nota `abandoned in 90+1, score "
-               "stood on Apr 5`. El partido se abandono a los 90+1 y el resultado "
-               "quedo firme recien el 5 de abril; el 0-0 con penales no describe "
-               "ningun partido que se haya jugado.\nY RSSSF no esta copiando a "
-               "Wikipedia, que es lo que haria dudar de un marcador suelto: sobre los "
-               "18 cruces de esa misma ronda que se pueden comparar, coincide con la "
-               "pagina en 14, goles Y penales exactos. Una fuente derivada "
-               "coincidiria en los 18. Difiere en cuatro, y en este el suyo es el "
-               "unico que cierra con lo que pasa despues.\nLos penales se borran "
-               "solos: un 1-2 no es empate, asi que la tanda no pudo existir. "),
+               "Martin (SJ) y llega a octavos.\nEl cuadro de la misma pagina ya decia "
+               "otra cosa: le pone 1 a Newell's y 2 a Villa Mitre, y marca a Villa "
+               "Mitre como el que pasa.\nRSSSF cierra la discusion y explica de donde "
+               "sale el lio: `CA Newell's Old Boys 1-2 Club Villa Mitre`, con la nota "
+               "`abandoned in 90+1, score stood on Apr 5`. El partido se abandono a "
+               "los 90+1 y el resultado quedo firme recien el 5 de abril; el 0-0 con "
+               "penales no describe ningun partido que se haya jugado.\nLos penales "
+               "se borran solos: un 1-2 no es empate.\nLA RONDA ENTERA, MEDIDA. De "
+               "los 27 cruces de estos treintaidosavos que se pueden comparar contra "
+               "RSSSF, la grilla coincide en 20 y difiere en 7. Eso ya dice que RSSSF "
+               "no esta copiando a Wikipedia -- una fuente derivada coincidiria en "
+               "los 27 --, y ademas deja repartir la culpa: de esas 7, SEIS son "
+               "errores de la grilla, cada uno confirmado ademas por el anexo de la "
+               "propia Wikipedia, y UNA es de RSSSF, que escribe 1-2 en el Patronato "
+               "- Dock Sud cuando fue 1-1 definido por penales. Ahi la grilla tiene "
+               "razon y no se toca. No se elige una fuente: se arbitra partido por "
+               "partido. "),
+    Marcador(
+        pagina="Copa Argentina 2018-19",
+        jornada="Treintaidosavos", local="Nueva Chicago",
+        visita="Central Córdoba (SdE)",
+        dice=(1, 2), debe=(0, 1),
+        porque="3 de abril de 2019, Brigadier General Estanislao Lopez, Santa Fe. La "
+               "grilla publica 1-2. Fue 0-1, y es el que mas testigos junto.\nUN SOLO "
+               "GOL, Y TRES FUENTES QUE LO CUENTAN IGUAL. El sitio oficial del torneo "
+               "titula su nota `Nueva Chicago 0 - Central Cordoba (SdE) 1` y le "
+               "adjudica el gol a Facundo Melivilo. Diario Panorama, de Santiago del "
+               "Estero, lo ubica a los 23 segundos del segundo tiempo: Melivilo quedo "
+               "mano a mano con Minaglia y definio con un zurdazo. El Litoral, de la "
+               "ciudad donde se jugo, cuenta la misma jugada con otras palabras y "
+               "agrega el error -- una larga cesion y un mal cruce de Enzo Lettieri "
+               "--. Ninguna le da un segundo gol a Central ni ninguno a Chicago: para "
+               "el 1-2 harian falta tres goleadores y no aparece mas que uno.\nLa "
+               "ficha oficial del partido (copaargentina.org, partido 3209) trae las "
+               "dos formaciones completas y el arbitro, Pablo Gimenez. Y la Wikipedia "
+               "en INGLES publica el partido con `score=0-1`, `goals2=Melivilo 46'` y "
+               "ese mismo informe como referencia: es la version en castellano la que "
+               "quedo sola.\nEL ANEXO DE LA PROPIA WIKIPEDIA YA DECIA OTRA COSA. "
+               "`Anexo:Treintaidosavos de final de la Copa Argentina 2018-19` trae "
+               "una plantilla por partido con el marcador, el entretiempo, el "
+               "arbitro, los goleadores con su minuto y el link al informe oficial de "
+               "copaargentina.org. Contra la grilla del articulo principal coincide "
+               "en 28 de 32 y difiere justo en estos. La grilla es una fila pelada, "
+               "sin goleadores y sin referencia; el anexo tiene con que "
+               "sostenerse.\nLA RONDA ENTERA, MEDIDA. De los 27 cruces de estos "
+               "treintaidosavos que se pueden comparar contra RSSSF, la grilla "
+               "coincide en 20 y difiere en 7. Eso ya dice que RSSSF no esta copiando "
+               "a Wikipedia -- una fuente derivada coincidiria en los 27 --, y ademas "
+               "deja repartir la culpa: de esas 7, SEIS son errores de la grilla, "
+               "cada uno confirmado ademas por el anexo de la propia Wikipedia, y UNA "
+               "es de RSSSF, que escribe 1-2 en el Patronato - Dock Sud cuando fue "
+               "1-1 definido por penales. Ahi la grilla tiene razon y no se toca. No "
+               "se elige una fuente: se arbitra partido por partido. "),
+    Marcador(
+        pagina="Copa Argentina 2018-19",
+        jornada="Treintaidosavos", local="Defensa y Justicia",
+        visita="Gimnasia y Tiro (S)",
+        dice=(2, 1), debe=(1, 0),
+        porque="16 de abril de 2019, Florencio Sola, Banfield. La grilla publica 2-1. "
+               "Fue 1-0.\nUN SOLO GOL: Nicolas Fernandez a los 26 del primer tiempo. "
+               "Lo dan Infobae y El Tribuno de Salta, los dos con las 22 formaciones, "
+               "los dos entrenadores -- Beccacece y Ramasco -- y el arbitro, Andres "
+               "Merlos. Nada de eso esta en la grilla, asi que no salio de "
+               "ahi.\nCUIDADO CON CONTARLOS COMO DOS: Infobae acredita `Con "
+               "informacion de Telam` y El Tribuno publica la version larga del mismo "
+               "cable. Es UN testigo periodistico servido por dos diarios. Alcanza "
+               "igual -- un cable con goleador, minuto, 22 nombres y arbitro no se "
+               "deriva de una fila de tabla --, pero conviene que quede "
+               "escrito.\nRSSSF, por afuera: `CSyD Defensa y Justicia 1-0 Cd Gimnasia "
+               "y Tiro`, mismo dia y mismo estadio.\nEL ANEXO DE LA PROPIA WIKIPEDIA "
+               "YA DECIA OTRA COSA. `Anexo:Treintaidosavos de final de la Copa "
+               "Argentina 2018-19` trae una plantilla por partido con el marcador, el "
+               "entretiempo, el arbitro, los goleadores con su minuto y el link al "
+               "informe oficial de copaargentina.org. Contra la grilla del articulo "
+               "principal coincide en 28 de 32 y difiere justo en estos. La grilla es "
+               "una fila pelada, sin goleadores y sin referencia; el anexo tiene con "
+               "que sostenerse.\nLA RONDA ENTERA, MEDIDA. De los 27 cruces de estos "
+               "treintaidosavos que se pueden comparar contra RSSSF, la grilla "
+               "coincide en 20 y difiere en 7. Eso ya dice que RSSSF no esta copiando "
+               "a Wikipedia -- una fuente derivada coincidiria en los 27 --, y ademas "
+               "deja repartir la culpa: de esas 7, SEIS son errores de la grilla, "
+               "cada uno confirmado ademas por el anexo de la propia Wikipedia, y UNA "
+               "es de RSSSF, que escribe 1-2 en el Patronato - Dock Sud cuando fue "
+               "1-1 definido por penales. Ahi la grilla tiene razon y no se toca. No "
+               "se elige una fuente: se arbitra partido por partido. "),
+    Marcador(
+        pagina="Copa Argentina 2018-19",
+        jornada="Treintaidosavos", local="Mitre (SdE)",
+        visita="Deportivo Roca",
+        dice=(2, 1), debe=(1, 0),
+        porque="17 de abril de 2019, Centenario Ciudad de Quilmes. La grilla publica "
+               "2-1. Fue 1-0.\nEl anexo lo da con un solo gol y sobre la hora: `Mitre "
+               "(SdE) 1:0 (0:0) Deportivo Roca`, gol de Cadenazzi a los 90, arbitro "
+               "Pablo Echavarria. El entretiempo 0:0 lo confirma.\nRSSSF, por afuera: "
+               "`CA Mitre 1-0 CSyD General Roca`, mismo estadio.\nA este NO se le "
+               "busco prensa: el anexo ya nombra al goleador y el minuto, que es la "
+               "vara, y RSSSF coincide desde afuera. De los seis es el que menos "
+               "testigos tiene, y corresponde decirlo.\nEL ANEXO DE LA PROPIA "
+               "WIKIPEDIA YA DECIA OTRA COSA. `Anexo:Treintaidosavos de final de la "
+               "Copa Argentina 2018-19` trae una plantilla por partido con el "
+               "marcador, el entretiempo, el arbitro, los goleadores con su minuto y "
+               "el link al informe oficial de copaargentina.org. Contra la grilla del "
+               "articulo principal coincide en 28 de 32 y difiere justo en estos. La "
+               "grilla es una fila pelada, sin goleadores y sin referencia; el anexo "
+               "tiene con que sostenerse.\nLA RONDA ENTERA, MEDIDA. De los 27 cruces "
+               "de estos treintaidosavos que se pueden comparar contra RSSSF, la "
+               "grilla coincide en 20 y difiere en 7. Eso ya dice que RSSSF no esta "
+               "copiando a Wikipedia -- una fuente derivada coincidiria en los 27 --, "
+               "y ademas deja repartir la culpa: de esas 7, SEIS son errores de la "
+               "grilla, cada uno confirmado ademas por el anexo de la propia "
+               "Wikipedia, y UNA es de RSSSF, que escribe 1-2 en el Patronato - Dock "
+               "Sud cuando fue 1-1 definido por penales. Ahi la grilla tiene razon y "
+               "no se toca. No se elige una fuente: se arbitra partido por partido. "),
     Marcador(
         pagina="Campeonato de Primera C 2025 (Argentina)",
         jornada="Primera fase", local="J. J. de Urquiza", visita="Sportivo Barracas",
@@ -1454,35 +1556,49 @@ FALTANTES: tuple[Faltante, ...] = (
     ),
     Faltante(
         pagina="Copa Argentina 2018-19", jornada="Treintaidosavos",
-        local="Godoy Cruz", visita="Deportivo Armenio", goles=(0, 0),
-        penales=(6, 5), fecha="2019-03-23", hora="", estadio="Juan Domingo Perón",
-        porque="la fila esta entera y mal escrita: le sobra una llave y le falta "
-               "el salto de linea, `|-bgcolor=#F5FAFF}|align=center| 23 de marzo "
-               "||...`. Con los cinco campos en el mismo renglon, la primera celda "
-               "-- la fecha -- se pierde adentro de lo que `_partir` descarta como "
-               "atributos de la fila, quedan cuatro y la fila no llega al minimo. "
-               "Sus vecinas de la misma tabla son identicas y con el salto puesto. "
-               "Aflojar el corte de filas para todo el corpus por una sola es peor "
-               "el remedio: es el ultimo de los 240 partidos que faltaban en las "
-               "copas y el unico que ningun arreglo de parser alcanza. "
-               "LA TANDA VA AL REVES QUE LA FILA, y es una decision: la fila pone "
-               "en negrita a Armenio y escribe (5) 0 - 0 (6), o sea que Armenio "
-               "gano -- la pagina usa esa convencion en sus 18 filas legibles sin "
-               "excepcion --, pero el cuadro marca a Godoy Cruz con su (p) de "
-               "penales en RD2 y RD3, y la grilla lo tiene JUGANDO dieciseisavos "
-               "(14/07 vs Huracan) y octavos (18/09 vs River). Tres testigos "
-               "independientes contra la negrita de la unica fila de la pagina que "
-               "esta mal escrita. Se toman los numeros de la fila y el orden de los "
-               "otros tres. El 0-0 de los noventa minutos no lo discute nadie",
+        local="Godoy Cruz", visita="Deportivo Armenio", goles=(2, 1),
+        penales=None, fecha="2019-03-23", hora="", estadio="Juan Domingo Perón",
+        porque="la fila esta entera y mal escrita: le sobra una llave y le falta el "
+               "salto de linea, `|-bgcolor=#F5FAFF}|align=center| 23 de marzo ||...`. "
+               "Con los cinco campos en el mismo renglon, la primera celda -- la "
+               "fecha -- se pierde adentro de lo que `_partir` descarta como "
+               "atributos de la fila, quedan cuatro y la fila no llega al minimo. Sus "
+               "vecinas de la misma tabla son identicas y con el salto puesto. "
+               "Aflojar el corte de filas para todo el corpus por una sola es peor el "
+               "remedio: es el ultimo de los 240 partidos que faltaban en las copas y "
+               "el unico que ningun arreglo de parser alcanza.\nEL MARCADOR DE ESTA "
+               "ENTRADA ESTUVO MAL DOS ANIOS Y SE CORRIGIO. Decia 0-0 con penales "
+               "6-5, tomando los numeros de la celda rota y dando vuelta el orden "
+               "porque el cuadro y las rondas siguientes muestran a Godoy Cruz "
+               "avanzando. El razonamiento del orden era bueno; la premisa no. "
+               "Aquella version cerraba diciendo que el 0-0 de los noventa minutos no "
+               "lo discutia nadie, y hoy lo discuten dos fuentes.\nFUE 2-1, Y SIN "
+               "TANDA. El `Anexo:Treintaidosavos de final de la Copa Argentina "
+               "2018-19` -- la propia Wikipedia, otra pagina -- lo publica como "
+               "`Godoy Cruz 2:1 (0:1) Deportivo Armenio`, arbitro Hector Paletta, con "
+               "los tres goles nombrados: Ramis a los 90 y a los 90+2 para Godoy "
+               "Cruz, Ortiz a los 26 para Armenio. El entretiempo 0:1 encaja solo -- "
+               "Ortiz convierte a los 26 y los dos de Ramis caen en el descuento --. "
+               "Fue una remontada sobre la hora, no una tanda. RSSSF lo confirma por "
+               "afuera: `CD Godoy Cruz Antonio Tomba 2-1 CD Armenio`, mismo "
+               "estadio.\nLo unico que sobrevive de la celda rota es que Godoy Cruz "
+               "paso, que era lo que aquella version habia deducido bien. El `(5) 0 - "
+               "0 (6)` no describe este partido: es una fila cuyo markup roto "
+               "arrastro tambien los numeros ",
         testigos=(
-            "LA CELDA MISMA: el 0-0 y los numeros de la tanda estan escritos en "
-            "la fila, intactos y sin ambiguedad (`(5) 0 - 0 (6)`). Lo que la fila "
-            "no puede sostener es a QUIEN le toca cada numero, porque es la unica "
-            "de la pagina con el markup roto",
-            "EL CUADRO Y LAS RONDAS SIGUIENTES: el bracket marca a Godoy Cruz con "
-            "su `(p)` de penales en RD2 y RD3, y la grilla lo tiene jugando "
-            "dieciseisavos (14/07 vs Huracan) y octavos (18/09 vs River). Un club "
-            "que perdio la serie no juega las dos rondas que siguen",
+            "EL ANEXO DE LA PROPIA WIKIPEDIA, que es otra pagina y trae lo que la "
+            "fila rota no puede: marcador, entretiempo, arbitro y los TRES "
+            "goleadores con su minuto. Para un 0-0 no habria ninguno ",
+            "RSSSF, desde afuera: `CD Godoy Cruz Antonio Tomba 2-1 CD Armenio`. Y "
+            "no esta copiando a Wikipedia -- sobre los 27 cruces comparables de "
+            "esta ronda coincide con la grilla en 20 --, asi que su 2-1 es un "
+            "testigo y no un eco ",
+            "EL CUADRO Y LAS RONDAS SIGUIENTES, que es lo que ya sostenia la "
+            "version anterior: la grilla tiene a Godoy Cruz jugando dieciseisavos "
+            "(14/07 vs Huracan) y octavos (18/09 vs River). Un club que perdio la "
+            "serie no juega las dos rondas que siguen. Eso decidia el orden de la "
+            "tanda; ahora decide que el ganador es el mismo aunque la tanda no "
+            "haya existido ",
         ),
     ),
 )
