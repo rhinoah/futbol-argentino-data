@@ -468,13 +468,36 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
                       "hay partidos sin ronda reconocida; el chequeo se salteo",
                       grave=False)]
     avisos = []
+    # Los clubes que ya aparecieron en este cuadro, de la primera ronda hasta la
+    # anterior. Es lo que separa un error de un repechaje.
+    vistos: set[str] = set()
     for (_, previa), (ronda, actual) in zip(grupos, grupos[1:]):
+        vistos |= {e for p in previa for e in (p.local, p.visita) if e}
         ganadores = {_ganador(p) for p in previa} - {""}
         if not ganadores:
             continue
+        # UN CLUB QUE NUNCA JUGO NO PERDIO NADA. Muchos cuadros reciben gente de
+        # afuera por diseno: la Zona Revalida del Argentino A 2004-05 lo dice en
+        # su propia fuente -- "losers enter Round 2 Zona Revalida" --, y ahi los
+        # cuatro que entran en la segunda ronda no vienen de la primera sino de
+        # haber perdido en la otra llave. Acusarlos daba 17 avisos falsos sobre 20.
+        #
+        # Lo que SI es un error es el que jugo antes y sigue jugando sin haber
+        # ganado. Esa distincion deja los 3 avisos reales del Federal A 2023 --
+        # Douglas Haig, Independiente (C) y Ciudad de Bolivar, los tres perdieron
+        # y reaparecen -- y calla los 17 que no lo eran.
+        frescos = sorted({e for p in actual for e in (p.local, p.visita)
+                          if e and e not in vistos})
+        if frescos:
+            avisos.append(Aviso(
+                "entran al cuadro sin venir de la ronda anterior",
+                f"{ronda}: {', '.join(frescos)}. No es un error por si mismo -- un "
+                f"repechaje recibe a los que perdieron en otra llave --, pero si la "
+                f"pagina publicó entera la ronda anterior, entonces falta algo",
+                grave=False))
         for p in actual:
             for equipo in (p.local, p.visita):
-                if equipo and equipo not in ganadores:
+                if equipo and equipo not in ganadores and equipo in vistos:
                     avisos.append(Aviso(
                         "juega una ronda sin haber ganado la anterior",
                         f"{ronda}: {equipo} ({p.fecha} vs "
@@ -494,6 +517,15 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
 # Se normaliza SOLO para el chequeo. El dato publicado sigue diciendo lo que dice
 # la pagina: `jornada` sale en el CSV y su trabajo es ser fiel, no prolijo.
 _SINONIMOS = {
+    # Los cuatro ordinales, que unas paginas escriben "fase" y otras "ronda".
+    # No es una suposicion: se midio sobre las 136 paginas y NINGUNA usa las dos
+    # formas del mismo ordinal, asi que colapsarlas no puede fusionar dos rondas
+    # distintas de un mismo torneo -- que seria peor que no revisar, porque
+    # compararia contra el conjunto equivocado en vez de abstenerse.
+    "primera ronda": "primera fase",
+    "segunda ronda": "segunda fase",
+    "tercera ronda": "tercera fase",
+    "cuarta ronda": "cuarta fase",
     "cuartos de final": "cuartos",
     "octavos de final": "octavos",
     "dieciseisavos de final": "dieciseisavos",

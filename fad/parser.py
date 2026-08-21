@@ -973,13 +973,19 @@ _COL_DE_LLAVE = re.compile(r"^!\s*(?:[^|\n]*\|)?\s*"
                            r"(Local\s*-\s*(?:Ida|Vuelta)|Ida|Vuelta|Global)\s*$",
                            re.M | re.I)
 _TITULO_DE_LLAVE = re.compile(r"\|\+[^|]*\|\s*'''\s*(.*?)\s*'''")
-# Las dos formas en que el titulo escribe el rango: "21/11 - 28/11" y
-# "22 al 29 de abril".
-_RANGO_BARRAS = re.compile(r"(\d{1,2})\s*/\s*(\d{1,2})\s*[-–]\s*(\d{1,2})\s*/\s*(\d{1,2})")
-_RANGO_AL = re.compile(r"(\d{1,2})\s*al\s*(\d{1,2})\s*de\s+([a-záéíóúñ]+)", re.I)
-# "0 (5) - 0 (3)": el marcador de una pata, con los penales si los hubo. Se matchea
-# despues de `limpiar`, que deja los parentesis y se lleva el `<small>`.
+# "0 (5) - 0 (3)": el marcador de una pata, con los penales si los hubo. Se
+# matchea DESPUES de `limpiar`, que deja los parentesis y se lleva el `<small>`:
+# mirar el `<small>` crudo perdia justo las llaves definidas por penales.
 _PATA = re.compile(r"^(\d+)(?:\((\d+)\))?[-–](\d+)(?:\((\d+)\))?$")
+# Las fechas que puede nombrar el titulo de una llave, en las cuatro formas que
+# usa el corpus: "21/11", "28 de abril", y las listas "22, 26 y 27 de mayo" donde
+# los primeros dias vienen sueltos y el mes aparece una sola vez al final.
+_FECHA_BARRAS = re.compile(r"\b(\d{1,2})\s*/\s*(\d{1,2})\b")
+# Los dias vienen encadenados por coma, por "y" o por "al" -- "22, 26 y 27 de
+# mayo", "22 al 29 de abril" -- con el mes UNA sola vez al final. Sin el "al" se
+# pierde el primer dia, que es la forma mas comun del corpus.
+_FECHA_DE_MES = re.compile(r"\b\d{1,2}(?:\s*(?:,|y|al)\s*\d{1,2})*\s*de\s+([a-záéíóúñ]+)", re.I)
+_DIA_SUELTO = re.compile(r"\b(\d{1,2})\b")
 
 
 def _columnas_de_llave(bloque: str) -> dict[str, int]:
@@ -998,33 +1004,64 @@ def _columnas_de_llave(bloque: str) -> dict[str, int]:
     return orden
 
 
+def _fechas_del_titulo(titulo: str) -> list[tuple[int, int]]:
+    """Los (dia, mes) que nombra el titulo, en orden y sin repetir.
+
+    Se juntan las dos escrituras porque el corpus usa las dos y a veces mezcla:
+    "21/11 - 28/11" y "28 de abril al 9 de mayo". Las listas -- "22, 26 y 27 de
+    mayo" -- se expanden a sus tres dias, que es justo lo que hace falta para
+    saber que son TRES y no dos.
+    """
+    fuera: list[tuple[int, int]] = []
+    for m in _FECHA_BARRAS.finditer(titulo):
+        fuera.append((int(m.group(1)), int(m.group(2))))
+    for m in _FECHA_DE_MES.finditer(titulo):
+        mes_txt = unicodedata.normalize("NFKD", m.group(1).lower()) \
+            .encode("ascii", "ignore").decode()
+        mes = MESES.get(mes_txt)
+        if not mes:
+            continue
+        # El trozo entero, para recuperar los dias de la lista que el grupo
+        # repetido pisa: re guarda solo la ultima repeticion.
+        for d in _DIA_SUELTO.findall(m.group(0).split(" de ")[0]):
+            fuera.append((int(d), mes))
+    return list(dict.fromkeys(f for f in fuera if 1 <= f[0] <= 31 and 1 <= f[1] <= 12))
+
+
 def _fechas_de_llave(titulo: str, anio: int, anio_fin: int | None,
                      mes_inicio: int) -> tuple[str, str]:
-    """Las dos fechas del titulo, o vacias. El anio se decide por el mes, igual que
-    en `a_iso`: una temporada que cruza el calendario pone su segunda mitad en
-    `anio_fin`."""
+    """La fecha de la ida y la de la vuelta, o dos vacias.
+
+    SOLO cuando el titulo nombra EXACTAMENTE DOS. Con dos, la pagina esta diciendo
+    en que dia se jugo cada pata y no hay nada que deducir. Con tres o mas --
+    "Tercera fase - 22, 26 y 27 de mayo" -- los partidos se repartieron entre esos
+    dias y la tabla no dice cual le toco a cada llave: poner la primera y la
+    ultima seria escribir una fecha que la fuente no da, para la mitad de las
+    filas. Prefiero dejarlas sin fecha y que el aviso lo diga.
+    """
+    fs = _fechas_del_titulo(titulo)
+    if len(fs) != 2:
+        return "", ""
+
     def iso(dia, mes):
-        if not (1 <= mes <= 12 and 1 <= dia <= 31):
-            return ""
         y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin
         return f"{y}-{mes:02d}-{dia:02d}"
 
-    if m := _RANGO_BARRAS.search(titulo):
-        d1, m1, d2, m2 = (int(x) for x in m.groups())
-        return iso(d1, m1), iso(d2, m2)
-    if m := _RANGO_AL.search(titulo):
-        mes_txt = unicodedata.normalize("NFKD", m.group(3).lower()) \
-            .encode("ascii", "ignore").decode()
-        mes = MESES.get(mes_txt)
-        if mes:
-            return iso(int(m.group(1)), mes), iso(int(m.group(2)), mes)
-    return "", ""
+    return iso(*fs[0]), iso(*fs[1])
 
 
 def _sin_el_rango(titulo: str) -> str:
-    """El titulo sin las fechas: lo que queda nombra la ronda."""
-    t = _RANGO_AL.sub("", _RANGO_BARRAS.sub("", titulo))
-    return re.sub(r"\s*[-–]\s*$", "", t.strip(" -–")).strip()
+    """El titulo sin las fechas: lo que queda nombra la ronda.
+
+    Se limpia SIEMPRE, aunque las fechas no se hayan podido usar. Son dos cosas
+    distintas y confundirlas cuesta caro: "Tercera fase - 22, 26 y 27 de mayo" no
+    se puede fechar, pero su ronda es "Tercera fase", que `parser.RONDAS` conoce
+    -- y con el rango pegado no la reconoce nadie y la pagina entera se queda sin
+    revisar la cadena de llaves.
+    """
+    t = _FECHA_DE_MES.sub("", _FECHA_BARRAS.sub("", titulo))
+    t = re.sub(r"\s*(?:al|y|,)\s*$", "", t.strip(), flags=re.I)
+    return re.sub(r"\s*[-–]\s*$", "", t.strip(" -–")).strip(" -–,").strip()
 
 
 def partidos_de_llave(bloque: str, anio: int, torneo: str,
@@ -1360,7 +1397,11 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
 # entre abril y julio, con dias compartidos).
 # En orden, de la mas lejana a la final. El ascenso agrega las "fases" del
 # torneo reducido, que van antes de las semis.
-RONDAS = ("Primera fase", "Segunda fase", "Tercera fase",
+# La lista se cortaba en "Tercera fase" y hay torneos con una cuarta: el
+# Argentino A 2011-12 y 2012-13 y el Federal A 2021 la juegan. Sin ese escalon
+# la pagina entera se queda sin revisar la cadena de llaves, que es lo que
+# `_por_ronda` hace -- bien -- apenas una etiqueta no esta.
+RONDAS = ("Primera fase", "Segunda fase", "Tercera fase", "Cuarta fase",
           "Treintaidosavos", "Dieciseisavos", "Octavos", "Cuartos",
           "Semifinales", "Final")
 

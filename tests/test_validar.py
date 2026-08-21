@@ -556,3 +556,38 @@ def test_interzonal_sigue_sin_contar_como_zona():
                   goles_local=1, goles_visita=0, fase="zonas", zona="Interzonal",
                   jornada="Fecha 2", llave="")]
     assert validar.una_zona_por_club(ps) == []
+
+
+def test_el_que_nunca_jugo_no_perdio_nada():
+    """Un club que aparece por primera vez en una ronda no viene de la anterior, y
+    eso NO es un error: los cuadros reciben gente de afuera por diseño.
+
+    En un reducido, el que termina mejor en la tabla entra directo en semifinales;
+    en una Reválida entran los que perdieron en la otra llave -- el Argentino A
+    2004-05 lo dice en su propia fuente, "losers enter Round 2 Zona Revalida".
+    Acusarlos daba 30 avisos falsos sobre datos correctos.
+
+    Lo que SI es un error es el que jugó antes y sigue jugando sin haber ganado.
+    """
+    from fad.dataset import Partido
+
+    def p(ronda, local, visita, gl, gv, fecha):
+        return Partido(fecha=fecha, hora="", local=local, visita=visita,
+                       goles_local=gl, goles_visita=gv, penales_local=None,
+                       penales_visita=None, torneo="T", fase="eliminacion", zona="",
+                       jornada=ronda, llave="Reducido", estadio="", status="")
+
+    ps = [p("Primera fase", "A", "B", 2, 0, "2024-11-01"),
+          # C nunca jugó la primera fase: entró sembrado en semifinales.
+          p("Semifinales", "A", "C", 1, 0, "2024-11-08"),
+          # Y D entra sembrado en la final, que es lo que hace un torneo cuando el
+          # campeón de la otra mitad ya estaba clasificado.
+          p("Final", "A", "D", 1, 0, "2024-11-15")]
+    avisos = [str(a) for a in validar.cadena_de_llaves(ps)]
+    assert not any("sin haber ganado la anterior" in a for a in avisos), avisos
+    assert any("entran al cuadro sin venir de la ronda anterior" in a for a in avisos)
+
+    # Y B, que jugó y perdió, sí se denuncia si reaparece.
+    ps.append(p("Semifinales", "B", "C", 0, 1, "2024-11-08"))
+    avisos = [str(a) for a in validar.cadena_de_llaves(ps)]
+    assert any("sin haber ganado la anterior" in a and "B" in a for a in avisos), avisos
