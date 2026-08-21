@@ -20,7 +20,6 @@ reales, no estimados.
 - **27 partidos del Argentino A 2012-13 entran sin fecha.** RSSSF no publica esa fase partido a partido, y donde el cruce queda ambiguo el chequeo se niega a fechar en vez de adivinar. Necesitan una fuente de afuera, igual que las 4 tablas que no cierran.
 
 - **El chequeo de la cadena de llaves está apagado en 31 páginas.** Son 38 avisos de *no se pudo revisar el cuadro de eliminación*, y siguen siendo el bloque más grande. `validar._por_ronda` devuelve `None` —y hace bien, no adivina— apenas UNA jornada de eliminación no está en `parser.RONDAS`, y con eso el cuadro entero se queda sin revisar. Lo ya destrabado: los cuatro ordinales escritos «ronda» en vez de «fase» (medido: **ninguna** de las 136 páginas usa las dos formas del mismo ordinal), la `Cuarta fase` que le faltaba a `RONDAS`, y los rótulos de las tablas de llaves que traían el rango de fechas pegado. Lo que queda son tres familias que **no** se arreglan con vocabulario:
-- **1991 al Clausura 1997: 2.270 partidos sin una sola fecha.** Las 13 temporadas que sí traían fecha ya entraron (Apertura 1997 a Clausura 2003, **2.469 partidos**, cero graves). Las que quedan están cacheadas y parsean igual de bien —190 por temporada, 20 clubes todos contra todos— pero sus tablas **no publican la fecha de ningún partido**, y una fila sin fecha no se escribe. Necesitan una segunda fuente: RSSSF publica Primera de esos años. El Clausura 1997 está de ese lado (10 de 190 con fecha) y `Anexo:Torneo Clausura 1991` es un stub de 83 bytes. Falta también **Huracán Corrientes** en el padrón, que es el único club de verdad que esos años traen y que no está.
   - **2.479 traen fecha** (desde el Apertura 1997) y entrarían hoy: el dataset pasaría de 41.217 a **43.696**.
   - **2.270 no traen fecha** (1991 al Clausura 1997) y quedarían afuera, porque el repo no escribe una fila sin fecha. Necesitan una segunda fuente; RSSSF publica Primera de esos años.
   El padrón casi no sufre: de los 4.749 partidos salen **tres** nombres que no conoce, y dos no son clubes nuevos — `Deportivo Maniyú` es un error de tipeo de la página por `Deportivo Mandiyú`, que el padrón ya tiene, y `Gimnasia J)` es markup roto. El único club de verdad que falta es **Huracán Corrientes**. Y `Anexo:Torneo Clausura 1991` está vacío (83 bytes).
@@ -29,24 +28,30 @@ reales, no estimados.
   - **vacío**, en 38 partidos.
 - **Las cuatro fases finales que sólo existen como cuadro.** Eran cinco: el lector de tablas de llaves destrabó entera la del `Argentino A 2012-13`, que hoy no deja ningún aviso y aporta 29 partidos de eliminación. Quedan Primera C 2008-09 y 2011-12 y Argentino A 2005-06 y 2011-12, y están *bloqueadas*, no pendientes: la sección de la fase final —«Torneo reducido», «Segunda fase», «Quinta y sexta fase»— trae el cuadro y nada que diga la localía. Y un cuadro no la sabe, medido: la convención *arriba es local en la ida* acierta 55.6% contra 761 patas donde la grilla sí lo dice, así que escribir esas filas sería inventársela a la mitad. Necesitan una fuente de afuera, igual que las 4 tablas que no cierran. Ojo con una trampa: buscarlas por par+marcador da falsos positivos, porque esos clubes también se cruzaron en la liga y los marcadores bajos se repiten.
 
-## 1997–2003 — Lo próximo
+## 1997–2003 — Cerrado
 
-**2 478 partidos, y casi gratis**
+**2 469 partidos, y salieron casi gratis**
 
-Las páginas `Anexo:Torneo Apertura/Clausura AAAA (Argentina)` tienen los resultados completos: `190` partidos por torneo. Medido de punta a punta, falta **un solo club** en el padrón.
+Las páginas `Anexo:Torneo Apertura/Clausura AAAA (Argentina)` traen los resultados completos —`190` por torneo, que es veinte clubes todos contra todos— y el parser ya las leía **sin un solo cambio**. Entraron 13 temporadas, del Apertura 1997 al Clausura 2003, con cero graves.
 
-- Agregar las 14 entradas al catálogo, Apertura y Clausura de 1997 a 2003.
-- Sumar **Huracán Corrientes** al padrón.
-- **Hueco:** el Clausura 1997 devuelve `9` partidos en vez de 190. Averiguar si la página está incompleta o si el torneo se anota en otro lado.
+- **Sumar Huracán Corrientes al padrón.** Es el único club de verdad que estos años traen y que no está. Los otros dos nombres desconocidos no son clubes: `Deportivo Maniyú` es la página escribiendo mal `Deportivo Mandiyú`, que ya está, y `Gimnasia J)` es markup roto.
 
-## 1991–1996 — Muro
+Eran 14 y entraron 13: el Clausura 1997 cae del otro lado de la línea de las fechas y se fue con la capa de abajo.
 
-Verificado en las trece temporadas de 1991 a 2003: las páginas existen y tienen entre 18k y 36k de wikitexto, pero **ninguna trae una sección de resultados**. Sólo posiciones, promedios y descensos.
+## 1991–1996 — Lo próximo
 
-De 1997 en adelante zafamos porque los torneos tienen su propia página aparte. De 1996 para atrás, no.
+**Los partidos están; lo que falta es la fecha**
 
-- Fuente candidata: planillas de la AFA, *Torneos y Certámenes Oficiales 1990-91 … 1994-95*.
-- **Hueco sin fuente:** **1995-96 y 1996-97** no están en la biblioteca de la AFA, que corta en 1994-95.
+Esta sección decía «acá se termina Wikipedia» y **estaba equivocada**. Afirmaba que ninguna página de estos años trae sección de resultados, y eso vale para las de temporada pero no para los anexos: el `Anexo:Torneo Apertura 1993` da `190` partidos, 20 clubes con **ninguno desconocido** y 19 fechas de diez exactas. Un todos contra todos perfecto.
+
+Son **2 280** partidos que ya parsean, y **2 270** de ellos **no traen una sola fecha**. Una fila sin fecha no se escribe, así que quedan afuera hasta conseguir de dónde fecharlos.
+
+- **RSSSF publica Primera de estos años.** Es el mismo mecanismo que fechó cinco temporadas del Argentino A esta semana, y la fuente ya está acreditada en el repo.
+- El **Clausura 1997** entra acá: de sus 190 partidos, 10 traen fecha.
+- **Hueco:** `Anexo:Torneo Clausura 1991` es un stub de 83 bytes. Ese torneo hay que buscarlo en otro lado.
+- Fuente candidata para lo que no cubra RSSSF: planillas de la AFA, *Torneos y Certámenes Oficiales 1990-91 … 1994-95*.
+
+El muro se corrió: ya no es «no hay datos» sino «no hay fechas», que es un problema con solución conocida.
 
 ## 1985–1990 — Muro
 
