@@ -480,12 +480,12 @@ MUTANTES = [
      "        if False:"),
 
     ("build.py", "consultar la segunda fuente para todos los torneos",
-     "    avisos = _completar_fechas(ps, t) if t.wf else []",
-     "    avisos = _completar_fechas(ps, t) if True else []"),
+     "    avisos += _completar_fechas(ps, t) if t.wf else []",
+     "    avisos += _completar_fechas(ps, t) if True else []"),
 
     ("build.py", "no completar las fechas de la segunda fuente",
-     "    avisos = _completar_fechas(ps, t) if t.wf else []",
-     "    avisos = []"),
+     "    avisos += _completar_fechas(ps, t) if t.wf else []",
+     "    avisos += []"),
 
     ("build.py", "frenar el build entero si la segunda fuente esta caida",
      '            f"{e}. Los partidos quedan sin fecha y no entran al dataset", grave=False)]',
@@ -910,15 +910,17 @@ MUTANTES = [
      "            continue" + chr(10) + "        pj, suyo = datos[0], tuple(datos[3:6])"),
 
     ("fad/correcciones.py", "no denunciar la verificacion que caduco",
-     "        if r.pagina != pagina or r.club in desviados:", "        if True:"),
+     "        if r.pagina != pagina:\n            continue",
+     "        if True:\n            continue"),
 
     ("fad/correcciones.py", "dar por huerfano al que si engancha",
-     "        if r.pagina != pagina or r.club in desviados:",
-     "        if r.pagina != pagina:"),
+     "        elif r.club in desviados:\n            continue",
+     "        elif False:\n            continue"),
 
     ("fad/posiciones.py", "preguntar por los desvios ya filtrados por revisado",
-     "            if club not in propios or propios[club][0] != datos[0]:",
-     "            if club not in propios or propios[club][0] != datos[0] or correcciones.revisado(pagina, club):"),
+     "            if club not in propios:\n                continue",
+     "            if club not in propios or correcciones.revisado(pagina, club):"
+     "\n                continue"),
 
     # --- el resaltado contra la tabla ---
     ("fad/posiciones.py", "publicar la acusacion que la tabla ya contesto",
