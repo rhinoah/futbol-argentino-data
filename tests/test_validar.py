@@ -355,6 +355,37 @@ def test_un_cuadro_de_una_sola_ronda_no_es_una_cadena_salteada():
     assert validar.cadena_de_llaves(una) == []
 
 
+def test_llaves_en_paralelo_se_nombran_en_vez_de_llamarse_cuadro():
+    """"Promocion 1" y "Promocion 2" son dos promociones distintas, no dos rondas
+    de un cuadro. Se sabe sin mirar el titulo: no comparten ningun club, o sea que
+    nadie avanzo de una a la otra.
+
+    Va con aviso y no callado -- al reves que el cuadro de una sola ronda -- porque
+    aca la falta de cadena se midio en vez de saberse de antemano: el dia que el
+    parser parta mal un cuadro de verdad, se va a ver exactamente asi.
+    """
+    aparte = [llave("Boca", "River", 1, 0, "2026-05-01", ronda="Promoción 1"),
+              llave("Boca", "River", 2, 0, "2026-05-08", ronda="Promoción 1"),
+              llave("Colón", "Tigre", 1, 0, "2026-05-02", ronda="Promoción 2"),
+              llave("Colón", "Tigre", 0, 3, "2026-05-09", ronda="Promoción 2")]
+    avisos = validar.cadena_de_llaves(aparte)
+    assert len(avisos) == 1
+    assert "no es una cadena" in avisos[0].que
+    assert not avisos[0].grave
+
+
+def test_un_club_repetido_alcanza_para_que_sea_cadena():
+    """El testigo de la regla de al lado: si una ronda comparte aunque sea UN club
+    con otra, alguien avanzo y la cadena existe -- lo que no se puede es ordenarla,
+    y eso ya tiene su propio aviso."""
+    encadenadas = [llave("Boca", "River", 1, 0, "2026-05-01", ronda="Promoción 1"),
+                   llave("Boca", "River", 2, 0, "2026-05-08", ronda="Promoción 1"),
+                   llave("Boca", "Tigre", 1, 0, "2026-05-02", ronda="Promoción 2"),
+                   llave("Boca", "Tigre", 0, 3, "2026-05-09", ronda="Promoción 2")]
+    avisos = validar.cadena_de_llaves(encadenadas)
+    assert len(avisos) == 1 and "salteo" in avisos[0].detalle
+
+
 def test_cadena_con_muy_pocos_partidos_no_dice_nada():
     assert validar.cadena_de_llaves([llave("Boca", "River", 1, 0, "2026-05-01")]) == []
 

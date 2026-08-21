@@ -472,6 +472,26 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
         # con algo que no es un nombre de ronda ("Promocion", "Partidos", vacio).
         if len({p.jornada for p in elim}) < 2:
             return []
+        # NI TAMPOCO EL QUE SON VARIAS LLAVES EN PARALELO. En una cadena el que gana
+        # sigue, asi que dos rondas seguidas comparten por lo menos un club. Si
+        # NINGUN par de rondas comparte a nadie, nadie avanzo de una a otra: no se
+        # siguen, son eliminatorias independientes bajo un mismo titulo. Pasa en las
+        # promociones ("Promocion 1" y "Promocion 2" son dos promociones distintas,
+        # no dos rondas) y son diez llaves del corpus.
+        #
+        # Va con aviso y no callado, al reves que el caso de una sola ronda: aca la
+        # falta de cadena es algo que se midio, no algo que se sabe de antemano, y
+        # el dia que el parser parta mal un cuadro de verdad se va a ver asi.
+        clubes = {}
+        for x in elim:
+            clubes.setdefault(x.jornada, set()).update({x.local, x.visita} - {""})
+        rondas = sorted(clubes)
+        if not any(clubes[a] & clubes[b]
+                   for i, a in enumerate(rondas) for b in rondas[i + 1:]):
+            return [Aviso("el cuadro no es una cadena",
+                          f"sus {len(rondas)} rondas no comparten ningun club, asi "
+                          "que son llaves independientes y no hay cadena que revisar",
+                          grave=False)]
         return [Aviso("no se pudo revisar el cuadro de eliminacion",
                       "hay partidos sin ronda reconocida; el chequeo se salteo",
                       grave=False)]

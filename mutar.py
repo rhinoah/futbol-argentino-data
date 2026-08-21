@@ -832,8 +832,10 @@ MUTANTES = [
      "        ganadores = {p.local for p in previa} | {p.visita for p in previa}"),
 
     ("fad/validar.py", "saltear el chequeo del cuadro calladito",
-     "        if len({p.jornada for p in elim}) < 2:\n            return []\n        return [Aviso(",
-     "        if True:\n            return []\n        return [Aviso("),
+     '        return [Aviso("no se pudo revisar el cuadro de eliminacion",\n'
+     '                      "hay partidos sin ronda reconocida; el chequeo se salteo",\n'
+     "                      grave=False)]",
+     "        return []"),
 
     # La regla de al lado tiene su propio mutante porque es una excepcion, y una
     # excepcion mal puesta se come al chequeo entero: con "< 1" no se cumple nunca
@@ -841,6 +843,17 @@ MUTANTES = [
     ("fad/validar.py", "una sola ronda tampoco se libra del aviso",
      "if len({p.jornada for p in elim}) < 2:",
      "if len({p.jornada for p in elim}) < 1:"),
+
+    # El guard de las llaves paralelas, de los dos lados: si nunca se cumple vuelve
+    # el aviso equivocado en diez llaves, y si se cumple siempre se come al aviso
+    # que si corresponde en las diecinueve que quedan.
+    ("fad/validar.py", "ninguna llave es paralela",
+     "        if not any(clubes[a] & clubes[b]",
+     "        if False and any(clubes[a] & clubes[b]"),
+
+    ("fad/validar.py", "todas las llaves son paralelas",
+     "        if not any(clubes[a] & clubes[b]",
+     "        if True or any(clubes[a] & clubes[b]"),
 
     ("fad/dataset.py", "escribir siempre neutral=false",
      '"neutral": str(neutral if p.neutral is None else p.neutral).lower()',
