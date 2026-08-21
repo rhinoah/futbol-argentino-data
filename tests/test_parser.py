@@ -1700,3 +1700,105 @@ def test_y_si_no_hay_seccion_de_torneo_antes_la_llave_queda_vacia():
     """Vacio es lo honesto: mejor sin llave que con una inventada."""
     texto = "== Goleadores ==\n\n=== Etapa eliminatoria ==\n\nAQUI\n"
     assert parser._contexto(texto.index("AQUI"), 3, texto) == ""
+
+
+# --- la tabla de llaves de dos patas -------------------------------------
+
+_LLAVE_2004 = """{| cellspacing="0" width=100%
+|+ align="center" style="background: #006699"|'''Tercera ronda 8/12 - 12/12'''
+|- bgcolor=#006699
+!width=24%|Local - Ida
+!width=24%|Local - Vuelta
+!Ida
+!Vuelta
+|- align=center
+| Gimnasia y Tiro (S)
+|  '''Atlético (T)'''
+|4 - 0
+|2<small>(2)</small> - 6<small>(4)</small>
+|}"""
+
+# El mismo formato con OTRO orden y una columna de mas, que es como lo escriben
+# el Argentino A 2011-12 y el 2012-13.
+_LLAVE_2011 = """{| cellspacing="0" width=70%
+|+ align="center" style="background: #dcdcdc"|'''Reválida - Segunda ronda - 22 al 29 de abril'''
+|- bgcolor=#dcdcdc
+!width=22%|Local - Vuelta
+!width=10%|Global
+!width=22%|Local - Ida
+!width=10%|Ida
+!width=10%|Vuelta
+|- align=center
+|align=right| Cipolletti
+|2 - 4
+|align=left| '''Libertad (Sunchales)'''
+|0 - 2
+|2 - 2
+|}"""
+
+
+def test_una_llave_de_dos_patas_da_dos_partidos_con_su_localia_cruzada():
+    """La localia no esta en la celda: esta en el SIGNIFICADO de la columna.
+
+    Una columna dice quien fue local en la ida y otra quien lo fue en la vuelta,
+    asi que los dos partidos salen de la misma fila cruzados. Leerla como una
+    tabla comun le daria la localia al mismo club las dos veces, que es un error
+    que no rompe nada y miente en silencio.
+    """
+    ps = parser.partidos_de_llave(_LLAVE_2004, 2004, "Torneo Argentino A",
+                                  anio_fin=2005)
+    assert [(p.local, p.visita) for p in ps] == [
+        ("Gimnasia y Tiro (S)", "Atlético (T)"),
+        ("Atlético (T)", "Gimnasia y Tiro (S)")]
+    assert [p.fecha for p in ps] == ["2004-12-08", "2004-12-12"]
+    assert [p.jornada for p in ps] == ["Tercera ronda"] * 2
+
+
+def test_el_marcador_va_en_el_orden_de_las_columnas_y_no_local_visitante():
+    """Las dos celdas dicen "goles del club de la izquierda - goles del otro".
+
+    En la pata donde ese club es VISITANTE hay que darlas vuelta, y no es un
+    detalle: sin eso, esta misma llave entra como "Atletico Tucuman 2-6 con
+    penales 2-4", un partido con penales que no fue empate. Dada vuelta cierra
+    sola -- la vuelta fue 6-2, el global 6-6 -- y ademas coincide con quien la
+    pagina pone en negrita, que es el que paso.
+    """
+    ida, vuelta = parser.partidos_de_llave(_LLAVE_2004, 2004, "Torneo Argentino A",
+                                           anio_fin=2005)
+    assert (ida.goles_local, ida.goles_visita) == (4, 0)
+    assert (vuelta.goles_local, vuelta.goles_visita) == (6, 2)
+    assert (vuelta.penales_local, vuelta.penales_visita) == (4, 2)
+    assert ida.penales_local is None
+
+
+def test_las_columnas_se_leen_del_encabezado_y_no_por_su_posicion():
+    """El 2004-05 ordena `Local - Ida | Local - Vuelta | Ida | Vuelta` y el
+    2011-12 pone cinco columnas al reves. Leyendo por posicion, los marcadores
+    entraban como nombres de club y tres temporadas se llenaban de clubes que no
+    existen."""
+    ps = parser.partidos_de_llave(_LLAVE_2011, 2011, "Torneo Argentino A",
+                                  anio_fin=2012)
+    assert [(p.local, p.visita, p.goles_local, p.goles_visita) for p in ps] == [
+        ("Libertad (Sunchales)", "Cipolletti", 2, 0),
+        ("Cipolletti", "Libertad (Sunchales)", 2, 2)]
+    # El global que publica la propia tabla, 2-4 a favor de Libertad, tiene que
+    # salir de sumar las dos patas.
+    assert sum(p.goles_visita if p.local == "Libertad (Sunchales)" else p.goles_local
+               for p in ps) == 2
+    assert [p.fecha for p in ps] == ["2012-04-22", "2012-04-29"]
+
+
+def test_una_tabla_comun_con_columna_global_no_se_desvia_al_lector_de_llaves():
+    """`Ida`, `Vuelta` y `Global` son nombres de columna que aparecen tambien en
+    tablas normales. Si el desvio se decidiera por el encabezado y no por lo que
+    el lector devuelve, un `continue` de mas se llevaria sus partidos sin avisar."""
+    tabla = """{| class="wikitable"
+!Local
+!Global
+!Visitante
+|-
+|Boca Juniors
+|1 - 0
+|River Plate
+|}"""
+    assert parser.partidos_de_llave(tabla, 2024, "Primera") == []

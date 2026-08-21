@@ -307,6 +307,13 @@ ASCENSO_HISTORICO = [
     # que dio cero partidos --. RSSSF si los tiene, y `source` lo dice fila por
     # fila. La tabla de posiciones de Wikipedia sigue estando, asi que estas filas
     # pasan por el mismo cruce que todas las demas.
+    # La mas flaca del corpus, y a proposito: de su fase de grupos Wikipedia
+    # publica los resultados de UNA sola zona -- la Norte del Apertura -- y de las
+    # otras siete nada mas que las tablas. RSSSF tampoco los tiene: su archivo trae
+    # las tablas finales y las llaves, no la grilla. Asi que lo que entra son las
+    # llaves de las dos Revalidas, las dos fases finales, la permanencia y las
+    # promociones, mas esa unica zona. No se inventa el resto; queda anotado.
+    Torneo('Torneo Argentino A 2004-05', 'Torneo Argentino A', 2004, anio_fin=2005),
     Torneo('Torneo Argentino A 2006-07', 'Torneo Argentino A', 2006,
            anio_fin=2007, rsssf='arg3-int07', sin_grilla=True),
     # La tercera sin grilla, y la que enseño a no dar por buena la analogia con la

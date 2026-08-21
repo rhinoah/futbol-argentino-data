@@ -965,6 +965,144 @@ def _zonas_ambiguas(texto: str) -> frozenset[str]:
     return frozenset(z for z, s in donde.items() if len(s) > 1)
 
 
+
+# Una TABLA DE LLAVES DE DOS PATAS declara sus columnas por nombre: `Local - Ida`,
+# `Local - Vuelta`, `Ida`, `Vuelta` y a veces `Global`. Se reconoce por el par de
+# encabezados de localia, que es lo unico que tienen todas.
+_COL_DE_LLAVE = re.compile(r"^!\s*(?:[^|\n]*\|)?\s*"
+                           r"(Local\s*-\s*(?:Ida|Vuelta)|Ida|Vuelta|Global)\s*$",
+                           re.M | re.I)
+_TITULO_DE_LLAVE = re.compile(r"\|\+[^|]*\|\s*'''\s*(.*?)\s*'''")
+# Las dos formas en que el titulo escribe el rango: "21/11 - 28/11" y
+# "22 al 29 de abril".
+_RANGO_BARRAS = re.compile(r"(\d{1,2})\s*/\s*(\d{1,2})\s*[-–]\s*(\d{1,2})\s*/\s*(\d{1,2})")
+_RANGO_AL = re.compile(r"(\d{1,2})\s*al\s*(\d{1,2})\s*de\s+([a-záéíóúñ]+)", re.I)
+# "0 (5) - 0 (3)": el marcador de una pata, con los penales si los hubo. Se matchea
+# despues de `limpiar`, que deja los parentesis y se lleva el `<small>`.
+_PATA = re.compile(r"^(\d+)(?:\((\d+)\))?[-–](\d+)(?:\((\d+)\))?$")
+
+
+def _columnas_de_llave(bloque: str) -> dict[str, int]:
+    """Que columna es cada cosa, LEIDO DEL ENCABEZADO y no supuesto por la posicion.
+
+    Hace falta y se aprendio rompiendolo: el Argentino A 2004-05 ordena
+    `Local - Ida | Local - Vuelta | Ida | Vuelta`, pero el 2011-12 y el 2012-13
+    ponen cinco columnas y en otro orden -- `Local - Vuelta | Global | Local - Ida |
+    Ida | Vuelta` --. Leyendo por posicion, los marcadores entraban como nombres de
+    club y las tres temporadas se llenaban de clubes inexistentes.
+    """
+    orden = {}
+    for k, m in enumerate(_COL_DE_LLAVE.finditer(bloque)):
+        clave = re.sub(r"\s+", " ", m.group(1).strip().lower())
+        orden.setdefault(clave, k)
+    return orden
+
+
+def _fechas_de_llave(titulo: str, anio: int, anio_fin: int | None,
+                     mes_inicio: int) -> tuple[str, str]:
+    """Las dos fechas del titulo, o vacias. El anio se decide por el mes, igual que
+    en `a_iso`: una temporada que cruza el calendario pone su segunda mitad en
+    `anio_fin`."""
+    def iso(dia, mes):
+        if not (1 <= mes <= 12 and 1 <= dia <= 31):
+            return ""
+        y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin
+        return f"{y}-{mes:02d}-{dia:02d}"
+
+    if m := _RANGO_BARRAS.search(titulo):
+        d1, m1, d2, m2 = (int(x) for x in m.groups())
+        return iso(d1, m1), iso(d2, m2)
+    if m := _RANGO_AL.search(titulo):
+        mes_txt = unicodedata.normalize("NFKD", m.group(3).lower()) \
+            .encode("ascii", "ignore").decode()
+        mes = MESES.get(mes_txt)
+        if mes:
+            return iso(int(m.group(1)), mes), iso(int(m.group(2)), mes)
+    return "", ""
+
+
+def _sin_el_rango(titulo: str) -> str:
+    """El titulo sin las fechas: lo que queda nombra la ronda."""
+    t = _RANGO_AL.sub("", _RANGO_BARRAS.sub("", titulo))
+    return re.sub(r"\s*[-–]\s*$", "", t.strip(" -–")).strip()
+
+
+def partidos_de_llave(bloque: str, anio: int, torneo: str,
+                      anio_fin: int | None = None,
+                      mes_inicio: int = MES_INICIO_HABITUAL,
+                      llave: str = "") -> list[Partido]:
+    """Los dos partidos de cada fila de una tabla de llaves de ida y vuelta.
+
+    Es un formato que quedaba entero afuera, y no por un descuido:
+    `_es_tabla_de_partidos` mira el encabezado y este no declara `Local`,
+    `Resultado` y `Visitante`. La guarda hacia bien su trabajo -- no ES una tabla
+    de partidos, es una tabla de LLAVES --, solo que nadie habia escrito el otro
+    lector. Son 54 llaves en cuatro paginas del Argentino A (2004-05, 2010-11,
+    2011-12 y 2012-13).
+
+    LO QUE LA HACE DISTINTA es que la localia no esta en la celda: esta en el
+    SIGNIFICADO de la columna. Una dice quien fue local en la ida y otra quien lo
+    fue en la vuelta, asi que los dos partidos de una llave salen de la misma fila
+    CRUZADOS. Leerla como una tabla comun le daria la localia al mismo club las dos
+    veces y perderia la mitad de las localias, que es la clase de error que no
+    rompe nada y miente en silencio.
+
+    Las negritas marcan al que paso, no al local, asi que se limpian y no se usan:
+    quien fue local ya lo dice la columna.
+    """
+    col = _columnas_de_llave(bloque)
+    if "local - ida" not in col or "local - vuelta" not in col:
+        return []
+    salida: list[Partido] = []
+    tit = _TITULO_DE_LLAVE.search(bloque)
+    titulo = tit.group(1) if tit else ""
+    ronda = _sin_el_rango(titulo)
+    f_ida, f_vuelta = _fechas_de_llave(titulo, anio, anio_fin, mes_inicio)
+    for fila in re.split(r"\n\|-", bloque)[1:]:
+        # `_celda` y no `limpiar` a secas: la celda puede traer sus atributos
+        # pegados -- `|align=left| Central Norte` --, y sin sacarlos el nombre
+        # del club entra con el `align=left|` adelante y no lo reconoce nadie.
+        celdas = [_celda(c)[1].replace("'''", "").strip() for c in _partir(fila)]
+        if len(celdas) <= max(col.values()):
+            continue
+
+        def dame(clave):
+            i = col.get(clave)
+            return celdas[i] if i is not None and i < len(celdas) else ""
+
+        # LOS DOS MARCADORES VAN EN EL ORDEN DE LAS COLUMNAS DE EQUIPO, no en
+        # orden local-visitante. O sea que las dos celdas se leen "goles del club
+        # de la columna izquierda - goles del otro", y en la pata donde ese club
+        # es visitante hay que darlos vuelta.
+        #
+        # Se aprendio rompiendolo, y lo delato el propio repo: leyendo las dos
+        # patas como local-visitante aparecian cinco partidos "con penales sin
+        # haber empatado" -- Atletico Tucuman 2-6 con penales 2-4 --, que es
+        # imposible. Dados vuelta cierran solos: la vuelta fue 6-2, el global 6-6
+        # y de ahi los penales. Y ademas coincide con quien la pagina pone en
+        # negrita, que es el que paso.
+        izq = min(col["local - ida"], col["local - vuelta"])
+        t1 = celdas[izq]
+        a, b = dame("local - ida"), dame("local - vuelta")
+        for local, cruda, fecha in ((a, dame("ida"), f_ida),
+                                    (b, dame("vuelta"), f_vuelta)):
+            visita = b if local == a else a
+            m = _PATA.match(re.sub(r"\s+", "", cruda))
+            if not m or not local or not visita:
+                continue
+            g1, p1, g2, p2 = (m.group(1), m.group(2), m.group(3), m.group(4))
+            if local != t1:                      # el de la izquierda es el visitante
+                g1, p1, g2, p2 = g2, p2, g1, p1
+            salida.append(Partido(
+                fecha=fecha, hora="", local=local, visita=visita,
+                goles_local=int(g1), goles_visita=int(g2),
+                penales_local=int(p1) if p1 else None,
+                penales_visita=int(p2) if p2 else None,
+                torneo=torneo, fase="eliminacion", zona="", jornada=ronda,
+                llave=llave, estadio="", status=""))
+    return salida
+
+
 def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None = None,
                       mes_inicio: int = MES_INICIO_HABITUAL,
                       zona_defecto: str = "", llave: str = "",
@@ -1658,7 +1796,27 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
     ya = {(p.fecha, p.local, p.visita, p.goles_local, p.goles_visita)
           for p in zonas + llaves}
     for pos, tabla in _tablas(texto):
-        if any(ini <= pos < fin for ini, fin in leido) or not _es_tabla_de_partidos(tabla):
+        if any(ini <= pos < fin for ini, fin in leido):
+            continue
+        # Una tabla de llaves de dos patas tiene su propio lector: cada fila son
+        # DOS partidos y la localia sale de la columna, no de la celda.
+        #
+        # Se desvia solo si el lector DEVUELVE algo. Preguntarle al encabezado y
+        # cortar ahi seria mas directo y estaria mal: `Ida`, `Vuelta` y `Global`
+        # son nombres de columna que aparecen tambien en tablas comunes, y un
+        # `continue` de mas se lleva sus partidos sin decir nada.
+        de_llave = (partidos_de_llave(tabla, anio, torneo, anio_fin, mes_inicio,
+                                      llave=_contexto(pos, 3, texto))
+                    if _COL_DE_LLAVE.search(tabla) else [])
+        if de_llave:
+            for p in de_llave:
+                k = (p.fecha, p.local, p.visita, p.goles_local, p.goles_visita)
+                if k in ya:
+                    continue
+                ya.add(k)
+                zonas.append(p)
+            continue
+        if not _es_tabla_de_partidos(tabla):
             continue
         # `fuera_de_la_liga` no se fuerza: se PREGUNTA. Estas tablas suelen ser
         # de reducidos y promociones, y por eso el default era True -- pero hay

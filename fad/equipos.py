@@ -262,6 +262,9 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Libertad (S)", alias=("Libertad", "Libertad (Sunchales)")),
     Equipo("Liniers (BB)"),
     Equipo("Rivadavia (L)", alias=("Rivadavia (Lincoln)",)),
+    # Punta Alta, Buenos Aires. Lo trae el Argentino A 2004-05 y no estaba: sin
+    # el, su fila de la tabla y sus partidos quedaban sin club.
+    Equipo("Rosario Puerto Belgrano", alias=("Rosario Puerto Belgrano (PA)",)),
     # "San Jorge (S)" NO es un club: es "San Jorge (T)" con la letra equivocada en
     # 2 de sus 16 partidos del Federal A 2016-17 (la pagina enlaza un solo
     # articulo, [[Club Social y Deportivo San Jorge]], de Tucuman).
@@ -672,6 +675,7 @@ ARTICULOS: dict[str, str] = {
     'Juventud Antoniana de Salta': 'Juventud Antoniana',
     'Club Mutual Crucero del Norte': 'Crucero del Norte',
     'Club Rivadavia': 'Rivadavia (L)',
+    'Club Rosario Puerto Belgrano': 'Rosario Puerto Belgrano',
     # Los diez del Argentino A 2005-06. Dos tienen dos titulos: uno es redireccion
     # del otro, y las paginas usan los dos.
     'Club Atlético Candelaria': 'Atlético Candelaria',
