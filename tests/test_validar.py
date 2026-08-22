@@ -355,6 +355,27 @@ def test_un_cuadro_de_una_sola_ronda_no_es_una_cadena_salteada():
     assert validar.cadena_de_llaves(una) == []
 
 
+def test_la_fase_final_de_la_copa_va_antes_que_los_dieciseisavos():
+    """La Copa Argentina 2013-14 llama "Fase final I" y "Fase final II" a las dos
+    rondas que van ANTES de los dieciseisavos: tiene una fase preliminar regional
+    y despues la fase final propiamente dicha, cuyas primeras rondas numera.
+
+    El nombre enga\u00f1a --dice "final" y va primera-- y el orden importa: al reves,
+    el que gana la I aparece jugando la II sin haberla ganado. Por eso el testigo
+    de este test es que NO haya ninguna acusacion, no solo que se revise.
+    """
+    ps = [llave("Boca", "River", 2, 0, "2014-03-12", ronda="Fase final i"),
+          llave("Boca", "Colón", 1, 0, "2014-04-09", ronda="Fase final ii"),
+          llave("Boca", "Tigre", 1, 0, "2014-07-17", ronda="Dieciseisavos")]
+    avisos = validar.cadena_de_llaves(ps)
+
+    assert not any("no se pudo revisar" in a.que for a in avisos), "el cuadro tiene que revisarse"
+    assert not any("sin haber ganado" in a.que for a in avisos), "Boca gano todo lo que jugo"
+    # Los que entran frescos si se nombran, que es el aviso correcto.
+    frescos = [a for a in avisos if "entran al cuadro" in a.que]
+    assert len(frescos) == 2 and "Colón" in frescos[0].detalle and "Tigre" in frescos[1].detalle
+
+
 def test_las_dos_semifinales_son_una_ronda_y_no_dos():
     """"Semifinal 1" y "Semifinal 2" son las dos llaves de la MISMA ronda.
 

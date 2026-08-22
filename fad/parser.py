@@ -1403,6 +1403,16 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
 # `_por_ronda` hace -- bien -- apenas una etiqueta no esta.
 RONDAS = ("Preclasificatorio", "Ronda previa",
           "Primera fase", "Segunda fase", "Tercera fase", "Cuarta fase",
+          # Van ANTES de los treintaidosavos aunque se llamen "final", y no es
+          # un error de tipeo: la Copa Argentina 2013-14 tiene una fase
+          # preliminar regional y despues la "Fase final", cuyas dos primeras
+          # rondas la pagina numera I y II. Las fechas lo confirman -- marzo y
+          # abril, contra julio de los dieciseisavos.
+          #
+          # Se midio antes de agregarlas: ningun otro torneo del corpus usa un
+          # rotulo con "fase final", asi que estas dos lineas no pueden mover a
+          # nadie mas de lugar.
+          "Fase final i", "Fase final ii",
           "Treintaidosavos", "Dieciseisavos", "Octavos", "Cuartos",
           "Semifinales", "Final")
 

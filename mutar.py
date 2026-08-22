@@ -850,6 +850,17 @@ MUTANTES = [
     # Los tres de la normalizacion de rondas: agrupar por el nombre de la pagina
     # en vez del normalizado deja dos grupos con el mismo lugar en el orden, y sin
     # cada pelada vuelven a trabarse las paginas que destraban.
+    # Las dos rondas raras de la Copa Argentina 2013-14: si no estan, el cuadro
+    # entero de 53 partidos vuelve a quedar sin revisar; si estan al reves, el que
+    # gana la primera queda acusado de no haberla ganado.
+    ("fad/parser.py", "no conocer la fase final de la Copa",
+     '          "Fase final i", "Fase final ii",\n',
+     ""),
+
+    ("fad/parser.py", "la fase final de la Copa al reves",
+     '"Fase final i", "Fase final ii",',
+     '"Fase final ii", "Fase final i",'),
+
     ("fad/validar.py", "agrupar por el nombre que trae la pagina",
      "        r = _ronda(p.jornada)",
      "        r = p.jornada"),
