@@ -492,9 +492,34 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
                           f"sus {len(rondas)} rondas no comparten ningun club, asi "
                           "que son llaves independientes y no hay cadena que revisar",
                           grave=False)]
-        return [Aviso("no se pudo revisar el cuadro de eliminacion",
-                      "hay partidos sin ronda reconocida; el chequeo se salteo",
-                      grave=False)]
+        # ULTIMO INTENTO: RECONSTRUIR LAS RONDAS POR EL PLANTEL. Si dos rotulos
+        # tienen el MISMO plantel exacto, no son dos rondas: son la misma ronda
+        # jugada dos veces. Es lo que pasa con las ocho paginas que rotulan la
+        # PATA en vez de la ronda -- "Partidos de ida" y "Partidos de vuelta"
+        # tienen identico plantel, y "Partido de ida" y "Partido de vuelta"
+        # tambien --, asi que cuatro rotulos colapsan en las dos rondas de
+        # verdad: la de varias llaves y la final. Se midio en las ocho.
+        #
+        # El agrupado es ESTRUCTURAL, no por fecha: solo junta rotulos, nunca
+        # parte uno. Por eso no puede repetir el error que este modulo ya cometio
+        # -- agrupar por dia hacia que el segundo dia de una misma ronda pareciera
+        # una ronda nueva--. La fecha se usa despues y solo para ORDENAR los
+        # grupos ya armados, que en una eliminacion avanzan en el tiempo.
+        #
+        # Solo sirve si el plantel efectivamente junto rotulos. Si cada uno tiene
+        # su propio plantel no se aprendio nada y se avisa, como antes.
+        porplantel: dict[frozenset, list[str]] = {}
+        for j, cs in clubes.items():
+            porplantel.setdefault(frozenset(cs), []).append(j)
+        if 1 < len(porplantel) < len(clubes):
+            armados = [(" / ".join(sorted(rots)),
+                        [x for x in elim if x.jornada in set(rots)])
+                       for rots in porplantel.values()]
+            grupos = sorted(armados, key=lambda kv: min(x.fecha for x in kv[1]))
+        else:
+            return [Aviso("no se pudo revisar el cuadro de eliminacion",
+                          "hay partidos sin ronda reconocida; el chequeo se salteo",
+                          grave=False)]
     avisos = []
     # Los clubes que ya aparecieron en este cuadro, de la primera ronda hasta la
     # anterior. Es lo que separa un error de un repechaje.

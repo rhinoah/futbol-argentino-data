@@ -832,10 +832,10 @@ MUTANTES = [
      "        ganadores = {p.local for p in previa} | {p.visita for p in previa}"),
 
     ("fad/validar.py", "saltear el chequeo del cuadro calladito",
-     '        return [Aviso("no se pudo revisar el cuadro de eliminacion",\n'
-     '                      "hay partidos sin ronda reconocida; el chequeo se salteo",\n'
-     "                      grave=False)]",
-     "        return []"),
+     '            return [Aviso("no se pudo revisar el cuadro de eliminacion",\n'
+     '                          "hay partidos sin ronda reconocida; el chequeo se salteo",\n'
+     "                          grave=False)]",
+     "            return []"),
 
     # La regla de al lado tiene su propio mutante porque es una excepcion, y una
     # excepcion mal puesta se come al chequeo entero: con "< 1" no se cumple nunca
@@ -890,6 +890,20 @@ MUTANTES = [
     ("fad/validar.py", "no despegar la rama del torneo",
      'sin_rama = re.sub(r"^.+?\\s+-\\s+", "", j)',
      "sin_rama = j"),
+
+    # La reconstruccion de rondas por plantel, por los tres lados que puede
+    # fallar: no hacerla, hacerla cuando no junto nada, y ordenar al reves.
+    ("fad/validar.py", "no reconstruir las rondas por el plantel",
+     "        if 1 < len(porplantel) < len(clubes):",
+     "        if False:"),
+
+    ("fad/validar.py", "reconstruir aunque el plantel no junte nada",
+     "        if 1 < len(porplantel) < len(clubes):",
+     "        if 1 < len(porplantel):"),
+
+    ("fad/validar.py", "el cuadro reconstruido, al reves",
+     "            grupos = sorted(armados, key=lambda kv: min(x.fecha for x in kv[1]))",
+     "            grupos = sorted(armados, key=lambda kv: min(x.fecha for x in kv[1]), reverse=True)"),
 
     ("fad/validar.py", "ninguna llave es paralela",
      "        if not any(clubes[a] & clubes[b]",

@@ -412,6 +412,58 @@ def test_pelar_la_etiqueta_solo_vale_si_abajo_hay_una_ronda():
     assert validar._ronda("Promoción - Algo raro") == "promoción - algo raro"
 
 
+def _cuadro_rotulado_por_pata():
+    """Como rotula la Revalida del Federal A: la PATA en vez de la ronda.
+
+    Cuatro rotulos para dos rondas. "Partidos de ida" y "Partidos de vuelta"
+    tienen el mismo plantel exacto --son la misma ronda jugada dos veces-- y lo
+    mismo el par en singular, que es la final.
+    """
+    return [llave("Boca", "River", 2, 0, "2026-05-01", ronda="Partidos de ida"),
+            llave("Racing", "Colón", 1, 0, "2026-05-01", ronda="Partidos de ida"),
+            llave("River", "Boca", 0, 1, "2026-05-08", ronda="Partidos de vuelta"),
+            llave("Colón", "Racing", 0, 2, "2026-05-08", ronda="Partidos de vuelta"),
+            llave("Boca", "Racing", 1, 0, "2026-05-15", ronda="Partido de ida"),
+            llave("Racing", "Boca", 0, 1, "2026-05-22", ronda="Partido de vuelta")]
+
+
+def test_las_rondas_se_reconstruyen_por_el_plantel():
+    """Ocho paginas rotulan la pata y nunca dicen que ronda es, asi que el dato no
+    esta en ningun campo. Pero se puede deducir: dos rotulos con el MISMO plantel
+    exacto no son dos rondas, son la misma jugada dos veces."""
+    avisos = validar.cadena_de_llaves(_cuadro_rotulado_por_pata())
+    assert avisos == [], f"el cuadro esta bien jugado, no deberia decir nada: {avisos}"
+
+
+def test_el_cuadro_reconstruido_igual_acusa():
+    """EL TEST QUE IMPORTA. Que un chequeo no diga nada puede querer decir que
+    esta todo bien o que no esta mirando, y las dos se ven igual desde afuera.
+
+    Aca Boca pierde las dos patas de su llave y aparece en la final igual. Si el
+    cuadro reconstruido fuera decorativo, esto pasaria en silencio.
+    """
+    ps = _cuadro_rotulado_por_pata()
+    for p in ps:
+        if "Partidos de" in p.jornada and "Boca" in (p.local, p.visita):
+            p.goles_local, p.goles_visita = ((0, 3) if p.local == "Boca" else (3, 0))
+
+    avisos = validar.cadena_de_llaves(ps)
+    assert avisos, "Boca no gano nada y jugo la final: tiene que aparecer"
+    assert all("sin haber ganado" in a.que for a in avisos)
+    assert all("Boca" in a.detalle for a in avisos)
+
+
+def test_si_el_plantel_no_junta_nada_se_sigue_avisando():
+    """El limite de la regla. Si cada rotulo tiene su propio plantel no se
+    aprendio nada, y entonces hay que decir que no se reviso en vez de inventar un
+    orden por fecha -- que es justo lo que este modulo tiene prohibido."""
+    ps = [llave("Boca", "River", 1, 0, "2026-05-01", ronda="Llave 1"),
+          llave("Boca", "Racing", 1, 0, "2026-05-08", ronda="Llave 2"),
+          llave("Boca", "Colón", 1, 0, "2026-05-15", ronda="Llave 3")]
+    avisos = validar.cadena_de_llaves(ps)
+    assert len(avisos) == 1 and "salteo" in avisos[0].detalle
+
+
 def test_llaves_en_paralelo_se_nombran_en_vez_de_llamarse_cuadro():
     """"Promocion 1" y "Promocion 2" son dos promociones distintas, no dos rondas
     de un cuadro. Se sabe sin mirar el titulo: no comparten ningun club, o sea que
