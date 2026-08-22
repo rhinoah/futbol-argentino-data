@@ -1049,6 +1049,39 @@ ARGENTINO_A_2012: dict[str, dict[str, str]] = {
     },
 }
 
+# DONDE VIVE CADA TEMPORADA EN RSSSF, incluido lo que todavia no se importa.
+# Verificado archivo por archivo el 2026-08-22, y cada URL abierta y leida por dos
+# agentes distintos: uno buscando y otro tratando de refutarlo.
+#
+# RSSSF no mantiene una sola convencion, y buscar por analogia lleva a un 404:
+#
+#   2004-05 .. 2008-09   archivo propio      arg3-int05 .. arg3-int09
+#   2009-10              archivo propio      arg3-int2010
+#   2010-11              SECCION de la temporada    arg2011.html#arga
+#   2011-12              SECCION de la temporada    arg2012.html#arga
+#   2012-13              archivo propio      arg3-int2013
+#
+# O sea que la serie de archivos propios se corta despues de 2009-10, vuelve en
+# 2012-13, y en el medio el Argentino A es una seccion dentro de la pagina general
+# del ano. No existe arg3-int2012 ni arg3-int11 ni arg3-int12: los cuatro dan 404.
+# El indice viejo `tablesa/arg.html` tambien da 404; el que sirve es
+# `tablesa/argint-champ.html`, que enlaza la temporada de cada campeon.
+#
+# Y hay dos divisiones mas, para lo que falta de la Primera C:
+#
+#   Primera C 2008-09    arg4-09.html   -- "Argentina Fourth Level (Primera C -
+#                        Metropolitana) 2008/09". Trae el Reducido entero con
+#                        localia y fecha. OJO: `arg4-int09` es OTRA competencia
+#                        (el Argentino B), y confundirlas es el error facil.
+#   Primera C 2011-12    RSSSF NO la cubre. La tiene el feed de ESPN (`arg.4`),
+#                        que el repo ya usa: la localia sale de `homeAway` y NO
+#                        del `venue`, que en dos partidos nombra una cancha que no
+#                        es de ninguno de los dos.
+#
+# Dos trampas del formato que valen para todos: RSSSF NO escribe el ano en los
+# corchetes -- `[May 26]`, no `[May 26, 2012]` --, asi que hay que deducirlo del
+# arco de la temporada; y las paginas se sirven en latin-1 SIN meta charset, asi
+# que leerlas como UTF-8 rompe los acentos.
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
