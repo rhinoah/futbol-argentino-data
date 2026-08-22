@@ -853,6 +853,24 @@ MUTANTES = [
     # Las dos rondas raras de la Copa Argentina 2013-14: si no estan, el cuadro
     # entero de 53 partidos vuelve a quedar sin revisar; si estan al reves, el que
     # gana la primera queda acusado de no haberla ganado.
+    # Las tres formas de numerar una ronda, cada una con su mutante: sin
+    # cualquiera de ellas vuelven a salir partidos con el `matchday` vacio.
+    ("fad/parser.py", "no leer la ronda escrita 'instancia'",
+     'r"|Primera instancia|Segunda instancia|Tercera instancia|Cuarta instancia"\n    ',
+     ""),
+
+    ("fad/parser.py", "no leer la ronda escrita 'ronda'",
+     'r"|Primera ronda|Segunda ronda|Tercera ronda|Cuarta ronda"\n    ',
+     ""),
+
+    ("fad/parser.py", "no leer la cuarta ni la quinta fase",
+     "|Cuarta fase|Quinta fase",
+     ""),
+
+    ("fad/validar.py", "no saber que instancia es fase",
+     '    "primera instancia": "primera fase",',
+     '    "primera instancia": "primera instancia",'),
+
     ("fad/parser.py", "no conocer la fase final de la Copa",
      '          "Fase final i", "Fase final ii",\n',
      ""),

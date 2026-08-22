@@ -390,6 +390,13 @@ def test_las_dos_semifinales_son_una_ronda_y_no_dos():
     assert validar.cadena_de_llaves(ps) == []
 
 
+def test_instancia_es_lo_mismo_que_fase():
+    """La tercera forma de numerar una ronda. El chequeo tiene que poder ordenar
+    "Segunda instancia" contra "Semifinales" igual que si dijera "Segunda fase"."""
+    assert validar._ronda("Primera instancia") == "primera fase"
+    assert validar._ronda("Tercera instancia") == "tercera fase"
+
+
 def test_la_ronda_se_despega_de_la_rama_del_torneo():
     """El Argentino A numera las rondas de su revalida con la rama adelante."""
     assert validar._ronda("Revalida - Segunda ronda") == "segunda fase"

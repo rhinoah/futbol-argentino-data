@@ -1802,3 +1802,45 @@ def test_una_tabla_comun_con_columna_global_no_se_desvia_al_lector_de_llaves():
 |River Plate
 |}"""
     assert parser.partidos_de_llave(tabla, 2024, "Primera") == []
+
+
+# --------------------------------------------------------------------------
+# Las tres formas en que una pagina numera sus rondas
+# --------------------------------------------------------------------------
+def _rondas(texto):
+    return [n for _, n in parser._titulos_de_ronda(texto)]
+
+
+def test_la_ronda_se_lee_escrita_fase_ronda_o_instancia():
+    """Tres formas para lo mismo, y las tres tienen que entrar POR EL PARSER.
+
+    Que `validar` supiera que "primera ronda" es "primera fase" no alcanzaba: si
+    el parser no reconoce el titulo, el partido sale con la jornada vacia y no
+    hay nada que normalizar despues. Asi salia el Campeonato Transicion de
+    Primera B 2020, que escribe `==== Primera ronda ====` y publicaba sus tres
+    partidos sin ronda ninguna.
+    """
+    assert _rondas("== Primera fase ==") == ["Primera fase"]
+    assert _rondas("== Primera ronda ==") == ["Primera ronda"]
+    assert _rondas("==== Primera instancia ====") == ["Primera instancia"]
+
+
+def test_las_cuatro_instancias_del_transicion_2020():
+    """El Transicion de Primera Nacional 2020 numera asi la fase por el segundo
+    ascenso. Eran 15 partidos con el `matchday` vacio en el CSV."""
+    tx = ("==== Primera instancia ====\n==== Segunda instancia ====\n"
+          "==== Tercera instancia ====\n==== Semifinales ====\n==== Final ====\n")
+    assert _rondas(tx) == ["Primera instancia", "Segunda instancia",
+                           "Tercera instancia", "Semifinales", "Final"]
+
+
+def test_la_cuarta_y_la_quinta_fase_tambien_son_rondas():
+    """Estaban en `RONDAS` pero no en los titulos que el parser mira, asi que el
+    Federal A 2024 y 2025 publicaban esos partidos sin ronda."""
+    assert _rondas("== Cuarta fase ==\n== Quinta fase ==") == ["Cuarta fase", "Quinta fase"]
+
+
+def test_un_titulo_que_no_es_una_ronda_no_entra():
+    """El testigo: si el vocabulario se abriera de mas, cualquier seccion pasaria
+    a ser una ronda y el cuadro se llenaria de rondas inventadas."""
+    assert _rondas("== Entrenadores ==\n== Goleadores ==\n== Equipos participantes ==") == []

@@ -560,15 +560,31 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
 # Se normaliza SOLO para el chequeo. El dato publicado sigue diciendo lo que dice
 # la pagina: `jornada` sale en el CSV y su trabajo es ser fiel, no prolijo.
 _SINONIMOS = {
-    # Los cuatro ordinales, que unas paginas escriben "fase" y otras "ronda".
-    # No es una suposicion: se midio sobre las 136 paginas y NINGUNA usa las dos
-    # formas del mismo ordinal, asi que colapsarlas no puede fusionar dos rondas
-    # distintas de un mismo torneo -- que seria peor que no revisar, porque
-    # compararia contra el conjunto equivocado en vez de abstenerse.
+    # Los ordinales, que cada pagina escribe a su manera: "fase", "ronda" o
+    # "instancia".
+    #
+    # CUIDADO CON COMO SE MIDIO ESTO. La version anterior de este comentario
+    # afirmaba que ninguna pagina usa dos formas del mismo ordinal, y es FALSO a
+    # nivel de titulos: el Torneo Argentino A 2011-12 y el 2012-13 escriben
+    # "Primera fase" y "Primera ronda" en la misma pagina, y lo mismo con segunda
+    # y tercera. Lo que si se midio, y es lo que importa, es a nivel de JORNADA
+    # dentro de una misma LLAVE: ningun cuadro tiene dos jornadas distintas que
+    # caigan en la misma ronda -- en esas dos paginas las dos formas viven en
+    # llaves separadas ("Segunda fase" y "Tercera y cuarta fase"), asi que el
+    # chequeo nunca las compara entre si. La unica fusion que ocurre es la
+    # buscada: "Semifinal 1" y "Semifinal 2" en una sola ronda.
+    #
+    # La diferencia no es cosmetica: fusionar dos rondas distintas de un mismo
+    # cuadro seria PEOR que no revisar, porque compararia contra el conjunto
+    # equivocado en vez de abstenerse.
     "primera ronda": "primera fase",
     "segunda ronda": "segunda fase",
     "tercera ronda": "tercera fase",
     "cuarta ronda": "cuarta fase",
+    "primera instancia": "primera fase",
+    "segunda instancia": "segunda fase",
+    "tercera instancia": "tercera fase",
+    "cuarta instancia": "cuarta fase",
     "cuartos de final": "cuartos",
     "octavos de final": "octavos",
     "dieciseisavos de final": "dieciseisavos",

@@ -1403,6 +1403,7 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
 # `_por_ronda` hace -- bien -- apenas una etiqueta no esta.
 RONDAS = ("Preclasificatorio", "Ronda previa",
           "Primera fase", "Segunda fase", "Tercera fase", "Cuarta fase",
+          "Quinta fase",
           # Van ANTES de los treintaidosavos aunque se llamen "final", y no es
           # un error de tipeo: la Copa Argentina 2013-14 tiene una fase
           # preliminar regional y despues la "Fase final", cuyas dos primeras
@@ -1435,8 +1436,16 @@ RONDAS = ("Preclasificatorio", "Ronda previa",
 # ronda anterior" en vez de acusarlos. Con eso la Copa Argentina 2012-13 se puede
 # revisar entera -- 63 partidos que nadie miraba -- y los ocho que SI vienen del
 # Preclasificatorio se chequean de verdad.
+# `instancia` es como el Campeonato Transicion de Primera Nacional 2020 numera
+# las rondas de su fase por el segundo ascenso, y era la unica forma que no
+# estaba: sus quince partidos de eliminacion salian con la ronda VACIA, o sea
+# con el `matchday` vacio en el CSV. La cuarta y la quinta fase tampoco
+# estaban, y son las del Federal A 2024 y 2025.
 _TITULO_RONDA = re.compile(
-    r"^=+\s*(Primera fase|Segunda fase|Tercera fase|Treintaidosavos|Dieciseisavos"
+    r"^=+\s*(Primera fase|Segunda fase|Tercera fase|Cuarta fase|Quinta fase"
+    r"|Primera ronda|Segunda ronda|Tercera ronda|Cuarta ronda"
+    r"|Primera instancia|Segunda instancia|Tercera instancia|Cuarta instancia"
+    r"|Treintaidosavos|Dieciseisavos"
     r"|Octavos|Cuartos|Semifinales|Semifinal|Final"
     r"|Preclasificatorio|Ronda previa|Fase final I{1,2})[^=\n]*=+\s*$", re.M | re.I)
 
