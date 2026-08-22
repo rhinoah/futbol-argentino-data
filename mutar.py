@@ -1171,6 +1171,21 @@ MUTANTES = [
     ("fad/dataset.py", "no validar el encabezado al leer",
      "    if tiene != COLUMNAS:",
      "    if False:"),
+
+    # ---- el paso del bot que decide si hay algo para commitear ----
+    # Los tests de tests/test_workflows.py corren el bloque `run:` sacado del YAML,
+    # asi que estos mutantes rompen el workflow DE VERDAD, no una copia.
+    (".github/workflows/actualizar.yml", "el gate vuelve a mirar el working tree",
+     "          git add data/\n          if git diff --cached --quiet -- data/; then",
+     "          if git diff --quiet -- data/; then"),
+
+    (".github/workflows/actualizar.yml", "medir el delta sin mirar el indice",
+     "delta=$(git diff --cached --numstat -- data/",
+     "delta=$(git diff --numstat -- data/"),
+
+    (".github/workflows/actualizar.yml", "el gate contesta que si siempre",
+     "if git diff --cached --quiet -- data/; then",
+     "if false; then"),
 ]
 
 
