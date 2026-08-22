@@ -857,6 +857,19 @@ MUTANTES = [
     # cualquiera de ellas vuelven a salir partidos con el `matchday` vacio.
     # El lector de llaves de RSSSF, por donde de verdad puede mentir.
     # La temporada que vive dentro de la pagina del ano, con todo lo que trae.
+    # Las rondas a partido unico, y la cancha de un tercero.
+    ("fad/rsssf.py", "pedirle pata a una ronda a partido unico",
+     "        if not m:\n            continue",
+     "        if not m or not pata:\n            continue"),
+
+    ("fad/rsssf.py", "no leer la fecha que el titulo trae puesta",
+     'pata, fecha = "", _dia_de(m.group(2) or "")',
+     'pata, fecha = "", None'),
+
+    ("fad/rsssf.py", "callarse que se jugo en cancha de un tercero",
+     "        if _LLAVE_SEDE.search(nota):",
+     "        if False:"),
+
     ("fad/rsssf.py", "quedarse con la primera aparicion de la seccion",
      "        i = texto.find(desde)",
      "        i = 0 if desde else texto.find(desde)"),

@@ -706,3 +706,42 @@ def test_el_marcador_pegado_al_parentesis_se_despega():
     ps, raros = rsssf.leer_llaves(tx, mapa, 2011, 2012, 8)
     assert raros == []
     assert [p.local for p in ps] == ["Gimnasia y Esgrima (CdU)", "Racing (C)"]
+
+
+_MAPA_C = {"Reducido": {"Berazategui": "Berazategui",
+                        "Argentino (R)": "Argentino de Rosario",
+                        "Excursionistas": "Excursionistas"}}
+
+
+def test_una_ronda_a_partido_unico_trae_la_fecha_en_el_titulo():
+    """Los cuartos del Reducido de la Primera C 2008-09 se jugaron a UN partido, y
+    ahi RSSSF no escribe encabezados de ida y vuelta: pone la fecha en el titulo
+    mismo. Pidiendo la pata esos cuatro partidos quedaban afuera."""
+    tx = ("Quarterfinals [Jun 4, one leg]\n"
+          "Berazategui             5-2 Argentino (R)\n")
+    ps, raros = rsssf.leer_llaves(tx, _MAPA_C, 2008, 2009, 8)
+    assert raros == [] and len(ps) == 1
+    assert ps[0].fecha == "2009-06-04"
+    assert ps[0].jornada == "Quarterfinals", "sin pata no va sufijo de pata"
+
+
+def test_una_tabla_no_se_confunde_con_una_ronda():
+    """El titulo admite una cola, pero NO libre. Con texto libre "Final Table:"
+    pasaria por "Final" y una tabla de posiciones entraria como si fuera una llave.
+    """
+    tx = ("Final Table:\n"
+          "Berazategui             5-2 Argentino (R)\n")
+    ps, _ = rsssf.leer_llaves(tx, _MAPA_C, 2008, 2009, 8)
+    assert ps == []
+
+
+def test_la_cancha_de_un_tercero_se_dice_y_no_se_marca_neutral():
+    """`neutral` sale del REGLAMENTO de la competencia y no del estadio: una
+    mudanza puntual de un partido de liga sigue siendo `false`, y esta escrito en
+    `dataset`. Tampoco va a `estadio`, porque RSSSF nombra al club anfitrion y no a
+    la cancha. Se dice y ya: el hecho no se pierde y no se afirma de mas."""
+    tx = ("Quarterfinals [Jun 4, one leg]\n"
+          "Berazategui             5-2 Argentino (R)             [at Quilmes]\n")
+    ps, raros = rsssf.leer_llaves(tx, _MAPA_C, 2008, 2009, 8)
+    assert ps[0].neutral is None and ps[0].estadio == ""
+    assert len(raros) == 1 and "Quilmes" in raros[0]

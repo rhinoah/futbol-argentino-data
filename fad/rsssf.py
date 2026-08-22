@@ -513,10 +513,17 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
 # `Third Phase` y `Fourth Phase` son rondas de eliminacion en el Argentino A
 # 2011-12 y NO se confunden con las fases de liga: una fase de liga no trae
 # encabezados de pata, asi que aunque el titulo entre, no se lee ningun partido.
+# El titulo puede traerse la fecha puesta -- "Quarterfinals [Jun 4, one leg]" --,
+# y cuando la trae es porque la ronda se juega A PARTIDO UNICO y no hay
+# encabezados de ida y vuelta abajo. Tambien admite una cola descriptiva que
+# empiece con un numero: "Promotion/Relegation Playoff 3rd/4th level
+# Metropolitano". La cola NO es libre a proposito: con texto libre, "Final
+# Table:" pasaria por "Final" y una tabla de posiciones entraria como una llave.
 _LLAVE_TITULO = re.compile(
     r"^(?:Overall\s+)?(1/8\s+Finals|Quarterfinals|Semifinals|Final"
     r"|Second Round|Third Round|Third Phase|Fourth Phase"
-    r"|Promotion Playoff|Relegation Playoff)\s*$", re.I)
+    r"|Promotion/Relegation Playoff|Promotion Playoff|Relegation Playoff)"
+    r"(?:\s+\d[^\[\]]*)?(?:\s*\[([^\]]*)\])?\s*$", re.I)
 # "First Legs [Nov 23]", "First leg", "Second Legs". El plural es opcional porque
 # RSSSF lo escribe de las dos formas.
 #
@@ -528,6 +535,16 @@ _LLAVE_TITULO = re.compile(
 _LLAVE_PATA = re.compile(r"^(First|Second|Secoond)\s+Legs?\s*(?:\[([^\]]+)\])?\s*$",
                          re.I)
 _LLAVE_FECHA = re.compile(r"^\[\s*([A-Za-z]{3})\s+(\d{1,2})\s*\]$")
+# Lo de adentro de un corchete puede traer mas que la fecha: "Jun 4, one leg".
+# Se lee el mes y el dia del principio y se ignora el resto.
+_LLAVE_DIA = re.compile(r"^\s*([A-Za-z]{3})\s+(\d{1,2})\b")
+
+
+def _dia_de(corchete: str) -> tuple[int, int] | None:
+    m = _LLAVE_DIA.match(corchete or "")
+    if m and m.group(1).capitalize() in _MESES:
+        return (_MESES[m.group(1).capitalize()], int(m.group(2)))
+    return None
 # "Sportivo Desamparados        2-0 Douglas Haig     [6-7 pen]". El separador entre
 # el nombre y el marcador es de dos o mas espacios (o un tab, que RSSSF mezcla).
 # El separador es de dos o mas espacios O un tab: RSSSF mezcla las dos cosas, y
@@ -554,6 +571,7 @@ _LLAVE_PEGADO = re.compile(r"\)[ ]?(\d+\s*-\s*\d+)")
 _LLAVE_CIERRA = re.compile(r"^(Round\s+\d+|Table:|Aggregate Table:|Final Table:"
                            r"|First Phase|Second Phase|Topscorer.*)\s*$", re.I)
 _LLAVE_PENALES = re.compile(r"(\d+)\s*-\s*(\d+)\s*pen", re.I)
+_LLAVE_SEDE = re.compile(r"^at\s+(.+)$", re.I)
 
 
 def _club(nombre: str, mapa: dict, zona: str, vistos: dict) -> tuple[str, str]:
@@ -646,7 +664,9 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             ronda = m.group(1).strip()
             if pelada.lower().startswith("overall"):
                 zona = ""
-            pata, fecha = "", None
+            # Si el titulo trae la fecha, la ronda es a partido unico: no hay
+            # encabezados de pata abajo y los partidos vienen enseguida.
+            pata, fecha = "", _dia_de(m.group(2) or "")
             continue
         if not ronda:
             continue
@@ -655,17 +675,18 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             pata = "Second" if m.group(1).lower() == "secoond" else m.group(1).capitalize()
             fecha = None
             if m.group(2):
-                f = _LLAVE_FECHA.match("[" + m.group(2).strip() + "]")
-                if f and f.group(1).capitalize() in _MESES:
-                    fecha = (_MESES[f.group(1).capitalize()], int(f.group(2)))
+                fecha = _dia_de(m.group(2))
             continue
         m = _LLAVE_FECHA.match(pelada)
         if m and m.group(1).capitalize() in _MESES:
             fecha = (_MESES[m.group(1).capitalize()], int(m.group(2)))
             continue
         m = _LLAVE_CRUCE.match(_LLAVE_PEGADO.sub(r")\t\1", linea))
-        if not m or not pata:
+        if not m:
             continue
+        # La puerta es la FECHA, no la pata: una ronda a partido unico no tiene
+        # pata, y pedirsela dejaba afuera los cuatro cuartos de final del Reducido
+        # de la Primera C 2008-09, que se jugaron a un solo partido.
         if fecha is None:
             raros.append(f"{ronda}: {pelada[:60]} viene sin fecha; queda afuera")
             continue
@@ -700,9 +721,22 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             local=cl, visita=cv,
             goles_local=gl, goles_visita=gv,
             penales_local=pl, penales_visita=pv,
-            fase="eliminacion", jornada=f"{ronda} - {pata} leg", llave=llave or ronda,
+            fase="eliminacion",
+            jornada=f"{ronda} - {pata} leg" if pata else ronda,
+            llave=llave or ronda,
             fuente_fecha=CREDITO))
         vistos[cl] = vistos[cv] = None
+        # `[at Quilmes]` dice que se jugo en cancha de un tercero. NO se marca
+        # `neutral`: en este repo eso sale del REGLAMENTO de la competencia y no
+        # del estadio, y una mudanza puntual de un partido de liga sigue siendo
+        # `false` -- esta escrito en `dataset` y vale igual venga la fila de donde
+        # venga. Tampoco va a `estadio`, porque RSSSF nombra al club anfitrion y no
+        # a la cancha, y un club en la columna de estadio es un dato de otra cosa.
+        # Se dice y ya: el hecho no se pierde y no se afirma de mas.
+        if _LLAVE_SEDE.search(nota):
+            raros.append(f"{ronda}: {cl} vs {cv} se jugo en cancha de "
+                         f"{_LLAVE_SEDE.search(nota).group(1).strip()}; el dataset "
+                         f"no lo distingue de un partido en casa")
     return fuera, raros
 
 def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
@@ -1330,6 +1364,33 @@ SECCION: dict[str, str] = {
     "Torneo Argentino A 2011-12": "Torneo Argentino A\n\n\nFirst Phase",
 }
 
+# El Reducido de la Primera C 2008-09. Es OTRA division y otro archivo: `arg4-09`,
+# "Argentina Fourth Level (Primera C - Metropolitana) 2008/09". Cuidado con
+# `arg4-int09`, que es el cuarto nivel del INTERIOR -- el Argentino B -- y es el
+# error facil de cometer.
+#
+# Nueve nombres para nueve clubes: aca RSSSF no cambia de forma entre patas. Pero
+# tres de los nueve el padron no los resuelve solo (`Dvo Laferrere`,
+# `Gral. Lamadrid`, `L.N. Alem`), asi que el mapa va igual y va entero: media
+# traduccion es la que despues mete el club de al lado.
+PRIMERA_C_2008 = {
+    "Reducido": {
+        "Argentino (R)": "Argentino de Rosario",
+        "Berazategui": "Berazategui",
+        "Defensores Unidos": "Defensores Unidos",
+        "Dvo Laferrere": "Deportivo Laferrere",
+        # de la otra promocion de la misma pagina, la de Primera C - Primera D:
+        # entran para que se crucen contra la grilla, que ya los tiene
+        "Dvo Riestra": "Deportivo Riestra",
+        "Excursionistas": "Excursionistas",
+        "Gral. Lamadrid": "General Lamadrid",
+        "J.J. de Urquiza": "J. J. de Urquiza",
+        "L.N. Alem": "Leandro N. Alem",
+        "San Telmo": "San Telmo",
+        "Villa Dálmine": "Villa Dálmine",
+    }
+}
+
 # DONDE VIVE CADA TEMPORADA EN RSSSF, incluido lo que todavia no se importa.
 # Verificado archivo por archivo el 2026-08-22, y cada URL abierta y leida por dos
 # agentes distintos: uno buscando y otro tratando de refutarlo.
@@ -1371,4 +1432,5 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2009-10": ("arg3-int2010", ARGENTINO_A_2009),
     "Torneo Argentino A 2012-13": ("arg3-int2013", ARGENTINO_A_2012),
     "Torneo Argentino A 2011-12": ("arg2012", ARGENTINO_A_2011),
+    "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),
 }

@@ -284,8 +284,12 @@ ASCENSO_HISTORICO = [
     # -- los goles coinciden con la ficha de cada pagina --, asi que se guardan en
     # `data/sin-fecha/` a la espera de una fuente de fechas. worldfootball no
     # sirve: su selector no lista Primera C para Argentina.
+    # Su Reducido -- cuartos, semis y final -- esta en Wikipedia SOLO como cuadro.
+    # RSSSF lo tiene en `arg4-09`, que es OTRA division y otro archivo: el cuarto
+    # nivel metropolitano. Cuidado con `arg4-int09`, que es el cuarto nivel del
+    # INTERIOR (el Argentino B) y es el error facil.
     Torneo('Campeonato de Primera C 2008-09 (Argentina)', 'Primera C', 2008,
-           anio_fin=2009, espn=True),
+           anio_fin=2009, espn=True, rsssf='arg4-09', rsssf_llaves=True),
     Torneo('Campeonato de Primera C 2009-10 (Argentina)', 'Primera C', 2009,
            anio_fin=2010, espn=True),
     Torneo('Campeonato de Primera C 2010-11 (Argentina)', 'Primera C', 2010,
