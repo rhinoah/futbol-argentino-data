@@ -485,6 +485,180 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
     return fuera, avisos
 
 
+
+# --------------------------------------------------------------------------
+# Las llaves: la fase que Wikipedia publica SOLO como cuadro
+# --------------------------------------------------------------------------
+# Un cuadro de eliminacion dibuja quien jugo contra quien y con que marcador, pero
+# NO dice quien fue local. Se midio: la convencion "arriba es local en la ida"
+# acierta 55.6% contra 761 patas donde la grilla si lo dice, o sea que escribir esas
+# filas desde el cuadro seria inventarse la localia a la mitad.
+#
+# RSSSF la tiene. Publica las llaves en dos formatos distintos:
+#
+#   EXPANDIDO -- cada pata por separado, con su fecha exacta:
+#       Quarterfinals
+#       First Legs [Nov 23]
+#       Sportivo Desamparados        2-0 Douglas Haig
+#       Second Legs [Nov 27]
+#       Douglas Haig                 2-0 Sportivo Desamparados
+#
+#   COMPACTO -- los dos marcadores en un renglon y la fecha como RANGO:
+#       Quarterfinals
+#       [Nov 20-28]
+#       Aldosivi                 0-1 1-3 Luján de Cuyo
+#
+# Esta funcion lee SOLO el expandido, a proposito: el compacto no trae la fecha de
+# cada pata y el repo no escribe una fila sin fecha. Un rango no es una fecha.
+_LLAVE_TITULO = re.compile(
+    r"^(?:Overall\s+)?(1/8\s+Finals|Quarterfinals|Semifinals|Final)\s*$", re.I)
+# "First Legs [Nov 23]", "First leg", "Second Legs". El plural es opcional porque
+# RSSSF lo escribe de las dos formas -- y hasta con un typo, "Secoond leg", que no
+# se tolera aca a proposito: si aparece, la ronda queda sin pata y se avisa.
+_LLAVE_PATA = re.compile(r"^(First|Second)\s+Legs?\s*(?:\[([^\]]+)\])?\s*$", re.I)
+_LLAVE_FECHA = re.compile(r"^\[\s*([A-Za-z]{3})\s+(\d{1,2})\s*\]$")
+# "Sportivo Desamparados        2-0 Douglas Haig     [6-7 pen]". El separador entre
+# el nombre y el marcador es de dos o mas espacios (o un tab, que RSSSF mezcla).
+_LLAVE_CRUCE = re.compile(
+    r"^(.+?)[ \t]{2,}(\d+)\s*-\s*(\d+)[ \t]+(.+?)(?:[ \t]{2,}\[(.+)\])?\s*$")
+_LLAVE_PENALES = re.compile(r"(\d+)\s*-\s*(\d+)\s*pen", re.I)
+
+
+def _club(nombre: str, mapa: dict, zona: str, vistos: dict) -> tuple[str, str]:
+    """El club canonico de un nombre corto de RSSSF, o ("", motivo).
+
+    CARDINALIDAD, NO PARECIDO. Dentro de una zona el mapa manda y listo. Pero las
+    rondas "Overall" mezclan las dos zonas, y ahi un nombre corto puede dejar de
+    identificar a un club: en el Argentino A 2005-06 `Racing` es Racing (C) en una
+    zona y Racing (O) en la otra -- es la UNICA ambiguedad del corpus, medida sobre
+    los seis mapas.
+
+    Cuando pasa, no se elige por parecido ni por el orden del mapa: se restringe a
+    los clubes que YA JUGARON una llave de este mismo torneo, que son los que
+    pudieron clasificar. Si queda exactamente uno, es ese. Si quedan dos, se
+    devuelve el motivo y el partido no se escribe.
+    """
+    # UNA NOTA PARTIDA EN DOS RENGLONES ENSUCIA LOS DOS. RSSSF corta las notas
+    # largas por ancho de columna, y el pedazo cae encima del renglon siguiente:
+    #
+    #     Douglas Haig     0-1 Juventud                [Douglas Haig on record
+    #     Guillermo Brown  5-2 Independiente Rivadavia  regular season]
+    #
+    # Arriba queda un corchete que ABRE y no cierra; abajo, uno que CIERRA y no
+    # abrio, pegado al nombre del visitante de un partido que no tiene nada que
+    # ver. Se sacan los dos: sin esto son tres partidos que se pierden por un
+    # problema de tipografia, no de datos.
+    limpio = re.sub(r"\s*\[[^\]]*$", "", nombre)            # abre y no cierra
+    limpio = re.sub(r"\s{2,}[^\[\]]*\]\s*$", "", limpio)     # cierra y no abrio
+    corto = _sin_sede(limpio.strip())
+    if zona in mapa and corto in mapa[zona]:
+        return mapa[zona][corto], ""
+    candidatos = {d[corto] for d in mapa.values() if corto in d}
+    if not candidatos:
+        return "", f"el mapa no traduce {corto!r}"
+    if len(candidatos) == 1:
+        return candidatos.pop(), ""
+    achicado = candidatos & set(vistos)
+    if len(achicado) == 1:
+        return achicado.pop(), ""
+    return "", (f"{corto!r} es ambiguo: {sorted(candidatos)}"
+                + (f", y de esos ya jugaron {sorted(achicado)}" if achicado else
+                   ", y ninguno jugo antes en este cuadro"))
+
+
+def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
+                mes_inicio: int = 8) -> tuple[list, list[str]]:
+    """Los partidos de eliminacion, con su localia y su fecha de dia.
+
+    Devuelve `Partido` y no `Ajeno` porque estas filas ENTRAN al dataset -- no
+    estan para completarle la fecha a una fila de Wikipedia, que es para lo que
+    existe `Ajeno` --. Y porque un `Ajeno` numera la jornada con un entero, y una
+    ronda tiene nombre: "Quarterfinals", no 3.
+    """
+    from fad.parser import Partido
+
+    fuera, raros = [], []
+    zona = llave = ronda = pata = ""
+    fecha: tuple[int, int] | None = None
+    vistos: dict[str, None] = {}
+    for cruda in texto.split("\n"):
+        linea = cruda.rstrip()
+        pelada = linea.strip()
+        if not pelada:
+            continue
+        if pelada.startswith("Torneo "):
+            llave, zona, ronda, pata, fecha = pelada, "", "", "", None
+            continue
+        if pelada in mapa:
+            zona, ronda, pata, fecha = pelada, "", "", None
+            continue
+        m = _LLAVE_TITULO.match(pelada)
+        if m:
+            # "Overall Semifinals" mezcla las dos zonas: se sale de la zona a
+            # proposito, para que `_club` tenga que forzar la cardinalidad en vez
+            # de resolver con un mapa que ya no corresponde.
+            ronda = m.group(1).strip()
+            if pelada.lower().startswith("overall"):
+                zona = ""
+            pata, fecha = "", None
+            continue
+        if not ronda:
+            continue
+        m = _LLAVE_PATA.match(pelada)
+        if m:
+            pata = m.group(1).capitalize()
+            fecha = None
+            if m.group(2):
+                f = _LLAVE_FECHA.match("[" + m.group(2).strip() + "]")
+                if f and f.group(1).capitalize() in _MESES:
+                    fecha = (_MESES[f.group(1).capitalize()], int(f.group(2)))
+            continue
+        m = _LLAVE_FECHA.match(pelada)
+        if m and m.group(1).capitalize() in _MESES:
+            fecha = (_MESES[m.group(1).capitalize()], int(m.group(2)))
+            continue
+        m = _LLAVE_CRUCE.match(linea)
+        if not m or not pata:
+            continue
+        if fecha is None:
+            raros.append(f"{ronda}: {pelada[:60]} viene sin fecha; queda afuera")
+            continue
+        nota = m.group(5) or ""
+        cl, porque1 = _club(m.group(1), mapa, zona, vistos)
+        cv, porque2 = _club(m.group(4), mapa, zona, vistos)
+        if not cl or not cv:
+            raros.append(f"{ronda}: {porque1 or porque2}; el partido queda afuera")
+            continue
+        # LA TANDA ES DE LA SERIE, NO DEL PARTIDO. En una llave a doble partido se
+        # patea cuando el GLOBAL queda igualado, y para eso la vuelta no tiene que
+        # haber empatado: Racing (C) 2-1 San Martin (T) fue a penales porque la ida
+        # habia sido 2-1 al reves. El dataset guarda los penales por PARTIDO, asi
+        # que ponerlos en esa fila afirma que ese partido termino empatado y se
+        # definio por penales, y es falso.
+        #
+        # Lo agarro el chequeo del propio repo -- "penales en un partido que no fue
+        # empate" -- apenas se importo, y tenia razon. Se escriben solo cuando la
+        # pata SI quedo igualada; si no, se avisa y la columna queda vacia, que es
+        # lo que corresponde cuando el dato no tiene donde vivir.
+        gl, gv = int(m.group(2)), int(m.group(3))
+        pl = pv = None
+        pen = _LLAVE_PENALES.search(nota)
+        if pen and gl == gv:
+            pl, pv = int(pen.group(1)), int(pen.group(2))
+        elif pen:
+            raros.append(f"{ronda}: {cl} {gl}-{gv} {cv} define por penales "
+                         f"{pen.group(1)}-{pen.group(2)}, pero la tanda es de la "
+                         f"serie y no de este partido; la columna queda vacia")
+        fuera.append(Partido(
+            fecha=_fecha_iso(*fecha, anio, anio_fin, mes_inicio),
+            local=cl, visita=cv,
+            goles_local=gl, goles_visita=gv,
+            penales_local=pl, penales_visita=pv,
+            fase="eliminacion", jornada=f"{ronda} - {pata} leg", llave=llave or ronda,
+            fuente_fecha=CREDITO))
+        vistos[cl] = vistos[cv] = None
+    return fuera, raros
+
 def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
     """Los `Ajeno` de RSSSF convertidos en filas del dataset.
 

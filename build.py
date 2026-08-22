@@ -262,6 +262,26 @@ def procesar(texto: str, t) -> tuple[list, list]:
         importados = []
         ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato,
                              anio_fin=t.anio_fin, mes_inicio=t.mes_inicio)
+        # La grilla de la pagina cubre los grupos pero no la fase final, que ahi
+        # es un dibujo. Las llaves vienen de RSSSF, que si dice quien fue local.
+        if t.rsssf_llaves:
+            from fad import rsssf
+            archivo, mapa = rsssf.FUENTES[t.pagina]
+            try:
+                crudo = rsssf.descargar(archivo)
+            except OSError as e:
+                importados.append(validar.Aviso(
+                    f"{t.pagina}: RSSSF no respondio, asi que la fase final se "
+                    f"queda sin partidos", repr(e), grave=False))
+            else:
+                llaves, mas = rsssf.leer_llaves(crudo, mapa, t.temporada,
+                                                t.anio_fin or t.temporada,
+                                                t.mes_inicio)
+                for p_ in llaves:
+                    p_.torneo = t.torneo
+                ps += llaves
+                importados += [validar.Aviso(f"{t.pagina}: RSSSF llaves", d,
+                                             grave=False) for d in mas]
     for p in ps:
         p.local = equipos.canonizar(p.local, p.local_art)
         p.visita = equipos.canonizar(p.visita, p.visita_art)

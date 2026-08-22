@@ -855,6 +855,19 @@ MUTANTES = [
     # gana la primera queda acusado de no haberla ganado.
     # Las tres formas de numerar una ronda, cada una con su mutante: sin
     # cualquiera de ellas vuelven a salir partidos con el `matchday` vacio.
+    # El lector de llaves de RSSSF, por donde de verdad puede mentir.
+    ("fad/rsssf.py", "escribir la tanda aunque la pata no haya empatado",
+     "if pen and gl == gv:",
+     "if pen:"),
+
+    ("fad/rsssf.py", "resolver un nombre ambiguo eligiendo cualquiera",
+     "    if len(achicado) == 1:\n        return achicado.pop(), \"\"",
+     "    if achicado:\n        return sorted(achicado)[0], \"\""),
+
+    ("fad/rsssf.py", "no limpiar la nota partida en dos renglones",
+     'limpio = re.sub(r"\\s{2,}[^\\[\\]]*\\]\\s*$", "", limpio)',
+     "limpio = limpio"),
+
     ("fad/parser.py", "no leer la ronda escrita 'instancia'",
      'r"|Primera instancia|Segunda instancia|Tercera instancia|Cuarta instancia"\n    ',
      ""),

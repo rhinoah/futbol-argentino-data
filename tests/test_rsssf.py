@@ -507,3 +507,134 @@ def test_la_llave_pelada_abre_seccion_pero_repetida_no_cierra_nada():
                            "La Plata FC                  1-1 Villa Mitre\n",
                            mapa, 2009, 2010, 8)
     assert len(ajenos) == 1, "la linea repetida no tenia que apagar la zona"
+
+
+# --------------------------------------------------------------------------
+# leer_llaves: la fase que Wikipedia publica solo como cuadro
+# --------------------------------------------------------------------------
+_MAPA_LLAVES = {
+    "Zona A - Sur": {"Cipolletti": "Cipolletti", "Villa Mitre": "Villa Mitre",
+                     "Racing": "Racing (O)"},
+    "Zona B - Norte": {"San Martín": "San Martín (T)", "Racing": "Racing (C)",
+                       "Talleres": "Talleres (C)"},
+}
+
+
+def _llaves(texto):
+    return rsssf.leer_llaves(texto, _MAPA_LLAVES, 2005, 2006, 8)
+
+
+def test_la_llave_trae_localia_y_fecha_de_dia():
+    """Lo que el cuadro de Wikipedia NO tiene, que es por lo que se sale a buscar
+    RSSSF: quien jugo de local en cada pata, y que dia."""
+    ps, raros = _llaves(
+        "Zona A - Sur\n"
+        "Quarterfinals\n"
+        "First Legs [Nov 23]\n"
+        "Cipolletti                   2-0 Villa Mitre\n"
+        "Second Legs [Nov 27]\n"
+        "Villa Mitre                  3-1 Cipolletti\n")
+    assert raros == []
+    assert [(p.fecha, p.local, p.goles_local, p.goles_visita, p.visita) for p in ps] == [
+        ("2005-11-23", "Cipolletti", 2, 0, "Villa Mitre"),
+        ("2005-11-27", "Villa Mitre", 3, 1, "Cipolletti")]
+    assert all(p.fase == "eliminacion" for p in ps)
+
+
+def test_la_tanda_de_la_serie_no_se_escribe_en_la_pata():
+    """En una llave a doble partido se patea cuando el GLOBAL queda igualado, asi
+    que la vuelta puede no haber empatado. El dataset guarda los penales POR
+    PARTIDO, y ponerlos ahi afirmaria que ese partido termino empatado.
+
+    Lo agarro el chequeo del propio repo apenas se importo -- "penales en un
+    partido que no fue empate", tres graves --, y tenia razon.
+    """
+    ps, raros = _llaves(
+        "Zona B - Norte\n"
+        "Final\n"
+        "First Legs [May 21]\n"
+        "Racing                       2-1 San Martín             [6-7 pen]\n")
+    assert ps[0].penales_local is None and ps[0].penales_visita is None
+    assert raros and "la tanda es de la serie" in raros[0]
+
+
+def test_la_tanda_si_se_escribe_cuando_la_pata_empato():
+    """El testigo del de arriba: si la pata SI quedo igualada, la tanda es de ese
+    partido y la columna se llena."""
+    ps, _ = _llaves(
+        "Zona B - Norte\n"
+        "Final\n"
+        "First Legs [May 21]\n"
+        "Racing                       1-1 San Martín             [6-7 pen]\n")
+    assert (ps[0].penales_local, ps[0].penales_visita) == (6, 7)
+
+
+def test_un_nombre_ambiguo_se_resuelve_por_cardinalidad_no_por_parecido():
+    """`Racing` es Racing (O) en una zona y Racing (C) en la otra -- la unica
+    ambiguedad del corpus. En las rondas "Overall" no hay zona que mande, asi que
+    se restringe a los clubes que YA jugaron una llave: si queda uno solo, es ese.
+    """
+    ps, raros = _llaves(
+        "Zona B - Norte\n"
+        "Quarterfinals\n"
+        "First Legs [Apr 16]\n"
+        "Racing                       1-0 Talleres\n"
+        "Overall Semifinals\n"
+        "First Legs [Apr 29]\n"
+        "Racing                       2-0 San Martín\n")
+    assert raros == []
+    assert [p.local for p in ps] == ["Racing (C)", "Racing (C)"]
+
+
+def test_si_el_ambiguo_no_jugo_antes_se_avisa_en_vez_de_elegir():
+    """El limite de la regla de al lado. Sin nadie que lo desempate, elegir seria
+    adivinar, y adivinar mal mete el club equivocado en un dataset publico."""
+    ps, raros = _llaves(
+        "Overall Semifinals\n"
+        "First Legs [Apr 29]\n"
+        "Racing                       2-0 San Martín\n")
+    assert ps == []
+    assert raros and "es ambiguo" in raros[0]
+
+
+def test_si_los_dos_ambiguos_ya_jugaron_tampoco_se_elige():
+    """EL CASO PELIGROSO, y el que hace falta que el mutante muera. Que la regla se
+    quede con "los que ya jugaron" no alcanza si YA JUGARON LOS DOS: ahi sigue
+    habiendo dos candidatos y elegir cualquiera --el primero, el alfabetico, el que
+    venga-- mete el club equivocado en un dataset publico, que es peor que un hueco.
+
+    Los dos Racing juegan su propia llave de zona, y despues aparece un `Racing`
+    pelado sin zona que mande. No se resuelve: se avisa.
+    """
+    ps, raros = _llaves(
+        "Zona A - Sur\n"
+        "Quarterfinals\n"
+        "First Legs [Apr 16]\n"
+        "Racing                       1-0 Villa Mitre\n"
+        "Zona B - Norte\n"
+        "Quarterfinals\n"
+        "First Legs [Apr 16]\n"
+        "Racing                       2-0 Talleres\n"
+        "Overall Semifinals\n"
+        "First Legs [Apr 29]\n"
+        "Racing                       2-0 San Martín\n")
+
+    assert len(ps) == 2, "las dos llaves de zona si se leen"
+    assert {p.local for p in ps} == {"Racing (O)", "Racing (C)"}
+    assert raros and "es ambiguo" in raros[0]
+    assert "ya jugaron" in raros[0]
+
+
+def test_una_nota_partida_en_dos_renglones_no_se_come_el_nombre():
+    """RSSSF corta las notas largas por ancho de columna y el pedazo cae encima del
+    renglon siguiente: arriba queda un corchete que abre y no cierra, abajo uno que
+    cierra y no abrio, pegado al nombre de un partido que no tiene nada que ver."""
+    ps, raros = _llaves(
+        "Zona A - Sur\n"
+        "Quarterfinals\n"
+        "First Legs [Nov 23]\n"
+        "Cipolletti                   0-1 Villa Mitre             [Villa Mitre on record\n"
+        "Racing                       5-2 Cipolletti               regular season]\n")
+    assert raros == []
+    assert [(p.local, p.visita) for p in ps] == [
+        ("Cipolletti", "Villa Mitre"), ("Racing (O)", "Cipolletti")]

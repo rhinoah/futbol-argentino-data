@@ -56,6 +56,14 @@ class Torneo:
     # una que no existe, y con la regla automatica la importacion taparia la
     # regresion en silencio. Asi, importar es una decision escrita.
     sin_grilla: bool = False
+    # La pagina TIENE grilla de la fase de grupos pero su fase final existe solo
+    # como cuadro, y un cuadro no dice quien fue local. Con esto, las llaves se
+    # traen de `rsssf` y el resto sigue saliendo de Wikipedia.
+    #
+    # Va escrito y aparte de `sin_grilla` por la misma razon que aquel: que se
+    # dispare solo, "si el cuadro no cierra", convertiria una regresion del parser
+    # en una importacion silenciosa.
+    rsssf_llaves: bool = False
     # El feed de ESPN. La liga, los rangos de fecha y el mapa de nombres viven en
     # `fad/espn.py`, indexados por pagina.
     espn: bool = False
@@ -302,8 +310,12 @@ ASCENSO_HISTORICO = [
     # Y esta: 12 fechadas de 279. Trajo diez clubes del interior que el padron
     # no tenia -- Lujan de Cuyo, Nunorco, La Plata FC, Atletico Candelaria... --
     # todos sacados del articulo que enlaza su propia tabla de participantes.
+    # Su fase final -- 1/8, cuartos, semis y final del Apertura y del Clausura --
+    # esta en Wikipedia SOLO como cuadro, y un cuadro no dice la localia: medido,
+    # la convencion "arriba es local en la ida" acierta 55.6%. RSSSF si la dice, y
+    # ademas con fecha de dia. De ahi salen 58 partidos que faltaban.
     Torneo('Torneo Argentino A 2005-06', 'Torneo Argentino A', 2005,
-           anio_fin=2006, rsssf='arg3-int06'),
+           anio_fin=2006, rsssf='arg3-int06', rsssf_llaves=True),
     # El primer torneo del repo cuyos partidos NO salen de Wikipedia. Su articulo
     # publica los participantes, la tabla final de cada zona y la fase final, y
     # ningun resultado fecha por fecha -- se comprobo catalogandola sin el flag,
