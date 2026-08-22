@@ -856,6 +856,32 @@ MUTANTES = [
     # Las tres formas de numerar una ronda, cada una con su mutante: sin
     # cualquiera de ellas vuelven a salir partidos con el `matchday` vacio.
     # El lector de llaves de RSSSF, por donde de verdad puede mentir.
+    # La temporada que vive dentro de la pagina del ano, con todo lo que trae.
+    ("fad/rsssf.py", "quedarse con la primera aparicion de la seccion",
+     "        i = texto.find(desde)",
+     "        i = 0 if desde else texto.find(desde)"),
+
+    ("fad/rsssf.py", "no tolerar el typo 'Secoond leg' de la fuente",
+     "First|Second|Secoond",
+     "First|Second"),
+
+    ("fad/rsssf.py", "que una fecha de liga no cierre la eliminacion",
+     "        if _LLAVE_CIERRA.match(pelada):",
+     "        if False:"),
+
+    ("fad/rsssf.py", "no despegar el marcador del parentesis",
+     '_LLAVE_PEGADO = re.compile(r"\\)[ ]?(\\d+\\s*-\\s*\\d+)")',
+     '_LLAVE_PEGADO = re.compile(r"(?!x)x()")'),
+
+    ("build.py", "comparar sin canonizar al buscar repetidos",
+     "        return frozenset((equipos.canonizar(x.local, x.local_art),\n"
+     "                          equipos.canonizar(x.visita, x.visita_art)))",
+     "        return frozenset((x.local, x.visita))"),
+
+    ("build.py", "duplicar lo que la pagina ya trae",
+     "        if (suyo, p_.fecha) in ya:",
+     "        if False:"),
+
     ("fad/rsssf.py", "escribir la tanda aunque la pata no haya empatado",
      "if pen and gl == gv:",
      "if pen:"),

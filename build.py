@@ -219,6 +219,70 @@ def _completar_fechas(ps, t) -> list:
             for a in avisos + mas]
 
 
+def _dias(iso: str) -> int:
+    """La fecha como numero de dias, para poder decir cual esta mas cerca. Una
+    fecha vacia se va lejos en vez de romper: el que la trae ya tiene su aviso."""
+    from datetime import date
+    try:
+        return date.fromisoformat(iso).toordinal()
+    except (ValueError, TypeError):
+        return 0
+
+
+def sin_repetir(llaves: list, ps: list) -> tuple[list, int, list[str]]:
+    """Las llaves de RSSSF que la pagina NO tiene ya, y las que contradice.
+
+    LO QUE LA PAGINA YA TIENE NO SE VUELVE A ESCRIBIR. En el Argentino A 2005-06 la
+    fase final no estaba en la grilla y entraba entera; en el 2011-12 la pagina SI
+    publica la Revalida y las fases tercera y cuarta, y solo le faltan las semis y
+    la final. Importar sin mirar duplicaria 34 partidos, que es peor que no
+    importar ninguno.
+
+    La casilla es el par de clubes MAS la fecha. El par solo no alcanza: las dos
+    patas de una llave son el mismo par y se distinguen justamente por el dia.
+
+    SE COMPARA CANONIZADO, y no da lo mismo. La canonizacion corre despues, asi que
+    aca `ps` todavia trae los nombres crudos de Wikipedia mientras que los de RSSSF
+    ya salen canonicos del mapa. Comparando en crudo el cruce falla casi entero --
+    se midio: reconocia 8 de 34 -- y entraban 26 duplicados.
+
+    Si el par esta pero la fila no coincide, las dos fuentes discrepan sobre ESE
+    partido y no es uno que falte. Se conserva el de la pagina --Wikipedia es la
+    fuente primaria del repo y RSSSF entra a completar, no a pisar-- y se avisa con
+    las dos versiones enfrentadas. No es solo la fecha, y por eso se muestran los
+    renglones enteros: en el Argentino A 2011-12 las dos fuentes se contradicen
+    ademas en la LOCALIA -- la pagina pone "Racing (O) 0-2 Central Cordoba" y RSSSF
+    "Central Cordoba 2-0 Racing" --, o sea mismo resultado y cancha al reves. Decir
+    "otra fecha" lo tapaba.
+    """
+    def par(x):
+        return frozenset((equipos.canonizar(x.local, x.local_art),
+                          equipos.canonizar(x.visita, x.visita_art)))
+
+    ya = {(par(x), x.fecha) for x in ps}
+    suyas: dict = {}
+    for x in ps:
+        if x.fase == "eliminacion":
+            suyas.setdefault(par(x), []).append(x)
+
+    nuevas, repetidas, discuten = [], 0, []
+    for p_ in llaves:
+        suyo = frozenset((p_.local, p_.visita))
+        if (suyo, p_.fecha) in ya:
+            repetidas += 1
+        elif suyo in suyas:
+            cerca = min(suyas[suyo], key=lambda x: abs(_dias(x.fecha) - _dias(p_.fecha)))
+            discuten.append(
+                f"la pagina dice {cerca.fecha} "
+                f"{equipos.canonizar(cerca.local, cerca.local_art)} "
+                f"{cerca.goles_local}-{cerca.goles_visita} "
+                f"{equipos.canonizar(cerca.visita, cerca.visita_art)} y RSSSF "
+                f"{p_.fecha} {p_.local} {p_.goles_local}-{p_.goles_visita} {p_.visita}")
+        else:
+            nuevas.append(p_)
+    return nuevas, repetidas, discuten
+
+
 def procesar(texto: str, t) -> tuple[list, list]:
     """Parsea, lleva los nombres al canonico y valida. Devuelve (partidos, avisos).
 
@@ -274,12 +338,20 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     f"{t.pagina}: RSSSF no respondio, asi que la fase final se "
                     f"queda sin partidos", repr(e), grave=False))
             else:
-                llaves, mas = rsssf.leer_llaves(crudo, mapa, t.temporada,
-                                                t.anio_fin or t.temporada,
-                                                t.mes_inicio)
+                llaves, mas = rsssf.leer_llaves(
+                    crudo, mapa, t.temporada, t.anio_fin or t.temporada,
+                    t.mes_inicio, desde=rsssf.SECCION.get(t.pagina, ""))
                 for p_ in llaves:
                     p_.torneo = t.torneo
-                ps += llaves
+                nuevas, repetidas, discuten = sin_repetir(llaves, ps)
+                ps += nuevas
+                if repetidas:
+                    mas.append(f"{repetidas} llaves de RSSSF ya estaban en la "
+                               f"grilla de la pagina y no se duplicaron")
+                if discuten:
+                    mas.append(f"{len(discuten)} partidos donde la pagina y RSSSF no "
+                               f"coinciden; se conserva el de la pagina: "
+                               + " | ".join(discuten[:3]))
                 importados += [validar.Aviso(f"{t.pagina}: RSSSF llaves", d,
                                              grave=False) for d in mas]
     for p in ps:

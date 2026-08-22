@@ -638,3 +638,71 @@ def test_una_nota_partida_en_dos_renglones_no_se_come_el_nombre():
     assert raros == []
     assert [(p.local, p.visita) for p in ps] == [
         ("Cipolletti", "Villa Mitre"), ("Racing (O)", "Cipolletti")]
+
+
+def test_la_seccion_se_busca_con_lo_que_la_sigue():
+    """Las temporadas sin archivo propio viven dentro de la pagina del ano, y ahi el
+    titulo de la seccion aparece varias veces: en el indice de arriba, en la seccion
+    de verdad y en las referencias cruzadas del final. Quedarse con la PRIMERA da un
+    texto sin una sola llave -- es el mismo error que este repo ya cometio dos veces
+    con los titulos de Wikipedia."""
+    # Arriba, la Primera Division de la misma pagina: tiene su propia final, con el
+    # mismo formato. Si la seccion se busca mal, esos partidos entran como si fueran
+    # del Argentino A.
+    tx = ("Torneo Argentino A\n"                      # el indice enlaza aca
+          "Primera División\n"
+          "Final\n"
+          "First leg\n[Jun 1]\n"
+          "Boca\t2-0\tRiver\n"
+          "Torneo Argentino A\n\n\nFirst Phase\n"      # la seccion de verdad
+          "Final\n"
+          "First leg\n[Jun 17]\n"
+          "Racing\t3-1\tTalleres\n")
+    mapa = {"z": {"Racing": "Racing (C)", "Talleres": "Talleres (C)",
+                  "Boca": "Boca Juniors", "River": "River Plate"}}
+    ps, raros = rsssf.leer_llaves(tx, mapa, 2011, 2012, 8,
+                                  desde="Torneo Argentino A\n\n\nFirst Phase")
+    assert raros == []
+    assert len(ps) == 1, "la final de Primera no es del Argentino A"
+    assert (ps[0].local, ps[0].visita, ps[0].fecha) == ("Racing (C)", "Talleres (C)", "2012-06-17")
+
+
+def test_el_typo_de_la_fuente_no_deja_la_vuelta_como_ida():
+    """El Third Phase del Argentino A 2011-12 dice "Secoond leg", con el typo. Si no
+    se reconoce, esos partidos no quedan afuera --que seria lo de menos-- sino
+    adentro con la pata ANTERIOR: etiquetados como ida cuando son la vuelta."""
+    tx = ("Third Phase\n"
+          "First leg\n[May 19]\nRacing\t2-0\tTalleres\n"
+          "Secoond leg\n[May 23]\nTalleres\t1-2\tRacing\n")
+    ps, _ = rsssf.leer_llaves(tx, {"z": {"Racing": "Racing (C)",
+                                         "Talleres": "Talleres (C)"}}, 2011, 2012, 8)
+    assert [p.jornada for p in ps] == ["Third Phase - First leg",
+                                       "Third Phase - Second leg"]
+
+
+def test_una_fecha_de_liga_cierra_la_eliminacion():
+    """Los renglones de una fecha de liga tienen el MISMO formato que los de una
+    llave. Sin cerrar la ronda, una seccion de liga que viniera despues de una de
+    eliminacion entraria entera como si fueran llaves."""
+    tx = ("Final\n"
+          "First leg\n[Jun 17]\nRacing\t3-1\tTalleres\n"
+          "Round 1\n[Aug 19]\nTalleres\t2-0\tRacing\n")
+    ps, _ = rsssf.leer_llaves(tx, {"z": {"Racing": "Racing (C)",
+                                         "Talleres": "Talleres (C)"}}, 2011, 2012, 8)
+    assert len(ps) == 1, "el partido de liga no es una llave"
+
+
+def test_el_marcador_pegado_al_parentesis_se_despega():
+    """RSSSF se come el separador cuando el nombre termina en parentesis: queda
+    pegado o a un solo espacio. Vale SOLO despues de un parentesis -- un espacio
+    suelto en el medio de un nombre no alcanza para partirlo."""
+    mapa = {"z": {"Gimnasia y Esgrima(CdU)": "Gimnasia y Esgrima (CdU)",
+                  "Central Norte (Salta)": "Central Norte (S)",
+                  "Racing (Córdoba)": "Racing (C)"}}
+    tx = ("Final\n"
+          "First leg\n[Apr 22]\n"
+          "Gimnasia y Esgrima(CdU) 0-0\tCentral Norte (Salta)\n"
+          "Racing (Córdoba)1-1\tCentral Norte (Salta)\n")
+    ps, raros = rsssf.leer_llaves(tx, mapa, 2011, 2012, 8)
+    assert raros == []
+    assert [p.local for p in ps] == ["Gimnasia y Esgrima (CdU)", "Racing (C)"]

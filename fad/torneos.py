@@ -233,7 +233,11 @@ ASCENSO_VIEJO = [
 
     # El Torneo Federal A se llamo "Torneo Argentino A" hasta 2014. Va con su
     # nombre historico: es la misma categoria pero no el mismo torneo.
-    Torneo("Torneo Argentino A 2011-12", "Torneo Argentino A", 2011, anio_fin=2012),
+    # Su pagina publica la Revalida y las fases tercera y cuarta, pero de las
+    # SEMIS y la FINAL solo el cuadro. De ahi salen los 6 partidos que faltan;
+    # los otros 34 que RSSSF tambien trae ya estan y no se duplican.
+    Torneo("Torneo Argentino A 2011-12", "Torneo Argentino A", 2011, anio_fin=2012,
+           rsssf="arg2012", rsssf_llaves=True),
     # Con grilla propia en Wikipedia; RSSSF entra solo a FECHAR los 28 partidos
     # que la pagina publica sin fecha y que por eso quedaban afuera.
     Torneo("Torneo Argentino A 2012-13", "Torneo Argentino A", 2012, anio_fin=2013,

@@ -510,17 +510,49 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
 #
 # Esta funcion lee SOLO el expandido, a proposito: el compacto no trae la fecha de
 # cada pata y el repo no escribe una fila sin fecha. Un rango no es una fecha.
+# `Third Phase` y `Fourth Phase` son rondas de eliminacion en el Argentino A
+# 2011-12 y NO se confunden con las fases de liga: una fase de liga no trae
+# encabezados de pata, asi que aunque el titulo entre, no se lee ningun partido.
 _LLAVE_TITULO = re.compile(
-    r"^(?:Overall\s+)?(1/8\s+Finals|Quarterfinals|Semifinals|Final)\s*$", re.I)
+    r"^(?:Overall\s+)?(1/8\s+Finals|Quarterfinals|Semifinals|Final"
+    r"|Second Round|Third Round|Third Phase|Fourth Phase"
+    r"|Promotion Playoff|Relegation Playoff)\s*$", re.I)
 # "First Legs [Nov 23]", "First leg", "Second Legs". El plural es opcional porque
-# RSSSF lo escribe de las dos formas -- y hasta con un typo, "Secoond leg", que no
-# se tolera aca a proposito: si aparece, la ronda queda sin pata y se avisa.
-_LLAVE_PATA = re.compile(r"^(First|Second)\s+Legs?\s*(?:\[([^\]]+)\])?\s*$", re.I)
+# RSSSF lo escribe de las dos formas.
+#
+# Y "Secoond leg" SE TOLERA, con el typo y todo: es como esta escrito el Third
+# Phase del Argentino A 2011-12 en la fuente. Ignorarlo no dejaba esos cuatro
+# partidos afuera, que seria lo de menos: los dejaba adentro con la pata
+# ANTERIOR, o sea etiquetados como ida cuando son la vuelta. Un dato mal puesto
+# es peor que un dato que falta.
+_LLAVE_PATA = re.compile(r"^(First|Second|Secoond)\s+Legs?\s*(?:\[([^\]]+)\])?\s*$",
+                         re.I)
 _LLAVE_FECHA = re.compile(r"^\[\s*([A-Za-z]{3})\s+(\d{1,2})\s*\]$")
 # "Sportivo Desamparados        2-0 Douglas Haig     [6-7 pen]". El separador entre
 # el nombre y el marcador es de dos o mas espacios (o un tab, que RSSSF mezcla).
+# El separador es de dos o mas espacios O un tab: RSSSF mezcla las dos cosas, y
+# un solo tab es tan valido como una columna de espacios.
 _LLAVE_CRUCE = re.compile(
-    r"^(.+?)[ \t]{2,}(\d+)\s*-\s*(\d+)[ \t]+(.+?)(?:[ \t]{2,}\[(.+)\])?\s*$")
+    r"^(.+?)(?:\t+|[ ]{2,})(\d+)\s*-\s*(\d+)(?:\t+|[ ]+)(.+?)(?:(?:\t+|[ ]{2,})\[(.+)\])?\s*$")
+# ...y a veces el separador se come, porque el nombre trae la sede entre
+# parentesis y el marcador queda pegado o a un solo espacio:
+#
+#     Gimnasia y Esgrima (CdU)1-1 Racing (Olavarria)
+#     Gimnasia y Esgrima(CdU) 0-0 Central Norte (Salta)
+#
+# Se despega antes de mirar el renglon, que es mas barato que enseñarle el caso al
+# regex. Vale SOLO despues de un parentesis: un espacio suelto en el medio de un
+# nombre no alcanza para partirlo, y ahi esta la diferencia entre despegar y
+# adivinar donde termina el nombre.
+_LLAVE_PEGADO = re.compile(r"\)[ ]?(\d+\s*-\s*\d+)")
+
+# Un encabezado de ronda de LIGA cierra la eliminacion abierta. Los renglones de
+# una fecha de liga tienen exactamente el mismo formato que los de una llave, asi
+# que sin esto una seccion de liga que viniera despues de una de eliminacion --
+# hoy no pasa en ninguna pagina, pero depende del orden en que RSSSF las imprima --
+# entraria entera como si fueran llaves.
+_LLAVE_CIERRA = re.compile(r"^(Round\s+\d+|Table:|Aggregate Table:|Final Table:"
+                           r"|First Phase|Second Phase|Topscorer.*)\s*$", re.I)
 _LLAVE_PENALES = re.compile(r"(\d+)\s*-\s*(\d+)\s*pen", re.I)
 
 
@@ -567,7 +599,7 @@ def _club(nombre: str, mapa: dict, zona: str, vistos: dict) -> tuple[str, str]:
 
 
 def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
-                mes_inicio: int = 8) -> tuple[list, list[str]]:
+                mes_inicio: int = 8, desde: str = "") -> tuple[list, list[str]]:
     """Los partidos de eliminacion, con su localia y su fecha de dia.
 
     Devuelve `Partido` y no `Ajeno` porque estas filas ENTRAN al dataset -- no
@@ -576,6 +608,17 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
     ronda tiene nombre: "Quarterfinals", no 3.
     """
     from fad.parser import Partido
+
+    # `desde` acota a una seccion, y hace falta cuando la temporada no tiene archivo
+    # propio sino que vive dentro de la pagina del ano: ahi el mismo texto que abre
+    # la seccion aparece ANTES en el indice y despues en las referencias cruzadas.
+    # Se busca el ancla ENTERA, con lo que la sigue, para no quedarse con el indice
+    # -- ese error ya se cometio dos veces en este repo con los titulos de Wikipedia.
+    if desde:
+        i = texto.find(desde)
+        if i < 0:
+            return [], [f"no se encontro la seccion {desde.splitlines()[0]!r}"]
+        texto = texto[i:]
 
     fuera, raros = [], []
     zona = llave = ronda = pata = ""
@@ -592,6 +635,9 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
         if pelada in mapa:
             zona, ronda, pata, fecha = pelada, "", "", None
             continue
+        if _LLAVE_CIERRA.match(pelada):
+            ronda, pata, fecha = "", "", None
+            continue
         m = _LLAVE_TITULO.match(pelada)
         if m:
             # "Overall Semifinals" mezcla las dos zonas: se sale de la zona a
@@ -606,7 +652,7 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             continue
         m = _LLAVE_PATA.match(pelada)
         if m:
-            pata = m.group(1).capitalize()
+            pata = "Second" if m.group(1).lower() == "secoond" else m.group(1).capitalize()
             fecha = None
             if m.group(2):
                 f = _LLAVE_FECHA.match("[" + m.group(2).strip() + "]")
@@ -617,7 +663,7 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
         if m and m.group(1).capitalize() in _MESES:
             fecha = (_MESES[m.group(1).capitalize()], int(m.group(2)))
             continue
-        m = _LLAVE_CRUCE.match(linea)
+        m = _LLAVE_CRUCE.match(_LLAVE_PEGADO.sub(r")\t\1", linea))
         if not m or not pata:
             continue
         if fecha is None:
@@ -1223,6 +1269,67 @@ ARGENTINO_A_2012: dict[str, dict[str, str]] = {
     },
 }
 
+# El Argentino A 2011-12 no tiene archivo propio: vive dentro de `arg2012`, y sus
+# llaves traen la ciudad pegada al nombre. Eso resuelve la ambiguedad que en
+# 2005-06 habia que forzar -- aca `Racing (Cordoba)` y `Racing (Olavarria)` se
+# distinguen solos -- pero crea otra: el MISMO club se escribe distinto entre la
+# ida y la vuelta, porque RSSSF abrevia para que entre en la columna.
+#
+#     Sportivo Belgrano (San Francisco)  /  Sp.Belgrano (S.Fco)
+#     Juventud Unida Universitario (San Luis)  /  Juv.Unida Univ. (SL)
+#     Crucero del Norte (Misiones)  /  Crucero del Norte (M)
+#     Ramon Santamarina (Tandil)  /  Ramon Santamarina (T)
+#
+# Por eso van las dos formas: son 30 nombres para 24 clubes. Resolverlos por el
+# padron NO alcanza -- se midio, y once de los treinta vuelven sin traducir --, y
+# ahi es donde un nombre corto termina siendo el club equivocado.
+ARGENTINO_A_2011 = {
+    "Llaves": {
+        "Alumni (Villa María)": "Alumni (VM)",
+        "CAI (Comodoro Rivadavia)": "CAI",
+        "Central Córdoba (Santiago del Estero)": "Central Córdoba (SdE)",
+        "Central Córdoba (SdE)": "Central Córdoba (SdE)",
+        "Central Norte (Salta)": "Central Norte (S)",
+        "Cipolletti (Río Negro)": "Cipolletti",
+        "Crucero del Norte (M)": "Crucero del Norte",
+        "Crucero del Norte (Misiones)": "Crucero del Norte",
+        "Def.de Belgrano (VR)": "Defensores de Belgrano (VR)",
+        "Deportivo Roca (RN)": "Deportivo Roca",
+        "Gimnasia y Esgrima (Concepción del Uruguay)": "Gimnasia y Esgrima (CdU)",
+        # sin el espacio antes del parentesis, tal cual lo escribe la fuente. El
+        # mapa de 2012-13 ya traia esta misma variante: la rareza no es nueva.
+        "Gimnasia y Esgrima(CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Tiro (Salta)": "Gimnasia y Tiro (S)",
+        "Guillermo Brown (PM)": "Guillermo Brown",
+        "Guillermo Brown (Puerto Madryn)": "Guillermo Brown",
+        "Juv.Unida Univ. (SL)": "Juventud Unida Universitario",
+        "Juventud Antoniana (S)": "Juventud Antoniana",
+        "Juventud Antoniana (Salta)": "Juventud Antoniana",
+        "Juventud Unida Universitario (San Luis)": "Juventud Unida Universitario",
+        "Libertad (Sunchales)": "Libertad (S)",
+        "Racing (Córdoba)": "Racing (C)",
+        "Racing (Olavarría)": "Racing (O)",
+        "Ramón Santamarina (T)": "Ramón Santamarina",
+        "Ramón Santamarina (Tandil)": "Ramón Santamarina",
+        "Rivadavia (Lincoln)": "Rivadavia (L)",
+        "San Jorge (Tucumán)": "San Jorge (T)",
+        "San Martín (Tucumán)": "San Martín (T)",
+        "Sp.Belgrano (S.Fco)": "Sportivo Belgrano",
+        "Sportivo Belgrano (San Francisco)": "Sportivo Belgrano",
+        "Talleres (Córdoba)": "Talleres (C)",
+        "Unión (Mar del Plata)": "Unión (MdP)",
+    }
+}
+
+# El ancla de la seccion, para las temporadas que viven dentro de la pagina del
+# ano. Va con lo que la SIGUE y no sola: "Torneo Argentino A" aparece seis veces en
+# `arg2012` -- una en el indice de arriba, otra en la seccion de verdad y cuatro en
+# referencias cruzadas del final -- y quedarse con la primera da un texto que no
+# tiene ninguna llave.
+SECCION: dict[str, str] = {
+    "Torneo Argentino A 2011-12": "Torneo Argentino A\n\n\nFirst Phase",
+}
+
 # DONDE VIVE CADA TEMPORADA EN RSSSF, incluido lo que todavia no se importa.
 # Verificado archivo por archivo el 2026-08-22, y cada URL abierta y leida por dos
 # agentes distintos: uno buscando y otro tratando de refutarlo.
@@ -1263,4 +1370,5 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2008-09": ("arg3-int09", ARGENTINO_A_2008),
     "Torneo Argentino A 2009-10": ("arg3-int2010", ARGENTINO_A_2009),
     "Torneo Argentino A 2012-13": ("arg3-int2013", ARGENTINO_A_2012),
+    "Torneo Argentino A 2011-12": ("arg2012", ARGENTINO_A_2011),
 }

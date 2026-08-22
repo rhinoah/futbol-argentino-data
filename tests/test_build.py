@@ -738,3 +738,53 @@ def test_el_cruce_contra_el_cuadro_llega_al_aviso():
     cuadro = [a for a in avisos if "cuadro" in a.que]
     assert cuadro and not cuadro[0].grave
     assert "Estudiantes" in cuadro[0].detalle
+
+
+# --------------------------------------------------------------------------
+# sin_repetir: importar sobre una pagina que ya trae parte de las llaves
+# --------------------------------------------------------------------------
+def _p(local, visita, fecha, gl=1, gv=0, fase="eliminacion"):
+    from fad.parser import Partido
+    return Partido(fecha=fecha, local=local, visita=visita, goles_local=gl,
+                   goles_visita=gv, fase=fase)
+
+
+def test_no_se_duplica_lo_que_la_pagina_ya_trae():
+    """El par de clubes MAS la fecha. El par solo no alcanza: las dos patas de una
+    llave son el mismo par y se distinguen por el dia."""
+    pagina = [_p("Racing (C)", "Talleres (C)", "2012-06-03"),
+              _p("Talleres (C)", "Racing (C)", "2012-06-10")]
+    rsssf_ = [_p("Racing (C)", "Talleres (C)", "2012-06-03"),
+              _p("Talleres (C)", "Racing (C)", "2012-06-10"),
+              _p("Racing (C)", "Boca Juniors", "2012-06-17")]
+
+    nuevas, repetidas, discuten = build.sin_repetir(rsssf_, pagina)
+    assert repetidas == 2 and discuten == []
+    assert [x.visita for x in nuevas] == ["Boca Juniors"]
+
+
+def test_la_comparacion_va_canonizada():
+    """LA QUE IMPORTA. La canonizacion corre despues, asi que la pagina todavia trae
+    los nombres crudos y RSSSF ya los trae canonicos. Comparando en crudo el cruce
+    falla y entran duplicados -- paso: reconocia 8 de 34."""
+    # Como escribe la pagina (crudo) contra como sale del mapa de RSSSF (canonico).
+    pagina = [_p("Talleres de Córdoba", "Libertad (Sunchales)", "2012-06-03")]
+    rsssf_ = [_p("Talleres (C)", "Libertad (S)", "2012-06-03")]
+
+    nuevas, repetidas, _ = build.sin_repetir(rsssf_, pagina)
+    assert repetidas == 1 and nuevas == [], (
+        "si esto falla, la pagina y RSSSF no se reconocen y el partido entra dos veces")
+
+
+def test_cuando_las_dos_fuentes_se_contradicen_gana_la_pagina_y_se_avisa():
+    """Mismo par, otra fila: no es un partido que falte, es un desacuerdo. Se
+    conserva el de la pagina --Wikipedia es la fuente primaria-- y se dice."""
+    pagina = [_p("Racing (O)", "Central Córdoba (SdE)", "2012-05-19", 0, 2)]
+    rsssf_ = [_p("Central Córdoba (SdE)", "Racing (O)", "2012-05-18", 2, 0)]
+
+    nuevas, repetidas, discuten = build.sin_repetir(rsssf_, pagina)
+    assert nuevas == [] and repetidas == 0
+    assert len(discuten) == 1
+    # las dos versiones enfrentadas, que es lo que deja ver que ademas de la fecha
+    # discuten la LOCALIA
+    assert "2012-05-19" in discuten[0] and "2012-05-18" in discuten[0]
