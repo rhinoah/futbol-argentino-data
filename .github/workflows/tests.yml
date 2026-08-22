@@ -19,9 +19,12 @@ jobs:
         python: ["3.11", "3.13"]
 
     steps:
-      - uses: actions/checkout@v4
+      # node24. Las v4/v5 corren sobre node20, que GitHub ya declaro muerto y
+      # desde el 16/06/2026 fuerza a correr en node24 igual, con un warning en
+      # cada corrida; lo saca del runner en algun momento del otono de 2026.
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
 

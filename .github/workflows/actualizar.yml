@@ -23,9 +23,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # node24, igual que en tests.yml: las v4/v5 son node20 y GitHub lo esta
+      # sacando del runner.
+      #
+      # Ojo al subir esto: el `git push` de mas abajo no pasa ningun token, o sea
+      # que se apoya en que checkout deje las credenciales persistidas. Se
+      # verifico contra el action.yml de v5 antes de bumpear -- `persist-credentials`
+      # sigue con `default: true`, byte a byte igual que en v4 -- y en la linea v5
+      # siguen yendo al git config local. Recien en v6 se mudan a un archivo
+      # aparte bajo $RUNNER_TEMP, enganchado con `includeIf.gitdir`: el push
+      # tambien anda, pero es otro mecanismo, y por eso este pin se queda en v5.
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
