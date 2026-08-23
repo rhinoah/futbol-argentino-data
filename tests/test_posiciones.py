@@ -1619,3 +1619,57 @@ def test_sin_zonas_no_hay_nada_que_sacar():
     regla no se aplica."""
     dentro = [_pz("A", "B", ""), _pz("A", "C", "")]
     assert not posiciones._una_zona_lo_explica(dentro, {"A": (5, 0, 0)}, ["A"])
+
+
+# --------------------------------------------------------------------------
+# Un partido dividido se jugo aunque no tenga fila
+# --------------------------------------------------------------------------
+def test_un_dividido_explica_el_desvio_de_sus_dos_clubes():
+    """El fallo le dio un marcador distinto a cada club, asi que la fila no entra
+    --el esquema no puede escribir dos resultados-- pero la tabla de la pagina SI
+    lo cuenta. Los dos clubes quedan desviados en uno, y eso no es un hallazgo:
+    es la consecuencia aritmetica de una decision que ya esta escrita en
+    `DIVIDIDOS`, con su evidencia.
+
+    Se usa un dividido de verdad, no uno inventado: si alguien lo saca, este test
+    lo dice.
+    """
+    # Van CUATRO clubes y no dos: con dos, los dos desviados son toda la tabla y la
+    # guarda de media tabla se dispara sola, o sea que el test pasaria sin probar
+    # nada. Asi se desvian dos de cuatro y la guarda no opina.
+    texto = pagina(fila(1, "Chacarita Juniors", 3, 2, 1, 0, 1, 3, 1),
+                   fila(2, "Atlanta", 3, 2, 1, 0, 1, 1, 3),
+                   fila(3, "Colegiales", 3, 1, 1, 0, 0, 2, 0),
+                   fila(4, "Almirante Brown", 0, 1, 0, 0, 1, 0, 2))
+    ps = [zona("Chacarita Juniors", "Atlanta", 3, 1),      # el dividido no tiene fila
+          zona("Colegiales", "Almirante Brown", 2, 0)]
+    assert posiciones.pj_que_no_coincide(
+        ps, texto, pagina="Campeonato de Primera B Nacional 2011-12") == []
+
+
+def test_sin_la_pagina_el_dividido_no_se_puede_derivar():
+    """El testigo: el mismo caso sin decir de que pagina es. `DIVIDIDOS` esta
+    indexado por pagina, asi que sin ella no hay nada que derivar y el desvio se
+    dice, que es lo correcto."""
+    texto = pagina(fila(1, "Chacarita Juniors", 3, 2, 1, 0, 1, 3, 1),
+                   fila(2, "Atlanta", 3, 2, 1, 0, 1, 1, 3),
+                   fila(3, "Colegiales", 3, 1, 1, 0, 0, 2, 0),
+                   fila(4, "Almirante Brown", 0, 1, 0, 0, 1, 0, 2))
+    ps = [zona("Chacarita Juniors", "Atlanta", 3, 1),
+          zona("Colegiales", "Almirante Brown", 2, 0)]
+    assert posiciones.pj_que_no_coincide(ps, texto) != []
+
+
+def test_el_dividido_solo_cuenta_para_su_seccion():
+    """Cuando la pagina publica una tabla por seccion, el dividido suma en la
+    suya y en ninguna otra. Sumandolo en todas, el Torneo Federal A 2018-19
+    cerraba la Revalida y pasaba a contar uno de mas en la Primera fase."""
+    assert correcciones.clubes_divididos("Torneo Federal A 2018-19", "Reválida")
+    assert not correcciones.clubes_divididos("Torneo Federal A 2018-19", "Primera fase")
+    assert not correcciones.clubes_divididos("Torneo Federal A 2018-19")
+
+
+def test_un_dividido_sin_seccion_vale_para_la_tabla_general():
+    """La mayoria de las paginas tienen una sola tabla y su dividido no declara
+    seccion: ahi vale para la comparacion general, que es la de alcance vacio."""
+    assert correcciones.clubes_divididos("Campeonato de Primera B Nacional 2011-12")

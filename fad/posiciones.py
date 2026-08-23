@@ -693,7 +693,15 @@ def pj_que_no_coincide(ps: list, texto: str, arts: dict[str, str] | None = None,
         dentro = [p for p in ps if not alcance or p.llave == alcance]
         contada = sumar(dentro)
         comunes = sorted(set(publicada) & set(contada))
-        desviados = [c for c in comunes if publicada[c][0] != contada[c][0]]
+        # UN PARTIDO DIVIDIDO SE JUGO, aunque no tenga fila. El fallo le dio un
+        # marcador distinto a cada club y el esquema no puede escribir eso, asi que
+        # la fila no entra -- ver `DIVIDIDOS` --, pero la tabla de la pagina si lo
+        # cuenta. El desvio que sale de ahi no es un hallazgo sino la consecuencia
+        # aritmetica de una decision que ya esta escrita, con su evidencia. Se suma
+        # al PJ contado en vez de anotar catorce `Revisado` que repitan lo mismo.
+        divididos = correcciones.clubes_divididos(pagina, alcance) if pagina else {}
+        desviados = [c for c in comunes
+                     if publicada[c][0] != contada[c][0] + divididos.get(c, 0)]
         if not comunes or len(desviados) * 2 > len(comunes):
             continue
         if desviados and _una_zona_lo_explica(dentro, publicada, comunes):
@@ -719,7 +727,8 @@ def pj_que_no_coincide(ps: list, texto: str, arts: dict[str, str] | None = None,
         # partido.
         por_delta: dict[int, list[str]] = {}
         for c in desviados:
-            por_delta.setdefault(contada[c][0] - publicada[c][0], []).append(c)
+            delta = contada[c][0] + divididos.get(c, 0) - publicada[c][0]
+            por_delta.setdefault(delta, []).append(c)
         for delta, clubes in sorted(por_delta.items()):
             donde = alcance or "la pagina"
             if len(clubes) == 2:

@@ -914,6 +914,17 @@ MUTANTES = [
 
     # La zona que la tabla no cuenta: si se apaga vuelven diez avisos que no son de
     # nadie, y si se prueba de a una zona el interzonal de dos grupos se escapa.
+    # El dividido en el cruce de PJ: si no se suma vuelven cinco avisos que son la
+    # consecuencia de una decision ya escrita, y si se suma sin mirar la seccion se
+    # arregla una tabla y se rompe la de al lado.
+    ("fad/posiciones.py", "no contar el dividido como jugado",
+     "if publicada[c][0] != contada[c][0] + divididos.get(c, 0)]",
+     "if publicada[c][0] != contada[c][0]]"),
+
+    ("fad/correcciones.py", "el dividido cuenta para cualquier seccion",
+     "        if d.pagina != pagina or (d.llave or llave) != llave:",
+     "        if d.pagina != pagina:"),
+
     ("fad/posiciones.py", "no ver que una zona explica el desvio",
      "        if desviados and _una_zona_lo_explica(dentro, publicada, comunes):",
      "        if False:"),
@@ -1245,7 +1256,7 @@ MUTANTES = [
      "        if not comunes:"),
 
     ("fad/posiciones.py", "no juntar en un aviso a los dos clubes del mismo partido",
-     "            por_delta.setdefault(contada[c][0] - publicada[c][0], []).append(c)",
+     "            por_delta.setdefault(delta, []).append(c)",
      "            por_delta.setdefault(c, []).append(c)"),
 
     ("fad/equipos.py", "no detectar un alias peleado por dos clubes",

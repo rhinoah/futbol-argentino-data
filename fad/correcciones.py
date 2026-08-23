@@ -1338,6 +1338,15 @@ class Dividido:
     visita: str
     dice: tuple[int, int] | None      # como sale publicado hoy; None si no entra
     porque: str
+    # En que SECCION vivia el partido, cuando la pagina publica una tabla por
+    # seccion. Vacio = la pagina tiene una sola tabla y no hace falta.
+    #
+    # Hace falta para el cruce de PJ: el partido se jugo y la tabla lo cuenta, asi
+    # que hay que sumarlo al PJ contado -- pero SOLO en la tabla que corresponde.
+    # El Torneo Federal A 2018-19 lo enseño: sumandolo en todas, la Revalida cerraba
+    # y la Primera fase pasaba a contar uno de mas.
+    llave: str = ""
+
 
 
 DIVIDIDOS: tuple[Dividido, ...] = (
@@ -1415,7 +1424,23 @@ DIVIDIDOS: tuple[Dividido, ...] = (
                "los dos.",
     ),
     Dividido(
-        pagina="Torneo Federal A 2018-19",
+        pagina="Anexo:Torneo Apertura 1997 (Argentina)",
+        local="San Lorenzo", visita="Huracán", dice=None,
+        porque="La celda dice PP - PP y la nota lo explica sin margen: suspendido a "
+               "los 21' con el resultado 0-0 por incidentes entre las dos barras "
+               "--murio un hincha, y la pagina cita a Clarin y a El Pais--, y "
+               "\"Posteriormente, el Tribunal de Disciplina le dio por perdido el "
+               "partido a ambos, SIN CONSIGNAR GOLES\".\n"
+               "O sea que no hay un marcador que escribir, ni siquiera uno por club: "
+               "el fallo no puso numeros. Es el mismo caso que Independiente (N) vs "
+               "Deportivo Roca del Federal A 2018-19, que tambien trae PP - PP.\n"
+               "La tabla de la pagina SI lo cuenta -- Huracan y San Lorenzo llegan a "
+               "19 partidos como todos --, y por eso los dos aparecian desviados en "
+               "uno. Ese desvio ahora se deriva de esta declaracion en vez de "
+               "anotarse aparte.",
+    ),
+    Dividido(
+        pagina="Torneo Federal A 2018-19", llave="Reválida",
         local="Independiente (N)", visita="Deportivo Roca", dice=None,
         porque="la celda dice PP - PP y la nota que el partido finalizo 4 a 1 y se le "
                "dio por perdido a ambos equipos. Es el unico de los cinco que no "
@@ -1869,6 +1894,31 @@ REEMPLAZOS: tuple[Reemplazo, ...] = (
              ("Unión (S)", "Talleres (P)", 1, 0),
              "Tampoco es del copy-paste; lo arbitra la misma tabla."),
 )
+
+
+def clubes_divididos(pagina: str, llave: str = "") -> dict[str, int]:
+    """Cuantos partidos divididos jugo cada club en `pagina`.
+
+    Existe para que el cruce de PJ pueda derivar una consecuencia en vez de que
+    haya que anotarla a mano. Un `Dividido` dice que el partido SE JUGO y que el
+    esquema no puede escribir su resultado; entonces la tabla de la pagina lo
+    cuenta y nuestra grilla no, y los dos clubes aparecen desviados en uno.
+
+    Eso no es un hallazgo: es la consecuencia aritmetica de una decision que ya
+    esta escrita mas arriba, con su evidencia. Anotarla ademas como `Revisado`
+    para cada club serian catorce notas repitiendo lo que `DIVIDIDOS` ya dice, y
+    la segunda copia de un hecho es la que se desactualiza.
+    """
+    cuenta: dict[str, int] = {}
+    for d in DIVIDIDOS:
+        # Si el dividido declara seccion, solo cuenta para ESA tabla. Si no la
+        # declara, la pagina tiene una sola tabla y vale para la comparacion
+        # general, que es la que va con `llave` vacia.
+        if d.pagina != pagina or (d.llave or llave) != llave:
+            continue
+        cuenta[d.local] = cuenta.get(d.local, 0) + 1
+        cuenta[d.visita] = cuenta.get(d.visita, 0) + 1
+    return cuenta
 
 
 def divididos_de(pagina: str) -> list[str]:
