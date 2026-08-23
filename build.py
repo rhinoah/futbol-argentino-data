@@ -229,7 +229,7 @@ def _dias(iso: str) -> int:
         return 0
 
 
-def sin_repetir(llaves: list, ps: list) -> tuple[list, int, list[str]]:
+def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[str]]:
     """Las llaves de RSSSF que la pagina NO tiene ya, y las que contradice.
 
     LO QUE LA PAGINA YA TIENE NO SE VUELVE A ESCRIBIR. En el Argentino A 2005-06 la
@@ -255,9 +255,17 @@ def sin_repetir(llaves: list, ps: list) -> tuple[list, int, list[str]]:
     "Central Cordoba 2-0 Racing" --, o sea mismo resultado y cancha al reves. Decir
     "otra fecha" lo tapaba.
     """
+    # EL HOMONIMO VA ACA TAMBIEN, y no es un detalle. La correccion de homonimos
+    # corre mas abajo en el pipeline, asi que en este punto la pagina todavia dice
+    # "Juventud Unida" mientras que las filas de la otra fuente ya vienen con el
+    # nombre entero: sin aplicarlo, el cruce no las reconoce y el mismo partido
+    # entra dos veces. Paso de verdad, y el docstring de `correcciones.homonimo`
+    # ya avisaba de este modo de falla para el otro lado del cruce.
+    def uno(nombre, art):
+        return correcciones.homonimo(pagina, equipos.canonizar(nombre, art))
+
     def par(x):
-        return frozenset((equipos.canonizar(x.local, x.local_art),
-                          equipos.canonizar(x.visita, x.visita_art)))
+        return frozenset((uno(x.local, x.local_art), uno(x.visita, x.visita_art)))
 
     ya: dict = {}
     for x in ps:
@@ -283,24 +291,25 @@ def sin_repetir(llaves: list, ps: list) -> tuple[list, int, list[str]]:
                 discuten.append(
                     f"mismo partido y misma fecha pero la localia al reves: la "
                     f"pagina dice {p_.fecha} "
-                    f"{equipos.canonizar(otro.local, otro.local_art)} "
+                    f"{uno(otro.local, otro.local_art)} "
                     f"{otro.goles_local}-{otro.goles_visita} "
-                    f"{equipos.canonizar(otro.visita, otro.visita_art)} y la otra "
+                    f"{uno(otro.visita, otro.visita_art)} y la otra "
                     f"fuente {p_.local} {p_.goles_local}-{p_.goles_visita} {p_.visita}")
         elif suyo in suyas:
             cerca = min(suyas[suyo], key=lambda x: abs(_dias(x.fecha) - _dias(p_.fecha)))
             discuten.append(
                 f"la pagina dice {cerca.fecha} "
-                f"{equipos.canonizar(cerca.local, cerca.local_art)} "
+                f"{uno(cerca.local, cerca.local_art)} "
                 f"{cerca.goles_local}-{cerca.goles_visita} "
-                f"{equipos.canonizar(cerca.visita, cerca.visita_art)} y RSSSF "
+                f"{uno(cerca.visita, cerca.visita_art)} y RSSSF "
                 f"{p_.fecha} {p_.local} {p_.goles_local}-{p_.goles_visita} {p_.visita}")
         else:
             nuevas.append(p_)
     return nuevas, repetidas, discuten
 
 
-def sin_repetir_sin_fecha(llaves: list, ps: list) -> tuple[list, int, list[str]]:
+def sin_repetir_sin_fecha(llaves: list, ps: list,
+                          pagina: str) -> tuple[list, int, list[str]]:
     """Lo mismo que `sin_repetir` pero para filas que NO traen fecha.
 
     Hace falta porque el formato compacto de RSSSF -- el del Argentino A 2004-05 --
@@ -318,15 +327,16 @@ def sin_repetir_sin_fecha(llaves: list, ps: list) -> tuple[list, int, list[str]]
     sobre quien jugo en casa. Se conserva el de la pagina y se avisa. Son dos patas
     en esta temporada, la llave Villa Mitre - General Paz Juniors.
     """
-    def clave(local, visita, gl, gv):
-        return (equipos.canonizar(local, "") if isinstance(local, str) else local,
-                visita, gl, gv)
+    # Mismo cuidado que en `sin_repetir`: el homonimo se aplica aca porque la
+    # correccion corre mas abajo, y sin el la pagina y la otra fuente llaman
+    # distinto al mismo club y el partido entra dos veces.
+    def uno(nombre, art):
+        return correcciones.homonimo(pagina, equipos.canonizar(nombre, art))
 
     suyos = set()
     for x in ps:
         if x.fase == "eliminacion":
-            suyos.add((equipos.canonizar(x.local, x.local_art),
-                       equipos.canonizar(x.visita, x.visita_art),
+            suyos.add((uno(x.local, x.local_art), uno(x.visita, x.visita_art),
                        x.goles_local, x.goles_visita))
 
     nuevas, repetidas, discuten = [], 0, []
@@ -404,7 +414,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     t.mes_inicio, desde=rsssf.SECCION.get(t.pagina, ""))
                 for p_ in llaves:
                     p_.torneo = t.torneo
-                nuevas, repetidas, discuten = sin_repetir(llaves, ps)
+                nuevas, repetidas, discuten = sin_repetir(llaves, ps, t.pagina)
                 ps += nuevas
                 if repetidas:
                     mas.append(f"{repetidas} llaves de RSSSF ya estaban en la "
@@ -431,7 +441,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
                 llaves, mas = rsssf.leer_llaves_compacto(crudo, mapa)
                 for p_ in llaves:
                     p_.torneo = t.torneo
-                nuevas, repetidas, discuten = sin_repetir_sin_fecha(llaves, ps)
+                nuevas, repetidas, discuten = sin_repetir_sin_fecha(llaves, ps, t.pagina)
                 ps += nuevas
                 if repetidas:
                     mas.append(f"{repetidas} patas de RSSSF ya estaban en la grilla "
@@ -456,7 +466,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     f"queda sin partidos", repr(e), grave=False))
             else:
                 llaves, mas = espn.leer_llaves(eventos, mapa, t.torneo)
-                nuevas, repetidas, discuten = sin_repetir(llaves, ps)
+                nuevas, repetidas, discuten = sin_repetir(llaves, ps, t.pagina)
                 ps += nuevas
                 if repetidas:
                     mas.append(f"{repetidas} llaves de ESPN ya estaban en la grilla "
@@ -509,7 +519,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # cada aviso por duplicado.
     avisos += _completar_fechas_rsssf(ps, t) if t.rsssf and not t.sin_grilla else []
     avisos += _completar_fechas_espn(ps, t) if t.espn else []
-    avisos += validar.revisar(ps)
+    avisos += validar.revisar(ps, en_curso=not t.cerrado)
     # La tabla de posiciones de la propia pagina, contra la suma de los partidos.
     # Va como aviso: lo que denuncia es una contradiccion DE LA FUENTE consigo
     # misma, y frenar el build de todos los dias por eso seria desproporcionado.
@@ -677,7 +687,12 @@ def main(argv=None) -> int:
                   filas, sin_fecha)
 
     if reusados:
-        print(f"\n  ({reusados} torneos terminados salieron del CSV, sin bajarlos)")
+        # "salieron del CSV" se leia como "se fueron del CSV", que es justo lo
+        # contrario de lo que pasa: sus filas se LEEN de ahi en vez de volver a
+        # bajar la pagina. Un mensaje que asusta por como esta escrito cuesta
+        # igual que uno que informa mal.
+        print(f"\n  ({reusados} torneos ya terminados: sus filas se reusaron "
+              f"del CSV en vez de volver a bajar la pagina)")
 
     for a in avisos:
         print(f"  {a}", file=sys.stderr)

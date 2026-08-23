@@ -1646,6 +1646,28 @@ class Homonimo:
 
 HOMONIMOS: tuple[Homonimo, ...] = (
     Homonimo(
+        pagina="Torneo Argentino A 2004-05", dice="Juventud Unida",
+        debe="Juventud Unida Universitario",
+        porque="El de San Luis. La pagina escribe \"Juventud Unida\" a secas en el "
+               "cuadro y en las tablas, y el padron lo resuelve al club de Primera C "
+               "que se llama igual.\n"
+               "LA FOJA LO ZANJA SIN MARGEN, que es el testigo mas fuerte que hay "
+               "aca. La fila de \"Juventud Unida\" en la tabla acumulada de la pagina "
+               "dice PJ 20, 6 ganados, 7 empatados, 7 perdidos, 22 a favor y 24 en "
+               "contra. RSSSF, que numera el torneo por su cuenta, publica para "
+               "Juventud Unida Universitario (San Luis) exactamente 20 6 7 7 22-24. "
+               "Los SEIS numeros, no dos ni tres.\n"
+               "Y hay dos testigos mas en la propia pagina: su tabla de participantes "
+               "enlaza [[Club Atletico Juventud Unida Universitario]] de San Luis y "
+               "no menciona ningun otro Juventud Unida, y una de sus tablas de "
+               "posiciones escribe el nombre entero, `eq=Juventud Unida "
+               "Universitario`. El unico otro Juventud del torneo es el de "
+               "Pergamino, que la pagina y RSSSF escriben siempre distinto.\n"
+               "Se veia como un desacuerdo del cuadro contra la grilla -- \"Juventud "
+               "Unida vs Aldosivi: el cuadro publica 1-0, 2-5 y la grilla no tiene "
+               "NINGUN partido entre los dos\" -- y no lo era: la grilla SI los tiene, "
+               "con esos marcadores, pero bajo el otro nombre."),
+    Homonimo(
         pagina="Campeonato de Primera B 2015 (Argentina)", dice="Estudiantes (LP)",
         debe="Estudiantes (BA)",
         porque="El de Caseros. El cuadro de llaves escribe \"Estudiantes\" a secas "

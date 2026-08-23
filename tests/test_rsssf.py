@@ -793,3 +793,27 @@ def test_la_tanda_compacta_solo_si_la_vuelta_empato():
         "La Florida               3-1 2-2 Unión de Sunchales  [2-3pen]\n", _MAPA_04)
     assert raros == []
     assert (ps[1].local, ps[1].penales_local, ps[1].penales_visita) == ("Unión (S)", 3, 2)
+
+
+def test_un_solo_espacio_alcanza_como_separador():
+    """RSSSF alinea en columnas, y cuando el nombre la llena justo el relleno queda
+    en UN espacio. Pidiendo dos, esos renglones se perdian EN SILENCIO -- y la
+    falta no se veia ahi sino dos pasos mas adelante, en el chequeo del cuadro,
+    disfrazada de "la grilla no tiene ese partido"."""
+    mapa = {"z": {"Juventud Unida Universitario": "Juventud Unida Universitario",
+                  "Independiente Rivadavia": "Independiente Rivadavia",
+                  "Aldosivi": "Aldosivi"}}
+    ps, raros = rsssf.leer_llaves(
+        "Semifinals\nFirst Legs [Apr 8]\n"
+        "Juventud Unida Universitario 2-2 Independiente Rivadavia\n", mapa, 2005, 2006, 8)
+    assert raros == [] and len(ps) == 1
+    assert (ps[0].local, ps[0].goles_local) == ("Juventud Unida Universitario", 2)
+
+    ps, raros = rsssf.leer_llaves_compacto(
+        "Torneo Clausura\nZona Campeonato\nQuarterfinals [Mar 27-Apr 3]\n"
+        "Juv. Unida Universitario 1-0 2-5 Aldosivi\n",
+        {"z": {"Juv. Unida Universitario": "Juventud Unida Universitario",
+               "Aldosivi": "Aldosivi"}})
+    assert raros == [] and len(ps) == 2
+    assert [(p.local, p.goles_local, p.goles_visita) for p in ps] == [
+        ("Juventud Unida Universitario", 1, 0), ("Aldosivi", 5, 2)]

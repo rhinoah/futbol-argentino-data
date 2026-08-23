@@ -186,12 +186,21 @@ def todos_tienen_zona(ps: list[Partido]) -> list[Aviso]:
 _ZONA = re.compile(r"(?i)^(zona|grupo)\b")
 
 
-def zonas_completas(ps: list[Partido]) -> list[Aviso]:
+def zonas_completas(ps: list[Partido], en_curso: bool = False) -> list[Aviso]:
     """En una zona todos-contra-todos, cada equipo juega la misma cantidad.
 
     Solo se le exige a las secciones que son realmente una zona: los bloques
     "Interzonal" cruzan equipos de zonas distintas y no tienen por que cerrar.
+
+    Y SOLO SE LE EXIGE A UN TORNEO TERMINADO. Mientras la fecha se esta jugando
+    es normal que unos lleven un partido mas que otros -- postergados, fechas
+    escalonadas, un partido del domingo que todavia no se jugo --, y avisarlo
+    todos los dias durante ocho meses no informa nada: solo entrena a saltear el
+    reporte. Recien cuando el torneo cerro, una zona despareja significa que
+    falta un partido.
     """
+    if en_curso:
+        return []
     avisos = []
     zonas: dict[str, list[Partido]] = {}
     for p in ps:
@@ -711,7 +720,17 @@ CHEQUEOS = [campos_completos, fechas_presentes, nombres_en_el_padron,
             una_zona_por_club, localias_repartidas, cadena_de_llaves]
 
 
-def revisar(ps: list[Partido]) -> list[Aviso]:
-    """Corre todos los chequeos. Devuelve los avisos, graves primero."""
-    avisos = [a for chequeo in CHEQUEOS for a in chequeo(ps)]
+def revisar(ps: list[Partido], en_curso: bool = False) -> list[Aviso]:
+    """Corre todos los chequeos. Devuelve los avisos, graves primero.
+
+    `en_curso` dice que el torneo todavia se esta jugando. Hoy lo mira uno solo
+    -- `zonas_completas` --, y va como parametro y no como una deteccion por
+    fecha para que se vea en la lista de torneos quien lo declara.
+    """
+    avisos = []
+    for chequeo in CHEQUEOS:
+        if chequeo is zonas_completas:
+            avisos += chequeo(ps, en_curso)
+        else:
+            avisos += chequeo(ps)
     return sorted(avisos, key=lambda a: not a.grave)

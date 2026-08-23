@@ -255,8 +255,11 @@ ASCENSO_VIEJO = [
            rsssf="arg2012", rsssf_llaves=True),
     # Con grilla propia en Wikipedia; RSSSF entra solo a FECHAR los 28 partidos
     # que la pagina publica sin fecha y que por eso quedaban afuera.
+    # De su Revalida la pagina publica el cuadro y no la grilla, asi que dos
+    # llaves --Sportivo Belgrano-San Martin (T) y Santamarina-Deportivo Maipu--
+    # no tenian partido. RSSSF las tiene, y en el formato expandido.
     Torneo("Torneo Argentino A 2012-13", "Torneo Argentino A", 2012, anio_fin=2013,
-           rsssf="arg3-int2013"),
+           rsssf="arg3-int2013", rsssf_llaves=True),
     Torneo("Torneo Argentino A 2013-14", "Torneo Argentino A", 2013, anio_fin=2014),
 ]
 

@@ -795,3 +795,23 @@ def test_un_empate_sin_penales_no_dice_quien_paso_y_no_se_acusa_a_ninguno():
           p("Semifinales", "B", "C", 1, 0, "2024-11-08")]
     avisos = [str(a) for a in validar.cadena_de_llaves(ps)]
     assert any("sin haber ganado la anterior" in a and "B" in a for a in avisos), avisos
+
+
+def test_una_zona_despareja_no_se_avisa_mientras_se_juega():
+    """Mientras la fecha se esta jugando es NORMAL que unos lleven un partido mas
+    que otros -- postergados, fechas escalonadas, el partido del domingo --, y
+    avisarlo todos los dias durante ocho meses no informa nada: entrena a saltear
+    el reporte. Recien con el torneo cerrado una zona despareja significa que falta
+    un partido."""
+    ps = [zona("A", "B", z="Zona A"), zona("A", "C", z="Zona A")]
+    assert validar.zonas_completas(ps, en_curso=True) == []
+    assert validar.zonas_completas(ps, en_curso=False), "terminado, si es un aviso"
+
+
+def test_revisar_le_pasa_el_en_curso_al_chequeo_que_lo_mira():
+    """El testigo de arriba a traves de `revisar`, que es como lo llama el build."""
+    ps = [zona("A", "B", z="Zona A"), zona("A", "C", z="Zona A")]
+    assert not [a for a in validar.revisar(ps, en_curso=True)
+                if "no todos jugaron" in a.que]
+    assert [a for a in validar.revisar(ps, en_curso=False)
+            if "no todos jugaron" in a.que]

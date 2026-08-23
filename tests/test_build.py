@@ -758,7 +758,7 @@ def test_no_se_duplica_lo_que_la_pagina_ya_trae():
               _p("Talleres (C)", "Racing (C)", "2012-06-10"),
               _p("Racing (C)", "Boca Juniors", "2012-06-17")]
 
-    nuevas, repetidas, discuten = build.sin_repetir(rsssf_, pagina)
+    nuevas, repetidas, discuten = build.sin_repetir(rsssf_, pagina, "una pagina")
     assert repetidas == 2 and discuten == []
     assert [x.visita for x in nuevas] == ["Boca Juniors"]
 
@@ -771,7 +771,7 @@ def test_la_comparacion_va_canonizada():
     pagina = [_p("Talleres de Córdoba", "Libertad (Sunchales)", "2012-06-03")]
     rsssf_ = [_p("Talleres (C)", "Libertad (S)", "2012-06-03")]
 
-    nuevas, repetidas, _ = build.sin_repetir(rsssf_, pagina)
+    nuevas, repetidas, _ = build.sin_repetir(rsssf_, pagina, "una pagina")
     assert repetidas == 1 and nuevas == [], (
         "si esto falla, la pagina y RSSSF no se reconocen y el partido entra dos veces")
 
@@ -784,7 +784,7 @@ def test_la_localia_al_reves_no_pasa_por_repetido():
     pagina = [_p("Deportivo Español", "Luján", "2012-05-30", 1, 0)]
     otra = [_p("Luján", "Deportivo Español", "2012-05-30", 0, 1)]
 
-    nuevas, repetidas, discuten = build.sin_repetir(otra, pagina)
+    nuevas, repetidas, discuten = build.sin_repetir(otra, pagina, "una pagina")
     assert nuevas == [] and repetidas == 1, "es el mismo partido: no se duplica"
     assert len(discuten) == 1 and "localia al reves" in discuten[0]
 
@@ -795,7 +795,7 @@ def test_cuando_las_dos_fuentes_se_contradicen_gana_la_pagina_y_se_avisa():
     pagina = [_p("Racing (O)", "Central Córdoba (SdE)", "2012-05-19", 0, 2)]
     rsssf_ = [_p("Central Córdoba (SdE)", "Racing (O)", "2012-05-18", 2, 0)]
 
-    nuevas, repetidas, discuten = build.sin_repetir(rsssf_, pagina)
+    nuevas, repetidas, discuten = build.sin_repetir(rsssf_, pagina, "una pagina")
     assert nuevas == [] and repetidas == 0
     assert len(discuten) == 1
     # las dos versiones enfrentadas, que es lo que deja ver que ademas de la fecha
@@ -814,7 +814,7 @@ def test_sin_fecha_la_casilla_es_el_partido_entero():
               _p("Luján de Cuyo", "Aldosivi", "", 3, 1),
               _p("Ben Hur", "Talleres (C)", "", 2, 0)]
 
-    nuevas, repetidas, discuten = build.sin_repetir_sin_fecha(rsssf_, pagina)
+    nuevas, repetidas, discuten = build.sin_repetir_sin_fecha(rsssf_, pagina, "una pagina")
     assert repetidas == 2 and discuten == []
     assert [x.local for x in nuevas] == ["Ben Hur"]
 
@@ -826,6 +826,24 @@ def test_sin_fecha_el_partido_al_reves_es_un_desacuerdo_y_no_uno_nuevo():
     pagina = [_p("General Paz Juniors", "Villa Mitre", "2004-11-21", 4, 1)]
     rsssf_ = [_p("Villa Mitre", "General Paz Juniors", "", 1, 4)]
 
-    nuevas, repetidas, discuten = build.sin_repetir_sin_fecha(rsssf_, pagina)
+    nuevas, repetidas, discuten = build.sin_repetir_sin_fecha(rsssf_, pagina, "una pagina")
     assert nuevas == [] and repetidas == 0, "no es un partido que falte"
     assert len(discuten) == 1 and "al reves" in discuten[0]
+
+
+def test_el_cruce_aplica_el_homonimo_de_la_pagina():
+    """La correccion de homonimos corre MAS ABAJO en el pipeline, asi que en el
+    momento del cruce la pagina todavia dice "Juventud Unida" mientras que las
+    filas de la otra fuente ya vienen con el nombre entero. Sin aplicarlo aca, el
+    cruce no las reconoce y el mismo partido entra dos veces -- paso, y son dos
+    filas duplicadas en el Argentino A 2004-05.
+
+    Se usa el homonimo de verdad, no uno inventado: si alguien lo saca de
+    `correcciones`, este test lo dice.
+    """
+    pagina = [_p("General Paz Juniors", "Juventud Unida", "2005-04-10", 0, 1)]
+    otra = [_p("General Paz Juniors", "Juventud Unida Universitario", "2005-04-10", 0, 1)]
+
+    nuevas, repetidas, _ = build.sin_repetir(otra, pagina, "Torneo Argentino A 2004-05")
+    assert repetidas == 1 and nuevas == [], (
+        "sin el homonimo la pagina y la otra fuente no se reconocen y el partido se duplica")

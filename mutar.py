@@ -887,14 +887,35 @@ MUTANTES = [
      '_LLAVE_PEGADO = re.compile(r"(?!x)x()")'),
 
     ("build.py", "comparar sin canonizar al buscar repetidos",
-     "        return frozenset((equipos.canonizar(x.local, x.local_art),\n"
-     "                          equipos.canonizar(x.visita, x.visita_art)))",
+     "        return frozenset((uno(x.local, x.local_art), uno(x.visita, x.visita_art)))",
      "        return frozenset((x.local, x.visita))"),
 
     # El lector de llaves de ESPN, y el hueco que destapo en el cedazo.
     # El formato compacto, por donde puede mentir: el marcador de la vuelta y la
     # localia de la vuelta son lo que hay que dar vuelta, y la casilla sin fecha es
     # lo unico que evita duplicar media temporada.
+    # Los tres que salieron de la ultima tanda: el separador de un espacio en los
+    # dos lectores, el homonimo en el cruce, y la zona despareja mientras se juega.
+    ("fad/rsssf.py", "pedir dos espacios de separador en el lector expandido",
+     '(?:\\t+|[ ]+)(\\d+)\\s*-\\s*(\\d+)(?:\\t+|[ ]+)',
+     '(?:\\t+|[ ]{2,})(\\d+)\\s*-\\s*(\\d+)(?:\\t+|[ ]+)'),
+
+    ("fad/rsssf.py", "pedir dos espacios de separador en el lector compacto",
+     'r"^(.+?)[ \\t]+(\\d+)-(\\d+)[ \\t]+(\\d+)-(\\d+)[ \\t]+(.+?)"',
+     'r"^(.+?)[ \\t]{2,}(\\d+)-(\\d+)[ \\t]+(\\d+)-(\\d+)[ \\t]+(.+?)"'),
+
+    ("build.py", "no aplicar el homonimo de la pagina al cruzar",
+     "        return correcciones.homonimo(pagina, equipos.canonizar(nombre, art))\n"
+     "\n"
+     "    def par(x):",
+     "        return equipos.canonizar(nombre, art)\n"
+     "\n"
+     "    def par(x):"),
+
+    ("fad/validar.py", "avisar la zona despareja aunque el torneo este en curso",
+     "    if en_curso:\n        return []",
+     "    if False:\n        return []"),
+
     ("fad/rsssf.py", "no dar vuelta el marcador de la vuelta",
      "                             goles_local=vuelta[1], goles_visita=vuelta[0],",
      "                             goles_local=vuelta[0], goles_visita=vuelta[1],"),

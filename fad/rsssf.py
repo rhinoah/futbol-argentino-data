@@ -547,10 +547,21 @@ def _dia_de(corchete: str) -> tuple[int, int] | None:
     return None
 # "Sportivo Desamparados        2-0 Douglas Haig     [6-7 pen]". El separador entre
 # el nombre y el marcador es de dos o mas espacios (o un tab, que RSSSF mezcla).
-# El separador es de dos o mas espacios O un tab: RSSSF mezcla las dos cosas, y
-# un solo tab es tan valido como una columna de espacios.
+# El separador es UNO O MAS espacios, o un tab. Empezo pidiendo dos espacios --
+# RSSSF alinea en columnas -- y eso perdia en SILENCIO los renglones donde el
+# nombre llena la columna justo y el relleno queda en un solo espacio:
+#
+#     Juventud Unida Universitario 2-2 Independiente Rivadavia
+#
+# Era la vuelta de una llave del Argentino A 2005-06, y su falta se veia recien
+# dos pasos mas adelante: el chequeo del cuadro comparaba la ida contra la
+# vuelta que publica el dibujo y cantaba un desacuerdo que no existia.
+#
+# Aflojarlo no abre la puerta a las tablas de posiciones -- que traen cosas como
+# `0  25- 6  43` y matchearian --, porque de eso no se ocupa el separador sino
+# `_LLAVE_CIERRA`: una tabla cierra la ronda abierta y sin ronda no se lee nada.
 _LLAVE_CRUCE = re.compile(
-    r"^(.+?)(?:\t+|[ ]{2,})(\d+)\s*-\s*(\d+)(?:\t+|[ ]+)(.+?)(?:(?:\t+|[ ]{2,})\[(.+)\])?\s*$")
+    r"^(.+?)(?:\t+|[ ]+)(\d+)\s*-\s*(\d+)(?:\t+|[ ]+)(.+?)(?:(?:\t+|[ ]{2,})\[(.+)\])?\s*$")
 # ...y a veces el separador se come, porque el nombre trae la sede entre
 # parentesis y el marcador queda pegado o a un solo espacio:
 #
@@ -762,8 +773,13 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
 # Candelaria. Idem "General Paz Juniors 2-1 0-3 Luján de Cuyo", donde avanza Luján,
 # y "Gimnasia y Tiro 4-0 2-6 Atlético Tucumán [2-4pen]", donde el global 6-6 y la
 # tanda mandan a Tucuman, que es el que aparece en semifinales.
+# El separador va de UNO o mas, por lo mismo que en `_LLAVE_CRUCE`: cuando el
+# nombre llena la columna justo, el relleno queda en un solo espacio y el
+# renglon se pierde en silencio. Era la llave `Juv. Unida Universitario 1-0
+# 2-5 Aldosivi`, y su falta se veia recien dos pasos mas adelante, en el
+# chequeo del cuadro, disfrazada de "la grilla no tiene ese partido".
 _COMPACTO = re.compile(
-    r"^(.+?)[ \t]{2,}(\d+)-(\d+)[ \t]+(\d+)-(\d+)[ \t]+(.+?)"
+    r"^(.+?)[ \t]+(\d+)-(\d+)[ \t]+(\d+)-(\d+)[ \t]+(.+?)"
     r"(?:[ \t]{2,}\[(.+?)\])?\s*$")
 _COMPACTO_ZONA = re.compile(r"^(Zona\s+\w+.*)$")
 _COMPACTO_RONDA = re.compile(
@@ -908,6 +924,12 @@ ARGENTINO_A_2005 = {
         "Luján de Cuyo": "Luján de Cuyo",
         "Racing": "Racing (O)",
         "Sportivo Desamparados": "Desamparados",
+        # TYPO DE LA FUENTE, tolerado a mano y no por parecido: en la vuelta
+        # de la semifinal del Apertura RSSSF escribe "Villa Mitra". Sin esto
+        # esa pata no entraba, y la falta se veia dos pasos mas adelante --
+        # el chequeo del cuadro comparaba la ida contra la vuelta que publica
+        # el dibujo y cantaba un desacuerdo que no existia.
+        "Villa Mitra": "Villa Mitre",
         "Villa Mitre": "Villa Mitre",
     },
     "Zona B - Norte": {
