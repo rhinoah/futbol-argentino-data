@@ -300,6 +300,50 @@ def sin_repetir(llaves: list, ps: list) -> tuple[list, int, list[str]]:
     return nuevas, repetidas, discuten
 
 
+def sin_repetir_sin_fecha(llaves: list, ps: list) -> tuple[list, int, list[str]]:
+    """Lo mismo que `sin_repetir` pero para filas que NO traen fecha.
+
+    Hace falta porque el formato compacto de RSSSF -- el del Argentino A 2004-05 --
+    da la fecha como RANGO y de ahi no sale un dia. Sin fecha, la casilla de
+    `sin_repetir` no cruza NUNCA y entrarian las setenta y ocho patas, la mitad de
+    ellas duplicando lo que la pagina ya publica.
+
+    La casilla pasa a ser el partido entero: local, visita y marcador, EN ESE
+    ORDEN. Se midio que sirve de identificador en esta pagina -- sus sesenta
+    partidos de eliminacion dan sesenta claves distintas, ni una repetida --, y el
+    orden es lo que separa las dos patas de una misma llave.
+
+    Y la vuelta de eso: si la pagina tiene el partido AL REVES -- mismo marcador,
+    local y visitante cambiados -- no es un partido que falte sino un desacuerdo
+    sobre quien jugo en casa. Se conserva el de la pagina y se avisa. Son dos patas
+    en esta temporada, la llave Villa Mitre - General Paz Juniors.
+    """
+    def clave(local, visita, gl, gv):
+        return (equipos.canonizar(local, "") if isinstance(local, str) else local,
+                visita, gl, gv)
+
+    suyos = set()
+    for x in ps:
+        if x.fase == "eliminacion":
+            suyos.add((equipos.canonizar(x.local, x.local_art),
+                       equipos.canonizar(x.visita, x.visita_art),
+                       x.goles_local, x.goles_visita))
+
+    nuevas, repetidas, discuten = [], 0, []
+    for p_ in llaves:
+        mio = (p_.local, p_.visita, p_.goles_local, p_.goles_visita)
+        alreves = (p_.visita, p_.local, p_.goles_visita, p_.goles_local)
+        if mio in suyos:
+            repetidas += 1
+        elif alreves in suyos:
+            discuten.append(f"la pagina dice {p_.visita} {p_.goles_visita}-"
+                            f"{p_.goles_local} {p_.local} y RSSSF lo tiene al reves, "
+                            f"{p_.local} {p_.goles_local}-{p_.goles_visita} {p_.visita}")
+        else:
+            nuevas.append(p_)
+    return nuevas, repetidas, discuten
+
+
 def procesar(texto: str, t) -> tuple[list, list]:
     """Parsea, lleva los nombres al canonico y valida. Devuelve (partidos, avisos).
 
@@ -371,6 +415,34 @@ def procesar(texto: str, t) -> tuple[list, list]:
                                + " | ".join(discuten[:3]))
                 importados += [validar.Aviso(f"{t.pagina}: RSSSF llaves", d,
                                              grave=False) for d in mas]
+        # El formato compacto va aparte: sus filas salen SIN FECHA -- el archivo
+        # da un rango que cubre las dos patas -- y por eso terminan en
+        # `data/sin-fecha`, que es la carpeta que existe para esto.
+        if t.rsssf_compacto:
+            from fad import rsssf
+            archivo, mapa = rsssf.FUENTES[t.pagina]
+            try:
+                crudo = rsssf.descargar(archivo)
+            except OSError as e:
+                importados.append(validar.Aviso(
+                    f"{t.pagina}: RSSSF no respondio, asi que la fase final se "
+                    f"queda sin partidos", repr(e), grave=False))
+            else:
+                llaves, mas = rsssf.leer_llaves_compacto(crudo, mapa)
+                for p_ in llaves:
+                    p_.torneo = t.torneo
+                nuevas, repetidas, discuten = sin_repetir_sin_fecha(llaves, ps)
+                ps += nuevas
+                if repetidas:
+                    mas.append(f"{repetidas} patas de RSSSF ya estaban en la grilla "
+                               f"de la pagina y no se duplicaron")
+                if discuten:
+                    mas.append(f"{len(discuten)} patas donde la pagina y RSSSF no "
+                               f"coinciden en quien jugo de local; se conserva el de "
+                               f"la pagina: " + " | ".join(discuten[:3]))
+                importados += [validar.Aviso(f"{t.pagina}: RSSSF compacto", d,
+                                             grave=False) for d in mas]
+
         # Y lo mismo desde ESPN, para las temporadas que RSSSF no cubre. Mismo
         # criterio: solo entra lo que la pagina no tiene, y por el mismo cedazo.
         if t.espn_llaves:

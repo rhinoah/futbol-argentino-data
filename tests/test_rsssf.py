@@ -745,3 +745,51 @@ def test_la_cancha_de_un_tercero_se_dice_y_no_se_marca_neutral():
     ps, raros = rsssf.leer_llaves(tx, _MAPA_C, 2008, 2009, 8)
     assert ps[0].neutral is None and ps[0].estadio == ""
     assert len(raros) == 1 and "Quilmes" in raros[0]
+
+
+# --------------------------------------------------------------------------
+# El formato compacto: las dos patas en un renglon, la fecha como rango
+# --------------------------------------------------------------------------
+_MAPA_04 = {"Llaves": {"Aldosivi": "Aldosivi", "Luján de Cuyo": "Luján de Cuyo",
+                       "La Florida": "La Florida", "Unión de Sunchales": "Unión (S)"}}
+
+
+def test_un_renglon_compacto_da_las_dos_patas():
+    """`A  0-1 1-3  B` son DOS partidos: la ida en cancha de A y la vuelta en
+    cancha de B. Y los dos marcadores vienen desde la perspectiva de A, asi que el
+    de la vuelta hay que darlo vuelta para escribirlo local-visitante."""
+    ps, raros = rsssf.leer_llaves_compacto(
+        "Torneo Apertura\nZona Campeonato\nQuarterfinals [Nov 20-28]\n"
+        "Aldosivi                 0-1 1-3 Luján de Cuyo\n", _MAPA_04)
+    assert raros == []
+    assert [(p.local, p.goles_local, p.goles_visita, p.visita) for p in ps] == [
+        ("Aldosivi", 0, 1, "Luján de Cuyo"),
+        ("Luján de Cuyo", 3, 1, "Aldosivi")]
+
+
+def test_las_patas_compactas_salen_sin_fecha():
+    """El corchete cubre las DOS patas, asi que de ahi no sale un dia. Un rango no
+    es una fecha: estas filas van a `data/sin-fecha`, que es la carpeta que existe
+    para que un partido real no se pierda por un campo."""
+    ps, _ = rsssf.leer_llaves_compacto(
+        "Torneo Apertura\nQuarterfinals [Nov 20-28]\n"
+        "Aldosivi                 0-1 1-3 Luján de Cuyo\n", _MAPA_04)
+    assert all(p.fecha == "" for p in ps)
+
+
+def test_la_tanda_compacta_solo_si_la_vuelta_empato():
+    """Misma regla que en el formato expandido: la tanda es de la SERIE y se patea
+    despues de la vuelta. Si la vuelta no empato, la columna queda vacia y se dice.
+    Y cuando si empato, la tanda va desde la perspectiva del LOCAL de la vuelta,
+    que es el segundo nombrado."""
+    ps, raros = rsssf.leer_llaves_compacto(
+        "Torneo Apertura\nQuarterfinals [Nov 20-28]\n"
+        "La Florida               3-1 0-2 Unión de Sunchales  [2-3pen]\n", _MAPA_04)
+    assert all(p.penales_local is None for p in ps)
+    assert raros and "la tanda es de la serie" in raros[0]
+
+    ps, raros = rsssf.leer_llaves_compacto(
+        "Torneo Apertura\nQuarterfinals [Nov 20-28]\n"
+        "La Florida               3-1 2-2 Unión de Sunchales  [2-3pen]\n", _MAPA_04)
+    assert raros == []
+    assert (ps[1].local, ps[1].penales_local, ps[1].penales_visita) == ("Unión (S)", 3, 2)

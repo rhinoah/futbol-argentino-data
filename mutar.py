@@ -892,6 +892,25 @@ MUTANTES = [
      "        return frozenset((x.local, x.visita))"),
 
     # El lector de llaves de ESPN, y el hueco que destapo en el cedazo.
+    # El formato compacto, por donde puede mentir: el marcador de la vuelta y la
+    # localia de la vuelta son lo que hay que dar vuelta, y la casilla sin fecha es
+    # lo unico que evita duplicar media temporada.
+    ("fad/rsssf.py", "no dar vuelta el marcador de la vuelta",
+     "                             goles_local=vuelta[1], goles_visita=vuelta[0],",
+     "                             goles_local=vuelta[0], goles_visita=vuelta[1],"),
+
+    ("fad/rsssf.py", "no cambiar la localia en la vuelta",
+     "        fuera.append(Partido(local=cv, visita=cl,",
+     "        fuera.append(Partido(local=cl, visita=cv,"),
+
+    ("build.py", "sin fecha, no ver el partido al reves",
+     "        elif alreves in suyos:",
+     "        elif False:"),
+
+    ("build.py", "sin fecha, duplicar lo que la pagina ya trae",
+     "        if mio in suyos:",
+     "        if False:"),
+
     ("fad/espn.py", "leer la fase regular como si fuera una llave",
      '        if not ronda:\n            continue',
      '        ronda = ronda or "Fecha"\n        if False:\n            continue'),

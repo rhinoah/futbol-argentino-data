@@ -69,6 +69,11 @@ class Torneo:
     # ESCRIBE filas, y la diferencia merece estar en el nombre del flag y no en
     # un comentario que despues nadie lee.
     espn_llaves: bool = False
+    # El archivo de RSSSF esta en el formato COMPACTO -- las dos patas en un
+    # renglon y la fecha como RANGO --, asi que sus filas entran sin fecha y
+    # terminan en `data/sin-fecha`. Va aparte de `rsssf_llaves` porque la
+    # diferencia no es de formato sino de lo que se puede afirmar.
+    rsssf_compacto: bool = False
     # El feed de ESPN. La liga, los rangos de fecha y el mapa de nombres viven en
     # `fad/espn.py`, indexados por pagina.
     espn: bool = False
@@ -346,7 +351,8 @@ ASCENSO_HISTORICO = [
     # las tablas finales y las llaves, no la grilla. Asi que lo que entra son las
     # llaves de las dos Revalidas, las dos fases finales, la permanencia y las
     # promociones, mas esa unica zona. No se inventa el resto; queda anotado.
-    Torneo('Torneo Argentino A 2004-05', 'Torneo Argentino A', 2004, anio_fin=2005),
+    Torneo('Torneo Argentino A 2004-05', 'Torneo Argentino A', 2004, anio_fin=2005,
+           rsssf='arg3-int05', rsssf_compacto=True),
     Torneo('Torneo Argentino A 2006-07', 'Torneo Argentino A', 2006,
            anio_fin=2007, rsssf='arg3-int07', sin_grilla=True),
     # La tercera sin grilla, y la que enseño a no dar por buena la analogia con la

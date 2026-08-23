@@ -801,3 +801,31 @@ def test_cuando_las_dos_fuentes_se_contradicen_gana_la_pagina_y_se_avisa():
     # las dos versiones enfrentadas, que es lo que deja ver que ademas de la fecha
     # discuten la LOCALIA
     assert "2012-05-19" in discuten[0] and "2012-05-18" in discuten[0]
+
+
+def test_sin_fecha_la_casilla_es_el_partido_entero():
+    """Sin fecha, la casilla de `sin_repetir` no cruza nunca y entrarian todas las
+    patas, la mitad duplicando lo que la pagina ya tiene. La casilla pasa a ser
+    local, visita y marcador, EN ESE ORDEN -- el orden es lo que separa las dos
+    patas de una misma llave."""
+    pagina = [_p("Aldosivi", "Luján de Cuyo", "2004-11-20", 0, 1),
+              _p("Luján de Cuyo", "Aldosivi", "2004-11-28", 3, 1)]
+    rsssf_ = [_p("Aldosivi", "Luján de Cuyo", "", 0, 1),
+              _p("Luján de Cuyo", "Aldosivi", "", 3, 1),
+              _p("Ben Hur", "Talleres (C)", "", 2, 0)]
+
+    nuevas, repetidas, discuten = build.sin_repetir_sin_fecha(rsssf_, pagina)
+    assert repetidas == 2 and discuten == []
+    assert [x.local for x in nuevas] == ["Ben Hur"]
+
+
+def test_sin_fecha_el_partido_al_reves_es_un_desacuerdo_y_no_uno_nuevo():
+    """Mismo marcador, local y visitante cambiados: no falta el partido, discrepan
+    sobre quien jugo en casa. Pasa de verdad en el Argentino A 2004-05, con la
+    llave Villa Mitre - General Paz Juniors."""
+    pagina = [_p("General Paz Juniors", "Villa Mitre", "2004-11-21", 4, 1)]
+    rsssf_ = [_p("Villa Mitre", "General Paz Juniors", "", 1, 4)]
+
+    nuevas, repetidas, discuten = build.sin_repetir_sin_fecha(rsssf_, pagina)
+    assert nuevas == [] and repetidas == 0, "no es un partido que falte"
+    assert len(discuten) == 1 and "al reves" in discuten[0]

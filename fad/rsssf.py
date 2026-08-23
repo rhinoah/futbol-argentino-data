@@ -739,6 +739,100 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
                          f"no lo distingue de un partido en casa")
     return fuera, raros
 
+
+# --------------------------------------------------------------------------
+# El formato COMPACTO: las dos patas en un renglon y la fecha como rango
+# --------------------------------------------------------------------------
+# El archivo del Argentino A 2004-05 es el unico del corpus escrito asi:
+#
+#     Quarterfinals [Mar 27-Apr 3]
+#     Guillermo Brown          1-0 1-3 Luján de Cuyo
+#     La Florida               3-1 0-2 Unión de Sunchales  [2-3pen]
+#
+# Trae la localia -- el primero nombrado es local en la IDA y el segundo en la
+# vuelta -- pero NO la fecha de cada pata: el corchete cubre las dos. Un rango no
+# es una fecha, asi que estas filas salen SIN FECHA y terminan en `data/sin-fecha`.
+# Es la carpeta que existe justo para esto: que falte la fecha no es lo mismo que
+# no tener el partido.
+#
+# LOS DOS MARCADORES VAN DESDE LA PERSPECTIVA DEL PRIMERO. No es una suposicion:
+# se verifico contra la progresion del propio torneo tres veces. En
+# "Atlético Candelaria 2-2 2-1 Sp. Desamparados" (Semifinals Revalida), leyendo la
+# vuelta como local-visitante pasaria Desamparados, y el que juega la final es
+# Candelaria. Idem "General Paz Juniors 2-1 0-3 Luján de Cuyo", donde avanza Luján,
+# y "Gimnasia y Tiro 4-0 2-6 Atlético Tucumán [2-4pen]", donde el global 6-6 y la
+# tanda mandan a Tucuman, que es el que aparece en semifinales.
+_COMPACTO = re.compile(
+    r"^(.+?)[ \t]{2,}(\d+)-(\d+)[ \t]+(\d+)-(\d+)[ \t]+(.+?)"
+    r"(?:[ \t]{2,}\[(.+?)\])?\s*$")
+_COMPACTO_ZONA = re.compile(r"^(Zona\s+\w+.*)$")
+_COMPACTO_RONDA = re.compile(
+    r"^(Quarterfinals|Semifinals|Final|Round\s+\d+)\s*(?:\[.*\])?\s*$", re.I)
+
+
+def leer_llaves_compacto(texto: str, mapa: dict) -> tuple[list, list[str]]:
+    """Los partidos de las llaves de un archivo en formato compacto, SIN fecha.
+
+    Devuelve dos filas por renglon -- la ida con el primero de local y la vuelta
+    con el segundo --, y el marcador de la vuelta dado vuelta, porque en el
+    original venia desde la perspectiva del primero.
+    """
+    from fad.parser import Partido
+
+    fuera, raros = [], []
+    llave = zona = ronda = ""
+    for cruda in texto.split("\n"):
+        linea = cruda.rstrip()
+        pelada = linea.strip()
+        if not pelada:
+            continue
+        if pelada.startswith("Torneo "):
+            llave, zona, ronda = pelada, "", ""
+            continue
+        if _COMPACTO_ZONA.match(pelada):
+            zona, ronda = pelada, ""
+            continue
+        m = _COMPACTO_RONDA.match(pelada)
+        if m:
+            ronda = m.group(1).strip()
+            continue
+        m = _COMPACTO.match(linea)
+        if not m or not ronda:
+            continue
+        cl, porque1 = _club(m.group(1), mapa, "", {})
+        cv, porque2 = _club(m.group(6), mapa, "", {})
+        if not cl or not cv:
+            raros.append(f"{ronda}: {porque1 or porque2}; la llave queda afuera")
+            continue
+        ida = (int(m.group(2)), int(m.group(3)))
+        vuelta = (int(m.group(4)), int(m.group(5)))
+        nota = m.group(7) or ""
+        # La tanda es de la SERIE y se patea despues de la vuelta, asi que solo se
+        # escribe si la vuelta quedo igualada. Es la misma regla que en el formato
+        # expandido, y por el mismo motivo: el dataset guarda los penales por
+        # partido, y ponerlos en una pata que no empato afirma algo falso.
+        pen = _LLAVE_PENALES.search(nota)
+        pl = pv = None
+        if pen and vuelta[0] == vuelta[1]:
+            # la vuelta se juega en cancha del segundo, asi que la tanda tambien
+            # va desde su perspectiva
+            pl, pv = int(pen.group(2)), int(pen.group(1))
+        elif pen:
+            raros.append(f"{ronda}: {cl} vs {cv} define por penales "
+                         f"{pen.group(1)}-{pen.group(2)}, pero la tanda es de la "
+                         f"serie y no de una pata; la columna queda vacia")
+        jornada = f"{zona} - {ronda}" if zona else ronda
+        fuera.append(Partido(local=cl, visita=cv,
+                             goles_local=ida[0], goles_visita=ida[1],
+                             fase="eliminacion", jornada=jornada, llave=llave,
+                             fuente_fecha=CREDITO))
+        fuera.append(Partido(local=cv, visita=cl,
+                             goles_local=vuelta[1], goles_visita=vuelta[0],
+                             penales_local=pl, penales_visita=pv,
+                             fase="eliminacion", jornada=jornada, llave=llave,
+                             fuente_fecha=CREDITO))
+    return fuera, raros
+
 def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
     """Los `Ajeno` de RSSSF convertidos en filas del dataset.
 
@@ -1391,6 +1485,48 @@ PRIMERA_C_2008 = {
     }
 }
 
+# El Torneo Argentino A 2004-05. Su archivo es el UNICO del corpus escrito entero
+# en el formato COMPACTO -- las dos patas en un renglon y la fecha como rango --,
+# asi que sus filas entran sin fecha. Ver `leer_llaves_compacto`.
+#
+# Doce de los veintiocho nombres el padron no los resuelve solo, y tres de esos
+# doce ni siquiera son nombres: son restos de una nota partida en dos renglones
+# ("Ben Hur             [2nd leg abd at 0-3 in 85',"), que `_club` limpia antes de
+# buscar. Los otros nueve van en el mapa.
+ARGENTINO_A_2004 = {
+    "Llaves": {
+        "Atl. Ñuñorco": "Ñuñorco",
+        "Atlético Ñuñorco": "Ñuñorco",
+        "Gimnasia y Esgrima-CdU": "Gimnasia y Esgrima (CdU)",
+        "Indep. Rivadavia": "Independiente Rivadavia",
+        "Indepte. Rivadavia": "Independiente Rivadavia",
+        "JU Universitario": "Juventud Unida Universitario",
+        "Juv. Unida Universitario": "Juventud Unida Universitario",
+        "Juventud (Pergamino)": "Juventud (P)",
+        "Racing-CBA": "Racing (C)",
+        "Unión de Sunchales": "Unión (S)",
+        # los que el padron si resuelve, escritos igual para que el mapa sea el
+        # padron de ESTE archivo y no una lista de excepciones a medias
+        "Aldosivi": "Aldosivi",
+        "Atl. Candelaria": "Atlético Candelaria",
+        "Atlético Candelaria": "Atlético Candelaria",
+        "Atlético Tucumán": "Atlético Tucumán",
+        "Ben Hur": "Ben Hur",
+        "Cipolletti": "Cipolletti",
+        "Desamparados": "Desamparados",
+        "Douglas Haig": "Douglas Haig",
+        "General Paz Juniors": "General Paz Juniors",
+        "Gimnasia y Tiro": "Gimnasia y Tiro (S)",
+        "Guillermo Brown": "Guillermo Brown",
+        "La Florida": "La Florida",
+        "Luján de Cuyo": "Luján de Cuyo",
+        "Rosario Puerto Belgrano": "Rosario Puerto Belgrano",
+        "Sp. Desamparados": "Desamparados",
+        "Talleres": "Talleres (C)",
+        "Villa Mitre": "Villa Mitre",
+    }
+}
+
 # DONDE VIVE CADA TEMPORADA EN RSSSF, incluido lo que todavia no se importa.
 # Verificado archivo por archivo el 2026-08-22, y cada URL abierta y leida por dos
 # agentes distintos: uno buscando y otro tratando de refutarlo.
@@ -1433,4 +1569,5 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2012-13": ("arg3-int2013", ARGENTINO_A_2012),
     "Torneo Argentino A 2011-12": ("arg2012", ARGENTINO_A_2011),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),
+    "Torneo Argentino A 2004-05": ("arg3-int05", ARGENTINO_A_2004),
 }

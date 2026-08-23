@@ -1,9 +1,8 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **71**. Todo lo demás —equipos, marcador, jornada, torneo,
-temporada— salió de Wikipedia igual que el resto del dataset y pasó por los
-mismos chequeos.
+jugaron.** Son **148**. Todo lo demás —equipos, marcador, jornada, torneo,
+temporada— pasó por los mismos chequeos que el resto del dataset.
 
 Van acá y no en `data/` porque el dataset principal promete una fecha en cada
 fila, y esa promesa vale la pena mantenerla. Pero **que falte la fecha no es lo
@@ -13,9 +12,10 @@ campo.
 ## Eran 2 345
 
 Esta carpeta tenía seis temporadas enteras: las tres de Primera C 2008-2011, la
-Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó es un resto de
-setenta y dos filas repartido en diez torneos, y **ninguna está acá porque su
-torneo no tenga fuente de fechas**: están una por una, por su propio motivo.
+Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **148** filas en
+doce torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
+**ninguna está acá porque su torneo no tenga fuente de fechas**: están una por
+una, por su propio motivo.
 
 | de dónde sale la fecha en el resto del dataset | filas |
 |---|---|
@@ -34,7 +34,34 @@ jornada siguen saliendo de Wikipedia, y el marcador de la otra fuente se usa
 **para verificar** que las dos partes hablan del mismo partido: si no coinciden,
 no se completa nada y se avisa.
 
-## Por qué quedaron estas setenta y dos
+## Las 41 del Argentino A 2004-05 son otra cosa
+
+Y conviene separarlas, porque no les falta la fecha por el mismo motivo que a las
+demás. A ésas **no la tiene la fuente**.
+
+De ese torneo Wikipedia publica la fase final sólo como cuadro, y un cuadro no
+dice quién jugó de local. RSSSF sí lo dice, pero su archivo de esa temporada está
+escrito en un formato compacto que pone las dos patas en un renglón y la fecha
+como **rango**:
+
+```
+Quarterfinals [Nov 20-28]
+Aldosivi                 0-1 1-3 Luján de Cuyo
+```
+
+De ahí sale todo salvo el día: quién fue local en cada pata, el marcador de cada
+una y de qué ronda son. **Un rango no es una fecha**, así que no se reparte: el
+28 de noviembre no es «la fecha de la vuelta», es el final de una ventana. Las 41
+filas entran acá enteras y sin inventar el día.
+
+Son también las primeras de esta carpeta cuyo marcador **no** sale de Wikipedia.
+La columna `source` lo dice fila por fila, y son las únicas: de las 148, 41 traen
+a RSSSF como fuente del partido y las otras 107 sólo esperaban una fecha.
+
+Ese torneo tiene 61 filas acá en total. Las otras 20 ya estaban, y están por los
+motivos de la sección siguiente.
+
+## Por qué quedaron las otras
 
 Son tres motivos, y los tres son honestos.
 
