@@ -963,6 +963,20 @@ MUTANTES = [
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
 
+    # El solapamiento como testigo de la localia, por los tres lados: no juzgar
+    # nunca, juzgar con dos partidos, y juzgar al reves.
+    ("build.py", "creerle la localia a una fuente que la pagina desmiente",
+     "    if alreves * 2 > repetidas:",
+     "    if False:"),
+
+    ("build.py", "juzgar la localia con dos partidos en comun",
+     "_MINIMO_PARA_JUZGAR = 8",
+     "_MINIMO_PARA_JUZGAR = 1"),
+
+    ("build.py", "no decir que la localia importada no tiene testigo",
+     '                f"igual, pero esa localia no tiene testigo", False)',
+     '                f"igual, pero esa localia no tiene testigo", False) if False else ("", False)'),
+
     ("build.py", "sin fecha, no ver el partido al reves",
      "        elif alreves in suyos:",
      "        elif False:"),
@@ -992,7 +1006,7 @@ MUTANTES = [
      '        lados = dict(zip(("home", "away"), comp.get("competitors", [])))'),
 
     ("build.py", "no ver la localia al reves cuando la fecha coincide",
-     "            if equipos.canonizar(otro.local, otro.local_art) != p_.local:",
+     "            if uno(otro.local, otro.local_art) != p_.local:",
      "            if False:"),
 
     ("build.py", "duplicar lo que la pagina ya trae",

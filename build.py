@@ -275,7 +275,7 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
         if x.fase == "eliminacion":
             suyas.setdefault(par(x), []).append(x)
 
-    nuevas, repetidas, discuten = [], 0, []
+    nuevas, repetidas, discuten, alreves = [], 0, [], 0
     for p_ in llaves:
         suyo = frozenset((p_.local, p_.visita))
         if (suyo, p_.fecha) in ya:
@@ -287,7 +287,8 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
             # como repetido y callarse tapa un desacuerdo real -- el aviso solo
             # miraba la fecha, y con la fecha igual no decia nada.
             otro = ya[(suyo, p_.fecha)][0]
-            if equipos.canonizar(otro.local, otro.local_art) != p_.local:
+            if uno(otro.local, otro.local_art) != p_.local:
+                alreves += 1
                 discuten.append(
                     f"mismo partido y misma fecha pero la localia al reves: la "
                     f"pagina dice {p_.fecha} "
@@ -305,7 +306,51 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
                 f"{p_.fecha} {p_.local} {p_.goles_local}-{p_.goles_visita} {p_.visita}")
         else:
             nuevas.append(p_)
-    return nuevas, repetidas, discuten
+    return nuevas, repetidas, discuten, alreves
+
+
+# Con menos partidos en comun, que la mayoria caiga para un lado no dice nada.
+_MINIMO_PARA_JUZGAR = 8
+
+
+def le_creemos_la_localia(repetidas: int, alreves: int) -> tuple[str, bool]:
+    """(que decir, si hay que frenar la importacion).
+
+    Devuelve las dos cosas por separado porque son tres estados y no dos: la
+    fuente aprobo el examen, la fuente lo reprobo, o NO SE LA PUDO EXAMINAR. El
+    tercero no frena nada pero tampoco es un aprobado, y en un reporte que solo
+    habla cuando algo falla los dos se ven igual.
+
+    EL SOLAPAMIENTO ES EL TESTIGO, y sale gratis. Donde la pagina y la fuente traen
+    el MISMO partido, la pagina dice quien fue local con una columna rotulada
+    --"Local - Ida"--; si la fuente le lleva la contra en la mayoria de esos, su
+    orden no es la localia, y entonces tampoco lo es en los partidos que la pagina
+    NO trae, que son justo los que se querian importar.
+
+    No es una sospecha: se midio pagina por pagina. El Argentino A 2004-05 coincide
+    en 40 de 45 y el 2011-12 en 6 de 28 -- VEINTIUNO por ciento, peor que el 55.6%
+    de la convencion "arriba es local en la ida" que este repo ya rechazo por
+    inventar. Y la alternancia entre ida y vuelta no sirve para distinguirlas: las
+    dos fuentes alternan, una es el espejo de la otra. Lo unico que decide es una
+    columna rotulada, y esa la tiene la pagina.
+
+    Pide un solapamiento MINIMO porque con dos o tres partidos la mayoria no
+    significa nada; sin testigo suficiente no se bloquea, y eso queda dicho aparte.
+    """
+    if repetidas < _MINIMO_PARA_JUZGAR:
+        # SIN TESTIGO NO SE BLOQUEA, PERO SE DICE. El Argentino A 2012-13 importa
+        # seis partidos con CERO en comun con la pagina.
+        return (f"ojo: solo {repetidas} partido(s) en comun con la pagina, muy pocos "
+                f"para saber si el orden de la fuente es la localia. Se importa "
+                f"igual, pero esa localia no tiene testigo", False)
+    if alreves * 2 > repetidas:
+        return (f"la fuente y la pagina traen {repetidas} partidos en comun y en "
+                f"{alreves} no coinciden en quien jugo de local. Ahi la pagina lo "
+                f"dice con una columna rotulada, asi que el orden de la fuente NO es "
+                f"la localia -- y tampoco lo seria en los que la pagina no trae. No "
+                f"se importa nada: seria escribir una localia que el testigo "
+                f"desmiente", True)
+    return "", False
 
 
 def sin_repetir_sin_fecha(llaves: list, ps: list,
@@ -414,8 +459,13 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     t.mes_inicio, desde=rsssf.SECCION.get(t.pagina, ""))
                 for p_ in llaves:
                     p_.torneo = t.torneo
-                nuevas, repetidas, discuten = sin_repetir(llaves, ps, t.pagina)
-                ps += nuevas
+                nuevas, repetidas, discuten, alreves = sin_repetir(
+                    llaves, ps, t.pagina)
+                que_decir, frenar = le_creemos_la_localia(repetidas, alreves)
+                if que_decir:
+                    mas.append(f"RSSSF: {que_decir}")
+                if not frenar:
+                    ps += nuevas
                 if repetidas:
                     mas.append(f"{repetidas} llaves de RSSSF ya estaban en la "
                                f"grilla de la pagina y no se duplicaron")
@@ -466,8 +516,13 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     f"queda sin partidos", repr(e), grave=False))
             else:
                 llaves, mas = espn.leer_llaves(eventos, mapa, t.torneo)
-                nuevas, repetidas, discuten = sin_repetir(llaves, ps, t.pagina)
-                ps += nuevas
+                nuevas, repetidas, discuten, alreves = sin_repetir(
+                    llaves, ps, t.pagina)
+                que_decir, frenar = le_creemos_la_localia(repetidas, alreves)
+                if que_decir:
+                    mas.append(f"ESPN: {que_decir}")
+                if not frenar:
+                    ps += nuevas
                 if repetidas:
                     mas.append(f"{repetidas} llaves de ESPN ya estaban en la grilla "
                                f"de la pagina y no se duplicaron")
