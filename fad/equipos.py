@@ -758,6 +758,14 @@ ARTICULOS: dict[str, str] = {
     # una tabla. `articulos_que_contradicen` no lo veia porque pide que el nombre
     # visible traiga su propio parentesis, y "Racing Club" no trae ninguno: el
     # unico testigo que quedaba era leer el mapa.
+    #
+    # DE DONDE SALE ESTE ARREGLO. El error entro el 2026-08-13 en `6379f71`, que
+    # resolvio los clubes por el articulo, y se corrigio el 2026-08-20 -- pero el
+    # commit que lo trajo, `8223aec`, tiene un mensaje sobre el archivo de RSSSF
+    # 2009-10 y NO lo menciona: el arreglo se hizo en una tarea aparte y quedo
+    # adentro de un commit que documenta otra cosa. Se anota aca porque el
+    # historial no lo encuentra solo, y en este repo lo terminado se busca por el
+    # mensaje del commit.
     'Racing Club (Trelew)': 'Racing (T)',
     'Asociación Civil Racing Club (Trelew)': 'Racing (T)',
     'Asociación Civil Racing Club': 'Racing (T)',
