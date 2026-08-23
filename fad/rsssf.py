@@ -837,15 +837,28 @@ def leer_llaves_compacto(texto: str, mapa: dict) -> tuple[list, list[str]]:
             raros.append(f"{ronda}: {cl} vs {cv} define por penales "
                          f"{pen.group(1)}-{pen.group(2)}, pero la tanda es de la "
                          f"serie y no de una pata; la columna queda vacia")
+        # LA ZONA VA EN LA LLAVE, NO EN LA JORNADA. "Zona Campeonato" y "Zona
+        # Revalida" son dos CUADROS distintos del mismo torneo, cada uno con su
+        # final: metiendolas en la jornada, las dos finales quedaban en la misma
+        # llave y el normalizador las colapsaba en una sola ronda -- que es peor
+        # que no revisar, porque compara contra el conjunto equivocado. `llave` es
+        # justamente "que cuadro de eliminacion", y esto es lo que quiere decir.
+        #
+        # Y va en la llave ADEMAS de en la jornada, no en vez de. `llave` no se
+        # exporta: sacandola de la jornada, el CSV publicaba dos filas que dicen
+        # "Final" sin forma de saber cual es la del Campeonato y cual la de la
+        # Revalida. El chequeo necesita la llave y el que lee el dataset necesita
+        # la jornada, y no cuesta nada dárselas a los dos.
+        cuadro = f"{llave} - {zona}" if zona else llave
         jornada = f"{zona} - {ronda}" if zona else ronda
         fuera.append(Partido(local=cl, visita=cv,
                              goles_local=ida[0], goles_visita=ida[1],
-                             fase="eliminacion", jornada=jornada, llave=llave,
+                             fase="eliminacion", jornada=jornada, llave=cuadro,
                              fuente_fecha=CREDITO))
         fuera.append(Partido(local=cv, visita=cl,
                              goles_local=vuelta[1], goles_visita=vuelta[0],
                              penales_local=pl, penales_visita=pv,
-                             fase="eliminacion", jornada=jornada, llave=llave,
+                             fase="eliminacion", jornada=jornada, llave=cuadro,
                              fuente_fecha=CREDITO))
     return fuera, raros
 

@@ -390,6 +390,31 @@ def test_las_dos_semifinales_son_una_ronda_y_no_dos():
     assert validar.cadena_de_llaves(ps) == []
 
 
+def test_las_rondas_en_ingles_de_rsssf_se_entienden():
+    """Desde que las llaves de RSSSF entran al dataset, sus jornadas llegan hasta
+    aca escritas en ingles. La jornada publicada sigue siendo fiel a la fuente
+    --su trabajo es ser fiel, no prolijo--, asi que la traduccion vive donde vive
+    el resto de la normalizacion."""
+    assert validar._ronda("Semifinals") == "semifinales"
+    assert validar._ronda("Quarterfinals") == "cuartos"
+    assert validar._ronda("1/8 Finals") == "octavos"
+
+
+def test_la_pata_se_pela_antes_que_la_rama():
+    """Y el orden no da igual. El lector escribe "Semifinals - First leg": pelando
+    la rama de adelante queda "first leg", que no es ninguna ronda; sacando la pata
+    queda "semifinals", que si lo es."""
+    assert validar._ronda("Semifinals - First leg") == "semifinales"
+    assert validar._ronda("Final - Second leg") == "final"
+    assert validar._ronda("1/8 Finals - First leg") == "octavos"
+
+
+def test_las_dos_patas_de_una_ronda_son_una_sola():
+    """Que es el punto de todo esto: la ida y la vuelta de las semifinales son LA
+    misma ronda, no dos."""
+    assert validar._ronda("Semifinals - First leg") == validar._ronda("Semifinals - Second leg")
+
+
 def test_instancia_es_lo_mismo_que_fase():
     """La tercera forma de numerar una ronda. El chequeo tiene que poder ordenar
     "Segunda instancia" contra "Semifinales" igual que si dijera "Segunda fase"."""

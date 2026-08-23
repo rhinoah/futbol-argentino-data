@@ -817,3 +817,25 @@ def test_un_solo_espacio_alcanza_como_separador():
     assert raros == [] and len(ps) == 2
     assert [(p.local, p.goles_local, p.goles_visita) for p in ps] == [
         ("Juventud Unida Universitario", 1, 0), ("Aldosivi", 5, 2)]
+
+
+def test_la_zona_del_compacto_va_en_la_llave_y_en_la_jornada():
+    """"Zona Campeonato" y "Zona Revalida" son dos CUADROS del mismo torneo, cada
+    uno con su final. Si la zona vive solo en la jornada, las dos finales caen en
+    la misma llave y el normalizador las colapsa en una -- que es peor que no
+    revisar, porque compara contra el conjunto equivocado.
+
+    Y va en las dos y no solo en la llave: `llave` no se exporta, asi que sacandola
+    de la jornada el CSV publica dos filas que dicen "Final" sin forma de saber
+    cual es cual.
+    """
+    mapa = {"z": {"A": "Aldosivi", "B": "Ben Hur", "C": "Cipolletti", "D": "Douglas Haig"}}
+    tx = ("Torneo Apertura\n"
+          "Zona Campeonato\nFinal [Dec 8-12]\nA                        1-0 0-1 B\n"
+          "Zona Reválida\nFinal [Dec 22-26]\nC                        2-0 0-1 D\n")
+    ps, raros = rsssf.leer_llaves_compacto(tx, mapa)
+    assert raros == [] and len(ps) == 4
+    llaves = {p.llave for p in ps}
+    assert llaves == {"Torneo Apertura - Zona Campeonato",
+                      "Torneo Apertura - Zona Reválida"}, llaves
+    assert {p.jornada for p in ps} == {"Zona Campeonato - Final", "Zona Reválida - Final"}

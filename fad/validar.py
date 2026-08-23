@@ -593,6 +593,10 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
 #
 # Se normaliza SOLO para el chequeo. El dato publicado sigue diciendo lo que dice
 # la pagina: `jornada` sale en el CSV y su trabajo es ser fiel, no prolijo.
+# "Semifinals - First leg" / "Final - Second leg", y el typo "Secoond" que la
+# fuente trae en una temporada.
+_PATA_AL_FINAL = re.compile(r"\s+-\s+(?:first|second|secoond)\s+legs?$", re.I)
+
 _SINONIMOS = {
     # Los ordinales, que cada pagina escribe a su manera: "fase", "ronda" o
     # "instancia".
@@ -615,6 +619,17 @@ _SINONIMOS = {
     "segunda ronda": "segunda fase",
     "tercera ronda": "tercera fase",
     "cuarta ronda": "cuarta fase",
+    # RSSSF escribe las rondas en INGLES, y desde que sus llaves entran al dataset
+    # esas jornadas llegan hasta aca. La jornada publicada sigue siendo fiel a la
+    # fuente -- su trabajo es ser fiel, no prolijo --, asi que la traduccion vive
+    # donde vive el resto de la normalizacion: aca.
+    "semifinals": "semifinales",
+    "quarterfinals": "cuartos",
+    "1/8 finals": "octavos",
+    "third phase": "tercera fase",
+    "fourth phase": "cuarta fase",
+    "second round": "segunda fase",
+    "third round": "tercera fase",
     "primera instancia": "primera fase",
     "segunda instancia": "segunda fase",
     "tercera instancia": "tercera fase",
@@ -657,6 +672,13 @@ def _ronda(jornada: str) -> str:
     def pelada(x: str) -> str:
         return _SINONIMOS.get(x, x)
 
+    # LA PATA SE PELA PRIMERO, y el orden no da igual: el lector de llaves escribe
+    # "Semifinals - First leg", y pelando la rama de adelante quedaria "first leg",
+    # que no es ninguna ronda. Sacando la pata queda "semifinals", que si lo es.
+    sin_pata = _PATA_AL_FINAL.sub("", j)
+    if sin_pata != j and pelada(sin_pata) in conocidas:
+        return pelada(sin_pata)
+    j = sin_pata
     sin_numero = re.sub(r"\s+\d+$", "", j)
     if sin_numero != j and pelada(sin_numero) in conocidas:
         return pelada(sin_numero)

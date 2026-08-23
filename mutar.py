@@ -937,6 +937,24 @@ MUTANTES = [
      "    if en_curso:\n        return []",
      "    if False:\n        return []"),
 
+    # La regresion que metieron las llaves importadas: sus jornadas vienen en
+    # ingles y con la pata pegada, y sin esto vuelven dos cuadros sin revisar.
+    ("fad/validar.py", "no entender las rondas en ingles de RSSSF",
+     '    "semifinals": "semifinales",',
+     '    "semifinals": "semifinals",'),
+
+    ("fad/validar.py", "pelar la rama antes que la pata",
+     "    sin_pata = _PATA_AL_FINAL.sub(\"\", j)",
+     "    sin_pata = j"),
+
+    ("fad/rsssf.py", "la zona del compacto no va en la llave",
+     'cuadro = f"{llave} - {zona}" if zona else llave',
+     "cuadro = llave"),
+
+    ("fad/rsssf.py", "la zona del compacto no va en la jornada",
+     'jornada = f"{zona} - {ronda}" if zona else ronda',
+     "jornada = ronda"),
+
     ("fad/rsssf.py", "no dar vuelta el marcador de la vuelta",
      "                             goles_local=vuelta[1], goles_visita=vuelta[0],",
      "                             goles_local=vuelta[0], goles_visita=vuelta[1],"),
