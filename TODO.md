@@ -7,16 +7,17 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 43 841 | 148 | 149 | 844 | 314 |
+| 43 835 | 148 | 149 | 848 | 317 |
 
 ## 2004–2026 — Cerrado
 
 **Todo lo que Wikipedia da de esta era está adentro**
 
-`41 372` partidos. Lo único que queda son verificaciones de calidad, no partidos faltantes: del corpus entero quedan `232` avisos abiertos y cero graves.
+`41 366` partidos. Lo único que queda son verificaciones de calidad, no partidos faltantes: del corpus entero quedan `240` avisos abiertos y cero graves.
 
 Dos bloques se cerraron enteros. Los **desacuerdos entre el cuadro y la grilla** eran `56` y son `0`: las cinco fases finales que Wikipedia sólo dibujaba entraron desde RSSSF y ESPN, y los últimos cuatro no eran arbitrajes sino síntomas — a tres les faltaba una pata de la llave que un separador de un espacio se comía en silencio, y el cuarto era un homónimo que zanjó la foja. Y los **27 desvíos de PJ entre la tabla y la grilla** quedaron en `1`. Diecinueve eran del Argentino A 2009-10 y no eran de nadie —sus 25 clubes juegan 16 de zona y diez juegan 4 más en el interzonal, así que las dos partes contaban bien, cosas distintas—, y siete eran la consecuencia aritmética de un `Dividido` ya declarado: el partido se jugó, el fallo le dio un marcador distinto a cada club y el esquema no puede escribir eso, así que la fila no entra pero la tabla lo cuenta. Ahora se deriva de la declaración en vez de anotarse aparte.
 
+- **La localía importada de 2012-13 no tiene testigo.** El solapamiento con la página es lo que examina a una fuente externa: donde las dos traen el mismo partido, la página dice quién fue local con una columna rotulada. Medido, el `Argentino A 2004-05` coincide en **40 de 45** y el `2011-12` en **6 de 28** — 21%, peor que el 55.6% de la convención que este repo ya rechazó por inventar, así que su importación quedó bloqueada y sus 6 partidos salieron del dataset. Pero el `Argentino A 2012-13` importa 6 partidos con **cero** en común: no reprobó el examen, no se lo pudo tomar. Entran igual y queda dicho. Para cerrarlo hace falta un tercer testigo de esa fase.
 - **El único desvío de PJ que queda es transitorio.** Eran `27`, después `8`, y ahora `1`: `Nueva Chicago` vs `San Martín (SJ)` de la Primera Nacional 2026, **suspendido a los 45' con 1-0 y todavía sin fallo**. La tabla no lo cuenta y nuestra grilla sí, y las dos hacen bien. Se va a cerrar solo cuando el tribunal falle y Wikipedia lo escriba. *Se probó* la regla «un suspendido no cuenta como jugado» y se midió antes de escribirla: hay **76 filas suspendidas** en el corpus y en las **otras 75** la tabla sí las cuenta — ésta es la única que no. Aplicarla rompería 75 para arreglar una.
 
 - **Las 4 tablas que siguen sin cerrar.** Primera C 2011-12 (3) y Primera C 2026 (1). Las de 2011-12 sobreviven una búsqueda *exhaustiva* sobre sus seis cruces con toda combinación de uno, dos y tres arreglos: ninguna cierra. Existe solución matemática sólo si hay errores que se cancelan en clubes que nunca aparecen desviados, lo cual no se decide desde adentro. Y Cañuelas (2026) tiene un *rival ciego*, Central Córdoba (R), no comparable: un partido entre ellos podría explicarlo y no lo vemos. Las cuatro necesitan contrastar la temporada de esos clubes contra una fuente externa.
