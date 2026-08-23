@@ -186,6 +186,17 @@ PRIMERA_C_2008 = dict(_COMUNES)
 PRIMERA_C_2009 = dict(_COMUNES)
 PRIMERA_C_2010 = {**_COMUNES, "FC Urquiza": "UAI Urquiza"}
 
+# Primera C 2011-12. `Social Español` se fuerza por CARDINALIDAD y no por
+# parecido, igual que en la Primera B 2010-11 de mas abajo, y la cuenta se
+# rehizo para ESTA temporada en vez de heredarla: nuestro plantel tiene
+# exactamente UN Español -- Deportivo -- y el de ESPN tambien, en la misma
+# competencia y la misma temporada. Y los dos Urquiza estan separados, que es
+# la trampa de esta categoria: `FC Urquiza` es UAI y `J. J. de Urquiza` es otro
+# club, los dos jugando el mismo torneo.
+PRIMERA_C_2011 = {**_COMUNES,
+                  "FC Urquiza": "UAI Urquiza",
+                  "Social Español": "Deportivo Español"}
+
 # Primera B 2010-11, que va por `arg.3`. `Social Español` es el unico que hace
 # dudar, porque en el ascenso argentino hay dos Espanoles y no son el mismo club.
 # Queda forzado por cardinalidad y no por parecido: nuestro plantel de esa
@@ -210,4 +221,83 @@ FUENTES: dict[str, tuple[str, tuple[str, ...], dict]] = {
         ("arg.4", ("20100701-20101231", "20110101-20110731"), PRIMERA_C_2010),
     "Campeonato de Primera B 2010-11 (Argentina)":
         ("arg.3", ("20100701-20101231", "20110101-20110731"), PRIMERA_B_2010),
+    "Campeonato de Primera C 2011-12 (Argentina)":
+        ("arg.4", ("20110801-20111231", "20120101-20120731"), PRIMERA_C_2011),
 }
+
+# Como llama ESPN a cada ronda del Reducido, y como se escribe en el dataset. El
+# feed las distingue en `season.slug`, que es el unico lugar donde dice de que
+# instancia es el partido: todo lo demas de un partido de cuartos se ve igual que
+# uno de la fase regular.
+_RONDAS = {
+    "cuartos-de-final": "Cuartos de final",
+    "semifinal": "Semifinal",
+    "final": "Final",
+    "promocion": "Promoción",
+}
+
+
+def leer_llaves(eventos: list[dict], mapa: dict[str, str], torneo: str,
+                padron_ok=None) -> tuple[list, list[str]]:
+    """Los partidos de eliminacion del feed, listos para entrar al dataset.
+
+    Devuelve `Partido` y no `Ajeno` porque estas filas ENTRAN -- `Ajeno` existe
+    para completarle la fecha a una fila de Wikipedia, que es otra cosa.
+
+    LA LOCALIA SALE DE `homeAway` Y NO DE `venue`. Se midio: en la Primera C
+    2011-12 hay dos partidos cuyo `venue` nombra una cancha que no es de ninguno
+    de los dos clubes, asi que deducir la localia del estadio daria el club
+    equivocado en esos dos. `homeAway` es lo que el feed afirma, y ademas se
+    verifica solo: en las siete llaves la localia ALTERNA entre ida y vuelta sin
+    una excepcion, que es lo que un valor por defecto no produce.
+
+    LA FECHA VA EN HORA ARGENTINA. El feed la da en UTC y la vuelta de la final es
+    `2012-06-22T00:00Z`, que aca es el 21: usar la fecha cruda mete un dia de mas
+    en ese partido. `_fecha_argentina` ya lo hacia para las fechas y vale igual
+    aca.
+    """
+    from fad import equipos
+    from fad.parser import Partido
+
+    padron_ok = padron_ok or (lambda n: equipos.buscar(n))
+    fuera, raros = [], []
+    desconocidos: set[str] = set()
+    for e in eventos:
+        ronda = _RONDAS.get((e.get("season") or {}).get("slug", ""))
+        if not ronda:
+            continue                      # la fase regular no es una llave
+        comp = (e.get("competitions") or [{}])[0]
+        lados = {c.get("homeAway"): c for c in comp.get("competitors", [])}
+        if "home" not in lados or "away" not in lados:
+            continue
+        nombres, goles = {}, {}
+        for lado in ("home", "away"):
+            crudo = lados[lado].get("team", {}).get("displayName") or ""
+            if crudo in mapa:
+                nombres[lado] = mapa[crudo]
+            else:
+                eq = padron_ok(crudo)
+                if eq is None:
+                    desconocidos.add(crudo)
+                    nombres[lado] = None
+                else:
+                    nombres[lado] = eq.nombre if hasattr(eq, "nombre") else eq
+            m = lados[lado].get("score")
+            goles[lado] = int(m) if m not in (None, "") else None
+        if not nombres["home"] or not nombres["away"]:
+            continue
+        if goles["home"] is None or goles["away"] is None:
+            raros.append(f"{ronda}: {nombres['home']} vs {nombres['away']} viene "
+                         f"sin marcador; queda afuera")
+            continue
+        fuera.append(Partido(
+            fecha=_fecha_argentina(e["date"]),
+            local=nombres["home"], visita=nombres["away"],
+            goles_local=goles["home"], goles_visita=goles["away"],
+            torneo=torneo, fase="eliminacion", jornada=ronda,
+            llave="Reducido" if ronda != "Promoción" else "Promociones",
+            fuente_fecha=CREDITO))
+    if desconocidos:
+        raros.append(f"{len(desconocidos)} nombres de ESPN que el mapa no traduce: "
+                     + ", ".join(sorted(desconocidos)))
+    return fuera, raros

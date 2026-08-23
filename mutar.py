@@ -891,6 +891,31 @@ MUTANTES = [
      "                          equipos.canonizar(x.visita, x.visita_art)))",
      "        return frozenset((x.local, x.visita))"),
 
+    # El lector de llaves de ESPN, y el hueco que destapo en el cedazo.
+    ("fad/espn.py", "leer la fase regular como si fuera una llave",
+     '        if not ronda:\n            continue',
+     '        ronda = ronda or "Fecha"\n        if False:\n            continue'),
+
+    ("fad/espn.py", "usar la fecha cruda del feed, en UTC",
+     'fecha=_fecha_argentina(e["date"]),',
+     'fecha=e["date"][:10],'),
+
+    # OJO CON EL ANCLA. `espn.leer` y `espn.leer_llaves` tienen el mismo bloque casi
+    # palabra por palabra, y `leer` viene PRIMERO en el archivo: un snippet que sirva
+    # para los dos muta el otro. Lo que los distingue es como llegan a `comp` --
+    # `(e.get(...) or [{}])[0]` contra `e.get(..., [{}])[0]` --, asi que el ancla se
+    # toma de ahi. Se descubrio porque el mutante sobrevivia: estaba mutando el
+    # lector de fechas, donde este test no mira.
+    ("fad/espn.py", "tomar la localia del orden y no de homeAway",
+     '        comp = (e.get("competitions") or [{}])[0]\n'
+     '        lados = {c.get("homeAway"): c for c in comp.get("competitors", [])}',
+     '        comp = (e.get("competitions") or [{}])[0]\n'
+     '        lados = dict(zip(("home", "away"), comp.get("competitors", [])))'),
+
+    ("build.py", "no ver la localia al reves cuando la fecha coincide",
+     "            if equipos.canonizar(otro.local, otro.local_art) != p_.local:",
+     "            if False:"),
+
     ("build.py", "duplicar lo que la pagina ya trae",
      "        if (suyo, p_.fecha) in ya:",
      "        if False:"),

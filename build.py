@@ -259,7 +259,9 @@ def sin_repetir(llaves: list, ps: list) -> tuple[list, int, list[str]]:
         return frozenset((equipos.canonizar(x.local, x.local_art),
                           equipos.canonizar(x.visita, x.visita_art)))
 
-    ya = {(par(x), x.fecha) for x in ps}
+    ya: dict = {}
+    for x in ps:
+        ya.setdefault((par(x), x.fecha), []).append(x)
     suyas: dict = {}
     for x in ps:
         if x.fase == "eliminacion":
@@ -270,6 +272,21 @@ def sin_repetir(llaves: list, ps: list) -> tuple[list, int, list[str]]:
         suyo = frozenset((p_.local, p_.visita))
         if (suyo, p_.fecha) in ya:
             repetidas += 1
+            # MISMO PARTIDO, LOCALIA AL REVES. Que el par y el dia coincidan hace
+            # que sea el mismo partido, no que las dos fuentes digan lo mismo: en
+            # la Primera C 2011-12 la pagina pone "Deportivo Español 1-0 Luján" y
+            # ESPN "Luján 0-1 Deportivo Español", el mismo 30 de mayo. Contarlo
+            # como repetido y callarse tapa un desacuerdo real -- el aviso solo
+            # miraba la fecha, y con la fecha igual no decia nada.
+            otro = ya[(suyo, p_.fecha)][0]
+            if equipos.canonizar(otro.local, otro.local_art) != p_.local:
+                discuten.append(
+                    f"mismo partido y misma fecha pero la localia al reves: la "
+                    f"pagina dice {p_.fecha} "
+                    f"{equipos.canonizar(otro.local, otro.local_art)} "
+                    f"{otro.goles_local}-{otro.goles_visita} "
+                    f"{equipos.canonizar(otro.visita, otro.visita_art)} y la otra "
+                    f"fuente {p_.local} {p_.goles_local}-{p_.goles_visita} {p_.visita}")
         elif suyo in suyas:
             cerca = min(suyas[suyo], key=lambda x: abs(_dias(x.fecha) - _dias(p_.fecha)))
             discuten.append(
@@ -353,6 +370,30 @@ def procesar(texto: str, t) -> tuple[list, list]:
                                f"coinciden; se conserva el de la pagina: "
                                + " | ".join(discuten[:3]))
                 importados += [validar.Aviso(f"{t.pagina}: RSSSF llaves", d,
+                                             grave=False) for d in mas]
+        # Y lo mismo desde ESPN, para las temporadas que RSSSF no cubre. Mismo
+        # criterio: solo entra lo que la pagina no tiene, y por el mismo cedazo.
+        if t.espn_llaves:
+            from fad import espn
+            liga, rangos, mapa = espn.FUENTES[t.pagina]
+            try:
+                eventos = espn.descargar(liga, rangos)
+            except OSError as e:
+                importados.append(validar.Aviso(
+                    f"{t.pagina}: ESPN no respondio, asi que la fase final se "
+                    f"queda sin partidos", repr(e), grave=False))
+            else:
+                llaves, mas = espn.leer_llaves(eventos, mapa, t.torneo)
+                nuevas, repetidas, discuten = sin_repetir(llaves, ps)
+                ps += nuevas
+                if repetidas:
+                    mas.append(f"{repetidas} llaves de ESPN ya estaban en la grilla "
+                               f"de la pagina y no se duplicaron")
+                if discuten:
+                    mas.append(f"{len(discuten)} partidos donde la pagina y ESPN no "
+                               f"coinciden; se conserva el de la pagina: "
+                               + " | ".join(discuten[:3]))
+                importados += [validar.Aviso(f"{t.pagina}: ESPN llaves", d,
                                              grave=False) for d in mas]
     for p in ps:
         p.local = equipos.canonizar(p.local, p.local_art)

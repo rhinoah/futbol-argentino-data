@@ -64,6 +64,11 @@ class Torneo:
     # dispare solo, "si el cuadro no cierra", convertiria una regresion del parser
     # en una importacion silenciosa.
     rsssf_llaves: bool = False
+    # Lo mismo pero desde el feed de ESPN, para las temporadas que RSSSF no
+    # cubre. Va aparte de `espn` -- que solo completa fechas -- porque esto
+    # ESCRIBE filas, y la diferencia merece estar en el nombre del flag y no en
+    # un comentario que despues nadie lee.
+    espn_llaves: bool = False
     # El feed de ESPN. La liga, los rangos de fecha y el mapa de nombres viven en
     # `fad/espn.py`, indexados por pagina.
     espn: bool = False
@@ -225,7 +230,12 @@ ASCENSO_VIEJO = [
     Torneo("Campeonato de Primera B 2014 (Argentina)", "Primera B", 2014),
     Torneo("Campeonato de Primera B 2015 (Argentina)", "Primera B", 2015),
 
-    Torneo("Campeonato de Primera C 2011-12 (Argentina)", "Primera C", 2011, anio_fin=2012),
+    # Su Reducido -- cuartos, semis y final -- esta en Wikipedia SOLO como cuadro,
+    # y es la unica de las cinco que RSSSF no cubre: su archivo de 2012 llega
+    # hasta la Primera B Metropolitana y no baja a la C. La tiene el feed de
+    # ESPN, que distingue las rondas en `season.slug`.
+    Torneo("Campeonato de Primera C 2011-12 (Argentina)", "Primera C", 2011,
+           anio_fin=2012, espn_llaves=True),
     Torneo("Campeonato de Primera C 2012-13 (Argentina)", "Primera C", 2012, anio_fin=2013),
     Torneo("Campeonato de Primera C 2013-14 (Argentina)", "Primera C", 2013, anio_fin=2014),
     Torneo("Campeonato de Primera C 2014 (Argentina)", "Primera C", 2014),

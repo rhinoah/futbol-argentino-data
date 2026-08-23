@@ -776,6 +776,19 @@ def test_la_comparacion_va_canonizada():
         "si esto falla, la pagina y RSSSF no se reconocen y el partido entra dos veces")
 
 
+def test_la_localia_al_reves_no_pasa_por_repetido():
+    """Que el par y el dia coincidan hace que sea el MISMO partido, no que las dos
+    fuentes digan lo mismo. En la Primera C 2011-12 la pagina pone "Deportivo
+    Español 1-0 Luján" y ESPN "Luján 0-1 Deportivo Español", el mismo 30 de mayo.
+    Contarlo como repetido y callarse tapa un desacuerdo real."""
+    pagina = [_p("Deportivo Español", "Luján", "2012-05-30", 1, 0)]
+    otra = [_p("Luján", "Deportivo Español", "2012-05-30", 0, 1)]
+
+    nuevas, repetidas, discuten = build.sin_repetir(otra, pagina)
+    assert nuevas == [] and repetidas == 1, "es el mismo partido: no se duplica"
+    assert len(discuten) == 1 and "localia al reves" in discuten[0]
+
+
 def test_cuando_las_dos_fuentes_se_contradicen_gana_la_pagina_y_se_avisa():
     """Mismo par, otra fila: no es un partido que falte, es un desacuerdo. Se
     conserva el de la pagina --Wikipedia es la fuente primaria-- y se dice."""

@@ -114,3 +114,56 @@ def test_cada_torneo_con_marca_espn_tiene_liga_rangos_y_mapa():
         assert liga.startswith("arg."), pagina
         assert rangos and all("-" in r for r in rangos), pagina
         assert isinstance(mapa, dict), pagina
+
+
+# --------------------------------------------------------------------------
+# leer_llaves: el Reducido que Wikipedia solo dibuja
+# --------------------------------------------------------------------------
+def _evento(slug, fecha, local, visita, gl, gv):
+    return {"date": fecha, "season": {"slug": slug},
+            "competitions": [{"competitors": [
+                {"homeAway": "home", "team": {"displayName": local}, "score": str(gl)},
+                {"homeAway": "away", "team": {"displayName": visita}, "score": str(gv)}]}]}
+
+
+def _ok(n):
+    return n
+
+
+def test_la_fase_regular_no_entra_como_llave():
+    """El feed trae la temporada entera y lo unico que dice de que instancia es un
+    partido es `season.slug`: un partido de cuartos se ve igual que uno de la fase
+    regular en todo lo demas."""
+    ev = [_evento("temporada-regular-201112", "2012-03-04T18:00Z", "Dock Sud", "Luján", 1, 0),
+          _evento("cuartos-de-final", "2012-05-28T18:00Z", "Dock Sud", "Luján", 1, 0)]
+    ps, raros = espn.leer_llaves(ev, {}, "Primera C", padron_ok=_ok)
+    assert raros == [] and len(ps) == 1
+    assert ps[0].fase == "eliminacion" and ps[0].jornada == "Cuartos de final"
+
+
+def test_la_fecha_va_en_hora_argentina():
+    """LA TRAMPA DEL FEED. La vuelta de la final de la Primera C 2011-12 es
+    `2012-06-22T00:00Z`, que en hora argentina es el 21: usar la fecha cruda mete
+    un dia de mas en ese partido."""
+    ev = [_evento("final", "2012-06-22T00:00Z", "Central Córdoba (R)", "Ferrocarril Midland", 0, 0)]
+    ps, _ = espn.leer_llaves(ev, {}, "Primera C", padron_ok=_ok)
+    assert ps[0].fecha == "2012-06-21"
+
+
+def test_la_localia_sale_de_homeaway():
+    """Y no del orden en que vengan los competidores: el feed los lista como se le
+    da la gana y lo que afirma la localia es `homeAway`."""
+    e = _evento("semifinal", "2012-06-06T18:00Z", "Ferrocarril Midland", "Dock Sud", 1, 0)
+    e["competitions"][0]["competitors"].reverse()      # ahora el visitante va primero
+    ps, _ = espn.leer_llaves([e], {}, "Primera C", padron_ok=_ok)
+    assert (ps[0].local, ps[0].goles_local) == ("Ferrocarril Midland", 1)
+    assert (ps[0].visita, ps[0].goles_visita) == ("Dock Sud", 0)
+
+
+def test_un_partido_sin_marcador_se_dice_en_vez_de_entrar_en_cero():
+    """Cero no es un error, es un cero: una llave sin marcador no puede entrar con
+    0-0, porque despues se lee como un empate."""
+    e = _evento("final", "2012-06-17T18:00Z", "Ferrocarril Midland", "Central Córdoba (R)", 1, 2)
+    e["competitions"][0]["competitors"][0]["score"] = ""
+    ps, raros = espn.leer_llaves([e], {}, "Primera C", padron_ok=_ok)
+    assert ps == [] and raros and "sin marcador" in raros[0]
