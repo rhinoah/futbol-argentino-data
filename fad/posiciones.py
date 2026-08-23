@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import re
 from collections import Counter
+from itertools import combinations
 
 from fad import correcciones, equipos, parser
 
@@ -689,10 +690,13 @@ def pj_que_no_coincide(ps: list, texto: str, arts: dict[str, str] | None = None,
     arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
     fuera = []
     for alcance, publicada in _alcance_de_cada_tabla(texto, arts, ps, pagina):
-        contada = sumar([p for p in ps if not alcance or p.llave == alcance])
+        dentro = [p for p in ps if not alcance or p.llave == alcance]
+        contada = sumar(dentro)
         comunes = sorted(set(publicada) & set(contada))
         desviados = [c for c in comunes if publicada[c][0] != contada[c][0]]
         if not comunes or len(desviados) * 2 > len(comunes):
+            continue
+        if desviados and _una_zona_lo_explica(dentro, publicada, comunes):
             continue
         # La guarda de arriba mira los desvios CRUDOS a proposito: cuanta tabla se
         # mueve es un hecho de la pagina y no cambia porque nosotros hayamos
@@ -943,6 +947,41 @@ def _por_wikitabla(bloque: str, arts: dict[str, str],
             continue
         fuera.append((club, articulo, (pj, gf, gc, pg, pe, pp)))
     return fuera
+
+
+def _una_zona_lo_explica(dentro: list, publicada: dict, comunes: list) -> bool:
+    """Si sacando UNA zona entera la tabla y la grilla cierran para todos.
+
+    La guarda de arriba mira cuanta tabla se mueve, y hay una forma que se le
+    escapa: la tabla de una ZONA contra una grilla que ademas trae el interzonal.
+    Ahi no se mueve la tabla entera --solo los clubes que jugaron el interzonal--
+    pero tampoco hay nada mal: las dos partes cuentan bien, cosas distintas.
+
+    El Argentino A 2009-10 es el caso: sus 25 clubes juegan 16 partidos de zona y
+    diez de ellos juegan 4 mas en los grupos interzonales. La tabla del Apertura
+    cuenta 16, la grilla 20, y salian DIEZ avisos que no eran un error de nadie.
+
+    No es un umbral nuevo: es una pregunta que se contesta con los datos. Si al
+    sacar una zona el PJ coincide para TODOS los clubes comparados, entonces esa
+    zona es de otra tabla y esta no tiene por que contarla. Si no cierra con
+    ninguna, el desvio sigue siendo un desvio y se dice.
+    """
+    zonas = sorted({p.zona for p in dentro if p.zona})
+    # Se prueban CONJUNTOS y no zonas sueltas: en el Argentino A 2009-10 el
+    # interzonal son DOS grupos y cada club juega en uno solo, asi que sacando uno
+    # el otro sigue desviado. Son cinco zonas, o sea treinta combinaciones: se
+    # recorren enteras. El tope esta para que una pagina con muchas zonas no
+    # convierta un chequeo en una busqueda.
+    if not 2 <= len(zonas) <= 8:
+        return False
+    for cuantas in range(1, len(zonas)):
+        for fuera_ in combinations(zonas, cuantas):
+            quedan = set(zonas) - set(fuera_)
+            sin_esas = sumar([p for p in dentro if p.zona in quedan])
+            if all(c in sin_esas and publicada[c][0] == sin_esas[c][0]
+                   for c in comunes):
+                return True
+    return False
 
 
 def sumar(ps: list) -> dict[str, tuple[int, int, int, int, int, int]]:

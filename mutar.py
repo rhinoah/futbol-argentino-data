@@ -912,6 +912,16 @@ MUTANTES = [
      "\n"
      "    def par(x):"),
 
+    # La zona que la tabla no cuenta: si se apaga vuelven diez avisos que no son de
+    # nadie, y si se prueba de a una zona el interzonal de dos grupos se escapa.
+    ("fad/posiciones.py", "no ver que una zona explica el desvio",
+     "        if desviados and _una_zona_lo_explica(dentro, publicada, comunes):",
+     "        if False:"),
+
+    ("fad/posiciones.py", "probar zonas sueltas y no conjuntos",
+     "    for cuantas in range(1, len(zonas)):",
+     "    for cuantas in range(1, 2):"),
+
     ("fad/validar.py", "avisar la zona despareja aunque el torneo este en curso",
      "    if en_curso:\n        return []",
      "    if False:\n        return []"),

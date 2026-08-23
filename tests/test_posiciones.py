@@ -28,9 +28,9 @@ def pagina(*filas, titulo="Tabla de posiciones"):
             + "\n".join(filas) + "\n|}")
 
 
-def zona(local, visita, gl, gv):
+def zona(local, visita, gl, gv, z=""):
     return Partido(fecha="2010-01-01", local=local, visita=visita, goles_local=gl,
-                   goles_visita=gv, fase="zonas", jornada="Fecha 1")
+                   goles_visita=gv, fase="zonas", jornada="Fecha 1", zona=z)
 
 
 # --------------------------------------------------------------------------
@@ -1117,6 +1117,25 @@ def test_si_se_mueve_mas_de_media_tabla_no_opina():
     assert posiciones.pj_que_no_coincide(ps, texto) == []
 
 
+def test_el_chequeo_se_calla_si_una_zona_explica_el_desvio():
+    """El de arriba a traves del chequeo, que es lo que importa: probar la funcion
+    sola no alcanza si el que la llama puede ignorarla.
+
+    Tres clubes de una zona con dos partidos cada uno, y uno de ellos juega ademas
+    un interzonal que la tabla no cuenta. Se mueve UN club de tres -- por debajo de
+    la guarda de media tabla --, asi que sin esta regla el aviso sale.
+    """
+    texto = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1),
+                   fila(2, "River Plate", 2, 2, 0, 2, 0, 1, 1),
+                   fila(3, "Racing Club", 1, 2, 0, 1, 1, 1, 3))
+    ps = [zona("Boca Juniors", "River Plate", 3, 1, z="Zona A"),
+          zona("Boca Juniors", "Racing Club", 0, 0, z="Zona A"),
+          zona("River Plate", "Racing Club", 1, 1, z="Zona A"),
+          # el interzonal: solo lo juega Boca, y la tabla de la zona no lo cuenta
+          zona("Boca Juniors", "Independiente", 2, 0, z="Interzonal")]
+    assert posiciones.pj_que_no_coincide(ps, texto) == []
+
+
 def test_cuando_el_pj_coincide_se_calla():
     texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 3, 1),
                    fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 3))
@@ -1552,3 +1571,51 @@ def test_alcanza_con_que_la_tabla_no_conteste_por_UNO_de_los_dos():
     assert len(quedan) == 1
     assert "River Plate" in quedan[0] and "le cuenta distinto" in quedan[0]
     assert "a Boca Juniors le cuenta distinto" not in quedan[0]
+
+
+# --------------------------------------------------------------------------
+# Una zona que la tabla no cuenta no es un desvio
+# --------------------------------------------------------------------------
+def _pz(local, visita, zona, gl=1, gv=0):
+    from fad.parser import Partido
+    return Partido(local=local, visita=visita, goles_local=gl, goles_visita=gv,
+                   fase="zonas", zona=zona)
+
+
+def test_una_zona_que_la_tabla_no_cuenta_no_es_un_desvio():
+    """La tabla de una ZONA contra una grilla que ademas trae el interzonal. Ahi no
+    se mueve la tabla entera --solo los clubes que jugaron el interzonal-- pero
+    tampoco hay nada mal: las dos partes cuentan bien, cosas distintas.
+
+    Es el Argentino A 2009-10: sus 25 clubes juegan 16 de zona y diez de ellos
+    juegan 4 mas en los grupos interzonales. Salian diez avisos que no eran un
+    error de nadie.
+    """
+    dentro = [_pz("A", "B", "Zone 1"), _pz("A", "C", "Zone 1"), _pz("B", "C", "Zone 1"),
+              _pz("A", "D", "Group A")]          # el interzonal, que la tabla no cuenta
+    publicada = {"A": (2, 0, 0), "B": (2, 0, 0), "C": (2, 0, 0)}
+    assert posiciones._una_zona_lo_explica(dentro, publicada, ["A", "B", "C"])
+
+
+def test_se_prueban_conjuntos_y_no_zonas_sueltas():
+    """El interzonal son DOS grupos y cada club juega en uno solo, asi que sacando
+    uno el otro sigue desviado. Probando de a una, este caso se escapa."""
+    dentro = [_pz("A", "B", "Zone 1"), _pz("A", "C", "Zone 1"), _pz("B", "C", "Zone 1"),
+              _pz("A", "D", "Group A"), _pz("B", "E", "Group B")]
+    publicada = {"A": (2, 0, 0), "B": (2, 0, 0), "C": (2, 0, 0)}
+    assert posiciones._una_zona_lo_explica(dentro, publicada, ["A", "B", "C"])
+
+
+def test_si_ninguna_zona_lo_explica_el_desvio_sigue_siendo_un_desvio():
+    """El limite de la regla, y el que la hace util: no es un permiso para callar
+    cualquier diferencia. Si al sacar zonas nunca cierra, el desvio se dice."""
+    dentro = [_pz("A", "B", "Zone 1"), _pz("A", "C", "Zone 1")]
+    publicada = {"A": (5, 0, 0), "B": (1, 0, 0), "C": (1, 0, 0)}
+    assert not posiciones._una_zona_lo_explica(dentro, publicada, ["A", "B", "C"])
+
+
+def test_sin_zonas_no_hay_nada_que_sacar():
+    """Una pagina de una sola zona --o sin zonas-- no puede explicar nada asi, y la
+    regla no se aplica."""
+    dentro = [_pz("A", "B", ""), _pz("A", "C", "")]
+    assert not posiciones._una_zona_lo_explica(dentro, {"A": (5, 0, 0)}, ["A"])
