@@ -1426,18 +1426,25 @@ DIVIDIDOS: tuple[Dividido, ...] = (
     Dividido(
         pagina="Anexo:Torneo Apertura 1997 (Argentina)",
         local="San Lorenzo", visita="Huracán", dice=None,
-        porque="La celda dice PP - PP y la nota lo explica sin margen: suspendido a "
-               "los 21' con el resultado 0-0 por incidentes entre las dos barras "
-               "--murio un hincha, y la pagina cita a Clarin y a El Pais--, y "
+        porque="La celda dice PP - PP. La nota cuenta que se suspendio a los 21' con "
+               "el resultado 0-0 por incidentes entre las dos barras --murio un "
+               "hincha, y la pagina cita a Clarin y a El Pais-- y que "
                "\"Posteriormente, el Tribunal de Disciplina le dio por perdido el "
                "partido a ambos, SIN CONSIGNAR GOLES\".\n"
-               "O sea que no hay un marcador que escribir, ni siquiera uno por club: "
-               "el fallo no puso numeros. Es el mismo caso que Independiente (N) vs "
-               "Deportivo Roca del Federal A 2018-19, que tambien trae PP - PP.\n"
-               "La tabla de la pagina SI lo cuenta -- Huracan y San Lorenzo llegan a "
-               "19 partidos como todos --, y por eso los dos aparecian desviados en "
-               "uno. Ese desvio ahora se deriva de esta declaracion en vez de "
-               "anotarse aparte.",
+               "POR QUE NO ES UN `suspendido` CON 0-0, que es lo primero que uno "
+               "piensa: porque la TABLA de la propia pagina dice otra cosa, y lo dice "
+               "con numeros. San Lorenzo figura g=9 e=5 p=5 con gf=42 gc=32, y "
+               "nuestra grilla le suma 9-5-4 con los MISMOS 42 y 32. Huracan figura "
+               "3-3-13 con 20 y 32, y la grilla le da 3-3-12 con los mismos 20 y 32. "
+               "O sea que la tabla le cuenta a cada uno una DERROTA mas, y cero goles "
+               "de las dos partes.\n"
+               "Una derrota para los dos, sin goles, no se puede escribir en una fila: "
+               "un 0-0 seria empate para ambos --que es justo lo que la tabla NO "
+               "dice-- y cualquier otro par de numeros le da la victoria a alguien. "
+               "Por eso va aca y no como suspendido. Es el mismo caso que "
+               "Independiente (N) vs Deportivo Roca del Federal A 2018-19.\n"
+               "El desvio de PJ que sale de esto se deriva de esta declaracion en vez "
+               "de anotarse aparte.",
     ),
     Dividido(
         pagina="Torneo Federal A 2018-19", llave="Reválida",
