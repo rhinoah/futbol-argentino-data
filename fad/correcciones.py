@@ -2121,7 +2121,47 @@ _TABLA_2008_09 = (
     "partidos uno por uno, y no se encontro ninguna. "
 )
 
+# Los tres clubes de la Primera C 2011-12 comparten explicacion porque comparten
+# causa: no son tres desvios sino una tabla.
+_TABLA_C_2011_12 = (
+    "NO ES UN PARTIDO MAL LEIDO, Y LOS PROPIOS DESVIOS LO DICEN. Un marcador mal "
+    "leido toca SIEMPRE a dos clubes con deltas espejados: lo que le sobra de "
+    "goles a favor a uno le sobra de goles en contra al otro. Aca la tabla dice, "
+    "contra nuestra suma, J. J. de Urquiza +2 a favor y -3 en contra, San Miguel "
+    "-2 y +2, y Sacachispas -1 a favor y CERO en contra. Ese ultimo no puede "
+    "venir de un partido: un partido que le cambia un gol a favor a un club se lo "
+    "cambia en contra a otro, y no hay otro. Y el par de San Miguel (-2/+2) pediria "
+    "un socio de +2/-2, pero Urquiza es +2/-3, que no cierra.\n"
+    "DOS TESTIGOS CONTRA UNO, Y EL TERCERO ES UNA COPIA. Nuestra suma sale de la "
+    "GRILLA DE RESULTADOS DE LA PROPIA PAGINA, asi que la pagina ya se contradice "
+    "sola. El blog de Jose Carluccio, que publica las 38 fechas partido por "
+    "partido, da exactamente nuestras cifras en los tres: 45-30, 37-54 y 28-33. "
+    "Se leyeron sus 380 partidos: dos renglones le salen mal formados --uno se "
+    "come el nombre del local porque colisiona con la sede, `en Gregorio de "
+    "Laferrere 3, San Miguel 0`, y otro corta antes del visitante-- y los seis "
+    "desvios que quedan contra nuestra suma son EXACTAMENTE lo que aportan esos "
+    "dos partidos. La Wikipedia en INGLES no sirve de segunda opinion: trae las "
+    "mismas cifras erradas, las tres. Y RSSSF no publica tabla de Primera C esa "
+    "temporada.\n"
+    "EL TOTAL NO DISCRIMINA, y conviene decirlo. La tabla de la pagina suma 792 "
+    "goles a favor y 792 en contra; nuestra suma da 793 y 793. Las dos CIERRAN, "
+    "porque los desvios se compensan entre si. O sea que la tabla esta "
+    "internamente balanceada y aun asi no es la de su propia grilla: quien la "
+    "tipeo tipeo un conjunto coherente y equivocado, y la columna Dif --que en el "
+    "wikitexto esta escrita a mano, no calculada-- acompana a los goles errados en "
+    "las tres filas. Por eso tampoco es \"una celda mal tipeada\".")
+
+
 REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Campeonato de Primera C 2011-12 (Argentina)", club="J. J. de Urquiza",
+        porque=_TABLA_C_2011_12),
+    Revisado(
+        pagina="Campeonato de Primera C 2011-12 (Argentina)", club="Sacachispas",
+        porque=_TABLA_C_2011_12),
+    Revisado(
+        pagina="Campeonato de Primera C 2011-12 (Argentina)", club="San Miguel",
+        porque=_TABLA_C_2011_12),
     Revisado(
         pagina="Torneo Argentino A 2008-09", club="Ramón Santamarina",
         porque=_TABLA_2008_09),
