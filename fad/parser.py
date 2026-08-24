@@ -163,7 +163,23 @@ def limpiar(texto: str) -> str:
     # ni la de arriba ni el barrido general: un club quedaba llamandose
     # "{{nowrap|Defensores de Cambaceres".
     s = re.sub(r"\{\{\s*nowrap\s*\|", "", s, flags=re.I)
-    s = re.sub(r"\{\{[^{}]*\}\}", "", s)
+    # DE ADENTRO HACIA AFUERA, porque las plantillas se anidan. El barrido no
+    # anidado -- una sola pasada de `{{ sin llaves adentro }}` -- no puede tocar a
+    # una plantilla que tiene otra adentro, asi que se llevaba la de adentro y
+    # dejaba la de AFUERA entera, con su wikitexto crudo, en la celda. Es el mismo
+    # error que ya habia estado en `_desenvolver_nowrap` y que ahi se arreglo
+    # contando llaves; aca faltaba.
+    #
+    # Se veia en el dataset publicado: la fecha 13 del Torneo Federal A 2024
+    # escribe `Sin disputar{{refn|name=Sansinena1|group=n.|Sansinena fue eliminado
+    # del torneo por desercion...{{refn|name=Sansinena}}}}`, un refn adentro de
+    # otro, y la columna `venue` de esa fila salia con la plantilla de afuera
+    # adentro. Repetir hasta que no cambie las pela de a una y no deja nada.
+    while True:
+        limpio = re.sub(r"\{\{[^{}]*\}\}", "", s)
+        if limpio == s:
+            break
+        s = limpio
     # Un enlace a un archivo NO es texto: `[[Archivo:Copa.svg|15px|Campeón]]` es
     # una imagen. Tratandolo como un wikilink comun queda "15px|Campeón" pegado
     # al nombre, y el equipo pasa a llamarse "Boca Juniors 15px|Campeón

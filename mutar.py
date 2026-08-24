@@ -565,6 +565,16 @@ MUTANTES = [
      "    for candidato in (texto, _TANDA_ADELANTE.sub(\"\", texto)):",
      "    for candidato in (texto,):"),
 
+    # El barrido de plantillas, de vuelta a una sola pasada: deja de pelar las
+    # anidadas y la de afuera se publica cruda en la celda.
+    ("fad/parser.py", "barrer las plantillas de una sola pasada",
+     "    while True:" + chr(10) +
+     r'        limpio = re.sub(r"\{\{[^{}]*\}\}", "", s)' + chr(10) +
+     "        if limpio == s:" + chr(10) +
+     "            break" + chr(10) +
+     "        s = limpio",
+     r'    s = re.sub(r"\{\{[^{}]*\}\}", "", s)'),
+
     ("fad/parser.py", "desenvolver el nowrap con un regex no goloso",
      "    s = _desenvolver_nowrap(s)",
      '    s = re.sub(r"' + chr(92)*2 + '{' + chr(92)*2 + '{' + chr(92)*2 + 's*nowrap' + chr(92)*2 + 's*' + chr(92)*2 + '|(.*?)' + chr(92)*2 + '}' + chr(92)*2 + '}", r"' + chr(92)*2 + '1", s, flags=re.I | re.S)'),

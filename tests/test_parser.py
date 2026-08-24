@@ -162,6 +162,25 @@ def test_un_wikilink_comun_sigue_andando():
     assert parser.limpiar("[[Club Atlético Boca Juniors|Boca Juniors]]") == "Boca Juniors"
 
 
+def test_una_plantilla_adentro_de_otra_se_pela_entera():
+    """UNA PASADA NO ALCANZA CUANDO LAS PLANTILLAS SE ANIDAN.
+
+    `{{ ... }}` sin llaves adentro no puede describir a una plantilla que tiene
+    otra adentro: el barrido de una sola pasada se lleva la de ADENTRO y deja la
+    de AFUERA entera. Lo que quedaba no era una celda vacia --que se nota-- sino
+    una celda con wikitexto crudo, que se publica tal cual.
+
+    El caso real: la fecha 13 del Torneo Federal A 2024, donde la celda del
+    estadio dice `Sin disputar` y cuelga un `refn` que adentro tiene otro `refn`.
+    La columna `venue` de esa fila salia con la plantilla puesta."""
+    crudo = ("Sin disputar{{refn|name=Sansinena1|group=n.|Sansinena fue eliminado "
+             "del torneo por deserción.{{refn|name=Sansinena}}}}")
+    assert parser.limpiar(crudo) == "Sin disputar"
+
+    # Y tres niveles, para que el test no dependa de que sean exactamente dos.
+    assert parser.limpiar("Hermanos Francani{{a|{{b|{{c|x}}}}}}") == "Hermanos Francani"
+
+
 # --------------------------------------------------------------------------
 # el titulo Resultados, en nivel 2 o 3
 # --------------------------------------------------------------------------
