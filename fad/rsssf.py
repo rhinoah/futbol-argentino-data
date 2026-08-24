@@ -1712,6 +1712,46 @@ SECCION: dict[str, str] = {
 # `Gral. Lamadrid`, `L.N. Alem`), asi que el mapa va igual y va entero: media
 # traduccion es la que despues mete el club de al lado.
 PRIMERA_C_2008 = {
+    # LA FASE REGULAR NO LLEVA ENCABEZADO DE ZONA, y la clave vacia es eso: este
+    # torneo no tiene zonas. Son veinte clubes y 38 fechas seguidas, y RSSSF las
+    # escribe una atras de otra despues de la tabla final, sin nada que las
+    # anuncie. `leer` solo lee las secciones que el mapa nombra, asi que sin esta
+    # clave devolvia CERO partidos -- sin un aviso, que es como este modulo falla
+    # siempre-- y los 380 de la temporada se quedaban sin poder fechar a nadie.
+    #
+    # Se noto por el otro lado: catorce filas de la pagina entraban sin fecha y
+    # el aviso decia "380 partidos sin pareja en la otra fuente". Trescientos
+    # ochenta es la temporada entera; que no emparejara NINGUNO era el sintoma.
+    #
+    # Con la clave puesta lee los 380, los 380 con fecha, 38 jornadas de diez
+    # partidos, sin un par repetido y sin un aviso: el todos-contra-todos ida y
+    # vuelta de veinte clubes, exacto. Los playoffs no se cuelan porque no
+    # numeran sus rondas como `Round N`.
+    "": {
+        "Argentino (M)": "Argentino de Merlo",
+        "Argentino (R)": "Argentino de Rosario",
+        "Barracas Bolívar": "Barracas Bolívar",
+        "Barracas Central": "Barracas Central",
+        "Berazategui": "Berazategui",
+        "Cañuelas": "Cañuelas",
+        # las cuatro que el padron no reconoce abreviadas. Ninguna es ambigua:
+        # los veinte clubes de esta Primera C estan en el padron y ninguna otra
+        # abreviatura del corpus colisiona con estas.
+        "Def. de Cambaceres": "Defensores de Cambaceres",
+        "Defensores Unidos": "Defensores Unidos",
+        "Dvo Laferrere": "Deportivo Laferrere",
+        "El Porvenir": "El Porvenir",
+        "Excursionistas": "Excursionistas",
+        "Fénix": "Fénix",
+        "Gral. Lamadrid": "General Lamadrid",
+        "J.J. de Urquiza": "J. J. de Urquiza",
+        "L.N. Alem": "Leandro N. Alem",
+        "Luján": "Luján",
+        "Sacachispas": "Sacachispas",
+        "San Miguel": "San Miguel",
+        "Villa Dálmine": "Villa Dálmine",
+        "Villa San Carlos": "Villa San Carlos",
+    },
     "Reducido": {
         "Argentino (R)": "Argentino de Rosario",
         "Berazategui": "Berazategui",
@@ -1804,6 +1844,51 @@ ARGENTINO_A_2004 = {
 # corchetes -- `[May 26]`, no `[May 26, 2012]` --, asi que hay que deducirlo del
 # arco de la temporada; y las paginas se sirven en latin-1 SIN meta charset, asi
 # que leerlas como UTF-8 rompe los acentos.
+# Primera C 2009-10, en `arg4-2010`. Igual que la temporada anterior: la fase
+# regular no lleva encabezado de zona porque el torneo no tiene zonas, y por eso
+# la clave es la vacia.
+#
+# ESTE ARCHIVO ESCRIBE VARIOS CLUBES DE DOS MANERAS, y las dos van al mapa: la
+# fuente alterna `Barracas Bolìvar` con acento grave y `Barracas Bolívar` con
+# agudo, `Gral Lamadrid` y `Gral. Lamadrid`, `Dvo Laferrere` y `Dvo. Laferrere`,
+# `Fenix` y `Fénix`. No hay una forma canonica que elegir: hay que aceptar las
+# dos o se pierden los partidos de la otra.
+#
+# Y `Talleres` A SECAS ES EL DE REMEDIOS DE ESCALADA, no el de Cordoba. El padron
+# solo, preguntado por "Talleres", contesta `Talleres (C)`, que jugaba en otra
+# division: es el homonimo mas caro del corpus y el motivo por el que este mapa
+# se armo contra los VEINTE CLUBES QUE LA PAGINA HACE JUGAR esa temporada, y no
+# contra el padron suelto. Cardinalidad, no parecido.
+PRIMERA_C_2009 = {
+    "": {
+        "Argentino-M": "Argentino de Merlo",
+        "Argentino-R": "Argentino de Rosario",
+        "Barracas Bolìvar": "Barracas Bolívar",
+        "Barracas Bolívar": "Barracas Bolívar",
+        "Barracas Central": "Barracas Central",
+        "Berazategui": "Berazategui",
+        "Def. Unidos": "Defensores Unidos",
+        "Def. de Cambaceres": "Defensores de Cambaceres",
+        "Dvo Laferrere": "Deportivo Laferrere",
+        "Dvo. Laferrere": "Deportivo Laferrere",
+        "El Porvenir": "El Porvenir",
+        "Excursionistas": "Excursionistas",
+        "FC Midland": "Ferrocarril Midland",
+        "Fenix": "Fénix",
+        "Fénix": "Fénix",
+        "Gral Lamadrid": "General Lamadrid",
+        "Gral. Lamadrid": "General Lamadrid",
+        "J.J. de Urquiza": "J. J. de Urquiza",
+        "Leandro N. Alem": "Leandro N. Alem",
+        "Luján": "Luján",
+        "Sacachispas": "Sacachispas",
+        "San Miguel": "San Miguel",
+        "Talleres": "Talleres (RdE)",
+        "Villa Dálmine": "Villa Dálmine",
+    },
+}
+
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
@@ -1813,5 +1898,6 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2012-13": ("arg3-int2013", ARGENTINO_A_2012),
     "Torneo Argentino A 2011-12": ("arg2012", ARGENTINO_A_2011),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),
+    "Campeonato de Primera C 2009-10 (Argentina)": ("arg4-2010", PRIMERA_C_2009),
     "Torneo Argentino A 2004-05": ("arg3-int05", ARGENTINO_A_2004),
 }

@@ -309,7 +309,7 @@ ASCENSO_HISTORICO = [
     Torneo('Campeonato de Primera C 2008-09 (Argentina)', 'Primera C', 2008,
            anio_fin=2009, espn=True, rsssf='arg4-09', rsssf_llaves=True),
     Torneo('Campeonato de Primera C 2009-10 (Argentina)', 'Primera C', 2009,
-           anio_fin=2010, espn=True),
+           anio_fin=2010, espn=True, rsssf='arg4-2010'),
     Torneo('Campeonato de Primera C 2010-11 (Argentina)', 'Primera C', 2010,
            anio_fin=2011, espn=True),
     # Este ESTUVO en `sin-fecha/` por un diagnostico equivocado, y conviene dejar
