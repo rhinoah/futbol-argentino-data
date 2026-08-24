@@ -150,6 +150,44 @@ def test_cada_torneo_con_marca_espn_tiene_liga_rangos_y_mapa():
         assert isinstance(mapa, dict), pagina
 
 
+def test_el_mapa_apunta_a_clubes_que_existen():
+    """UN DESTINO MAL TIPEADO NO FALLA: NO EMPAREJA.
+
+    El mapa traduce el nombre de ESPN al del padron. Si el destino tiene un error
+    de tipeo, `leer` devuelve un club que no existe, `completar` no lo encuentra
+    del otro lado y esas filas simplemente se quedan sin fecha -- sin que nada
+    diga por que. El aviso de "nombres que el mapa no traduce" no lo agarra,
+    porque el nombre SI esta traducido; lo que no existe es a donde apunta."""
+    from fad import equipos
+
+    for pagina, (_, _, mapa) in espn.FUENTES.items():
+        for como_lo_llama, canonico in mapa.items():
+            eq = equipos.buscar(canonico)
+            assert eq, f"{pagina}: {como_lo_llama!r} -> {canonico!r} no esta en el padron"
+            assert eq.nombre == canonico, (
+                f"{pagina}: {canonico!r} no es el nombre canonico, es {eq.nombre!r}")
+
+
+def test_las_dos_declaraciones_de_espn_coinciden():
+    """DOS LISTAS QUE TIENEN QUE DECIR LO MISMO, Y SE ESCRIBEN APARTE.
+
+    `torneos.py` marca el torneo --con `espn` para las fechas de la liga o con
+    `espn_llaves` para el Reducido que Wikipedia solo dibuja-- y `espn.FUENTES`
+    dice con que liga, que rangos y que mapa. Las dos marcas comen del MISMO
+    diccionario. Son declaraciones independientes --archivos distintos, motivos
+    distintos-- y por eso el cruce no es tautologico: enchufar una y olvidarse de
+    la otra no falla, deja el completador sin correr (si falta la marca) o el
+    diccionario con una entrada muerta (si falta el torneo)."""
+    from fad import torneos
+
+    marcados = {t.pagina for t in torneos.TODOS if t.espn or t.espn_llaves}
+    declarados = set(espn.FUENTES)
+    assert marcados - declarados == set(), (
+        f"marcados con espn=True y sin entrada en FUENTES: {marcados - declarados}")
+    assert declarados - marcados == set(), (
+        f"en FUENTES y sin espn=True en el torneo: {declarados - marcados}")
+
+
 # --------------------------------------------------------------------------
 # leer_llaves: el Reducido que Wikipedia solo dibuja
 # --------------------------------------------------------------------------

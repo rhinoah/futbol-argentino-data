@@ -439,14 +439,61 @@ def completar(nuestros: list, ajenos: list[Ajeno],
     for k in chocados:
         del indice[k]
 
+    def clave(p):
+        # `p.llave or ""` contra `a.llave`: si la fuente no distingue llaves las
+        # deja vacias y la clave queda como estaba.
+        #
+        # UNA RONDA DE ELIMINACION NO TIENE NUMERO DE FECHA, y preguntarselo a
+        # `_numero` --que devuelve el primer digito del nombre-- da uno inventado:
+        # `1/8 Finals - First leg` daba 1, el uno de "1/8". Con eso, las dieciseis
+        # filas asi del corpus compartian clave con la Round 1 de la fase regular.
+        # En el Argentino A 2005-06 la ida de los octavos se comparaba contra
+        # `Villa Mitre 2-1 Sportivo Desamparados` de la primera fecha del
+        # Clausura, y el aviso denunciaba tres desacuerdos entre partidos
+        # distintos; con el marcador coincidiendo habria escrito la fecha
+        # equivocada.
+        #
+        # Se pregunta por la FASE y no por como esta escrita la etiqueta. El campo
+        # ya existe y no hay que adivinarlo: son 80 filas --`1/8 Finals`,
+        # `Promoción N`, `Semifinal N`, `Llave N`, `Partido N`--, todas de
+        # eliminacion, y ninguna fuente que numere rondas de liga puede estar
+        # hablando de ellas. Las llaves se fechan por otro camino, `leer_llaves`.
+        numerada = con_jornada and getattr(p, "fase", "") != "eliminacion"
+        return (getattr(p, "llave", "") if con_llave else "",
+                _numero(p.jornada) if numerada else 0,
+                p.local, p.visita)
+
+    # LA REGLA DE COLISION TAMBIEN VALE DE ESTE LADO. Arriba se descartan los
+    # ajenos que caen en la misma casilla; faltaba mirar si son VARIAS FILAS
+    # NUESTRAS las que caen en una. Pasa cuando la fuente no numera la jornada y
+    # la llave no separa lo suficiente: en el Argentino A 2004-05 la fase regular
+    # y las rondas de la Segunda Fase comparten `llave` --las dos son "Torneo
+    # Apertura"--, asi que `Gimnasia y Tiro (S) vs Atlético Tucumán` de la fecha 5
+    # y el mismo cruce de la Tercera ronda son la misma clave.
+    #
+    # No llegaba a escribir una fecha equivocada, porque el marcador verifica
+    # antes. Lo que si hacia era DENUNCIAR UN DESACUERDO QUE NO EXISTE: la fila de
+    # la Tercera ronda se comparaba contra la cita de la fase regular y el aviso
+    # decia "esta fuente la da distinta" sobre dos partidos distintos.
+    #
+    # Se resuelve con el mismo criterio de siempre: lo que no identifica uno solo
+    # no identifica nada, y el marcador --que ya es el verificador-- desempata. Si
+    # entre las filas que comparten clave hay EXACTAMENTE UNA con el marcador del
+    # ajeno, esa es; las demas quedan sin pareja y en silencio.
+    mias: dict = {}
+    for p in nuestros:
+        mias.setdefault(clave(p), []).append(p)
+
     puestos, sin_par, avisos = 0, 0, []
     discrepan = []
     for p in nuestros:
-        # `p.llave or ""` contra `a.llave`: si la fuente no distingue llaves las
-        # deja vacias y la clave queda como estaba.
-        a = indice.get((getattr(p, "llave", "") if con_llave else "",
-                        _numero(p.jornada) if con_jornada else 0,
-                        p.local, p.visita))
+        k = clave(p)
+        a = indice.get(k)
+        if a is not None and len(mias[k]) > 1:
+            iguales = [x for x in mias[k]
+                       if (x.goles_local, x.goles_visita) == (a.goles_local, a.goles_visita)]
+            if len(iguales) != 1 or iguales[0] is not p:
+                a = None
         if p.fecha:
             # YA TIENE FECHA, PERO ESTA FUENTE PUEDE DECIR OTRA. Saltearla en
             # silencio -- que es como venia -- convierte el ORDEN de los

@@ -568,6 +568,29 @@ MUTANTES = [
     # El barrido de plantillas, de vuelta a una sola pasada: deja de pelar las
     # anidadas y la de afuera se publica cruda en la celda.
     # El partido que no se jugo: los tres modos de perderlo.
+    # La clave de `completar`, de los dos lados.
+    ("fad/fechas.py", "no mirar si varias filas nuestras caen en la misma casilla",
+     "        if a is not None and len(mias[k]) > 1:",
+     "        if False:"),
+
+    ("fad/fechas.py", "desempatar sin exigir que quede una sola",
+     "            if len(iguales) != 1 or iguales[0] is not p:",
+     "            if iguales and iguales[0] is not p:"),
+
+    ("fad/fechas.py", "darle numero de fecha a una ronda de eliminacion",
+     '        numerada = con_jornada and getattr(p, "fase", "") != "eliminacion"',
+     "        numerada = con_jornada"),
+
+    # Enchufar ESPN en un lado y olvidarse del otro: la entrada queda muerta.
+    ("fad/torneos.py", "sacarle la marca de ESPN a un torneo que si la declara",
+     '    Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024,'
+     + chr(10) + "           espn=True),",
+     '    Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024),'),
+
+    ("fad/espn.py", "apuntar el mapa a un club que no existe",
+     '"JJ Urquiza": "J. J. de Urquiza"',
+     '"JJ Urquiza": "J.J. de Urquiza"'),
+
     # El espejo de localia: los goles tienen que ir con los clubes.
     ("fad/correcciones.py", "espejar la localia y dejar los goles donde estaban",
      "        if c.debe == (visita, local):",

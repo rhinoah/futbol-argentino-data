@@ -224,6 +224,20 @@ PRIMERA_B_2010 = {
 }
 
 # {pagina de Wikipedia: (liga, rangos de fecha, mapa)}
+# Primera Nacional 2023, que va por `arg.2`. Los cuatro nombres son la forma
+# larga de un desambiguador que el padron escribe corto; ninguno hace dudar.
+PRIMERA_NACIONAL_2023 = {
+    **_COMUNES,
+    "Alvarado (Mar del Plata)": "Alvarado",
+    "Estudiantes (Buenos Aires)": "Estudiantes (BA)",
+    "Gimnasia y Esgrima (Jujuy)": "Gimnasia y Esgrima (J)",
+    "San Martín (San Juan)": "San Martín (SJ)",
+}
+
+# Primera C 2024, por `arg.4`. Uno solo: ESPN escribe `JJ Urquiza` sin puntos.
+PRIMERA_C_2024 = {**_COMUNES, "JJ Urquiza": "J. J. de Urquiza"}
+
+
 FUENTES: dict[str, tuple[str, tuple[str, ...], dict]] = {
     "Campeonato de Primera C 2008-09 (Argentina)":
         ("arg.4", ("20080801-20090731",), PRIMERA_C_2008),
@@ -235,6 +249,16 @@ FUENTES: dict[str, tuple[str, tuple[str, ...], dict]] = {
         ("arg.3", ("20100701-20101231", "20110101-20110731"), PRIMERA_B_2010),
     "Campeonato de Primera C 2011-12 (Argentina)":
         ("arg.4", ("20110801-20111231", "20120101-20120731"), PRIMERA_C_2011),
+    # Estas dos NO se enchufan por las fechas que faltan --son cinco-- sino porque
+    # la fuente ya estaba y no se la leia. Al leerla aparecen ademas veinte
+    # partidos donde ESPN da otro dia que la pagina, y no son ruido: se agrupan
+    # por RONDA -- toda la fecha 7 de la Primera C 2024 corrida nueve o diez dias,
+    # toda la fecha 10 corrida tres --, que es la firma de una postergacion y no
+    # la de un error suelto. Se conserva la de la pagina y se avisa, como siempre.
+    "Campeonato de Primera Nacional 2023":
+        ("arg.2", ("20230101-20230630", "20230701-20231231"), PRIMERA_NACIONAL_2023),
+    "Campeonato de Primera C 2024 (Argentina)":
+        ("arg.4", ("20240101-20240630", "20240701-20241231"), PRIMERA_C_2024),
 }
 
 # Como llama ESPN a cada ronda del Reducido, y como se escribe en el dataset. El

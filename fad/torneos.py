@@ -192,7 +192,8 @@ ASCENSO = [
     Torneo("Campeonato de Primera B 2025 (Argentina)", "Primera B", 2025),
     Torneo("Campeonato de Primera B 2026 (Argentina)", "Primera B", 2026, cerrado=False),
 
-    Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024),
+    Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024,
+           espn=True),
     Torneo("Campeonato de Primera C 2025 (Argentina)", "Primera C", 2025),
     Torneo("Campeonato de Primera C 2026 (Argentina)", "Primera C", 2026, cerrado=False),
 
@@ -279,7 +280,8 @@ ASCENSO_HISTORICO = [
     # donde juegan el (SJ) y el (T). Se resolvio sin fuentes externas: en esa
     # fecha el (SJ) ya juega y el (T) no. Ver `fad/correcciones.py`.
     Torneo('Campeonato de Primera Nacional 2022', 'Primera Nacional', 2022),
-    Torneo('Campeonato de Primera Nacional 2023', 'Primera Nacional', 2023),
+    Torneo('Campeonato de Primera Nacional 2023', 'Primera Nacional', 2023,
+           espn=True),
 
     Torneo('Campeonato de Primera B 2016 (Argentina)', 'Primera B', 2016),
     Torneo('Campeonato de Primera B 2016-17 (Argentina)', 'Primera B', 2016, anio_fin=2017),

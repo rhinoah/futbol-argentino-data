@@ -635,6 +635,81 @@ def test_sin_jornada_un_par_repetido_se_descarta_entero():
     assert any("dos veces" in a for a in avisos)
 
 
+def test_dos_filas_nuestras_en_la_misma_casilla_las_desempata_el_marcador():
+    """LA REGLA DE COLISION TAMBIEN VALE DE ESTE LADO.
+
+    Cuando la fuente no numera la jornada, el identificador es el par de clubes
+    mas la llave, y eso puede enganchar VARIAS filas nuestras: en el Argentino A
+    2004-05 la fase regular y las rondas de la Segunda Fase comparten `llave`
+    --las dos son "Torneo Apertura"--, asi que el mismo cruce aparece dos veces.
+
+    No llegaba a escribir una fecha equivocada, porque el marcador verifica antes.
+    Lo que si hacia era denunciar un desacuerdo INEXISTENTE: la fila de la ronda
+    se comparaba contra la cita de la fase regular y el aviso decia "esta fuente
+    la da distinta" sobre dos partidos distintos.
+
+    El marcador --que ya es el verificador-- desempata, y solo si deja UNA."""
+    regular = Partido(local="Gimnasia y Tiro (S)", visita="Atlético Tucumán",
+                      goles_local=2, goles_visita=1, fase="zonas",
+                      jornada="Fecha 5", llave="Torneo Apertura")
+    ronda = Partido(fecha="2004-12-08", local="Gimnasia y Tiro (S)",
+                    visita="Atlético Tucumán", goles_local=4, goles_visita=0,
+                    fase="eliminacion", jornada="Tercera ronda",
+                    llave="Torneo Apertura")
+    ajeno = fechas.Ajeno(fecha="2004-10-10", jornada=0, llave="Torneo Apertura",
+                         local="Gimnasia y Tiro (S)", visita="Atlético Tucumán",
+                         goles_local=2, goles_visita=1)
+
+    puestas, avisos = fechas.completar([regular, ronda], [ajeno])
+    assert (puestas, regular.fecha) == (1, "2004-10-10"), avisos
+    assert ronda.fecha == "2004-12-08", "no se le toca la fecha que ya tenia"
+    assert not any("la da distinta" in a for a in avisos), avisos
+
+
+def test_si_el_marcador_tampoco_desempata_no_se_completa_nada():
+    """LO QUE NO IDENTIFICA UNO SOLO NO IDENTIFICA NADA, tambien aca.
+
+    El marcador desempata entre las filas nuestras que comparten casilla, pero
+    solo sirve si deja UNA. Si dos de ellas tienen el mismo marcador que el
+    ajeno, no se sabe de cual habla la fuente y no se completa ninguna: tomar la
+    primera seria elegir por orden de aparicion, que es exactamente el arbitro
+    que este modulo dejo de aceptar."""
+    una = Partido(local="Boca Juniors", visita="River Plate", goles_local=1,
+                  goles_visita=0, fase="zonas", jornada="Fecha 5", llave="A")
+    otra = Partido(local="Boca Juniors", visita="River Plate", goles_local=1,
+                   goles_visita=0, fase="eliminacion", jornada="Semifinal", llave="A")
+    ajeno = fechas.Ajeno(fecha="2010-03-05", jornada=0, llave="A",
+                         local="Boca Juniors", visita="River Plate",
+                         goles_local=1, goles_visita=0)
+
+    puestas, avisos = fechas.completar([una, otra], [ajeno])
+    assert puestas == 0, avisos
+    assert (una.fecha, otra.fecha) == ("", "")
+
+
+def test_una_ronda_de_eliminacion_no_tiene_numero_de_fecha():
+    """`1/8 Finals` NO ES LA FECHA 1, aunque tenga un uno adelante.
+
+    `_numero` devuelve el primer digito del nombre, y el de `1/8 Finals - First
+    leg` es el uno de "1/8". Con eso, esas filas compartian clave con la Round 1
+    de la fase regular: en el Argentino A 2005-06 la ida de los octavos se
+    comparaba contra `Villa Mitre 2-1 Sportivo Desamparados` de la primera fecha
+    del Clausura. Con el marcador coincidiendo habria escrito la fecha
+    equivocada.
+
+    Se pregunta por la FASE y no por como esta escrita la etiqueta."""
+    octavos = Partido(local="Villa Mitre", visita="Desamparados", goles_local=1,
+                      goles_visita=2, fase="eliminacion",
+                      jornada="1/8 Finals - First leg", llave="Torneo Clausura")
+    primera = fechas.Ajeno(fecha="2006-01-15", jornada=1, llave="Torneo Clausura",
+                           local="Villa Mitre", visita="Desamparados",
+                           goles_local=1, goles_visita=2)
+
+    puestas, avisos = fechas.completar([octavos], [primera])
+    assert (puestas, octavos.fecha) == (0, ""), avisos
+    assert any("sin pareja" in a for a in avisos), avisos
+
+
 # --------------------------------------------------------------------------
 # Dos fuentes que dan dias distintos
 # --------------------------------------------------------------------------
