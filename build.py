@@ -407,18 +407,20 @@ def le_creemos_la_localia(repetidas: int, alreves: int,
     orden no es la localia, y entonces tampoco lo es en los partidos que la pagina
     NO trae, que son justo los que se querian importar.
 
-    No es una sospecha: se midio pagina por pagina. El Argentino A 2004-05 coincide
-    en 40 de 45 y el 2012-13 en 30 de 30. Y la alternancia entre ida y vuelta no
-    sirve para distinguirlas: las dos fuentes alternan, una es el espejo de la
-    otra. Lo unico que decide es una columna rotulada, y esa la tiene la pagina.
+    No es una sospecha: se midio pagina por pagina, Y CON ESTA MISMA FUNCION -- que
+    no es un detalle, porque contar el solapamiento "a ojo" da otro numero. El
+    Argentino A 2004-05 coincide en 43 de 45 y el 2012-13 en 24 de 24. Y la
+    alternancia entre ida y vuelta no sirve para distinguirlas: las dos fuentes
+    alternan, una es el espejo de la otra. Lo unico que decide es una columna
+    rotulada, y esa la tiene la pagina.
 
     Pide un solapamiento MINIMO porque con dos o tres partidos la mayoria no
     significa nada; sin testigo suficiente no se bloquea, y eso queda dicho aparte.
 
     Y TIENE UN SUPUESTO, que hay que decir: que la pagina es el patron. El
-    Argentino A 2011-12 daba 6 de 31 y eso se leyo un tiempo como "esa fuente no
-    sirve"; era al reves -- la pagina rotula `Local - Vuelta` a la columna de la
-    ida. Un testigo que mide contra un patron torcido rechaza a la fuente POR TENER
+    Argentino A 2011-12 daba 6 de 31 -- DIECINUEVE por ciento -- y eso se leyo un
+    tiempo como "esa fuente no sirve"; era al reves: la pagina rotula
+    `Local - Vuelta` a la columna de la ida. Un testigo que mide contra un patron torcido rechaza a la fuente POR TENER
     RAZON, y ahi se pierden los partidos que solo la fuente trae: en esa pagina
     eran seis, las dos semifinales y la final, que Wikipedia publica unicamente
     como dibujo.
