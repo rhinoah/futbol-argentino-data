@@ -7,13 +7,13 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 43 836 | 147 | 149 | 876 | 339 |
+| 43 836 | 147 | 149 | 884 | 343 |
 
 ## 2004–2026 — Cerrado
 
 **Todo lo que Wikipedia da de esta era está adentro**
 
-`41 367` partidos. Lo único que queda son verificaciones de calidad, no partidos faltantes: del corpus entero quedan `209` avisos abiertos y cero graves.
+`41 367` partidos. Lo único que queda son verificaciones de calidad, no partidos faltantes: del corpus entero quedan `201` avisos abiertos y cero graves.
 
 Dos bloques se cerraron enteros. Los **desacuerdos entre el cuadro y la grilla** eran `56` y son `0`: las cinco fases finales que Wikipedia sólo dibujaba entraron desde RSSSF y ESPN, y los últimos cuatro no eran arbitrajes sino síntomas — a tres les faltaba una pata de la llave que un separador de un espacio se comía en silencio, y el cuarto era un homónimo que zanjó la foja. Y los **27 desvíos de PJ entre la tabla y la grilla** quedaron en `1`. Diecinueve eran del Argentino A 2009-10 y no eran de nadie —sus 25 clubes juegan 16 de zona y diez juegan 4 más en el interzonal, así que las dos partes contaban bien, cosas distintas—, y siete eran la consecuencia aritmética de un `Dividido` ya declarado: el partido se jugó, el fallo le dio un marcador distinto a cada club y el esquema no puede escribir eso, así que la fila no entra pero la tabla lo cuenta. Ahora se deriva de la declaración en vez de anotarse aparte.
 
