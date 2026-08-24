@@ -964,6 +964,15 @@ MUTANTES = [
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
 
+    # La cola del titulo, y las llaves completando fechas.
+    ("fad/rsssf.py", "no reconocer la cola 'Revalida' en el titulo de la ronda",
+     'r"(?:\\s+(?:\\d[^\\[\\]]*|Reválida))?(?:\\s*\\[([^\\]]*)\\])?\\s*$", re.I)',
+     'r"(?:\\s+\\d[^\\[\\]]*)?(?:\\s*\\[([^\\]]*)\\])?\\s*$", re.I)'),
+
+    ("build.py", "no fecharle a la pagina lo que la llave si tiene fechado",
+     "                mas += fechas.completar(",
+     "                mas += [] or fechas.completar("),
+
     # El corte de seccion, cuando el archivo del ano trae varias divisiones.
     ("fad/rsssf.py", "leer mas alla del final de la seccion",
      "        else:\n            texto = texto[:j]",

@@ -596,11 +596,22 @@ def _los_que_se_pierden(caidos: list, fuera: list) -> list[str]:
 # empiece con un numero: "Promotion/Relegation Playoff 3rd/4th level
 # Metropolitano". La cola NO es libre a proposito: con texto libre, "Final
 # Table:" pasaria por "Final" y una tabla de posiciones entraria como una llave.
+#
+# Y ADMITE LA PALABRA "Reválida", que es la otra cola que existe. Se censaron las
+# de los once archivos que el repo baja y son doce: cuarenta y seis `Table:`, diez
+# `Tables:`, cuatro `Reválida` y ocho sueltas que describen niveles ("3rd/4th level
+# Interior") o zonas. Las de `Table` son justo las que hay que dejar afuera, asi
+# que la cola sigue siendo una lista cerrada y no un comodin.
+#
+# Sin ella, el `Third Phase Reválida` y el `Fourth Phase Reválida` del Argentino A
+# 2012-13 no eran titulos de nada: sus dieciseis partidos no se leian, y en
+# silencio, porque un titulo que no matchea no genera aviso -- simplemente no abre
+# ninguna ronda y los renglones de abajo caen sin ronda abierta.
 _LLAVE_TITULO = re.compile(
     r"^(?:Overall\s+)?(1/8\s+Finals|Quarterfinals|Semifinals|Final"
     r"|Second Round|Third Round|Third Phase|Fourth Phase"
     r"|Promotion/Relegation Playoff|Promotion Playoff|Relegation Playoff)"
-    r"(?:\s+\d[^\[\]]*)?(?:\s*\[([^\]]*)\])?\s*$", re.I)
+    r"(?:\s+(?:\d[^\[\]]*|Reválida))?(?:\s*\[([^\]]*)\])?\s*$", re.I)
 # "First Legs [Nov 23]", "First leg", "Second Legs". El plural es opcional porque
 # RSSSF lo escribe de las dos formas.
 #

@@ -1105,3 +1105,33 @@ def test_un_desde_que_no_aparece_no_lee_nada():
     ps, avisos = rsssf.leer(_DOS_DIVISIONES, _MAPA_DIV, 2010, 2011, 7,
                             desde="Primera D Metropolitano")
     assert ps == [] and any("no se encontro la seccion" in a for a in avisos)
+
+
+# --------------------------------------------------------------------------
+# La cola del titulo de una ronda: cerrada, no libre
+# --------------------------------------------------------------------------
+def test_el_titulo_admite_la_cola_revalida():
+    """`Third Phase Reválida` y `Fourth Phase Reválida` son los titulos del
+    Argentino A 2012-13, y no eran titulos de nada: sus dieciseis partidos no se
+    leian, y en silencio -- un titulo que no matchea no genera aviso, simplemente
+    no abre ninguna ronda."""
+    ps, raros = _llaves(
+        "Zona B - Norte\n"
+        "Third Phase Reválida\n"
+        "First leg [May 22]\n"
+        "Racing                       1-1 San Martín\n")
+    assert [(p.jornada, p.fecha) for p in ps] == [("Third Phase - First leg", "2006-05-22")]
+    assert raros == []
+
+
+def test_la_cola_sigue_siendo_una_lista_cerrada():
+    """El motivo de que no sea un comodin: `Final Table:` pasaria por `Final` y
+    una tabla de posiciones entraria como una llave. Se censaron las colas de los
+    once archivos que el repo baja y son doce; las de `Table` son justo las que
+    hay que dejar afuera."""
+    ps, _ = _llaves(
+        "Zona B - Norte\n"
+        "Final Table:\n"
+        "First leg [May 22]\n"
+        "Racing                       1-1 San Martín\n")
+    assert ps == [], "una tabla de posiciones no abre una llave"
