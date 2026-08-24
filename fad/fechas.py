@@ -439,14 +439,27 @@ def completar(nuestros: list, ajenos: list[Ajeno],
         del indice[k]
 
     puestos, sin_par, avisos = 0, 0, []
+    discrepan = []
     for p in nuestros:
-        if p.fecha:
-            continue
         # `p.llave or ""` contra `a.llave`: si la fuente no distingue llaves las
         # deja vacias y la clave queda como estaba.
         a = indice.get((getattr(p, "llave", "") if con_llave else "",
                         _numero(p.jornada) if con_jornada else 0,
                         p.local, p.visita))
+        if p.fecha:
+            # YA TIENE FECHA, PERO ESTA FUENTE PUEDE DECIR OTRA. Saltearla en
+            # silencio -- que es como venia -- convierte el ORDEN de los
+            # completadores en el arbitro: el que corre primero gana y el segundo
+            # no dice nada. Se vio al enchufar RSSSF a temporadas que ya fechaba
+            # ESPN: veintitres filas cambiaron de dia sin que nada lo denunciara,
+            # y una de ellas por dieciseis dias.
+            #
+            # No se pisa la que ya esta: la primera fuente sigue mandando. Lo que
+            # cambia es que el desacuerdo se ve.
+            if a is not None and a.fecha and a.fecha != p.fecha:
+                discrepan.append(f"{p.jornada} {p.local} vs {p.visita}: nosotros "
+                                 f"{p.fecha}, esta fuente {a.fecha}")
+            continue
         if a is None:
             sin_par += 1
             continue
@@ -478,6 +491,10 @@ def completar(nuestros: list, ajenos: list[Ajeno],
                       f"conoce: {', '.join(sorted(sin_padron)[:6])}")
     if sin_par:
         avisos.append(f"{sin_par} partidos sin pareja en la otra fuente")
+    if discrepan:
+        avisos.append(f"{len(discrepan)} partidos que ya tenian fecha y esta fuente "
+                      f"la da distinta; se conserva la que ya estaba: "
+                      + " | ".join(discrepan[:3]))
     return puestos, avisos
 
 

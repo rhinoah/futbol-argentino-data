@@ -710,8 +710,10 @@ MUTANTES = [
      "        if False:"),
 
     ("fad/fechas.py", "pisar la fecha de los que ya la tienen",
-     "        if p.fecha:\n            continue",
-     "        if False:\n            continue"),
+     "        if p.fecha:\n"
+     "            # YA TIENE FECHA, PERO ESTA FUENTE PUEDE DECIR OTRA.",
+     "        if False:\n"
+     "            # YA TIENE FECHA, PERO ESTA FUENTE PUEDE DECIR OTRA."),
 
     ("fad/fechas.py", "no exigir que coincida la jornada",
      "            k = (a.llave, a.jornada if con_jornada else 0, el, ev)",
@@ -963,6 +965,15 @@ MUTANTES = [
     ("fad/rsssf.py", "no cambiar la localia en la vuelta",
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
+
+    # Dos fuentes que dan dias distintos.
+    ("fad/fechas.py", "callar que la otra fuente da otro dia",
+     "            if a is not None and a.fecha and a.fecha != p.fecha:",
+     "            if False:"),
+
+    ("fad/fechas.py", "tomar el vacio de la otra fuente como un desacuerdo",
+     "            if a is not None and a.fecha and a.fecha != p.fecha:",
+     "            if a is not None and a.fecha != p.fecha:"),
 
     # Las fechas copiadas a mano de una fuente citada.
     ("build.py", "no aplicar las fechas citadas a mano",

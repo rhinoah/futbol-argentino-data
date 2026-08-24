@@ -633,3 +633,46 @@ def test_sin_jornada_un_par_repetido_se_descarta_entero():
                                        sin_jornada("San Miguel", "Sacachispas", 0, 1, "2010-06-05")])
     assert n == 0 and not p.fecha
     assert any("dos veces" in a for a in avisos)
+
+
+# --------------------------------------------------------------------------
+# Dos fuentes que dan dias distintos
+# --------------------------------------------------------------------------
+def _p(fecha, gl=2, gv=1):
+    from fad.parser import Partido
+    return Partido(fecha=fecha, local="Boca Juniors", visita="River Plate",
+                   goles_local=gl, goles_visita=gv, fase="zonas", jornada="Fecha 1")
+
+
+def _a(fecha, gl=2, gv=1):
+    return fechas.Ajeno(fecha=fecha, jornada=1, local="Boca Juniors",
+                        visita="River Plate", goles_local=gl, goles_visita=gv)
+
+
+def test_una_fecha_que_ya_estaba_y_la_fuente_contradice_se_denuncia():
+    """SALTEAR EN SILENCIO CONVIERTE EL ORDEN EN EL ARBITRO. El completador se
+    salteaba las filas que ya tenian fecha, asi que el primero que corriera ganaba
+    y el segundo no decia nada. Se vio al enchufar RSSSF a temporadas que ya
+    fechaba ESPN: veintitres filas cambiaron de dia sin que nada lo denunciara, y
+    una de ellas por dieciseis dias.
+
+    Medido sobre el corpus, son 46 partidos en diez paginas, y varios ya estaban
+    ahi de antes: el chequeo no destapa una consecuencia del cambio, destapa un
+    punto ciego.
+    """
+    nuestro = _p("2010-03-01")
+    puestas, avisos = fechas.completar([nuestro], [_a("2010-03-08")])
+    assert puestas == 0
+    assert nuestro.fecha == "2010-03-01", "no se pisa la que ya estaba"
+    assert any("la da distinta" in a for a in avisos)
+
+
+def test_si_las_dos_fuentes_coinciden_no_se_dice_nada():
+    """El testigo del de arriba: lo que se denuncia es el desacuerdo, no el
+    solapamiento."""
+    assert fechas.completar([_p("2010-03-01")], [_a("2010-03-01")]) == (0, [])
+
+
+def test_una_fuente_sin_fecha_no_contradice_a_nadie():
+    """Vacio no es un desacuerdo. Es lo mismo que decir "no se"."""
+    assert fechas.completar([_p("2010-03-01")], [_a("")]) == (0, [])
