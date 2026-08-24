@@ -1080,9 +1080,8 @@ MUTANTES = [
      "        if False:\n            continue"),
 
     ("build.py", "volver a denunciar un club ya revisado a mano",
-     "        if any(correcciones.revisado(pagina, c) for c in clubes):\n"
-     "            continue",
-     "        if False:\n            continue"),
+     "        elif any(correcciones.revisado(pagina, c) for c in clubes):",
+     "        elif False:"),
 
     ("fad/posiciones.py", "mandar a releer un partido que la fuente ya respaldo",
      "    if respaldado:",

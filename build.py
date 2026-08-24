@@ -428,11 +428,18 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
         clubes = {c for c in de_la_zona.get(zona, set()) if c in sumas}
         if len(clubes) != len(filas):
             continue
-        if any(correcciones.revisado(pagina, c) for c in clubes):
-            continue
         nuestras = sorted(sumas[c] for c in clubes)
         if nuestras == sorted(filas):
             respaldados |= clubes
+        elif any(correcciones.revisado(pagina, c) for c in clubes):
+            # Callado, no abstenido. La zona con un club ya revisado a mano solo
+            # importa cuando el cruce FALLA: ahi el desvio ya tiene su explicacion
+            # escrita y repetirla convierte un archivo de conclusiones en ruido.
+            # Cuando el cruce PASA no hay nada que repetir, y abstenerse ahi
+            # apagaba el chequeo justo en la pagina que lo motivo -- el Argentino
+            # A 2008-09, cuyos diez clubes estan revisados y cuyas tres zonas
+            # cierran perfecto contra la foja de la fuente.
+            continue
         else:
             distintas = sum(1 for a, b in zip(nuestras, sorted(filas)) if a != b)
             # EL AVISO NO DICE DE QUIEN ES LA CULPA PORQUE NO LA SABE. Lo

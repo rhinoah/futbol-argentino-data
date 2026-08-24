@@ -969,17 +969,30 @@ def test_una_zona_con_dos_tablas_no_se_cruza():
     assert (respaldados, avisos) == (set(), []), "dos tablas iguales tampoco alcanzan"
 
 
-def test_un_club_ya_revisado_a_mano_abstiene_a_su_zona():
-    """Denunciar de nuevo algo ya resuelto convierte un archivo de conclusiones
-    en ruido. Se pierde el respaldo del resto de la zona y esta bien que se
-    pierda: abstenerse deja las cosas como estaban."""
+def test_un_club_ya_revisado_a_mano_calla_el_aviso_pero_no_el_cruce():
+    """SOLO CUANDO EL CRUCE FALLA. Ahi el desvio ya tiene su explicacion escrita y
+    repetirla convierte un archivo de conclusiones en ruido.
+
+    Pero cuando el cruce PASA no hay nada que repetir, y abstenerse igual apagaba
+    el chequeo justo en la pagina que lo motivo: el Argentino A 2008-09 tiene sus
+    veinticinco clubes revisados -- la tabla de la pagina en espanol dice mas
+    goles que las otras dos -- y sus tres zonas cierran perfecto contra la foja de
+    la fuente. Callarlas ahi era perder el guard sin ganar nada.
+    """
     pagina = "Torneo Argentino A 2007-08"
     ps = [_zp("Luján de Cuyo", "Juventud Unida Universitario", 2, 0, "Zone 1")]
     mapa = {"Zone 1": {"L": "Luján de Cuyo", "J": "Juventud Unida Universitario"}}
-    tabla = _tabla("Zone 1", [(1, 1, 0, 0, 9, 0), (1, 0, 0, 1, 0, 9)])
-    assert build.la_fuente_se_respalda(ps, tabla, mapa)[1], "sin la pagina, avisa"
-    assert build.la_fuente_se_respalda(ps, tabla, mapa, pagina) == (set(), []), \
-        "con la pagina, se abstiene"
+
+    falla = _tabla("Zone 1", [(1, 1, 0, 0, 9, 0), (1, 0, 0, 1, 0, 9)])
+    assert build.la_fuente_se_respalda(ps, falla, mapa)[1], "sin la pagina, avisa"
+    assert build.la_fuente_se_respalda(ps, falla, mapa, pagina) == (set(), []), \
+        "con la pagina, calla"
+
+    pasa = _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)])
+    respaldados, avisos = build.la_fuente_se_respalda(ps, pasa, mapa, pagina)
+    assert avisos == [] and respaldados == {"Luján de Cuyo",
+                                            "Juventud Unida Universitario"}, \
+        "si cierra, el respaldo vale aunque el club este revisado"
 
 
 def test_la_deduplicacion_ve_el_renombre_que_corre_despues():

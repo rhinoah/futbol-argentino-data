@@ -2089,7 +2089,70 @@ _AWD_2007 = (
     "inventa un tercer marcador. "
 )
 
+# Los diez clubes del Argentino A 2008-09 comparten explicacion porque comparten
+# causa: no son diez desvios sino una tabla.
+_TABLA_2008_09 = (
+    "La tabla de la pagina en espanol dice mas goles que nuestra suma en DIEZ "
+    "clubes de los veinticinco, y siempre para el mismo lado: a cinco les sobran "
+    "goles a favor y a cinco en contra, ocho de cada lado. Que sumen igual no es "
+    "casualidad -- es la firma de partidos contados con OTRO marcador, no de "
+    "celdas mal tipeadas, que moverian un club solo.\n"
+    "LOS PARTIDOS EN DISPUTA SE PUEDEN NOMBRAR, y son cinco. Los desvios se "
+    "emparejan dentro de su zona: Santamarina +3 con Alvarado, Villa Mitre +2 "
+    "con Rivadavia (L), Gimnasia (M) y Juventud Unida +1 cada uno con Central "
+    "Cordoba (SdE) y Deportivo Maipu. El quinto es el unico que cruza zonas y por "
+    "eso queda forzado: la Zone 1 tiene seis goles a favor contra cinco en contra "
+    "y la Zone 2 tiene uno en contra con cero a favor, asi que ese gol es de un "
+    "INTERZONAL, y el unico posible es Cipolletti contra Real Arroyo Seco.\n"
+    "DOS TESTIGOS CONTRA UNO. Esta pagina no publica resultados: sus filas salen "
+    "de RSSSF. Y la tabla que la propia RSSSF publica al lado de esos partidos "
+    "coincide EXACTA con nuestra suma en los veinticinco clubes, las seis cifras "
+    "cada uno. La tabla de la Wikipedia en INGLES tambien coincide con nuestra "
+    "suma, en los diez clubes discutidos, uno por uno. La unica que dice otra "
+    "cosa es la pagina en espanol.\n"
+    "OJO CON LA FUERZA DE ESE ARGUMENTO. Nuestra suma y la tabla de RSSSF no son "
+    "dos testigos sino uno: las dos salen del mismo documento. Y no se pudo "
+    "verificar que la pagina en ingles no derive de RSSSF, asi que en el peor de "
+    "los casos esto es un testigo contra otro. Lo que si esta medido es que "
+    "ninguna de las tres coincide con la espanola, y que la espanola es la unica "
+    "que no publica el partido que sostiene su numero.\n"
+    "No se corrige nada: las filas dicen lo que dice su fuente. Se anota el "
+    "desacuerdo. Cerrarlo del todo pide una fuente que publique esos cinco "
+    "partidos uno por uno, y no se encontro ninguna. "
+)
+
 REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Ramón Santamarina",
+        porque=_TABLA_2008_09),
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Alvarado",
+        porque=_TABLA_2008_09),
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Villa Mitre",
+        porque=_TABLA_2008_09),
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Rivadavia (L)",
+        porque=_TABLA_2008_09),
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Cipolletti",
+        porque=_TABLA_2008_09),
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Real Arroyo Seco",
+        porque=_TABLA_2008_09),
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Gimnasia y Esgrima (M)",
+        porque=_TABLA_2008_09),
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Juventud Unida Universitario",
+        porque=_TABLA_2008_09),
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Central Córdoba (SdE)",
+        porque=_TABLA_2008_09),
+    Revisado(
+        pagina="Torneo Argentino A 2008-09", club="Deportivo Maipú",
+        porque=_TABLA_2008_09),
+
     Revisado(
         pagina="Torneo Argentino A 2007-08", club="Juventud Unida Universitario",
         porque=_AWD_2007),
