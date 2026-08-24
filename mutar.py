@@ -998,8 +998,15 @@ MUTANTES = [
      "    if True:"),
 
     ("fad/citadas.py", "mandar la cita con jornada en vez de sin ella",
-     "    return [Ajeno(fecha=c.fecha, jornada=0, local=c.local, visita=c.visita,",
-     "    return [Ajeno(fecha=c.fecha, jornada=1, local=c.local, visita=c.visita,"),
+     "    return [Ajeno(fecha=c.fecha, jornada=0, llave=c.llave,",
+     "    return [Ajeno(fecha=c.fecha, jornada=1, llave=c.llave,"),
+
+    # Sin la llave, las dos veces que un mismo par se cruza en la temporada
+    # -- cuartos del Apertura y semis del Clausura -- caen en la misma casilla y
+    # la regla de colision de `completar` se lleva puestas a las dos.
+    ("fad/citadas.py", "mandar la cita sin la llave que separa los cuadros",
+     "    return [Ajeno(fecha=c.fecha, jornada=0, llave=c.llave,",
+     '    return [Ajeno(fecha=c.fecha, jornada=0, llave="",'),
 
     # La cola del titulo, y las llaves completando fechas.
     ("fad/rsssf.py", "no reconocer la cola 'Revalida' en el titulo de la ronda",

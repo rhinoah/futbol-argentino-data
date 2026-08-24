@@ -82,7 +82,8 @@ def test_de_la_cita_sale_la_fecha_y_nada_mas():
     la fila, que es como el dataset dice de donde salio cada fecha."""
     nuestro = Partido(local="Aldosivi", visita="Luján de Cuyo", goles_local=0,
                       goles_visita=1, fase="eliminacion",
-                      jornada="Zona Campeonato - Quarterfinals")
+                      jornada="Zona Campeonato - Quarterfinals",
+                      llave="Torneo Apertura - Zona Campeonato")
     antes = (nuestro.local, nuestro.visita, nuestro.goles_local, nuestro.goles_visita)
     fechas.completar([nuestro], citadas.ajenos("Torneo Argentino A 2004-05"),
                      credito=citadas.CREDITO)
@@ -90,6 +91,55 @@ def test_de_la_cita_sale_la_fecha_y_nada_mas():
     assert (nuestro.local, nuestro.visita,
             nuestro.goles_local, nuestro.goles_visita) == antes
     assert nuestro.fuente_fecha == citadas.CREDITO
+
+
+def test_la_llave_separa_al_apertura_del_clausura():
+    """EL MISMO PAR DE CLUBES, DOS VECES, Y CADA UNO CON SU FECHA.
+
+    En una temporada con Apertura y Clausura los playoffs vuelven a cruzar a los
+    mismos dos: Aldosivi y Lujan de Cuyo juegan los cuartos del Apertura y despues
+    las semis del Clausura. El marcador VERIFICA pero no IDENTIFICA -- la clave de
+    `completar` es (llave, jornada, local, visita) --, asi que sin la llave las dos
+    citas caen en la misma casilla, la regla de colision se lleva puestas a las DOS
+    y ninguna de las dos filas queda fechada.
+
+    Este test mira eso desde el CALLER y con las citas de verdad, no con un
+    ejemplo armado: si alguien le saca la llave a `Cita` o deja de pasarla en
+    `ajenos`, aca se ve como cero fechas puestas y no como un test que hay que
+    actualizar."""
+    apertura = Partido(local="Aldosivi", visita="Luján de Cuyo", goles_local=0,
+                       goles_visita=1, fase="eliminacion",
+                       jornada="Zona Campeonato - Quarterfinals",
+                       llave="Torneo Apertura - Zona Campeonato")
+    clausura = Partido(local="Aldosivi", visita="Luján de Cuyo", goles_local=3,
+                       goles_visita=1, fase="eliminacion",
+                       jornada="Zona Campeonato - Semifinals",
+                       llave="Torneo Clausura - Zona Campeonato")
+    puestas, avisos = fechas.completar(
+        [apertura, clausura], citadas.ajenos("Torneo Argentino A 2004-05"),
+        credito=citadas.CREDITO)
+    assert puestas == 2, avisos
+    assert (apertura.fecha, clausura.fecha) == ("2004-11-20", "2005-04-17")
+    assert not any("cruces" in a for a in avisos), avisos
+
+
+def test_cada_cita_engancha_una_sola_fila_y_del_cuadro_que_dice():
+    """LO QUE SE MIDIO ANTES DE ESCRIBIRLAS, PUESTO COMO TEST.
+
+    Dos propiedades de la tabla, que es donde puede entrar el error humano:
+    ninguna cita repite (llave, local, visita) -- si repitiera, la colision de
+    `completar` tiraria las dos y la fecha se perderia en silencio --, y toda
+    fecha cae dentro del cuadro que la cita declara, que es el post del que se
+    copio. Una fecha del Clausura pegada sobre una llave del Apertura se ve aca."""
+    citas = citadas.FECHAS["Torneo Argentino A 2004-05"]
+    claves = [(c.llave, c.local, c.visita) for c in citas]
+    assert len(set(claves)) == len(claves), "hay citas que no identifican una sola"
+
+    # El Apertura se jugo en 2004 y el Clausura en 2005: es la unica temporada del
+    # repo donde un mismo par se cruza en los dos, y por eso alcanza con el anio.
+    for c in citas:
+        anio = "2004" if "Clausura" not in c.llave else "2005"
+        assert c.fecha.startswith(anio), f"{c.fecha} no es del {c.llave}"
 
 
 _PAGINA = """
