@@ -966,6 +966,19 @@ MUTANTES = [
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
 
+    # La seccion de llaves y la fila de tabla que no es un partido.
+    ("fad/rsssf.py", "leer llaves mas alla del final de la seccion",
+     "        else:\n            texto = texto[:j]\n\n    fuera = []",
+     "        else:\n            pass\n\n    fuera = []"),
+
+    ("fad/rsssf.py", "leer una fila de tabla como si abriera una llave",
+     "        if _FOJA.match(linea):\n            continue",
+     "        if False:\n            continue"),
+
+    ("build.py", "no contar como testigo el partido que la pagina trae sin dia",
+     "            if len(iguales) == 1:",
+     "            if False:"),
+
     # Dos fuentes que dan dias distintos.
     ("fad/fechas.py", "callar que la otra fuente da otro dia",
      "            if a is not None and a.fecha and a.fecha != p.fecha:",

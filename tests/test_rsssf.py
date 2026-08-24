@@ -1135,3 +1135,55 @@ def test_la_cola_sigue_siendo_una_lista_cerrada():
         "First leg [May 22]\n"
         "Racing                       1-1 San Martín\n")
     assert ps == [], "una tabla de posiciones no abre una llave"
+
+
+# --------------------------------------------------------------------------
+# La seccion de llaves, cuando el archivo del anio trae varias divisiones
+# --------------------------------------------------------------------------
+_DOS_FASES_FINALES = (
+    "Zona B - Norte\n"
+    "Semifinals\n"
+    "First leg [May 22]\n"
+    "Racing                       1-1 San Martín\n"
+    "Primera C Metropolitano\n"
+    "Semifinals\n"
+    "First leg [May 29]\n"
+    "Racing                       2-0 San Martín\n")
+
+
+def test_las_llaves_se_cortan_donde_empieza_la_otra_division():
+    """En la pagina del anio la fase final de una division desemboca en la de la
+    siguiente sin nada que las separe. Sin el corte, la del Argentino A 2010-11
+    seguia hasta la Primera C y el Argentino B: entraban veintisiete partidos de
+    otros torneos y trece avisos sobre clubes que no son de este."""
+    ps, _ = _llaves(_DOS_FASES_FINALES, )
+    assert len(ps) == 2, "sin cortar entran los dos"
+
+    ps, _ = rsssf.leer_llaves(_DOS_FASES_FINALES, _MAPA_LLAVES, 2005, 2006, 8,
+                              "", "Primera C Metropolitano")
+    assert [(p.fecha, p.goles_local) for p in ps] == [("2006-05-22", 1)]
+
+
+def test_un_final_de_seccion_que_no_aparece_se_avisa():
+    """Leer de mas aca no da error: da llaves de otro torneo."""
+    _, avisos = rsssf.leer_llaves(_DOS_FASES_FINALES, _MAPA_LLAVES, 2005, 2006, 8,
+                                  "", "Primera D")
+    assert any("no se encontro el final de la seccion" in a for a in avisos)
+
+
+def test_una_fila_de_la_tabla_no_abre_una_llave():
+    """`4.Douglas Haig (Pergamino)  8  5  3  0  14-6  18` tiene forma de partido: el
+    patron de cruce lee el 14-6 como marcador y parte el renglon en dos "clubes".
+
+    ESTE GUARD YA ESTUVO Y SE SACO. La primera vez se agrego por las dudas y se lo
+    saco al medirlo: con el y sin el, el corpus daba lo mismo. El peligro aparecio
+    despues, al enchufar la fase final del Argentino A 2010-11, que termina en un
+    `Final Tables:` con las tablas de las tres zonas de la Revalida -- quince filas
+    que entraban al lector de llaves.
+    """
+    ps, _ = _llaves(
+        "Zona B - Norte\n"
+        "Semifinals\n"
+        "First leg [May 22]\n"
+        " 4.Racing (Córdoba)                       8   5  3  0  14-6  18\n")
+    assert ps == []

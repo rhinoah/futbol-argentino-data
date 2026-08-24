@@ -328,8 +328,10 @@ ASCENSO_HISTORICO = [
     # Arreglado el corrimiento, la pagina fecha sus 438 partidos, los 438. La
     # leccion es la de siempre en este repo: antes de culpar a la fuente,
     # medirlo. "La fuente no lo trae" es comodo y hay que probarlo.
+    # La fase final la publica sin dia, y RSSSF la trae fechada dentro de
+    # `arg2011`. Ver `rsssf.SECCION`, que dice desde donde.
     Torneo('Torneo Argentino A 2010-11', 'Torneo Argentino A', 2010,
-           anio_fin=2011),
+           anio_fin=2011, rsssf_llaves=True),
     # Igual que la de arriba: tiene columna de fecha y la deja vacia en 462 de
     # sus 474 filas. La mitad de las jornadas ademas escribe los clubes con el
     # nombre cortado ("Sp. Italiano", "T. Suarez"), que estan como alias.

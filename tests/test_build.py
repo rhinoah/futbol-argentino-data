@@ -791,12 +791,22 @@ def test_la_localia_al_reves_no_pasa_por_repetido():
 
 def test_cuando_las_dos_fuentes_se_contradicen_gana_la_pagina_y_se_avisa():
     """Mismo par, otra fila: no es un partido que falte, es un desacuerdo. Se
-    conserva el de la pagina --Wikipedia es la fuente primaria-- y se dice."""
+    conserva el de la pagina --Wikipedia es la fuente primaria-- y se dice.
+
+    Y cuenta para el testigo de la localia, porque es el MISMO partido: mismo par
+    y mismo marcador, dado vuelta."""
     pagina = [_p("Racing (O)", "Central Córdoba (SdE)", "2012-05-19", 0, 2)]
     rsssf_ = [_p("Central Córdoba (SdE)", "Racing (O)", "2012-05-18", 2, 0)]
 
-    nuevas, repetidas, discuten, _ = build.sin_repetir(rsssf_, pagina, "una pagina")
-    assert nuevas == [] and repetidas == 0
+    nuevas, repetidas, discuten, alreves = build.sin_repetir(rsssf_, pagina, "una pagina")
+    assert nuevas == [], "no es un partido que falte"
+    # Y CUENTA COMO TESTIGO DE LA LOCALIA. Antes daba `repetidas == 0`, que era
+    # decir que las dos fuentes no traen este partido en comun -- y lo traen: es el
+    # mismo par con el mismo marcador. Lo que cambia es quien fue local, que es
+    # justo lo que el testigo tiene que medir. Contarlo como "no comun" dejaba sin
+    # examinar a las paginas que publican sus llaves sin dia: el Argentino A
+    # 2010-11 tiene ocho asi, y el guard decia "0 partidos en comun".
+    assert (repetidas, alreves) == (1, 1)
     assert len(discuten) == 1
     # las dos versiones enfrentadas, que es lo que deja ver que ademas de la fecha
     # discuten la LOCALIA

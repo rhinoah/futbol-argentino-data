@@ -306,6 +306,23 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
                     f"{uno(otro.visita, otro.visita_art)} y la otra "
                     f"fuente {p_.local} {p_.goles_local}-{p_.goles_visita} {p_.visita}")
         elif suyo in suyas:
+            # EL TESTIGO DE LA LOCALIA TAMBIEN VIVE ACA. Arriba se cuenta como
+            # "repetido" el partido que coincide en par Y FECHA, y eso deja fuera
+            # justo a los que la pagina publica sin dia: el Argentino A 2010-11
+            # tiene ocho asi, y el guard decia "0 partidos en comun, esa localia no
+            # tiene testigo" teniendo ocho.
+            #
+            # Lo que identifica al partido cuando no hay fecha es el MARCADOR: si
+            # el par es el mismo y el marcador es el mismo -- dado vuelta o no --,
+            # es el mismo partido, y ahi la pagina si puede decir quien fue local.
+            # Se pide que identifique UNO SOLO, como en todo el resto del repo.
+            iguales = [x for x in suyas[suyo]
+                       if {x.goles_local, x.goles_visita}
+                       == {p_.goles_local, p_.goles_visita}]
+            if len(iguales) == 1:
+                repetidas += 1
+                if uno(iguales[0].local, iguales[0].local_art) != p_.local:
+                    alreves += 1
             cerca = min(suyas[suyo], key=lambda x: abs(_dias(x.fecha) - _dias(p_.fecha)))
             discuten.append(
                 f"la pagina dice {cerca.fecha} "
@@ -556,6 +573,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     """
     # (texto crudo, mapa) de la fuente externa, si los partidos vienen de una.
     foja: tuple[str, dict] | None = None
+    # Las llaves que RSSSF publica para esta pagina, para fecharlas mas abajo.
+    llaves_rsssf: list = []
     if t.sin_grilla:
         # La pagina no publica resultados y los partidos salen de RSSSF. Es el
         # unico camino del repo por el que una fila NO viene de Wikipedia, y va
@@ -602,7 +621,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
             else:
                 llaves, mas = rsssf.leer_llaves(
                     crudo, mapa, t.temporada, t.anio_fin or t.temporada,
-                    t.mes_inicio, desde=rsssf.SECCION.get(t.pagina, ""))
+                    t.mes_inicio, *rsssf.SECCION.get(t.pagina, ("", "")))
                 for p_ in llaves:
                     p_.torneo = t.torneo
                 nuevas, repetidas, discuten, alreves = sin_repetir(
@@ -619,7 +638,9 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     mas.append(f"{len(discuten)} partidos donde la pagina y RSSSF no "
                                f"coinciden; se conserva el de la pagina: "
                                + " | ".join(discuten[:3]))
-                mas += fechar_con_las_llaves(ps, llaves)
+                # NO SE COMPLETA ACA. Ver mas abajo: en esta etapa `ps`
+                # todavia trae los nombres crudos de Wikipedia.
+                llaves_rsssf = llaves
                 importados += [validar.Aviso(f"{t.pagina}: RSSSF llaves", d,
                                              grave=False) for d in mas]
         # El formato compacto va aparte: sus filas salen SIN FECHA -- el archivo
@@ -720,6 +741,14 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # puesta, asi que completarlas es leer la misma pagina dos veces y emitir
     # cada aviso por duplicado.
     avisos += _completar_fechas_rsssf(ps, t) if t.rsssf and not t.sin_grilla else []
+    # Las llaves de RSSSF le ponen fecha a lo que la pagina publica sin dia, y
+    # va ACA y no en el bloque que las importa: alla `ps` todavia trae los
+    # nombres crudos de Wikipedia mientras que las llaves ya vienen canonicas,
+    # asi que el par no emparejaba y solo se fechaba lo que casualmente se
+    # escribia igual. Eran 2 de 8 en el Argentino A 2010-11.
+    if llaves_rsssf:
+        avisos += [validar.Aviso(f"{t.pagina}: RSSSF llaves", d, grave=False)
+                   for d in fechar_con_las_llaves(ps, llaves_rsssf)]
     # Y al final, las fechas copiadas a mano de una fuente citada, que van
     # ULTIMAS a proposito: solo tienen que tocar lo que ningun lector pudo
     # fechar. Ver el docstring de `fad/citadas.py`, que dice cuando corresponde

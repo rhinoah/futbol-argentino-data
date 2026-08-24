@@ -832,7 +832,8 @@ def leer_tabla(texto: str,
 
 
 def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
-                mes_inicio: int = 8, desde: str = "") -> tuple[list, list[str]]:
+                mes_inicio: int = 8, desde: str = "",
+                hasta: str = "") -> tuple[list, list[str]]:
     """Los partidos de eliminacion, con su localia y su fecha de dia.
 
     Devuelve `Partido` y no `Ajeno` porque estas filas ENTRAN al dataset -- no
@@ -847,13 +848,28 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
     # la seccion aparece ANTES en el indice y despues en las referencias cruzadas.
     # Se busca el ancla ENTERA, con lo que la sigue, para no quedarse con el indice
     # -- ese error ya se cometio dos veces en este repo con los titulos de Wikipedia.
+    raros: list[str] = []
     if desde:
         i = texto.find(desde)
         if i < 0:
             return [], [f"no se encontro la seccion {desde.splitlines()[0]!r}"]
         texto = texto[i:]
+    # Y ACOTA POR ABAJO, por el mismo motivo que `leer`: en la pagina del anio las
+    # divisiones van una atras de otra y la fase final de una desemboca en la de la
+    # siguiente. Sin el corte, la del Argentino A 2010-11 seguia de largo hasta la
+    # Primera C y el Argentino B, y sus clubes -- `UAI-Urquiza`, `Dvo. Laferrere`,
+    # `Dvo Roca` -- caian como nombres que el mapa no traduce. Trece avisos sobre
+    # partidos que no son de este torneo.
+    if hasta:
+        j = texto.find(hasta)
+        if j < 0:
+            raros.append(f"no se encontro el final de la seccion "
+                         f"{hasta.splitlines()[0]!r}; se leyo hasta el final del "
+                         f"archivo y puede haber llaves de otro torneo")
+        else:
+            texto = texto[:j]
 
-    fuera, raros = [], []
+    fuera = []
     # (indice en `fuera`, penales del local, del visitante) de las tandas que no
     # se pueden decidir hasta tener las dos patas. Ver el comentario largo abajo.
     pendientes: list[tuple[int, int, int]] = []
@@ -898,6 +914,25 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
         m = _LLAVE_FECHA.match(pelada)
         if m and m.group(1).capitalize() in _MESES:
             fecha = (_MESES[m.group(1).capitalize()], int(m.group(2)))
+            continue
+        # UNA FILA DE LA TABLA NO ES UN PARTIDO, y tiene forma de partido: en
+        # `4.Douglas Haig (Pergamino)  8  5  3  0  14-6  18` el patron de cruce lee
+        # el `14-6` como marcador y parte el renglon en dos "clubes".
+        #
+        # ESTE GUARD YA ESTUVO Y SE SACO, y volver a ponerlo tiene su historia. La
+        # primera vez se agrego por las dudas, y se lo saco al medirlo: con el y
+        # sin el, el corpus daba los mismos partidos y los mismos avisos. Un
+        # mutante que no se puede matar es codigo muerto con un comentario que
+        # afirma un peligro que nadie midio.
+        #
+        # El peligro aparecio despues, al enchufar la fase final del Argentino A
+        # 2010-11: su seccion termina en un `Final Tables:` con las tablas de las
+        # tres zonas de la Revalida, y sus quince filas entraban al lector de
+        # llaves. Ahora si se puede medir, y por eso vuelve.
+        #
+        # Se descarta con el mismo regex que lee la foja: es la definicion de una
+        # fila de tabla y ya estaba escrita.
+        if _FOJA.match(linea):
             continue
         m = _LLAVE_CRUCE.match(_LLAVE_PEGADO.sub(r")\t\1", linea))
         if not m:
@@ -1740,8 +1775,14 @@ ARGENTINO_A_2011 = {
 # `arg2012` -- una en el indice de arriba, otra en la seccion de verdad y cuatro en
 # referencias cruzadas del final -- y quedarse con la primera da un texto que no
 # tiene ninguna llave.
-SECCION: dict[str, str] = {
-    "Torneo Argentino A 2011-12": "Torneo Argentino A\n\n\nFirst Phase",
+SECCION: dict[str, tuple[str, str]] = {
+    # Tres lineas y no una: `Promotion Playoff` a secas aparece dos veces en
+    # `arg2011`, una por el Argentino A y otra por la Primera D. Y el corte de
+    # abajo hace falta porque la fase final de una division desemboca en la de la
+    # siguiente sin nada que las separe.
+    "Torneo Argentino A 2010-11": ("Promotion Playoff\n\nFirst Legs [May 18]",
+                                   'Primera C Metropolitano "Efectivo Sí"'),
+    "Torneo Argentino A 2011-12": ("Torneo Argentino A\n\n\nFirst Phase", ""),
 }
 
 # El Reducido de la Primera C 2008-09. Es OTRA division y otro archivo: `arg4-09`,
@@ -2010,6 +2051,51 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
 }
 
 
+# Torneo Argentino A 2010-11, dentro de `arg2011`. De aca sale SOLO la fase final:
+# la fase regular tiene zonas y ya la trae la pagina, y lo que faltaba eran los
+# ocho partidos de la Tercera Fase -- que RSSSF llama `Promotion Playoff` --, que
+# la pagina publica sin dia.
+#
+# La seccion arranca en un ancla de tres lineas y no en `Promotion Playoff` a
+# secas, porque ese titulo aparece dos veces en el archivo: una para el Argentino
+# A y otra para la Primera D. Con la cola puesta identifica una sola.
+#
+# El mapa se armo contra los VEINTISIETE clubes que la pagina hace jugar esa
+# temporada. Trae dos de mas -- `Defensores de Belgrano (VR)` y `Deportivo Roca`,
+# que vienen del Argentino B a la promocion -- y esos salen del padron.
+ARGENTINO_A_2010 = {
+    "": {
+        "9 de Julio": "9 de Julio (R)",
+        "Alumni": "Alumni (VM)",
+        "Alumni (Villa María)": "Alumni (VM)",
+        "Central Córdoba": "Central Córdoba (SdE)",
+        "Central Norte": "Central Norte (S)",
+        "Cipolletti": "Cipolletti",
+        "Crucero del Norte": "Crucero del Norte",
+        "Def. de Belgrano (Villa Ramallo)": "Defensores de Belgrano (VR)",
+        "Douglas Haig": "Douglas Haig",
+        "Dvo Maipú": "Deportivo Maipú",
+        "Dvo Roca (General Roca)": "Deportivo Roca",
+        "Dvo Santamarina": "Ramón Santamarina",
+        "Estudiantes": "Estudiantes (RC)",
+        "Estudiantes (Río Cuarto)": "Estudiantes (RC)",
+        "Gimnasia y Esgrima": "Gimnasia y Esgrima (CdU)",
+        "Huracán": "Huracán (TA)",
+        "Juv. Antoniana": "Juventud Antoniana",
+        "Juventud Unida Univ.": "Juventud Unida Universitario",
+        "Libertad": "Libertad (S)",
+        "Racing": "Racing (C)",
+        "Rivadavia": "Rivadavia (L)",
+        "Svo Belgrano": "Sportivo Belgrano",
+        "Svo Desamparados": "Desamparados",
+        "Talleres": "Talleres (C)",
+        "Unión (MdP)": "Unión (MdP)",
+        "Unión (S)": "Unión (S)",
+        "Villa Mitre": "Villa Mitre",
+    },
+}
+
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
@@ -2023,4 +2109,5 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Campeonato de Primera C 2010-11 (Argentina)": ("arg2011", PRIMERA_C_2010),
     "Campeonato de Primera B 2010-11 (Argentina)": ("arg2011", PRIMERA_B_2010),
     "Torneo Argentino A 2004-05": ("arg3-int05", ARGENTINO_A_2004),
+    "Torneo Argentino A 2010-11": ("arg2011", ARGENTINO_A_2010),
 }
