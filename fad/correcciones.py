@@ -2505,6 +2505,29 @@ def revisados_huerfanos(pagina: str, desviados: set[str],
     return fuera
 
 
+def renombrado(pagina: str, jornada: str, local: str, visita: str,
+               gl, gv) -> tuple[str, str]:
+    """Los nombres que ese partido VA A TENER despues de `aplicar`.
+
+    Existe para que la deduplicacion de una fuente externa pueda preguntarlo
+    ANTES. Es el mismo modo de falla que `sin_repetir` ya documenta para los
+    homonimos, con otra familia de correcciones: `aplicar` corre mas abajo en el
+    pipeline, asi que cuando se deduplica la pagina todavia dice "Alumni" a secas
+    mientras que la fila de la otra fuente ya viene con "Alumni (VM)". Sin esto,
+    el cruce no las reconoce como el mismo partido y entra dos veces.
+
+    Y entraba: los dos partidos de la promocion del Argentino A 2005-06 se
+    duplicaron apenas el lector de RSSSF aprendio a resolver esos nombres. Los
+    agarro `sin_duplicados` como GRAVE, que es el sistema funcionando -- pero
+    frenar el build es peor que no duplicar.
+    """
+    for c in CORRECCIONES:
+        if (c.pagina == pagina and c.jornada == jornada
+                and c.dice == (local, visita, gl, gv)):
+            return c.debe
+    return local, visita
+
+
 def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
     """Corrige los partidos de `pagina`. Devuelve (cuantas se aplicaron, avisos).
 

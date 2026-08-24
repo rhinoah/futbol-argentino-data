@@ -980,3 +980,33 @@ def test_un_club_ya_revisado_a_mano_abstiene_a_su_zona():
     assert build.la_fuente_se_respalda(ps, tabla, mapa)[1], "sin la pagina, avisa"
     assert build.la_fuente_se_respalda(ps, tabla, mapa, pagina) == (set(), []), \
         "con la pagina, se abstiene"
+
+
+def test_la_deduplicacion_ve_el_renombre_que_corre_despues():
+    """`correcciones.aplicar` corre mas abajo en el pipeline, asi que cuando se
+    deduplica la pagina todavia dice "Alumni" a secas -- que en el padron es OTRO
+    club -- mientras que la fila de RSSSF ya viene con "Alumni (VM)". Sin mirar el
+    renombre, el cruce no las reconoce como el mismo partido.
+
+    Y no las reconocia: los dos partidos de la promocion del Argentino A 2005-06
+    entraron duplicados apenas el lector de RSSSF aprendio a resolver esos
+    nombres. Los agarro `sin_duplicados` como GRAVE, que es el sistema
+    funcionando -- pero frenar el build es peor que no duplicar.
+
+    Va sobre `sin_repetir` y no sobre `correcciones.renombrado`: preguntandole a
+    la funcion directamente, este error no se ve. Lo destapo un mutante que
+    sobrevivio.
+    """
+    from fad.parser import Partido
+    pagina = [Partido(fecha="2006-06-18", local="Alumni",
+                      visita="General Paz Juniors", goles_local=5, goles_visita=0,
+                      fase="eliminacion", jornada="Promoción")]
+    rsssf_ = [_p("Alumni (VM)", "General Paz Juniors", "2006-06-18", 5, 0)]
+
+    nuevas, repetidas, _, _r = build.sin_repetir(
+        rsssf_, pagina, "Torneo Argentino A 2005-06")
+    assert (repetidas, nuevas) == (1, []), "es el mismo partido"
+
+    # y en otra pagina, donde ese renombre no existe, sigue siendo otro club
+    nuevas, repetidas, _, _r = build.sin_repetir(rsssf_, pagina, "Otra Pagina")
+    assert repetidas == 0 and len(nuevas) == 1

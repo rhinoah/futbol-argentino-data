@@ -515,3 +515,29 @@ def test_el_par_dividido_se_lleva_su_alcance():
     # sus catorce partidos completos y sumarles uno los dejaria con quince
     clausura = correcciones.pares_divididos("Torneo Argentino A 2006-07")
     assert len(clausura) == 2 and all(l == "Torneo Clausura" for _, _, l in clausura)
+
+
+def test_el_renombre_se_puede_preguntar_antes_de_aplicarlo():
+    """`aplicar` corre mas abajo en el pipeline que la deduplicacion, asi que
+    cuando se deduplica la pagina todavia dice "Alumni" a secas -- que en el
+    padron es otro club -- mientras que la fila de RSSSF ya viene con "Alumni
+    (VM)". Sin poder preguntarlo antes, el cruce no las reconoce y los dos
+    partidos de la promocion del Argentino A 2005-06 entran dos veces.
+
+    Y entraron: los agarro `sin_duplicados` como GRAVE, que es el sistema
+    funcionando -- pero frenar el build es peor que no duplicar.
+    """
+    assert correcciones.renombrado(
+        "Torneo Argentino A 2005-06", "Promoción",
+        "Alumni", "General Paz Juniors", 5, 0) == ("Alumni (VM)", "General Paz Juniors")
+
+
+def test_el_renombre_no_toca_lo_que_no_declara():
+    """Con otro marcador ya no es ese partido, y devolver los nombres como vinieron
+    es lo unico honesto."""
+    assert correcciones.renombrado(
+        "Torneo Argentino A 2005-06", "Promoción",
+        "Alumni", "General Paz Juniors", 9, 9) == ("Alumni", "General Paz Juniors")
+    assert correcciones.renombrado(
+        "Otra Pagina", "Promoción",
+        "Alumni", "General Paz Juniors", 5, 0) == ("Alumni", "General Paz Juniors")

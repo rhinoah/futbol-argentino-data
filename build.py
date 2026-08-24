@@ -265,7 +265,14 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
         return correcciones.homonimo(pagina, equipos.canonizar(nombre, art))
 
     def par(x):
-        return frozenset((uno(x.local, x.local_art), uno(x.visita, x.visita_art)))
+        # Y LAS CORRECCIONES DE NOMBRE TAMBIEN, por la misma razon que el
+        # homonimo: corren mas abajo en el pipeline. La pagina del Argentino A
+        # 2005-06 escribe "Alumni" a secas en la promocion -- que en el padron es
+        # otro club -- y una `Correccion` lo arregla despues; hasta entonces el
+        # cruce contra el "Alumni (VM)" de RSSSF no reconoce nada.
+        l, v = uno(x.local, x.local_art), uno(x.visita, x.visita_art)
+        return frozenset(correcciones.renombrado(pagina, x.jornada, l, v,
+                                                 x.goles_local, x.goles_visita))
 
     ya: dict = {}
     for x in ps:

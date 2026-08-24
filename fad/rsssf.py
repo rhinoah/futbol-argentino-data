@@ -662,7 +662,7 @@ def _club(nombre: str, mapa: dict, zona: str, vistos: dict) -> tuple[str, str]:
         return mapa[zona][corto], ""
     candidatos = {d[corto] for d in mapa.values() if corto in d}
     if not candidatos:
-        return "", f"el mapa no traduce {corto!r}"
+        return _por_el_padron(corto)
     if len(candidatos) == 1:
         return candidatos.pop(), ""
     achicado = candidatos & set(vistos)
@@ -671,6 +671,41 @@ def _club(nombre: str, mapa: dict, zona: str, vistos: dict) -> tuple[str, str]:
     return "", (f"{corto!r} es ambiguo: {sorted(candidatos)}"
                 + (f", y de esos ya jugaron {sorted(achicado)}" if achicado else
                    ", y ninguno jugo antes en este cuadro"))
+
+
+def _por_el_padron(corto: str) -> tuple[str, str]:
+    """El ultimo recurso cuando el mapa no lo tiene: preguntarle al padron.
+
+    Existe por las secciones de PROMOCION, que son las unicas donde el mapa no
+    puede ayudar: cruzan clubes de dos divisiones, asi que ni siquiera pertenecen
+    al torneo de la pagina. RSSSF lo sabe y ahi escribe la ciudad entre
+    parentesis -- `Rivadavia (Lincoln)`, `Racing (Olavarria)` -- porque el nombre
+    corto ya no identifica. El padron entiende esos nombres: son ocho partidos
+    del Argentino A 2005-06 que se perdian enteros.
+
+    Y NO ES UN DICCIONARIO PARALELO, que es lo que este repo tiene prohibido. Es
+    el padron, el mismo que ya normaliza todo lo demas.
+
+    LA CIUDAD SE PELA SOLO SI EL NOMBRE PELADO TIENE UN SOLO DUENO. RSSSF escribe
+    la ciudad aunque sea redundante -- `Real Arroyo Seco (Arroyo Seco)`,
+    `General Paz Juniors (Cordoba)` -- y ahi hay que sacarla para que el padron lo
+    reconozca. Pero pelar sin mirar seria un desastre: `Racing (Olavarria)` pelado
+    da `Racing`, que el padron resuelve a Racing Club de Avellaneda, un club de
+    Primera que no jugo nunca ese torneo. Ese caso se salva solo porque el nombre
+    entero resuelve primero -- pero el que no resolviera entraria mal y en
+    silencio, que es la unica forma en que este modulo hace dano.
+    """
+    from fad import equipos
+
+    eq = equipos.buscar(corto)
+    if eq is not None:
+        return eq.nombre, ""
+    pelado = re.sub(r"\s*\([^)]*\)\s*$", "", corto).strip()
+    if pelado != corto and equipos.unico_dueno(pelado):
+        eq = equipos.buscar(pelado)
+        if eq is not None:
+            return eq.nombre, ""
+    return "", f"el mapa no traduce {corto!r} y el padron tampoco lo reconoce"
 
 
 # --------------------------------------------------------------------------

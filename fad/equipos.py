@@ -473,8 +473,12 @@ PADRON: tuple[Equipo, ...] = (
     Equipo('Deportivo Laferrere', alias=('Laferrere',)),
     # idem
     Equipo('Argentino de Rosario', alias=('Argentino (R)',)),
-    # una sola aparicion contra 37 de "(SM)" en la MISMA pagina del Federal A 2024
-    Equipo('San Martín (SM)', alias=('San Martín (M)',)),
+    # `(M)`: una sola aparicion contra 37 de "(SM)" en la MISMA pagina del
+    # Federal A 2024. `(Mendoza)`: como lo escribe RSSSF en sus secciones de
+    # promocion, donde el nombre corto deja de identificar -- sus dos hermanos
+    # ya traian la provincia entera, `San Martín (Formosa)` y `San Martín
+    # (Tucumán)`, y a este le faltaba.
+    Equipo('San Martín (SM)', alias=('San Martín (M)', 'San Martín (Mendoza)')),
     # error de tipeo en la fuente
     # "Gimnasia (CdU)" -- sin el "y Esgrima" -- en un partido del Argentino A
     # 2010-11. El desambiguador alcanza: es el unico CdU.
@@ -835,6 +839,33 @@ def _armar_indice_de_articulos() -> dict[str, Equipo]:
 
 
 _POR_ARTICULO = _armar_indice_de_articulos()
+
+
+def unico_dueno(nombre: str) -> bool:
+    """Si `nombre` identifica a UN club del padron y no a una familia.
+
+    Vive aca porque es una pregunta del padron y no del que la hace. La usan dos
+    modulos por motivos distintos: `posiciones` para saber si un nombre a secas
+    puede estar hablando del hermano, y `rsssf` para decidir si le puede pelar la
+    ciudad a `General Paz Juniors (Cordoba)`.
+
+    Y en ese segundo uso es lo unico que separa un acierto de un error grave.
+    RSSSF escribe la ciudad entre parentesis en sus secciones de playoff, donde
+    los nombres cortos dejan de identificar. Pelarla anda para `Real Arroyo Seco
+    (Arroyo Seco)`, que queda en un club solo, y seria un desastre para `Racing
+    (Olavarria)`: pelado da `Racing`, que el padron resuelve a Racing Club de
+    Avellaneda, un club de Primera que no jugo nunca ese torneo. Un nombre con
+    hermanos no se pela.
+    """
+    base = _sin_desambiguador(nombre)
+    duenos = {e.nombre for e in PADRON
+              if any(_sin_desambiguador(n) == base for n in (e.nombre, *e.alias))}
+    return len(duenos) == 1
+
+
+def _sin_desambiguador(nombre: str) -> str:
+    """El nombre sin el parentesis que lo distingue de su homonimo."""
+    return re.sub(r"\s*\([^)]*\)\s*$", "", nombre).strip()
 
 
 def buscar(nombre: str, articulo: str = "") -> Equipo | None:

@@ -338,3 +338,31 @@ def test_la_pagina_usa_SE_para_santiago_del_estero():
     """El testigo de que "(SE)" no puede ser Salta: la misma pagina lo usa para
     Santiago del Estero y el padron ya lo resuelve asi."""
     assert equipos.canonizar("Central Córdoba (SE)", "") == "Central Córdoba (SdE)"
+
+
+# --------------------------------------------------------------------------
+# Un nombre con hermanos no se puede pelar
+# --------------------------------------------------------------------------
+def test_un_nombre_con_hermanos_no_tiene_un_solo_dueno():
+    """Es lo unico que separa un acierto de un error grave cuando hay que pelarle
+    la ciudad a un nombre. `Racing (Olavarria)` pelado da `Racing`, que el padron
+    resuelve a Racing Club de Avellaneda -- un club de Primera que no jugo nunca
+    el Argentino A."""
+    assert not equipos.unico_dueno("Racing")
+    assert not equipos.unico_dueno("San Martín")
+
+
+def test_un_nombre_sin_hermanos_si():
+    """`Real Arroyo Seco (Arroyo Seco)` y `General Paz Juniors (Cordoba)` traen la
+    ciudad aunque sea redundante, y ahi pelarla es lo unico que los hace
+    reconocibles."""
+    assert equipos.unico_dueno("Real Arroyo Seco")
+    assert equipos.unico_dueno("General Paz Juniors")
+    assert equipos.unico_dueno("Atlético Candelaria")
+
+
+def test_la_provincia_entera_tambien_nombra_al_de_mendoza():
+    """Sus dos hermanos ya la traian -- `San Martín (Formosa)`, `San Martín
+    (Tucumán)` --; a este le faltaba, y sin ella se perdian dos partidos de la
+    promocion del Argentino A 2005-06."""
+    assert equipos.canonizar("San Martín (Mendoza)") == "San Martín (SM)"

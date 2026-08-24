@@ -888,8 +888,8 @@ MUTANTES = [
      '_LLAVE_PEGADO = re.compile(r"(?!x)x()")'),
 
     ("build.py", "comparar sin canonizar al buscar repetidos",
-     "        return frozenset((uno(x.local, x.local_art), uno(x.visita, x.visita_art)))",
-     "        return frozenset((x.local, x.visita))"),
+     "        l, v = uno(x.local, x.local_art), uno(x.visita, x.visita_art)",
+     "        l, v = x.local, x.visita"),
 
     # El lector de llaves de ESPN, y el hueco que destapo en el cedazo.
     # El formato compacto, por donde puede mentir: el marcador de la vuelta y la
@@ -963,6 +963,25 @@ MUTANTES = [
     ("fad/rsssf.py", "no cambiar la localia en la vuelta",
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
+
+    # El padron como ultimo recurso, y la deduplicacion viendo los renombres
+    # que corren despues.
+    ("fad/rsssf.py", "no preguntarle al padron lo que el mapa no tiene",
+     "        return _por_el_padron(corto)",
+     '        return "", f"el mapa no traduce {corto!r}"'),
+
+    ("fad/rsssf.py", "pelarle la ciudad a un nombre con hermanos",
+     "    if pelado != corto and equipos.unico_dueno(pelado):",
+     "    if pelado != corto:"),
+
+    ("fad/equipos.py", "decir que cualquier nombre tiene un solo dueno",
+     "    return len(duenos) == 1",
+     "    return True"),
+
+    ("build.py", "deduplicar sin ver los renombres que corren despues",
+     "        return frozenset(correcciones.renombrado(pagina, x.jornada, l, v,\n"
+     "                                                 x.goles_local, x.goles_visita))",
+     "        return frozenset((l, v))"),
 
     # El abandonado que se recupera y el que se pierde no son lo mismo.
     ("fad/rsssf.py", "decir lo mismo del que se recupera y del que se pierde",

@@ -1016,3 +1016,34 @@ def test_un_partido_dividido_no_se_pregunta_por_su_continuacion():
     dicho = next(a for a in avisos if "NO entra" in a)
     assert "DIVIDIDOS" in dicho
     assert "NO HAY OTRA LINEA" not in dicho and "continuacion" not in dicho
+
+
+# --------------------------------------------------------------------------
+# El padron como ultimo recurso, cuando el mapa no puede
+# --------------------------------------------------------------------------
+def test_el_padron_resuelve_lo_que_el_mapa_no_tiene():
+    """Las secciones de PROMOCION cruzan clubes de dos divisiones, asi que ni
+    siquiera pertenecen al torneo de la pagina y el mapa no puede ayudar. RSSSF lo
+    sabe y ahi escribe la ciudad entre parentesis, que es lo que el padron
+    entiende."""
+    ps, _ = _llaves(
+        "Zona B - Norte\n"
+        "Promotion/Relegation Playoff\n"
+        "First Leg [May 21]\n"
+        "Rivadavia (Lincoln)          1-0 Alumni (Villa María)\n")
+    assert [(p.local, p.visita) for p in ps] == [("Rivadavia (L)", "Alumni (VM)")]
+
+
+def test_la_ciudad_se_pela_solo_si_el_nombre_pelado_tiene_un_dueno():
+    """`Real Arroyo Seco (Arroyo Seco)` trae la ciudad aunque sea redundante y hay
+    que sacarla. Pero pelar sin mirar seria un desastre: un `Racing (Junin)` que
+    el padron no conociera quedaria en `Racing`, o sea Racing Club de
+    Avellaneda."""
+    ps, avisos = _llaves(
+        "Zona B - Norte\n"
+        "Promotion/Relegation Playoff\n"
+        "First Leg [May 21]\n"
+        "Real Arroyo Seco (Arroyo Seco) 1-0 Racing (Junín)\n")
+    assert ps == []
+    assert any("el padron tampoco lo reconoce" in a and "Racing (Jun" in a
+               for a in avisos), avisos
