@@ -276,6 +276,30 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
         return frozenset(correcciones.renombrado(pagina, x.jornada, l, v,
                                                  x.goles_local, x.goles_visita))
 
+    def corregida(x):
+        """La fila de la pagina como va a quedar DESPUES de `correcciones.aplicar`.
+
+        Sirve para no denunciar un desacuerdo que ya esta resuelto. `sin_repetir`
+        corre antes que `aplicar` --y tiene que correr antes, porque decide que se
+        importa--, asi que sin esto el build sigue diciendo "la pagina dice X y la
+        otra fuente dice Y; se conserva el de la pagina" sobre una fila que dos
+        pasos mas abajo pasa a decir Y. Es una notificacion que se vuelve falsa
+        sola, que es peor que no tenerla.
+
+        Solo apaga el MENSAJE. `alreves` se sigue contando como estaba, y es a
+        proposito: ese contador alimenta al testigo que decide si le creemos la
+        localia a la fuente, y un testigo que se alimenta de nuestras propias
+        correcciones se termina validando a si mismo.
+        """
+        l, v = uno(x.local, x.local_art), uno(x.visita, x.visita_art)
+        gl, gv = x.goles_local, x.goles_visita
+        dl, dv = correcciones.renombrado(pagina, x.jornada, l, v, gl, gv)
+        # El espejo se lleva los goles con los clubes; ver `correcciones.aplicar`.
+        return (dl, dv, gv, gl) if (dl, dv) == (v, l) else (dl, dv, gl, gv)
+
+    def resuelto(x, p_):
+        return corregida(x) == (p_.local, p_.visita, p_.goles_local, p_.goles_visita)
+
     ya: dict = {}
     for x in ps:
         ya.setdefault((par(x), x.fecha), []).append(x)
@@ -298,6 +322,8 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
             otro = ya[(suyo, p_.fecha)][0]
             if uno(otro.local, otro.local_art) != p_.local:
                 alreves += 1
+                if resuelto(otro, p_):
+                    continue
                 discuten.append(
                     f"mismo partido y misma fecha pero la localia al reves: la "
                     f"pagina dice {p_.fecha} "
@@ -344,6 +370,11 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
                 # viene al reves, tambien, y ahi el aviso enfrenta las dos
                 # versiones, que es lo que deja verlo.
                 if not iguales[0].fecha and mismo_local:
+                    continue
+                # Y tampoco si una correccion declarada ya lo deja igual que la
+                # otra fuente: el desacuerdo existe en la pagina y no en el
+                # dataset, y `aplicar` lo dice por su cuenta.
+                if resuelto(iguales[0], p_):
                     continue
             cerca = min(suyas[suyo], key=lambda x: abs(_dias(x.fecha) - _dias(p_.fecha)))
             discuten.append(

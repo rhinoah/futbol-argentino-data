@@ -39,6 +39,46 @@ def test_corrige_el_partido_que_identifica(monkeypatch):
     assert (ps[0].local, ps[0].visita) == ("All Boys", "Gimnasia y Esgrima (J)")
 
 
+def test_el_espejo_de_localia_da_vuelta_tambien_el_marcador(monkeypatch):
+    """SI LOS CLUBES CAMBIAN DE LADO, LOS GOLES VAN CON ELLOS.
+
+    Una correccion de localia no cambia el RESULTADO, cambia como se escribe:
+    `2-3` visto desde el otro lado es `3-2`. Mover los nombres y dejar los goles
+    donde estaban convierte una victoria en una derrota.
+
+    No se notaba porque los tres espejos que habia en el repo eran EMPATES, donde
+    dar vuelta el marcador no hace nada. El primero que no lo es --la ida de la
+    Tercera Fase del Argentino A 2010-11-- habria quedado con el ganador
+    cambiado."""
+    espejo = Correccion(pagina="Una Pagina", jornada="Fecha 12",
+                        dice=("Unión (MdP)", "Desamparados", 2, 3),
+                        debe=("Desamparados", "Unión (MdP)"),
+                        porque="de prueba")
+    con(monkeypatch, espejo)
+    ps = [partido("Unión (MdP)", "Desamparados", 2, 3)]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert (n, avisos) == (1, [])
+    assert (ps[0].local, ps[0].goles_local,
+            ps[0].goles_visita, ps[0].visita) == ("Desamparados", 3, 2, "Unión (MdP)")
+
+
+def test_la_correccion_de_nombre_no_toca_el_marcador(monkeypatch):
+    """LA OTRA MITAD, Y ES LA MAYORIA. Dieciseis de las diecinueve correcciones
+    arreglan la IDENTIDAD de un club --"Unión" era el de Mar del Plata y no el de
+    Sunchales--: el partido es el mismo, quien jugo en su casa es el mismo, y los
+    goles se quedan donde estan. Si el espejo se detectara por "cambio algun
+    nombre" en vez de por "es el par dado vuelta", estas quedarian dadas vuelta
+    tambien."""
+    con(monkeypatch, Correccion(pagina="Una Pagina", jornada="Fecha 12",
+                                dice=("Villa Mitre", "Unión (S)", 0, 1),
+                                debe=("Villa Mitre", "Unión (MdP)"),
+                                porque="de prueba"))
+    ps = [partido("Villa Mitre", "Unión (S)", 0, 1)]
+    n, _ = correcciones.aplicar(ps, "Una Pagina")
+    assert (n, ps[0].goles_local, ps[0].goles_visita) == (1, 0, 1)
+    assert (ps[0].local, ps[0].visita) == ("Villa Mitre", "Unión (MdP)")
+
+
 def test_no_toca_los_partidos_de_otra_pagina(monkeypatch):
     con(monkeypatch, UNA)
     ps = [partido("All Boys", "Belgrano")]

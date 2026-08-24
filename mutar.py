@@ -568,6 +568,19 @@ MUTANTES = [
     # El barrido de plantillas, de vuelta a una sola pasada: deja de pelar las
     # anidadas y la de afuera se publica cruda en la celda.
     # El partido que no se jugo: los tres modos de perderlo.
+    # El espejo de localia: los goles tienen que ir con los clubes.
+    ("fad/correcciones.py", "espejar la localia y dejar los goles donde estaban",
+     "        if c.debe == (visita, local):",
+     "        if False:"),
+
+    ("fad/correcciones.py", "dar vuelta los goles en cualquier correccion",
+     "        if c.debe == (visita, local):",
+     "        if True:"),
+
+    ("build.py", "denunciar el desacuerdo que una correccion ya resuelve",
+     "                if resuelto(iguales[0], p_):",
+     "                if False:"),
+
     # Los archivos de 2007-08 escriben la fecha entre parentesis. Las dos van
     # juntas: sin la de la pata, la vuelta se queda con la pata Y la fecha de
     # la ida, que es peor que perderla.

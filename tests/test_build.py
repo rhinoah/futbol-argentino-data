@@ -789,6 +789,39 @@ def test_la_localia_al_reves_no_pasa_por_repetido():
     assert len(discuten) == 1 and "localia al reves" in discuten[0]
 
 
+def test_no_se_denuncia_el_desacuerdo_que_una_correccion_ya_resuelve():
+    """UNA NOTIFICACION QUE SE VUELVE FALSA SOLA ES PEOR QUE NO TENERLA.
+
+    `sin_repetir` corre ANTES que `correcciones.aplicar` --y tiene que correr
+    antes, porque decide que se importa--, asi que sin mirar las correcciones el
+    build dice "la pagina dice X y la otra fuente dice Y; se conserva el de la
+    pagina" sobre una fila que dos pasos mas abajo pasa a decir exactamente Y.
+
+    Lo que NO cambia es `alreves`: ese contador alimenta al testigo que decide si
+    le creemos la localia a la fuente, y un testigo que se alimenta de nuestras
+    propias correcciones se valida a si mismo."""
+    from fad import correcciones
+    from fad.correcciones import Correccion
+
+    pagina = [_p("Unión (MdP)", "Desamparados", "", 2, 3)]
+    rsssf_ = [_p("Desamparados", "Unión (MdP)", "2011-05-18", 3, 2)]
+    espejo = Correccion(pagina="una pagina", jornada="",
+                        dice=("Unión (MdP)", "Desamparados", 2, 3),
+                        debe=("Desamparados", "Unión (MdP)"), porque="de prueba")
+
+    viejas = correcciones.CORRECCIONES
+    try:
+        correcciones.CORRECCIONES = (espejo,)
+        nuevas, repetidas, discuten, alreves = build.sin_repetir(
+            rsssf_, pagina, "una pagina")
+    finally:
+        correcciones.CORRECCIONES = viejas
+    assert nuevas == [], "no es un partido que falte"
+    assert discuten == [], discuten
+    # El contador SI lo cuenta: es lo que mide el testigo de la localia.
+    assert (repetidas, alreves) == (1, 1)
+
+
 def test_la_fecha_que_falta_no_es_un_desacuerdo():
     """LO UNICO DISTINTO ES EL DIA, Y EL DIA ES LO QUE VINIMOS A BUSCAR.
 

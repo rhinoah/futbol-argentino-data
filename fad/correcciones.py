@@ -85,6 +85,56 @@ CORRECCIONES: tuple[Correccion, ...] = (
     _localia_al_reves("Fecha 35", "Deportivo Merlo", "Platense", 2, "Fecha 16"),
 
     # ------------------------------------------------------------------
+    # La Tercera Fase del Argentino A 2010-11: la pagina tiene las dos patas del
+    # lado equivocado, y es la unica de las cuatro llaves de esa tabla que no
+    # coincide con RSSSF.
+    #
+    # LA PAGINA SI AFIRMA LA LOCALIA -- no es un cuadro dibujado, es una tabla con
+    # una columna rotulada `Local - Ida` y otra `Local - Vuelta` --, asi que hace
+    # falta evidencia para contradecirla. Hay tres capas, y ninguna sola alcanza:
+    #
+    # 1. LA PROPIA TABLA. Sus cuatro filas se leen igual y las otras TRES
+    #    coinciden exacto con RSSSF en quien fue local en la ida: Talleres (Cba),
+    #    Union (S) y Huracan (TA). La unica que discrepa es esta.
+    # 2. RSSSF. `First Legs [May 18] ... Svo Desamparados 3-2 Union (MdP)` y
+    #    `Second Legs [May 22] ... Union (MdP) 1-1 Svo Desamparados`. Los dos
+    #    marcadores coinciden EXACTO con los nuestros bajo el espejo, en las dos
+    #    patas, que ya es mas de lo que explicaria una casualidad. Y el testigo de
+    #    localia de esta pagina aprobo a esta fuente: ocho partidos en comun y
+    #    estos dos son los unicos al reves, asi que el repo YA importa catorce
+    #    partidos suyos confiando en ese orden.
+    # 3. UN DIARIO DE SAN JUAN, contemporaneo. Diario de Cuyo del 19/05/2011
+    #    cuenta el 3-2 de Sportivo como local en San Juan y anuncia "la revancha
+    #    que se disputaria el fin de semana siguiente EN MAR DEL PLATA". Y el del
+    #    22/05/2011, sobre el 1-1: "Desamparados empezo ganando ... Luego, en la
+    #    segunda etapa llego el empate DEL LOCAL. Collantes ... puso el 1 a 1",
+    #    y Collantes es jugador de Union de Mar del Plata. El "San Juan, 22 de
+    #    mayo.-" del arranque es el fechado del diario, que es sanjuanino, y no la
+    #    sede: leerlo como sede es el error facil.
+    #
+    # POR QUE NO LO AGARRA NINGUN CHEQUEO INTERNO: el global que publica la propia
+    # pagina, 3-4, es el mismo con las dos orientaciones. El error es invisible
+    # desde adentro y por eso sobrevivio.
+    # ------------------------------------------------------------------
+    Correccion(
+        pagina="Torneo Argentino A 2010-11", jornada="Tercera Fase",
+        dice=("Unión (MdP)", "Desamparados", 2, 3),
+        debe=("Desamparados", "Unión (MdP)"),
+        porque="La ida se jugo en San Juan y la gano Desamparados 3-2. RSSSF la "
+               "escribe asi bajo `First Legs [May 18]`, y el Diario de Cuyo del "
+               "19/05/2011 la cuenta como local y anuncia la revancha en Mar del "
+               "Plata. En la misma tabla de la pagina, las otras tres llaves "
+               "coinciden con RSSSF en quien fue local en la ida."),
+    Correccion(
+        pagina="Torneo Argentino A 2010-11", jornada="Tercera Fase",
+        dice=("Desamparados", "Unión (MdP)", 1, 1),
+        debe=("Unión (MdP)", "Desamparados"),
+        porque="La vuelta se jugo en Mar del Plata. RSSSF la escribe `Unión (MdP) "
+               "1-1 Svo Desamparados` bajo `Second Legs [May 22]`, y el Diario de "
+               "Cuyo del 22/05/2011 dice que el empate fue `del local` y que lo "
+               "hizo Collantes, que es jugador de Union de Mar del Plata."),
+
+    # ------------------------------------------------------------------
     # Torneo Argentino A 2010-11: nueve nombres, todos arbitrados por la GRILLA
     # DE LA ZONA y no por parecido de cadenas. En la fecha donde aparece el
     # nombre raro, el club que falta de esa zona es exactamente ese.
@@ -2657,6 +2707,28 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
                           f"engancha con {len(candidatos)} partidos y no se aplica: "
                           f"no identifica uno solo")
             continue
+        # SI LA CORRECCION ES UN ESPEJO, LOS GOLES VAN CON LOS CLUBES. `Correccion`
+        # sirve para dos cosas distintas y solo una de ellas mueve el marcador:
+        #
+        #   * ARREGLAR LA IDENTIDAD de un club --"Unión" era el de Mar del Plata y
+        #     no el de Sunchales--: el partido es el mismo, quien jugo en su casa
+        #     es el mismo, y los goles NO se tocan. Son dieciseis de las
+        #     diecinueve que hay.
+        #   * ESPEJAR LA LOCALIA: los dos clubes estan del lado equivocado. Ahi el
+        #     resultado no cambia, cambia como se escribe, y `2-3` visto desde el
+        #     otro lado es `3-2`. Mover los nombres y dejar los goles convertiria
+        #     una victoria en una derrota.
+        #
+        # No se notaba porque los tres espejos que habia son EMPATES, donde dar
+        # vuelta el marcador no hace nada. El primero que no lo es --la ida de la
+        # Tercera Fase del Argentino A 2010-11, que la pagina anota `Unión (MdP)
+        # 2-3 Desamparados`-- habria quedado como `Desamparados 2-3 Unión (MdP)`,
+        # o sea con el ganador cambiado.
+        #
+        # Los dos casos se distinguen sin ambiguedad: si `debe` es exactamente el
+        # par de `dice` dado vuelta, es un espejo.
+        if c.debe == (visita, local):
+            candidatos[0].goles_local, candidatos[0].goles_visita = gv, gl
         candidatos[0].local, candidatos[0].visita = c.debe
         aplicadas += 1
 
