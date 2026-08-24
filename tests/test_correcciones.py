@@ -62,6 +62,33 @@ def test_el_espejo_de_localia_da_vuelta_tambien_el_marcador(monkeypatch):
             ps[0].goles_visita, ps[0].visita) == ("Desamparados", 3, 2, "Unión (MdP)")
 
 
+def test_dos_espejos_de_la_misma_llave_no_se_pisan(monkeypatch):
+    """CADA CORRECCION CONSUME UNA FILA.
+
+    Al dar vuelta la IDA queda escrita igual que la vuelta --mismo par, mismo
+    marcador--, y en una llave que termino empatada las dos patas son identicas.
+    Sin sacar de la vista lo ya corregido, la correccion de la vuelta encuentra
+    DOS candidatos y se niega a aplicarse: es la regla de "uno solo" disparando
+    contra un candidato que ella misma acaba de fabricar.
+
+    Es el caso de `Ramón Santamarina 2-2 Racing (O)` y de
+    `Talleres (C) 1-1 Racing (C)`, Cuarta fase del Argentino A 2011-12."""
+    ida = Correccion(pagina="Una Pagina", jornada="Cuarta fase",
+                     dice=("Ramón Santamarina", "Racing (O)", 2, 2),
+                     debe=("Racing (O)", "Ramón Santamarina"), porque="de prueba")
+    vuelta = Correccion(pagina="Una Pagina", jornada="Cuarta fase",
+                        dice=("Racing (O)", "Ramón Santamarina", 2, 2),
+                        debe=("Ramón Santamarina", "Racing (O)"), porque="de prueba")
+    con(monkeypatch, ida, vuelta)
+    ps = [partido("Ramón Santamarina", "Racing (O)", 2, 2, jornada="Cuarta fase"),
+          partido("Racing (O)", "Ramón Santamarina", 2, 2, jornada="Cuarta fase")]
+
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert (n, avisos) == (2, []), avisos
+    assert [(p.local, p.visita) for p in ps] == [
+        ("Racing (O)", "Ramón Santamarina"), ("Ramón Santamarina", "Racing (O)")]
+
+
 def test_la_correccion_de_nombre_no_toca_el_marcador(monkeypatch):
     """LA OTRA MITAD, Y ES LA MAYORIA. Dieciseis de las diecinueve correcciones
     arreglan la IDENTIDAD de un club --"Unión" era el de Mar del Plata y no el de

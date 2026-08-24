@@ -591,6 +591,12 @@ MUTANTES = [
      '"JJ Urquiza": "J. J. de Urquiza"',
      '"JJ Urquiza": "J.J. de Urquiza"'),
 
+    # Dos espejos de la misma llave se pisan si no se saca lo ya corregido.
+    ("fad/correcciones.py", "dejar que una correccion caiga sobre una fila ya corregida",
+     "                      if id(p) not in tocadas" + chr(10) +
+     "                      and p.jornada == c.jornada and p.local == local",
+     "                      if p.jornada == c.jornada and p.local == local"),
+
     # El espejo de localia: los goles tienen que ir con los clubes.
     ("fad/correcciones.py", "espejar la localia y dejar los goles donde estaban",
      "        if c.debe == (visita, local):",

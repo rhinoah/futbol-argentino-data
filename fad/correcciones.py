@@ -79,10 +79,89 @@ def _localia_al_reves(jornada: str, local: str, visita: str, g: int,
                 f"exactamente lo mismo salvo la localia."))
 
 
+# Las veinte llaves del Argentino A 2011-12 comparten explicacion porque comparten
+# causa: la pagina tiene CAMBIADOS los rotulos de dos columnas.
+_LLAVES_2011_12 = (
+    "LA PAGINA ROTULA `Local - Vuelta` A LA COLUMNA DE LA IDA. Sus tablas de "
+    "eliminacion son `Local - Vuelta | Global | Local - Ida | Ida | Vuelta`, y el "
+    "lector las lee por NOMBRE de columna y no por posicion --eso ya estaba "
+    "resuelto--, asi que toma al pie de la letra un encabezado que esta mal.\n"
+    "SE MIDIO, Y ES UNIFORME. De los 34 partidos de eliminacion de esta pagina, "
+    "26 se identifican contra RSSSF por par y marcador: 20 vienen con la localia "
+    "al reves y 6 no. Los 20 son TODOS de las tablas con esa forma --Tercera "
+    "fase, Cuarta fase, Revalida segunda y tercera ronda-- y los 6 que coinciden "
+    "son de tablas de otra forma (`Partidos`, `Promoción`). No hay una sola "
+    "excepcion adentro de esas cuatro tablas.\n"
+    "SE ESPEJAN LAS 28, no las 20. Las otras ocho filas de esas mismas tablas no "
+    "se pudieron identificar por marcador --cuatro son llaves donde las DOS patas "
+    "terminaron igual, y las otras cuatro tienen ademas un desacuerdo de marcador "
+    "con RSSSF-- pero la fecha las empareja igual y RSSSF las da al reves lo mismo. "
+    "Corregir 20 y dejar 8 de la misma tabla seria tratar como fila lo que es un "
+    "encabezado. El desacuerdo de MARCADOR de esas cuatro no lo toca el espejo y "
+    "se sigue avisando, que es lo que corresponde: son dos cosas distintas.\n"
+    "Y EL CONTROL ES LA TEMPORADA SIGUIENTE. El Argentino A 2012-13 usa EL MISMO "
+    "orden de columnas y el mismo lector, y ahi son 30 identificados con CERO al "
+    "reves. Su `Local - Ida` de la tercera ronda de la Revalida dice Libertad (S) "
+    "y RSSSF escribe `First leg [May 13] Libertad (Sunchales) 3-0 Guaraní`. O sea "
+    "que el orden de columnas no es el problema: el problema es esta pagina.\n"
+    "LA SEDE LO CONFIRMA, y es lo que ninguna de las dos tablas puede discutir. El "
+    "blog de Jose Carluccio publica cada partido con su CIUDAD, y las cuatro idas "
+    "de la Revalida - Segunda ronda se jugaron en la ciudad del club que la pagina "
+    "pone a la IZQUIERDA: \"22/04/2012 en Cipolletti: Cipolletti 0, Libertad de "
+    "Sunchales 2\", \"en Concepcion del Uruguay: Gimnasia y Esgrima 0, Central "
+    "Norte 0\", \"en Salta: Gimnasia y Tiro 0, Rivadavia de Lincoln 1\" y \"en "
+    "Salta: Juventud Antoniana 1, Juventud Unida Universitario 1\". Las dos de la "
+    "Tercera ronda, igual: \"en Lincoln\" y \"en Salta\".\n"
+    "LO QUE NO CAMBIA es el resultado ni el dia: espejar una llave deja los mismos "
+    "goles para cada club y la misma fecha en cada fila. RSSSF coincide con "
+    "nuestra fecha en 18 de las 20. Lo unico que estaba mal era quien jugaba en su "
+    "casa -- y, por arrastre, que `fechas.completar` emparejaba nuestra ida con su "
+    "vuelta y denunciaba veintiocho desacuerdos de dia que no existian.")
+
+
+def _llave_espejada(jornada: str, local: str, visita: str, gl: int, gv: int) -> Correccion:
+    """Una llave del Argentino A 2011-12 con los dos clubes del lado equivocado."""
+    return Correccion(
+        pagina="Torneo Argentino A 2011-12", jornada=jornada,
+        dice=(local, visita, gl, gv), debe=(visita, local),
+        porque=_LLAVES_2011_12)
+
+
 CORRECCIONES: tuple[Correccion, ...] = (
     _localia_al_reves("Fecha 25", "Belgrano", "Instituto", 1, "Fecha 6"),
     _localia_al_reves("Fecha 25", "Ferro Carril Oeste", "Unión", 2, "Fecha 6"),
     _localia_al_reves("Fecha 35", "Deportivo Merlo", "Platense", 2, "Fecha 16"),
+
+    # Las veinte de la eliminacion del Argentino A 2011-12; ver
+    # `_LLAVES_2011_12` para la evidencia, que es una sola para las veinte.
+    _llave_espejada("Reválida - Segunda ronda", "Libertad (S)", "Cipolletti", 2, 0),
+    _llave_espejada("Reválida - Segunda ronda", "Cipolletti", "Libertad (S)", 2, 2),
+    _llave_espejada("Reválida - Segunda ronda", "Central Norte (S)", "Gimnasia y Esgrima (CdU)", 0, 0),
+    _llave_espejada("Reválida - Segunda ronda", "Gimnasia y Esgrima (CdU)", "Central Norte (S)", 1, 3),
+    _llave_espejada("Reválida - Segunda ronda", "Rivadavia (L)", "Gimnasia y Tiro (S)", 1, 0),
+    _llave_espejada("Reválida - Segunda ronda", "Gimnasia y Tiro (S)", "Rivadavia (L)", 0, 2),
+    _llave_espejada("Reválida - Tercera ronda", "Juventud Unida Universitario", "Rivadavia (L)", 0, 1),
+    _llave_espejada("Reválida - Tercera ronda", "Rivadavia (L)", "Juventud Unida Universitario", 0, 3),
+    _llave_espejada("Tercera fase", "San Martín (T)", "Central Norte (S)", 0, 2),
+    _llave_espejada("Tercera fase", "Central Norte (S)", "San Martín (T)", 2, 1),
+    _llave_espejada("Tercera fase", "Defensores de Belgrano (VR)", "Juventud Unida Universitario", 1, 4),
+    _llave_espejada("Tercera fase", "Juventud Unida Universitario", "Defensores de Belgrano (VR)", 0, 2),
+    _llave_espejada("Tercera fase", "Racing (O)", "Central Córdoba (SdE)", 0, 2),
+    _llave_espejada("Tercera fase", "Central Córdoba (SdE)", "Racing (O)", 1, 3),
+    _llave_espejada("Tercera fase", "Unión (MdP)", "Racing (C)", 1, 1),
+    _llave_espejada("Tercera fase", "Racing (C)", "Unión (MdP)", 2, 0),
+    _llave_espejada("Cuarta fase", "Sportivo Belgrano", "Central Norte (S)", 2, 3),
+    _llave_espejada("Cuarta fase", "Central Norte (S)", "Sportivo Belgrano", 1, 2),
+    _llave_espejada("Cuarta fase", "Crucero del Norte", "Juventud Unida Universitario", 1, 0),
+    _llave_espejada("Cuarta fase", "Juventud Unida Universitario", "Crucero del Norte", 1, 2),
+    _llave_espejada("Reválida - Segunda ronda", "Juventud Unida Universitario", "Juventud Antoniana", 0, 1),
+    _llave_espejada("Reválida - Segunda ronda", "Juventud Antoniana", "Juventud Unida Universitario", 0, 1),
+    _llave_espejada("Reválida - Tercera ronda", "Libertad (S)", "Central Norte (S)", 1, 2),
+    _llave_espejada("Reválida - Tercera ronda", "Central Norte (S)", "Libertad (S)", 0, 1),
+    _llave_espejada("Cuarta fase", "Ramón Santamarina", "Racing (O)", 2, 2),
+    _llave_espejada("Cuarta fase", "Racing (O)", "Ramón Santamarina", 2, 2),
+    _llave_espejada("Cuarta fase", "Talleres (C)", "Racing (C)", 1, 1),
+    _llave_espejada("Cuarta fase", "Racing (C)", "Talleres (C)", 1, 1),
 
     # ------------------------------------------------------------------
     # La Tercera Fase del Argentino A 2010-11: la pagina tiene las dos patas del
@@ -2689,12 +2768,24 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
     club -- para eso estan los alias.
     """
     aplicadas, avisos = 0, []
+    # UNA CORRECCION NO PUEDE CAER SOBRE UNA FILA QUE OTRA YA CAMBIO. Sin esto, dos
+    # espejos de la misma llave se pisan: al dar vuelta la IDA queda escrita igual
+    # que la vuelta --mismo par, mismo marcador, y en una llave que termino empatada
+    # las dos patas son identicas--, asi que la correccion de la vuelta encuentra
+    # DOS candidatos y se niega a aplicarse, con razon. Es el caso de
+    # `Ramón Santamarina 2-2 Racing (O)` y de `Talleres (C) 1-1 Racing (C)` en la
+    # Cuarta fase del Argentino A 2011-12.
+    #
+    # No se afloja la regla de "uno solo": se le saca de la vista lo que ya no es
+    # candidato. Cada correccion consume una fila y ninguna otra la vuelve a mirar.
+    tocadas: set[int] = set()
     for c in CORRECCIONES:
         if c.pagina != pagina:
             continue
         local, visita, gl, gv = c.dice
         candidatos = [p for p in ps
-                      if p.jornada == c.jornada and p.local == local
+                      if id(p) not in tocadas
+                      and p.jornada == c.jornada and p.local == local
                       and p.visita == visita
                       and (p.goles_local, p.goles_visita) == (gl, gv)]
         if not candidatos:
@@ -2730,6 +2821,7 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
         if c.debe == (visita, local):
             candidatos[0].goles_local, candidatos[0].goles_visita = gv, gl
         candidatos[0].local, candidatos[0].visita = c.debe
+        tocadas.add(id(candidatos[0]))
         aplicadas += 1
 
     for m in MARCADORES:
