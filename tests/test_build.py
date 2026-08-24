@@ -1123,3 +1123,41 @@ def test_si_el_marcador_no_coincide_no_se_fecha():
     avisos = build.fechar_con_las_llaves([nuestro], [llave])
     assert nuestro.fecha == "" and any("marcador distinto" in a for a in avisos)
 
+
+def _cuadro(*cruces, ronda="Tercera fase"):
+    """Una pagina con una fase de eliminacion y la columna de fecha VACIA, que es
+    como la publica el Argentino A 2012-13."""
+    filas = "".join(f"|-\n|{a}\n|{gl} - {gv}\n|{b}\n|Un Estadio\n|\n|\n"
+                    for a, b, gl, gv in cruces)
+    return (f"\n== Fase final ==\n=== {ronda} ===\n"
+            '{|class="wikitable"\n'
+            f"!colspan=6|{ronda}\n|-\n"
+            "!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n"
+            + filas + "|}\n\n== Otra cosa ==\n")
+
+
+def test_el_build_fecha_las_llaves_de_la_pagina_que_vienen_sin_dia(monkeypatch):
+    """EL PUNTO DE LLAMADA, no la funcion. Los tres tests de arriba prueban
+    `fechar_con_las_llaves`, y con eso un mutante que le saca la llamada al bloque
+    de importacion sobrevive: la funcion anda perfecto y no la usa nadie.
+
+    Es el mismo agujero que este repo ya se hizo dos veces -- probar la funcion y
+    no a quien la llama --, y lo destapo un mutante que sobrevivio.
+    """
+    from fad import rsssf
+
+    documento = ("Zona Unica\n"
+                 "Third Phase Reválida\n"
+                 "First leg [May 22]\n"
+                 "Racing                       1-1 Talleres\n"
+                 "Second leg [May 26]\n"
+                 "Talleres                     2-0 Racing\n")
+    mapa = {"Zona Unica": {"Racing": "Racing (C)", "Talleres": "Talleres (C)"}}
+    t = Torneo("Anexo:Prueba", "Prueba", 2012, anio_fin=2013, rsssf_llaves=True)
+
+    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: documento)
+    monkeypatch.setitem(rsssf.FUENTES, "Anexo:Prueba", ("cualquiera", mapa))
+
+    ps, _ = build.procesar(_cuadro(("Racing (C)", "Talleres (C)", 1, 1),
+                                   ("Talleres (C)", "Racing (C)", 2, 0)), t)
+    assert sorted(p.fecha for p in ps) == ["2013-05-22", "2013-05-26"]
