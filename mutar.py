@@ -970,8 +970,12 @@ MUTANTES = [
      'r"(?:\\s+\\d[^\\[\\]]*)?(?:\\s*\\[([^\\]]*)\\])?\\s*$", re.I)'),
 
     ("build.py", "no fecharle a la pagina lo que la llave si tiene fechado",
-     "                mas += fechas.completar(",
-     "                mas += [] or fechas.completar("),
+     "                mas += fechar_con_las_llaves(ps, llaves)",
+     "                mas += []"),
+
+    ("build.py", "darle a un partido de liga la fecha de una llave",
+     '        [x for x in ps if x.fase == "eliminacion"],',
+     "        list(ps),"),
 
     # El corte de seccion, cuando el archivo del ano trae varias divisiones.
     ("fad/rsssf.py", "leer mas alla del final de la seccion",

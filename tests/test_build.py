@@ -1064,45 +1064,62 @@ def test_el_completador_acota_la_seccion_del_archivo_del_anio(monkeypatch):
         "sin el corte toma el 24/07, que es cuando jugo la OTRA division")
 
 
-def test_las_llaves_le_ponen_fecha_a_lo_que_la_pagina_trae_sin_dia(monkeypatch):
-    """LO QUE LA PAGINA YA TIENE PUEDE TENERLO SIN FECHA, y hasta ahora el bloque
-    de llaves solo sabia agregar lo que faltaba y descartar lo repetido. El
-    Argentino A 2012-13 publicaba sus ocho partidos de la Tercera fase sin dia:
-    RSSSF los trae fechados, el cruce los reconocia como repetidos, y los ocho se
-    iban igual a `sin-fecha/` porque nadie miraba la fecha.
+def test_las_llaves_le_ponen_fecha_a_lo_que_la_pagina_trae_sin_dia():
+    """LO QUE LA PAGINA YA TIENE PUEDE TENERLO SIN FECHA. El bloque que importa
+    llaves solo sabia agregar lo que faltaba y descartar lo repetido, y "repetido"
+    incluye al partido que la pagina publica sin dia: el cruce lo reconocia y se
+    iba igual a `sin-fecha/` porque nadie miraba la fecha. Eran los ocho de la
+    Tercera fase del Argentino A 2012-13.
 
     El identificador es el PAR ORDENADO: las dos patas de una serie son (A,B) y
-    (B,A), asi que se distinguen sin necesitar la ronda -- que ademas no cruzaria,
-    porque la pagina rotula "Tercera fase" y la fuente "Third Phase - First leg".
+    (B,A), asi que se distinguen sin la ronda -- que ademas no cruzaria, porque la
+    pagina rotula "Tercera fase" y la fuente "Third Phase - First leg".
     """
-    from fad import rsssf
     from fad.parser import Partido
-
-    documento = ("Zona Unica\n"
-                 "Third Phase Reválida\n"
-                 "First leg [May 22]\n"
-                 "Racing                       1-1 Talleres\n"
-                 "Second leg [May 26]\n"
-                 "Talleres                     2-0 Racing\n")
-    mapa = {"Zona Unica": {"Racing": "Racing (C)", "Talleres": "Talleres (C)"}}
-    t = Torneo("Anexo:Prueba", "Prueba", 2012, anio_fin=2013, rsssf_llaves=True)
-
-    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: documento)
-    monkeypatch.setitem(rsssf.FUENTES, "Anexo:Prueba", ("cualquiera", mapa))
 
     ida = Partido(local="Racing (C)", visita="Talleres (C)", goles_local=1,
                   goles_visita=1, fase="eliminacion", jornada="Tercera fase")
     vuelta = Partido(local="Talleres (C)", visita="Racing (C)", goles_local=2,
                      goles_visita=0, fase="eliminacion", jornada="Tercera fase")
-    ps, _ = build.procesar("", t)          # la pagina no aporta nada
-    ps = [ida, vuelta]
-
-    # el bloque de llaves, tal como lo corre `procesar`
-    llaves, _ = rsssf.leer_llaves(documento, mapa, 2012, 2013, 8)
-    from fad import fechas
-    fechas.completar([x for x in ps if x.fase == "eliminacion"],
-                     [fechas.Ajeno(fecha=x.fecha, jornada=0, local=x.local,
-                                   visita=x.visita, goles_local=x.goles_local,
-                                   goles_visita=x.goles_visita)
-                      for x in llaves if x.fecha])
+    llaves = [
+        Partido(fecha="2013-05-22", local="Racing (C)", visita="Talleres (C)",
+                goles_local=1, goles_visita=1, fase="eliminacion",
+                jornada="Third Phase - First leg"),
+        Partido(fecha="2013-05-26", local="Talleres (C)", visita="Racing (C)",
+                goles_local=2, goles_visita=0, fase="eliminacion",
+                jornada="Third Phase - Second leg"),
+    ]
+    build.fechar_con_las_llaves([ida, vuelta], llaves)
     assert (ida.fecha, vuelta.fecha) == ("2013-05-22", "2013-05-26")
+
+
+def test_no_le_pone_la_fecha_de_una_llave_a_un_partido_de_liga():
+    """SOLO SOBRE LA ELIMINACION. Esto corre en la etapa de parseo, antes de que
+    el completador de la fase regular haga lo suyo, asi que la pagina entera puede
+    estar sin fechas. Sin acotarlo daba trescientos setenta y siete "sin pareja"
+    en la Primera C 2008-09, un grave, y le ofrecia a un partido de liga la fecha
+    de una llave."""
+    from fad.parser import Partido
+
+    liga = Partido(local="Racing (C)", visita="Talleres (C)", goles_local=1,
+                   goles_visita=1, fase="zonas", jornada="Fecha 7")
+    llave = Partido(fecha="2013-05-22", local="Racing (C)", visita="Talleres (C)",
+                    goles_local=1, goles_visita=1, fase="eliminacion",
+                    jornada="Third Phase - First leg")
+    build.fechar_con_las_llaves([liga], [llave])
+    assert liga.fecha == "", "el mismo cruce en la liga no es el de la llave"
+
+
+def test_si_el_marcador_no_coincide_no_se_fecha():
+    """El par identifica y el marcador VERIFICA, que es la regla de
+    `fechas.completar` y sigue puesta acá."""
+    from fad.parser import Partido
+
+    nuestro = Partido(local="Racing (C)", visita="Talleres (C)", goles_local=3,
+                      goles_visita=0, fase="eliminacion", jornada="Tercera fase")
+    llave = Partido(fecha="2013-05-22", local="Racing (C)", visita="Talleres (C)",
+                    goles_local=1, goles_visita=1, fase="eliminacion",
+                    jornada="Third Phase - First leg")
+    avisos = build.fechar_con_las_llaves([nuestro], [llave])
+    assert nuestro.fecha == "" and any("marcador distinto" in a for a in avisos)
+

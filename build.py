@@ -459,6 +459,37 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
     return respaldados, avisos
 
 
+def fechar_con_las_llaves(ps: list, llaves: list) -> list[str]:
+    """Le pone fecha a los partidos de eliminacion que la pagina trae sin dia.
+
+    LO QUE LA PAGINA YA TIENE PUEDE TENERLO SIN FECHA. El bloque que importa
+    llaves solo sabia agregar lo que faltaba y descartar lo repetido, y
+    "repetido" incluye al partido que la pagina publica sin dia: el cruce lo
+    reconocia y se iba igual a `sin-fecha/` porque nadie miraba la fecha. Eran
+    los ocho de la Tercera fase del Argentino A 2012-13.
+
+    EL IDENTIFICADOR ES EL PAR ORDENADO, sin jornada ni llave. No cruzan por
+    llave porque los vocabularios son distintos --la pagina rotula "Tercera fase"
+    y la fuente "Third Phase - First leg"-- y no hace falta: las dos patas de una
+    serie son (A,B) y (B,A), asi que el par ordenado ya las distingue. La regla de
+    colision de `fechas.completar` sigue puesta y el marcador sigue verificando.
+
+    SOLO SOBRE LA ELIMINACION, que es de lo que hablan las llaves. Esto corre en
+    la etapa de parseo, ANTES de que el completador de la fase regular haga lo
+    suyo, asi que en este momento la pagina entera puede estar sin fechas.
+    Pasarle todo daba trescientos setenta y siete "sin pareja" en la Primera C
+    2008-09, un grave, y le ofrecia a un partido de liga la fecha de una llave.
+    """
+    from fad import fechas, rsssf
+
+    return fechas.completar(
+        [x for x in ps if x.fase == "eliminacion"],
+        [fechas.Ajeno(fecha=x.fecha, jornada=0, local=x.local, visita=x.visita,
+                      goles_local=x.goles_local, goles_visita=x.goles_visita)
+         for x in llaves if x.fecha],
+        credito=rsssf.CREDITO)[1]
+
+
 def sin_repetir_sin_fecha(llaves: list, ps: list,
                           pagina: str) -> tuple[list, int, list[str]]:
     """Lo mismo que `sin_repetir` pero para filas que NO traen fecha.
@@ -587,34 +618,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     mas.append(f"{len(discuten)} partidos donde la pagina y RSSSF no "
                                f"coinciden; se conserva el de la pagina: "
                                + " | ".join(discuten[:3]))
-                # LO QUE LA PAGINA YA TIENE PUEDE TENERLO SIN FECHA. Hasta aca el
-                # bloque solo sabia agregar lo que faltaba y descartar lo repetido,
-                # y "repetido" incluye al partido que la pagina publica sin dia. El
-                # Argentino A 2012-13 tenia sus ocho partidos de la Tercera fase
-                # asi: RSSSF los trae fechados, el cruce los reconocia, y los ocho
-                # se iban igual a `sin-fecha/` porque nadie miraba la fecha.
-                #
-                # EL IDENTIFICADOR ES EL PAR ORDENADO, sin jornada ni llave. No
-                # cruzan por llave porque los vocabularios son distintos -- la
-                # pagina rotula "Tercera fase" y la fuente "Third Phase - First
-                # leg" --, y no hace falta: las dos patas de una serie son (A,B) y
-                # (B,A), asi que el par ordenado ya las distingue. La regla de
-                # colision de `completar` sigue puesta y el marcador sigue
-                # verificando, que es lo que sostiene el emparejamiento.
-                #
-                # SOLO SOBRE LA ELIMINACION, que es de lo que hablan las llaves.
-                # Este bloque corre en la etapa de parseo, ANTES de que el
-                # completador de la fase regular haga lo suyo, asi que en este
-                # momento la pagina entera puede estar sin fechas: pasarle todo
-                # daba trescientos setenta y siete "sin pareja" y le ofrecia a un
-                # partido de liga la fecha de una llave.
-                mas += fechas.completar(
-                    [x for x in ps if x.fase == "eliminacion"],
-                    [fechas.Ajeno(fecha=x.fecha, jornada=0, local=x.local,
-                                      visita=x.visita, goles_local=x.goles_local,
-                                      goles_visita=x.goles_visita)
-                         for x in llaves if x.fecha],
-                    credito=rsssf.CREDITO)[1]
+                mas += fechar_con_las_llaves(ps, llaves)
                 importados += [validar.Aviso(f"{t.pagina}: RSSSF llaves", d,
                                              grave=False) for d in mas]
         # El formato compacto va aparte: sus filas salen SIN FECHA -- el archivo
