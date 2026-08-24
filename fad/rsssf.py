@@ -1889,7 +1889,16 @@ ARGENTINO_A_2004 = {
         "Luján de Cuyo": "Luján de Cuyo",
         "Rosario Puerto Belgrano": "Rosario Puerto Belgrano",
         "Sp. Desamparados": "Desamparados",
-        "Talleres": "Talleres (C)",
+        # PERICO, NO CORDOBA. El de Cordoba jugaba la Primera Division esa
+        # temporada -- tiene sus 19 partidos en `Primera Division - Clausura
+        # 2004` -- y el que juega este torneo es el de Perico, Jujuy: la fase
+        # regular, que sale de la grilla de Wikipedia, trae solo a ese, y la
+        # propia RSSSF lo nombra `Talleres (Perico) ... (Jujuy)` en su tabla.
+        #
+        # Estaba mal y le puso el club equivocado a SEIS filas del dataset, todas
+        # de las llaves: son las unicas de ese torneo donde aparecia Talleres (C).
+        # Lo encontro un testigo externo al que se le habia pedido una fecha.
+        "Talleres": "Talleres (P)",
         "Villa Mitre": "Villa Mitre",
     }
 }
