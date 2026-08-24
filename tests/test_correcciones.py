@@ -494,3 +494,24 @@ def test_los_divididos_no_salen_de_su_pagina(monkeypatch):
     ps = [partido("Almagro", "Boca Juniors", 0, 2)]
     correcciones.aplicar(ps, "Otra Pagina")
     assert len(ps) == 1
+
+
+def test_el_par_dividido_se_lleva_su_alcance():
+    """El alcance viaja CON EL PAR hasta el chequeo que lo usa. Si se pierde en
+    el camino, el dividido del Torneo Federal A 2018-19 -- que es de la Revalida
+    -- se cuenta tambien en la Primera fase, porque sus dos clubes juegan las
+    dos y buscarlos por nombre los encuentra dos veces.
+
+    Va sobre `pares_divididos` y no sobre el chequeo: pasandole los pares a mano,
+    el chequeo respeta el alcance igual y este error no se ve. Es el mismo agujero
+    de siempre -- probar la funcion y no a quien la llama --, y lo destapo un
+    mutante que sobrevivio.
+    """
+    pares = correcciones.pares_divididos("Torneo Federal A 2018-19")
+    assert pares and all(llave for _, _, llave in pares), "el alcance no puede venir vacio"
+
+    # y los dos escandalos de arreglo del Argentino A 2006-07 estan alcanzados al
+    # Clausura, que es la fase donde se jugaron: en el Apertura esos clubes tienen
+    # sus catorce partidos completos y sumarles uno los dejaria con quince
+    clausura = correcciones.pares_divididos("Torneo Argentino A 2006-07")
+    assert len(clausura) == 2 and all(l == "Torneo Clausura" for _, _, l in clausura)

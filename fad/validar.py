@@ -186,7 +186,8 @@ def todos_tienen_zona(ps: list[Partido]) -> list[Aviso]:
 _ZONA = re.compile(r"(?i)^(zona|grupo)\b")
 
 
-def zonas_completas(ps: list[Partido], en_curso: bool = False) -> list[Aviso]:
+def zonas_completas(ps: list[Partido], en_curso: bool = False,
+                    divididos: tuple = ()) -> list[Aviso]:
     """En una zona todos-contra-todos, cada equipo juega la misma cantidad.
 
     Solo se le exige a las secciones que son realmente una zona: los bloques
@@ -202,17 +203,38 @@ def zonas_completas(ps: list[Partido], en_curso: bool = False) -> list[Aviso]:
     if en_curso:
         return []
     avisos = []
-    zonas: dict[str, list[Partido]] = {}
+    # Por (llave, zona) y no por zona sola. Una temporada con fases repite los
+    # nombres de sus zonas -- el Torneo Federal A 2018-19 tiene una "Zona B" en la
+    # Primera fase, otra en la Segunda y otra en la Revalida --, y hace falta
+    # distinguirlas para saber en cual cuenta un partido dividido.
+    zonas: dict[tuple[str, str], list[Partido]] = {}
     for p in ps:
         if p.fase == "zonas" and _ZONA.match(p.zona or ""):
-            zonas.setdefault(p.zona, []).append(p)
-    for zona, partidos in sorted(zonas.items()):
+            zonas.setdefault((p.llave or "", p.zona), []).append(p)
+    for (llave, zona), partidos in sorted(zonas.items()):
         jugados = Counter()
         for p in partidos:
             jugados[p.local] += 1
             jugados[p.visita] += 1
         if not jugados:
             continue
+        # UN PARTIDO DIVIDIDO SE JUGO AUNQUE NO TENGA FILA. El fallo le dio a cada
+        # club un resultado distinto y el esquema no puede escribir eso, asi que
+        # la fila no entra -- pero el partido existio y los dos clubes lo jugaron.
+        # Sin sumarlo aca, declarar un dividido arregla el cruce de PJ contra la
+        # tabla y deja la zona despareja, que es el mismo hecho denunciado dos
+        # veces por caminos distintos.
+        #
+        # La ZONA no hace falta declararla: sale de los clubes. Los dos juegan en
+        # una sola, asi que el partido es de la zona donde estan los dos.
+        aparte = 0
+        for local, visita, suya in divididos:
+            if suya and suya != llave:
+                continue
+            if local in jugados and visita in jugados:
+                jugados[local] += 1
+                jugados[visita] += 1
+                aparte += 1
         if len(set(jugados.values())) > 1:
             raro = sorted(jugados.items(), key=lambda kv: kv[1])
             avisos.append(Aviso(
@@ -225,7 +247,11 @@ def zonas_completas(ps: list[Partido], en_curso: bool = False) -> list[Aviso]:
             # es quedar en el medio.
             n = len(jugados)
             una_vuelta = n * (n - 1) // 2
-            if una_vuelta and len(partidos) % una_vuelta:
+            # Los divididos van tambien en ESTA cuenta, por la misma razon: se
+            # jugaron. Sumarlos arriba y no aca dejaba la zona pareja y el
+            # todos-contra-todos incompleto, o sea el mismo agujero denunciado
+            # por la otra puerta.
+            if una_vuelta and (len(partidos) + aparte) % una_vuelta:
                 avisos.append(Aviso(
                     f"{zona}: no es un todos-contra-todos completo",
                     f"{n} equipos deberian jugar {una_vuelta} partidos (una vuelta) "
@@ -562,6 +588,25 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
                                       if not _ganador(p) and p.local and p.visita]
         siguen = {e for p in actual for e in (p.local, p.visita) if e}
         excusados = {e for par in indecisos if len(par & siguen) < 2 for e in par}
+        # DOS FORMAS DE DESAMBIGUAR ESTO QUE SE MIDIERON Y SON FALSAS. Quedan
+        # escritas para que no se vuelvan a intentar: el aviso es ambiguo por
+        # naturaleza y no por falta de ganas.
+        #
+        #   1. "El que entra fresco es el mejor ubicado, o sea un sembrado".
+        #      Falso: sobre los 29 avisos del corpus, lo es en 8. Entran
+        #      Douglas Haig doceavo de 14, Argentino de Merlo ultimo de 10.
+        #   2. "El que entra fresco perdio antes en otra llave de la pagina, y
+        #      por eso es un repechaje". Tambien falso como regla general: casi
+        #      todos no tienen NINGUN partido anterior en la pagina. Vienen de
+        #      la fase de zonas, no de otro cuadro.
+        #
+        # Y la razon de fondo es que no hay asimetria de donde agarrarse: si a
+        # la ronda anterior le falta un partido, sus DOS clubes desaparecen de
+        # los datos y solo el ganador reaparece -- exactamente lo mismo que se
+        # ve cuando el formato siembra a alguien. Un cuadro completo y uno con
+        # un agujero se ven igual desde adentro. Para separarlos hace falta
+        # saber cuantos clubes entran al cuadro y en que ronda, que es un dato
+        # del reglamento y no de los partidos.
         frescos = sorted({e for p in actual for e in (p.local, p.visita)
                           if e and e not in vistos})
         if frescos:
@@ -742,7 +787,8 @@ CHEQUEOS = [campos_completos, fechas_presentes, nombres_en_el_padron,
             una_zona_por_club, localias_repartidas, cadena_de_llaves]
 
 
-def revisar(ps: list[Partido], en_curso: bool = False) -> list[Aviso]:
+def revisar(ps: list[Partido], en_curso: bool = False,
+            divididos: tuple = ()) -> list[Aviso]:
     """Corre todos los chequeos. Devuelve los avisos, graves primero.
 
     `en_curso` dice que el torneo todavia se esta jugando. Hoy lo mira uno solo
@@ -752,7 +798,7 @@ def revisar(ps: list[Partido], en_curso: bool = False) -> list[Aviso]:
     avisos = []
     for chequeo in CHEQUEOS:
         if chequeo is zonas_completas:
-            avisos += chequeo(ps, en_curso)
+            avisos += chequeo(ps, en_curso, divididos)
         else:
             avisos += chequeo(ps)
     return sorted(avisos, key=lambda a: not a.grave)

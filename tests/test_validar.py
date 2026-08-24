@@ -840,3 +840,80 @@ def test_revisar_le_pasa_el_en_curso_al_chequeo_que_lo_mira():
                 if "no todos jugaron" in a.que]
     assert [a for a in validar.revisar(ps, en_curso=False)
             if "no todos jugaron" in a.que]
+
+
+# --------------------------------------------------------------------------
+# La zona de una fase no es la zona de la otra, y un dividido se jugo
+# --------------------------------------------------------------------------
+def _zf(local, visita, z, llave=""):
+    from fad.parser import Partido
+    return Partido(fecha="2010-01-01", local=local, visita=visita, goles_local=1,
+                   goles_visita=0, fase="zonas", zona=z, llave=llave,
+                   jornada="Fecha 1")
+
+
+def _rueda(clubes, z, llave="", saltear=()):
+    """Ida y vuelta entre todos, menos los partidos (local, visita) de `saltear`.
+
+    Se saltea UNA pata y no las dos: a un club al que le falta un partido tiene
+    que quedarle uno menos, no dos.
+    """
+    import itertools
+    return [_zf(a, b, z, llave) for a, b in itertools.permutations(clubes, 2)
+            if (a, b) not in set(saltear)]
+
+
+def _desparejas(ps, **kw):
+    return [a for a in validar.zonas_completas(ps, **kw)
+            if "no todos jugaron" in a.que]
+
+
+def test_dos_fases_que_repiten_el_nombre_de_la_zona_son_dos_zonas():
+    """Una temporada con fases repite los nombres de sus zonas: el Torneo Federal
+    A 2018-19 tiene una "Zona B" en la Primera fase, otra en la Segunda y otra en
+    la Revalida. Juntandolas por el nombre, los partidos de tres torneos caen en
+    una bolsa y la cuenta sale despareja siempre.
+
+    Medido sobre el corpus: agrupar por (llave, zona) baja este aviso de 15 a 1,
+    y el unico que sobrevive es cierto -- la Primera Nacional 2019-20, que la
+    pandemia corto con cuatro clubes debiendo un partido.
+    """
+    dos = _rueda("ABCD", "Zona B", "Primera fase") + _rueda("ABCD", "Zona B", "Revalida")
+    assert _desparejas(dos) == [], "cada fase cierra sola"
+    # y si de verdad falta uno en una de las dos, se sigue diciendo
+    assert _desparejas(dos[:-1]), "un agujero en una fase se sigue viendo"
+
+
+def test_un_partido_dividido_se_jugo_aunque_no_tenga_fila():
+    """El fallo le dio a cada club un resultado distinto y el esquema no puede
+    escribir eso, asi que la fila no entra -- pero el partido existio y los dos
+    clubes lo jugaron. Sin contarlo, los dos escandalos de arreglo del Argentino
+    A 2006-07 dejaban dos zonas desparejas y nada decia por que."""
+    falta = _rueda("ABCD", "Zona B", saltear=[("C", "B")])
+    assert _desparejas(falta), "sin declararlo, la zona esta despareja"
+    assert _desparejas(falta, divididos=[("C", "B", "")]) == []
+
+
+def test_el_dividido_tambien_cuenta_para_el_todos_contra_todos():
+    """Sumarlo en una cuenta y no en la otra deja la zona pareja y el
+    todos-contra-todos incompleto: el mismo agujero denunciado por la otra
+    puerta."""
+    falta = _rueda("ABCD", "Zona B", saltear=[("C", "B")])
+    assert validar.zonas_completas(falta, divididos=[("C", "B", "")]) == []
+
+
+def test_el_dividido_solo_cuenta_en_la_fase_que_declara():
+    """El alcance viaja con el par. El del Torneo Federal A 2018-19 es de la
+    Revalida, y sus dos clubes tambien juegan la Primera fase: sin el alcance se
+    lo cuenta en las dos y arreglar un chequeo rompe el otro."""
+    ps = (_rueda("ABCD", "Zona B", "Primera fase")
+          + _rueda("ABCD", "Zona B", "Revalida", saltear=[("C", "B")]))
+    assert _desparejas(ps, divididos=[("C", "B", "Revalida")]) == []
+    assert _desparejas(ps, divididos=[("C", "B", "")]), \
+        "sin alcance se cuenta en las dos y rompe la Primera fase"
+
+
+def test_revisar_le_pasa_los_divididos_al_chequeo():
+    falta = _rueda("ABCD", "Zona B", saltear=[("C", "B")])
+    assert not any("no todos jugaron" in a.que
+                   for a in validar.revisar(falta, divididos=[("C", "B", "")]))

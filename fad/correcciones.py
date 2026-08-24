@@ -1454,7 +1454,7 @@ DIVIDIDOS: tuple[Dividido, ...] = (
                "entraba ya, porque su celda no se puede leer como marcador",
     ),
     Dividido(
-        pagina="Torneo Argentino A 2006-07",
+        pagina="Torneo Argentino A 2006-07", llave="Torneo Clausura",
         local="Central Norte (S)", visita="9 de Julio (R)", dice=None,
         porque="Ultima fecha del Clausura 2007, y el primero de los dos escandalos de "
                "arreglo que cuenta la propia pagina: Central Norte, ya descendido, le "
@@ -1482,7 +1482,7 @@ DIVIDIDOS: tuple[Dividido, ...] = (
                "No entra: la fila no existe y no tiene que existir.",
     ),
     Dividido(
-        pagina="Torneo Argentino A 2006-07",
+        pagina="Torneo Argentino A 2006-07", llave="Torneo Clausura",
         local="San Martín (SM)", visita="Desamparados", dice=None,
         porque="Tres dias despues del otro y con el mismo desenlace. San Martin de "
                "Mendoza de local y Desamparados de visitante -- lo dice la pagina, "
@@ -1926,6 +1926,25 @@ def clubes_divididos(pagina: str, llave: str = "") -> dict[str, int]:
         cuenta[d.local] = cuenta.get(d.local, 0) + 1
         cuenta[d.visita] = cuenta.get(d.visita, 0) + 1
     return cuenta
+
+
+def pares_divididos(pagina: str) -> list[tuple[str, str, str]]:
+    """Los (local, visita, llave) de `pagina` que quedan afuera por tener dos
+    resultados.
+
+    Existe para que el chequeo de zonas parejas pueda contarlos SIN importar este
+    modulo: un partido dividido se jugo, y el club que lo jugo tiene un partido
+    mas de los que tiene fila. Sin esto, los dos escandalos de arreglo del
+    Argentino A 2006-07 -- declarados hace rato, con su evidencia -- dejaban dos
+    zonas desparejas y nada decia por que.
+
+    La `llave` VIAJA CON EL PAR y no se descarta. Es el alcance del dividido, y
+    sin el, el del Torneo Federal A 2018-19 se cuenta en la Primera fase ademas
+    de en la Revalida: sus dos clubes juegan en las dos, asi que buscarlos por
+    nombre los encuentra dos veces. Arreglar un chequeo rompiendo otro es lo que
+    pasa cuando el alcance se pierde en el camino.
+    """
+    return [(d.local, d.visita, d.llave) for d in DIVIDIDOS if d.pagina == pagina]
 
 
 def divididos_de(pagina: str) -> list[str]:

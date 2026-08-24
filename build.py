@@ -673,7 +673,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # cada aviso por duplicado.
     avisos += _completar_fechas_rsssf(ps, t) if t.rsssf and not t.sin_grilla else []
     avisos += _completar_fechas_espn(ps, t) if t.espn else []
-    avisos += validar.revisar(ps, en_curso=not t.cerrado)
+    avisos += validar.revisar(ps, en_curso=not t.cerrado,
+                              divididos=correcciones.pares_divididos(t.pagina))
     # La tabla de posiciones de la propia pagina, contra la suma de los partidos.
     # Va como aviso: lo que denuncia es una contradiccion DE LA FUENTE consigo
     # misma, y frenar el build de todos los dias por eso seria desproporcionado.

@@ -964,6 +964,35 @@ MUTANTES = [
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
 
+    # La zona de una fase no es la zona de la otra, y un partido dividido se jugo
+    # aunque no tenga fila. Los cinco lados: el agrupado, las dos cuentas que el
+    # dividido toca, su alcance, y que llegue hasta el chequeo.
+    ("fad/validar.py", "juntar por nombre las zonas de dos fases distintas",
+     '            zonas.setdefault((p.llave or "", p.zona), []).append(p)',
+     '            zonas.setdefault(("", p.zona), []).append(p)'),
+
+    ("fad/validar.py", "no contar el partido dividido en la zona",
+     "                jugados[local] += 1\n"
+     "                jugados[visita] += 1\n"
+     "                aparte += 1",
+     "                pass"),
+
+    ("fad/validar.py", "no contar el dividido en el todos-contra-todos",
+     "            if una_vuelta and (len(partidos) + aparte) % una_vuelta:",
+     "            if una_vuelta and len(partidos) % una_vuelta:"),
+
+    ("fad/validar.py", "contar el dividido en una fase que no es la suya",
+     "            if suya and suya != llave:\n                continue",
+     "            if False:\n                continue"),
+
+    ("fad/validar.py", "no pasarle los divididos al chequeo de zonas",
+     "            avisos += chequeo(ps, en_curso, divididos)",
+     "            avisos += chequeo(ps, en_curso)"),
+
+    ("fad/correcciones.py", "perder el alcance del dividido en el camino",
+     "    return [(d.local, d.visita, d.llave) for d in DIVIDIDOS if d.pagina == pagina]",
+     '    return [(d.local, d.visita, "") for d in DIVIDIDOS if d.pagina == pagina]'),
+
     # La foja que publica la fuente, como testigo de nuestra propia lectura.
     # Cada pieza del lector por separado, porque cada una falla en silencio: lo
     # que se pierde no da error, solo deja de cruzar.
