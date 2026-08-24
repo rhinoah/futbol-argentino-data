@@ -1,7 +1,7 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **148**. Todo lo demás —equipos, marcador, jornada, torneo,
+jugaron.** Son **64**. Todo lo demás —equipos, marcador, jornada, torneo,
 temporada— pasó por los mismos chequeos que el resto del dataset.
 
 Van acá y no en `data/` porque el dataset principal promete una fecha en cada
@@ -12,21 +12,34 @@ campo.
 ## Eran 2 345
 
 Esta carpeta tenía seis temporadas enteras: las tres de Primera C 2008-2011, la
-Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **148** filas en
-doce torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
+Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **64** filas en
+nueve torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
 **ninguna está acá porque su torneo no tenga fuente de fechas**: están una por
 una, por su propio motivo.
 
 | de dónde sale la fecha en el resto del dataset | filas |
 |---|---|
-| [ESPN](https://www.espn.com.ar/) | 1 547 |
-| [worldfootball](https://www.worldfootball.net/) | 1 520 |
-| [RSSSF](https://www.rsssf.org/) | 263 |
+| [RSSSF](https://www.rsssf.org/) | 3 517 |
+| [worldfootball](https://www.worldfootball.net/) | 1 519 |
+| [el blog de José Carluccio](http://josecarluccio.blogspot.com/) | 24 |
+| [ESPN](https://www.espn.com.ar/) | 16 |
+
+RSSSF pasó de aportar 263 fechas a 3 517 al arreglar tres cosas que le impedían
+leer, ninguna de ellas en los datos: la fase regular de sus archivos **no lleva
+encabezado de zona** cuando el torneo no tiene zonas y el lector devolvía cero
+partidos sin un aviso; desde 2010-11 las divisiones **comparten archivo** y hay
+que acotar la sección o los partidos de siete torneos caen en la misma bolsa; y un
+título como `Third Phase Reválida` no era título de nada.
+
+Ese mismo movimiento le sacó filas a ESPN, que las fechaba antes. **Cuando dos
+fuentes dan días distintos se conserva la primera y se avisa** — son 46 partidos
+en diez páginas, y hasta que ese aviso existió el árbitro era el orden en que
+corrían los completadores.
 
 El crédito viaja **fila por fila** en la columna `source`, que queda compuesta:
 
 ```
-https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina) + https://www.espn.com.ar/
+https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina) + https://www.rsssf.org/
 ```
 
 Ninguna de esas fuentes aporta otra cosa que la fecha. Equipos, marcador y
@@ -34,7 +47,7 @@ jornada siguen saliendo de Wikipedia, y el marcador de la otra fuente se usa
 **para verificar** que las dos partes hablan del mismo partido: si no coinciden,
 no se completa nada y se avisa.
 
-## Las 41 del Argentino A 2004-05 son otra cosa
+## Las 37 del Argentino A 2004-05 son otra cosa
 
 Y conviene separarlas, porque no les falta la fecha por el mismo motivo que a las
 demás. A ésas **no la tiene la fuente**.
@@ -51,12 +64,20 @@ Aldosivi                 0-1 1-3 Luján de Cuyo
 
 De ahí sale todo salvo el día: quién fue local en cada pata, el marcador de cada
 una y de qué ronda son. **Un rango no es una fecha**, así que no se reparte: el
-28 de noviembre no es «la fecha de la vuelta», es el final de una ventana. Las 41
+28 de noviembre no es «la fecha de la vuelta», es el final de una ventana. Las
 filas entran acá enteras y sin inventar el día.
 
-Son también las primeras de esta carpeta cuyo marcador **no** sale de Wikipedia.
-La columna `source` lo dice fila por fila, y son las únicas: de las 148, 41 traen
-a RSSSF como fuente del partido y las otras 107 sólo esperaban una fecha.
+Eran 61 y son 37. Las otras 24 las fechó una fuente citada —un blog que publica
+esa temporada partido por partido, con día, sede y goleadores— y es el **único
+lugar del repo donde un dato se copió a mano**. Va con el mismo contrato que
+cualquier otro completador: los clubes identifican el partido y el marcador lo
+verifica, así que una línea mal copiada no se cuela. De ahí sale la fecha y nada
+más, y si algún día una base de datos la contradice, gana la base de datos. El
+detalle está en `fad/citadas.py`.
+
+Son también las únicas de esta carpeta cuyo marcador **no** sale de Wikipedia.
+La columna `source` lo dice fila por fila: de las 64, 37 traen a RSSSF como fuente
+del partido y las otras 27 sólo esperan una fecha.
 
 Ese torneo tiene 61 filas acá en total. Las otras 20 ya estaban, y están por los
 motivos de la sección siguiente.
