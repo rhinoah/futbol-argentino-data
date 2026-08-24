@@ -1057,6 +1057,34 @@ def test_el_club_del_interzonal_vuelve_a_su_zona():
     assert respaldados == {"C", "D"}, "C y D son de la Zone 2 aunque jueguen en la 1"
 
 
+def test_una_zona_con_un_partido_dividido_no_se_cruza(monkeypatch):
+    """SE ABSTIENE, Y EN SILENCIO. Un partido dividido se JUGO -- la tabla de la
+    fuente lo cuenta -- y su fila no se puede escribir, porque cada club termino
+    con un resultado distinto. Asi que a esos clubes les falta un partido contra
+    la tabla y siempre les va a faltar: es la misma razon por la que se abstiene
+    ante un club ya revisado a mano, y denunciarlo de nuevo convierte un archivo
+    de conclusiones en ruido.
+
+    En el Argentino A 2006-07 son cuatro clubes, dos pares, y desvian exactamente
+    `+1 PJ, +1 en contra, +1 perdido`. Sin esta rama, habilitar sus tablas
+    acumuladas producia dos alarmas perfectamente falsas."""
+    from fad import correcciones
+
+    ps = [_zp("A", "B", 2, 0, "Zone 1")]
+    # La fuente le cuenta a los dos un partido mas: el dividido.
+    tabla = _tabla("Zone 1", [(2, 1, 0, 1, 2, 1), (2, 0, 0, 2, 0, 3)])
+    monkeypatch.setattr(correcciones, "pares_divididos",
+                        lambda pagina: [("A", "B", "")])
+    respaldados, avisos = build.la_fuente_se_respalda(ps, tabla, _MAPA_2, "una pagina")
+    assert (respaldados, avisos) == (set(), []), avisos
+
+    # Y sin el dividido declarado, la MISMA tabla si avisa: la abstencion es por
+    # la declaracion, no por el desvio.
+    monkeypatch.setattr(correcciones, "pares_divididos", lambda pagina: [])
+    _, avisos = build.la_fuente_se_respalda(ps, tabla, _MAPA_2, "una pagina")
+    assert len(avisos) == 1
+
+
 def test_una_tabla_que_no_cubre_la_zona_no_se_cruza():
     """Distinta cantidad de filas que de clubes quiere decir que las dos partes
     no estan hablando del mismo conjunto de partidos --las tablas de playoff son

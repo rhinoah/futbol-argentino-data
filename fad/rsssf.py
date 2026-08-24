@@ -813,17 +813,28 @@ def leer_tabla(texto: str,
     conjunto de nuestras sumas responde la pregunta igual. La zona de cada tabla
     se sabe por donde esta parada en el documento, que es un dato estructural.
 
-    SOLO CUENTAN LAS TABLAS ROTULADAS `Final Table:`. El mapa tambien nombra las
-    secciones de playoff -- `Group A`, `Group B` --, y esas traen su propia tabla
-    de cuatro filas que cubre nada mas que el playoff. Sus clubes ya jugaron la
-    zona, asi que cruzarla contra la suma de la temporada entera da cuatro filas
-    contra cuatro filas y todas distintas: una alarma perfecta y perfectamente
-    falsa. El rotulo lo escribe la fuente, y es lo unico que distingue una tabla
-    que cubre lo que venimos sumando de una que no.
+    SOLO CUENTAN LAS TABLAS QUE LA FUENTE ROTULA COMO ACUMULADAS. El mapa tambien
+    nombra las secciones de playoff -- `Group A`, `Group B` --, y esas traen su
+    propia tabla de cuatro filas que cubre nada mas que el playoff. Sus clubes ya
+    jugaron la zona, asi que cruzarla contra la suma de la temporada entera da
+    cuatro filas contra cuatro filas y todas distintas: una alarma perfecta y
+    perfectamente falsa. El rotulo lo escribe la fuente, y es lo unico que
+    distingue una tabla que cubre lo que venimos sumando de una que no.
+
+    SON DOS ROTULOS Y NO UNO, y aceptar solo el primero dejaba una temporada
+    entera sin cruzar. `Final Table:` va DEBAJO del encabezado de su zona y abre
+    una tabla; `Aggregate Tables:` va ARRIBA y abre las que siguen, una por cada
+    encabezado de zona hasta que la seccion termina. El Argentino A 2006-07 usa el
+    segundo -- publica nueve tablas rotuladas y ninguna dice `Final Table:` --, y
+    por eso figuraba como "no publica ninguna tabla rotulada", que era una
+    afirmacion sobre nuestro lector y no sobre la fuente.
     """
     fuera: list[tuple[str, list[tuple]]] = []
     zona = ""
     abierta = False
+    # `Aggregate Tables:` esta arriba de sus tablas, asi que no abre una: deja
+    # abiertas a las que vengan. Se apaga cuando la seccion termina.
+    acumuladas = False
     for linea in texto.split("\n"):
         pelada = linea.strip()
         if not pelada:
@@ -833,6 +844,9 @@ def leer_tabla(texto: str,
             abierta = True
             if zona in mapa:
                 fuera.append((zona, []))
+            continue
+        if pelada.startswith("Aggregate Table"):
+            acumuladas, abierta = True, False
             continue
         if m := _FOJA.match(linea):
             if abierta and zona in mapa:
@@ -852,10 +866,24 @@ def leer_tabla(texto: str,
         abierta = False
         if pelada in mapa:
             zona = pelada
-        elif pelada.startswith(("Torneo ", "Zona ", "Zone ", "Group ", "Undecagonal",
-                                "First Phase", "Second Phase", "Final", "Promoci",
-                                "Champion", "Relegation")):
-            zona = ""
+            if acumuladas:
+                # Adentro de `Aggregate Tables:` el encabezado de zona ES la
+                # apertura de su tabla; afuera, solo cambia la zona.
+                abierta = True
+                fuera.append((zona, []))
+        else:
+            # CUALQUIER renglon con texto que no sea una zona cierra la seccion
+            # acumulada. Enumerar los encabezados que la cierran es lo que hace la
+            # linea de abajo para la ZONA, y ahi esta bien porque la lista se
+            # midio; para `acumuladas` seria una lista abierta -- `Promotion
+            # Playoff` no empieza con ninguno de esos prefijos --, y dejarla
+            # prendida haria leer la tabla de un playoff como si fuera acumulada,
+            # que es exactamente la alarma falsa que el rotulo evita.
+            acumuladas = False
+            if pelada.startswith(("Torneo ", "Zona ", "Zone ", "Group ", "Undecagonal",
+                                  "First Phase", "Second Phase", "Final", "Promoci",
+                                  "Champion", "Relegation")):
+                zona = ""
     return [(z, f) for z, f in fuera if f]
 
 

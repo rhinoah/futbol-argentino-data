@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 027 | 29 | 149 | 936 | 382 |
+| 44 027 | 29 | 149 | 939 | 385 |
 
 ## 2004–2026 — Cerrado
 
@@ -53,12 +53,11 @@ para mirar. Abajo están agrupados por causa, que son muchas menos que 93.
   cuenta como jugado» y se midió antes de escribirla: hay `76` filas suspendidas en el
   corpus y en las otras `75` la tabla sí las cuenta. Aplicarla rompería 75 para
   arreglar una.
-- **La foja de RSSSF podría cruzarse en las 4 páginas sin grilla, y hoy cruza en 2.** No
-  es la fuente: el `2006-07` publica nueve tablas rotuladas y ninguna dice
-  `Final Table:`, que es el único rótulo que `rsssf.leer_tabla` acepta —tres de ellas
-  van bajo `Aggregate Tables:`—, y el `2009-10` **sí rotula la fase** (`Apertura` /
-  `Clausura`), que es justo lo que hay que darle a cada tabla para desambiguar sus dos
-  `Zone 1`. Nuestras propias filas ya traen esa fase en `llave`.
+- **La foja de RSSSF cruza 3 de las 4 páginas sin grilla; falta el `2009-10`.** Y
+  tampoco ahí el problema es la fuente: **sí rotula la fase** (`Apertura` / `Clausura`),
+  que es justo lo que hay que darle a cada tabla para desambiguar sus dos `Zone 1`, y
+  nuestras propias filas ya traen esa fase en `llave`. Falta que `leer_tabla` devuelva
+  la fase junto a la zona y que la suma se acote por `(llave, zona)` exacta.
 - **Y podría cruzarse en las páginas que SÍ tienen grilla**, que es donde sería un
   testigo nuevo y gratis de nuestras lecturas de Wikipedia. Hoy sólo corre donde los
   partidos *vienen* de RSSSF. Falta el mapa de nombres por temporada, que es lo caro.

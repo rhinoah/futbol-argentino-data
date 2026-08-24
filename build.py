@@ -509,6 +509,9 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
         de_la_zona[cuenta.most_common(1)[0][0]].add(club)
 
     sumas = posiciones.sumar(ps)
+    # Los clubes con un partido dividido en esta pagina, sin importar la llave: la
+    # foja acumulada cubre la temporada entera, asi que el alcance no acota nada.
+    divididos = {c for par in correcciones.pares_divididos(pagina) for c in par[:2]}
     respaldados: set[str] = set()
     avisos: list[str] = []
     repetidas = {z for z, _ in tablas if sum(1 for o, _ in tablas if o == z) > 1}
@@ -521,6 +524,20 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
         nuestras = sorted(sumas[c] for c in clubes)
         if nuestras == sorted(filas):
             respaldados |= clubes
+        elif clubes & divididos:
+            # SE ABSTIENE IGUAL ANTE UN PARTIDO DIVIDIDO, y por la misma razon que
+            # ante un club revisado: el desvio ya tiene su explicacion escrita. Un
+            # dividido se JUGO -- la tabla de la fuente lo cuenta -- y su fila no
+            # se puede escribir, porque cada club termino con un resultado
+            # distinto, asi que a esos clubes les falta un partido contra la tabla
+            # y siempre les va a faltar. En el Argentino A 2006-07 son cuatro
+            # clubes, dos pares, y desvian exactamente `+1 PJ, +1 en contra, +1
+            # perdido`; sin esta rama, habilitar sus tablas acumuladas producia dos
+            # alarmas perfectamente falsas.
+            #
+            # No se suma el partido de vuelta para poder comparar: seria escribir
+            # un marcador que este repo declaro que no puede escribir.
+            continue
         elif any(correcciones.revisado(pagina, c) for c in clubes):
             # Callado, no abstenido. La zona con un club ya revisado a mano solo
             # importa cuando el cruce FALLA: ahi el desvio ya tiene su explicacion

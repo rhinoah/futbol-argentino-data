@@ -976,6 +976,47 @@ def test_una_fila_con_un_solo_espacio_se_lee_igual():
     assert len(rsssf.leer_tabla(texto, _MAPA_FOJA)[0][1]) == 2
 
 
+def test_el_rotulo_acumulado_va_ARRIBA_de_sus_tablas():
+    """SON DOS ROTULOS Y NO UNO, y estan puestos al reves uno del otro.
+
+    `Final Table:` va DEBAJO del encabezado de su zona y abre una tabla.
+    `Aggregate Tables:` va ARRIBA y abre las que siguen, una por cada encabezado
+    de zona, hasta que la seccion termina. Aceptar solo el primero dejaba una
+    temporada entera sin cruzar: el Argentino A 2006-07 publica nueve tablas
+    rotuladas y ninguna dice `Final Table:`, asi que figuraba como "no publica
+    ninguna tabla rotulada" -- una afirmacion sobre nuestro lector, no sobre la
+    fuente."""
+    texto = ("Aggregate Tables:\n"
+             "\n"
+             "Zone 1\n"
+             " 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+             " 2.B (Otra)                                2   0  1  1   1-3   1\n"
+             "\n"
+             "Zone 2\n"
+             " 1.C (Ahi)                                 2   2  0  0   5-0   6\n"
+             " 2.D (Alla)                                2   0  0  2   0-5   0\n")
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA) == [
+        ("Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)]),
+        ("Zone 2", [(2, 5, 0, 2, 0, 0), (2, 0, 5, 0, 0, 2)])]
+
+
+def test_la_seccion_acumulada_termina_donde_empieza_otra_cosa():
+    """Y SE APAGA. Si el rotulo dejara abiertas las zonas para siempre, la tabla
+    de un playoff -- que esta en el mapa igual que las zonas -- se leeria como si
+    fuera acumulada, que es justo la alarma falsa que el rotulo evita."""
+    texto = ("Aggregate Tables:\n"
+             "\n"
+             "Zone 1\n"
+             " 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+             " 2.B (Otra)                                2   0  1  1   1-3   1\n"
+             "\n"
+             "Promotion Playoff\n"
+             "\n"
+             "Zone 2\n"
+             " 1.C (Ahi)                                 2   2  0  0   5-0   6\n")
+    assert [z for z, _ in rsssf.leer_tabla(texto, _MAPA_FOJA)] == ["Zone 1"]
+
+
 def test_una_tabla_sin_el_rotulo_no_se_lee():
     """SOLO CUENTAN LAS ROTULADAS `Final Table:`. Las secciones de playoff estan
     en el mapa igual que las zonas y traen su propia tabla, que cubre nada mas

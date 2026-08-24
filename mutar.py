@@ -591,6 +591,20 @@ MUTANTES = [
      '"JJ Urquiza": "J. J. de Urquiza"',
      '"JJ Urquiza": "J.J. de Urquiza"'),
 
+    # Los dos rotulos de tabla acumulada, y la abstencion ante un dividido.
+    ("fad/rsssf.py", "no reconocer el rotulo `Aggregate Tables:`",
+     '        if pelada.startswith("Aggregate Table"):',
+     '        if pelada.startswith("!!!nunca!!!"):'),
+
+    ("fad/rsssf.py", "dejar la seccion acumulada abierta para siempre",
+     "            acumuladas = False" + chr(10) +
+     '            if pelada.startswith(("Torneo ", "Zona ", "Zone ", "Group ", "Undecagonal",',
+     '            if pelada.startswith(("Torneo ", "Zona ", "Zone ", "Group ", "Undecagonal",'),
+
+    ("build.py", "cruzar la foja aunque la zona tenga un partido dividido",
+     "        elif clubes & divididos:",
+     "        elif False:"),
+
     # El testigo de localia y su excepcion nombrada.
     ("build.py", "ignorar la excepcion y frenar igual la importacion",
      "    if resuelta and repetidas >= _MINIMO_PARA_JUZGAR:",
