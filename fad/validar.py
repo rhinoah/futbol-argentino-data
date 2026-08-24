@@ -91,12 +91,31 @@ def nombres_en_el_padron(ps: list[Partido]) -> list[Aviso]:
                   f"{' ...' if len(raros) > 6 else ''}")] if raros else []
 
 
-def _serie_igualada(p: Partido, ps: list[Partido]) -> bool:
-    """Si `p` es una pata de una serie a dos partidos empatada en el global."""
+def serie_igualada(p: Partido, ps: list[Partido]) -> bool:
+    """Si `p` es una pata de una serie a dos partidos empatada en el global.
+
+    Publica porque la usa tambien el lector de RSSSF. Es la MISMA pregunta desde
+    los dos lados -- el que escribe la tanda y el que la audita -- y tenerla dos
+    veces era tenerla distinta: el lector pedia que la PATA hubiera quedado
+    igualada, que es mas estricto y falso, asi que tiraba veintidos tandas que
+    este chequeo habria aceptado sin chistar.
+
+    LAS DOS PATAS PUEDEN NO COMPARTIR LA JORNADA. Las plantillas de Wikipedia
+    rotulan las dos igual y ahi alcanza con comparar el texto, pero RSSSF escribe
+    "Semifinals - First leg" y "Semifinals - Second leg": dos jornadas distintas
+    para la misma ronda. Se compara por el nombre normalizado, que es el que ya
+    sabe pelar la pata, y solo cuando normalizar da algo -- si no da nada, se cae
+    a la comparacion literal de antes y el chequeo se abstiene como siempre.
+    """
     par = frozenset((p.local, p.visita))
+    suya = _ronda(p.jornada)
+
+    def misma_ronda(q: Partido) -> bool:
+        return q.jornada == p.jornada or (bool(suya) and _ronda(q.jornada) == suya)
+
     serie = [q for q in ps
              if q.fase == "eliminacion" and q.llave == p.llave
-             and q.jornada == p.jornada and frozenset((q.local, q.visita)) == par]
+             and misma_ronda(q) and frozenset((q.local, q.visita)) == par]
     if len(serie) != 2:
         return False
     a = sum(q.goles_local if q.local == p.local else q.goles_visita for q in serie)
@@ -126,7 +145,7 @@ def penales_solo_en_empates(ps: list[Partido]) -> list[Aviso]:
                   f"(pen {p.penales_local}-{p.penales_visita})")
             for p in ps
             if p.penales_local is not None and p.goles_local != p.goles_visita
-            and not (p.fase == "eliminacion" and _serie_igualada(p, ps))]
+            and not (p.fase == "eliminacion" and serie_igualada(p, ps))]
 
 
 def sin_duplicados(ps: list[Partido]) -> list[Aviso]:

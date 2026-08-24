@@ -31,7 +31,7 @@ MUTANTES = [
      "        # exactamente lo que hacia el regex, y es de donde salio el problema." + chr(10) + "        if True:"),
 
     ("fad/validar.py", "aceptar penales en cualquier partido de eliminacion",
-     '            and not (p.fase == "eliminacion" and _serie_igualada(p, ps))]',
+     '            and not (p.fase == "eliminacion" and serie_igualada(p, ps))]',
      '            and p.fase != "eliminacion"]'),
 
     ("fad/validar.py", "dar por igualada una serie sin mirar el global",
@@ -963,6 +963,21 @@ MUTANTES = [
     ("fad/rsssf.py", "no cambiar la localia en la vuelta",
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
+
+    # La tanda vive en la pata donde se pateo, si la serie la explica. Los tres
+    # lados: emparejar patas rotuladas distinto, exigir la serie antes de
+    # escribir, y mirar el global y no la vuelta en el formato compacto.
+    ("fad/validar.py", "no emparejar dos patas rotuladas distinto",
+     "        return q.jornada == p.jornada or (bool(suya) and _ronda(q.jornada) == suya)",
+     "        return q.jornada == p.jornada"),
+
+    ("fad/rsssf.py", "escribir la tanda sin mirar si la serie quedo igualada",
+     "        if validar.serie_igualada(p, fuera):",
+     "        if True:"),
+
+    ("fad/rsssf.py", "mirar la vuelta en vez del global en el formato compacto",
+     "        if pen and ida[0] + vuelta[0] == ida[1] + vuelta[1]:",
+     "        if pen and vuelta[0] == vuelta[1]:"),
 
     # La zona de una fase no es la zona de la otra, y un partido dividido se jugo
     # aunque no tenga fila. Los cinco lados: el agrupado, las dos cuentas que el

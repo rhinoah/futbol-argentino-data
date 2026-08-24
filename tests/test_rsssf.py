@@ -541,13 +541,13 @@ def test_la_llave_trae_localia_y_fecha_de_dia():
     assert all(p.fase == "eliminacion" for p in ps)
 
 
-def test_la_tanda_de_la_serie_no_se_escribe_en_la_pata():
-    """En una llave a doble partido se patea cuando el GLOBAL queda igualado, asi
-    que la vuelta puede no haber empatado. El dataset guarda los penales POR
-    PARTIDO, y ponerlos ahi afirmaria que ese partido termino empatado.
+def test_la_tanda_sin_serie_que_la_explique_no_se_escribe():
+    """Una pata sola con una tanda colgada y sin la otra pata: no hay serie que
+    mirar, asi que la tanda no tiene donde vivir y la columna queda vacia.
 
-    Lo agarro el chequeo del propio repo apenas se importo -- "penales en un
-    partido que no fue empate", tres graves --, y tenia razon.
+    Es lo que este lector hacia SIEMPRE, y estaba de mas: exigia que la PATA
+    hubiera quedado igualada, que es mas estricto que lo que pide el chequeo que
+    despues audita la fila. Asi tiraba veintidos tandas buenas.
     """
     ps, raros = _llaves(
         "Zona B - Norte\n"
@@ -555,12 +555,48 @@ def test_la_tanda_de_la_serie_no_se_escribe_en_la_pata():
         "First Legs [May 21]\n"
         "Racing                       2-1 San Martín             [6-7 pen]\n")
     assert ps[0].penales_local is None and ps[0].penales_visita is None
-    assert raros and "la tanda es de la serie" in raros[0]
+    assert raros and "su serie no quedo igualada" in raros[0]
+
+
+def test_la_tanda_se_escribe_aunque_esa_pata_no_haya_empatado():
+    """EL CASO QUE MOTIVO TODO. La final del Argentino A 2005-06: General Paz 1-0
+    Villa Mitre y despues Villa Mitre 1-0 General Paz, 1-1 global, penales 9-8.
+    Ninguna de las dos patas empato y la tanda existio igual, porque es de la
+    SERIE. La fuente la cuelga de la pata donde se pateo, que es la vuelta, y esta
+    bien: es lo mismo que hacen las plantillas de Wikipedia, y el dataset ya trae
+    veinte filas asi.
+    """
+    ps, raros = _llaves(
+        "Zona B - Norte\n"
+        "Final\n"
+        "First Leg [Dec 18]\n"
+        "San Martín                   1-0 Racing\n"
+        "Second Leg [Dec 22]\n"
+        "Racing                       1-0 San Martín             [9-8 pen]\n")
+    assert raros == [], "la serie quedo 1-1: la tanda tiene donde vivir"
+    vuelta = next(p for p in ps if p.local == "Racing (C)")
+    assert (vuelta.penales_local, vuelta.penales_visita) == (9, 8)
+    ida = next(p for p in ps if p.local != "Racing (C)")
+    assert ida.penales_local is None, "la ida no se toca"
+
+
+def test_la_tanda_no_se_escribe_si_el_global_no_quedo_igualado():
+    """El testigo del de arriba. Con la misma forma pero un global 2-0, la tanda
+    no pudo existir: se avisa y la columna queda vacia."""
+    ps, raros = _llaves(
+        "Zona B - Norte\n"
+        "Final\n"
+        "First Leg [Dec 18]\n"
+        "San Martín                   2-0 Racing\n"
+        "Second Leg [Dec 22]\n"
+        "Racing                       1-0 San Martín             [9-8 pen]\n")
+    assert all(p.penales_local is None for p in ps)
+    assert raros and "su serie no quedo igualada" in raros[0]
 
 
 def test_la_tanda_si_se_escribe_cuando_la_pata_empato():
-    """El testigo del de arriba: si la pata SI quedo igualada, la tanda es de ese
-    partido y la columna se llena."""
+    """Una ronda a partido unico: la pata ES la serie, empato, y la tanda es de
+    ese partido."""
     ps, _ = _llaves(
         "Zona B - Norte\n"
         "Final\n"
@@ -777,22 +813,30 @@ def test_las_patas_compactas_salen_sin_fecha():
     assert all(p.fecha == "" for p in ps)
 
 
-def test_la_tanda_compacta_solo_si_la_vuelta_empato():
-    """Misma regla que en el formato expandido: la tanda es de la SERIE y se patea
-    despues de la vuelta. Si la vuelta no empato, la columna queda vacia y se dice.
-    Y cuando si empato, la tanda va desde la perspectiva del LOCAL de la vuelta,
-    que es el segundo nombrado."""
+def test_la_tanda_compacta_sale_del_global_y_no_de_la_vuelta():
+    """Misma regla que en el formato expandido, y aca el global se calcula en el
+    acto porque las dos patas vienen en la misma linea.
+
+    Los dos fixtures son los mismos de antes y las expectativas estan dadas
+    vuelta, que es exactamente el punto. `3-1 0-2` es 3-3 global: la tanda existio
+    y ahora se escribe. `3-1 2-2` es 5-3: la vuelta empato pero la serie no, asi
+    que la tanda no pudo existir -- y la regla vieja, que miraba la vuelta, la
+    escribia igual.
+
+    La tanda va desde la perspectiva del LOCAL de la vuelta, que es el segundo
+    nombrado."""
     ps, raros = rsssf.leer_llaves_compacto(
         "Torneo Apertura\nQuarterfinals [Nov 20-28]\n"
         "La Florida               3-1 0-2 Unión de Sunchales  [2-3pen]\n", _MAPA_04)
-    assert all(p.penales_local is None for p in ps)
-    assert raros and "la tanda es de la serie" in raros[0]
+    assert raros == [], "3+0 contra 1+2 es empate"
+    assert (ps[1].local, ps[1].penales_local, ps[1].penales_visita) == ("Unión (S)", 3, 2)
+    assert ps[0].penales_local is None, "la ida no se toca"
 
     ps, raros = rsssf.leer_llaves_compacto(
         "Torneo Apertura\nQuarterfinals [Nov 20-28]\n"
         "La Florida               3-1 2-2 Unión de Sunchales  [2-3pen]\n", _MAPA_04)
-    assert raros == []
-    assert (ps[1].local, ps[1].penales_local, ps[1].penales_visita) == ("Unión (S)", 3, 2)
+    assert all(p.penales_local is None for p in ps)
+    assert raros and "su serie no quedo igualada" in raros[0]
 
 
 def test_un_solo_espacio_alcanza_como_separador():

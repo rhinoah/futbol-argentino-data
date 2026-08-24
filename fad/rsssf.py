@@ -731,6 +731,9 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
         texto = texto[i:]
 
     fuera, raros = [], []
+    # (indice en `fuera`, penales del local, del visitante) de las tandas que no
+    # se pueden decidir hasta tener las dos patas. Ver el comentario largo abajo.
+    pendientes: list[tuple[int, int, int]] = []
     zona = llave = ronda = pata = ""
     fecha: tuple[int, int] | None = None
     vistos: dict[str, None] = {}
@@ -805,9 +808,22 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
         if pen and gl == gv:
             pl, pv = int(pen.group(1)), int(pen.group(2))
         elif pen:
-            raros.append(f"{ronda}: {cl} {gl}-{gv} {cv} define por penales "
-                         f"{pen.group(1)}-{pen.group(2)}, pero la tanda es de la "
-                         f"serie y no de este partido; la columna queda vacia")
+            # LA VUELTA NO TIENE POR QUE HABER QUEDADO IGUALADA. La tanda es de la
+            # SERIE y se patea al final del segundo partido, que perfectamente
+            # puede terminar 1-0: la final del Argentino A 2005-06 fue General Paz
+            # 1-0 Villa Mitre y despues Villa Mitre 1-0 General Paz, 1-1 global,
+            # penales 9-8. La fuente cuelga la tanda de la pata donde se pateo, y
+            # esta bien -- es lo mismo que hacen las plantillas de Wikipedia, y el
+            # chequeo `penales_solo_en_empates` ya lo contempla desde que aparecio
+            # en once partidos de una sola vez.
+            #
+            # Aca todavia no se puede decidir porque falta la otra pata, asi que se
+            # anota y se resuelve al final, con la MISMA funcion que usa el chequeo
+            # y no con una copia. Tenerla dos veces era tenerla distinta: este
+            # lector exigia que la PATA hubiera quedado igualada, que es mas
+            # estricto, y por eso venia tirando veintidos tandas que el chequeo
+            # habria aceptado sin chistar.
+            pendientes.append((len(fuera), int(pen.group(1)), int(pen.group(2))))
         fuera.append(Partido(
             fecha=_fecha_iso(*fecha, anio, anio_fin, mes_inicio),
             local=cl, visita=cv,
@@ -829,6 +845,33 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             raros.append(f"{ronda}: {cl} vs {cv} se jugo en cancha de "
                          f"{_LLAVE_SEDE.search(nota).group(1).strip()}; el dataset "
                          f"no lo distingue de un partido en casa")
+    fuera, mas = _resolver_tandas(fuera, pendientes)
+    return fuera, raros + mas
+
+
+def _resolver_tandas(fuera: list, pendientes: list) -> tuple[list, list[str]]:
+    """Escribe las tandas que la serie explica, y avisa las que no.
+
+    Se hace al final y no al vuelo porque la pregunta necesita las DOS patas, y
+    cuando se lee la segunda la primera ya esta en la lista. La responde
+    `validar.serie_igualada`, que es la misma que audita el resultado: si la
+    escribiera este modulo con su propio criterio, el lector y el chequeo podrian
+    opinar distinto sobre la misma fila -- que es exactamente lo que pasaba.
+    """
+    from dataclasses import replace
+
+    from fad import validar
+
+    raros: list[str] = []
+    for i, pl, pv in pendientes:
+        p = fuera[i]
+        if validar.serie_igualada(p, fuera):
+            fuera[i] = replace(p, penales_local=pl, penales_visita=pv)
+        else:
+            raros.append(f"{p.jornada}: {p.local} {p.goles_local}-{p.goles_visita} "
+                         f"{p.visita} define por penales {pl}-{pv}, pero su serie no "
+                         f"quedo igualada y la tanda no tiene donde vivir; la "
+                         f"columna queda vacia")
     return fuera, raros
 
 
@@ -904,20 +947,24 @@ def leer_llaves_compacto(texto: str, mapa: dict) -> tuple[list, list[str]]:
         ida = (int(m.group(2)), int(m.group(3)))
         vuelta = (int(m.group(4)), int(m.group(5)))
         nota = m.group(7) or ""
-        # La tanda es de la SERIE y se patea despues de la vuelta, asi que solo se
-        # escribe si la vuelta quedo igualada. Es la misma regla que en el formato
-        # expandido, y por el mismo motivo: el dataset guarda los penales por
-        # partido, y ponerlos en una pata que no empato afirma algo falso.
+        # La tanda es de la SERIE y se patea despues de la vuelta, asi que se
+        # escribe si el GLOBAL quedo igualado -- no si la vuelta quedo igualada,
+        # que es mas estricto y falso: una serie 1-0 y 1-0 termina 1-1 y va a
+        # penales sin que ninguna de las dos patas haya empatado.
+        #
+        # Aca el global se calcula en el acto porque las dos patas vienen en la
+        # misma linea, que es toda la diferencia con el formato expandido.
         pen = _LLAVE_PENALES.search(nota)
         pl = pv = None
-        if pen and vuelta[0] == vuelta[1]:
+        if pen and ida[0] + vuelta[0] == ida[1] + vuelta[1]:
             # la vuelta se juega en cancha del segundo, asi que la tanda tambien
             # va desde su perspectiva
             pl, pv = int(pen.group(2)), int(pen.group(1))
         elif pen:
             raros.append(f"{ronda}: {cl} vs {cv} define por penales "
-                         f"{pen.group(1)}-{pen.group(2)}, pero la tanda es de la "
-                         f"serie y no de una pata; la columna queda vacia")
+                         f"{pen.group(1)}-{pen.group(2)}, pero su serie no quedo "
+                         f"igualada y la tanda no tiene donde vivir; la columna "
+                         f"queda vacia")
         # LA ZONA VA EN LA LLAVE, NO EN LA JORNADA. "Zona Campeonato" y "Zona
         # Revalida" son dos CUADROS distintos del mismo torneo, cada uno con su
         # final: metiendolas en la jornada, las dos finales quedaban en la misma
