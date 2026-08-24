@@ -242,6 +242,26 @@ _ABANDONADO = re.compile(r"abandoned at\s+(\d+)\s*-\s*(\d+)")
 # partido?" solo tiene sentido para un abandono, que puede tener continuacion.
 # Un partido DIVIDIDO no tiene otra linea por definicion, y preguntarselo daba
 # un aviso alarmante sobre una decision que ya estaba tomada y escrita.
+# EL UNICO QUE SE PIERDE DE VERDAD YA SE FUE A BUSCAR, y no vuelve. Es
+# `Juventud Antoniana` vs `Gimnasia y Esgrima (CdU)`, fecha 5 del Grupo B del
+# Clausura 2009-10: abandonado 1-1 a los 68'. La pregunta que quedaba abierta era
+# si alguna vez se jugo lo que faltaba, porque de eso depende que el partido
+# tenga un resultado que escribir.
+#
+# La respuesta es que no. El blog del propio club --`juveantoniana.blogspot.com`,
+# post "LA BANDA DESPIDIO AL SANTO ALENTANDO", del 5 de mayo de 2010-- lo cuenta
+# el mismo dia: "El Santo CERRO SU PARTICIPACION con un palido empate 1a1 ante
+# Gimnasia de Concepcion del Uruguay en un cotejo, que solo servia para las
+# estadisticas. [...] El cotejo se suspendio a los 23 del Segundo tiempo por
+# invacion de campo". Ni ese post ni ningun otro menciona una reanudacion, y la
+# frase "cerro su participacion" dice que para ese club la temporada termino ahi.
+# La tabla final de la propia RSSSF lo confirma por su lado: le da 3 partidos
+# jugados a esos dos clubes y 4 a los otros tres del grupo.
+#
+# Asi que la fila NO ENTRA y no es un pendiente: no hay resultado que escribir
+# porque el partido no lo tuvo. Lo que si tiene es el 1-1 al momento del
+# abandono, y eso no es un marcador final -- escribirlo seria afirmar algo que
+# ninguna fuente afirma.
 _SIN_DESENLACE = ("se abandono y la nota no dice que el resultado quedara "
                   "firme: si se completo despues, la fila que entra es la del "
                   "partido completo")
