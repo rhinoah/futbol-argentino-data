@@ -1045,6 +1045,25 @@ MUTANTES = [
      "    return [(d.local, d.visita, d.llave) for d in DIVIDIDOS if d.pagina == pagina]",
      '    return [(d.local, d.visita, "") for d in DIVIDIDOS if d.pagina == pagina]'),
 
+    # El desbalance de la propia tabla convierte un "probable" en una prueba.
+    ("fad/posiciones.py", "no mirar si el desbalance prueba la fila",
+     "    if lo_prueba_el_desbalance:",
+     "    if False:"),
+
+    ("fad/posiciones.py", "afirmar la prueba con dos clubes desviados",
+     "    if desviados != 1 or desbalanceada == 0:",
+     "    if desbalanceada == 0:"),
+
+    ("fad/posiciones.py", "afirmar la prueba sin mirar para que lado va",
+     "    return (dgf == desbalanceada and dgc == 0) or "
+     "(dgc == -desbalanceada and dgf == 0)",
+     "    return (abs(dgf) == abs(desbalanceada) and dgc == 0) or "
+     "(abs(dgc) == abs(desbalanceada) and dgf == 0)"),
+
+    ("fad/posiciones.py", "sumar una tabla que no cubre a todos los que juegan",
+     "    if juegan and juegan == set(publicada):",
+     "    if True:"),
+
     # La foja que publica la fuente, como testigo de nuestra propia lectura.
     # Cada pieza del lector por separado, porque cada una falla en silencio: lo
     # que se pierde no da error, solo deja de cruzar.

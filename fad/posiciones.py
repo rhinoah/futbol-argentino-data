@@ -1141,6 +1141,28 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
     desviados = sum(1 for c, (pj, gf, gc, *_) in publicada.items()
                     if c in contada and contada[c][0] == pj
                     and contada[c][1:3] != (gf, gc))
+    # EL DESBALANCE DE LA PROPIA TABLA CONVIERTE UN "PROBABLE" EN UNA PRUEBA.
+    # Todo gol convertido es un gol recibido, asi que las dos columnas de una
+    # tabla tienen que sumar lo mismo. Cuando NO suman lo mismo y ademas la unica
+    # fila que discutimos es la que, corregida con nuestro numero, las equilibra,
+    # ya no hace falta elegir entre dos fuentes: la tabla se delata sola.
+    #
+    # SOLO SI LA TABLA CUBRE A TODOS LOS QUE JUEGAN, que es la condicion que la
+    # aritmetica necesita de verdad. Si falta un club, su columna de goles falta
+    # entera y el "desbalance" no es una contradiccion: es un agujero. No importa
+    # que la pagina publique una tabla o cinco -- varias tablas de zona que entre
+    # todas cubren el torneo suman perfecto, y una sola tabla incompleta no.
+    #
+    # (La version anterior de esto pedia UNA sola tabla, y era doble error:
+    # descartaba paginas por zonas donde la cuenta vale, y no descartaba nada,
+    # porque `_alcance_de_cada_tabla` devuelve las tablas de zona de una pagina
+    # bajo un unico alcance. El guard no guardaba lo que decia guardar.)
+    juegan = {e for p_ in ps if p_.fase == "zonas"
+              for e in (p_.local, p_.visita) if e}
+    desbalanceada = 0
+    if juegan and juegan == set(publicada):
+        desbalanceada = (sum(v[2] for v in publicada.values())
+                         - sum(v[1] for v in publicada.values()))
     fuera = []
     for club, (pj, gf, gc, *_) in sorted(publicada.items()):
         if club not in contada or correcciones.revisado(pagina, club):
@@ -1157,7 +1179,9 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
             fuera.append(f"{club}: la tabla dice GF{gf} GC{gc} en {pj} partidos y "
                          f"sumandolos dan GF{gf2} GC{gc2}. "
                          + _de_quien_es_la_culpa(
-                             desviados, club in (respaldados or set())))
+                             desviados, club in (respaldados or set()),
+                             _lo_prueba_el_desbalance(desviados, desbalanceada,
+                                                      gf2 - gf, gc2 - gc)))
     return fuera
 
 
@@ -1232,7 +1256,33 @@ def _texto_del_desbalance(gf: int, gc: int, alcance: str) -> str:
             f"La tabla se contradice sola, sin necesidad de cruzarla contra nada")
 
 
-def _de_quien_es_la_culpa(desviados: int, respaldado: bool = False) -> str:
+def _lo_prueba_el_desbalance(desviados: int, desbalanceada: int,
+                             dgf: int, dgc: int) -> bool:
+    """Si arreglar ESTA fila con nuestro numero equilibra la tabla entera.
+
+    `desbalanceada` es GC total menos GF total de la tabla publicada: cuanto le
+    sobra de un lado. `dgf`/`dgc` son nuestra suma menos la tabla, para este club.
+
+    Se pide que el club sea el UNICO desviado y que el arreglo sea de un solo
+    lado. Si le falta un gol a favor, el total de GF sube ese tanto y tiene que
+    cerrar contra el de GC; si le falta uno en contra, al reves. Que los dos
+    numeros coincidan en magnitud Y en direccion es lo que hace que no sea una
+    casualidad: para serlo, la tabla tendria que estar mal en dos lugares que
+    justo se cancelan.
+
+    Se midio antes de escribirlo: en el corpus da dos veces, y las dos con el
+    mismo dibujo. El Clausura 1999 suma GF488 GC489 y su unica fila discutida es
+    la de Union, a la que nuestra grilla le da un gol a favor mas. La Primera
+    Nacional 2026 suma GF884 GC885 y la de San Miguel, igual. En los dos casos
+    poner nuestro numero deja la tabla en 489-489 y 885-885.
+    """
+    if desviados != 1 or desbalanceada == 0:
+        return False
+    return (dgf == desbalanceada and dgc == 0) or (dgc == -desbalanceada and dgf == 0)
+
+
+def _de_quien_es_la_culpa(desviados: int, respaldado: bool = False,
+                          lo_prueba_el_desbalance: bool = False) -> str:
     """De que lado esta el error, deducido de cuantos clubes se desvian.
 
     Un marcador mal leido toca siempre a DOS clubes: si a uno le sobra un gol a
@@ -1261,6 +1311,15 @@ def _de_quien_es_la_culpa(desviados: int, respaldado: bool = False) -> str:
                 "con la tabla que esa fuente publica al lado de ellos. No es un "
                 "error de lectura: las dos fuentes no coinciden, y arbitrarlo pide "
                 "una tercera")
+    if lo_prueba_el_desbalance:
+        # NO ES UN "LO MAS PROBABLE": LA TABLA SE DELATA SOLA. Ver
+        # `_lo_prueba_el_desbalance`.
+        return ("Es el unico club desviado, y un marcador mal leido tocaria a dos. "
+                "Pero ademas LA TABLA NO CIERRA CONSIGO MISMA, y le falta "
+                "exactamente lo que a esta fila: poniendo nuestro numero, sus dos "
+                "columnas de goles pasan a sumar igual. No hay nada que arbitrar "
+                "ni que ir a buscar afuera -- la fila de la tabla esta mal "
+                "transcripta, y la propia tabla lo demuestra")
     if desviados == 1:
         return ("Es el unico club desviado, y un marcador mal leido tocaria a dos: "
                 "lo mas probable es que la fila de la tabla este mal transcripta")

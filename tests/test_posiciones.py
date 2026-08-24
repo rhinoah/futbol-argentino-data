@@ -1708,3 +1708,85 @@ def test_la_foja_de_la_fuente_cambia_el_aviso():
     assert "las dos fuentes no coinciden" in boca
     assert "mal leido" not in boca
     assert "puede venir de un partido mal leido" in river, "el otro no esta respaldado"
+
+
+# --------------------------------------------------------------------------
+# El desbalance de la propia tabla convierte un "probable" en una prueba
+# --------------------------------------------------------------------------
+def test_el_desbalance_de_la_tabla_prueba_que_la_fila_esta_mal():
+    """Un club solo desviado ya sugeria que la fila de la tabla estaba mal --un
+    marcador mal leido tocaria a DOS clubes--, pero era una sugerencia. Cuando la
+    tabla ademas no cierra CONSIGO MISMA y le falta exactamente lo que a esa fila,
+    deja de serlo: poniendo nuestro numero, sus dos columnas pasan a sumar igual.
+
+    Pasa dos veces en el corpus y las dos con el mismo dibujo: el Clausura 1999
+    suma GF488 GC489 con Union como unica fila discutida, y la Primera Nacional
+    2026 suma GF884 GC885 con San Miguel.
+    """
+    ps = [zona("Boca Juniors", "River Plate", 2, 1)]
+    texto = pagina(fila(1, "Boca Juniors", 3, 1, 1, 0, 0, 1, 1),
+                   fila(2, "River Plate", 0, 1, 0, 0, 1, 1, 2))
+    salio = posiciones.contrastar(ps, texto)
+    assert len(salio) == 1 and salio[0].startswith("Boca")
+    assert "la propia tabla lo demuestra" in salio[0]
+    assert "lo mas probable" not in salio[0]
+
+
+def test_sin_desbalance_sigue_siendo_un_probable():
+    """El testigo del de arriba, sobre la funcion que decide."""
+    assert not posiciones._lo_prueba_el_desbalance(1, 0, 1, 0), "tabla que cierra sola"
+
+
+def test_con_dos_clubes_desviados_el_desbalance_no_prueba_nada():
+    """Dos filas discutidas y un desbalance de uno: no se sabe cual de las dos lo
+    causa, asi que arreglar ESTA no esta demostrado."""
+    assert not posiciones._lo_prueba_el_desbalance(2, 1, 1, 0)
+
+
+def test_el_desbalance_tiene_que_ir_para_el_lado_correcto():
+    """Que las magnitudes coincidan no alcanza: si a la tabla le sobra un gol EN
+    CONTRA, lo que falta es un gol A FAVOR. Un arreglo del otro lado la desbalancea
+    mas, no menos."""
+    assert posiciones._lo_prueba_el_desbalance(1, 1, 1, 0), "le falta un GF: cierra"
+    assert not posiciones._lo_prueba_el_desbalance(1, 1, 0, 1), "sumarle un GC la aleja"
+    assert posiciones._lo_prueba_el_desbalance(1, -1, 0, 1), "al reves, tambien vale"
+
+
+def test_un_arreglo_de_los_dos_lados_no_lo_prueba():
+    """Se pide que el arreglo sea de UN solo lado. Si la fila esta mal en las dos
+    columnas, el desbalance no dice cuanto de cada una."""
+    assert not posiciones._lo_prueba_el_desbalance(1, 1, 1, 1)
+
+
+def test_con_varias_tablas_el_desbalance_no_prueba_nada():
+    """SUMAR FILAS DE DOS TABLAS DISTINTAS NO DA UN TOTAL QUE SIGNIFIQUE ALGO.
+    Cada tabla cubre su propio conjunto de partidos, asi que el "desbalance" de la
+    suma no es el de ninguna, y un club puede ademas aparecer en las dos.
+
+    El caso que lo muestra: la tabla de la Zona A no cierra y el unico club
+    discutido esta en la Zona B. Sumando las dos, el sobrante de una se empareja
+    de casualidad con el desvio de la otra y el aviso afirmaria una prueba que no
+    tiene. Con el guard, sigue diciendo "lo mas probable", que es lo que
+    corresponde cuando no se puede demostrar.
+
+    Sobre el corpus de hoy el guard no cambia ni un aviso -- se midio --, pero a
+    diferencia de otros defensivos que se sacaron por inobservables, este SI tiene
+    un caso construible, y lo que evita es afirmar de mas. Ese es el error caro
+    de este chequeo: todo su valor es que cuando dice "probado", esta probado.
+    """
+    texto = ("== Zona A ==\n"
+             + pagina(fila(1, "Boca Juniors", 3, 2, 1, 0, 1, 3, 1),
+                      titulo="Tabla de posiciones final")
+             + "\n== Zona B ==\n"
+             + pagina(fila(1, "River Plate", 0, 2, 0, 0, 2, 1, 4),
+                      titulo="Tabla de posiciones final"))
+    ps = [zona("Boca Juniors", "Talleres (C)", 3, 0),
+          zona("Talleres (C)", "Boca Juniors", 1, 0),
+          zona("River Plate", "Newell's Old Boys", 1, 2),
+          zona("Newell's Old Boys", "River Plate", 2, 1)]
+
+    salio = posiciones.contrastar(ps, texto)
+    assert len(salio) == 1 and salio[0].startswith("River Plate:"), salio
+    assert "lo mas probable" in salio[0]
+    assert "la propia tabla lo demuestra" not in salio[0], (
+        "la Zona A es la que no cierra, y el club discutido es de la Zona B")
