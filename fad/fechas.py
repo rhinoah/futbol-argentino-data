@@ -124,8 +124,9 @@ class Ajeno:
     zona: str = ""
 
     # De donde salio el marcador, con el mismo vocabulario que
-    # `parser.status_de_la_fila`: "" / "suspendido" / "escritorio". Vacio es lo
-    # normal y quiere decir "la fuente no dijo otra cosa".
+    # `parser.status_de_la_fila`: "" / "suspendido" / "escritorio" /
+    # "no disputado". Vacio es lo normal y quiere decir "la fuente no dijo otra
+    # cosa".
     status: str = ""
 
 

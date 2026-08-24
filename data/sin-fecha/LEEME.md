@@ -1,8 +1,17 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **56**. Todo lo demás —equipos, marcador, jornada, torneo,
+jugaron.** Son **40**. Todo lo demás —equipos, marcador, jornada, torneo,
 temporada— pasó por los mismos chequeos que el resto del dataset.
+
+Con una excepción que conviene decir arriba de todo, porque contradice el
+párrafo anterior: **seis de las 40 no esperan ninguna fecha, porque no se
+jugaron.** Son los que el Torneo Federal A 2024 le dio por perdidos a Sansinena
+cuando desertó del torneo. Llevan `status = no disputado` en el CSV, así que se
+los distingue sin leer esto: el marcador está porque cuenta para la tabla, pero
+no salió de una cancha y no hay día que buscarle. La página lo escribe en la
+estructura de la fila —una sola celda tapando Estadio, Fecha y Hora— y de ahí
+sale la marca.
 
 Van acá y no en `data/` porque el dataset principal promete una fecha en cada
 fila, y esa promesa vale la pena mantenerla. Pero **que falte la fecha no es lo
@@ -12,7 +21,7 @@ campo.
 ## Eran 2 345
 
 Esta carpeta tenía seis temporadas enteras: las tres de Primera C 2008-2011, la
-Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **56** filas en
+Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **40** filas en
 ocho torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
 **ninguna está acá porque su torneo no tenga fuente de fechas**: están una por
 una, por su propio motivo.
@@ -21,10 +30,10 @@ una, por su propio motivo.
 |---|---|
 | [RSSSF](https://www.rsssf.org/) | 3 539 |
 | [worldfootball](https://www.worldfootball.net/) | 1 519 |
-| [el blog de José Carluccio](http://josecarluccio.blogspot.com/) | 24 |
+| [el blog de José Carluccio](http://josecarluccio.blogspot.com/) | 36 |
 | [ESPN](https://www.espn.com.ar/) | 16 |
 
-RSSSF pasó de aportar 263 fechas a 3 517 al arreglar tres cosas que le impedían
+RSSSF pasó de aportar 263 fechas a 3 539 al arreglar tres cosas que le impedían
 leer, ninguna de ellas en los datos: la fase regular de sus archivos **no lleva
 encabezado de zona** cuando el torneo no tiene zonas y el lector devolvía cero
 partidos sin un aviso; desde 2010-11 las divisiones **comparten archivo** y hay
@@ -47,7 +56,7 @@ jornada siguen saliendo de Wikipedia, y el marcador de la otra fuente se usa
 **para verificar** que las dos partes hablan del mismo partido: si no coinciden,
 no se completa nada y se avisa.
 
-## Las 37 del Argentino A 2004-05 son otra cosa
+## Las 21 del Argentino A 2004-05 son otra cosa
 
 Y conviene separarlas, porque no les falta la fecha por el mismo motivo que a las
 demás. A ésas **no la tiene la fuente**.
@@ -67,42 +76,52 @@ una y de qué ronda son. **Un rango no es una fecha**, así que no se reparte: e
 28 de noviembre no es «la fecha de la vuelta», es el final de una ventana. Las
 filas entran acá enteras y sin inventar el día.
 
-Eran 61 y son 37. Las otras 24 las fechó una fuente citada —un blog que publica
+Eran 57 y son 21. Las otras 36 las fechó una fuente citada —un blog que publica
 esa temporada partido por partido, con día, sede y goleadores— y es el **único
 lugar del repo donde un dato se copió a mano**. Va con el mismo contrato que
-cualquier otro completador: los clubes identifican el partido y el marcador lo
-verifica, así que una línea mal copiada no se cuela. De ahí sale la fecha y nada
-más, y si algún día una base de datos la contradice, gana la base de datos. El
-detalle está en `fad/citadas.py`.
+cualquier otro completador: los clubes **y la llave** identifican el partido y el
+marcador lo verifica, así que una línea mal copiada no se cuela. La llave hace
+falta porque esa temporada tiene Apertura y Clausura, y los playoffs vuelven a
+cruzar a los mismos dos clubes: sin ella las dos filas caen en la misma casilla y
+se pierden las dos. De ahí sale la fecha y nada más, y si algún día una base de
+datos la contradice, gana la base de datos. El detalle está en `fad/citadas.py`.
+
+Hay un testigo a favor de esa fuente, que es lo más fuerte que se consiguió:
+`Ben Hur 5-0 Talleres (P)` lo fecha el blog el 03/04/2005 y lo fecha Wikipedia el
+2005-04-03, por caminos separados. Y un límite: la vuelta de la final de la
+Reválida del Apertura el blog la da 28/12 y 4-1, contra 26/12 y 2-0 de la página
+y del artículo del club. No entró, y no hizo falta decidirlo a mano — con ese
+marcador la cita no verifica y el completador la frenó solo.
 
 Son también las únicas de esta carpeta cuyo marcador **no** sale de Wikipedia.
-La columna `source` lo dice fila por fila: de las 56, 37 traen a RSSSF como fuente
-del partido y las otras 19 sólo esperan una fecha.
-
-Ese torneo tiene 61 filas acá en total. Las otras 20 ya estaban, y están por los
-motivos de la sección siguiente.
+La columna `source` lo dice fila por fila: de las 40, 21 traen a RSSSF como fuente
+del partido, 6 son las que no se jugaron y las otras 13 sólo esperan una fecha.
 
 ## Por qué quedaron las otras
 
-Son tres motivos, y los tres son honestos.
+Sacando las 21 del Argentino A 2004-05 y los 6 que no se jugaron, quedan **13**,
+y cada una está por un motivo que se puede nombrar.
 
-**Las dos fuentes cuentan el partido distinto.** Diez casos. Nuestro marcador y
-el de la otra fuente no coinciden, así que el emparejamiento no está verificado y
-la fecha no se toma. Es la regla funcionando: un partido que dos fuentes cuentan
-distinto es información sobre los datos, no un problema a tapar.
+**Las dos fuentes cuentan el partido distinto.** Tres. Nuestro marcador y el de
+la otra fuente no coinciden, así que el emparejamiento no está verificado y la
+fecha no se toma. Es la regla funcionando: un partido que dos fuentes cuentan
+distinto es información sobre los datos, no un problema a tapar. Dos son la
+Tercera Fase del Argentino A 2010-11 —donde además la localía viene espejada
+entre las dos fuentes— y el tercero es Platense vs Estudiantes (BA) de la fecha 6
+de la Primera B 2010-11, que nosotros tenemos 1-1 y la otra fuente 0-0.
 
-**El cruce no identifica un solo partido.** La mayoría. Los playoffs vuelven a
-cruzar a los mismos dos clubes, y cuando la fuente no publica el número de
-jornada —el feed de ESPN no lo hace— ese par deja de identificar. Ahí se
-descartan los dos: *lo que no identifica uno solo, no identifica nada*.
+**La otra fuente tiene el torneo pero no el partido.** Cuatro: las promociones de
+la B Nacional 2007-08 contra Primera B y contra el Argentino A. worldfootball
+cubre esa temporada y no publica esas llaves, así que quedan *sin pareja* — que
+es distinto de un desacuerdo, y el aviso lo dice con esas palabras.
 
-**Y uno solo del Argentino A 2005-06**, que antes eran quince. Los otros
-catorce se arreglaron: la página había **copiado las tablas de dos jornadas del
-Clausura dentro del Apertura**, y sus propias tablas de posiciones —que el
-copy-paste no tocó— dijeron qué iba ahí. El que queda es La Florida vs Sportivo
-Patria: se abandonó y el fallo fue *«0-1 en contra de los dos»*, que no es un
-marcador y este esquema no puede expresarlo. Es el mismo caso que
-Laferrere–Dock Sud en la Primera C 2015.
+**No hay segunda fuente, y Wikipedia no publica el día.** Cinco: cuatro de la
+fecha 35 de la Primera Nacional 2023 y una de la fecha 19 de la Primera C 2024.
+La página trae el partido completo salvo la celda de la fecha.
+
+**Y uno que sigue en juego.** San Martín (SJ) vs Nueva Chicago, fecha 17 de la
+Primera Nacional 2026, con `status = suspendido`. Ese va a tener fecha cuando la
+temporada la tenga.
 
 ## Cómo se usan
 

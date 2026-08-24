@@ -567,6 +567,20 @@ MUTANTES = [
 
     # El barrido de plantillas, de vuelta a una sola pasada: deja de pelar las
     # anidadas y la de afuera se publica cruda en la celda.
+    # El partido que no se jugo: los tres modos de perderlo.
+    ("fad/parser.py", "no marcar el partido que no se jugo",
+     '        return "no disputado"',
+     '        return ""'),
+
+    ("fad/parser.py", "publicar 'Sin disputar' como si fuera una cancha",
+     '            estadio="" if _NO_SE_JUGO.search(valores["estadio"].strip())'
+     + chr(10) + '                    else valores["estadio"],',
+     '            estadio=valores["estadio"],'),
+
+    ("fad/parser.py", "preguntar por 'sin disputar' en la fila entera",
+     '            status=status_de_la_fila(fila, valores["estadio"]),',
+     "            status=status_de_la_fila(fila, fila),"),
+
     ("fad/parser.py", "barrer las plantillas de una sola pasada",
      "    while True:" + chr(10) +
      r'        limpio = re.sub(r"\{\{[^{}]*\}\}", "", s)' + chr(10) +

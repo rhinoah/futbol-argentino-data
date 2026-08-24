@@ -1,8 +1,8 @@
 date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source,status
-,,Círculo Deportivo,Sansinena,1,0,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 16,Sin disputar,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,
-,,Deportivo Rincón,Sansinena,1,0,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 14,Sin disputar,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,
+,,Círculo Deportivo,Sansinena,1,0,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 16,,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,no disputado
+,,Deportivo Rincón,Sansinena,1,0,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 14,,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,no disputado
 ,,Luján,Victoriano Arenas,3,1,,,Primera C,2024,zonas,Torneo Clausura,Fecha 19,1.º de Abril,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2024_(Argentina),
-,,Ramón Santamarina,Sansinena,1,0,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 18,Sin disputar,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,
-,,Sansinena,Germinal,0,1,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 13,Sin disputar,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,
-,,Sansinena,Kimberley,0,1,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 17,Sin disputar,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,
-,,Sansinena,Sol de Mayo (V),0,1,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 15,Sin disputar,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,
+,,Ramón Santamarina,Sansinena,1,0,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 18,,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,no disputado
+,,Sansinena,Germinal,0,1,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 13,,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,no disputado
+,,Sansinena,Kimberley,0,1,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 17,,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,no disputado
+,,Sansinena,Sol de Mayo (V),0,1,,,Torneo Federal A,2024,zonas,Zona 1,Fecha 15,,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2024,no disputado

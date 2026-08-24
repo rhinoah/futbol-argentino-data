@@ -92,8 +92,9 @@ class Partido:
     visita_art: str = field(default="", repr=False)
     estadio: str = ""
     # De donde salio el MARCADOR: "" (la pagina no dijo otra cosa),
-    # "suspendido" (no llego al final) o "escritorio" (termino y el numero
-    # publicado lo puso un fallo). Ver `status_de_la_fila`.
+    # "suspendido" (no llego al final), "escritorio" (termino y el numero
+    # publicado lo puso un fallo) o "no disputado" (no se jugo nunca).
+    # Ver `status_de_la_fila`.
     status: str = ""
     fecha_cruda: str = field(default="", repr=False)   # para diagnosticar
     # De donde salio la FECHA, cuando no salio de la pagina de Wikipedia. El
@@ -419,6 +420,18 @@ _ANULADO = re.compile(r"(?i)^\s*PP\s*-\s*PP\s*$")
 _HABLA_DE_FALLO = re.compile(
     r"(?i)suspendid|abandon|no se present|tribunal|se le dio por|dio por (ganado|perdido|"
     r"terminado|finalizado)|d[aá]ndolo por|otorg[aá]ndole|inclusi[oó]n indebida|mala inclusi[oó]n")
+# NUNCA SE JUGO. La pagina no lo cuenta en una nota al pie sino en la ESTRUCTURA
+# de la fila: donde van Estadio, Fecha y Hora pone una sola celda con
+# `colspan=3`, porque no hay ninguna de las tres cosas que poner. Son los seis
+# que el Torneo Federal A 2024 le dio por perdidos a Sansinena cuando desertó, y
+# la propia pagina lo explica: "Sansinena fue eliminado del torneo por desercion
+# y se le dieron por perdidos los partidos que debia disputar entre la 13.a y la
+# 18.a fecha".
+#
+# Se pregunta ANTES que todo lo demas. Un partido que no se jugo no puede haber
+# sido suspendido ni haber llegado al final, asi que si esto esta, manda.
+_NO_SE_JUGO = re.compile(r"(?i)^sin disputar$")
+
 # No llego al final. Es lo unico que la fuente dice SIEMPRE y sin ambiguedad.
 _NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspendid|abandon[oó]|no se present[oó]|interrumpi")
 # Llego al final y despues un fallo cambio el numero.
@@ -436,7 +449,7 @@ _SE_COMPLETO = re.compile(
     r"reanud[oó]|finaliz[oó])\s+(?:el\s+)?\d{1,2}\s*de\s+[a-záéíóúñ]+")
 
 
-def status_de_la_fila(fila: str) -> str:
+def status_de_la_fila(fila: str, estadio: str = "") -> str:
     """De donde salio el marcador de esta fila: "", "suspendido" o "escritorio".
 
     LO QUE NO HACE, y es la decision de diseño entera: NO trata de leer si el
@@ -472,7 +485,21 @@ def status_de_la_fila(fila: str) -> str:
                     "suspension" encuentra -- Atlanta-Colegiales de la Primera B
                     2017-18 dice "Finalizado 0 a 0, se le dio por ganado a
                     Atlanta por 1 a 0" y se jugaron los noventa minutos.
+      "no disputado" NO SE JUGO NUNCA. Ni empezo. El marcador esta igual porque
+                    cuenta para la tabla, pero no salio de una cancha y no hay
+                    fecha que buscarle: la pagina no la da porque no existe.
+
+    Los tres primeros hablan de COMO TERMINO un partido que empezo; el cuarto
+    dice que no empezo. Por eso se pregunta primero y no compite con los otros.
+
+    `estadio` viene YA PARSEADO y no se saca de `fila`, por dos razones: la celda
+    trae pegado su `colspan=3|`, que pela `_celda` y no `limpiar`, y con un
+    `rowspan` la celda ni siquiera esta en esta fila porque viene arrastrada de
+    una anterior. Se mira ESA celda y no la fila entera a proposito: "sin
+    disputar" es una afirmacion sobre este partido solo cuando esta ahi.
     """
+    if _NO_SE_JUGO.search(estadio.strip()):
+        return "no disputado"
     if _SE_COMPLETO.search(fila):
         return ""                      # se suspendio y se termino de jugar
     if _NO_LLEGO_AL_FINAL.search(fila):
@@ -1285,7 +1312,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
         programada = a_iso(valores["fecha"], anio, anio_fin, mes_inicio)
         pen = _penales(crudos["resultado"])
         partidos.append(Partido(
-            status=status_de_la_fila(fila),
+            status=status_de_la_fila(fila, valores["estadio"]),
             fecha=(_fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada)
                    or programada),
             hora=valores["hora"],
@@ -1300,7 +1327,13 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             zona="" if ronda else zona, jornada=jornada, llave=llave,
             local_art=(arts or {}).get(valores["local"], ""),
             visita_art=(arts or {}).get(valores["visita"], ""),
-            estadio=valores["estadio"], fecha_cruda=valores["fecha"],
+            # "Sin disputar" NO ES UNA CANCHA. La pagina la escribe donde va el
+            # estadio porque la celda se come tres columnas, pero publicarla en
+            # `venue` seria afirmar que el partido se jugo en un lugar llamado
+            # asi. Lo que la celda dice ya quedo en `status`.
+            estadio="" if _NO_SE_JUGO.search(valores["estadio"].strip())
+                    else valores["estadio"],
+            fecha_cruda=valores["fecha"],
             # Solo se MARCA neutral, nunca se desmarca. Un torneo declarado
             # neutral entero -- la Copa Argentina -- sigue siendolo aunque alguna
             # de sus tablas rotule "Local", que es una etiqueta de la columna y no

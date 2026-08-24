@@ -1171,6 +1171,67 @@ def test_una_nota_de_varias_lineas_no_corre_las_columnas():
     assert not p.fecha.startswith("2022")
 
 
+_SIN_DISPUTAR = """{|class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Sansinena
+|0 - 1
+|Germinal
+|colspan=3|Sin disputar{{refn|name=S1|group=n.|Sansinena fue eliminado del \
+torneo por deserción y se le dieron por perdidos los partidos que debía \
+disputar entre la 13.ª y la 18.ª fecha.{{refn|name=S}}}}
+|-
+|Kimberley
+|1 - 1
+|Ramón Santamarina
+|José Alberto Valle
+|9 de junio
+|11:00
+|}"""
+
+
+def test_el_partido_que_no_se_jugo_no_tiene_estadio_ni_espera_fecha():
+    """"SIN DISPUTAR" NO ES UNA CANCHA, Y NO HAY FECHA QUE BUSCARLE.
+
+    La pagina no lo dice en una nota al pie sino en la ESTRUCTURA: donde van
+    Estadio, Fecha y Hora pone UNA sola celda con `colspan=3`, porque no hay
+    ninguna de las tres cosas que poner. Publicar eso en `venue` seria afirmar
+    que el partido se jugo en un lugar llamado "Sin disputar"; dejar `status`
+    vacio seria decir que la pagina no dijo nada, cuando dijo lo mas importante
+    que se puede decir de un partido.
+
+    Son los seis que el Torneo Federal A 2024 le dio por perdidos a Sansinena
+    cuando desertó, y son los unicos del corpus."""
+    ps = parser.partidos_de_tabla(_SIN_DISPUTAR, 2024, "Torneo Federal A")
+    por = {(x.local, x.visita): x for x in ps}
+    no_jugado = por[("Sansinena", "Germinal")]
+    assert no_jugado.status == "no disputado"
+    assert no_jugado.estadio == ""
+    assert no_jugado.fecha == ""
+    # El marcador queda: cuenta para la tabla aunque no salga de una cancha.
+    assert (no_jugado.goles_local, no_jugado.goles_visita) == (0, 1)
+
+    # Y la fila de al lado, que si se jugo, no se contagia.
+    jugado = por[("Kimberley", "Ramón Santamarina")]
+    assert (jugado.status, jugado.estadio) == ("", "José Alberto Valle")
+
+
+def test_sin_disputar_fuera_de_la_celda_del_estadio_no_dice_nada():
+    """SE MIRA LA CELDA DEL ESTADIO, NO LA FILA ENTERA.
+
+    Una nota al pie que menciona otro partido sin disputar no convierte a ESTA
+    fila en un partido sin disputar. Si se preguntara sobre el texto completo,
+    una nota ajena alcanzaria para borrarle el estadio a un partido jugado."""
+    assert parser.status_de_la_fila(
+        "|A|0 - 1|B|Cancha{{refn|el de la fecha 13 quedó sin disputar}}|hoy|15:00",
+        estadio="Cancha") == ""
+
+
 # --------------------------------------------------------------------------
 # el partido que existe y no se puede escribir
 # --------------------------------------------------------------------------
