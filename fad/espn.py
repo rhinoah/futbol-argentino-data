@@ -111,6 +111,18 @@ def leer(eventos: list[dict], mapa: dict[str, str],
     desconocidos: set[str] = set()
     for e in eventos:
         comp = e.get("competitions", [{}])[0]
+        # UN PARTIDO PROGRAMADO CON MARCADOR CERO NO ES UN 0-0. El feed publica
+        # seis eventos en `STATUS_SCHEDULED` que nunca se actualizaron, y los seis
+        # traen "0" en las dos columnas. Leidos como resultado, contradecian a la
+        # pagina en seis partidos que la pagina tenia bien, y de paso le negaban
+        # la fecha a esas filas: el completador no toma una fecha cuando los
+        # marcadores no coinciden, porque podrian no ser el mismo partido.
+        #
+        # Es el mismo caso que "sin marcador no se puede verificar", tres lineas
+        # mas abajo, escrito de otra manera. Se descarta SOLO cuando el feed dice
+        # que no: si el campo no esta, no se sabe y se lee como antes.
+        if ((comp.get("status") or {}).get("type") or {}).get("completed") is False:
+            continue
         lados = {c.get("homeAway"): c for c in comp.get("competitors", [])}
         if "home" not in lados or "away" not in lados:
             continue

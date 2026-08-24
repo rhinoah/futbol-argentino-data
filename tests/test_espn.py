@@ -71,6 +71,40 @@ def test_un_partido_sin_marcador_no_entra():
     assert aj == []
 
 
+def test_un_partido_programado_con_cero_a_cero_no_entra():
+    """UN PARTIDO PROGRAMADO CON MARCADOR CERO NO ES UN 0-0. El feed publica seis
+    eventos en `STATUS_SCHEDULED` que nunca se actualizaron, y los seis traen "0"
+    en las dos columnas. Leidos como resultado contradecian a la pagina en seis
+    partidos que la pagina tenia bien, y de paso le negaban la fecha a esas filas:
+    el completador no toma una fecha cuando los marcadores no coinciden.
+
+    Y uno de esos fantasmas duplicaba un cruce real, con lo cual el par dejaba de
+    identificar y los DOS salian del indice. Sacandolo, el bueno volvio a
+    identificar y una fila del Primera B 2010-11 gano su fecha.
+    """
+    e = evento("2009-08-22T17:00Z", "San Miguel", "Sacachispas", "0", "0")
+    e["competitions"][0]["status"] = {"type": {"name": "STATUS_SCHEDULED",
+                                               "completed": False}}
+    assert leer(e)[0] == []
+
+
+def test_un_cero_a_cero_jugado_si_entra():
+    """El testigo del de arriba, y el limite: 0-0 es un resultado normalisimo --
+    el feed trae 281 completados asi --, y descartarlos a todos seria tirar la
+    verificacion de un partido de cada siete."""
+    e = evento("2009-08-22T17:00Z", "San Miguel", "Sacachispas", "0", "0")
+    e["competitions"][0]["status"] = {"type": {"name": "STATUS_FULL_TIME",
+                                               "completed": True}}
+    assert len(leer(e)[0]) == 1
+
+
+def test_sin_el_campo_de_estado_se_lee_como_antes():
+    """Se descarta SOLO cuando el feed dice que no. Si el campo no esta, no se
+    sabe, y no saber no es lo mismo que saber que no."""
+    assert len(leer(evento("2009-08-22T17:00Z", "San Miguel", "Sacachispas",
+                           "0", "0"))[0]) == 1
+
+
 def test_la_jornada_va_en_cero_a_proposito():
     """El feed no publica la jornada. El identificador pasa a ser el par
     (local, visita), que en una liga de ida y vuelta ya identifica el partido:

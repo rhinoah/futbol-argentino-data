@@ -964,6 +964,15 @@ MUTANTES = [
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
 
+    # Un partido programado con marcador cero no es un 0-0.
+    ("fad/espn.py", "leer como resultado un partido que no se jugo",
+     '        if ((comp.get("status") or {}).get("type") or {}).get("completed") is False:',
+     "        if False:"),
+
+    ("fad/espn.py", "descartar tambien los 0-0 de verdad",
+     '        if ((comp.get("status") or {}).get("type") or {}).get("completed") is False:',
+     '        if not ((comp.get("status") or {}).get("type") or {}).get("completed"):'),
+
     # La tanda vive en la pata donde se pateo, si la serie la explica. Los tres
     # lados: emparejar patas rotuladas distinto, exigir la serie antes de
     # escribir, y mirar el global y no la vuelta en el formato compacto.
