@@ -1836,6 +1836,23 @@ LOCALIA_RESUELTA: dict[str, str] = {
 
 HOMONIMOS: tuple[Homonimo, ...] = (
     Homonimo(
+        pagina="Campeonato de Primera B 2014 (Argentina)", dice="Estudiantes (LP)",
+        debe="Estudiantes (BA)",
+        porque="El de Caseros. El cuadro de eliminacion escribe `Estudiantes` a secas "
+               "y SIN ENLACE -- es el unico de sus seis clubes sin articulo --, asi "
+               "que no hay con que desatarlo salvo por cardinalidad, y ahi queda "
+               "forzado.\n"
+               "LA GRILLA DE LA MISMA PAGINA lo dice: los 21 partidos de esta "
+               "temporada son de `Estudiantes (BA)` y no hay ni uno de La Plata. Y "
+               "nuestro propio dataset cierra la puerta por el otro lado: en 2014 "
+               "`Estudiantes (LP)` juega 19 partidos en `Primera Division` y 19 en "
+               "`Primera Division - Final`, o sea la temporada entera en otra "
+               "categoria.\n"
+               "`dice` es el nombre YA CANONIZADO y no el crudo de la pagina: "
+               "`homonimo()` corre despues de `equipos.canonizar`, que resuelve "
+               "`Estudiantes` a secas al de La Plata. Escrito con el crudo no falla, "
+               "no engancha nunca."),
+    Homonimo(
         # `dice` es el nombre YA CANONIZADO, no el crudo de la pagina: `homonimo()`
         # se llama despues de `equipos.canonizar`. El crudo aca es `Talleres` a
         # secas y el padron lo resuelve al de Cordoba, asi que lo que hay que
