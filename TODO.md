@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 027 | 29 | 149 | 939 | 385 |
+| 44 027 | 29 | 149 | 943 | 389 |
 
 ## 2004–2026 — Cerrado
 
@@ -25,10 +25,10 @@ en el archivo que los produce y no se repiten acá. Lo que queda:
   desvían G-E-P con los goles coincidiendo exacto, que es la firma de un fallo, y tres
   son la tabla sin cerrar consigo misma por un gol—. Los otros tres son el cuadro de
   eliminación nombrando un club que la grilla no hace jugar.
-- **Extender la foja de RSSSF**, que es el testigo más fuerte que hay. Cruza 3 de las 4
-  páginas sin grilla: falta el `2009-10`, que pide partir sus tablas por fase. Y no corre
-  en las páginas que **sí** tienen grilla, donde sería un testigo nuevo y gratis de
-  nuestras lecturas de Wikipedia; ahí falta el mapa de nombres por temporada.
+- **Extender la foja de RSSSF**, que es el testigo más fuerte que hay. Ya cruza las 4
+  páginas sin grilla; lo que falta es correrla en las que **sí** tienen grilla, donde
+  sería un testigo nuevo y gratis de nuestras lecturas de Wikipedia. Ahí falta el mapa
+  de nombres por temporada, que es lo caro.
 - **Fechar un desacuerdo.** Ningún testigo puede decir *cuándo* la página cambió de
   opinión, y es la deuda más cara. Pide terminar el modelo de la «Evolución de las
   posiciones» —medido dio 12% de desvíos, un modelo incompleto haciendo ruido— o cruzar

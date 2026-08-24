@@ -591,6 +591,25 @@ MUTANTES = [
      '"JJ Urquiza": "J. J. de Urquiza"',
      '"JJ Urquiza": "J.J. de Urquiza"'),
 
+    # La fase que separa las zonas que se llaman igual, y el pool por etapa.
+    ("fad/rsssf.py", "no reconocer el encabezado de fase",
+     "        if pelada in fases:",
+     "        if False:"),
+
+    ("fad/rsssf.py", "dejar prendida la zona de la fase anterior",
+     '            fase, zona, abierta, acumuladas = fases[pelada], "", False, False',
+     "            fase, abierta, acumuladas = fases[pelada], False, False"),
+
+    ("build.py", "sumar las etapas juntas aunque la pagina declare fases",
+     '        if not fases:' + chr(10) + '            return ""' + chr(10) +
+     '        return "Zone" if zona.startswith(("Zone", "Zona")) else zona',
+     '        return ""'),
+
+    ("build.py", "separar por etapa aunque la pagina NO declare fases",
+     '        if not fases:' + chr(10) + '            return ""' + chr(10) +
+     '        return "Zone" if zona.startswith(("Zone", "Zona")) else zona',
+     '        return "Zone" if zona.startswith(("Zone", "Zona")) else zona'),
+
     # Los dos rotulos de tabla acumulada, y la abstencion ante un dividido.
     ("fad/rsssf.py", "no reconocer el rotulo `Aggregate Tables:`",
      '        if pelada.startswith("Aggregate Table"):',

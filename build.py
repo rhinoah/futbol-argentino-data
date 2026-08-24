@@ -484,41 +484,69 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
     que pasa en el Group A del 2007-08, cuyo partido dado por perdido ya tiene
     escrita su explicacion.
 
-    SE ABSTIENE POR CARDINALIDAD, en dos lugares. Una zona con dos tablas es el
-    2009-10, que corre dos fases rotulando las dos `Zone 1`: no se sabe cual
-    cubre que, asi que no se cruza ninguna. Y una tabla cuya cantidad de filas no
-    es la cantidad de clubes de la zona no esta hablando del mismo conjunto de
-    partidos -- las de playoff son asi --, y comparar dos conjuntos distintos no
-    responde nada. Abstenerse deja el aviso como estaba, que es lo peor que puede
-    pasar; cruzar de mas inventaria una acusacion.
+    SE ABSTIENE POR CARDINALIDAD. Una tabla cuya cantidad de filas no es la
+    cantidad de clubes de la zona no esta hablando del mismo conjunto de partidos
+    -- las de playoff son asi --, y comparar dos conjuntos distintos no responde
+    nada. Abstenerse deja el aviso como estaba, que es lo peor que puede pasar;
+    cruzar de mas inventaria una acusacion.
+
+    LA FASE SEPARA LAS ZONAS QUE SE LLAMAN IGUAL. El Argentino A 2009-10 corre dos
+    torneos adentro del ano y rotula DOS `Zone 1`, una del Apertura y otra del
+    Clausura; hasta que la fase se leyo, no se sabia cual tabla cubria que partidos
+    y se abstenia en las diez, o sea que esa temporada no tenia ningun cruce. La
+    fase la declara `rsssf.FASES` y viaja con cada tabla.
+
+    Y CUANDO HAY FASES, CADA ETAPA SUMA POR SU CUENTA. Adentro de un Apertura la
+    fuente corre primero las zonas y despues los pentagonales, y la tabla de una
+    zona NO cuenta los partidos del pentagonal. Sin separarlos, un club de la Zone 1
+    llega a la comparacion con sus catorce de zona MAS los cinco del grupo. Las
+    zonas siguen sumando juntas --el interzonal se imprime bajo una sola de ellas--
+    y cada grupo suma solo.
+
+    La separacion es OPT-IN con la fase, y eso importa: en el Argentino A 2007-08 no
+    hay fases y sus `Group A` y `Group B` SON las zonas, con el interzonal impreso
+    bajo una. Ahi la separacion fina se lleva puestos ocho clubes de los diecisiete
+    que hoy respalda. Se midio antes de escribirla, en las cuatro paginas sin
+    grilla: 8 / 17 / 25 se quedan iguales y el 2009-10 pasa de 0 a 50.
     """
     from collections import Counter, defaultdict
 
     from fad import rsssf
 
-    tablas = rsssf.leer_tabla(crudo, mapa)
-    # La zona de cada club, por mayoria de sus partidos.
-    donde: dict[str, Counter] = defaultdict(Counter)
-    for p in ps:
-        if p.fase != "zonas":
-            continue
-        donde[p.local][p.zona] += 1
-        donde[p.visita][p.zona] += 1
-    de_la_zona: dict[str, set[str]] = defaultdict(set)
-    for club, cuenta in donde.items():
-        de_la_zona[cuenta.most_common(1)[0][0]].add(club)
+    fases = rsssf.FASES.get(pagina, {})
+    tablas = rsssf.leer_tabla(crudo, mapa, fases)
 
-    sumas = posiciones.sumar(ps)
+    def etapa(zona: str) -> str:
+        """Que secciones suman juntas. Sin fases declaradas, TODAS -- que es lo que
+        hacia antes y es correcto cuando las secciones son las zonas. Con fases, las
+        zonas de un lado y cada grupo del suyo."""
+        if not fases:
+            return ""
+        return "Zone" if zona.startswith(("Zone", "Zona")) else zona
+
+    def del_pool(fase: str, zona: str) -> list:
+        return [p for p in ps if p.fase == "zonas"
+                and (not fase or p.llave == fase) and etapa(p.zona) == etapa(zona)]
+
     # Los clubes con un partido dividido en esta pagina, sin importar la llave: la
     # foja acumulada cubre la temporada entera, asi que el alcance no acota nada.
     divididos = {c for par in correcciones.pares_divididos(pagina) for c in par[:2]}
     respaldados: set[str] = set()
     avisos: list[str] = []
-    repetidas = {z for z, _ in tablas if sum(1 for o, _ in tablas if o == z) > 1}
-    for zona, filas in tablas:
-        if zona in repetidas:
+    repetidas = {(fa, z) for fa, z, _ in tablas
+                 if sum(1 for o, w, _ in tablas if (o, w) == (fa, z)) > 1}
+    for fase, zona, filas in tablas:
+        if (fase, zona) in repetidas:
             continue
-        clubes = {c for c in de_la_zona.get(zona, set()) if c in sumas}
+        # La zona de cada club, por mayoria de sus partidos DENTRO DE SU POOL.
+        pool = del_pool(fase, zona)
+        donde: dict[str, Counter] = defaultdict(Counter)
+        for p in pool:
+            donde[p.local][p.zona] += 1
+            donde[p.visita][p.zona] += 1
+        sumas = posiciones.sumar(pool)
+        clubes = {c for c, cuenta in donde.items()
+                  if cuenta.most_common(1)[0][0] == zona and c in sumas}
         if len(clubes) != len(filas):
             continue
         nuestras = sorted(sumas[c] for c in clubes)

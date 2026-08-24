@@ -788,8 +788,27 @@ _FOJA = re.compile(r"^\s*\d+\.(?:.+?)\s+"
                    r"(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)-\s?(\d+)\s+\d+")
 
 
+# Como rotula la fuente cada FASE de una temporada, y como se llama esa fase en
+# nuestras filas (`Partido.llave`).
+#
+# Hace falta cuando un archivo corre dos torneos adentro del mismo año y les repite
+# los nombres de zona. El Argentino A 2009-10 rotula DOS `Zone 1` --una del Apertura
+# y otra del Clausura-- y sin la fase no se sabe cual tabla cubre que partidos, asi
+# que `la_fuente_se_respalda` se abstenia en las diez y esa temporada quedaba sin
+# ningun cruce. Con la fase, las diez cierran digito por digito.
+#
+# La traduccion va escrita y no se adivina: la fuente escribe `Apertura` y nosotros
+# `Torneo Apertura`, y emparejar por parecido es lo que este repo no hace.
+FASES: dict[str, dict[str, str]] = {
+    "Torneo Argentino A 2009-10": {"Apertura": "Torneo Apertura",
+                                   "Clausura": "Torneo Clausura"},
+}
+
+
 def leer_tabla(texto: str,
-               mapa: dict[str, dict[str, str]]) -> list[tuple[str, list[tuple]]]:
+               mapa: dict[str, dict[str, str]],
+               fases: dict[str, str] | None = None,
+               ) -> list[tuple[str, str, list[tuple]]]:
     """[(zona, [(PJ, GF, GC, G, E, P)])] -- las tablas que publica la fuente.
 
     UNA ENTRADA POR TABLA Y NO POR ZONA, aunque dos tablas caigan bajo el mismo
@@ -829,7 +848,9 @@ def leer_tabla(texto: str,
     por eso figuraba como "no publica ninguna tabla rotulada", que era una
     afirmacion sobre nuestro lector y no sobre la fuente.
     """
-    fuera: list[tuple[str, list[tuple]]] = []
+    fuera: list[tuple[str, str, list[tuple]]] = []
+    fases = fases or {}
+    fase = ""
     zona = ""
     abierta = False
     # `Aggregate Tables:` esta arriba de sus tablas, asi que no abre una: deja
@@ -839,11 +860,16 @@ def leer_tabla(texto: str,
         pelada = linea.strip()
         if not pelada:
             continue
+        if pelada in fases:
+            # UN ENCABEZADO DE FASE, y arranca de cero: la zona de la fase anterior
+            # no vale aca, y las dos fases repiten los nombres de zona.
+            fase, zona, abierta, acumuladas = fases[pelada], "", False, False
+            continue
         if pelada.startswith("Final Table"):
             # El rotulo sobrevive la linea en blanco que lo separa de sus filas.
             abierta = True
             if zona in mapa:
-                fuera.append((zona, []))
+                fuera.append((fase, zona, []))
             continue
         if pelada.startswith("Aggregate Table"):
             acumuladas, abierta = True, False
@@ -851,7 +877,7 @@ def leer_tabla(texto: str,
         if m := _FOJA.match(linea):
             if abierta and zona in mapa:
                 pj, g, e, pp, gf, gc = (int(x) for x in m.groups())
-                fuera[-1][1].append((pj, gf, gc, g, e, pp))
+                fuera[-1][2].append((pj, gf, gc, g, e, pp))
             continue
         if set(pelada) <= {"-", " "}:
             # La linea de guiones que la fuente dibuja para marcar el corte de
@@ -870,7 +896,7 @@ def leer_tabla(texto: str,
                 # Adentro de `Aggregate Tables:` el encabezado de zona ES la
                 # apertura de su tabla; afuera, solo cambia la zona.
                 abierta = True
-                fuera.append((zona, []))
+                fuera.append((fase, zona, []))
         else:
             # CUALQUIER renglon con texto que no sea una zona cierra la seccion
             # acumulada. Enumerar los encabezados que la cierran es lo que hace la
@@ -884,7 +910,7 @@ def leer_tabla(texto: str,
                                   "First Phase", "Second Phase", "Final", "Promoci",
                                   "Champion", "Relegation")):
                 zona = ""
-    return [(z, f) for z, f in fuera if f]
+    return [(fa, z, f) for fa, z, f in fuera if f]
 
 
 def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,

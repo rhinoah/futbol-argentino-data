@@ -946,7 +946,7 @@ def test_lee_la_foja_que_publica_la_fuente():
              " 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
              " 2.B (Otra)                                2   0  1  1   1-3   1\n")
     assert rsssf.leer_tabla(texto, _MAPA_FOJA) == [
-        ("Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)])]
+        ("", "Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)])]
 
 
 def test_la_linea_de_guiones_no_cierra_la_tabla():
@@ -960,7 +960,7 @@ def test_la_linea_de_guiones_no_cierra_la_tabla():
              " 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
              " - - - - - - - - - - - - - - - - - - - - - - - -\n"
              " 2.B (Otra)                                2   0  1  1   1-3   1\n")
-    assert len(rsssf.leer_tabla(texto, _MAPA_FOJA)[0][1]) == 2
+    assert len(rsssf.leer_tabla(texto, _MAPA_FOJA)[0][2]) == 2
 
 
 def test_una_fila_con_un_solo_espacio_se_lee_igual():
@@ -973,7 +973,7 @@ def test_una_fila_con_un_solo_espacio_se_lee_igual():
              "\n"
              " 1.Juventud Unida Universitario (San Luis) 2   1  1  0   3-1   4\n"
              " 2.B (Otra)                                2   0  1  1   1-3   1\n")
-    assert len(rsssf.leer_tabla(texto, _MAPA_FOJA)[0][1]) == 2
+    assert len(rsssf.leer_tabla(texto, _MAPA_FOJA)[0][2]) == 2
 
 
 def test_el_rotulo_acumulado_va_ARRIBA_de_sus_tablas():
@@ -996,8 +996,8 @@ def test_el_rotulo_acumulado_va_ARRIBA_de_sus_tablas():
              " 1.C (Ahi)                                 2   2  0  0   5-0   6\n"
              " 2.D (Alla)                                2   0  0  2   0-5   0\n")
     assert rsssf.leer_tabla(texto, _MAPA_FOJA) == [
-        ("Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)]),
-        ("Zone 2", [(2, 5, 0, 2, 0, 0), (2, 0, 5, 0, 0, 2)])]
+        ("", "Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)]),
+        ("", "Zone 2", [(2, 5, 0, 2, 0, 0), (2, 0, 5, 0, 0, 2)])]
 
 
 def test_la_seccion_acumulada_termina_donde_empieza_otra_cosa():
@@ -1014,7 +1014,7 @@ def test_la_seccion_acumulada_termina_donde_empieza_otra_cosa():
              "\n"
              "Zone 2\n"
              " 1.C (Ahi)                                 2   2  0  0   5-0   6\n")
-    assert [z for z, _ in rsssf.leer_tabla(texto, _MAPA_FOJA)] == ["Zone 1"]
+    assert [z for _, z, _ in rsssf.leer_tabla(texto, _MAPA_FOJA)] == ["Zone 1"]
 
 
 def test_una_tabla_sin_el_rotulo_no_se_lee():
@@ -1038,7 +1038,39 @@ def test_dos_tablas_de_la_misma_zona_vuelven_separadas():
     texto = ("Zone 1\nFinal Table:\n\n" + una +
              "\nSecond Phase\n\nZone 1\nFinal Table:\n\n" + una)
     leidas = rsssf.leer_tabla(texto, _MAPA_FOJA)
-    assert len(leidas) == 2 and all(z == "Zone 1" for z, _ in leidas)
+    assert len(leidas) == 2 and all(z == "Zone 1" for _, z, _ in leidas)
+
+
+def test_la_fase_viaja_con_la_tabla_y_las_distingue():
+    """Y SI LA PAGINA DECLARA SUS FASES, dejan de ser dos tablas indistinguibles.
+
+    El Argentino A 2009-10 rotula DOS `Zone 1`, una del Apertura y otra del
+    Clausura. Sin la fase, el cruce no sabe cual cubre que partidos y se abstiene en
+    las diez: esa temporada no tenia ningun respaldo. La traduccion va escrita --la
+    fuente dice `Apertura` y nosotros `Torneo Apertura`-- y no se adivina por
+    parecido."""
+    una = (" 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+           " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    texto = ("Apertura\n\nZone 1\nFinal Table:\n\n" + una +
+             "\nClausura\n\nZone 1\nFinal Table:\n\n" + una)
+    leidas = rsssf.leer_tabla(texto, _MAPA_FOJA,
+                              {"Apertura": "Torneo Apertura",
+                               "Clausura": "Torneo Clausura"})
+    assert [(fa, z) for fa, z, _ in leidas] == [
+        ("Torneo Apertura", "Zone 1"), ("Torneo Clausura", "Zone 1")]
+
+
+def test_el_encabezado_de_fase_borra_la_zona_anterior():
+    """Las dos fases repiten los nombres de zona, asi que la zona de la que termino
+    no puede quedar prendida: una tabla de la fase nueva se colgaria de una zona
+    vieja y cruzaria contra partidos que no son los suyos."""
+    una = (" 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+           " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    # La tabla del Clausura NO trae encabezado de zona propio.
+    texto = ("Apertura\n\nZone 1\nFinal Table:\n\n" + una +
+             "\nClausura\n\nFinal Table:\n\n" + una)
+    leidas = rsssf.leer_tabla(texto, _MAPA_FOJA, {"Apertura": "A", "Clausura": "C"})
+    assert [(fa, z) for fa, z, _ in leidas] == [("A", "Zone 1")]
 
 
 def test_una_zona_que_el_mapa_no_nombra_no_se_lee():

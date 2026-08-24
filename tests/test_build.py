@@ -1057,6 +1057,48 @@ def test_el_club_del_interzonal_vuelve_a_su_zona():
     assert respaldados == {"C", "D"}, "C y D son de la Zone 2 aunque jueguen en la 1"
 
 
+def _fp(local, visita, gl, gv, zona, llave):
+    """Un partido de zona con su FASE, para las paginas que corren dos torneos."""
+    from fad.parser import Partido
+    return Partido(fecha="2010-01-01", local=local, visita=visita, goles_local=gl,
+                   goles_visita=gv, fase="zonas", zona=zona, llave=llave)
+
+
+def test_con_fases_declaradas_cada_etapa_suma_por_su_cuenta(monkeypatch):
+    """ADENTRO DE UN APERTURA HAY DOS ETAPAS, y la tabla de una zona NO cuenta los
+    partidos de la otra.
+
+    La fuente corre primero las zonas y despues los pentagonales. Sin separarlos, un
+    club de la `Zone 1` llega a la comparacion con sus partidos de zona MAS los del
+    grupo, y la tabla de la zona --que solo cuenta los primeros-- no cierra nunca.
+    Es lo que dejaba al Argentino A 2009-10 sin ningun respaldo."""
+    from fad import rsssf
+
+    ps = [_fp("A", "B", 2, 0, "Zone 1", "Torneo Apertura"),
+          # el pentagonal de la MISMA fase: no tiene que contar en la tabla de zona
+          _fp("A", "C", 5, 0, "Group A", "Torneo Apertura")]
+    tabla = ("Apertura\n\nZone 1\nFinal Table:\n\n"
+             " 1.Club1 (Ciudad)     1   1  0  0  2-0  3\n"
+             " 2.Club2 (Otra)       1   0  0  1  0-2  0\n")
+    monkeypatch.setitem(rsssf.FASES, "una pagina", {"Apertura": "Torneo Apertura"})
+    respaldados, avisos = build.la_fuente_se_respalda(ps, tabla, _MAPA_2, "una pagina")
+    assert (respaldados, avisos) == ({"A", "B"}, []), avisos
+
+
+def test_sin_fases_declaradas_todo_suma_junto():
+    """Y LA SEPARACION ES OPT-IN, que no es un detalle. En el Argentino A 2007-08 no
+    hay fases y sus `Group A` y `Group B` SON las zonas, con el interzonal impreso
+    bajo una de ellas: separar por prefijo ahi se lleva puestos ocho clubes de los
+    diecisiete que respalda. Sin fases declaradas, todo suma junto, que es como
+    venia."""
+    ps = [_zp("A", "B", 2, 0, "Zone 1"),
+          _zp("A", "C", 5, 0, "Group A")]     # el interzonal, impreso bajo el grupo
+    # La tabla de la zona cuenta los DOS partidos de A, que es lo que hace la fuente.
+    tabla = _tabla("Zone 1", [(2, 2, 0, 0, 7, 0), (1, 0, 0, 1, 0, 2)])
+    respaldados, _ = build.la_fuente_se_respalda(ps, tabla, _MAPA_2, "otra pagina")
+    assert respaldados == {"A", "B"}
+
+
 def test_una_zona_con_un_partido_dividido_no_se_cruza(monkeypatch):
     """SE ABSTIENE, Y EN SILENCIO. Un partido dividido se JUGO -- la tabla de la
     fuente lo cuenta -- y su fila no se puede escribir, porque cada club termino
