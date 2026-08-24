@@ -11,90 +11,28 @@ reales, no estimados.
 
 ## 2004–2026 — Cerrado
 
-**Todo lo que Wikipedia da de esta era está adentro.** `41 558` partidos, y no falta
-ninguno: lo que queda son verificaciones de calidad.
+`41 558` partidos y no falta ninguno. De los `187` avisos —cero graves— `95` son
+informativos y `16` son ciertos y no cierran nunca; los dos grupos tienen su explicación
+en el archivo que los produce y no se repiten acá. Lo que queda:
 
-Del corpus entero salen `187` avisos y **cero graves**, pero ese número por sí solo
-engaña:
-`94` son **informativos** —el sistema contando lo que hizo: «no se duplicó», «no es un
-error por sí mismo», «se corrigió a mano y acá está la evidencia»— y `93` señalan algo
-para mirar. Abajo están agrupados por causa, que son muchas menos que 93.
-
-### Lo que falta
-
-- **`60` partidos que dos fuentes fechan distinto**, en 9 páginas. Se conserva el de la
-  página y se avisa, que es lo honesto mientras no haya con qué decidir. La más grande
-  es 16 días: `Excursionistas` vs `Argentino de Merlo` de la fecha 3 de la Primera C
-  2008-09, que RSSSF pone el 18/08 con su propio encabezado y ESPN el 03/09. Cerrarlo
-  pide una tercera fuente, o una regla de precedencia que hoy no está medida.
-- **`6` partidos que dos fuentes cuentan con otro marcador.** Cuatro en el Argentino A
-  2011-12 (las dos patas `Juventud Unida Universitario`–`Juventud Antoniana` y las dos
-  `Libertad (S)`–`Central Norte (S)`), uno en la Primera B 2010-11 (`Platense` 1-1 o
-  0-0) y uno en la B Nacional 2008-09. Sin verificación no se toma la fecha, que es la
-  regla funcionando.
-- **`29` partidos sin fecha**, y `6` de ellos no esperan ninguna porque no se jugaron
-  —los que el Federal A 2024 le dio por perdidos a Sansinena, hoy con
-  `status = no disputado`—. De los 23 que sí esperan, 21 son las patas del `Argentino A
-  2004-05` que la fuente citada no publica.
-- **`6` tablas que no cierran, y ninguna es un error de lectura.** Son dos familias.
-  Tres desvían **un club** y las tres son de la temporada en curso: `San Miguel`
-  (Primera Nacional 2026) por un gol, y `Real Pilar` (Primera B 2026) y `Muñiz`
-  (Primera C 2026) en G-E-P **con los goles coincidiendo exacto** —la firma de un
-  partido que se definió afuera de la cancha, no de un dígito mal leído—. Las otras
-  tres son la tabla contradiciéndose **a sí misma** por un gol, sin que ningún club
-  desvíe: Torneo Final 2013, Copa de la Liga 2023 y el Clausura de la Primera C 2024.
-- **`3` clubes que el cuadro de eliminación nombra y la grilla no hace jugar.**
-  `Estudiantes` en la Primera B 2014, `Juventud Unida` en la Copa Argentina 2015-16 y
-  `Los Andes` en la Copa Argentina 2022. O al padrón le falta el nombre, o a la página
-  le faltan partidos.
-- **`1` desvío de PJ, y es transitorio.** `Nueva Chicago` vs `San Martín (SJ)` de la
-  Primera Nacional 2026, suspendido a los 45' con 1-0 y todavía sin fallo: la tabla no
-  lo cuenta y la grilla sí, y las dos hacen bien. *Se probó* la regla «un suspendido no
-  cuenta como jugado» y se midió antes de escribirla: hay `76` filas suspendidas en el
-  corpus y en las otras `75` la tabla sí las cuenta. Aplicarla rompería 75 para
-  arreglar una.
-- **La foja de RSSSF cruza 3 de las 4 páginas sin grilla; falta el `2009-10`.** Y
-  tampoco ahí el problema es la fuente: **sí rotula la fase** (`Apertura` / `Clausura`),
-  que es justo lo que hay que darle a cada tabla para desambiguar sus dos `Zone 1`, y
-  nuestras propias filas ya traen esa fase en `llave`. Falta que `leer_tabla` devuelva
-  la fase junto a la zona y que la suma se acote por `(llave, zona)` exacta.
-- **Y podría cruzarse en las páginas que SÍ tienen grilla**, que es donde sería un
-  testigo nuevo y gratis de nuestras lecturas de Wikipedia. Hoy sólo corre donde los
-  partidos *vienen* de RSSSF. Falta el mapa de nombres por temporada, que es lo caro.
-- **Fechar un desacuerdo.** Ninguno de los testigos actuales puede decir *cuándo* la
-  página cambió de opinión, y ésa es la deuda más cara que queda. La «Evolución de las
-  posiciones» era el camino y no alcanzó: chequear su contenido pide simular la tabla
-  fecha por fecha —puntajes que cambian, byes, zonas, postergados que mueven el corte al
-  calendario— y medido dio 12% de desvíos, que es un modelo incompleto haciendo ruido.
-  Hay que terminar ese modelo, empezando por el corte por fecha de calendario, o cruzar
+- **Dos fuentes que no coinciden.** `60` partidos con dos días distintos en 9 páginas, y
+  `6` con dos marcadores. Se conserva el de la página y se avisa. Cerrarlo pide una
+  tercera fuente, o una regla de precedencia que hoy no está medida.
+- **`29` partidos sin fecha**, y `6` no esperan ninguna porque no se jugaron. De los 23
+  que sí, 21 son las patas del `Argentino A 2004-05` que la fuente citada no publica.
+- **`10` lugares donde la página se contradice a sí misma.** Siete son la tabla contra la
+  grilla —cuatro de la temporada en curso, y ninguna es un error de lectura: tres
+  desvían G-E-P con los goles coincidiendo exacto, que es la firma de un fallo, y tres
+  son la tabla sin cerrar consigo misma por un gol—. Los otros tres son el cuadro de
+  eliminación nombrando un club que la grilla no hace jugar.
+- **Extender la foja de RSSSF**, que es el testigo más fuerte que hay. Cruza 3 de las 4
+  páginas sin grilla: falta el `2009-10`, que pide partir sus tablas por fase. Y no corre
+  en las páginas que **sí** tienen grilla, donde sería un testigo nuevo y gratis de
+  nuestras lecturas de Wikipedia; ahí falta el mapa de nombres por temporada.
+- **Fechar un desacuerdo.** Ningún testigo puede decir *cuándo* la página cambió de
+  opinión, y es la deuda más cara. Pide terminar el modelo de la «Evolución de las
+  posiciones» —medido dio 12% de desvíos, un modelo incompleto haciendo ruido— o cruzar
   contra una fuente de afuera.
-
-### Lo que no se cierra con lo que hay
-
-**Esto no es una lista de tareas.** Es lo que se fue a buscar y no está, escrito para
-que no se vuelva a buscar. Cada caso tiene su evidencia en el código, en el archivo que
-lo produce.
-
-- Los **`31`** avisos de *«entra al cuadro sin venir de la ronda anterior»*, en 22
-  páginas, son ambiguos por naturaleza: si a la ronda previa le falta un partido sus
-  **dos** clubes desaparecen y sólo el ganador reaparece, que es exactamente lo que se
-  ve cuando el formato siembra a alguien. Separarlos pide saber cuántos clubes entran al
-  cuadro y en qué ronda —un dato del reglamento, no de los partidos—. Ver
-  `fad/validar.py`.
-- Los **`4`** cuadros cuya cadena no se puede revisar no son cadenas: `Llave 1..6`
-  (Primera División 2015) y `Partido 1/2/3` (B Nacional 2014) son llaves paralelas, y
-  `Tercer ascenso` (Transición Federal A 2020) lo juegan los que **perdieron** la ronda
-  anterior — meterlo en el vocabulario generaría acusaciones falsas.
-- Los **`10`** partidos que quedan afuera del dataset se jugaron, pero cada club terminó
-  con un resultado distinto por un fallo y una fila no puede decir eso. La tabla los
-  cuenta y la grilla no, y las dos hacen bien.
-- La **zona despareja de la Primera Nacional 2019-20** la cortó la pandemia: su último
-  partido es del 16/03/2020 y el torneo terminó sin completar el fixture. El aviso dice
-  algo cierto y no se va a cerrar.
-- Los **10 clubes del Argentino A 2008-09** están declarados con su límite escrito: la
-  tabla de la página en español es la única que dice otra cosa, la aritmética nombra los
-  cinco partidos en disputa, y cerrarlo del todo pediría una fuente que los publique uno
-  por uno — se buscó y no la hay. Ver `_TABLA_2008_09` en `fad/correcciones.py`.
 
 ## 1997–2003 — Cerrado
 

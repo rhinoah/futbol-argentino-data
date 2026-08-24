@@ -255,6 +255,13 @@ def zonas_completas(ps: list[Partido], en_curso: bool = False,
                 jugados[visita] += 1
                 aparte += 1
         if len(set(jugados.values())) > 1:
+            # EL QUE QUEDA EN LA ERA 2004-2026 ES CIERTO Y NO SE VA A CERRAR. Es la
+            # Primera Nacional 2019-20: su ultimo partido es del 16/03/2020 y el
+            # torneo termino sin completar el fixture, asi que 28 clubes jugaron 21
+            # y cuatro jugaron 20. No hay partido que falte ni lectura que
+            # arreglar; el aviso dice algo verdadero sobre el torneo. Queda escrito
+            # aca y no en la lista de pendientes, que es para lo que se puede
+            # hacer.
             raro = sorted(jugados.items(), key=lambda kv: kv[1])
             avisos.append(Aviso(
                 f"{zona}: no todos jugaron la misma cantidad",
@@ -571,6 +578,16 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
                        for rots in porplantel.values()]
             grupos = sorted(armados, key=lambda kv: min(x.fecha for x in kv[1]))
         else:
+            # LOS CUATRO QUE QUEDAN NO SON CADENAS, y no se puede probar que no lo
+            # sean, asi que el chequeo se abstiene en vez de acusar. `Llave 1..6`
+            # (Primera Division 2015) y `Partido 1/2/3` (B Nacional 2014) son
+            # llaves PARALELAS: cada rotulo es una serie distinta jugandose al
+            # mismo tiempo, no una ronda que sigue a la anterior. `Final Reválida`
+            # y `Final por la Promoción` (Argentino A 2004-05) son finales sueltas.
+            # Y `Tercer ascenso` (Transicion Federal A 2020) marca el limite
+            # conceptual: un partido de consolacion lo juegan los que PERDIERON la
+            # ronda anterior, y el modelo de este chequeo es "el que juega gano lo
+            # anterior" -- meterlo en el vocabulario generaria acusaciones falsas.
             return [Aviso("no se pudo revisar el cuadro de eliminacion",
                           "hay partidos sin ronda reconocida; el chequeo se salteo",
                           grave=False)]
