@@ -1,7 +1,7 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **64**. Todo lo demás —equipos, marcador, jornada, torneo,
+jugaron.** Son **56**. Todo lo demás —equipos, marcador, jornada, torneo,
 temporada— pasó por los mismos chequeos que el resto del dataset.
 
 Van acá y no en `data/` porque el dataset principal promete una fecha en cada
@@ -12,14 +12,14 @@ campo.
 ## Eran 2 345
 
 Esta carpeta tenía seis temporadas enteras: las tres de Primera C 2008-2011, la
-Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **64** filas en
-nueve torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
+Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **56** filas en
+ocho torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
 **ninguna está acá porque su torneo no tenga fuente de fechas**: están una por
 una, por su propio motivo.
 
 | de dónde sale la fecha en el resto del dataset | filas |
 |---|---|
-| [RSSSF](https://www.rsssf.org/) | 3 517 |
+| [RSSSF](https://www.rsssf.org/) | 3 539 |
 | [worldfootball](https://www.worldfootball.net/) | 1 519 |
 | [el blog de José Carluccio](http://josecarluccio.blogspot.com/) | 24 |
 | [ESPN](https://www.espn.com.ar/) | 16 |
@@ -76,8 +76,8 @@ más, y si algún día una base de datos la contradice, gana la base de datos. E
 detalle está en `fad/citadas.py`.
 
 Son también las únicas de esta carpeta cuyo marcador **no** sale de Wikipedia.
-La columna `source` lo dice fila por fila: de las 64, 37 traen a RSSSF como fuente
-del partido y las otras 27 sólo esperan una fecha.
+La columna `source` lo dice fila por fila: de las 56, 37 traen a RSSSF como fuente
+del partido y las otras 19 sólo esperan una fecha.
 
 Ese torneo tiene 61 filas acá en total. Las otras 20 ya estaban, y están por los
 motivos de la sección siguiente.
