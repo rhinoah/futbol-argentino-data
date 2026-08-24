@@ -1181,9 +1181,14 @@ def test_una_fila_de_la_tabla_no_abre_una_llave():
     `Final Tables:` con las tablas de las tres zonas de la Revalida -- quince filas
     que entraban al lector de llaves.
     """
-    ps, _ = _llaves(
+    ps, raros = _llaves(
         "Zona B - Norte\n"
         "Semifinals\n"
         "First leg [May 22]\n"
         " 4.Racing (Córdoba)                       8   5  3  0  14-6  18\n")
     assert ps == []
+    # DONDE SE VE ES EN LOS AVISOS. La fila no llega a ser un partido igual --sus
+    # dos "clubes" no resuelven-- asi que mirar `ps` no distingue una cosa de la
+    # otra. Lo que cambia es que sin el guard cada fila de la tabla se denuncia
+    # como un nombre que el mapa no traduce: quince en el Argentino A 2010-11.
+    assert raros == [], raros

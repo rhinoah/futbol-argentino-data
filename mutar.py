@@ -1007,8 +1007,8 @@ MUTANTES = [
      'r"(?:\\s+\\d[^\\[\\]]*)?(?:\\s*\\[([^\\]]*)\\])?\\s*$", re.I)'),
 
     ("build.py", "no fecharle a la pagina lo que la llave si tiene fechado",
-     "                mas += fechar_con_las_llaves(ps, llaves)",
-     "                mas += []"),
+     "                   for d in fechar_con_las_llaves(ps, llaves_rsssf)]",
+     "                   for d in []]"),
 
     ("build.py", "darle a un partido de liga la fecha de una llave",
      '        [x for x in ps if x.fase == "eliminacion"],',
