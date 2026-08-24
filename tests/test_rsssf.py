@@ -1047,3 +1047,61 @@ def test_la_ciudad_se_pela_solo_si_el_nombre_pelado_tiene_un_dueno():
     assert ps == []
     assert any("el padron tampoco lo reconoce" in a and "Racing (Jun" in a
                for a in avisos), avisos
+
+
+# --------------------------------------------------------------------------
+# La seccion, cuando el archivo trae varias divisiones
+# --------------------------------------------------------------------------
+_DOS_DIVISIONES = (
+    "Primera B Metropolitano\n"
+    "Round 1\n"
+    "[Jul 24]\n"
+    "Racing                       2-1 Talleres\n"
+    "Topscorers\n"
+    "Fulano  9\n"
+    "Primera C Metropolitano\n"
+    "Round 1\n"
+    "[Aug 2]\n"
+    "Racing                       3-0 Talleres\n"
+    "Topscorers\n")
+
+_MAPA_DIV = {"": {"Racing": "Racing (C)", "Talleres": "Talleres (C)"}}
+
+
+def test_la_seccion_acota_lo_que_se_lee():
+    """Desde 2010-11 RSSSF deja de darle archivo propio a cada division y las mete
+    todas en la pagina del ano, una atras de otra y todas con sus `Round N`. Los
+    encabezados de division NO son encabezados de zona, asi que sin el corte los
+    partidos de siete torneos caen en la misma bolsa -- y eso es peor que no leer,
+    porque el completador fecharia un partido con la fecha de otro torneo."""
+    ps, _ = rsssf.leer(_DOS_DIVISIONES, _MAPA_DIV, 2010, 2011, 7,
+                       desde="Primera C Metropolitano", hasta="Topscorers")
+    assert [(p.fecha, p.goles_local, p.goles_visita) for p in ps] == [("2010-08-02", 3, 0)]
+
+    ps, _ = rsssf.leer(_DOS_DIVISIONES, _MAPA_DIV, 2010, 2011, 7,
+                       desde="Primera B Metropolitano", hasta="Topscorers")
+    assert [(p.fecha, p.goles_local, p.goles_visita) for p in ps] == [("2010-07-24", 2, 1)]
+
+
+def test_sin_el_corte_de_abajo_se_leen_los_dos_torneos():
+    """El testigo de para que sirve `hasta`: sin el, la seccion se come todo lo
+    que viene abajo."""
+    ps, _ = rsssf.leer(_DOS_DIVISIONES, _MAPA_DIV, 2010, 2011, 7,
+                       desde="Primera B Metropolitano")
+    assert len(ps) == 2, "sin `hasta` entra tambien el partido de la otra division"
+
+
+def test_un_hasta_que_no_aparece_se_avisa():
+    """Leer de mas aca es silencioso: no hay error, hay partidos de otro torneo
+    mezclados. Si el ancla de abajo no esta, se dice."""
+    _, avisos = rsssf.leer(_DOS_DIVISIONES, _MAPA_DIV, 2010, 2011, 7,
+                           desde="Primera B Metropolitano", hasta="Reducido")
+    assert any("no se encontro el final de la seccion" in a for a in avisos)
+
+
+def test_un_desde_que_no_aparece_no_lee_nada():
+    """Y si el ancla de arriba no esta, no se lee NADA en vez de leer todo: leer
+    todo seria el archivo entero como si fuera un torneo."""
+    ps, avisos = rsssf.leer(_DOS_DIVISIONES, _MAPA_DIV, 2010, 2011, 7,
+                            desde="Primera D Metropolitano")
+    assert ps == [] and any("no se encontro la seccion" in a for a in avisos)

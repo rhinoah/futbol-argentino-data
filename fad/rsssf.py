@@ -343,16 +343,47 @@ def _fecha_iso(mes: int, dia: int, anio: int, anio_fin: int, mes_inicio: int) ->
 
 
 def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
-         mes_inicio: int = 8) -> tuple[list[Ajeno], list[str]]:
+         mes_inicio: int = 8, desde: str = "",
+         hasta: str = "") -> tuple[list[Ajeno], list[str]]:
     """Los partidos de la fase de zonas, ya con el club canonico.
 
     `mapa` es {seccion de zona: {nombre en RSSSF: nombre canonico}}. Solo se leen
     las secciones que estan en el mapa: los playoffs mezclan las dos zonas y ahi
     un nombre corto deja de identificar a un club, asi que no se emparejan.
     """
+    # `desde`/`hasta` acotan a una seccion, y hacen falta desde 2010-11: a partir
+    # de ahi RSSSF deja de darle archivo propio a cada division y las mete todas en
+    # la pagina del ano. `arg2011` trae la Primera Division, la B Nacional, la B
+    # Metropolitana, el Argentino A, la Primera C, el Argentino B y la Primera D,
+    # una atras de otra y todas con sus `Round N`.
+    #
+    # SIN EL CORTE SE LEEN TODAS COMO SI FUERAN LA MISMA. Los encabezados de
+    # division no son encabezados de zona -- `Primera C Metropolitano` no empieza
+    # con ninguna de las palabras que abren seccion -- asi que la zona no cambia y
+    # los partidos de siete torneos caen en la misma bolsa. Que es peor que no
+    # leer: el completador de fechas fecharia partidos con la fecha de otro
+    # torneo.
+    #
+    # `hasta` NO ES OPCIONAL EN LA PRACTICA aunque lo sea en la firma: sin el, la
+    # seccion se come todo lo que viene abajo. Si se pide y no aparece, se avisa en
+    # vez de seguir de largo, porque leer de mas aca es silencioso.
+    raros: list[str] = []
+    if desde:
+        i = texto.find(desde)
+        if i < 0:
+            return [], [f"no se encontro la seccion {desde.splitlines()[0]!r}"]
+        texto = texto[i:]
+    if hasta:
+        j = texto.find(hasta)
+        if j < 0:
+            raros.append(f"no se encontro el final de la seccion "
+                         f"{hasta.splitlines()[0]!r}; se leyo hasta el final del "
+                         f"archivo y puede haber partidos de otro torneo")
+        else:
+            texto = texto[:j]
+
     fuera: list[Ajeno] = []
     desconocidos: set[str] = set()
-    raros: list[str] = []
     # Los partidos que la nota deja afuera, con su ronda y sus dos clubes, para
     # poder decir al final cuales se recuperan y cuales se pierden de verdad.
     caidos: list[tuple] = []
@@ -1889,6 +1920,85 @@ PRIMERA_C_2009 = {
 }
 
 
+# Primera B Metropolitana 2010-11 y Primera C 2010-11, las dos dentro de
+# `arg2011`. Desde esa temporada RSSSF deja de darle archivo propio a cada
+# division y las mete todas en la pagina del ano, una atras de otra: la Primera
+# Division, la B Nacional, la B Metropolitana, el Argentino A, la Primera C, el
+# Argentino B y la Primera D, todas con sus `Round N`. Por eso el lector necesita
+# el recorte de `SECCION_LIGA`, y por eso la clave del mapa es la vacia: adentro
+# de su seccion, estos dos torneos no tienen zonas.
+#
+# Los mapas se armaron contra LOS CLUBES QUE LA PAGINA HACE JUGAR esa temporada,
+# no contra el padron suelto, y eso decide dos nombres que el padron habria
+# contestado mal: `Central Córdoba` a secas es el de Rosario y no el de Santiago
+# del Estero, y `Talleres (RE)` es el de Remedios de Escalada. Cardinalidad.
+PRIMERA_B_2010 = {
+    "": {
+        "Acassuso": "Acassuso",
+        "Almagro": "Almagro",
+        "Atlanta": "Atlanta",
+        "Barracas Central": "Barracas Central",
+        "Brown": "Brown de Adrogué",
+        "Colegiales": "Colegiales",
+        "Comunicaciones": "Comunicaciones",
+        "Def. de Belgrano": "Defensores de Belgrano",
+        "Dvo. Armenio": "Deportivo Armenio",
+        "Dvo. Morón": "Deportivo Morón",
+        "Estudiantes": "Estudiantes (BA)",
+        "Flandria": "Flandria",
+        "Los Andes": "Los Andes",
+        "Nueva Chicago": "Nueva Chicago",
+        "Platense": "Platense",
+        "San Telmo": "San Telmo",
+        "Sarmiento": "Sarmiento (J)",
+        # el club se llamaba Deportivo Español; RSSSF lo escribe por su nombre
+        # social, como tambien hace ESPN en la temporada siguiente.
+        "Social Español": "Deportivo Español",
+        "Svo. Italiano": "Sportivo Italiano",
+        "Temperley": "Temperley",
+        "Tristán Suárez": "Tristán Suárez",
+        "Villa San Carlos": "Villa San Carlos",
+    },
+}
+
+PRIMERA_C_2010 = {
+    "": {
+        "Argentino (M)": "Argentino de Merlo",
+        "Berazategui": "Berazategui",
+        "Central Córdoba": "Central Córdoba (R)",
+        "Def. de Cambaceres": "Defensores de Cambaceres",
+        "Defensores Unidos": "Defensores Unidos",
+        "Dvo. Laferrere": "Deportivo Laferrere",
+        "El Porvenir": "El Porvenir",
+        "Excursionistas": "Excursionistas",
+        "FC Midland": "Ferrocarril Midland",
+        "Fénix": "Fénix",
+        "Gral. Lamadrid": "General Lamadrid",
+        "JJ de Urquiza": "J. J. de Urquiza",
+        "Leandro N. Alem": "Leandro N. Alem",
+        "Liniers": "Liniers",
+        "Luján": "Luján",
+        "Sacachispas": "Sacachispas",
+        "San Miguel": "San Miguel",
+        "Talleres (RE)": "Talleres (RdE)",
+        "UAI-Urquiza": "UAI Urquiza",
+        "Villa Dálmine": "Villa Dálmine",
+    },
+}
+
+
+# De donde a donde va la fase regular de cada torneo, cuando su archivo trae
+# varios. El corte de arriba es el titulo de la division y el de abajo es
+# `Topscorers`, que en estas paginas viene justo despues de la ultima fecha y
+# antes del `Reducido`: sin el, el reducido entraria como fase regular.
+SECCION_LIGA: dict[str, tuple[str, str]] = {
+    "Campeonato de Primera B 2010-11 (Argentina)": (
+        'Primera B Metropolitano "Efectivo Sí"', "Topscorers"),
+    "Campeonato de Primera C 2010-11 (Argentina)": (
+        'Primera C Metropolitano "Efectivo Sí"', "Topscorers"),
+}
+
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
@@ -1899,5 +2009,7 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2011-12": ("arg2012", ARGENTINO_A_2011),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),
     "Campeonato de Primera C 2009-10 (Argentina)": ("arg4-2010", PRIMERA_C_2009),
+    "Campeonato de Primera C 2010-11 (Argentina)": ("arg2011", PRIMERA_C_2010),
+    "Campeonato de Primera B 2010-11 (Argentina)": ("arg2011", PRIMERA_B_2010),
     "Torneo Argentino A 2004-05": ("arg3-int05", ARGENTINO_A_2004),
 }

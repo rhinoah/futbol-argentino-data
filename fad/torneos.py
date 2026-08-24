@@ -310,8 +310,10 @@ ASCENSO_HISTORICO = [
            anio_fin=2009, espn=True, rsssf='arg4-09', rsssf_llaves=True),
     Torneo('Campeonato de Primera C 2009-10 (Argentina)', 'Primera C', 2009,
            anio_fin=2010, espn=True, rsssf='arg4-2010'),
+    # Arranco en JULIO de 2010 -- la fecha 1 fue el 24/07 en la B y el 31/07 en
+    # la C --, asi que sin `mes_inicio=7` esos partidos se fechan un anio tarde.
     Torneo('Campeonato de Primera C 2010-11 (Argentina)', 'Primera C', 2010,
-           anio_fin=2011, espn=True),
+           anio_fin=2011, mes_inicio=7, espn=True, rsssf='arg2011'),
     # Este ESTUVO en `sin-fecha/` por un diagnostico equivocado, y conviene dejar
     # escrito cual. El comentario que habia aca decia: "sus tablas SI tienen
     # columna de fecha, pero la pagina la deja vacia en casi todas las filas...
@@ -331,8 +333,10 @@ ASCENSO_HISTORICO = [
     # Igual que la de arriba: tiene columna de fecha y la deja vacia en 462 de
     # sus 474 filas. La mitad de las jornadas ademas escribe los clubes con el
     # nombre cortado ("Sp. Italiano", "T. Suarez"), que estan como alias.
+    # Arranco en JULIO de 2010 -- la fecha 1 fue el 24/07 en la B y el 31/07 en
+    # la C --, asi que sin `mes_inicio=7` esos partidos se fechan un anio tarde.
     Torneo('Campeonato de Primera B 2010-11 (Argentina)', 'Primera B', 2010,
-           anio_fin=2011, espn=True),
+           anio_fin=2011, mes_inicio=7, espn=True, rsssf='arg2011'),
     # Y esta: 12 fechadas de 279. Trajo diez clubes del interior que el padron
     # no tenia -- Lujan de Cuyo, Nunorco, La Plata FC, Atletico Candelaria... --
     # todos sacados del articulo que enlaza su propia tabla de participantes.

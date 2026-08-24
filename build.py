@@ -41,8 +41,9 @@ def _completar_fechas_rsssf(ps, t) -> list:
         return [validar.Aviso("no se pudo consultar RSSSF",
                               f"{archivo}: {e}; los partidos quedan sin fecha",
                               grave=False)]
+    desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))
     ajenos, avisos = rsssf.leer(crudo, mapa, t.temporada, t.anio_fin or t.temporada,
-                                t.mes_inicio)
+                                t.mes_inicio, desde=desde, hasta=hasta)
     puestas, mas = fechas.completar(ps, ajenos, credito=rsssf.CREDITO)
     return [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False)
             for d in avisos + mas]

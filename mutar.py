@@ -964,6 +964,24 @@ MUTANTES = [
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
 
+    # El corte de seccion, cuando el archivo del ano trae varias divisiones.
+    ("fad/rsssf.py", "leer mas alla del final de la seccion",
+     "        else:\n            texto = texto[:j]",
+     "        else:\n            pass"),
+
+    ("fad/rsssf.py", "callar que el final de la seccion no aparecio",
+     '            raros.append(f"no se encontro el final de la seccion "',
+     '            raros.append("") or raros.pop() or raros.append(f"x "'),
+
+    ("fad/rsssf.py", "leer el archivo entero cuando la seccion no aparece",
+     '            return [], [f"no se encontro la seccion {desde.splitlines()[0]!r}"]\n'
+     "        texto = texto[i:]",
+     "        texto = texto[max(i, 0):]"),
+
+    ("build.py", "no acotar la seccion al completar fechas",
+     '    desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))',
+     '    desde, hasta = "", ""'),
+
     # El padron como ultimo recurso, y la deduplicacion viendo los renombres
     # que corren despues.
     ("fad/rsssf.py", "no preguntarle al padron lo que el mapa no tiene",
