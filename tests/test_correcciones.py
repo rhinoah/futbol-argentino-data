@@ -352,10 +352,18 @@ def test_un_homonimo_no_sale_de_su_pagina(monkeypatch):
 def test_un_homonimo_que_ya_no_engancha_avisa(monkeypatch):
     """Cuando alguien arregle la pagina esto queda sin efecto, y hay que sacarlo.
     Este aviso es el que descubrio que cinco homonimos que se habian escrito ya
-    estaban resueltos como `Correccion`."""
+    estaban resueltos como `Correccion`.
+
+    Y EL MENSAJE NOMBRA LAS DOS CAUSAS. La otra es que `dice` se haya escrito con
+    el nombre CRUDO de la pagina en vez del canonico: `homonimo()` corre despues
+    de `equipos.canonizar`, asi que un homonimo escrito con el crudo no falla, no
+    engancha nunca. Un aviso que solo dice "la pagina ya no lo escribe" manda a
+    mirar Wikipedia cuando el error esta en la declaracion."""
     monkeypatch.setattr(correcciones, "HOMONIMOS", (UN_HOMONIMO,))
     avisos = correcciones.homonimos_huerfanos("Una Pagina", {"All Boys", "Belgrano"})
-    assert avisos and "sacalo de fad/correcciones.py" in avisos[0]
+    assert avisos
+    assert "fad/correcciones.py" in avisos[0]
+    assert "CRUDO" in avisos[0], "el aviso tiene que nombrar la otra causa"
 
 
 def test_un_homonimo_que_solo_arregla_la_tabla_no_se_denuncia_solo(monkeypatch):

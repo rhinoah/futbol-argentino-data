@@ -1836,7 +1836,11 @@ LOCALIA_RESUELTA: dict[str, str] = {
 
 HOMONIMOS: tuple[Homonimo, ...] = (
     Homonimo(
-        pagina="Torneo Argentino A 2004-05", dice="Talleres",
+        # `dice` es el nombre YA CANONIZADO, no el crudo de la pagina: `homonimo()`
+        # se llama despues de `equipos.canonizar`. El crudo aca es `Talleres` a
+        # secas y el padron lo resuelve al de Cordoba, asi que lo que hay que
+        # nombrar es ESE. Declararlo con el crudo no falla: no engancha nunca.
+        pagina="Torneo Argentino A 2004-05", dice="Talleres (C)",
         debe="Talleres (P)",
         porque="El de Perico, Jujuy, y la pagina lo dice ella sola. Escribe "
                "`Talleres (P)` en TODAS partes -- las veinte filas de la Zona "
@@ -2169,9 +2173,18 @@ def homonimos_huerfanos(pagina: str, escritos: set[str]) -> list[str]:
     Vale la pena tenerlo: este aviso fue el que descubrio que cinco de los seis
     homonimos que se habian escrito ya estaban resueltos como `Correccion`.
     """
-    return [f"el homonimo {h.dice!r} -> {h.debe!r} no engancha con nada: la "
-            f"pagina ya no escribe ese nombre, ni en los partidos ni en la "
-            f"tabla. Si la arreglaron, sacalo de fad/correcciones.py"
+    # EL MENSAJE NOMBRA LAS DOS CAUSAS, y la segunda es la que se cometio. Decir
+    # solo "la pagina ya no escribe ese nombre" da por sentado que el homonimo
+    # alguna vez engancho, y manda a mirar Wikipedia. Pero un homonimo RECIEN
+    # escrito puede no haber enganchado nunca: `dice` es el nombre YA CANONIZADO
+    # --`homonimo()` corre despues de `equipos.canonizar`-- y escribirlo con el
+    # crudo de la pagina no falla, no hace nada. Paso con el `Talleres` del
+    # Argentino A 2004-05, que el padron canoniza a `Talleres (C)`.
+    return [f"el homonimo {h.dice!r} -> {h.debe!r} no engancha con nada. O la "
+            f"pagina ya no escribe ese nombre --ni en los partidos, ni en la "
+            f"tabla, ni en el cuadro-- y hay que sacarlo de fad/correcciones.py; "
+            f"o `dice` esta escrito con el nombre CRUDO de la pagina en vez del "
+            f"canonico, y entonces nunca engancho"
             for h in HOMONIMOS if h.pagina == pagina and h.dice not in escritos]
 
 
