@@ -19,7 +19,8 @@ import argparse
 import sys
 from pathlib import Path
 
-from fad import (correcciones, dataset, equipos, parser, posiciones, torneos,
+from fad import (citadas, correcciones, dataset, equipos, fechas, parser,
+                 posiciones, torneos,
                  validar, wiki)
 
 SALIDA = Path(__file__).resolve().parent / "data"   # una carpeta: un CSV por temporada
@@ -590,7 +591,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
         # La grilla de la pagina cubre los grupos pero no la fase final, que ahi
         # es un dibujo. Las llaves vienen de RSSSF, que si dice quien fue local.
         if t.rsssf_llaves:
-            from fad import fechas, rsssf
+            from fad import rsssf
             archivo, mapa = rsssf.FUENTES[t.pagina]
             try:
                 crudo = rsssf.descargar(archivo)
@@ -719,6 +720,14 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # puesta, asi que completarlas es leer la misma pagina dos veces y emitir
     # cada aviso por duplicado.
     avisos += _completar_fechas_rsssf(ps, t) if t.rsssf and not t.sin_grilla else []
+    # Y al final, las fechas copiadas a mano de una fuente citada, que van
+    # ULTIMAS a proposito: solo tienen que tocar lo que ningun lector pudo
+    # fechar. Ver el docstring de `fad/citadas.py`, que dice cuando corresponde
+    # y que lo sostiene.
+    if citadas.FECHAS.get(t.pagina):
+        avisos += [validar.Aviso(f"{t.pagina}: fechas citadas a mano", d, grave=False)
+                   for d in fechas.completar(ps, citadas.ajenos(t.pagina),
+                                             credito=citadas.CREDITO)[1]]
     avisos += _completar_fechas_espn(ps, t) if t.espn else []
     avisos += validar.revisar(ps, en_curso=not t.cerrado,
                               divididos=correcciones.pares_divididos(t.pagina))

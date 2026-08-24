@@ -964,6 +964,19 @@ MUTANTES = [
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
 
+    # Las fechas copiadas a mano de una fuente citada.
+    ("build.py", "no aplicar las fechas citadas a mano",
+     "    if citadas.FECHAS.get(t.pagina):",
+     "    if False:"),
+
+    ("build.py", "pedirle las citas a todas las paginas",
+     "    if citadas.FECHAS.get(t.pagina):",
+     "    if True:"),
+
+    ("fad/citadas.py", "mandar la cita con jornada en vez de sin ella",
+     "    return [Ajeno(fecha=c.fecha, jornada=0, local=c.local, visita=c.visita,",
+     "    return [Ajeno(fecha=c.fecha, jornada=1, local=c.local, visita=c.visita,"),
+
     # La cola del titulo, y las llaves completando fechas.
     ("fad/rsssf.py", "no reconocer la cola 'Revalida' en el titulo de la ronda",
      'r"(?:\\s+(?:\\d[^\\[\\]]*|Reválida))?(?:\\s*\\[([^\\]]*)\\])?\\s*$", re.I)',
