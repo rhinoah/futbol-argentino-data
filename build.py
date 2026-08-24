@@ -392,7 +392,8 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
 _MINIMO_PARA_JUZGAR = 8
 
 
-def le_creemos_la_localia(repetidas: int, alreves: int) -> tuple[str, bool]:
+def le_creemos_la_localia(repetidas: int, alreves: int,
+                          resuelta: str = "") -> tuple[str, bool]:
     """(que decir, si hay que frenar la importacion).
 
     Devuelve las dos cosas por separado porque son tres estados y no dos: la
@@ -407,15 +408,30 @@ def le_creemos_la_localia(repetidas: int, alreves: int) -> tuple[str, bool]:
     NO trae, que son justo los que se querian importar.
 
     No es una sospecha: se midio pagina por pagina. El Argentino A 2004-05 coincide
-    en 40 de 45 y el 2011-12 en 6 de 28 -- VEINTIUNO por ciento, peor que el 55.6%
-    de la convencion "arriba es local en la ida" que este repo ya rechazo por
-    inventar. Y la alternancia entre ida y vuelta no sirve para distinguirlas: las
-    dos fuentes alternan, una es el espejo de la otra. Lo unico que decide es una
-    columna rotulada, y esa la tiene la pagina.
+    en 40 de 45 y el 2012-13 en 30 de 30. Y la alternancia entre ida y vuelta no
+    sirve para distinguirlas: las dos fuentes alternan, una es el espejo de la
+    otra. Lo unico que decide es una columna rotulada, y esa la tiene la pagina.
 
     Pide un solapamiento MINIMO porque con dos o tres partidos la mayoria no
     significa nada; sin testigo suficiente no se bloquea, y eso queda dicho aparte.
+
+    Y TIENE UN SUPUESTO, que hay que decir: que la pagina es el patron. El
+    Argentino A 2011-12 daba 6 de 31 y eso se leyo un tiempo como "esa fuente no
+    sirve"; era al reves -- la pagina rotula `Local - Vuelta` a la columna de la
+    ida. Un testigo que mide contra un patron torcido rechaza a la fuente POR TENER
+    RAZON, y ahi se pierden los partidos que solo la fuente trae: en esa pagina
+    eran seis, las dos semifinales y la final, que Wikipedia publica unicamente
+    como dibujo.
+
+    `resuelta` es la salida para eso: la evidencia, cuando la localia de la pagina
+    ya se establecio por afuera. No afloja la regla, la nombra, y entrar pide
+    evidencia que NO dependa de la fuente que se quiere importar -- si no, el
+    testigo se valida a si mismo. Ver `correcciones.LOCALIA_RESUELTA`.
     """
+    if resuelta and repetidas >= _MINIMO_PARA_JUZGAR:
+        return (f"el testigo dice que {alreves} de {repetidas} van al reves y no se "
+                f"le hace caso: la localia de esta pagina ya se resolvio por afuera. "
+                f"Ver correcciones.LOCALIA_RESUELTA", False)
     if repetidas < _MINIMO_PARA_JUZGAR:
         # SIN TESTIGO NO SE BLOQUEA, PERO SE DICE. El Argentino A 2012-13 importa
         # seis partidos con CERO en comun con la pagina.
@@ -679,7 +695,9 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     p_.torneo = t.torneo
                 nuevas, repetidas, discuten, alreves = sin_repetir(
                     llaves, ps, t.pagina)
-                que_decir, frenar = le_creemos_la_localia(repetidas, alreves)
+                que_decir, frenar = le_creemos_la_localia(
+                    repetidas, alreves,
+                    correcciones.LOCALIA_RESUELTA.get(t.pagina, ""))
                 if que_decir:
                     mas.append(f"RSSSF: {que_decir}")
                 if not frenar:
@@ -739,7 +757,9 @@ def procesar(texto: str, t) -> tuple[list, list]:
                 llaves, mas = espn.leer_llaves(eventos, mapa, t.torneo)
                 nuevas, repetidas, discuten, alreves = sin_repetir(
                     llaves, ps, t.pagina)
-                que_decir, frenar = le_creemos_la_localia(repetidas, alreves)
+                que_decir, frenar = le_creemos_la_localia(
+                    repetidas, alreves,
+                    correcciones.LOCALIA_RESUELTA.get(t.pagina, ""))
                 if que_decir:
                     mas.append(f"ESPN: {que_decir}")
                 if not frenar:

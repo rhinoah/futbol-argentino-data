@@ -1805,7 +1805,58 @@ class Homonimo:
     porque: str
 
 
+# Las paginas cuya LOCALIA ya se resolvio por afuera del testigo del solapamiento.
+#
+# El testigo compara a la fuente externa contra la pagina y bloquea la
+# importacion cuando la mayoria no coincide. Es la guarda correcta y se queda,
+# pero tiene un supuesto: que la pagina es el patron. Cuando la pagina resulta
+# estar mal en esa region, el testigo mide contra un patron torcido y da un falso
+# negativo -- rechaza a la fuente por tener razon.
+#
+# Esto no afloja la regla: la nombra. Entrar aca pide que la localia se haya
+# establecido con evidencia que NO dependa de la fuente que se quiere importar;
+# si no, el testigo se estaria validando a si mismo.
+LOCALIA_RESUELTA: dict[str, str] = {
+    "Torneo Argentino A 2011-12": (
+        "Sus cuatro tablas de eliminacion tienen CAMBIADOS los rotulos de dos "
+        "columnas -- lo que llaman `Local - Vuelta` es el local de la ida --, y por "
+        "eso el testigo daba 6 de 31. Las 28 filas ya estan espejadas; ver "
+        "`_LLAVES_2011_12`.\n"
+        "LA EVIDENCIA NO DEPENDE DE RSSSF, que es lo que hace legitimo levantar el "
+        "bloqueo: el blog de Jose Carluccio publica cada partido con su CIUDAD, y el "
+        "Argentino A 2012-13 --misma forma de tabla, mismo lector-- da 30 de 30 sin "
+        "una sola al reves, o sea que el lector no es el problema.\n"
+        "LO QUE DESTRABA son los seis partidos que la pagina publica SOLO en el "
+        "cuadro: las dos semifinales y la final. El blog los confirma uno por uno "
+        "con la sede, y coincide con RSSSF en los seis: 03/06 en Cordoba, 05/06 en "
+        "Tandil, 10/06 en Garupa, 11/06 en San Francisco, 17/06 en Garupa y 22/06 "
+        "en San Francisco."),
+}
+
+
 HOMONIMOS: tuple[Homonimo, ...] = (
+    Homonimo(
+        pagina="Torneo Argentino A 2004-05", dice="Talleres",
+        debe="Talleres (P)",
+        porque="El de Perico, Jujuy, y la pagina lo dice ella sola. Escribe "
+               "`Talleres (P)` en TODAS partes -- las veinte filas de la Zona "
+               "Norte, la tabla de posiciones, el cuadro de la Revalida -- salvo "
+               "en UNA: la plantilla del cuadro del Zona Campeonato, donde pone "
+               "`RD1-equipo05 = Talleres` pelado. Ahi el padron lo resuelve al de "
+               "Cordoba, que es el otro Talleres.\n"
+               "Y SU PROPIA LISTA DE PARTICIPANTES LO ENLAZA: "
+               "`[[Club Atlético Talleres (Perico)|Club Atlético Talleres]] || "
+               "[[Perico (Jujuy)|Perico]] || [[Jujuy]]`. No hace falta salir de la "
+               "pagina.\n"
+               "Afuera lo confirman los otros dos que ya se habian mirado por el "
+               "mismo motivo: el Talleres de Cordoba jugaba la Primera Division esa "
+               "temporada -- tiene sus 19 partidos en `Primera Division - Clausura "
+               "2004` -- y la tabla de RSSSF nombra a este "
+               "`Talleres (Perico) ... (Jujuy)`.\n"
+               "Sin esto, el cuadro y la grilla no se pueden comparar: el chequeo "
+               "avisa que `Talleres (C) vs Ben Hur` esta en el cuadro y no hay "
+               "NINGUN partido entre esos dos en la grilla -- y no lo hay porque "
+               "ese club no jugo este torneo."),
     Homonimo(
         pagina="Torneo Argentino A 2004-05", dice="Juventud Unida",
         debe="Juventud Unida Universitario",

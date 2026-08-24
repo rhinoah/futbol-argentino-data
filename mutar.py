@@ -591,6 +591,15 @@ MUTANTES = [
      '"JJ Urquiza": "J. J. de Urquiza"',
      '"JJ Urquiza": "J.J. de Urquiza"'),
 
+    # El testigo de localia y su excepcion nombrada.
+    ("build.py", "ignorar la excepcion y frenar igual la importacion",
+     "    if resuelta and repetidas >= _MINIMO_PARA_JUZGAR:",
+     "    if False:"),
+
+    ("build.py", "levantar el bloqueo sin exigir evidencia",
+     "    if resuelta and repetidas >= _MINIMO_PARA_JUZGAR:",
+     "    if repetidas >= _MINIMO_PARA_JUZGAR:"),
+
     # Dos espejos de la misma llave se pisan si no se saca lo ya corregido.
     ("fad/correcciones.py", "dejar que una correccion caiga sobre una fila ya corregida",
      "                      if id(p) not in tocadas" + chr(10) +

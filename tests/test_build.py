@@ -961,6 +961,40 @@ def test_una_mayoria_sobre_dos_partidos_no_es_una_mayoria():
     assert not frenar
 
 
+def test_cuando_el_patron_es_el_torcido_el_testigo_se_puede_nombrar():
+    """EL TESTIGO SUPONE QUE LA PAGINA ES EL PATRON, Y A VECES NO LO ES.
+
+    Mide a la fuente contra la pagina, asi que cuando la pagina esta mal en esa
+    region rechaza a la fuente POR TENER RAZON -- y ahi se pierden los partidos
+    que solo la fuente trae. Le paso al Argentino A 2011-12: daba 6 de 31 porque
+    la pagina rotula `Local - Vuelta` a la columna de la ida, y con el bloqueo
+    puesto quedaban afuera seis partidos que Wikipedia publica solo como dibujo.
+
+    La salida no afloja la regla, la nombra: sin evidencia sigue bloqueando."""
+    sin_evidencia = build.le_creemos_la_localia(repetidas=31, alreves=25)
+    assert sin_evidencia[1] is True, "sin evidencia tiene que seguir frenando"
+
+    que_decir, frenar = build.le_creemos_la_localia(
+        repetidas=31, alreves=25, resuelta="la evidencia, medida aparte")
+    assert frenar is False
+    assert "no se le hace caso" in que_decir
+    # Y lo sigue DICIENDO: levantar el bloqueo no es callarse.
+    assert "25 de 31" in que_decir
+
+
+def test_la_localia_resuelta_nombra_paginas_que_existen():
+    """UN TITULO MAL TIPEADO NO FALLA: NO HACE NADA.
+
+    `LOCALIA_RESUELTA` se consulta con `.get(pagina, "")`, asi que una clave que
+    no corresponde a ninguna pagina del catalogo deja el bloqueo puesto en
+    silencio -- que es justo lo contrario de lo que quien la escribio quiso."""
+    from fad import correcciones, torneos
+
+    paginas = {t.pagina for t in torneos.TODOS}
+    for clave in correcciones.LOCALIA_RESUELTA:
+        assert clave in paginas, f"{clave!r} no es ninguna pagina del catalogo"
+
+
 # --------------------------------------------------------------------------
 # La foja de la fuente como testigo de nuestra propia lectura
 # --------------------------------------------------------------------------
