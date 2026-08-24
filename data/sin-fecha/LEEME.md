@@ -1,11 +1,11 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **40**. Todo lo demás —equipos, marcador, jornada, torneo,
+jugaron.** Son **36**. Todo lo demás —equipos, marcador, jornada, torneo,
 temporada— pasó por los mismos chequeos que el resto del dataset.
 
 Con una excepción que conviene decir arriba de todo, porque contradice el
-párrafo anterior: **seis de las 40 no esperan ninguna fecha, porque no se
+párrafo anterior: **seis de las 36 no esperan ninguna fecha, porque no se
 jugaron.** Son los que el Torneo Federal A 2024 le dio por perdidos a Sansinena
 cuando desertó del torneo. Llevan `status = no disputado` en el CSV, así que se
 los distingue sin leer esto: el marcador está porque cuenta para la tabla, pero
@@ -21,19 +21,19 @@ campo.
 ## Eran 2 345
 
 Esta carpeta tenía seis temporadas enteras: las tres de Primera C 2008-2011, la
-Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **40** filas en
-ocho torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
+Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **36** filas en
+siete torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
 **ninguna está acá porque su torneo no tenga fuente de fechas**: están una por
 una, por su propio motivo.
 
 | de dónde sale la fecha en el resto del dataset | filas |
 |---|---|
-| [RSSSF](https://www.rsssf.org/) | 3 539 |
+| [RSSSF](https://www.rsssf.org/) | 3 543 |
 | [worldfootball](https://www.worldfootball.net/) | 1 519 |
 | [el blog de José Carluccio](http://josecarluccio.blogspot.com/) | 36 |
 | [ESPN](https://www.espn.com.ar/) | 16 |
 
-RSSSF pasó de aportar 263 fechas a 3 539 al arreglar tres cosas que le impedían
+RSSSF pasó de aportar 263 fechas a 3 543 al arreglar tres cosas que le impedían
 leer, ninguna de ellas en los datos: la fase regular de sus archivos **no lleva
 encabezado de zona** cuando el torneo no tiene zonas y el lector devolvía cero
 partidos sin un aviso; desde 2010-11 las divisiones **comparten archivo** y hay
@@ -94,13 +94,13 @@ y del artículo del club. No entró, y no hizo falta decidirlo a mano — con es
 marcador la cita no verifica y el completador la frenó solo.
 
 Son también las únicas de esta carpeta cuyo marcador **no** sale de Wikipedia.
-La columna `source` lo dice fila por fila: de las 40, 21 traen a RSSSF como fuente
-del partido, 6 son las que no se jugaron y las otras 13 sólo esperan una fecha.
+La columna `source` lo dice fila por fila: de las 36, 21 traen a RSSSF como fuente
+del partido, 6 son las que no se jugaron y las otras 9 sólo esperan una fecha.
 
 ## Por qué quedaron las otras
 
-Sacando las 21 del Argentino A 2004-05 y los 6 que no se jugaron, quedan **13**,
-y cada una está por un motivo que se puede nombrar.
+Sacando las 21 del Argentino A 2004-05 y los 6 que no se jugaron, quedan **9**, y
+cada una está por un motivo que se puede nombrar.
 
 **Las dos fuentes cuentan el partido distinto.** Tres. Nuestro marcador y el de
 la otra fuente no coinciden, así que el emparejamiento no está verificado y la
@@ -110,11 +110,6 @@ Tercera Fase del Argentino A 2010-11 —donde además la localía viene espejada
 entre las dos fuentes— y el tercero es Platense vs Estudiantes (BA) de la fecha 6
 de la Primera B 2010-11, que nosotros tenemos 1-1 y la otra fuente 0-0.
 
-**La otra fuente tiene el torneo pero no el partido.** Cuatro: las promociones de
-la B Nacional 2007-08 contra Primera B y contra el Argentino A. worldfootball
-cubre esa temporada y no publica esas llaves, así que quedan *sin pareja* — que
-es distinto de un desacuerdo, y el aviso lo dice con esas palabras.
-
 **No hay segunda fuente, y Wikipedia no publica el día.** Cinco: cuatro de la
 fecha 35 de la Primera Nacional 2023 y una de la fecha 19 de la Primera C 2024.
 La página trae el partido completo salvo la celda de la fecha.
@@ -122,6 +117,13 @@ La página trae el partido completo salvo la celda de la fecha.
 **Y uno que sigue en juego.** San Martín (SJ) vs Nueva Chicago, fecha 17 de la
 Primera Nacional 2026, con `status = suspendido`. Ese va a tener fecha cuando la
 temporada la tenga.
+
+Eran 13 hasta hace poco. Las otras cuatro —las promociones de la B Nacional
+2007-08 contra Primera B y contra el Argentino A— **estaban en RSSSF y el repo no
+las leía**: sus archivos de 2007-08 escriben la fecha entre paréntesis
+(`(Jun 21)` suelto, `Second Legs (Jun 28)`) donde los demás usan corchetes. El
+lector las encontraba, resolvía los clubes y las tiraba con un *«viene sin fecha;
+queda afuera»*.
 
 ## Cómo se usan
 

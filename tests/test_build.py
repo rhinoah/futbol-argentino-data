@@ -789,6 +789,36 @@ def test_la_localia_al_reves_no_pasa_por_repetido():
     assert len(discuten) == 1 and "localia al reves" in discuten[0]
 
 
+def test_la_fecha_que_falta_no_es_un_desacuerdo():
+    """LO UNICO DISTINTO ES EL DIA, Y EL DIA ES LO QUE VINIMOS A BUSCAR.
+
+    La pagina publica la llave sin fecha; RSSSF la trae con fecha, mismo par,
+    mismo marcador y misma localia. Eso no es que las fuentes se contradigan: es
+    exactamente el caso para el que se lee RSSSF. Avisarlo hacia que el mismo
+    build dijera las dos cosas sobre los mismos cuatro partidos de la promocion
+    de la B Nacional 2007-08 -- "ya estaban en la grilla y no se duplicaron" y
+    "no coinciden" --, y el aviso ademas nombraba mal al contraparte."""
+    pagina = [_p("Los Andes", "Nueva Chicago", "", 1, 0)]
+    rsssf_ = [_p("Los Andes", "Nueva Chicago", "2008-06-21", 1, 0)]
+
+    nuevas, repetidas, discuten, alreves = build.sin_repetir(rsssf_, pagina, "una pagina")
+    assert (nuevas, repetidas, alreves) == ([], 1, 0)
+    assert discuten == [], discuten
+
+
+def test_sin_fecha_pero_con_la_localia_al_reves_si_se_avisa():
+    """LA OTRA MITAD DE LA CONDICION. Que la pagina no tenga fecha no vuelve
+    callable a un desacuerdo de LOCALIA: ahi las dos versiones se enfrentan y el
+    aviso las muestra, que es lo que deja verlo. Es el caso de los dos partidos
+    de la Tercera Fase del Argentino A 2010-11."""
+    pagina = [_p("Unión (MdP)", "Desamparados", "", 1, 1)]
+    rsssf_ = [_p("Desamparados", "Unión (MdP)", "2011-05-22", 1, 1)]
+
+    nuevas, repetidas, discuten, alreves = build.sin_repetir(rsssf_, pagina, "una pagina")
+    assert (nuevas, repetidas, alreves) == ([], 1, 1)
+    assert len(discuten) == 1 and "Desamparados" in discuten[0]
+
+
 def test_cuando_las_dos_fuentes_se_contradicen_gana_la_pagina_y_se_avisa():
     """Mismo par, otra fila: no es un partido que falte, es un desacuerdo. Se
     conserva el de la pagina --Wikipedia es la fuente primaria-- y se dice.

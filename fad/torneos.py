@@ -214,8 +214,11 @@ ASCENSO_VIEJO = [
     # `wf` son los ids de worldfootball, de donde sale ese unico campo. El resto
     # -- equipos, marcador, jornada -- sigue siendo de Wikipedia, y la columna
     # `source` de esas filas nombra a las dos.
+    # `rsssf_llaves` SIN `rsssf`: de ese archivo se lee solo la seccion de la
+    # promocion, acotada en `rsssf.SECCION`. La fase regular ya la fecha
+    # worldfootball entera y no hay nada que ir a buscarle.
     Torneo("Campeonato de Primera B Nacional 2007-08", "Primera Nacional", 2007,
-           anio_fin=2008, wf=("co1787", "se19981")),
+           anio_fin=2008, wf=("co1787", "se19981"), rsssf_llaves=True),
     Torneo("Campeonato de Primera B Nacional 2008-09", "Primera Nacional", 2008,
            anio_fin=2009, wf=("co1787", "se19980")),
     Torneo("Campeonato de Primera B Nacional 2009-10", "Primera Nacional", 2009,

@@ -321,8 +321,30 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
                        == {p_.goles_local, p_.goles_visita}]
             if len(iguales) == 1:
                 repetidas += 1
-                if uno(iguales[0].local, iguales[0].local_art) != p_.local:
+                mismo_local = uno(iguales[0].local, iguales[0].local_art) == p_.local
+                if not mismo_local:
                     alreves += 1
+                # NO HAY DESACUERDO QUE CONTAR si el marcador identifico UNA sola
+                # fila, esa fila viene SIN FECHA y la localia coincide: entre las
+                # dos versiones lo unico distinto es el dia, que es justo lo que
+                # la pagina no publica y lo que vinimos a buscar.
+                #
+                # Sin esta salida el mismo build decia las dos cosas sobre los
+                # mismos cuatro partidos de la promocion de la B Nacional 2007-08:
+                # "4 llaves de RSSSF ya estaban en la grilla y no se duplicaron" y
+                # "4 partidos donde la pagina y RSSSF no coinciden".
+                #
+                # Y el aviso ademas nombraba mal al contraparte: `cerca` elige por
+                # cercania de FECHA y de este lado no hay, asi que emparejaba con
+                # cualquiera -- llegaba a contrastar la vuelta de RSSSF contra la
+                # ida de la pagina.
+                #
+                # Las dos condiciones hacen falta. Si la pagina SI tiene fecha, un
+                # dia distinto es un desacuerdo real y se dice. Si la localia
+                # viene al reves, tambien, y ahi el aviso enfrenta las dos
+                # versiones, que es lo que deja verlo.
+                if not iguales[0].fecha and mismo_local:
+                    continue
             cerca = min(suyas[suyo], key=lambda x: abs(_dias(x.fecha) - _dias(p_.fecha)))
             discuten.append(
                 f"la pagina dice {cerca.fecha} "

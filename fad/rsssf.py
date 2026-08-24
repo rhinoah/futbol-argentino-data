@@ -620,9 +620,17 @@ _LLAVE_TITULO = re.compile(
 # partidos afuera, que seria lo de menos: los dejaba adentro con la pata
 # ANTERIOR, o sea etiquetados como ida cuando son la vuelta. Un dato mal puesto
 # es peor que un dato que falta.
-_LLAVE_PATA = re.compile(r"^(First|Second|Secoond)\s+Legs?\s*(?:\[([^\]]+)\])?\s*$",
+# Y EL CORCHETE PUEDE SER UN PARENTESIS. Los archivos de 2007-08 escriben
+# "Second Legs (Jun 28)" donde los demas escriben "Second Legs [Jun 28]". No
+# reconocer la variante no perdia el encabezado y ya: lo dejaba pasar de largo,
+# asi que la VUELTA se quedaba con la pata de la ida -- que es el mismo dato mal
+# puesto que el typo "Secoond" -- y ademas con la fecha de la ida.
+_LLAVE_PATA = re.compile(r"^(First|Second|Secoond)\s+Legs?\s*(?:[\[(]([^\])]+)[\])])?\s*$",
                          re.I)
-_LLAVE_FECHA = re.compile(r"^\[\s*([A-Za-z]{3})\s+(\d{1,2})\s*\]$")
+# El renglon que trae SOLO la fecha, entre corchetes o entre parentesis: los
+# archivos de 2007-08 usan "(Jun 21)" y los demas "[Jun 21]". Es la unica forma
+# en que RSSSF fecha las patas de la promocion de la B Nacional 2007-08.
+_LLAVE_FECHA = re.compile(r"^[\[(]\s*([A-Za-z]{3})\s+(\d{1,2})\s*[\])]$")
 # Lo de adentro de un corchete puede traer mas que la fecha: "Jun 4, one leg".
 # Se lee el mes y el dia del principio y se ignora el resto.
 _LLAVE_DIA = re.compile(r"^\s*([A-Za-z]{3})\s+(\d{1,2})\b")
@@ -1783,6 +1791,13 @@ SECCION: dict[str, tuple[str, str]] = {
     "Torneo Argentino A 2010-11": ("Promotion Playoff\n\nFirst Legs [May 18]",
                                    'Primera C Metropolitano "Efectivo Sí"'),
     "Torneo Argentino A 2011-12": ("Torneo Argentino A\n\n\nFirst Phase", ""),
+    # `Promotion/Relegation Playoff` a secas aparece dos veces en `arg2-08` -- una
+    # es el titulo de la seccion y la otra el encabezado de una tabla anterior --,
+    # asi que el corte de arriba lleva pegado el `First Legs` que la abre de
+    # verdad. El de abajo es la nota al pie de la propia seccion.
+    "Campeonato de Primera B Nacional 2007-08": (
+        "Promotion/Relegation Playoff\n \nFirst Legs",
+        "NB: Nueva Chicago relegated"),
 }
 
 # El Reducido de la Primera C 2008-09. Es OTRA division y otro archivo: `arg4-09`,
@@ -2105,6 +2120,25 @@ ARGENTINO_A_2010 = {
 }
 
 
+# La promocion de la B Nacional 2007-08, dentro de `arg2-08`. De aca sale SOLO
+# esa seccion: la fase regular de esa temporada la fecha worldfootball entera y
+# lo unico que le faltaba a la pagina eran los cuatro partidos de las dos
+# promociones, que publica sin dia.
+#
+# Cuatro clubes y cuatro entradas aunque el padron los resuelva a los cuatro sin
+# ayuda. Es la regla del repo y no una formalidad: un mapa a medias es el que
+# despues mete al club de al lado, y ademas asi queda escrito como los nombra la
+# fuente. `Racing (C)` y `Talleres (C)` son los de Cordoba.
+B_NACIONAL_2007 = {
+    "": {
+        "Los Andes": "Los Andes",
+        "Nueva Chicago": "Nueva Chicago",
+        "Racing (C)": "Racing (C)",
+        "Talleres (C)": "Talleres (C)",
+    },
+}
+
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
@@ -2119,4 +2153,5 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Campeonato de Primera B 2010-11 (Argentina)": ("arg2011", PRIMERA_B_2010),
     "Torneo Argentino A 2004-05": ("arg3-int05", ARGENTINO_A_2004),
     "Torneo Argentino A 2010-11": ("arg2011", ARGENTINO_A_2010),
+    "Campeonato de Primera B Nacional 2007-08": ("arg2-08", B_NACIONAL_2007),
 }

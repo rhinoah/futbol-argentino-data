@@ -541,6 +541,46 @@ def test_la_llave_trae_localia_y_fecha_de_dia():
     assert all(p.fase == "eliminacion" for p in ps)
 
 
+def test_la_fecha_tambien_puede_venir_entre_parentesis():
+    """LOS ARCHIVOS DE 2007-08 USAN PARENTESIS DONDE LOS DEMAS USAN CORCHETES.
+
+    "(Jun 21)" solo en un renglon, y "Second Legs (Jun 28)" con la fecha pegada
+    al encabezado. Sin reconocerlo el lector encontraba los partidos, resolvia los
+    clubes y los tiraba con un "viene sin fecha; queda afuera": es como estaban
+    los cuatro de la promocion de la B Nacional 2007-08."""
+    ps, raros = _llaves(
+        "Zona A - Sur\n"
+        "Quarterfinals\n"
+        "First Legs\n"
+        "(Nov 23)\n"
+        "Cipolletti                   2-0 Villa Mitre\n"
+        "Second Legs (Nov 27)\n"
+        "Villa Mitre                  3-1 Cipolletti\n")
+    assert raros == [], raros
+    assert [(p.fecha, p.local, p.visita) for p in ps] == [
+        ("2005-11-23", "Cipolletti", "Villa Mitre"),
+        ("2005-11-27", "Villa Mitre", "Cipolletti")]
+
+
+def test_el_encabezado_de_pata_entre_parentesis_no_deja_la_vuelta_como_ida():
+    """Y ESTO ES LO QUE HACE FALTA ARREGLAR JUNTO CON LA FECHA.
+
+    Si se reconoce "(Nov 23)" suelto pero NO "Second Legs (Nov 27)", el
+    encabezado de la vuelta pasa de largo: la vuelta se queda con la pata de la
+    ida y ademas con SU fecha. Un dato mal puesto es peor que un dato que falta,
+    que es lo mismo que dice el comentario del typo "Secoond"."""
+    ps, _ = _llaves(
+        "Zona A - Sur\n"
+        "Quarterfinals\n"
+        "First Legs\n"
+        "(Nov 23)\n"
+        "Cipolletti                   2-0 Villa Mitre\n"
+        "Second Legs (Nov 27)\n"
+        "Villa Mitre                  3-1 Cipolletti\n")
+    assert [p.jornada for p in ps] == ["Quarterfinals - First leg",
+                                       "Quarterfinals - Second leg"]
+
+
 def test_la_tanda_sin_serie_que_la_explique_no_se_escribe():
     """Una pata sola con una tanda colgada y sin la otra pata: no hay serie que
     mirar, asi que la tanda no tiene donde vivir y la columna queda vacia.

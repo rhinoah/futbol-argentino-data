@@ -568,6 +568,26 @@ MUTANTES = [
     # El barrido de plantillas, de vuelta a una sola pasada: deja de pelar las
     # anidadas y la de afuera se publica cruda en la celda.
     # El partido que no se jugo: los tres modos de perderlo.
+    # Los archivos de 2007-08 escriben la fecha entre parentesis. Las dos van
+    # juntas: sin la de la pata, la vuelta se queda con la pata Y la fecha de
+    # la ida, que es peor que perderla.
+    ("fad/rsssf.py", "leer la fecha suelta solo entre corchetes",
+     '_LLAVE_FECHA = re.compile(r"^[\\[(]\\s*([A-Za-z]{3})\\s+(\\d{1,2})\\s*[\\])]$")',
+     '_LLAVE_FECHA = re.compile(r"^\\[\\s*([A-Za-z]{3})\\s+(\\d{1,2})\\s*\\]$")'),
+
+    ("fad/rsssf.py", "leer el encabezado de pata solo entre corchetes",
+     '_LLAVE_PATA = re.compile(r"^(First|Second|Secoond)\\s+Legs?\\s*(?:[\\[(]([^\\])]+)[\\])])?\\s*$",',
+     '_LLAVE_PATA = re.compile(r"^(First|Second|Secoond)\\s+Legs?\\s*(?:\\[([^\\]]+)\\])?\\s*$",'),
+
+    # Volver a avisar de un desacuerdo cuando lo unico que falta es la fecha.
+    ("build.py", "llamar desacuerdo a la fecha que la pagina no publica",
+     "                if not iguales[0].fecha and mismo_local:",
+     "                if False and mismo_local:"),
+
+    ("build.py", "callar el desacuerdo de localia cuando no hay fecha",
+     "                if not iguales[0].fecha and mismo_local:",
+     "                if not iguales[0].fecha:"),
+
     ("fad/parser.py", "no marcar el partido que no se jugo",
      '        return "no disputado"',
      '        return ""'),
