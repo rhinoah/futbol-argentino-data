@@ -194,7 +194,8 @@ MUTANTES = [
      '    sf_dir = Path(__file__).resolve().parent / "data" / "sin-fecha"'),
 
     ("build.py", "no cruzar contra la tabla de posiciones",
-     "               for d in posiciones.contrastar(ps, texto, pagina=t.pagina)]",
+     "               for d in posiciones.contrastar(ps, texto, pagina=t.pagina,\n"
+     "                                              respaldados=respaldados)]",
      "               for d in []]"),
 
     ("build.py", "no chequear que la tabla cierre consigo misma",
@@ -962,6 +963,49 @@ MUTANTES = [
     ("fad/rsssf.py", "no cambiar la localia en la vuelta",
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
+
+    # La foja que publica la fuente, como testigo de nuestra propia lectura.
+    # Cada pieza del lector por separado, porque cada una falla en silencio: lo
+    # que se pierde no da error, solo deja de cruzar.
+    ("fad/rsssf.py", "dejar que la linea de guiones cierre la tabla",
+     '        if set(pelada) <= {"-", " "}:',
+     '        if False:'),
+
+    ("fad/rsssf.py", "leer tambien las tablas sin el rotulo Final Table",
+     '        if m := _FOJA.match(linea):\n            if abierta and zona in mapa:',
+     '        if m := _FOJA.match(linea):\n            if zona in mapa:'),
+
+    ("fad/rsssf.py", "exigirle dos espacios a la fila de la foja",
+     '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s+"',
+     '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s{2,}"'),
+
+    ("fad/rsssf.py", "juntar por nombre las dos tablas de una misma zona",
+     "    return [(z, f) for z, f in fuera if f]",
+     "    j = {}\n"
+     "    for z, f in fuera:\n"
+     "        j.setdefault(z, []).extend(f)\n"
+     "    return [(z, f) for z, f in j.items() if f]"),
+
+    ("build.py", "mandar al club del interzonal a la zona ajena",
+     "        de_la_zona[cuenta.most_common(1)[0][0]].add(club)",
+     "        de_la_zona[cuenta.most_common()[-1][0]].add(club)"),
+
+    ("build.py", "cruzar una tabla que no cubre la zona",
+     "        if len(clubes) != len(filas):\n            continue",
+     "        if False:\n            continue"),
+
+    ("build.py", "cruzar una zona que trae dos tablas",
+     "        if zona in repetidas:\n            continue",
+     "        if False:\n            continue"),
+
+    ("build.py", "volver a denunciar un club ya revisado a mano",
+     "        if any(correcciones.revisado(pagina, c) for c in clubes):\n"
+     "            continue",
+     "        if False:\n            continue"),
+
+    ("fad/posiciones.py", "mandar a releer un partido que la fuente ya respaldo",
+     "    if respaldado:",
+     "    if False:"),
 
     # El solapamiento como testigo de la localia, por los tres lados: no juzgar
     # nunca, juzgar con dos partidos, y juzgar al reves.

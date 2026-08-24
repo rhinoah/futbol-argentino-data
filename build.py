@@ -353,6 +353,97 @@ def le_creemos_la_localia(repetidas: int, alreves: int) -> tuple[str, bool]:
     return "", False
 
 
+def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
+                          pagina: str = "") -> tuple[set[str], list[str]]:
+    """(clubes cuya suma respalda la fuente, avisos). LA FOJA, automatizada.
+
+    Es la prueba que en este repo se hace a mano cuando un club no cierra: sumar
+    todos sus partidos y exigir las SEIS cifras -- PJ, G, E, P, GF, GC -- contra
+    la fila que la fuente publica al lado de esos mismos partidos. Sirve para
+    separar dos cosas que el aviso de "no cierra con su tabla" confunde en una:
+    que hayamos leido mal a la fuente, o que las dos fuentes no coincidan.
+
+    La diferencia no es academica. El Argentino A 2008-09 no cierra contra la
+    tabla de Wikipedia en DIEZ clubes, y el aviso los mandaba a buscar un partido
+    mal leido. Pero la tabla que publica la propia RSSSF coincide exactamente con
+    nuestra suma en los veinticinco clubes de la temporada: nuestra lectura es
+    fiel y lo que hay es un desacuerdo entre fuentes, que se arbitra con una
+    tercera y no releyendo la segunda.
+
+    NO SE EMPAREJA NI UN NOMBRE, ni aca ni en `rsssf.leer_tabla`. La foja de una
+    zona es un CONJUNTO de filas y se compara contra el conjunto de nuestras
+    sumas; a que club corresponde cada fila no hace falta saberlo para saber si
+    los dos conjuntos son el mismo. La zona de cada club sale de donde juega la
+    MAYORIA de sus partidos: las rondas interzonales se imprimen bajo una sola de
+    las dos zonas, asi que un club de la Zone 2 tiene veintiocho partidos bajo su
+    zona y cuatro bajo la otra, y la mayoria lo devuelve a la suya.
+
+    SE ABSTIENE ANTE UN CLUB YA REVISADO A MANO. La comparacion es de conjuntos
+    y no de filas, asi que no se puede sacar una sola fila de cada lado: si un
+    club de la zona tiene su desvio explicado en `correcciones`, la zona entera
+    deja de cruzar. Se pierde el respaldo de los otros siete, y esta bien que se
+    pierda -- abstenerse deja las cosas como estaban, mientras que denunciar de
+    nuevo algo ya resuelto convierte un archivo de conclusiones en ruido. Es lo
+    que pasa en el Group A del 2007-08, cuyo partido dado por perdido ya tiene
+    escrita su explicacion.
+
+    SE ABSTIENE POR CARDINALIDAD, en dos lugares. Una zona con dos tablas es el
+    2009-10, que corre dos fases rotulando las dos `Zone 1`: no se sabe cual
+    cubre que, asi que no se cruza ninguna. Y una tabla cuya cantidad de filas no
+    es la cantidad de clubes de la zona no esta hablando del mismo conjunto de
+    partidos -- las de playoff son asi --, y comparar dos conjuntos distintos no
+    responde nada. Abstenerse deja el aviso como estaba, que es lo peor que puede
+    pasar; cruzar de mas inventaria una acusacion.
+    """
+    from collections import Counter, defaultdict
+
+    from fad import rsssf
+
+    tablas = rsssf.leer_tabla(crudo, mapa)
+    # La zona de cada club, por mayoria de sus partidos.
+    donde: dict[str, Counter] = defaultdict(Counter)
+    for p in ps:
+        if p.fase != "zonas":
+            continue
+        donde[p.local][p.zona] += 1
+        donde[p.visita][p.zona] += 1
+    de_la_zona: dict[str, set[str]] = defaultdict(set)
+    for club, cuenta in donde.items():
+        de_la_zona[cuenta.most_common(1)[0][0]].add(club)
+
+    sumas = posiciones.sumar(ps)
+    respaldados: set[str] = set()
+    avisos: list[str] = []
+    repetidas = {z for z, _ in tablas if sum(1 for o, _ in tablas if o == z) > 1}
+    for zona, filas in tablas:
+        if zona in repetidas:
+            continue
+        clubes = {c for c in de_la_zona.get(zona, set()) if c in sumas}
+        if len(clubes) != len(filas):
+            continue
+        if any(correcciones.revisado(pagina, c) for c in clubes):
+            continue
+        nuestras = sorted(sumas[c] for c in clubes)
+        if nuestras == sorted(filas):
+            respaldados |= clubes
+        else:
+            distintas = sum(1 for a, b in zip(nuestras, sorted(filas)) if a != b)
+            # EL AVISO NO DICE DE QUIEN ES LA CULPA PORQUE NO LA SABE. Lo
+            # tentador es leer esto como "la leimos mal", y es una de las dos
+            # explicaciones, pero no la unica: una fuente tambien puede
+            # contradecirse sola. El Argentino A 2007-08 publica un partido
+            # abandonado con la nota `(awarded 0-2, ...)` en su lista y lo cuenta
+            # 0-1 en su propia tabla. Nombrar al culpable de mas es exactamente
+            # el error que este chequeo vino a arreglar en el aviso de al lado.
+            avisos.append(
+                f"{zona}: la suma de los partidos que trae la fuente no coincide con "
+                f"la tabla que publica la fuente misma, en {distintas} de "
+                f"{len(filas)} clubes. Las dos cosas salen del MISMO lugar, asi que "
+                f"o los leimos mal o la fuente se contradice sola. Mirar el partido "
+                f"antes de mirar la otra fuente")
+    return respaldados, avisos
+
+
 def sin_repetir_sin_fecha(llaves: list, ps: list,
                           pagina: str) -> tuple[list, int, list[str]]:
     """Lo mismo que `sin_repetir` pero para filas que NO traen fecha.
@@ -416,6 +507,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     tratan dos grafias como dos clubes y los chequeos dejan pasar justo lo que
     tenian que agarrar.
     """
+    # (texto crudo, mapa) de la fuente externa, si los partidos vienen de una.
+    foja: tuple[str, dict] | None = None
     if t.sin_grilla:
         # La pagina no publica resultados y los partidos salen de RSSSF. Es el
         # unico camino del repo por el que una fila NO viene de Wikipedia, y va
@@ -438,6 +531,12 @@ def procesar(texto: str, t) -> tuple[list, list]:
                                  t.anio_fin or t.temporada, t.mes_inicio)
         importados = [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False) for d in mas]
         ps = rsssf.a_partidos(ajenos, t.torneo, t.temporada)
+        # Se guardan para cruzar la foja MAS ABAJO y no aca: la fuente publica
+        # su propia tabla al lado de sus propios partidos, y compararla contra
+        # nuestra suma dice si la leimos bien. Va despues de canonizar porque
+        # `contrastar`, que es quien usa el resultado, habla en nombres
+        # canonicos, y dos vocabularios no cruzan.
+        foja = (crudo, mapa)
     else:
         importados = []
         ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato,
@@ -580,9 +679,18 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # misma, y frenar el build de todos los dias por eso seria desproporcionado.
     # Sirve igual, y para algo que ningun otro chequeo puede hacer: decidir cual
     # de dos fuentes tiene razon sobre un marcador, sin traer una tercera.
+    # La foja de la fuente, cuando los partidos vienen de una. Sale antes que el
+    # cruce contra Wikipedia porque es lo que le da sentido: sin ella, un club que
+    # no cierra manda a buscar un partido mal leido aunque no lo haya.
+    respaldados: set[str] = set()
+    if foja:
+        respaldados, mas = la_fuente_se_respalda(ps, foja[0], foja[1], t.pagina)
+        avisos += [validar.Aviso(f"{t.pagina}: RSSSF no cierra consigo misma", d,
+                                 grave=False) for d in mas]
     avisos += [validar.Aviso(f"{t.pagina}: no cierra con su tabla de posiciones", d,
                              grave=False)
-               for d in posiciones.contrastar(ps, texto, pagina=t.pagina)]
+               for d in posiciones.contrastar(ps, texto, pagina=t.pagina,
+                                              respaldados=respaldados)]
     # Y la tabla contra si misma. No compara contra nuestra grilla: suma sus dos
     # columnas de goles y las encuentra distintas, que es imposible. Cuando este
     # salta no hay nada que arbitrar -- la equivocada es la pagina.

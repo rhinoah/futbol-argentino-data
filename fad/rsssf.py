@@ -627,6 +627,87 @@ def _club(nombre: str, mapa: dict, zona: str, vistos: dict) -> tuple[str, str]:
                    ", y ninguno jugo antes en este cuadro"))
 
 
+# --------------------------------------------------------------------------
+# La foja que publica la propia fuente
+# --------------------------------------------------------------------------
+# El separador es UN espacio o mas, no dos. Un nombre que llena la columna --
+# `Juventud Unida Universitario (San Luis)` -- deja uno solo, y al no matchear
+# la fila no solo se pierde ella: cierra la tabla y se lleva las de abajo.
+_FOJA = re.compile(r"^\s*\d+\.(?:.+?)\s+"
+                   r"(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)-\s?(\d+)\s+\d+")
+
+
+def leer_tabla(texto: str,
+               mapa: dict[str, dict[str, str]]) -> list[tuple[str, list[tuple]]]:
+    """[(zona, [(PJ, GF, GC, G, E, P)])] -- las tablas que publica la fuente.
+
+    UNA ENTRADA POR TABLA Y NO POR ZONA, aunque dos tablas caigan bajo el mismo
+    nombre. El Argentino A 2009-10 corre dos fases y las dos rotulan sus
+    secciones `Zone 1`, `Zone 2`, `Zone 3`: son seis tablas y seis conjuntos de
+    partidos distintos. Juntar por nombre las fusionaria de a pares y el cruce
+    compararia un conjunto contra otro. Devueltas por separado, el que cruza
+    puede exigir que la zona traiga UNA sola -- la misma cardinalidad que este
+    repo le exige a cualquier emparejamiento -- y abstenerse cuando no.
+
+    Es un TESTIGO DE NUESTRA PROPIA LECTURA, y sale gratis. Cuando los partidos
+    de una pagina vienen de aca y su suma no cierra contra la tabla de Wikipedia,
+    hay dos explicaciones muy distintas: los leimos mal, o las dos fuentes no
+    coinciden. La tabla que la fuente publica al lado de sus propios partidos
+    separa una de la otra sin traer nada de afuera.
+
+    NO SE EMPAREJA NI UN NOMBRE. La tabla escribe `Deportivo Santamarina
+    (Tandil)` donde la lista de partidos escribe `Dvo Santamarina`, y emparejar
+    por parecido es justo lo que este repo no hace nunca. No hace falta: la foja
+    de una zona es un CONJUNTO de filas, y comparar el conjunto entero contra el
+    conjunto de nuestras sumas responde la pregunta igual. La zona de cada tabla
+    se sabe por donde esta parada en el documento, que es un dato estructural.
+
+    SOLO CUENTAN LAS TABLAS ROTULADAS `Final Table:`. El mapa tambien nombra las
+    secciones de playoff -- `Group A`, `Group B` --, y esas traen su propia tabla
+    de cuatro filas que cubre nada mas que el playoff. Sus clubes ya jugaron la
+    zona, asi que cruzarla contra la suma de la temporada entera da cuatro filas
+    contra cuatro filas y todas distintas: una alarma perfecta y perfectamente
+    falsa. El rotulo lo escribe la fuente, y es lo unico que distingue una tabla
+    que cubre lo que venimos sumando de una que no.
+    """
+    fuera: list[tuple[str, list[tuple]]] = []
+    zona = ""
+    abierta = False
+    for linea in texto.split("\n"):
+        pelada = linea.strip()
+        if not pelada:
+            continue
+        if pelada.startswith("Final Table"):
+            # El rotulo sobrevive la linea en blanco que lo separa de sus filas.
+            abierta = True
+            if zona in mapa:
+                fuera.append((zona, []))
+            continue
+        if m := _FOJA.match(linea):
+            if abierta and zona in mapa:
+                pj, g, e, pp, gf, gc = (int(x) for x in m.groups())
+                fuera[-1][1].append((pj, gf, gc, g, e, pp))
+            continue
+        if set(pelada) <= {"-", " "}:
+            # La linea de guiones que la fuente dibuja para marcar el corte de
+            # clasificacion NO cierra la tabla. Tratarla como si la cerrara no
+            # pierde una fila: pierde TODAS LAS DE ABAJO, y en silencio. El
+            # Argentino A 2009-10 lleva dos cortes en su primera tabla, asi que
+            # sus ocho filas se leian como tres y la zona quedaba sin cruzar sin
+            # que nada lo dijera.
+            continue
+        # Cualquier otra linea con texto cierra la tabla, y si ademas es un
+        # encabezado de seccion cambia la zona.
+        abierta = False
+        if pelada in mapa:
+            zona = pelada
+        elif pelada.startswith(("Torneo ", "Zona ", "Zone ", "Group ", "Undecagonal",
+                                "First Phase", "Second Phase", "Final", "Promoci",
+                                "Champion", "Relegation")):
+            zona = ""
+    return [(z, f) for z, f in fuera if f]
+
+
 def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
                 mes_inicio: int = 8, desde: str = "") -> tuple[list, list[str]]:
     """Los partidos de eliminacion, con su localia y su fecha de dia.

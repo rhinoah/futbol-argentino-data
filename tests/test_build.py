@@ -886,3 +886,97 @@ def test_una_mayoria_sobre_dos_partidos_no_es_una_mayoria():
     pero no significa nada: por eso pide un solapamiento minimo antes de juzgar."""
     _, frenar = build.le_creemos_la_localia(repetidas=2, alreves=2)
     assert not frenar
+
+
+# --------------------------------------------------------------------------
+# La foja de la fuente como testigo de nuestra propia lectura
+# --------------------------------------------------------------------------
+_MAPA_2 = {"Zone 1": {"A": "A", "B": "B"}, "Zone 2": {"C": "C", "D": "D"}}
+
+
+def _zp(local, visita, gl, gv, zona):
+    from fad.parser import Partido
+    return Partido(fecha="2010-01-01", local=local, visita=visita, goles_local=gl,
+                   goles_visita=gv, fase="zonas", zona=zona)
+
+
+def _tabla(zona, filas):
+    """Un documento con una tabla rotulada. `filas` son (PJ, G, E, P, GF, GC),
+    que es el orden en que la fuente las imprime."""
+    dentro = "".join(
+        f" {i}.Club{i} (Ciudad)   {pj:>3} {g:>3} {e:>3} {pp:>3}  {gf}-{gc}  0\n"
+        for i, (pj, g, e, pp, gf, gc) in enumerate(filas, 1))
+    return f"{zona}\nFinal Table:\n\n{dentro}"
+
+
+def test_la_foja_de_la_fuente_respalda_nuestra_lectura():
+    """Dos clubes, un partido, y la tabla de la fuente diciendo lo mismo que
+    nuestra suma. NO SE EMPAREJA NI UN NOMBRE: la fuente escribe `Club1` y
+    `Club2` y nosotros `A` y `B`. Se comparan los CONJUNTOS de fojas, y para
+    saber si dos conjuntos son el mismo no hace falta saber cual fila es cual."""
+    ps = [_zp("A", "B", 2, 0, "Zone 1")]
+    respaldados, avisos = build.la_fuente_se_respalda(
+        ps, _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)]), _MAPA_2)
+    assert respaldados == {"A", "B"} and avisos == []
+
+
+def test_si_la_foja_no_coincide_se_avisa_sin_acusar_a_nadie():
+    """EL AVISO NO DICE DE QUIEN ES LA CULPA PORQUE NO LA SABE. Lo tentador es
+    leerlo como "la leimos mal", y es una de las dos explicaciones: la otra es
+    que la fuente se contradiga sola, que es textualmente lo que hace el
+    Argentino A 2007-08 con su partido dado por perdido."""
+    ps = [_zp("A", "B", 2, 0, "Zone 1")]
+    respaldados, avisos = build.la_fuente_se_respalda(
+        ps, _tabla("Zone 1", [(1, 1, 0, 0, 3, 0), (1, 0, 0, 1, 0, 3)]), _MAPA_2)
+    assert respaldados == set()
+    assert len(avisos) == 1 and "o los leimos mal o la fuente se contradice" in avisos[0]
+    assert "error de lectura nuestro" not in avisos[0]
+
+
+def test_el_club_del_interzonal_vuelve_a_su_zona():
+    """Las rondas interzonales se imprimen bajo UNA de las dos zonas, asi que un
+    club aparece con partidos en la zona ajena. La zona de cada club sale de
+    donde juega la MAYORIA de los suyos; sin eso, la Zone 1 del Argentino A
+    2008-09 se cruzaba con dieciseis clubes contra ocho filas y no cruzaba
+    nunca."""
+    ps = [_zp("A", "B", 1, 0, "Zone 1"), _zp("B", "A", 1, 0, "Zone 1"),
+          _zp("C", "D", 1, 0, "Zone 2"), _zp("D", "C", 1, 0, "Zone 2"),
+          # el interzonal, impreso bajo la Zone 1: mete a C y D ahi
+          _zp("A", "C", 1, 0, "Zone 1"), _zp("B", "D", 1, 0, "Zone 1")]
+    # La tabla de la zona cuenta los TRES partidos de cada uno, interzonal
+    # incluido, que es lo que hace la fuente de verdad.
+    respaldados, avisos = build.la_fuente_se_respalda(
+        ps, _tabla("Zone 2", [(3, 1, 0, 2, 1, 2), (3, 1, 0, 2, 1, 2)]), _MAPA_2)
+    assert respaldados == {"C", "D"}, "C y D son de la Zone 2 aunque jueguen en la 1"
+
+
+def test_una_tabla_que_no_cubre_la_zona_no_se_cruza():
+    """Distinta cantidad de filas que de clubes quiere decir que las dos partes
+    no estan hablando del mismo conjunto de partidos --las tablas de playoff son
+    asi-- y comparar dos conjuntos distintos no responde nada."""
+    ps = [_zp("A", "B", 2, 0, "Zone 1")]
+    respaldados, avisos = build.la_fuente_se_respalda(
+        ps, _tabla("Zone 1", [(1, 1, 0, 0, 2, 0)]), _MAPA_2)
+    assert (respaldados, avisos) == (set(), [])
+
+
+def test_una_zona_con_dos_tablas_no_se_cruza():
+    """Cardinalidad: si la zona trae dos tablas no se sabe cual cubre que. Es el
+    Argentino A 2009-10, que corre dos fases rotulando las dos `Zone 1`."""
+    ps = [_zp("A", "B", 2, 0, "Zone 1")]
+    una = _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)])
+    respaldados, avisos = build.la_fuente_se_respalda(ps, una + "\n" + una, _MAPA_2)
+    assert (respaldados, avisos) == (set(), []), "dos tablas iguales tampoco alcanzan"
+
+
+def test_un_club_ya_revisado_a_mano_abstiene_a_su_zona():
+    """Denunciar de nuevo algo ya resuelto convierte un archivo de conclusiones
+    en ruido. Se pierde el respaldo del resto de la zona y esta bien que se
+    pierda: abstenerse deja las cosas como estaban."""
+    pagina = "Torneo Argentino A 2007-08"
+    ps = [_zp("Luján de Cuyo", "Juventud Unida Universitario", 2, 0, "Zone 1")]
+    mapa = {"Zone 1": {"L": "Luján de Cuyo", "J": "Juventud Unida Universitario"}}
+    tabla = _tabla("Zone 1", [(1, 1, 0, 0, 9, 0), (1, 0, 0, 1, 0, 9)])
+    assert build.la_fuente_se_respalda(ps, tabla, mapa)[1], "sin la pagina, avisa"
+    assert build.la_fuente_se_respalda(ps, tabla, mapa, pagina) == (set(), []), \
+        "con la pagina, se abstiene"

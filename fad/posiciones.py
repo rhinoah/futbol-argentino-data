@@ -1110,7 +1110,7 @@ def _propios_de(ps: list, alcance: str) -> dict:
 
 
 def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
-               pagina: str = "") -> list[str]:
+               pagina: str = "", respaldados: set[str] | None = None) -> list[str]:
     """Los clubes cuyos totales no coinciden con la tabla de la pagina.
 
     Solo se comparan los clubes que estan en las dos partes. Un club de la tabla
@@ -1156,7 +1156,8 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
         if (gf, gc) != (gf2, gc2):
             fuera.append(f"{club}: la tabla dice GF{gf} GC{gc} en {pj} partidos y "
                          f"sumandolos dan GF{gf2} GC{gc2}. "
-                         + _de_quien_es_la_culpa(desviados))
+                         + _de_quien_es_la_culpa(
+                             desviados, club in (respaldados or set())))
     return fuera
 
 
@@ -1231,7 +1232,7 @@ def _texto_del_desbalance(gf: int, gc: int, alcance: str) -> str:
             f"La tabla se contradice sola, sin necesidad de cruzarla contra nada")
 
 
-def _de_quien_es_la_culpa(desviados: int) -> str:
+def _de_quien_es_la_culpa(desviados: int, respaldado: bool = False) -> str:
     """De que lado esta el error, deducido de cuantos clubes se desvian.
 
     Un marcador mal leido toca siempre a DOS clubes: si a uno le sobra un gol a
@@ -1245,6 +1246,21 @@ def _de_quien_es_la_culpa(desviados: int) -> str:
     de gol, los puntos y el ganados-empatados-perdidos, y hasta la suma de toda
     la liga sigue dando GF total == GC total.
     """
+    if respaldado:
+        # LA FOJA YA DESCARTO LA MITAD DE LAS SOSPECHAS. Cuando los partidos no
+        # salen de esta pagina sino de una fuente externa, esa fuente publica su
+        # propia tabla al lado de ellos, y nuestra suma coincidio con la suya en
+        # las seis cifras. Entonces no hay nada que releer: el desacuerdo es
+        # entre las DOS FUENTES, y para arbitrarlo hace falta una tercera.
+        #
+        # La diferencia no es de matiz. El Argentino A 2008-09 tiene diez clubes
+        # asi, y el aviso los mandaba a los diez a buscar un partido mal leido
+        # que no existe.
+        return ("Pero esos partidos no salen de esta pagina sino de una fuente "
+                "externa, y nuestra suma coincide EXACTA -- PJ, G, E, P, GF, GC -- "
+                "con la tabla que esa fuente publica al lado de ellos. No es un "
+                "error de lectura: las dos fuentes no coinciden, y arbitrarlo pide "
+                "una tercera")
     if desviados == 1:
         return ("Es el unico club desviado, y un marcador mal leido tocaria a dos: "
                 "lo mas probable es que la fila de la tabla este mal transcripta")

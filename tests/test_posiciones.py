@@ -1673,3 +1673,38 @@ def test_un_dividido_sin_seccion_vale_para_la_tabla_general():
     """La mayoria de las paginas tienen una sola tabla y su dividido no declara
     seccion: ahi vale para la comparacion general, que es la de alcance vacio."""
     assert correcciones.clubes_divididos("Campeonato de Primera B Nacional 2011-12")
+
+
+# --------------------------------------------------------------------------
+# Lo que el respaldo de la fuente le cambia al aviso
+# --------------------------------------------------------------------------
+def _dos_desviados():
+    """Dos clubes desviados contra la tabla, que es el caso en que el aviso
+    manda a buscar un partido mal leido."""
+    ps = [zona("Boca Juniors", "River Plate", 2, 0),
+          zona("River Plate", "Boca Juniors", 1, 0)]
+    texto = pagina(fila(1, "Boca Juniors", 3, 2, 1, 0, 1, 3, 1),
+                   fila(2, "River Plate", 3, 2, 1, 0, 1, 1, 3))
+    return ps, texto
+
+
+def test_sin_respaldo_el_aviso_manda_a_releer_el_partido():
+    salio = posiciones.contrastar(*_dos_desviados())
+    assert salio and "puede venir de un partido mal leido" in salio[0]
+
+
+def test_la_foja_de_la_fuente_cambia_el_aviso():
+    """Cuando los partidos no salen de la pagina sino de una fuente externa, y
+    la tabla que esa fuente publica al lado de ellos coincide EXACTA con nuestra
+    suma, no hay nada que releer: el desacuerdo es entre las dos fuentes.
+
+    No es un matiz. El Argentino A 2008-09 tiene diez clubes asi, y a los diez
+    los mandaba a buscar un partido mal leido que no existe.
+    """
+    ps, texto = _dos_desviados()
+    salio = posiciones.contrastar(ps, texto, respaldados={"Boca Juniors"})
+    boca = next(d for d in salio if d.startswith("Boca"))
+    river = next(d for d in salio if d.startswith("River"))
+    assert "las dos fuentes no coinciden" in boca
+    assert "mal leido" not in boca
+    assert "puede venir de un partido mal leido" in river, "el otro no esta respaldado"

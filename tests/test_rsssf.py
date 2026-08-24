@@ -839,3 +839,86 @@ def test_la_zona_del_compacto_va_en_la_llave_y_en_la_jornada():
     assert llaves == {"Torneo Apertura - Zona Campeonato",
                       "Torneo Apertura - Zona Reválida"}, llaves
     assert {p.jornada for p in ps} == {"Zona Campeonato - Final", "Zona Reválida - Final"}
+
+
+# --------------------------------------------------------------------------
+# La foja que publica la propia fuente
+# --------------------------------------------------------------------------
+_MAPA_FOJA = {"Zone 1": {"A": "A", "B": "B"}, "Zone 2": {"C": "C", "D": "D"}}
+
+
+def test_lee_la_foja_que_publica_la_fuente():
+    """Las seis cifras de cada fila, en el mismo orden que devuelve
+    `posiciones.sumar`: PJ, GF, GC, G, E, P. Salen desordenadas respecto de la
+    fuente --que las imprime PJ G E P GF-GC-- justamente para poder compararlas
+    contra nuestras sumas sin reordenar nada del otro lado."""
+    texto = ("Zone 1\n"
+             "\n"
+             "Round 1 [Aug 23]\n"
+             "A                       2-0 B\n"
+             "\n"
+             "Final Table:\n"
+             "\n"
+             " 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+             " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA) == [
+        ("Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)])]
+
+
+def test_la_linea_de_guiones_no_cierra_la_tabla():
+    """El corte de clasificacion que la fuente dibuja con guiones parte la tabla
+    al medio. Tratarlo como fin de tabla no pierde una fila: PIERDE TODAS LAS DE
+    ABAJO, y sin decir nada. El Argentino A 2009-10 lleva dos cortes en su
+    primera tabla y sus ocho filas se leian como tres."""
+    texto = ("Zone 1\n"
+             "Final Table:\n"
+             "\n"
+             " 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+             " - - - - - - - - - - - - - - - - - - - - - - - -\n"
+             " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    assert len(rsssf.leer_tabla(texto, _MAPA_FOJA)[0][1]) == 2
+
+
+def test_una_fila_con_un_solo_espacio_se_lee_igual():
+    """Un nombre que llena la columna deja UN espacio antes del PJ. Y no se
+    pierde solo el: al no matchear, la fila cae en la rama que cierra la tabla y
+    se lleva las de abajo. Es textual del Argentino A 2008-09, cuyo `Juventud
+    Unida Universitario (San Luis)` dejaba media zona sin leer."""
+    texto = ("Zone 1\n"
+             "Final Table:\n"
+             "\n"
+             " 1.Juventud Unida Universitario (San Luis) 2   1  1  0   3-1   4\n"
+             " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    assert len(rsssf.leer_tabla(texto, _MAPA_FOJA)[0][1]) == 2
+
+
+def test_una_tabla_sin_el_rotulo_no_se_lee():
+    """SOLO CUENTAN LAS ROTULADAS `Final Table:`. Las secciones de playoff estan
+    en el mapa igual que las zonas y traen su propia tabla, que cubre nada mas
+    que el playoff. Cruzarla contra la suma de la temporada entera daria una
+    alarma perfecta y perfectamente falsa."""
+    texto = ("Zone 1\n"
+             "\n"
+             " 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+             " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA) == []
+
+
+def test_dos_tablas_de_la_misma_zona_vuelven_separadas():
+    """Una entrada por TABLA y no por zona. El Argentino A 2009-10 corre dos
+    fases y las dos rotulan sus secciones `Zone 1`: juntarlas por nombre
+    fusionaria dos conjuntos de partidos distintos en una sola lista."""
+    una = (" 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+           " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    texto = ("Zone 1\nFinal Table:\n\n" + una +
+             "\nSecond Phase\n\nZone 1\nFinal Table:\n\n" + una)
+    leidas = rsssf.leer_tabla(texto, _MAPA_FOJA)
+    assert len(leidas) == 2 and all(z == "Zone 1" for z, _ in leidas)
+
+
+def test_una_zona_que_el_mapa_no_nombra_no_se_lee():
+    """El mapa es el que dice que secciones existen. Una tabla parada en una
+    seccion que no esta ahi no tiene con que cruzarse."""
+    texto = ("Zone 9\nFinal Table:\n\n"
+             " 1.A (Ciudad)                              2   1  1  0   3-1   4\n")
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA) == []
