@@ -966,3 +966,53 @@ def test_una_zona_que_el_mapa_no_nombra_no_se_lee():
     texto = ("Zone 9\nFinal Table:\n\n"
              " 1.A (Ciudad)                              2   1  1  0   3-1   4\n")
     assert rsssf.leer_tabla(texto, _MAPA_FOJA) == []
+
+
+# --------------------------------------------------------------------------
+# El que se recupera y el que se pierde no son lo mismo
+# --------------------------------------------------------------------------
+def test_el_abandonado_que_se_recupera_se_dice_distinto_del_que_no():
+    """RSSSF escribe el partido abandonado y despues, unas lineas abajo, su
+    reanudacion: `[remaining 32']`. El lector descarta el primero y toma el
+    segundo, que es lo correcto -- pero decia lo mismo en los dos casos, y no son
+    lo mismo: uno es el sistema funcionando y el otro es un agujero.
+
+    Medido sobre el corpus, de tres avisos dos se recuperaban. Decirlo junto era
+    mandar a revisar tres cosas cuando hay una sola.
+    """
+    _, avisos = leer(
+        "Zona A - Sur\n"
+        "Round 12 [Nov 16]\n"
+        "Cipolletti              abd Villa Mitre            [abandoned at 0-1 in 58']\n"
+        "Round 12 [Nov 17]\n"
+        "Cipolletti              0-1 Villa Mitre            [remaining 32']\n")
+    dicho = next(a for a in avisos if "NO entra" in a)
+    assert "su continuacion si entra" in dicho
+    assert "NO HAY OTRA LINEA" not in dicho
+
+
+def test_el_abandonado_sin_continuacion_se_denuncia():
+    """El unico del corpus que se pierde de verdad: `Juv. Antoniana abd Gimnasia
+    y Esgrima CdU` del Argentino A 2009-10, abandonado 1-1 a los 68' y nunca
+    reanudado. La tabla que la propia RSSSF publica debajo lo confirma: les da 3
+    partidos jugados a esos dos y 4 a los otros tres del grupo."""
+    _, avisos = leer(
+        "Zona A - Sur\n"
+        "Round 12 [Nov 16]\n"
+        "Cipolletti              abd Villa Mitre            [abandoned at 0-1 in 58']\n")
+    dicho = next(a for a in avisos if "NO entra" in a)
+    assert "NO HAY OTRA LINEA" in dicho and "se queda sin el" in dicho
+
+
+def test_un_partido_dividido_no_se_pregunta_por_su_continuacion():
+    """Un dividido no tiene otra linea POR DEFINICION -- el fallo le dio un
+    resultado a cada club y eso no se escribe en ningun lado --, asi que
+    preguntarselo daba un aviso alarmante sobre una decision ya tomada y escrita
+    en `correcciones`."""
+    _, avisos = leer(
+        "Zona A - Sur\n"
+        "Round 14 [Nov 16]\n"
+        "Cipolletti              awd Villa Mitre     [awarded 0-1 loss to both]\n")
+    dicho = next(a for a in avisos if "NO entra" in a)
+    assert "DIVIDIDOS" in dicho
+    assert "NO HAY OTRA LINEA" not in dicho and "continuacion" not in dicho

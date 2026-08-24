@@ -237,6 +237,16 @@ _FALLADO = re.compile(r"awarded\s+(\d+)\s*-\s*(\d+)")
 _ABANDONADO = re.compile(r"abandoned at\s+(\d+)\s*-\s*(\d+)")
 
 
+# El motivo del abandono va en una constante y no suelto en el return porque
+# `_los_que_se_pierden` lo compara: la pregunta "hay otra linea con este
+# partido?" solo tiene sentido para un abandono, que puede tener continuacion.
+# Un partido DIVIDIDO no tiene otra linea por definicion, y preguntarselo daba
+# un aviso alarmante sobre una decision que ya estaba tomada y escrita.
+_SIN_DESENLACE = ("se abandono y la nota no dice que el resultado quedara "
+                  "firme: si se completo despues, la fila que entra es la del "
+                  "partido completo")
+
+
 def _leer_anotacion(nota: str) -> tuple[tuple[int, int] | None, str, str]:
     """(marcador, status, motivo). Marcador None = esta fila NO entra.
 
@@ -254,9 +264,7 @@ def _leer_anotacion(nota: str) -> tuple[tuple[int, int] | None, str, str]:
     m_ab = _ABANDONADO.search(n)
     m_fa = _FALLADO.search(n)
     if m_ab and "result stood" not in n and not m_fa:
-        return None, "", ("se abandono y la nota no dice que el resultado quedara "
-                          "firme: si se completo despues, la fila que entra es la "
-                          "del partido completo")
+        return None, "", _SIN_DESENLACE
     if m_fa:
         return ((int(m_fa.group(1)), int(m_fa.group(2))),
                 "suspendido" if m_ab else "escritorio", "")
@@ -345,6 +353,9 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
     fuera: list[Ajeno] = []
     desconocidos: set[str] = set()
     raros: list[str] = []
+    # Los partidos que la nota deja afuera, con su ronda y sus dos clubes, para
+    # poder decir al final cuales se recuperan y cuales se pierden de verdad.
+    caidos: list[tuple] = []
     # De que par es la ronda interzonal abierta ("1-2"), o "" si no lo es.
     interzonal = ""
     # Un encabezado interzonal ya visto, esperando a su ronda.
@@ -456,7 +467,11 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                     marcador, estado, motivo = _leer_anotacion(nota)
                     donde = f"{llave} {zona} ronda {ronda}: {cl2} {m2.group(2)} {cv2}"
                     if marcador is None:
-                        raros.append(f"{donde} NO entra -- {motivo}")
+                        # No se puede decir todavia si el partido se PIERDE o si
+                        # su continuacion entra unas lineas mas abajo: eso se
+                        # sabe cuando esta leido todo. Ver `_los_que_se_pierden`.
+                        caidos.append((f"{donde} NO entra -- {motivo}",
+                                       ronda, llave, zona, cl2, cv2))
                     else:
                         raros.append(f"{donde} entra {marcador[0]}-{marcador[1]}"
                                      f"{' (' + estado + ')' if estado else ''}"
@@ -481,8 +496,39 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                            zona=zona))
     avisos = ([f"{len(desconocidos)} nombres de RSSSF que el mapa no traduce: "
                + "; ".join(sorted(desconocidos)[:6])] if desconocidos else [])
-    avisos += raros
+    avisos += raros + _los_que_se_pierden(caidos, fuera)
     return fuera, avisos
+
+
+def _los_que_se_pierden(caidos: list, fuera: list) -> list[str]:
+    """Separa el partido que se recupera del que se pierde. No son lo mismo.
+
+    Cuando la nota deja un partido afuera hay dos finales muy distintos, y desde
+    la linea no se distinguen: puede ser que su CONTINUACION este unas lineas mas
+    abajo -- RSSSF escribe el abandonado y despues la reanudacion, `[remaining
+    32']` -- o puede ser que no haya nada mas y el partido no exista en ningun
+    lado. Lo primero es el sistema funcionando; lo segundo es un agujero.
+
+    Medido sobre el corpus: de tres, dos se recuperan. El que se pierde es el
+    `Juv. Antoniana abd Gimnasia y Esgrima CdU` del Argentino A 2009-10,
+    abandonado 1-1 a los 68' y nunca reanudado -- y la tabla que la propia RSSSF
+    publica debajo lo confirma sin que haya que ir a buscar afuera: les da 3
+    partidos jugados a esos dos clubes y 4 a los otros tres del grupo.
+
+    Decirlo junto era mandar a revisar tres cosas cuando hay una sola.
+    """
+    dichos = []
+    for texto, ronda, llave, zona, cl, cv in caidos:
+        if not texto.endswith(_SIN_DESENLACE):
+            dichos.append(texto)
+            continue
+        hay = any(a.jornada == ronda and a.llave == llave and a.zona == zona
+                  and {a.local, a.visita} == {cl, cv} for a in fuera)
+        dichos.append(f"{texto}; su continuacion si entra, unas lineas mas abajo"
+                      if hay else
+                      f"{texto}, Y NO HAY OTRA LINEA CON ESE PARTIDO: no se "
+                      f"recupera de ningun lado y el dataset se queda sin el")
+    return dichos
 
 
 

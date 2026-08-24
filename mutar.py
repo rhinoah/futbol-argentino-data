@@ -964,6 +964,15 @@ MUTANTES = [
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
 
+    # El abandonado que se recupera y el que se pierde no son lo mismo.
+    ("fad/rsssf.py", "decir lo mismo del que se recupera y del que se pierde",
+     "        hay = any(a.jornada == ronda and a.llave == llave and a.zona == zona",
+     "        hay = True or any(a.jornada == ronda and a.llave == llave and a.zona == zona"),
+
+    ("fad/rsssf.py", "preguntarle su continuacion a un partido dividido",
+     "        if not texto.endswith(_SIN_DESENLACE):",
+     "        if False:"),
+
     # Un partido programado con marcador cero no es un 0-0.
     ("fad/espn.py", "leer como resultado un partido que no se jugo",
      '        if ((comp.get("status") or {}).get("type") or {}).get("completed") is False:',
