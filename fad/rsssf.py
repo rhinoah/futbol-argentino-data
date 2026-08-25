@@ -895,8 +895,17 @@ def leer_tabla(texto: str,
             if acumuladas:
                 # Adentro de `Aggregate Tables:` el encabezado de zona ES la
                 # apertura de su tabla; afuera, solo cambia la zona.
+                #
+                # Y VA CON LA FASE VACIA aunque estemos adentro de una. Una tabla
+                # ACUMULADA cubre la temporada entera, no la fase donde esta
+                # parada: las tres del Argentino A 2006-07 estan debajo de
+                # `Clausura 2007` y cuentan los 28 partidos de sus clubes, no los
+                # 14 de ese torneo. Rotularlas Clausura cruzaria una tabla de 28
+                # contra media temporada, y los ocho clubes que esa pagina
+                # respalda se irian a cero. Lo dice la fuente con su propio rotulo;
+                # no se adivina.
                 abierta = True
-                fuera.append((fase, zona, []))
+                fuera.append(("", zona, []))
         else:
             # CUALQUIER renglon con texto que no sea una zona cierra la seccion
             # acumulada. Enumerar los encabezados que la cierran es lo que hace la

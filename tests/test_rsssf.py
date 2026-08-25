@@ -1060,6 +1060,23 @@ def test_la_fase_viaja_con_la_tabla_y_las_distingue():
         ("Torneo Apertura", "Zone 1"), ("Torneo Clausura", "Zone 1")]
 
 
+def test_la_tabla_acumulada_va_sin_fase_aunque_este_adentro_de_una():
+    """UNA TABLA ACUMULADA CUBRE LA TEMPORADA, NO LA FASE DONDE ESTA PARADA.
+
+    Las tres del Argentino A 2006-07 estan debajo del encabezado `Clausura 2007`
+    y cuentan los 28 partidos de sus clubes, no los 14 de ese torneo. Rotularlas
+    Clausura cruzaria una tabla de 28 contra media temporada, y los ocho clubes
+    que esa pagina respalda se irian a cero. Lo dice la fuente con su propio
+    rotulo; no se adivina."""
+    una = (" 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+           " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    texto = ("Clausura\n\nZone 1\nFinal Table:\n\n" + una +
+             "\nAggregate Tables:\n\nZone 2\n" + una)
+    leidas = rsssf.leer_tabla(texto, _MAPA_FOJA, {"Clausura": "Torneo Clausura"})
+    assert [(fa, z) for fa, z, _ in leidas] == [
+        ("Torneo Clausura", "Zone 1"), ("", "Zone 2")]
+
+
 def test_el_encabezado_de_fase_borra_la_zona_anterior():
     """Las dos fases repiten los nombres de zona, asi que la zona de la que termino
     no puede quedar prendida: una tabla de la fase nueva se colgaria de una zona

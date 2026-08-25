@@ -610,6 +610,10 @@ MUTANTES = [
      "    return True or _lo_prueba_el_desbalance(1, gc - gf,"),
 
     # La fase que separa las zonas que se llaman igual, y el pool por etapa.
+    ("fad/rsssf.py", "rotular la tabla acumulada con la fase donde esta parada",
+     '                fuera.append(("", zona, []))',
+     "                fuera.append((fase, zona, []))"),
+
     ("fad/rsssf.py", "no reconocer el encabezado de fase",
      "        if pelada in fases:",
      "        if False:"),
