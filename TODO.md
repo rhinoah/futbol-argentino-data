@@ -26,12 +26,24 @@ en el archivo que los produce y no se repiten acá. Lo que queda:
   desacuerdos que el cruce denuncia son todos de día o de quién fue local, **con los
   goles idénticos**. Se conserva el de la página y se avisa; cerrarlos pide una tercera
   fuente, o una regla de precedencia que hoy no está medida.
-- **Y uno de esos 61 ya tiene la respuesta, y no la sabemos escribir.** El mismo historial
-  que arbitró el marcador de `Platense` vs `Estudiantes (BA)` fecha el partido el **30 de
-  agosto** —la tabla no lo tenía a las 00:30 del 30 y sí a las 02:29 del 31—, que es el
-  día de ESPN contra el 31 de RSSSF, que es el que quedó escrito. Corregir un día pediría
-  un **noveno tipo de corrección** en `fad/correcciones.py`, y no se agrega uno por una
-  fila: primero hay que ver cuántas de las 61 se pueden cerrar con el mismo método.
+- **El historial cierra `3` de esas 61, y por eso no se construye nada.** Estaba anotado
+  «ver cuántas se cierran con el método que arbitró el `Platense`»; se midió. De las 61,
+  `12` son llaves de eliminación —no entran en ninguna tabla de posiciones, así que el
+  testigo no puede opinar—, `18` caen en tres páginas que **no tienen una sola revisión**
+  en la ventana del partido, y otras `11` no dejan leer un corchete confiable. De los `20`
+  corchetes válidos, **3 deciden** y 17 no. Y una de las 3 es el `Platense` que ya se usó,
+  así que lo nuevo son **dos filas**: `Estudiantes (BA)` vs `Sarmiento (J)` (Primera B
+  2010-11, fecha 35: el 15 y no el 16 de abril) y `Muñiz` vs `Yupanqui` (Primera C 2024,
+  fecha 7: confirma nuestro 13 de marzo). **Un noveno tipo de corrección por dos filas no
+  se paga.**
+- **Y el atajo que parecía duplicar el rendimiento está medido y es falso.** El corchete
+  tiene una cota de arriba sólida —si la tabla ya lo contaba a las 02:29, no se jugó esa
+  tarde— y una de abajo que sólo vale si el editor estaba al día. Usar la de abajo sumaría
+  15 casos. Pero midiendo el **atraso real** de cada página, la mediana de la `Primera C
+  2024` es de **259 horas** —once días— y ahí están 9 de esos 15: aplicarla les daría la
+  razón a la otra fuente *porque el editor era lento*, no porque el partido se haya jugado
+  ese día. En el `Argentino A 2012-13` la mediana es de 7,5 horas y ahí sí valdría. La
+  cota de abajo necesita calibrar página por página, y con eso ya no es un atajo.
 - **`9` partidos sin fecha, y sólo `3` esperan una.** Los otros `6` no se jugaron —los
   que el Federal A 2024 le dio por perdidos a Sansinena—. De los 3: dos del `Argentino A
   2004-05` (uno donde la fuente citada le erra al día y otro donde da otro marcador) y uno

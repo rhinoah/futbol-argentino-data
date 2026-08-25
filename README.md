@@ -648,6 +648,45 @@ del 31, así que se jugó el lunes 30 —el día que da ESPN, no el 31 de RSSSF,
 quedó escrito—. Ese sigue abierto: corregir un día pediría un noveno tipo de corrección, y
 no se agrega uno por una fila.
 
+#### Y cuánto rinde ese testigo: 3 de 61
+
+El historial arbitró un marcador. La pregunta obvia era si sirve para las **61
+discrepancias de día** que el dataset arrastra —dos fuentes que dan el mismo partido en
+días distintos—, porque si sirviera valdría la pena construir el mecanismo para escribir la
+corrección. Se midió antes de construir nada, y la respuesta es **no**:
+
+| | |
+|---|---|
+| llaves de eliminación, que no entran en ninguna tabla | 12 |
+| páginas sin una sola revisión en la ventana del partido | 18 |
+| corchete ilegible, o que no identifica el partido | 11 |
+| **corchetes válidos** | **20** |
+| de esos, los que deciden | **3** |
+
+Tres de sesenta y una. El motivo es estructural: la cota **de arriba** es la única sólida
+—si la tabla ya contaba el partido a las 02:29 de la madrugada, no se jugó esa tarde—, y
+esa cota sólo puede descartar la fecha **más tardía**. Con dos candidatas separadas por un
+día, que es el caso de 34 de las 61, casi nunca alcanza.
+
+**Y el atajo que parecía duplicar el rendimiento resultó falso.** La cota *de abajo* —«a
+las 00:30 la tabla no lo tenía, así que no se había jugado»— sumaría 15 casos, pero
+depende de que el editor estuviera al día. Midiendo el atraso real de cada página, la
+mediana de la Primera C 2024 es de **259 horas**: once días. Nueve de esos quince casos
+están ahí, y aplicarles la cota de abajo les daría la razón a la otra fuente *porque el
+editor era lento*, no porque el partido se hubiera jugado ese día. En el Argentino A
+2012-13 la mediana es de 7,5 horas y ahí sí valdría. El atajo existe pero hay que
+calibrarlo página por página, y con eso deja de ser un atajo.
+
+**Una trampa del método, que casi se lleva puesto el resultado.** El primer predicado
+buscaba la revisión donde `PJ_a + PJ_b` sube en dos. Esa suma sube en dos con *dos partidos
+cualesquiera* de esos clubes —A jugando dos veces, o A y B cada uno contra otro rival—, no
+con el partido entre ellos: en la Primera C 2024, con fechas cada tres o cuatro días,
+enganchaba la fecha 12 y contestaba sobre la 13. Daba **8 de 61**, y seis de esas ocho eran
+sobre el partido equivocado. Lo destapó que dos casos devolvieran un corchete *anterior a
+las dos fechas candidatas*, que es imposible. El predicado ahora pide que suban **los dos
+clubes en la misma edición** y que la transición caiga en la jornada del partido; con eso,
+1 de los 21 corchetes se descarta por incoherente y el resto queda auditado.
+
 #### Los 16 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.
