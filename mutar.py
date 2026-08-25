@@ -1782,6 +1782,14 @@ MUTANTES = [
      "                and (m.local, m.visita) == (local, visita)\n"
      "                and True):"),
 
+    ("build.py", "identificar la fila por el marcador CRUDO y no por el corregido",
+     "                       if set(corregida(x)[2:]) == {p_.goles_local, p_.goles_visita}]",
+     "                       if {x.goles_local, x.goles_visita} == {p_.goles_local, p_.goles_visita}]"),
+
+    ("fad/parser.py", "repartir un rango de fechas como si fueran dos dias",
+     "    if _ES_RANGO.search(titulo):\n        return \"\", \"\"",
+     "    if False:\n        return \"\", \"\""),
+
     ("build.py", "preguntar el arbitraje ANTES del espejo de la localia",
      "        return (dl, dv) + correcciones.arbitrado(pagina, x.jornada, dl, dv, gl, gv)",
      "        return (dl, dv) + correcciones.arbitrado(pagina, x.jornada, l, v, gl, gv)"),

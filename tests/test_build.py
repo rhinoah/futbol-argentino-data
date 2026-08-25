@@ -1249,6 +1249,36 @@ def test_un_desacuerdo_que_nadie_declaro_se_sigue_denunciando():
     assert len(discuten) == 1 and "5-0" in discuten[0]
 
 
+def test_sin_fecha_la_fila_se_identifica_por_el_marcador_CORREGIDO():
+    """Cuando la fila no trae dia, lo que la identifica es el marcador -- y tiene
+    que ser el que va a tener, no el que la pagina escribio.
+
+    Las dos cosas se cruzaron de verdad y por eso hace falta el test. Los cuatro
+    partidos de la Revalida del Argentino A 2011-12 tienen su marcador arbitrado
+    --la pagina dice 1-0 y el dataset escribe 1-1-- y ademas se quedaron sin fecha,
+    porque su tabla la publica como rango y un rango no se reparte. Sin fecha esta
+    es la rama que empareja, y comparando el marcador CRUDO no encontraba la fila:
+    `{0,1}` no es `{1,1}`. El build volvia a denunciar, uno por uno, los cuatro
+    desacuerdos que dos pasos mas abajo estan resueltos y declarados.
+
+    Si no identifica, `resuelto` ni siquiera llega a correr: por eso el arreglo va
+    un renglon antes y no adentro de `resuelto`.
+    """
+    from fad.parser import Partido
+    # la fila CRUDA de la pagina: sin fecha, con la localia al reves y el marcador
+    # que un `Marcador` declarado corrige a 1-1
+    pagina = [Partido(fecha="", local="Juventud Unida Universitario",
+                      visita="Juventud Antoniana", goles_local=0, goles_visita=1,
+                      fase="eliminacion", jornada="Reválida - Segunda ronda")]
+    rsssf_ = [_p("Juventud Antoniana", "Juventud Unida Universitario",
+                 "2012-04-22", 1, 1)]
+
+    nuevas, repetidas, discuten, _a = build.sin_repetir(
+        rsssf_, pagina, "Torneo Argentino A 2011-12")
+    assert (repetidas, nuevas) == (1, []), "es el mismo partido"
+    assert discuten == [], "esta arbitrado y declarado: no se vuelve a denunciar"
+
+
 def test_una_fila_sin_fecha_y_espejada_es_un_desacuerdo_de_verdad():
     """Acá vivía una guarda muerta, y su único efecto posible era el equivocado.
 

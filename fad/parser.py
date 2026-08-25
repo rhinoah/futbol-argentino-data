@@ -1071,17 +1071,45 @@ def _fechas_del_titulo(titulo: str) -> list[tuple[int, int]]:
     return list(dict.fromkeys(f for f in fuera if 1 <= f[0] <= 31 and 1 <= f[1] <= 12))
 
 
+# "26 al 31 de mayo" no son dos dias: es una VENTANA. La preposicion es lo unico
+# que los separa, y los separa sin ambiguedad -- en castellano `X al Y` abre un
+# rango y `X y Y` enumera --.
+_ES_RANGO = re.compile(r"\bal\b", re.I)
+
+
 def _fechas_de_llave(titulo: str, anio: int, anio_fin: int | None,
                      mes_inicio: int) -> tuple[str, str]:
     """La fecha de la ida y la de la vuelta, o dos vacias.
 
-    SOLO cuando el titulo nombra EXACTAMENTE DOS. Con dos, la pagina esta diciendo
-    en que dia se jugo cada pata y no hay nada que deducir. Con tres o mas --
-    "Tercera fase - 22, 26 y 27 de mayo" -- los partidos se repartieron entre esos
-    dias y la tabla no dice cual le toco a cada llave: poner la primera y la
-    ultima seria escribir una fecha que la fuente no da, para la mitad de las
-    filas. Prefiero dejarlas sin fecha y que el aviso lo diga.
+    SOLO cuando el titulo nombra EXACTAMENTE DOS DIAS Y NO UN RANGO.
+
+    Con dos dias enumerados -- "Cuarta fase - 2 y 9 de junio", "Primera ronda
+    21/11 - 28/11" -- la pagina esta diciendo en que dia se jugo cada pata y no
+    hay nada que deducir. Con tres o mas -- "Tercera fase - 22, 26 y 27 de mayo"
+    -- los partidos se repartieron entre esos dias y la tabla no dice cual le toco
+    a cada llave.
+
+    Y CON UN RANGO TAMPOCO, que es lo que faltaba. "Cuarta fase - 26 al 31 de
+    mayo" nombra exactamente dos dias, asi que pasaba el filtro y les ponia el 26
+    a las cuatro idas y el 31 a las cuatro vueltas. No es lo que dice la pagina:
+    dice que esa fase se jugo en esa ventana. Los dias reales de esas cuatro
+    llaves fueron 26, 26, 27 y 28 las idas y 30, 30, 30 y 31 las vueltas -- lo
+    publica el blog de Jose Carluccio partido por partido, con sede y goleadores
+    --, o sea que de las ocho filas solo TRES caian bien y cinco llevaban una
+    fecha que nadie observo.
+
+    SE MIDIO SOBRE EL CORPUS ENTERO: de los 13 titulos de llave que fechaban, 6
+    dicen `al` con ventanas de 4 a 11 dias, y 7 enumeran. Los 7 son del Argentino
+    A 2004-05, cuya pagina no tiene NI UN desacuerdo de fecha contra las otras
+    fuentes; los 6 con `al` son de donde salen casi todos los desacuerdos de esas
+    dos temporadas. El corte no es una intuicion: separa exactamente al grupo que
+    discute del que no.
+
+    Este archivo ya tenia la regla escrita en otro lado -- `citadas` dice "un
+    rango no es una fecha, asi que no se reparte" -- y aca la rompia.
     """
+    if _ES_RANGO.search(titulo):
+        return "", ""
     fs = _fechas_del_titulo(titulo)
     if len(fs) != 2:
         return "", ""

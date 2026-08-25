@@ -353,9 +353,22 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
             # el par es el mismo y el marcador es el mismo -- dado vuelta o no --,
             # es el mismo partido, y ahi la pagina si puede decir quien fue local.
             # Se pide que identifique UNO SOLO, como en todo el resto del repo.
+            # EL MARCADOR QUE IDENTIFICA ES EL CORREGIDO, no el crudo de la
+            # pagina. Se ve cuando las dos cosas se cruzan: los cuatro partidos de
+            # la Revalida del Argentino A 2011-12 tienen su marcador arbitrado --
+            # la pagina dice 1-0 y va 1-1 -- y ademas dejaron de tener fecha,
+            # porque su tabla la publica como rango. Sin fecha, esta rama es la
+            # que empareja, y comparando el marcador CRUDO no encuentra la fila:
+            # `{0,1}` no es `{1,1}`. El resultado era el peor: el build volvia a
+            # denunciar, uno por uno, los cuatro desacuerdos que dos pasos mas
+            # abajo estan resueltos y declarados.
+            #
+            # `corregida` ya sabe como va a quedar la fila -- el espejo y el
+            # marcador arbitrado --, asi que se le pregunta a ella. Es la misma
+            # razon por la que `resuelto` existe, aplicada un renglon antes: si no
+            # identifica, `resuelto` no llega a correr.
             iguales = [x for x in suyas[suyo]
-                       if {x.goles_local, x.goles_visita}
-                       == {p_.goles_local, p_.goles_visita}]
+                       if set(corregida(x)[2:]) == {p_.goles_local, p_.goles_visita}]
             if len(iguales) == 1:
                 repetidas += 1
                 mismo_local = uno(iguales[0].local, iguales[0].local_art) == p_.local

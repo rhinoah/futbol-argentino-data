@@ -648,6 +648,42 @@ del 31, así que se jugó el lunes 30 —el día que da ESPN, no el 31 de RSSSF,
 quedó escrito—. Ese sigue abierto: corregir un día pediría un noveno tipo de corrección, y
 no se agrega uno por una fila.
 
+#### Diez de esas 61 no eran un desacuerdo: eran una fecha inventada
+
+Antes de salir a buscar una tercera fuente conviene mirar de dónde sale la propia. Diez de
+los 61 salían de acá: las tablas de llaves de ida y vuelta no traen columna de fecha, así
+que el lector la saca del **título de la tabla**, y pedía «que nombre exactamente dos
+días». `Cuarta fase - 2 y 9 de junio` nombra dos y son los dos días de partido.
+**`Cuarta fase - 26 al 31 de mayo` también nombra dos, y no son dos días: son una
+ventana.** Les ponía el 26 a las cuatro idas y el 31 a las cuatro vueltas.
+
+Los días reales de esas cuatro llaves fueron **26, 26, 27 y 28** las idas y **30, 30, 30 y
+31** las vueltas —el blog de José Carluccio las publica una por una, con sede y
+goleadores—, o sea que de las ocho filas **tres caían bien y cinco llevaban un día que
+nadie observó**.
+
+La preposición es lo único que los separa, y los separa sin ambigüedad: `al` abre un
+rango, `y` enumera. Y el corte no es una intuición, está medido sobre el corpus:
+
+| forma del título | cuántos | de qué páginas |
+|---|---|---|
+| `X al Y` — un rango de 4 a 11 días | 6 | de donde salían casi todos los desacuerdos |
+| `X y Y`, `X - Y` — dos días | 7 | del Argentino A 2004-05, **sin un solo desacuerdo** |
+
+Separa exactamente al grupo que discute del que no. El repo ya tenía la regla escrita en
+otro lado —`citadas` dice *«un rango no es una fecha, así que no se reparte»*— y acá la
+rompía. Sacándolo, las ocho filas de esa fase quedan **8 de 8** contra el blog, y los
+desacuerdos de día del dataset bajan de **61 a 51** sin que ninguna fila pierda su día:
+la fuente que publica partido por partido las rellena, que es lo que corresponde.
+
+**Y destapó una segunda cosa, que es la que casi se escapa.** Al quedarse sin fecha, esas
+filas dejan de emparejar por `(par, fecha)` y el cruce cae en la rama que identifica por el
+**marcador**… crudo. Los cuatro partidos de la Reválida de esa misma página tienen su
+marcador arbitrado —la página dice `1-0` y el dataset escribe `1-1`—, así que `{0,1}` no
+encontraba a `{1,1}` y el build volvía a denunciar los cuatro desacuerdos que dos pasos más
+abajo están resueltos y declarados. Lo que identifica tiene que ser el marcador **que la
+fila va a tener**, no el que la página escribió.
+
 #### Y cuánto rinde ese testigo: 3 de 61
 
 El historial arbitró un marcador. La pregunta obvia era si sirve para las **61

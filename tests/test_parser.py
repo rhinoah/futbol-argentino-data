@@ -1865,7 +1865,66 @@ def test_las_columnas_se_leen_del_encabezado_y_no_por_su_posicion():
     # salir de sumar las dos patas.
     assert sum(p.goles_visita if p.local == "Libertad (Sunchales)" else p.goles_local
                for p in ps) == 2
-    assert [p.fecha for p in ps] == ["2012-04-22", "2012-04-29"]
+    # Y SIN FECHA, porque el titulo de esa tabla es "Revalida - Segunda ronda -
+    # 22 al 29 de abril": un RANGO. Que en esta llave los dos extremos resulten
+    # ser los dias buenos es una casualidad que la pagina no afirma -- en la
+    # Cuarta fase de la misma pagina, "26 al 31 de mayo", de ocho patas solo tres
+    # caian bien --. La fecha de verdad la pone despues la fuente que publica
+    # partido por partido. Ver `test_un_rango_en_el_titulo_no_fecha_nada`.
+    assert [p.fecha for p in ps] == ["", ""]
+
+
+def test_un_rango_en_el_titulo_no_fecha_nada():
+    """`X al Y` es una VENTANA, no dos dias de partido.
+
+    El lector pedia "exactamente dos dias" y un rango nombra exactamente dos, asi
+    que pasaba: a "Cuarta fase - 26 al 31 de mayo" le ponia el 26 a las cuatro
+    idas y el 31 a las cuatro vueltas. Los dias reales de esas cuatro llaves
+    fueron 26, 26, 27 y 28 las idas y 30, 30, 30 y 31 las vueltas -- el blog de
+    Jose Carluccio las publica una por una, con sede y goleadores --, o sea que
+    tres de ocho caian bien y cinco llevaban un dia que nadie observo.
+
+    La preposicion es lo unico que los separa y los separa sin ambiguedad: `al`
+    abre un rango, `y` enumera. Medido sobre el corpus: de los 13 titulos de
+    llave que fechaban, los 7 que enumeran son del Argentino A 2004-05, cuya
+    pagina no tiene ni un desacuerdo de fecha contra las otras fuentes; los 6 que
+    dicen `al` son de donde salian casi todos.
+    """
+    def tabla(titulo):
+        return ("""{| cellspacing="0"
+|+ align="center"|'''%s'''
+|- bgcolor=#dcdcdc
+!Local - Vuelta
+!Global
+!Local - Ida
+!Ida
+!Vuelta
+|- align=center
+|align=right| Cipolletti
+|2 - 4
+|align=left| Libertad (Sunchales)
+|0 - 2
+|2 - 2
+|}""" % titulo)
+
+    con_rango = parser.partidos_de_llave(tabla("Cuarta fase - 26 al 31 de mayo"),
+                                         2011, "Torneo Argentino A", anio_fin=2012)
+    assert len(con_rango) == 2
+    assert [p.fecha for p in con_rango] == ["", ""], "un rango no se reparte"
+
+    # y la forma que SI enumera dos dias se sigue leyendo
+    enumerados = parser.partidos_de_llave(tabla("Cuarta fase - 2 y 9 de junio"),
+                                          2011, "Torneo Argentino A", anio_fin=2012)
+    assert [p.fecha for p in enumerados] == ["2012-06-02", "2012-06-09"]
+
+
+def test_el_rango_se_saca_del_nombre_de_la_ronda_igual():
+    """Que no se pueda fechar no quiere decir que se pierda la ronda: sin limpiar
+    el rango, `Cuarta fase - 26 al 31 de mayo` no la reconoce nadie y la pagina
+    entera se queda sin revisar la cadena de llaves."""
+    assert parser._sin_el_rango("Cuarta fase - 26 al 31 de mayo") == "Cuarta fase"
+    assert parser._sin_el_rango("Reválida - Segunda ronda - 22 al 29 de abril") \
+        == "Reválida - Segunda ronda"
 
 
 def test_una_tabla_comun_con_columna_global_no_se_desvia_al_lector_de_llaves():
