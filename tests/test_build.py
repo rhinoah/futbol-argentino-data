@@ -1202,6 +1202,53 @@ def test_la_deduplicacion_ve_el_renombre_que_corre_despues():
     assert repetidas == 0 and len(nuevas) == 1
 
 
+def test_el_desacuerdo_que_un_marcador_ya_resuelve_no_se_denuncia():
+    """El mismo modo de falla que el renombre, con la otra familia.
+
+    `sin_repetir` corre antes que `correcciones.aplicar` -- y tiene que correr
+    antes, porque decide que se importa --, asi que sin mirar los `Marcador` el
+    build seguia diciendo "la pagina dice 2012-05-06 Libertad (S) 1-2 Central
+    Norte (S) y la otra fuente Central Norte (S) 2-0 Libertad (S); se conserva el
+    de la pagina" sobre una fila que dos pasos mas abajo pasa a decir exactamente
+    lo de la otra fuente. Eran cuatro de las siete que denunciaba esa pagina.
+
+    La fila entra CRUDA, como la lee la pagina, y tiene que atravesar las dos
+    correcciones: primero el espejo de la localia --que la deja `Central Norte
+    (S) 2-1 Libertad (S)`-- y recien despues el marcador arbitrado, que la deja
+    en 2-0. Preguntar el arbitraje antes del espejo no engancha nada.
+    """
+    from fad.parser import Partido
+    pagina = [Partido(fecha="2012-05-06", local="Libertad (S)",
+                      visita="Central Norte (S)", goles_local=1, goles_visita=2,
+                      fase="eliminacion", jornada="Reválida - Tercera ronda")]
+    rsssf_ = [_p("Central Norte (S)", "Libertad (S)", "2012-05-06", 2, 0)]
+
+    nuevas, repetidas, discuten, alreves = build.sin_repetir(
+        rsssf_, pagina, "Torneo Argentino A 2011-12")
+    assert (repetidas, nuevas) == (1, []), "es el mismo partido"
+    assert discuten == [], "el desacuerdo esta resuelto y declarado: no se denuncia"
+
+    # PERO SE SIGUE CONTANDO COMO AL REVES, y es a proposito: ese contador
+    # alimenta al testigo que decide si le creemos la localia a la fuente, y un
+    # testigo que se alimenta de nuestras propias correcciones se valida solo.
+    assert alreves == 1, "apaga el mensaje, no el testigo"
+
+
+def test_un_desacuerdo_que_nadie_declaro_se_sigue_denunciando():
+    """La contracara del anterior. Si el marcador de la fuente no es el que
+    ningun `Marcador` declara, el desacuerdo es real y hay que decirlo -- si no,
+    mirar los `Marcador` seria una forma de callar todo."""
+    from fad.parser import Partido
+    pagina = [Partido(fecha="2012-05-06", local="Libertad (S)",
+                      visita="Central Norte (S)", goles_local=1, goles_visita=2,
+                      fase="eliminacion", jornada="Reválida - Tercera ronda")]
+    rsssf_ = [_p("Central Norte (S)", "Libertad (S)", "2012-05-06", 5, 0)]
+
+    _n, _r, discuten, _a = build.sin_repetir(
+        rsssf_, pagina, "Torneo Argentino A 2011-12")
+    assert len(discuten) == 1 and "5-0" in discuten[0]
+
+
 def test_el_completador_acota_la_seccion_del_archivo_del_anio(monkeypatch):
     """Desde 2010-11 RSSSF mete todas las divisiones en la pagina del anio, una
     atras de otra y todas con sus `Round N`. El corte no alcanza con tenerlo en

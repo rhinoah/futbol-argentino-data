@@ -290,12 +290,23 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
         proposito: ese contador alimenta al testigo que decide si le creemos la
         localia a la fuente, y un testigo que se alimenta de nuestras propias
         correcciones se termina validando a si mismo.
+
+        Mira las DOS familias de correcciones, porque un desacuerdo puede ser de
+        cualquiera de las dos: `renombrado` para los clubes --y el espejo de la
+        localia, que es una `Correccion`-- y `arbitrado` para el marcador. Con
+        una sola, la Revalida del Argentino A 2011-12 seguia denunciando cuatro
+        partidos cuyo marcador ya estaba arbitrado y escrito.
         """
         l, v = uno(x.local, x.local_art), uno(x.visita, x.visita_art)
         gl, gv = x.goles_local, x.goles_visita
         dl, dv = correcciones.renombrado(pagina, x.jornada, l, v, gl, gv)
         # El espejo se lleva los goles con los clubes; ver `correcciones.aplicar`.
-        return (dl, dv, gv, gl) if (dl, dv) == (v, l) else (dl, dv, gl, gv)
+        if (dl, dv) == (v, l):
+            gl, gv = gv, gl
+        # Y RECIEN AHI EL MARCADOR ARBITRADO, en ese orden y no al reves: un
+        # `Marcador` se declara contra la fila YA espejada, que es como la
+        # encuentra `aplicar`. Preguntarlo antes del espejo no engancha nada.
+        return (dl, dv) + correcciones.arbitrado(pagina, x.jornada, dl, dv, gl, gv)
 
     def resuelto(x, p_):
         return corregida(x) == (p_.local, p_.visita, p_.goles_local, p_.goles_visita)

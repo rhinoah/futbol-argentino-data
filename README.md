@@ -579,6 +579,40 @@ balancea —su columna GF y su columna GC no suman lo mismo— sí dice quién t
 porque se está contradiciendo a sí misma y no hace falta ninguna otra fuente. Está
 abajo, en los cinco de un solo club.
 
+#### Una llave no tiene tabla
+
+Todo lo anterior supone que existe una tabla. **La eliminación directa no la tiene**, y
+ahí el árbitro de siempre no está. En la Reválida del Argentino A 2011-12 quedaban
+cuatro patas donde Wikipedia y RSSSF daban marcadores distintos y ninguna aritmética
+podía separarlas. Se cerraron por dos caminos, y la diferencia entre ellos es el punto.
+
+**La tercera ronda la desmiente la propia página.** Escribe su regla con todas las
+letras —«en caso de empate en puntos y diferencia de goles […] clasificarán las
+posiciones 1; actuarán de local en el primer partido las posiciones 2»— y publica la
+tabla de la ronda anterior, donde `Libertad (S)` es 1º con 13 puntos y `Central Norte (S)`
+2º con 9. Con los marcadores que ella misma publica la serie termina **2-2**, y entonces
+su regla manda pasar a Libertad. Pasa Central Norte: la página lo pone en negrita y lo
+hace jugar la fase siguiente seis días después. Con el `2-0` de RSSSF la serie da 3-1 y no
+hay desempate que aplicar.
+
+No hizo falta traer una fuente para decidir: **la página se contradice sola**, igual que
+cuando una tabla no balancea. De paso, esa misma regla confirma por otro lado el espejo
+de la localía —el 2º es local en la ida, y el 2º es Central Norte—, que ya estaba resuelto
+con otra evidencia.
+
+**La segunda ronda no se contradice, y hubo que salir.** Ahí las dos versiones dan la
+serie 1-1 y las dos dejan pasar a Juventud Unida por ventaja deportiva: la aritmética no
+discrimina y no hay nada que arbitrar adentro de la página. Lo cerró **el blog del propio
+club**, que publica las dos patas la semana que se jugaron —«Juventud Antoniana 1 / JUV
+Univ DE SAN LUIS 1 / GOLES ACOSTA (CJA) SELTSER (JUUSL)», y la vuelta «sin abrir el
+marcador», con las dos formaciones completas y un cero al lado de cada nombre—. El título
+del post de la ida, *«El empate no sirve»*, sólo tiene sentido con el 1-1: con el 1-0 que
+publica Wikipedia el empate **sí** le servía.
+
+Y antes de creerle a nadie, la prueba de que no están copiando: de las **seis llaves** de
+esas dos rondas, RSSSF reproduce **cuatro** dato por dato tal como las da la página, y
+difiere sólo en estas dos. Una fuente derivada coincidiría en las seis.
+
 #### Los 16 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.

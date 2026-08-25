@@ -616,3 +616,42 @@ def test_el_renombre_no_toca_lo_que_no_declara():
     assert correcciones.renombrado(
         "Otra Pagina", "Promoción",
         "Alumni", "General Paz Juniors", 5, 0) == ("Alumni", "General Paz Juniors")
+
+
+def test_el_marcador_arbitrado_se_puede_preguntar_antes_de_aplicarlo():
+    """El gemelo del anterior para la otra familia de correcciones.
+
+    La deduplicacion corre ANTES que `aplicar`, asi que sin poder preguntarlo el
+    build enfrentaba "la pagina dice X y la otra fuente dice Y" sobre cuatro
+    partidos de la Revalida del Argentino A 2011-12 cuyo marcador ya estaba
+    arbitrado y escrito. Una notificacion que se vuelve falsa dos pasos mas abajo
+    es peor que no tenerla.
+    """
+    assert correcciones.arbitrado(
+        "Torneo Argentino A 2011-12", "Reválida - Tercera ronda",
+        "Central Norte (S)", "Libertad (S)", 2, 1) == (2, 0)
+
+
+def test_el_arbitraje_se_pregunta_contra_la_fila_YA_espejada():
+    """El orden importa y no es simetrico: `aplicar` corre las `Correccion`
+    primero y los `Marcador` despues, asi que un `Marcador` se declara contra la
+    fila ya dada vuelta.
+
+    Preguntado con los nombres crudos de la pagina -- que en esta llave son los
+    del otro lado -- no tiene que enganchar nada. Devolver `debe` ahi seria
+    aplicar el arbitraje dos veces o del lado equivocado."""
+    crudo = correcciones.arbitrado(
+        "Torneo Argentino A 2011-12", "Reválida - Tercera ronda",
+        "Libertad (S)", "Central Norte (S)", 1, 2)
+    assert crudo == (1, 2), "con los nombres de antes del espejo no engancha"
+
+
+def test_el_arbitraje_no_toca_lo_que_no_declara():
+    """Con otro marcador ya no es esa fila, y con otra pagina tampoco. Devolver
+    los goles como vinieron es lo unico honesto: no hay nada declarado."""
+    assert correcciones.arbitrado(
+        "Torneo Argentino A 2011-12", "Reválida - Tercera ronda",
+        "Central Norte (S)", "Libertad (S)", 9, 9) == (9, 9)
+    assert correcciones.arbitrado(
+        "Otra Pagina", "Reválida - Tercera ronda",
+        "Central Norte (S)", "Libertad (S)", 2, 1) == (2, 1)

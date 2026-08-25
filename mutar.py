@@ -1767,6 +1767,21 @@ MUTANTES = [
     (".github/workflows/actualizar.yml", "el gate contesta que si siempre",
      "if git diff --cached --quiet -- data/; then",
      "if false; then"),
+
+    # --- el arbitraje del marcador, preguntado antes de aplicarse ---
+    ("fad/correcciones.py", "no mirar los Marcador al deduplicar",
+     "    for m in MARCADORES:\n        if (m.pagina == pagina and m.jornada == jornada",
+     "    for m in ():\n        if (m.pagina == pagina and m.jornada == jornada"),
+
+    ("fad/correcciones.py", "arbitrar sin mirar el marcador que la fila trae hoy",
+     "                and (m.local, m.visita) == (local, visita)\n"
+     "                and m.dice == (gl, gv)):",
+     "                and (m.local, m.visita) == (local, visita)\n"
+     "                and True):"),
+
+    ("build.py", "preguntar el arbitraje ANTES del espejo de la localia",
+     "        return (dl, dv) + correcciones.arbitrado(pagina, x.jornada, dl, dv, gl, gv)",
+     "        return (dl, dv) + correcciones.arbitrado(pagina, x.jornada, l, v, gl, gv)"),
 ]
 
 

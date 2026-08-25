@@ -436,7 +436,16 @@ class Marcador:
     no, y ahi termina la discusion sin traer una tercera fuente.
 
     Que el metodo mide algo se ve en que no contesta siempre lo mismo: de los
-    nueve, ocho le dan la razon a worldfootball y uno a Wikipedia.
+    nueve que arbitro worldfootball, ocho le dan la razon a worldfootball y uno
+    a Wikipedia.
+
+    UNA LLAVE NO TIENE TABLA DE POSICIONES, y ahi ese arbitro no existe. Quedan
+    dos, los dos ya usados en este archivo: que LA PAGINA SE DESMIENTA A SI
+    MISMA --su regla de desempate escrita, su tabla de la ronda anterior y a
+    quien pone en negrita tienen que cerrar entre ellos-- y UNA FUENTE
+    CONTEMPORANEA que no dependa de Wikipedia. Los cuatro de la Revalida del
+    Argentino A 2011-12 son de esa clase, dos por cada arbitro, y llevan la
+    evidencia escrita en su `porque`.
 
     `debe` puede ser igual a `dice`. Eso quiere decir que la pagina ya tenia
     razon y que lo unico que se toma de la otra fuente es la FECHA.
@@ -836,6 +845,107 @@ MARCADORES: tuple[Marcador, ...] = (
                "puntos y a Defensores 36, y esos totales solo cierran con el 0-1. "
                "Arrastra la misma inconsistencia. Leer solo su grilla y darla por "
                "verificacion fue un error que se cometio aca antes de corregirlo."),
+
+    # --- Argentino A 2011-12: las cuatro patas de la Revalida que no cerraban ---
+    #
+    # La Revalida es eliminacion directa y no tiene tabla, asi que el arbitro de
+    # siempre no esta. Lo reemplazan dos testigos que la pagina no controla, y las
+    # dos llaves se resolvieron por caminos distintos.
+    #
+    # LA TERCERA RONDA LA DESMIENTE LA PROPIA PAGINA. Escribe su regla con todas
+    # las letras: "En caso de empate en puntos y diferencia de goles al finalizar
+    # la Ronda clasificaran a la Tercera Fase las posiciones 1. Actuaran de local
+    # en el primer partido las posiciones 2". Su propia tabla de la Primera ronda
+    # de la Revalida Zona Norte pone a Libertad 1o con 13 puntos y a Central Norte
+    # 2o con 9 --RSSSF publica esa tabla identica--. Con los marcadores que la
+    # pagina publica la serie termina 2-2, y entonces su regla manda pasar a
+    # Libertad; sin embargo la pagina pone a CENTRAL NORTE en negrita, y es Central
+    # Norte el que juega la Tercera Fase seis dias despues. Con el 2-0 de RSSSF la
+    # serie da 3-1 y no hay desempate que aplicar: no se contradice nada.
+    #
+    # Esa misma regla confirma ademas el espejo de la localia --el 2o es local en
+    # la ida, y el 2o es Central Norte--, que es lo que dicen las 28 `Correccion`
+    # de esta pagina: rotula al reves sus dos columnas.
+    #
+    # LA SEGUNDA RONDA LA DESMIENTE EL BLOG DEL PROPIO CLUB. Ahi la pagina NO se
+    # contradice: las dos versiones dan la serie 1-1 y las dos dejan pasar a
+    # Juventud Unida por ventaja deportiva, o sea que la aritmetica no discrimina y
+    # habia que ir a buscar afuera. `juveantoniana.blogspot.com` --el mismo que ya
+    # cerro el abandono del Clausura 2009-10; ver `rsssf._SIN_DESENLACE`-- publica
+    # las dos patas la semana que se jugaron, con goleadores y formaciones.
+    #
+    # Y NO COPIAN A WIKIPEDIA, que es lo que hay que probar antes de creerles: de
+    # las SEIS llaves de la Segunda y la Tercera ronda, RSSSF coincide con la
+    # pagina --ya espejada-- en CUATRO, dato por dato, y difiere solo en estas dos.
+    # Una fuente derivada coincidiria en las seis.
+    #
+    # Los cuatro `dice` van en la orientacion ESPEJADA, que es como esta la fila
+    # cuando les toca el turno: `aplicar` corre las `Correccion` primero.
+    Marcador(
+        pagina="Torneo Argentino A 2011-12", jornada="Reválida - Segunda ronda",
+        local="Juventud Antoniana", visita="Juventud Unida Universitario",
+        dice=(1, 0), debe=(1, 1),
+        porque="22 de abril de 2012, Padre Ernesto Martearena. El blog del propio "
+               "club lo publica el mismo dia, en el post \"EL EMPATE NO SIRVE\": "
+               "\"Juventud empato con Juv.universitaria de San Luis 1a1\", con el gol "
+               "antoniano de Claudio Acosta a los 4 y el de la visita de Seltzer a "
+               "los 43, y cierra con la ficha: \"Juventud Antoniana 1 / JUV Univ "
+               "DE SAN LUIS 1 / GOLES ACOSTA (CJA) SELTSER (JUUSL)\".\n"
+               "EL TITULO SOLO TIENE SENTIDO CON EL 1-1. Juventud Unida iba con "
+               "ventaja deportiva --lo dice el previo del mismo blog, \"ante "
+               "igualdad de puntos y goles frente a Antoniana, avanzara al "
+               "siguiente cruce\"--, asi que con el 1-0 de la pagina a Antoniana el "
+               "empate SI le servia. RSSSF da lo mismo que el blog. "
+               "http://juveantoniana.blogspot.com/2012/04/"),
+    Marcador(
+        pagina="Torneo Argentino A 2011-12", jornada="Reválida - Segunda ronda",
+        local="Juventud Unida Universitario", visita="Juventud Antoniana",
+        dice=(1, 0), debe=(0, 0),
+        porque="29 de abril de 2012, Mario Sebastian Diez. El mismo blog, post "
+               "\"NUEVO FRACAZO\": \"Juventud empato en el Bajo con Juventud "
+               "Antoniana de salta sin abrir el marcador y paso a una nueva "
+               "fase\". No es una frase suelta: publica las dos formaciones enteras "
+               "con el cero al lado del nombre, \"Juventud Unida Universitario "
+               "(San Luis) (0)\" y \"Juventud Antoniana (0)\", once por once y los "
+               "cambios.\n"
+               "Y explica el desenlace con la misma cuenta: \"El equipo puntano "
+               "tenia ventaja deportiva (termino mejor posicionado que su rival) y "
+               "con el empate le alcanzaba para pasar de ronda\". RSSSF da lo "
+               "mismo. El 1-0 de la pagina no lo dice ninguna otra fuente. "
+               "http://juveantoniana.blogspot.com/2012/05/\n"
+               "NO COPIA A WIKIPEDIA, y aca hace falta decirlo porque un 0-0 no "
+               "tiene goleadores que lo prueben solos. De las CUATRO llaves de "
+               "esta Segunda ronda, RSSSF reproduce las otras tres tal cual las "
+               "da la pagina ya espejada --Cipolletti-Libertad 0-2 y 2-2, "
+               "Gimnasia y Esgrima (CdU)-Central Norte 0-0 y 3-1, Gimnasia y "
+               "Tiro (S)-Rivadavia (L) 0-1 y 2-0-- y difiere solo en esta. Una "
+               "fuente derivada coincidiria en las cuatro."),
+    Marcador(
+        pagina="Torneo Argentino A 2011-12", jornada="Reválida - Tercera ronda",
+        local="Central Norte (S)", visita="Libertad (S)", dice=(2, 1), debe=(2, 0),
+        porque="6 de mayo de 2012. Con este 2-1 la serie termina 2-2, y entonces la "
+               "regla de desempate que la PROPIA PAGINA escribe manda pasar al que "
+               "fue 1o de la ronda anterior, que en su propia tabla es Libertad con "
+               "13 puntos contra los 9 de Central Norte. Pasa Central Norte: la "
+               "pagina lo pone en negrita y lo hace jugar la Tercera Fase. Con el "
+               "2-0 de RSSSF la serie da 3-1 y no hay desempate que aplicar. Ver el "
+               "comentario de arriba.\n"
+               "NO COPIA A WIKIPEDIA: la otra llave de esta Tercera ronda, "
+               "Rivadavia (L)-Juventud Unida, RSSSF la da identica a la pagina ya "
+               "espejada --1-0 la ida y 3-0 la vuelta--, igual que las tres llaves "
+               "de la Segunda ronda que no estan en discusion. Coincide en cuatro "
+               "de las seis y difiere en esta y su vuelta."),
+    Marcador(
+        pagina="Torneo Argentino A 2011-12", jornada="Reválida - Tercera ronda",
+        local="Libertad (S)", visita="Central Norte (S)", dice=(1, 0), debe=(1, 1),
+        porque="13 de mayo de 2012. La otra pata de la misma serie, y las dos se "
+               "mueven juntas: es la SUMA la que tiene que cerrar con quien paso, "
+               "asi que el argumento de arriba las arbitra a las dos o a ninguna. "
+               "RSSSF escribe `Libertad (Sunchales) 1-1 Central Norte (Salta)`.\n"
+               "NO COPIA A WIKIPEDIA: en la otra llave de esta misma Tercera "
+               "ronda, Rivadavia (L)-Juventud Unida, RSSSF reproduce la pagina ya "
+               "espejada dato por dato (1-0 y 3-0), y lo mismo en tres de las "
+               "cuatro llaves de la Segunda ronda. Difiere solo en esta serie."),
     Marcador(
         pagina="Campeonato de Primera Nacional 2021", jornada="Fecha 17",
         local="Gimnasia y Esgrima (J)", visita="Defensores de Belgrano",
@@ -2839,6 +2949,35 @@ def renombrado(pagina: str, jornada: str, local: str, visita: str,
                 and c.dice == (local, visita, gl, gv)):
             return c.debe
     return local, visita
+
+
+def arbitrado(pagina: str, jornada: str, local: str, visita: str,
+              gl: int, gv: int) -> tuple[int, int]:
+    """El marcador que ese partido VA A TENER despues de `aplicar`.
+
+    El gemelo de `renombrado` para la otra familia de correcciones, y existe
+    por el mismo motivo: `sin_repetir` corre ANTES que `aplicar` --y tiene que
+    correr antes, porque decide que se importa--, asi que sin esto el build
+    sigue enfrentando "la pagina dice X y la otra fuente dice Y" sobre una fila
+    que dos pasos mas abajo pasa a decir Y. Una notificacion que se vuelve
+    falsa sola es peor que no tenerla.
+
+    LOS NOMBRES QUE ENTRAN SON LOS DE DESPUES DEL ESPEJO, porque `aplicar`
+    corre las `Correccion` primero y los `Marcador` despues, y por eso un
+    `Marcador` se declara contra la fila ya dada vuelta. Llamarlo con los
+    nombres crudos no engancha nada y devuelve el marcador sin tocar, que es
+    lo correcto: no hay nada declarado para esa fila.
+
+    No mira los penales a proposito. Los dos `Marcador` que existen para
+    arreglar una tanda dejan `debe == dice` --el marcador no se mueve-- y esta
+    funcion contesta sobre el marcador; quien la usa compara marcadores.
+    """
+    for m in MARCADORES:
+        if (m.pagina == pagina and m.jornada == jornada
+                and (m.local, m.visita) == (local, visita)
+                and m.dice == (gl, gv)):
+            return m.debe
+    return gl, gv
 
 
 def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:

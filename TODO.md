@@ -7,17 +7,21 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 027 | 10 | 149 | 948 | 392 |
+| 44 027 | 10 | 149 | 954 | 397 |
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno. De los `181` avisos —cero graves— `94` son
+`41 558` partidos y no falta ninguno. De los `182` avisos —cero graves— `94` son
 informativos y `17` son ciertos y no cierran nunca; los dos grupos tienen su explicación
 en el archivo que los produce y no se repiten acá. Lo que queda:
 
-- **Dos fuentes que no coinciden.** `60` partidos con dos días distintos en 9 páginas, y
-  `6` con dos marcadores. Se conserva el de la página y se avisa. Cerrarlo pide una
-  tercera fuente, o una regla de precedencia que hoy no está medida.
+- **Dos fuentes que no coinciden.** `60` partidos con dos días distintos en 9 páginas.
+  **Ya no queda ninguno con dos marcadores**: los últimos cuatro —las dos llaves de la
+  Reválida del `Argentino A 2011-12`— se cerraron, una porque la página se contradice
+  con su propia regla de desempate y otra con el blog del club. Los `10` desacuerdos
+  que sobran son todos de día o de quién fue local, **con los goles idénticos**. Se
+  conserva el de la página y se avisa; cerrarlos pide una tercera fuente, o una regla
+  de precedencia que hoy no está medida.
 - **`10` partidos sin fecha, y sólo `4` esperan una.** Los otros `6` no se jugaron —los
   que el Federal A 2024 le dio por perdidos a Sansinena—. De los 4: dos del `Argentino A
   2004-05` (uno donde la fuente citada le erra al día y otro donde da otro marcador), uno
