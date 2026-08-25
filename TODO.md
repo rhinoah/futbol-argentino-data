@@ -7,19 +7,21 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 027 | 29 | 149 | 946 | 392 |
+| 44 027 | 10 | 149 | 948 | 392 |
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno. De los `182` avisos —cero graves— `94` son
+`41 558` partidos y no falta ninguno. De los `181` avisos —cero graves— `94` son
 informativos y `17` son ciertos y no cierran nunca; los dos grupos tienen su explicación
 en el archivo que los produce y no se repiten acá. Lo que queda:
 
 - **Dos fuentes que no coinciden.** `60` partidos con dos días distintos en 9 páginas, y
   `6` con dos marcadores. Se conserva el de la página y se avisa. Cerrarlo pide una
   tercera fuente, o una regla de precedencia que hoy no está medida.
-- **`29` partidos sin fecha**, y `6` no esperan ninguna porque no se jugaron. De los 23
-  que sí, 21 son las patas del `Argentino A 2004-05` que la fuente citada no publica.
+- **`10` partidos sin fecha, y sólo `4` esperan una.** Los otros `6` no se jugaron —los
+  que el Federal A 2024 le dio por perdidos a Sansinena—. De los 4: dos del `Argentino A
+  2004-05` (uno donde la fuente citada le erra al día y otro donde da otro marcador), uno
+  con el marcador en disputa y uno de la temporada en curso.
 - **`3` tablas que no cierran con su grilla, y las tres son de la temporada en curso.**
   Ninguna es un error de lectura: `San Miguel` (Primera Nacional) desvía un gol, y
   `Real Pilar` (Primera B) y `Muñiz` (Primera C) desvían en G-E-P **con los goles

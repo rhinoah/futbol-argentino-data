@@ -1,11 +1,11 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **29**. Todo lo demás —equipos, marcador, jornada, torneo,
+jugaron.** Son **10**. Todo lo demás —equipos, marcador, jornada, torneo,
 temporada— pasó por los mismos chequeos que el resto del dataset.
 
 Con una excepción que conviene decir arriba de todo, porque contradice el
-párrafo anterior: **seis de las 29 no esperan ninguna fecha, porque no se
+párrafo anterior: **seis de las 10 no esperan ninguna fecha, porque no se
 jugaron.** Son los que el Torneo Federal A 2024 le dio por perdidos a Sansinena
 cuando desertó del torneo. Llevan `status = no disputado` en el CSV, así que se
 los distingue sin leer esto: el marcador está porque cuenta para la tabla, pero
@@ -21,16 +21,16 @@ campo.
 ## Eran 2 345
 
 Esta carpeta tenía seis temporadas enteras: las tres de Primera C 2008-2011, la
-Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **29** filas en
+Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **10** filas en
 cuatro torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
 **ninguna está acá porque su torneo no tenga fuente de fechas**: están una por
 una, por su propio motivo.
 
 | de dónde sale la fecha en el resto del dataset | filas |
 |---|---|
-| [RSSSF](https://www.rsssf.org/) | 3 545 |
+| [RSSSF](https://www.rsssf.org/) | 3 551 |
 | [worldfootball](https://www.worldfootball.net/) | 1 519 |
-| [el blog de José Carluccio](http://josecarluccio.blogspot.com/) | 36 |
+| [el blog de José Carluccio](http://josecarluccio.blogspot.com/) | 55 |
 | [ESPN](https://www.espn.com.ar/) | 21 |
 
 RSSSF pasó de aportar 263 fechas a 3 545 al arreglar tres cosas que le impedían
@@ -56,46 +56,32 @@ jornada siguen saliendo de Wikipedia, y el marcador de la otra fuente se usa
 **para verificar** que las dos partes hablan del mismo partido: si no coinciden,
 no se completa nada y se avisa.
 
-## Las 21 del Argentino A 2004-05 son otra cosa
+## Las 2 del Argentino A 2004-05 son otra cosa
 
-Y conviene separarlas, porque no les falta la fecha por el mismo motivo que a las
-demás. A ésas **no la tiene la fuente**.
+Eran **61**. De ese torneo Wikipedia publica la fase final sólo como cuadro, y un
+cuadro no dice quién jugó de local; RSSSF sí, pero su archivo de esa temporada
+está en formato compacto, con las dos patas en un renglón y la fecha como
+**rango**. Un rango no es una fecha, así que no se reparte.
 
-De ese torneo Wikipedia publica la fase final sólo como cuadro, y un cuadro no
-dice quién jugó de local. RSSSF sí lo dice, pero su archivo de esa temporada está
-escrito en un formato compacto que pone las dos patas en un renglón y la fecha
-como **rango**:
+Las **55** las fechó una fuente citada —un blog que publica esa temporada partido
+por partido, con día, sede y goleadores— y es el **único lugar del repo donde un
+dato se copió a mano**. Va con el mismo contrato que cualquier otro completador:
+los clubes y la llave identifican, y el marcador verifica. El detalle está en
+`fad/citadas.py`, con dos cosas que costaron y conviene saber:
 
-```
-Quarterfinals [Nov 20-28]
-Aldosivi                 0-1 1-3 Luján de Cuyo
-```
+- **El post es la fase.** Los mismos dos clubes con el mismo resultado aparecen en
+  dos torneos distintos: `Desamparados 1-0 Luján de Cuyo` es la semifinal del
+  Apertura del 01/12/2004 *y* la segunda fecha de la Zona Cuyo del Clausura del
+  22/01/2005. Buscar por par y marcador en todo el blog da una fecha que parece
+  única y es de otro partido; se busca en el post de la fase de la fila.
+- **La fuente puede errarle al día aunque el marcador coincida.** El blog escribe
+  `01/02/2004 en Rafaela: Ben Hur 2, Atlético Tucumán 1` entre un partido del
+  01/12 y otro del 05/12, en las semifinales de un torneo que empezó en
+  septiembre. Hay un test que exige que toda cita caiga en la ventana de su
+  temporada, y ése no entra.
 
-De ahí sale todo salvo el día: quién fue local en cada pata, el marcador de cada
-una y de qué ronda son. **Un rango no es una fecha**, así que no se reparte: el
-28 de noviembre no es «la fecha de la vuelta», es el final de una ventana. Las
-filas entran acá enteras y sin inventar el día.
-
-Eran 57 y son 21. Las otras 36 las fechó una fuente citada —un blog que publica
-esa temporada partido por partido, con día, sede y goleadores— y es el **único
-lugar del repo donde un dato se copió a mano**. Va con el mismo contrato que
-cualquier otro completador: los clubes **y la llave** identifican el partido y el
-marcador lo verifica, así que una línea mal copiada no se cuela. La llave hace
-falta porque esa temporada tiene Apertura y Clausura, y los playoffs vuelven a
-cruzar a los mismos dos clubes: sin ella las dos filas caen en la misma casilla y
-se pierden las dos. De ahí sale la fecha y nada más, y si algún día una base de
-datos la contradice, gana la base de datos. El detalle está en `fad/citadas.py`.
-
-Hay un testigo a favor de esa fuente, que es lo más fuerte que se consiguió:
-`Ben Hur 5-0 Talleres (P)` lo fecha el blog el 03/04/2005 y lo fecha Wikipedia el
-2005-04-03, por caminos separados. Y un límite: la vuelta de la final de la
-Reválida del Apertura el blog la da 28/12 y 4-1, contra 26/12 y 2-0 de la página
-y del artículo del club. No entró, y no hizo falta decidirlo a mano — con ese
-marcador la cita no verifica y el completador la frenó solo.
-
-Son también las únicas de esta carpeta cuyo marcador **no** sale de Wikipedia.
-La columna `source` lo dice fila por fila: de las 29, 21 traen a RSSSF como fuente
-del partido, 6 son las que no se jugaron y las otras 2 sólo esperan una fecha.
+Las 2 que quedan son ésa y la vuelta de la final de la Reválida del Apertura,
+cuyo marcador el blog da 4-1 contra el 2-0 de la página.
 
 ## Por qué quedaron las otras
 

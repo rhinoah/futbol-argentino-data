@@ -123,6 +123,39 @@ def test_la_llave_separa_al_apertura_del_clausura():
     assert not any("cruces" in a for a in avisos), avisos
 
 
+def test_ninguna_cita_cae_fuera_de_su_temporada():
+    """EL MARCADOR VERIFICA QUE ES EL PARTIDO; NADA VERIFICABA LA FECHA.
+
+    El contrato de este modulo dice que los clubes identifican y el marcador
+    verifica, y eso alcanza para saber que la linea copiada habla del partido que
+    creemos. No alcanza para saber que el DIA esta bien: la fuente puede tener una
+    errata ahi y el marcador seguiria coincidiendo.
+
+    Y la tiene. Buscando las patas que faltan, el mismo blog escribe
+    `01/02/2004 en Rafaela: Ben Hur de Rafaela 2, Atlético Tucumán 1` -- entre un
+    partido del 01/12/2004 y otro del 05/12/2004, en las semifinales de un torneo
+    que empezo en septiembre --. Los clubes y el marcador son los correctos; el
+    dia esta diez meses afuera. Copiada tal cual, esa fecha entraba al dataset y
+    ningun chequeo la miraba.
+
+    La ventana de la temporada la cierra: arranca el `mes_inicio` del ano de la
+    temporada y termina doce meses despues."""
+    from datetime import date
+
+    from fad import torneos
+
+    for pagina, citas in citadas.FECHAS.items():
+        t = next(x for x in torneos.TODOS if x.pagina == pagina)
+        desde = date(t.temporada, t.mes_inicio, 1)
+        hasta = date((t.anio_fin or t.temporada) + (0 if t.anio_fin else 1),
+                     t.mes_inicio, 1)
+        for c in citas:
+            cuando = date.fromisoformat(c.fecha)
+            assert desde <= cuando < hasta, (
+                f"{pagina}: la cita {c.fecha} de {c.local} vs {c.visita} cae fuera "
+                f"de la temporada ({desde} a {hasta})")
+
+
 def test_cada_cita_engancha_una_sola_fila_y_del_cuadro_que_dice():
     """LO QUE SE MIDIO ANTES DE ESCRIBIRLAS, PUESTO COMO TEST.
 
