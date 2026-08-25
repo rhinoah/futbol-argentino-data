@@ -11,7 +11,7 @@ reales, no estimados.
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno. De los `186` avisos —cero graves— `95` son
+`41 558` partidos y no falta ninguno. De los `185` avisos —cero graves— `94` son
 informativos y `17` son ciertos y no cierran nunca; los dos grupos tienen su explicación
 en el archivo que los produce y no se repiten acá. Lo que queda:
 
