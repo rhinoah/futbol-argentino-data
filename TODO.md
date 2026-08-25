@@ -5,11 +5,6 @@ terminado se documenta en los mensajes de commit y en los docstrings, que es
 donde alguien lo va a buscar. Los números están medidos sobre las páginas
 reales, no estimados.
 
-**Un ítem resuelto no se reescribe contando cómo se resolvió: se borra.** Pasó
-tres veces y las tres esta sección creció en vez de achicarse —de 5 ítems a 8, de
-1 700 caracteres a 3 900—, que es exactamente cómo un archivo de pendientes se
-convierte en el changelog que el historial de commits ya es y hace mejor.
-
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
 | 44 027 | 8 | 149 | 956 | 396 |
