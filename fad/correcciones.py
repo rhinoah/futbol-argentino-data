@@ -97,8 +97,8 @@ _LLAVES_2011_12 = (
     "terminaron igual, y las otras cuatro tienen ademas un desacuerdo de marcador "
     "con RSSSF-- pero la fecha las empareja igual y RSSSF las da al reves lo mismo. "
     "Corregir 20 y dejar 8 de la misma tabla seria tratar como fila lo que es un "
-    "encabezado. El desacuerdo de MARCADOR de esas cuatro no lo toca el espejo y "
-    "se sigue avisando, que es lo que corresponde: son dos cosas distintas.\n"
+    "encabezado. El desacuerdo de MARCADOR de esas cuatro no lo toca el espejo "
+    "--son dos cosas distintas-- y se arbitro aparte: son los cuatro `Marcador` de esta pagina.\n"
     "Y EL CONTROL ES LA TEMPORADA SIGUIENTE. El Argentino A 2012-13 usa EL MISMO "
     "orden de columnas y el mismo lector, y ahi son 30 identificados con CERO al "
     "reves. Su `Local - Ida` de la tercera ronda de la Revalida dice Libertad (S) "
@@ -895,8 +895,13 @@ MARCADORES: tuple[Marcador, ...] = (
                "ventaja deportiva --lo dice el previo del mismo blog, \"ante "
                "igualdad de puntos y goles frente a Antoniana, avanzara al "
                "siguiente cruce\"--, asi que con el 1-0 de la pagina a Antoniana el "
-               "empate SI le servia. RSSSF da lo mismo que el blog. "
-               "http://juveantoniana.blogspot.com/2012/04/"),
+               "empate SI le servia. RSSSF da lo mismo que el blog.\n"
+               "Y HAY UN TERCERO, que ya estaba citado en este archivo sin que "
+               "nadie lo leyera para esto: el blog de Jose Carluccio, el que fija "
+               "la sede de las cuatro idas de esta ronda en `_LLAVES_2011_12`, "
+               "escribe \"en Salta: Juventud Antoniana 1, Juventud Unida "
+               "Universitario 1\". Tres fuentes independientes dan 1-1 y ninguna "
+               "da el 1-0. http://juveantoniana.blogspot.com/2012/04/"),
     Marcador(
         pagina="Torneo Argentino A 2011-12", jornada="Reválida - Segunda ronda",
         local="Juventud Unida Universitario", visita="Juventud Antoniana",
