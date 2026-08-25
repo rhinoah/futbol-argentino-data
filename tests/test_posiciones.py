@@ -433,6 +433,67 @@ def test_una_tabla_que_no_balancea_se_denuncia_sin_mirar_la_grilla():
     assert "sobra 1 gol en contra" in avisos[0]
 
 
+def test_el_desbalance_no_repite_una_conclusion_ya_escrita(monkeypatch):
+    """LOS DOS CHEQUEOS MIRAN LA MISMA TABLA DESDE DOS LADOS.
+
+    Cuando un club se desvia solo y su desvio cuadra la tabla, `contrastar` ya
+    concluyo que la fila esta mal, y esa conclusion se escribe UNA vez en
+    `correcciones`. El aviso de desbalance la repetia en otras palabras: pasaba en
+    tres paginas --Union en el Torneo Final 2013, Racing Club en la Copa de la
+    Liga 2023 y J. J. de Urquiza en el Clausura de la Primera C 2024-- y decir dos
+    veces lo mismo convierte un archivo de conclusiones en ruido."""
+    from fad import correcciones
+
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    # River declara 4 en contra y sus partidos dan 3: se desvia solo, y con nuestro
+    # numero la tabla cierra.
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1),
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 4))
+    assert len(posiciones.desbalance(ps, p, pagina="una pagina")) == 1, (
+        "sin declarar, el aviso tiene que salir")
+
+    monkeypatch.setattr(correcciones, "REVISADOS", (correcciones.Revisado(
+        pagina="una pagina", club="River Plate", porque="de prueba"),))
+    assert posiciones.desbalance(ps, p, pagina="una pagina") == []
+
+
+def test_una_declaracion_que_no_explica_el_desbalance_no_lo_calla(monkeypatch):
+    """LA DECLARACION SOLA NO ALCANZA, y es lo que evita que esto sea un
+    interruptor. Se piden las tres cosas: un solo club desviado, que ese club este
+    declarado, y que poner nuestro numero en su fila deje la tabla balanceada. Si
+    el desbalance no lo explica esa fila, el aviso habla de otra cosa y sale."""
+    from fad import correcciones
+
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    # Se desvian DOS clubes --Boca en los goles a favor y River en los en contra--,
+    # asi que arreglar la fila declarada no cuadra la tabla: falta la otra.
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 4, 1),
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 1, 5))
+    monkeypatch.setattr(correcciones, "REVISADOS", (correcciones.Revisado(
+        pagina="una pagina", club="River Plate", porque="de prueba"),))
+    assert len(posiciones.desbalance(ps, p, pagina="una pagina")) == 1
+
+
+def test_un_club_declarado_que_desvia_de_los_dos_lados_no_calla_el_desbalance(monkeypatch):
+    """LA TERCERA CONDICION, Y ES LA QUE MAS SE PARECE A UN ATAJO.
+
+    No alcanza con que el club declarado sea el unico desviado: se pide que su
+    arreglo sea DE UN SOLO LADO. Un club cuya fila esta mal en las dos columnas por
+    montos distintos es el punto ciego del balance --el caso Platense de la B
+    Nacional 2009-10--, y ahi el desbalance esta diciendo algo que la declaracion
+    no dice."""
+    from fad import correcciones
+
+    ps = [zona("Boca Juniors", "River Plate", 3, 1), zona("River Plate", "Boca Juniors", 0, 0)]
+    # River: la tabla le pone GF3 (sus partidos dan 1) y GC4 (dan 3). Se desvia
+    # solo, pero de los dos lados y por montos distintos.
+    p = pagina(fila(1, "Boca Juniors", 4, 2, 1, 1, 0, 3, 1),
+               fila(2, "River Plate", 1, 2, 0, 1, 1, 3, 4))
+    monkeypatch.setattr(correcciones, "REVISADOS", (correcciones.Revisado(
+        pagina="una pagina", club="River Plate", porque="de prueba"),))
+    assert len(posiciones.desbalance(ps, p, pagina="una pagina")) == 1
+
+
 def test_el_aviso_dice_de_que_lado_sobran_los_goles():
     """La direccion es la mitad util: goles a favor que nadie declara haber
     recibido es un problema distinto al reciproco."""

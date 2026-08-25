@@ -7,11 +7,11 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 027 | 29 | 149 | 943 | 389 |
+| 44 027 | 29 | 149 | 946 | 392 |
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno. De los `185` avisos —cero graves— `94` son
+`41 558` partidos y no falta ninguno. De los `182` avisos —cero graves— `94` son
 informativos y `17` son ciertos y no cierran nunca; los dos grupos tienen su explicación
 en el archivo que los produce y no se repiten acá. Lo que queda:
 
@@ -20,12 +20,10 @@ en el archivo que los produce y no se repiten acá. Lo que queda:
   tercera fuente, o una regla de precedencia que hoy no está medida.
 - **`29` partidos sin fecha**, y `6` no esperan ninguna porque no se jugaron. De los 23
   que sí, 21 son las patas del `Argentino A 2004-05` que la fuente citada no publica.
-- **`6` tablas que no cierran con su grilla**, y ninguna es un error de lectura. Tres son
-  de la temporada en curso y desvían **un club**: `San Miguel` (Primera Nacional) por un
-  gol, y `Real Pilar` (Primera B) y `Muñiz` (Primera C) en G-E-P **con los goles
-  coincidiendo exacto**, que es la firma de un fallo. Las otras tres son la tabla
-  contradiciéndose **a sí misma** por un gol, sin que ningún club desvíe: Torneo Final
-  2013, Copa de la Liga 2023 y el Clausura de la Primera C 2024.
+- **`3` tablas que no cierran con su grilla, y las tres son de la temporada en curso.**
+  Ninguna es un error de lectura: `San Miguel` (Primera Nacional) desvía un gol, y
+  `Real Pilar` (Primera B) y `Muñiz` (Primera C) desvían en G-E-P **con los goles
+  coincidiendo exacto**, que es la firma de un fallo y no de un dígito mal leído.
 - **Extender la foja de RSSSF**, que es el testigo más fuerte que hay. Ya cruza las 4
   páginas sin grilla; lo que falta es correrla en las que **sí** tienen grilla, donde
   sería un testigo nuevo y gratis de nuestras lecturas de Wikipedia. Ahí falta el mapa

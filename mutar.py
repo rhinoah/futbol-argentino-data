@@ -591,6 +591,19 @@ MUTANTES = [
      '"JJ Urquiza": "J. J. de Urquiza"',
      '"JJ Urquiza": "J.J. de Urquiza"'),
 
+    # El desbalance que no repite lo ya declarado, y sus tres condiciones.
+    ("fad/posiciones.py", "repetir el desbalance que ya esta declarado",
+     "        if gf != gc and not _ya_esta_declarado(publicada, contada, gf, gc, pagina):",
+     "        if gf != gc:"),
+
+    ("fad/posiciones.py", "callar el desbalance sin exigir que este declarado",
+     "    if len(desviados) != 1 or not correcciones.revisado(pagina, desviados[0]):",
+     "    if len(desviados) != 1:"),
+
+    ("fad/posiciones.py", "callar el desbalance sin exigir que la fila lo explique",
+     "    return _lo_prueba_el_desbalance(1, gc - gf,",
+     "    return True or _lo_prueba_el_desbalance(1, gc - gf,"),
+
     # La fase que separa las zonas que se llaman igual, y el pool por etapa.
     ("fad/rsssf.py", "no reconocer el encabezado de fase",
      "        if pelada in fases:",

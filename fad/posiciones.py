@@ -1247,11 +1247,41 @@ def desbalance(ps: list, texto: str, arts: dict[str, str] | None = None,
             continue
         gf = sum(v[1] for v in publicada.values())
         gc = sum(v[2] for v in publicada.values())
-        if gf != gc:
+        if gf != gc and not _ya_esta_declarado(publicada, contada, gf, gc, pagina):
             fuera.append(_texto_del_desbalance(gf, gc, alcance))
     # Una misma tabla puede entrar por los dos caminos -- el titulo y las
     # columnas -- y entonces el aviso saldria repetido.
     return list(dict.fromkeys(fuera))
+
+
+def _ya_esta_declarado(publicada: dict, contada: dict, gf: int, gc: int,
+                       pagina: str) -> bool:
+    """Si el desbalance de la tabla es el MISMO hecho que un `Revisado` ya escrito.
+
+    Este chequeo y el de los clubes desviados miran la misma tabla desde dos
+    lados. Cuando un club se desvia solo y su desvio cuadra la tabla, `contrastar`
+    ya concluyo que la fila esta mal, y esa conclusion se escribe una vez en
+    `correcciones` -- "la equivocada es la fila de la tabla, no la grilla". El
+    aviso de desbalance la repetia en otras palabras, y repetir una conclusion ya
+    escrita convierte un archivo de conclusiones en ruido. Pasa en tres paginas:
+    Union en el Torneo Final 2013, Racing Club en la Copa de la Liga 2023 y
+    J. J. de Urquiza en el Clausura de la Primera C 2024.
+
+    NO SE AFLOJA NADA: pide las tres cosas juntas. Que haya UN solo club desviado,
+    que ese club este declarado a mano, y que poner nuestro numero en su fila deje
+    la tabla balanceada -- el mismo predicado que usa `contrastar` para decidir de
+    quien es la culpa, no una version mas floja. Si el desbalance no lo explica esa
+    fila, el aviso sale igual, porque entonces esta hablando de otra cosa.
+    """
+    desviados = [c for c in publicada
+                 if (publicada[c][1], publicada[c][2])
+                 != (contada[c][1], contada[c][2])]
+    if len(desviados) != 1 or not correcciones.revisado(pagina, desviados[0]):
+        return False
+    c = desviados[0]
+    return _lo_prueba_el_desbalance(1, gc - gf,
+                                    contada[c][1] - publicada[c][1],
+                                    contada[c][2] - publicada[c][2])
 
 
 def _texto_del_desbalance(gf: int, gc: int, alcance: str) -> str:
