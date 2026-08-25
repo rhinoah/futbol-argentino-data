@@ -168,6 +168,14 @@ FECHAS: dict[str, tuple[Cita, ...]] = {
              "Torneo Apertura - Zona Reválida"),
         Cita("2004-12-22", "Atlético Candelaria", "Luján de Cuyo", 1, 0,
              "Torneo Apertura - Zona Reválida"),
+        # La vuelta, que estuvo en `sin-fecha/` hasta que se arbitro su marcador.
+        # El blog la da 4-1 con los cinco goleadores y la pagina 2-0; gano el blog
+        # --ver el `Marcador` en `correcciones`-- y recien ahi el marcador pudo
+        # VERIFICAR el emparejamiento, que es lo que esta cita necesita para
+        # aplicarse. `correcciones.aplicar` corre antes que este completador, asi
+        # que cuando le toca el turno la fila ya dice 4-1.
+        Cita("2004-12-28", "Luján de Cuyo", "Atlético Candelaria", 4, 1,
+             "Torneo Apertura - Zona Reválida"),
         # Y el Zona Campeonato del Clausura, del cuarto post.
         Cita("2005-04-03", "Aldosivi", "Juventud Unida Universitario", 5, 2,
              "Torneo Clausura - Zona Campeonato"),

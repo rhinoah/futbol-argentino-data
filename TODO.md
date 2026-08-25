@@ -5,57 +5,38 @@ terminado se documenta en los mensajes de commit y en los docstrings, que es
 donde alguien lo va a buscar. Los números están medidos sobre las páginas
 reales, no estimados.
 
+**Un ítem resuelto no se reescribe contando cómo se resolvió: se borra.** Pasó
+tres veces y las tres esta sección creció en vez de achicarse —de 5 ítems a 8, de
+1 700 caracteres a 3 900—, que es exactamente cómo un archivo de pendientes se
+convierte en el changelog que el historial de commits ya es y hace mejor.
+
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 027 | 9 | 149 | 956 | 396 |
+| 44 027 | 8 | 149 | 956 | 396 |
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno. De los `180` avisos —cero graves— `94` son
-informativos y `17` son ciertos y no cierran nunca; los dos grupos tienen su explicación
-en el archivo que los produce y no se repiten acá. Lo que queda:
+`41 558` partidos y no falta ninguno, y **ningún partido queda con dos marcadores en
+disputa**. De los `180` avisos —cero graves— `94` son informativos y `17` son ciertos y no
+cierran nunca; los dos grupos tienen su explicación en el archivo que los produce y no se
+repiten acá. Lo que queda:
 
-- **Ya no queda ningún partido con dos marcadores.** El último era `Platense` vs
-  `Estudiantes (BA)`, fecha 6 de la `Primera B 2010-11`, y lo arbitró el **historial de
-  la propia página**: el artículo se editaba en vivo, y entre dos revisiones separadas
-  por 26 horas —con el partido jugado en el medio— los dos clubes suman un partido, un
-  empate y un punto **y los goles no se mueven**. Antes fueron los cuatro de la Reválida
-  del `Argentino A 2011-12`, uno por contradicción de la página consigo misma y otro por
-  el blog del club.
-- **Dos fuentes que no coinciden en el día.** `61` partidos en 9 páginas. Los `10`
-  desacuerdos que el cruce denuncia son todos de día o de quién fue local, **con los
-  goles idénticos**. Se conserva el de la página y se avisa; cerrarlos pide una tercera
-  fuente, o una regla de precedencia que hoy no está medida.
-- **El historial cierra `3` de esas 61, y por eso no se construye nada.** Estaba anotado
-  «ver cuántas se cierran con el método que arbitró el `Platense`»; se midió. De las 61,
-  `12` son llaves de eliminación —no entran en ninguna tabla de posiciones, así que el
-  testigo no puede opinar—, `18` caen en tres páginas que **no tienen una sola revisión**
-  en la ventana del partido, y otras `11` no dejan leer un corchete confiable. De los `20`
-  corchetes válidos, **3 deciden** y 17 no. Y una de las 3 es el `Platense` que ya se usó,
-  así que lo nuevo son **dos filas**: `Estudiantes (BA)` vs `Sarmiento (J)` (Primera B
-  2010-11, fecha 35: el 15 y no el 16 de abril) y `Muñiz` vs `Yupanqui` (Primera C 2024,
-  fecha 7: confirma nuestro 13 de marzo). **Un noveno tipo de corrección por dos filas no
-  se paga.**
-- **Y el atajo que parecía duplicar el rendimiento está medido y es falso.** El corchete
-  tiene una cota de arriba sólida —si la tabla ya lo contaba a las 02:29, no se jugó esa
-  tarde— y una de abajo que sólo vale si el editor estaba al día. Usar la de abajo sumaría
-  15 casos. Pero midiendo el **atraso real** de cada página, la mediana de la `Primera C
-  2024` es de **259 horas** —once días— y ahí están 9 de esos 15: aplicarla les daría la
-  razón a la otra fuente *porque el editor era lento*, no porque el partido se haya jugado
-  ese día. En el `Argentino A 2012-13` la mediana es de 7,5 horas y ahí sí valdría. La
-  cota de abajo necesita calibrar página por página, y con eso ya no es un atajo.
-- **`9` partidos sin fecha, y sólo `3` esperan una.** Los otros `6` no se jugaron —los
-  que el Federal A 2024 le dio por perdidos a Sansinena—. De los 3: dos del `Argentino A
-  2004-05` (uno donde la fuente citada le erra al día y otro donde da otro marcador) y uno
-  de la temporada en curso, que va a tener fecha cuando la temporada la tenga.
+- **`61` partidos con dos días distintos en 9 páginas**, más `10` desacuerdos de día o de
+  localía que el cruce denuncia por otro camino. Se conserva el de la página y se avisa.
+  El historial de Wikipedia cierra `3` de los 61 —medido, y el porqué está en el README—,
+  así que no alcanza: hace falta una tercera fuente o una regla de precedencia.
+- **`8` partidos sin fecha, y sólo `2` esperan una.** Los otros `6` no se jugaron —los que
+  el Federal A 2024 le dio por perdidos a Sansinena—. Los 2 son la semifinal `Ben Hur` vs
+  `Atlético Tucumán` del `Argentino A 2004-05`, donde la fuente citada le erra al día por
+  diez meses, y uno de la temporada en curso.
 - **`3` tablas que no cierran con su grilla, y las tres son de la temporada en curso.**
   Ninguna es un error de lectura: `San Miguel` (Primera Nacional) desvía un gol, y
   `Real Pilar` (Primera B) y `Muñiz` (Primera C) desvían en G-E-P **con los goles
   coincidiendo exacto**, que es la firma de un fallo y no de un dígito mal leído.
 - **Extender la foja de RSSSF**, que es el testigo más fuerte que hay. Ya cruza las 4
   páginas sin grilla; lo que falta es correrla en las que **sí** tienen grilla, donde
-  sería un testigo nuevo y gratis de nuestras lecturas de Wikipedia. Ahí falta el mapa
-  de nombres por temporada, que es lo caro.
+  sería un testigo nuevo y gratis de nuestras lecturas de Wikipedia. Ahí falta el mapa de
+  nombres por temporada, que es lo caro.
 - **Fechar un desacuerdo.** Ningún testigo puede decir *cuándo* la página cambió de
   opinión, y es la deuda más cara. Pide terminar el modelo de la «Evolución de las
   posiciones» —medido dio 12% de desvíos, un modelo incompleto haciendo ruido— o cruzar

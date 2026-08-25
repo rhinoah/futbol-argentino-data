@@ -1509,9 +1509,15 @@ def test_cada_revisado_dice_contra_que_se_verifico():
         # de afuera -- lo que tenian era una prueba de la TERCERA familia, que
         # abajo por fin se reconoce. Un marcador que se cumple sin querer no
         # guarda nada.
+        # `http` entro con la vuelta de la final de la Revalida del Argentino A
+        # 2004-05, y tapa un hueco real: la evidencia era LA FUENTE CITADA DEL
+        # PROPIO REPO --el blog que fecha 55 partidos de esa temporada-- y
+        # ninguna palabra de la lista la nombraba. Una URL es la forma mas
+        # auditable que hay de nombrar una fuente: el que lee la entrada puede
+        # ir a mirarla. No afloja la vara, la deja alcanzable.
         externa = any(f in r.porque for f in
                        ("RSSSF", "rsssf", "cronica", "diario", "compilado",
-                        "historial", "Web Archive"))
+                        "historial", "Web Archive", "http"))
         # La prueba INTERNA de este modulo es una sola y siempre la misma: el club
         # se desvia solo, y un marcador mal leido toca a dos. Se la reconoce por la
         # idea y no por como quedo redactada la primera entrada, que es el error

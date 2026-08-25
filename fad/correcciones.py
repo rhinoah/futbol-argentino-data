@@ -952,6 +952,52 @@ MARCADORES: tuple[Marcador, ...] = (
                "espejada dato por dato (1-0 y 3-0), y lo mismo en tres de las "
                "cuatro llaves de la Segunda ronda. Difiere solo en esta serie."),
 
+    # --- La vuelta de la final de la Revalida del Apertura 2004-05 ---
+    #
+    # La pagina dice 2-0 y lo dice DOS VECES --la grilla y el `{{Copa}}` de mas
+    # abajo, que anota `RD2-score1-2= 0` y `RD2-score2-2= 2`--, pero las dos son la
+    # misma fuente y no se controlan entre ellas. La fuente citada del repo, el
+    # blog de Jose Carluccio, publica otra cosa y la publica con NOMBRE Y APELLIDO:
+    #
+    #   "28/12/2004 en Lujan de Cuyo: Lujan de Cuyo 4 (Emiliano Romay 2, Alfredo
+    #    Molina y Santiago Sandoval), Atletico Candelaria 1 (Richard Nunez)"
+    #
+    # CINCO GOLEADORES NOMBRADOS. Es exactamente la vara que este archivo se puso
+    # para creerle a una cronica, y un 2-0 no tiene donde meter cinco goles.
+    #
+    # Y NO COPIA A WIKIPEDIA, medido sobre esta misma pagina: de esa temporada el
+    # blog fecha 55 partidos, y el contrato de `citadas` es que el MARCADOR
+    # verifica el emparejamiento, o sea que en los 55 coincide con la pagina al
+    # gol. Coincide en 55 y difiere en este. Una fuente derivada coincidiria en 56.
+    # La ida lo muestra en chico: "22/12/2004 en Posadas: Atletico Candelaria de
+    # Misiones 1 (Manuel Sanchez Ocana), Lujan de Cuyo de Mendoza 0" es, dato por
+    # dato, la fila que ya teniamos.
+    #
+    # EL DIA VA APARTE, en `citadas`: 28/12/2004. El `{{Copa}}` de la pagina dice
+    # `RD2-date= 22/12 y 26/12`, o sea el 26, pero es el mismo cuadro cuyo marcador
+    # queda refutado aca; su dia no pesa mas que el de la fuente que sabe quien
+    # hizo los goles.
+    Marcador(
+        pagina="Torneo Argentino A 2004-05", jornada="Zona Reválida - Final",
+        local="Luján de Cuyo", visita="Atlético Candelaria", dice=(2, 0), debe=(4, 1),
+        porque="28 de diciembre de 2004, en Lujan de Cuyo. La fuente citada del repo "
+               "lo publica con los CINCO GOLEADORES: `28/12/2004 en Lujan de Cuyo: "
+               "Lujan de Cuyo 4 (Emiliano Romay 2, Alfredo Molina y Santiago "
+               "Sandoval), Atletico Candelaria 1 (Richard Nunez)`. Un 2-0 no tiene "
+               "donde meter cinco goles.\n"
+               "LA PAGINA LO DICE DOS VECES Y ES UNA SOLA FUENTE: la grilla y el "
+               "`{{Copa}}` de la misma seccion, que anota la vuelta como Candelaria "
+               "0 - Lujan 2. Que dos partes de un articulo coincidan no las "
+               "convierte en dos testigos.\n"
+               "NO COPIA A WIKIPEDIA, y se puede medir sobre esta misma pagina: el "
+               "blog fecha 55 partidos de esta temporada, y el contrato de "
+               "`citadas` es que el marcador VERIFICA el emparejamiento -- o sea "
+               "que en esos 55 coincide con la pagina al gol. Coincide en 55 y "
+               "difiere en este. La ida lo muestra en chico: `22/12/2004 en "
+               "Posadas: Atletico Candelaria de Misiones 1 (Manuel Sanchez Ocana), "
+               "Lujan de Cuyo de Mendoza 0` es dato por dato la fila que ya "
+               "teniamos.\n"
+               "http://josecarluccio.blogspot.com/2013/09/argentina-consejo-federal-afa-torneo_422.html"),
     # --- El ultimo marcador en disputa del dataset, y lo arbitro la propia
     # --- pagina contra si misma, doce anios despues ---
     #
@@ -2519,6 +2565,23 @@ _TABLA_2008_09 = (
 
 # Los tres clubes de la Primera C 2011-12 comparten explicacion porque comparten
 # causa: no son tres desvios sino una tabla.
+_CUADRO_REVA_2004 = (
+    "EL CUADRO ARRASTRA EL MARCADOR QUE LA GRILLA YA NO TIENE, y es la misma "
+    "mano. El `{{Copa}}` de esa seccion anota la vuelta de la final como "
+    "`RD2-score1-2= 0` y `RD2-score2-2= 2`, o sea Candelaria 0 - Lujan 2, "
+    "identico al 2-0 que la grilla decia antes de arbitrarse. Que dos partes del "
+    "mismo articulo coincidan no las convierte en dos testigos: coincidir es lo "
+    "que se espera cuando derivan juntas.\n"
+    "LO QUE LAS SEPARA es la fuente citada, que publica `28/12/2004 en Lujan de "
+    "Cuyo: Lujan de Cuyo 4 (Emiliano Romay 2, Alfredo Molina y Santiago Sandoval), "
+    "Atletico Candelaria 1 (Richard Nunez)` -- cinco goleadores con nombre, que "
+    "en un 2-0 no entran -- y que coincide con esta pagina al gol en los otros 55 "
+    "partidos que le fecha. Ver el `Marcador` de la `Zona Revalida - Final`.\n"
+    "Asi que no hay nada que corregir del lado de la grilla: el que quedo mal es "
+    "el cuadro, y un cuadro no se edita desde aca.\n"
+    "http://josecarluccio.blogspot.com/2013/09/argentina-consejo-federal-afa-torneo_422.html")
+
+
 _TABLA_B_2010_11 = (
     "LA TABLA ARRASTRA EL MISMO GOL DE MAS QUE ARRASTRABA LA GRILLA. Hasta que "
     "se corrigio la fecha 6, esta pagina cerraba consigo misma en los 22 clubes: "
@@ -2566,6 +2629,9 @@ _TABLA_C_2011_12 = (
 
 
 REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Torneo Argentino A 2004-05", club="Luján de Cuyo",
+        contra="Atlético Candelaria", porque=_CUADRO_REVA_2004),
     Revisado(
         pagina="Campeonato de Primera B 2010-11 (Argentina)", club="Platense",
         porque=_TABLA_B_2010_11),
