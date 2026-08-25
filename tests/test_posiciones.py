@@ -1225,6 +1225,27 @@ def test_denuncia_al_club_del_cuadro_cuyo_homonimo_es_el_que_juega():
     assert "Estudiantes (LP)" in avisos[0] and "Estudiantes (BA)" in avisos[0]
 
 
+def test_el_cuadro_sin_enlace_se_desata_con_los_enlaces_de_su_pagina():
+    """UN CUADRO CASI NUNCA ENLAZA, PERO SU PAGINA SI.
+
+    Los seis clubes del cuadro de la Primera B 2014 estan a secas, y `Estudiantes`
+    a secas lo resuelve el padron al de La Plata --un club de Primera--. Pero el
+    MISMO documento enlaza `Club Atlético Estudiantes` en otro renglon: en su lista
+    de participantes, en su tabla, en la grilla. Ese mapa ya lo junta
+    `articulos_de_la_pagina`; lo que faltaba era usarlo aca.
+
+    Sin esto hacia falta una declaracion a mano por pagina, y con esto la del 2014
+    quedo sin uso."""
+    texto = (_con_cuadro("Estudiantes", "Boca Juniors") +
+             "\n[[Club Atlético Estudiantes|Estudiantes]] juega esta temporada.")
+    ps = [zona("Estudiantes (BA)", "Boca Juniors", 1, 0)]
+    assert posiciones.fuera_del_cuadro(ps, texto) == []
+
+    # Y sin ese enlace en la pagina, el aviso sale: lo que resuelve es el enlace,
+    # no el nombre.
+    assert len(posiciones.fuera_del_cuadro(ps, _con_cuadro("Estudiantes", "Boca Juniors"))) == 1
+
+
 def test_si_el_cuadro_y_la_grilla_coinciden_se_calla():
     texto = _con_cuadro("Boca Juniors", "River Plate")
     assert posiciones.fuera_del_cuadro([zona("Boca Juniors", "River Plate", 1, 0)], texto) == []

@@ -778,9 +778,36 @@ def fuera_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
     del_cuadro = parser.clubes_del_cuadro(texto)
     if not del_cuadro:
         return []
+    arts = parser.articulos_de_la_pagina(texto)
     juegan = {p.local for p in ps} | {p.visita for p in ps}
     faltan, fuera, desconocidos = [], [], []
     for crudo, articulo in sorted(del_cuadro.items()):
+        # SI EL CUADRO NO ENLAZA, LA PAGINA IGUAL PUEDE SABERLO. Un cuadro de
+        # llaves casi nunca lleva wikilinks -- los seis clubes del de la Primera B
+        # 2014 estan a secas --, pero el MISMO documento suele enlazar a ese club
+        # en otro lado: en su lista de participantes, en su tabla, en la grilla.
+        # `articulos_de_la_pagina` ya junta ese mapa y el modulo ya lo tiene a
+        # mano; lo que faltaba era usarlo aca.
+        #
+        # No es un detalle: `Estudiantes` a secas lo resuelve el padron al de La
+        # Plata, un club de Primera, y las tres paginas donde pasa --Primera B
+        # 2014, 2015 y 2017-18-- enlazan `Club Atlético Estudiantes` en otro
+        # renglon.
+        #
+        # ARREGLA ESTE CHEQUEO Y NO LOS OTROS, y conviene medirlo antes de sacar
+        # declaraciones: la del 2014 sobra --su pagina queda limpia sin ella-- pero
+        # las del 2015 y 2017-18 siguen haciendo falta, porque ahi el que protesta
+        # es `marcadores_del_cuadro`, que compara MARCADORES y llega por otro
+        # camino. Tampoco arregla un cuadro que enlaza al articulo EQUIVOCADO, como
+        # la Copa Argentina 2015-16: ahi hay enlace y dice otra cosa.
+        #
+        # EL ORDEN DEL `or` NO SE PUEDE OBSERVAR, y se midio antes de escribirlo:
+        # `articulos_de_la_pagina` DESCARTA el nombre que la pagina enlaza a dos
+        # articulos distintos --devuelve {} para el, por la misma regla de
+        # cardinalidad que todo lo demas--, asi que cuando el cuadro trae enlace
+        # propio o coincide con el de la pagina o la pagina no opina. Se escribe
+        # `articulo or ...` porque se lee bien, no porque cambie algo.
+        articulo = articulo or arts.get(crudo, "")
         # Lo que el padron no reconoce YA NO SE SALTEA. Antes si, y la razon era
         # buena: un cuadro trae marcas mezcladas con los clubes -- "t. s." por
         # tiempo suplementario, "(p.)" por penales, "1:" de la siembra -- que no

@@ -591,6 +591,11 @@ MUTANTES = [
      '"JJ Urquiza": "J. J. de Urquiza"',
      '"JJ Urquiza": "J.J. de Urquiza"'),
 
+    # El cuadro que se desata con los enlaces de su propia pagina.
+    ("fad/posiciones.py", "no usar los enlaces de la pagina para el cuadro",
+     '        articulo = articulo or arts.get(crudo, "")',
+     "        pass"),
+
     # El desbalance que no repite lo ya declarado, y sus tres condiciones.
     ("fad/posiciones.py", "repetir el desbalance que ya esta declarado",
      "        if gf != gc and not _ya_esta_declarado(publicada, contada, gf, gc, pagina):",
