@@ -16,12 +16,19 @@ informativos y `17` son ciertos y no cierran nunca; los dos grupos tienen su exp
 en el archivo que los produce y no se repiten acá. Lo que queda:
 
 - **Dos fuentes que no coinciden.** `60` partidos con dos días distintos en 9 páginas.
-  **Ya no queda ninguno con dos marcadores**: los últimos cuatro —las dos llaves de la
-  Reválida del `Argentino A 2011-12`— se cerraron, una porque la página se contradice
-  con su propia regla de desempate y otra con el blog del club. Los `10` desacuerdos
-  que sobran son todos de día o de quién fue local, **con los goles idénticos**. Se
-  conserva el de la página y se avisa; cerrarlos pide una tercera fuente, o una regla
-  de precedencia que hoy no está medida.
+  De los `10` desacuerdos que el cruce denuncia, **ninguno es ya de marcador**: los
+  cuatro que quedaban —las dos llaves de la Reválida del `Argentino A 2011-12`— se
+  cerraron, una porque la página se contradice con su propia regla de desempate y otra
+  con el blog del club. Los 10 son de día o de quién fue local, **con los goles
+  idénticos**. Se conserva el de la página y se avisa; cerrarlos pide una tercera
+  fuente, o una regla de precedencia que hoy no está medida.
+- **Y queda `1` partido que dos fuentes cuentan con otro marcador**, el último del
+  dataset: `Platense` vs `Estudiantes (BA)`, fecha 6 de la `Primera B 2010-11`
+  —nosotros 1-1, la otra fuente 0-0—. No aparece en los 10 de arriba porque el
+  desacuerdo lo agarra el completador de fechas y no el cruce: al no verificarse el
+  emparejamiento, la fila se queda sin día y va a `sin-fecha/`. Es el mismo problema
+  contado dos veces y se cierra igual que los cuatro de la Reválida, con un testigo
+  contemporáneo.
 - **`10` partidos sin fecha, y sólo `4` esperan una.** Los otros `6` no se jugaron —los
   que el Federal A 2024 le dio por perdidos a Sansinena—. De los 4: dos del `Argentino A
   2004-05` (uno donde la fuente citada le erra al día y otro donde da otro marcador), uno
