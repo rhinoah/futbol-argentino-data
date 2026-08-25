@@ -1836,6 +1836,23 @@ LOCALIA_RESUELTA: dict[str, str] = {
 
 HOMONIMOS: tuple[Homonimo, ...] = (
     Homonimo(
+        pagina="Copa Argentina 2015-16", dice="Juventud Unida",
+        debe="Juventud Unida (G)",
+        porque="El de Gualeguaychu, y aca la pagina SE CONTRADICE A SI MISMA: enlaza "
+               "al mismo club a DOS articulos distintos. La grilla y la primera "
+               "ronda del cuadro dicen `[[Club Deportivo Juventud Unida]]`, que es "
+               "el de Gualeguaychu; de la segunda ronda en adelante el cuadro dice "
+               "`[[Club Social y Deportivo Juventud Unida]]`, que el padron resuelve "
+               "a otro club. Las dos veces la pagina le pone la bandera de Entre "
+               "Rios.\n"
+               "LA GRILLA MANDA Y ES UNANIME: sus cuatro partidos son de "
+               "`Juventud Unida (G)` y no hay ni uno del otro. Y el otro tiene "
+               "coartada: en 2015 juega sus 38 partidos en la Primera C, sin pisar "
+               "esta copa.\n"
+               "Sin esto el cruce entre el cuadro y la grilla no se puede hacer: el "
+               "chequeo avisa que el cuadro nombra un club que en la grilla no juega "
+               "ni un partido -- y no lo juega porque ese club no estuvo aca."),
+    Homonimo(
         pagina="Campeonato de Primera B 2014 (Argentina)", dice="Estudiantes (LP)",
         debe="Estudiantes (BA)",
         porque="El de Caseros. El cuadro de eliminacion escribe `Estudiantes` a secas "

@@ -11,8 +11,8 @@ reales, no estimados.
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno. De los `187` avisos —cero graves— `95` son
-informativos y `16` son ciertos y no cierran nunca; los dos grupos tienen su explicación
+`41 558` partidos y no falta ninguno. De los `186` avisos —cero graves— `95` son
+informativos y `17` son ciertos y no cierran nunca; los dos grupos tienen su explicación
 en el archivo que los produce y no se repiten acá. Lo que queda:
 
 - **Dos fuentes que no coinciden.** `60` partidos con dos días distintos en 9 páginas, y
@@ -20,11 +20,12 @@ en el archivo que los produce y no se repiten acá. Lo que queda:
   tercera fuente, o una regla de precedencia que hoy no está medida.
 - **`29` partidos sin fecha**, y `6` no esperan ninguna porque no se jugaron. De los 23
   que sí, 21 son las patas del `Argentino A 2004-05` que la fuente citada no publica.
-- **`10` lugares donde la página se contradice a sí misma.** Siete son la tabla contra la
-  grilla —cuatro de la temporada en curso, y ninguna es un error de lectura: tres
-  desvían G-E-P con los goles coincidiendo exacto, que es la firma de un fallo, y tres
-  son la tabla sin cerrar consigo misma por un gol—. Los otros tres son el cuadro de
-  eliminación nombrando un club que la grilla no hace jugar.
+- **`6` tablas que no cierran con su grilla**, y ninguna es un error de lectura. Tres son
+  de la temporada en curso y desvían **un club**: `San Miguel` (Primera Nacional) por un
+  gol, y `Real Pilar` (Primera B) y `Muñiz` (Primera C) en G-E-P **con los goles
+  coincidiendo exacto**, que es la firma de un fallo. Las otras tres son la tabla
+  contradiciéndose **a sí misma** por un gol, sin que ningún club desvíe: Torneo Final
+  2013, Copa de la Liga 2023 y el Clausura de la Primera C 2024.
 - **Extender la foja de RSSSF**, que es el testigo más fuerte que hay. Ya cruza las 4
   páginas sin grilla; lo que falta es correrla en las que **sí** tienen grilla, donde
   sería un testigo nuevo y gratis de nuestras lecturas de Wikipedia. Ahí falta el mapa

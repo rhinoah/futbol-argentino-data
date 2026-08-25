@@ -820,11 +820,23 @@ def fuera_del_cuadro(ps: list, texto: str, pagina: str = "") -> list[str]:
             faltan.append(club)
     fuera = desconocidos + fuera
     if faltan:
+        # NO SIEMPRE ES UN PARTIDO QUE FALTE: puede ser uno que no tiene marcador
+        # que escribir. El unico que queda en la era 2004-2026 es asi. La Copa
+        # Argentina 2022 pone a `Los Andes` en el cuadro con el marcador en `-` y
+        # explica por que: "Tigre gana por w/o tras la no presentacion de Los
+        # Andes. El Tribunal fallo contra Los Andes: paso Tigre". El partido no se
+        # jugo y la pagina no publica ningun numero, asi que la fila no entra --
+        # inventarle un 0-3 seria afirmar lo que ninguna fuente afirma, que es lo
+        # mismo que se decidio con el abandonado del Argentino A 2009-10.
+        #
+        # Por eso este aviso queda abierto para siempre en esa pagina, junto con el
+        # de "Tigre entra a los dieciseisavos sin venir de la ronda anterior": las
+        # dos cosas son ciertas y son la misma.
         fuera.append(
             f"el cuadro de llaves nombra {len(faltan)} clubes que no juegan ningun "
             f"partido en la grilla ({', '.join(faltan[:6])}"
             f"{', ...' if len(faltan) > 6 else ''}): a la pagina le faltan partidos, "
-            f"no nombres")
+            f"o el partido esta y no tiene marcador que escribir")
     return fuera
 
 
