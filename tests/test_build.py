@@ -462,7 +462,10 @@ def test_un_mapa_declarado_inservible_no_se_usa(monkeypatch):
     from fad import fechas
     visto = {}
 
-    def espiar(nuestros, ajenos, mapa=None, arbitrados=None):
+    # `**k` y no la firma copiada: este doble solo mira `mapa`, y clavarle los
+    # parametros de `completar` lo rompe cada vez que la funcion crece -- paso al
+    # agregarle `verificadas`, y el test fallaba por el doble y no por el codigo.
+    def espiar(nuestros, ajenos, mapa=None, arbitrados=None, **k):
         visto["mapa"] = mapa
         return 0, []
 

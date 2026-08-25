@@ -374,7 +374,9 @@ def derivar_padron(nuestros: list, ajenos: list[Ajeno],
 def completar(nuestros: list, ajenos: list[Ajeno],
               mapa: dict[str, str] | None = None,
               arbitrados: set | None = None,
-              credito: str = CREDITO) -> tuple[int, list[str]]:
+              credito: str = CREDITO,
+              verificadas: set | None = None,
+              usadas: set | None = None) -> tuple[int, list[str]]:
     """Le pone fecha a los partidos que no la tienen. Devuelve (cuantos, avisos).
 
     LA REGLA: los equipos y la jornada IDENTIFICAN el partido, y el marcador lo
@@ -505,8 +507,26 @@ def completar(nuestros: list, ajenos: list[Ajeno],
             # No se pisa la que ya esta: la primera fuente sigue mandando. Lo que
             # cambia es que el desacuerdo se ve.
             if a is not None and a.fecha and a.fecha != p.fecha:
-                discrepan.append(f"{p.jornada} {p.local} vs {p.visita}: nosotros "
-                                 f"{p.fecha}, esta fuente {a.fecha}")
+                # SALVO QUE ALGUIEN YA LO HAYA MIRADO. `verificadas` trae los
+                # desacuerdos que se fueron a contrastar contra una TERCERA
+                # fuente y volvieron dandole la razon a la nuestra. No hay nada
+                # que corregir en esos y repetir el aviso en cada corrida
+                # convierte la lista en ruido; ver `correcciones.Fechado`.
+                #
+                # Se pide la tupla ENTERA, con las dos fechas: si alguna de las
+                # dos fuentes cambia de opinion, la declaracion deja de enganchar
+                # y el aviso vuelve, que es lo que tiene que pasar -- lo que se
+                # verifico era ese desacuerdo y no otro.
+                # `mirado` y no `clave`: asi se llama la funcion local que arma
+                # la clave del indice, y pisarla con una tupla rompe el resto del
+                # bucle -- `'tuple' object is not callable` --.
+                mirado = (p.jornada, p.local, p.visita, p.fecha, a.fecha)
+                if mirado in (verificadas or ()):
+                    if usadas is not None:
+                        usadas.add(mirado)
+                else:
+                    discrepan.append(f"{p.jornada} {p.local} vs {p.visita}: nosotros "
+                                     f"{p.fecha}, esta fuente {a.fecha}")
             continue
         if a is None:
             sin_par += 1
@@ -543,6 +563,13 @@ def completar(nuestros: list, ajenos: list[Ajeno],
         avisos.append(f"{len(discrepan)} partidos que ya tenian fecha y esta fuente "
                       f"la da distinta; se conserva la que ya estaba: "
                       + " | ".join(discrepan[:3]))
+    # LA DENUNCIA DEL HUERFANO NO VA ACA, y se aprendio poniendola aca. Una
+    # pagina pasa por VARIOS completadores -- worldfootball, RSSSF, el de llaves,
+    # las citas -- y cada uno ve solo los desacuerdos que a el le tocan. Si cada
+    # uno denuncia las declaraciones que no uso, las cinco del Argentino A
+    # 2012-13 salen como huerfanas en el completador que no las mira, que es lo
+    # normal y no un problema. `usadas` se acumula entre todos y quien avisa es
+    # `build.procesar`, que es el que sabe cuando se termino la pagina.
     return puestos, avisos
 
 

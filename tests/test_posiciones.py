@@ -1496,6 +1496,29 @@ def test_los_huerfanos_se_preguntan_sobre_los_desvios_CRUDOS():
     assert "Boca Juniors" in crudos, "el revisado se tapo a si mismo"
 
 
+def test_cada_fechado_nombra_su_tercera_fuente():
+    """La vara es la misma que para `Revisado`, con un requisito de mas: la
+    fuente tiene que ser una TERCERA.
+
+    Un desacuerdo de dia es entre dos fuentes. Si el arbitro fuera una de las dos
+    que discuten, esto seria elegir y no verificar -- y elegir sin mirar es
+    justamente lo que el aviso viene a evitar. Se pide una URL porque es la forma
+    mas auditable que hay: el que lee la entrada puede ir a mirarla."""
+    from fad import correcciones
+    for f in correcciones.FECHADOS:
+        assert len(f.porque) > 120, f"{f.pagina} {f.local}: la evidencia es muy flaca"
+        assert "http" in f.porque, f"{f.pagina} {f.local}: no nombra la fuente"
+        assert f.nuestra != f.otra, f"{f.pagina} {f.local}: no hay desacuerdo que verificar"
+
+
+def test_los_fechados_se_pueden_buscar_por_pagina():
+    from fad import correcciones
+    clave = correcciones.fechados("Torneo Argentino A 2012-13")
+    assert ("Fecha 17", "Unión (MdP)", "Rivadavia (L)",
+            "2013-01-27", "2013-01-26") in clave
+    assert correcciones.fechados("Una Pagina Cualquiera") == set()
+
+
 def test_cada_revisado_dice_contra_que_se_verifico():
     """La vara es la misma que para corregir: silenciar un aviso sin mirar es peor
     que dejarlo abierto. O nombra una fuente de afuera, o la prueba es INTERNA y

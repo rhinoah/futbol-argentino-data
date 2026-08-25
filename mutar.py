@@ -483,11 +483,11 @@ MUTANTES = [
      "        if False:"),
 
     ("build.py", "consultar la segunda fuente para todos los torneos",
-     "    avisos += _completar_fechas(ps, t) if t.wf else []",
-     "    avisos += _completar_fechas(ps, t) if True else []"),
+     "    avisos += _completar_fechas(ps, t, usadas) if t.wf else []",
+     "    avisos += _completar_fechas(ps, t, usadas) if True else []"),
 
     ("build.py", "no completar las fechas de la segunda fuente",
-     "    avisos += _completar_fechas(ps, t) if t.wf else []",
+     "    avisos += _completar_fechas(ps, t, usadas) if t.wf else []",
      "    avisos += []"),
 
     ("build.py", "frenar el build entero si la segunda fuente esta caida",
@@ -1167,7 +1167,9 @@ MUTANTES = [
      'r"(?:\\s+\\d[^\\[\\]]*)?(?:\\s*\\[([^\\]]*)\\])?\\s*$", re.I)'),
 
     ("build.py", "no fecharle a la pagina lo que la llave si tiene fechado",
-     "                   for d in fechar_con_las_llaves(ps, llaves_rsssf)]",
+     "                   for d in fechar_con_las_llaves(\n"
+     "                       ps, llaves_rsssf, correcciones.fechados(t.pagina),\n"
+     "                       usadas)]",
      "                   for d in []]"),
 
     ("build.py", "darle a un partido de liga la fecha de una llave",
@@ -1781,6 +1783,14 @@ MUTANTES = [
      "                and m.dice == (gl, gv)):",
      "                and (m.local, m.visita) == (local, visita)\n"
      "                and True):"),
+
+    ("fad/fechas.py", "callar cualquier desacuerdo de dia, no solo el verificado",
+     "                if mirado in (verificadas or ()):",
+     "                if True:"),
+
+    ("fad/fechas.py", "no anotar cual verificada engancho",
+     "                    if usadas is not None:\n                        usadas.add(mirado)",
+     "                    pass"),
 
     ("build.py", "identificar la fila por el marcador CRUDO y no por el corregido",
      "                       if set(corregida(x)[2:]) == {p_.goles_local, p_.goles_visita}]",

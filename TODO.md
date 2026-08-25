@@ -7,19 +7,20 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 030 | 8 | 149 | 959 | 398 |
+| 44 030 | 8 | 149 | 963 | 400 |
 
 ## 2004–2026 — Cerrado
 
 `41 558` partidos y no falta ninguno, y **ningún partido queda con dos marcadores en
-disputa**. De los `180` avisos —cero graves— `94` son informativos y `17` son ciertos y no
+disputa**. De los `179` avisos —cero graves— `94` son informativos y `17` son ciertos y no
 cierran nunca; los dos grupos tienen su explicación en el archivo que los produce y no se
 repiten acá. Lo que queda:
 
-- **`51` partidos con dos días distintos en 8 páginas**, más `11` desacuerdos de día o de
+- **`46` partidos con dos días distintos en 8 páginas**, más `11` desacuerdos de día o de
   localía que el cruce denuncia por otro camino. Se conserva el de la página y se avisa.
-  El historial de Wikipedia cierra `3` —medido, y el porqué está en el README—, así que no
-  alcanza para el resto: hace falta una tercera fuente o una regla de precedencia.
+  `37` de los 46 son `Primera C` contra ESPN y ahí no hay tercera fuente identificada: el
+  blog citado cubre el interior y no la metropolitana. El historial de Wikipedia cierra
+  `3` —medido, y el porqué está en el README—.
 - **`8` partidos sin fecha, y sólo `2` esperan una.** Los otros `6` no se jugaron —los que
   el Federal A 2024 le dio por perdidos a Sansinena—. Los 2 son la semifinal `Ben Hur` vs
   `Atlético Tucumán` del `Argentino A 2004-05`, donde la fuente citada le erra al día por

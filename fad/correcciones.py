@@ -3116,6 +3116,88 @@ def renombrado(pagina: str, jornada: str, local: str, visita: str,
     return local, visita
 
 
+@dataclass(frozen=True)
+class Fechado:
+    """Un desacuerdo de DIA que se fue a verificar, y la fecha nuestra estaba bien.
+
+    Es a `discrepan` lo que `Revisado` es a la tabla de posiciones: no corrige
+    nada, y esa es exactamente su funcion. Cuando dos fuentes dan un partido en
+    dias distintos hay dos desenlaces y hasta ahora solo uno se podia anotar:
+
+      * la nuestra esta mal -> habria que corregirla, y para eso hace falta un
+        mecanismo que este modulo no tiene;
+      * LA NUESTRA ESTA BIEN -> no hay nada que tocar, el aviso queda abierto, y
+        vuelve a aparecer en cada corrida hasta el fin de los tiempos.
+
+    El segundo es el que se verifico y el que no tenia donde escribirse. Sin
+    esto, mirar un desacuerdo y no encontrarle error se parece demasiado a no
+    haberlo mirado: el proximo que pase lo investiga de cero.
+
+    LA VARA ES LA MISMA QUE PARA CORREGIR. `porque` tiene que nombrar la fuente
+    que se consulto, y tiene que ser una TERCERA -- si el arbitro fuera una de
+    las dos que discuten, esto seria elegir y no verificar.
+
+    Y no se acumula en silencio: `fechados_huerfanos` denuncia al que ya no
+    engancha con ningun desacuerdo, porque eso quiere decir que alguna de las dos
+    fuentes cambio y la verificacion que sostiene esta entrada quedo vieja.
+    """
+    pagina: str
+    jornada: str
+    local: str
+    visita: str
+    nuestra: str          # ISO, la que quedo escrita
+    otra: str             # ISO, la que da la otra fuente
+    porque: str
+
+
+# La 17a fecha de la Zona Sur y la vuelta de la Cuarta fase del Argentino A
+# 2012-13. RSSSF corre las cinco un dia para atras; el blog de Jose Carluccio
+# --que es una TERCERA fuente y publica cada partido con su ciudad y sus
+# goleadores-- coincide con la pagina en las cinco.
+_BLOG_2012_13 = (
+    "Lo verifica una TERCERA fuente, que no es ninguna de las dos que discuten: "
+    "el blog de Jose Carluccio, que publica cada partido con su ciudad y sus "
+    "goleadores y que este repo ya cita para el Argentino A 2004-05. La pagina y "
+    "el blog coinciden; RSSSF corre esta jornada un dia para atras.\n"
+    "http://josecarluccio.blogspot.com/2016/01/argentina-consejo-federal-afa-torneo_24.html")
+
+_BLOG_2012_13_CUARTA = (
+    "Lo verifica una TERCERA fuente: el blog de Jose Carluccio publica "
+    "`09/06/2013 en San Miguel de Tucuman: San Jorge de Tucuman 1, San Martin de "
+    "Tucuman 3`, con ciudad y goleadores. La pagina dice lo mismo; RSSSF lo corre "
+    "un dia para atras.\n"
+    "http://josecarluccio.blogspot.com/2016/02/argentina-consejo-federal-afa-torneo_18.html")
+
+
+FECHADOS: tuple[Fechado, ...] = (
+    Fechado(pagina="Torneo Argentino A 2012-13", jornada="Fecha 17",
+            local="Ramón Santamarina", visita="Alvarado",
+            nuestra="2013-01-27", otra="2013-01-26", porque=_BLOG_2012_13),
+    Fechado(pagina="Torneo Argentino A 2012-13", jornada="Fecha 17",
+            local="Guillermo Brown", visita="Deportivo Maipú",
+            nuestra="2013-01-27", otra="2013-01-26", porque=_BLOG_2012_13),
+    Fechado(pagina="Torneo Argentino A 2012-13", jornada="Fecha 17",
+            local="Defensores de Belgrano (VR)", visita="Juventud Unida Universitario",
+            nuestra="2013-01-27", otra="2013-01-26", porque=_BLOG_2012_13),
+    Fechado(pagina="Torneo Argentino A 2012-13", jornada="Fecha 17",
+            local="Unión (MdP)", visita="Rivadavia (L)",
+            nuestra="2013-01-27", otra="2013-01-26", porque=_BLOG_2012_13),
+    Fechado(pagina="Torneo Argentino A 2012-13", jornada="Cuarta fase",
+            local="San Jorge (T)", visita="San Martín (T)",
+            nuestra="2013-06-09", otra="2013-06-08", porque=_BLOG_2012_13_CUARTA),
+)
+
+
+def fechados(pagina: str) -> set[tuple[str, str, str, str, str]]:
+    """(jornada, local, visita, nuestra, otra) de los desacuerdos ya verificados.
+
+    Se le pasa a `fechas.completar` igual que `arbitrados`, y por el mismo motivo:
+    la funcion que arma el aviso no sabe de que pagina viene.
+    """
+    return {(f.jornada, f.local, f.visita, f.nuestra, f.otra) for f in FECHADOS
+            if f.pagina == pagina}
+
+
 def arbitrado(pagina: str, jornada: str, local: str, visita: str,
               gl: int, gv: int) -> tuple[int, int]:
     """El marcador que ese partido VA A TENER despues de `aplicar`.

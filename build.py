@@ -26,7 +26,7 @@ from fad import (citadas, correcciones, dataset, equipos, fechas, parser,
 SALIDA = Path(__file__).resolve().parent / "data"   # una carpeta: un CSV por temporada
 
 
-def _completar_fechas_rsssf(ps, t) -> list:
+def _completar_fechas_rsssf(ps, t, usadas: set | None = None) -> list:
     """Igual que `_completar_fechas` pero contra RSSSF, para los torneos que
     worldfootball no tiene -- el Argentino A no figura en su selector.
 
@@ -45,12 +45,14 @@ def _completar_fechas_rsssf(ps, t) -> list:
     desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))
     ajenos, avisos = rsssf.leer(crudo, mapa, t.temporada, t.anio_fin or t.temporada,
                                 t.mes_inicio, desde=desde, hasta=hasta)
-    puestas, mas = fechas.completar(ps, ajenos, credito=rsssf.CREDITO)
+    puestas, mas = fechas.completar(ps, ajenos, credito=rsssf.CREDITO,
+                                    verificadas=correcciones.fechados(t.pagina),
+                                    usadas=usadas)
     return [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False)
             for d in avisos + mas]
 
 
-def _completar_fechas_espn(ps, t) -> list:
+def _completar_fechas_espn(ps, t, usadas: set | None = None) -> list:
     """Tercera fuente de fechas, para las tres temporadas de Primera C.
 
     Sus paginas traen los resultados en tablas de tres columnas y no hay columna
@@ -74,7 +76,9 @@ def _completar_fechas_espn(ps, t) -> list:
     # nombre mal traducido manda el partido al club equivocado y el marcador no
     # lo agarra.
     avisos += espn.contrastar_plantel(ajenos, ps)
-    _, mas = fechas.completar(ps, ajenos, credito=espn.CREDITO)
+    _, mas = fechas.completar(ps, ajenos, credito=espn.CREDITO,
+                              verificadas=correcciones.fechados(t.pagina),
+                              usadas=usadas)
     return [validar.Aviso(f"{t.pagina}: ESPN", d, grave=False) for d in avisos + mas]
 
 
@@ -151,7 +155,7 @@ def _borrar_jornadas_falsas(ps) -> int:
     return n
 
 
-def _completar_fechas(ps, t) -> list:
+def _completar_fechas(ps, t, usadas: set | None = None) -> list:
     """Le pide a la segunda fuente el unico campo que Wikipedia no publica.
 
     Corre solo para las entradas del catalogo que tienen `wf`, que hoy son las
@@ -197,7 +201,9 @@ def _completar_fechas(ps, t) -> list:
     # con el padron hecho a mano, que no depende de esta derivacion.
     roto = [a for a in avisos if "no sirve" in a]
     puestos, mas = fechas.completar(ps, ajenos, {} if roto else mapa,
-                                    correcciones.arbitrados(t.pagina))
+                                    correcciones.arbitrados(t.pagina),
+                                    verificadas=correcciones.fechados(t.pagina),
+                                    usadas=usadas)
 
     # La fecha importada tiene que caer dentro de la temporada declarada. Es
     # barato y no lo mira nadie mas: `anios_bien_asignados` compara la MEDIANA de
@@ -624,7 +630,9 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
     return respaldados, avisos
 
 
-def fechar_con_las_llaves(ps: list, llaves: list) -> list[str]:
+def fechar_con_las_llaves(ps: list, llaves: list,
+                          verificadas: set | None = None,
+                          usadas: set | None = None) -> list[str]:
     """Le pone fecha a los partidos de eliminacion que la pagina trae sin dia.
 
     LO QUE LA PAGINA YA TIENE PUEDE TENERLO SIN FECHA. El bloque que importa
@@ -652,7 +660,8 @@ def fechar_con_las_llaves(ps: list, llaves: list) -> list[str]:
         [fechas.Ajeno(fecha=x.fecha, jornada=0, local=x.local, visita=x.visita,
                       goles_local=x.goles_local, goles_visita=x.goles_visita)
          for x in llaves if x.fecha],
-        credito=rsssf.CREDITO)[1]
+        credito=rsssf.CREDITO, verificadas=verificadas,
+        usadas=usadas)[1]
 
 
 def sin_repetir_sin_fecha(llaves: list, ps: list,
@@ -718,6 +727,13 @@ def procesar(texto: str, t) -> tuple[list, list]:
     tratan dos grafias como dos clubes y los chequeos dejan pasar justo lo que
     tenian que agarrar.
     """
+    # LAS DECLARACIONES DE `Fechado` QUE ENGANCHEN, juntadas entre TODOS los
+    # completadores. Una pagina pasa por varios --worldfootball, RSSSF, el de
+    # llaves, las citas-- y cada uno ve solo los desacuerdos que a el le
+    # tocan, asi que ninguno puede decir por su cuenta que una declaracion
+    # quedo huerfana: las cinco del Argentino A 2012-13 se reparten entre
+    # dos. El que sabe cuando se termino la pagina es este.
+    usadas: set = set()
     # (texto crudo, mapa) de la fuente externa, si los partidos vienen de una.
     foja: tuple[str, dict] | None = None
     # Las llaves que RSSSF publica para esta pagina, para fecharlas mas abajo.
@@ -887,11 +903,11 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # Antes de validar, porque si no `fechas_presentes` se queja de los mismos
     # partidos que este paso viene a arreglar.
     avisos = list(importados)
-    avisos += _completar_fechas(ps, t) if t.wf else []
+    avisos += _completar_fechas(ps, t, usadas) if t.wf else []
     # `sin_grilla` no pasa por aca: sus filas YA salieron de RSSSF con su fecha
     # puesta, asi que completarlas es leer la misma pagina dos veces y emitir
     # cada aviso por duplicado.
-    avisos += _completar_fechas_rsssf(ps, t) if t.rsssf and not t.sin_grilla else []
+    avisos += _completar_fechas_rsssf(ps, t, usadas) if t.rsssf and not t.sin_grilla else []
     # Las llaves de RSSSF le ponen fecha a lo que la pagina publica sin dia, y
     # va ACA y no en el bloque que las importa: alla `ps` todavia trae los
     # nombres crudos de Wikipedia mientras que las llaves ya vienen canonicas,
@@ -899,7 +915,9 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # escribia igual. Eran 2 de 8 en el Argentino A 2010-11.
     if llaves_rsssf:
         avisos += [validar.Aviso(f"{t.pagina}: RSSSF llaves", d, grave=False)
-                   for d in fechar_con_las_llaves(ps, llaves_rsssf)]
+                   for d in fechar_con_las_llaves(
+                       ps, llaves_rsssf, correcciones.fechados(t.pagina),
+                       usadas)]
     # Y al final, las fechas copiadas a mano de una fuente citada, que van
     # ULTIMAS a proposito: solo tienen que tocar lo que ningun lector pudo
     # fechar. Ver el docstring de `fad/citadas.py`, que dice cuando corresponde
@@ -908,7 +926,19 @@ def procesar(texto: str, t) -> tuple[list, list]:
         avisos += [validar.Aviso(f"{t.pagina}: fechas citadas a mano", d, grave=False)
                    for d in fechas.completar(ps, citadas.ajenos(t.pagina),
                                              credito=citadas.CREDITO)[1]]
-    avisos += _completar_fechas_espn(ps, t) if t.espn else []
+    avisos += _completar_fechas_espn(ps, t, usadas) if t.espn else []
+    # Y RECIEN AHORA se puede decir cual no engancho con nada. Un `Fechado`
+    # huerfano quiere decir que alguna de las dos fuentes cambio de fecha y que
+    # la verificacion que lo sostiene quedo vieja: si se lo deja, silencia un
+    # desacuerdo que nadie miro. Misma guarda que `revisados_huerfanos`.
+    sobran = sorted(correcciones.fechados(t.pagina) - usadas)
+    if sobran:
+        avisos.append(validar.Aviso(
+            f"{t.pagina}: {len(sobran)} desacuerdos de dia declarados como"
+            f" verificados que ya no enganchan con ninguno",
+            "si la fuente cambio de fecha, sacalos de fad/correcciones.py: "
+            + "; ".join(f"{j} {l} vs {v} ({n} contra {o})"
+                        for j, l, v, n, o in sobran[:3]), grave=False))
     avisos += validar.revisar(ps, en_curso=not t.cerrado,
                               divididos=correcciones.pares_divididos(t.pagina))
     # La tabla de posiciones de la propia pagina, contra la suma de los partidos.

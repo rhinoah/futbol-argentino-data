@@ -724,6 +724,53 @@ def _a(fecha, gl=2, gv=1):
                         visita="River Plate", goles_local=gl, goles_visita=gv)
 
 
+def test_un_desacuerdo_de_dia_ya_verificado_no_se_repite():
+    """El gemelo de `Revisado` para los dias: verificar y no anotarlo se parece
+    demasiado a no haber mirado.
+
+    Cuando dos fuentes dan un partido en dias distintos hay dos desenlaces. Si la
+    nuestra esta mal habria que corregirla; si esta bien no hay NADA que tocar, y
+    hasta ahora ese caso no tenia donde escribirse: el aviso volvia en cada
+    corrida y el proximo que pasara lo investigaba de cero.
+
+    Se pide la tupla ENTERA, con las dos fechas. Si alguna de las dos fuentes
+    cambia de opinion la declaracion deja de enganchar y el aviso vuelve, que es
+    lo que tiene que pasar: lo que se verifico era ESE desacuerdo y no otro.
+    """
+    nuestro = _p("2010-03-01")
+    mirado = {("Fecha 1", "Boca Juniors", "River Plate", "2010-03-01", "2010-03-08")}
+    _, avisos = fechas.completar([nuestro], [_a("2010-03-08")], verificadas=mirado)
+    assert not any("la da distinta" in a for a in avisos), avisos
+    assert nuestro.fecha == "2010-03-01", "no se toca el dato, solo el aviso"
+
+    # y si la otra fuente cambia de dia, la declaracion ya no habla de eso
+    otro = _p("2010-03-01")
+    _, avisos = fechas.completar([otro], [_a("2010-03-09")], verificadas=mirado)
+    assert any("la da distinta" in a for a in avisos), avisos
+
+
+def test_las_verificadas_que_engancharon_se_avisan_al_llamador():
+    """`completar` no puede decidir si una declaracion quedo huerfana: una pagina
+    pasa por VARIOS completadores y cada uno ve solo los desacuerdos que a el le
+    tocan. Lo que hace es anotar cuales engancharon; quien avisa es `procesar`,
+    que sabe cuando se termino la pagina.
+
+    Se aprendio poniendo la guarda adentro: las cinco declaraciones del Argentino
+    A 2012-13 se reparten entre dos completadores y cada uno denunciaba como
+    huerfanas las del otro."""
+    mirado = {("Fecha 1", "Boca Juniors", "River Plate", "2010-03-01", "2010-03-08")}
+    usadas: set = set()
+    fechas.completar([_p("2010-03-01")], [_a("2010-03-08")],
+                     verificadas=mirado, usadas=usadas)
+    assert usadas == mirado
+
+    # y con una que no engancha, el conjunto queda vacio y el llamador se entera
+    vacias: set = set()
+    fechas.completar([_p("2010-03-01")], [_a("2010-03-09")],
+                     verificadas=mirado, usadas=vacias)
+    assert vacias == set()
+
+
 def test_una_fecha_que_ya_estaba_y_la_fuente_contradice_se_denuncia():
     """SALTEAR EN SILENCIO CONVIERTE EL ORDEN EN EL ARBITRO. El completador se
     salteaba las filas que ya tenian fecha, asi que el primero que corriera ganaba
