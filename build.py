@@ -361,30 +361,37 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
                 mismo_local = uno(iguales[0].local, iguales[0].local_art) == p_.local
                 if not mismo_local:
                     alreves += 1
-                # NO HAY DESACUERDO QUE CONTAR si el marcador identifico UNA sola
-                # fila, esa fila viene SIN FECHA y la localia coincide: entre las
-                # dos versiones lo unico distinto es el dia, que es justo lo que
-                # la pagina no publica y lo que vinimos a buscar.
+                # NO HAY DESACUERDO QUE CONTAR si las dos versiones ya dicen lo
+                # mismo. Son dos casos y los cubre la misma pregunta:
                 #
-                # Sin esta salida el mismo build decia las dos cosas sobre los
-                # mismos cuatro partidos de la promocion de la B Nacional 2007-08:
-                # "4 llaves de RSSSF ya estaban en la grilla y no se duplicaron" y
-                # "4 partidos donde la pagina y RSSSF no coinciden".
+                #   * LA FILA VIENE SIN FECHA y coincide en todo lo demas. Entre
+                #     las dos versiones lo unico distinto es el dia, que es justo
+                #     lo que la pagina no publica y lo que vinimos a buscar. Sin
+                #     esto el build decia las dos cosas sobre los mismos cuatro
+                #     partidos de la promocion de la B Nacional 2007-08: "4 llaves
+                #     de RSSSF ya estaban en la grilla" y "4 partidos donde la
+                #     pagina y RSSSF no coinciden". Y ademas nombraba mal al
+                #     contraparte, porque `cerca` elige por cercania de FECHA y de
+                #     este lado no hay: llegaba a contrastar la vuelta de RSSSF
+                #     contra la ida de la pagina.
+                #   * UNA CORRECCION DECLARADA ya la deja igual que la otra fuente.
+                #     El desacuerdo existe en la pagina y no en el dataset, y
+                #     `aplicar` lo dice por su cuenta.
                 #
-                # Y el aviso ademas nombraba mal al contraparte: `cerca` elige por
-                # cercania de FECHA y de este lado no hay, asi que emparejaba con
-                # cualquiera -- llegaba a contrastar la vuelta de RSSSF contra la
-                # ida de la pagina.
+                # ACA HUBO UNA SEGUNDA GUARDA Y ERA CODIGO MUERTO. Preguntaba
+                # `if not iguales[0].fecha and mismo_local` y salia; la escribio el
+                # primer caso, antes de que existiera el segundo. Lo destapo un
+                # mutante que sobrevivia: anularla entera no cambiaba un byte del
+                # reporte -- 182 avisos identicos en las 149 paginas --, porque
+                # coincidir en localia y marcador es exactamente lo que `resuelto`
+                # ya contesta.
                 #
-                # Las dos condiciones hacen falta. Si la pagina SI tiene fecha, un
-                # dia distinto es un desacuerdo real y se dice. Si la localia
-                # viene al reves, tambien, y ahi el aviso enfrenta las dos
-                # versiones, que es lo que deja verlo.
-                if not iguales[0].fecha and mismo_local:
-                    continue
-                # Y tampoco si una correccion declarada ya lo deja igual que la
-                # otra fuente: el desacuerdo existe en la pagina y no en el
-                # dataset, y `aplicar` lo dice por su cuenta.
+                # Y no era inofensiva. `iguales` empareja comparando el marcador
+                # como CONJUNTO, asi que ahi adentro puede caer una fila espejada:
+                # la pagina diciendo `A 2-1 B` y la fuente `A 1-2 B`, mismo local y
+                # resultado opuesto. Eso es un desacuerdo de verdad, y la guarda lo
+                # callaba por no tener fecha. Su unico efecto posible era el
+                # equivocado.
                 if resuelto(iguales[0], p_):
                     continue
             cerca = min(suyas[suyo], key=lambda x: abs(_dias(x.fecha) - _dias(p_.fecha)))

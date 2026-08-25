@@ -212,8 +212,10 @@ MUTANTES = [
      "        if False:\n            continue"),
 
     ("fad/posiciones.py", "dar por desbalanceada a una tabla que cierra",
-     "        if gf != gc:\n            fuera.append(_texto_del_desbalance(gf, gc, alcance))",
-     "        if True:\n            fuera.append(_texto_del_desbalance(gf, gc, alcance))"),
+     "        if gf != gc and not _ya_esta_declarado(publicada, contada, gf, gc, pagina):"
+     "\n            fuera.append(_texto_del_desbalance(gf, gc, alcance))",
+     "        if True and not _ya_esta_declarado(publicada, contada, gf, gc, pagina):"
+     "\n            fuera.append(_texto_del_desbalance(gf, gc, alcance))"),
 
     ("fad/posiciones.py", "no leer el DIF positivo escrito con signo (+31)",
      r'        numeros = [c for c in celdas if re.fullmatch(r"[-+]?\d+", c)]',
@@ -685,14 +687,15 @@ MUTANTES = [
      '_LLAVE_PATA = re.compile(r"^(First|Second|Secoond)\\s+Legs?\\s*(?:[\\[(]([^\\])]+)[\\])])?\\s*$",',
      '_LLAVE_PATA = re.compile(r"^(First|Second|Secoond)\\s+Legs?\\s*(?:\\[([^\\]]+)\\])?\\s*$",'),
 
-    # Volver a avisar de un desacuerdo cuando lo unico que falta es la fecha.
-    ("build.py", "llamar desacuerdo a la fecha que la pagina no publica",
-     "                if not iguales[0].fecha and mismo_local:",
-     "                if False and mismo_local:"),
-
-    ("build.py", "callar el desacuerdo de localia cuando no hay fecha",
-     "                if not iguales[0].fecha and mismo_local:",
-     "                if not iguales[0].fecha:"),
+    # La guarda que se saco por muerta -- `if not iguales[0].fecha and
+    # mismo_local` --, puesta de vuelta. Anularla no cambiaba un byte del
+    # reporte, asi que su unico efecto posible era el equivocado: callar una
+    # fila ESPEJADA que viene sin fecha, que es un desacuerdo de verdad.
+    ("build.py", "callar el desacuerdo espejado que la pagina trae sin fecha",
+     "                if resuelto(iguales[0], p_):",
+     "                if not iguales[0].fecha and mismo_local:\n"
+     "                    continue\n"
+     "                if resuelto(iguales[0], p_):"),
 
     ("fad/parser.py", "no marcar el partido que no se jugo",
      '        return "no disputado"',
@@ -1305,22 +1308,22 @@ MUTANTES = [
      '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s{2,}"'),
 
     ("fad/rsssf.py", "juntar por nombre las dos tablas de una misma zona",
-     "    return [(z, f) for z, f in fuera if f]",
+     "    return [(fa, z, f) for fa, z, f in fuera if f]",
      "    j = {}\n"
-     "    for z, f in fuera:\n"
-     "        j.setdefault(z, []).extend(f)\n"
-     "    return [(z, f) for z, f in j.items() if f]"),
+     "    for fa, z, f in fuera:\n"
+     "        j.setdefault(z, [fa, []])[1].extend(f)\n"
+     "    return [(fa, z, f) for z, (fa, f) in j.items() if f]"),
 
     ("build.py", "mandar al club del interzonal a la zona ajena",
-     "        de_la_zona[cuenta.most_common(1)[0][0]].add(club)",
-     "        de_la_zona[cuenta.most_common()[-1][0]].add(club)"),
+     "                  if cuenta.most_common(1)[0][0] == zona and c in sumas}",
+     "                  if cuenta.most_common()[-1][0] == zona and c in sumas}"),
 
     ("build.py", "cruzar una tabla que no cubre la zona",
      "        if len(clubes) != len(filas):\n            continue",
      "        if False:\n            continue"),
 
     ("build.py", "cruzar una zona que trae dos tablas",
-     "        if zona in repetidas:\n            continue",
+     "        if (fase, zona) in repetidas:\n            continue",
      "        if False:\n            continue"),
 
     ("build.py", "volver a denunciar un club ya revisado a mano",

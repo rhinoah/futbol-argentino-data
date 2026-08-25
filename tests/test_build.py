@@ -1249,6 +1249,50 @@ def test_un_desacuerdo_que_nadie_declaro_se_sigue_denunciando():
     assert len(discuten) == 1 and "5-0" in discuten[0]
 
 
+def test_una_fila_sin_fecha_y_espejada_es_un_desacuerdo_de_verdad():
+    """Acá vivía una guarda muerta, y su único efecto posible era el equivocado.
+
+    Preguntaba `if not iguales[0].fecha and mismo_local: continue`, o sea: si la
+    fila de la página no trae día y el local coincide, entre las dos versiones lo
+    único distinto es el día. Eso es cierto casi siempre -- y por eso `resuelto`,
+    que llego despues, ya lo contesta --, pero no siempre: `iguales` empareja
+    comparando el marcador como CONJUNTO, asi que ahi adentro cae tambien la fila
+    ESPEJADA. La pagina diciendo `2-1` y la fuente `1-2` con el mismo local es el
+    mismo partido con el ganador cambiado, y la guarda lo callaba por no tener
+    fecha.
+
+    Lo destapo un mutante que sobrevivia: anular la guarda entera no cambiaba un
+    byte del reporte del build -- 182 avisos identicos en 149 paginas --, que es
+    la definicion de codigo muerto.
+    """
+    from fad.parser import Partido
+    pagina = [Partido(fecha="", local="Alumni (VM)", visita="General Paz Juniors",
+                      goles_local=2, goles_visita=1,
+                      fase="eliminacion", jornada="Promoción")]
+    rsssf_ = [_p("Alumni (VM)", "General Paz Juniors", "2006-06-18", 1, 2)]
+
+    _n, repetidas, discuten, alreves = build.sin_repetir(
+        rsssf_, pagina, "Torneo Argentino A 2005-06")
+    assert (repetidas, alreves) == (1, 0), "mismo partido y mismo local"
+    assert len(discuten) == 1, "el resultado esta al reves: hay que decirlo"
+    assert "2-1" in discuten[0] and "1-2" in discuten[0]
+
+
+def test_una_fila_sin_fecha_que_coincide_en_todo_no_se_denuncia():
+    """La contracara, y es el caso comun: si lo unico que la pagina no tiene es el
+    dia, no hay desacuerdo que contar. Sin esto el build decia las dos cosas sobre
+    los mismos cuatro partidos de la promocion de la B Nacional 2007-08."""
+    from fad.parser import Partido
+    pagina = [Partido(fecha="", local="Alumni (VM)", visita="General Paz Juniors",
+                      goles_local=2, goles_visita=1,
+                      fase="eliminacion", jornada="Promoción")]
+    rsssf_ = [_p("Alumni (VM)", "General Paz Juniors", "2006-06-18", 2, 1)]
+
+    _n, repetidas, discuten, _a = build.sin_repetir(
+        rsssf_, pagina, "Torneo Argentino A 2005-06")
+    assert (repetidas, discuten) == (1, []), "lo unico distinto es el dia"
+
+
 def test_el_completador_acota_la_seccion_del_archivo_del_anio(monkeypatch):
     """Desde 2010-11 RSSSF mete todas las divisiones en la pagina del anio, una
     atras de otra y todas con sus `Round N`. El corte no alcanza con tenerlo en
