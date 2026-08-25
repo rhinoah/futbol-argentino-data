@@ -831,8 +831,8 @@ MUTANTES = [
      '    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin'),
 
     ("fad/parser.py", "no leer la nota que dice cuando se jugo de verdad",
-     '            fecha=(_fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada)',
-     '            fecha=(""'),
+     '            fecha=(_fecha_de_la_nota(fila + " " + " ".join(crudos.values()),',
+     '            fecha=("" or ("",)[0] if False else ""'),
 
     ("fad/parser.py", "tomar tambien `se completo` como si fuera otra fecha",
      'r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron)\s+(?:el\s+)?"',
@@ -1795,6 +1795,10 @@ MUTANTES = [
     ("build.py", "identificar la fila por el marcador CRUDO y no por el corregido",
      "                       if set(corregida(x)[2:]) == {p_.goles_local, p_.goles_visita}]",
      "                       if {x.goles_local, x.goles_visita} == {p_.goles_local, p_.goles_visita}]"),
+
+    ("fad/parser.py", "buscar la nota solo en el texto de la fila",
+     '            fecha=(_fecha_de_la_nota(fila + " " + " ".join(crudos.values()),',
+     "            fecha=(_fecha_de_la_nota(fila,"),
 
     ("fad/parser.py", "repartir un rango de fechas como si fueran dos dias",
      "    if _ES_RANGO.search(titulo):\n        return \"\", \"\"",

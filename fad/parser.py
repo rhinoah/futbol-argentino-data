@@ -1341,7 +1341,21 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
         pen = _penales(crudos["resultado"])
         partidos.append(Partido(
             status=status_de_la_fila(fila, valores["estadio"]),
-            fecha=(_fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada)
+            # LA NOTA PUEDE VIVIR EN UNA CELDA CON `rowspan`, y entonces NO esta
+            # en el texto de esta fila. Es el caso normal cuando se suspende una
+            # tanda entera: la Primera C 2024 pone `rowspan=3|12 de marzo` con la
+            # nota "Suspendidos por las condiciones climaticas. Se jugaron el 22
+            # de marzo" colgando de esa celda, y por eso la nota habla en PLURAL
+            # -- cubre a las tres --. Leyendo solo `fila`, la primera del grupo
+            # quedaba con el 22 y las otras dos con el 12: el mismo partido de la
+            # misma tanda, fechado con diez dias de diferencia segun donde cayera.
+            #
+            # `crudos` ya trae la celda original de las filas de continuacion
+            # --`pendientes[col][2]`, que se guarda justamente sin limpiar-- asi
+            # que alcanza con mirarla. Se midieron 15 partidos asi en el corpus, y
+            # los quince coinciden con lo que dicen ESPN y RSSSF por su lado.
+            fecha=(_fecha_de_la_nota(fila + " " + " ".join(crudos.values()),
+                                     anio, anio_fin, mes_inicio, programada)
                    or programada),
             hora=valores["hora"],
             local=valores["local"], visita=valores["visita"],

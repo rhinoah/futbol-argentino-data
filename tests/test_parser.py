@@ -1874,6 +1874,77 @@ def test_las_columnas_se_leen_del_encabezado_y_no_por_su_posicion():
     assert [p.fecha for p in ps] == ["", ""]
 
 
+def test_la_nota_de_una_celda_con_rowspan_alcanza_a_todas_sus_filas():
+    """Cuando se suspende una tanda entera, la nota cuelga de UNA celda que abarca
+    a las tres filas -- y por eso habla en plural.
+
+    El lector la buscaba solo en el texto de la fila, asi que la PRIMERA del grupo
+    quedaba con el dia que se jugo y las otras dos con el programado: el mismo
+    partido de la misma tanda, fechado con diez dias de diferencia segun donde
+    cayera. Es el caso de la fecha 7 de la Primera C 2024, suspendida por el
+    temporal del 12 de marzo y jugada el 22.
+
+    Se midio sobre el corpus: son 65 filas, y las 65 tienen una nota de la propia
+    pagina que dice exactamente el dia al que se movieron.
+    """
+    tabla = """{| class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Juventud Unida
+|1 - 2
+|Defensores de Cambaceres
+|Ciudad de San Miguel
+|rowspan=3|12 de marzo {{refn|group=n.|Suspendidos por el temporal. Se jugaron el 22 de marzo, desde las 15:30.}}
+|rowspan=3|17:00
+|-
+|Lugano
+|0 - 2
+|Argentino de Rosario
+|José María Moraños
+|-
+|Puerto Nuevo
+|2 - 2
+|Real Pilar
+|Rubén Carlos Vallejos
+|}"""
+    ps = parser.partidos_de_tabla(tabla, 2024, "Primera C")
+    assert len(ps) == 3
+    assert [p.fecha for p in ps] == ["2024-03-22"] * 3, \
+        "las tres filas son de la misma celda y de la misma nota"
+
+
+def test_sin_nota_la_celda_con_rowspan_manda_igual():
+    """La contracara: sin nota, la fecha de la celda sigue siendo la de las tres.
+    El arreglo no puede convertirse en 'buscar cualquier fecha en cualquier lado'."""
+    tabla = """{| class="wikitable"
+!Local
+!Resultado
+!Visitante
+!Estadio
+!Fecha
+!Hora
+|-
+|Juventud Unida
+|1 - 2
+|Defensores de Cambaceres
+|Ciudad de San Miguel
+|rowspan=2|12 de marzo
+|rowspan=2|17:00
+|-
+|Lugano
+|0 - 2
+|Argentino de Rosario
+|José María Moraños
+|}"""
+    ps = parser.partidos_de_tabla(tabla, 2024, "Primera C")
+    assert [p.fecha for p in ps] == ["2024-03-12", "2024-03-12"]
+
+
 def test_un_rango_en_el_titulo_no_fecha_nada():
     """`X al Y` es una VENTANA, no dos dias de partido.
 

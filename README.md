@@ -684,6 +684,36 @@ encontraba a `{1,1}` y el build volvía a denunciar los cuatro desacuerdos que d
 abajo están resueltos y declarados. Lo que identifica tiene que ser el marcador **que la
 fila va a tener**, no el que la página escribió.
 
+#### La página decía el día bueno y no lo leíamos: la nota de un `rowspan`
+
+Con 46 desacuerdos de día en pie, lo que parecía faltar era **una tercera fuente**. Medido,
+no: de los 46, **15 los explicaba la propia página**.
+
+Cuando se suspende una tanda entera, la tabla no repite la fecha fila por fila — pone una
+celda con `rowspan` y le cuelga la nota:
+
+> `rowspan=3|12 de marzo {{refn|Suspendidos por las condiciones climáticas. **Se jugaron el
+> 22 de marzo**, desde las 15:30.}}`
+
+El lector ya sabía leer esa nota —`_fecha_de_la_nota` existe y está bien hecha— pero la
+buscaba **sólo en el texto de la fila**. Con un `rowspan`, la nota vive en la primera fila
+del grupo: la primera quedaba con el 22 y las otras dos con el 12. *El mismo partido de la
+misma tanda, fechado con diez días de diferencia según dónde cayera.* Por eso la nota habla
+en plural — cubre a las tres.
+
+La celda original ya viajaba con el grupo, guardada sin limpiar para los penales; alcanzaba
+con mirarla.
+
+**Movió 65 filas en diez temporadas, y las 65 tienen una nota de la propia página que dice
+exactamente el día al que se movieron** — verificado fila por fila contra el wikitexto,
+porque la mayoría de esas filas no las mira ninguna segunda fuente y un error ahí sería
+silencioso. Los desacuerdos de día bajaron de **46 a 34**.
+
+De paso quedó medido de dónde sale nuestra fecha en los que quedan: **20 de los 34 son
+Primera C 2008-2011, donde la página no publica el día** y nuestra fecha ya viene de RSSSF.
+Ahí la disputa es RSSSF contra ESPN y Wikipedia no puede desempatar: haría falta una cuarta
+fuente, no una tercera.
+
 #### Y cuánto rinde ese testigo: 3 de 61
 
 El historial arbitró un marcador. La pregunta obvia era si sirve para las **61

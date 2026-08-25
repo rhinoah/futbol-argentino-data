@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 030 | 8 | 149 | 963 | 400 |
+| 44 030 | 8 | 149 | 965 | 401 |
 
 ## 2004–2026 — Cerrado
 
@@ -16,11 +16,12 @@ disputa**. De los `179` avisos —cero graves— `94` son informativos y `17` so
 cierran nunca; los dos grupos tienen su explicación en el archivo que los produce y no se
 repiten acá. Lo que queda:
 
-- **`46` partidos con dos días distintos en 8 páginas**, más `11` desacuerdos de día o de
+- **`34` partidos con dos días distintos en 8 páginas**, más `11` desacuerdos de día o de
   localía que el cruce denuncia por otro camino. Se conserva el de la página y se avisa.
-  `37` de los 46 son `Primera C` contra ESPN y ahí no hay tercera fuente identificada: el
-  blog citado cubre el interior y no la metropolitana. El historial de Wikipedia cierra
-  `3` —medido, y el porqué está en el README—.
+  `20` de los 34 son `Primera C` 2008-2011, y ahí **la página no publica el día**: nuestra
+  fecha ya sale de RSSSF, así que la disputa es RSSSF contra ESPN y Wikipedia no puede
+  desempatar —haría falta una cuarta fuente—. El historial de Wikipedia cierra `3` de los
+  que quedan; el porqué está en el README.
 - **`8` partidos sin fecha, y sólo `2` esperan una.** Los otros `6` no se jugaron —los que
   el Federal A 2024 le dio por perdidos a Sansinena—. Los 2 son la semifinal `Ben Hur` vs
   `Atlético Tucumán` del `Argentino A 2004-05`, donde la fuente citada le erra al día por
