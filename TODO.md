@@ -7,32 +7,35 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 027 | 10 | 149 | 954 | 397 |
+| 44 027 | 9 | 149 | 956 | 396 |
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno. De los `182` avisos —cero graves— `94` son
+`41 558` partidos y no falta ninguno. De los `180` avisos —cero graves— `94` son
 informativos y `17` son ciertos y no cierran nunca; los dos grupos tienen su explicación
 en el archivo que los produce y no se repiten acá. Lo que queda:
 
-- **Dos fuentes que no coinciden.** `60` partidos con dos días distintos en 9 páginas.
-  De los `10` desacuerdos que el cruce denuncia, **ninguno es ya de marcador**: los
-  cuatro que quedaban —las dos llaves de la Reválida del `Argentino A 2011-12`— se
-  cerraron, una porque la página se contradice con su propia regla de desempate y otra
-  con el blog del club. Los 10 son de día o de quién fue local, **con los goles
-  idénticos**. Se conserva el de la página y se avisa; cerrarlos pide una tercera
+- **Ya no queda ningún partido con dos marcadores.** El último era `Platense` vs
+  `Estudiantes (BA)`, fecha 6 de la `Primera B 2010-11`, y lo arbitró el **historial de
+  la propia página**: el artículo se editaba en vivo, y entre dos revisiones separadas
+  por 26 horas —con el partido jugado en el medio— los dos clubes suman un partido, un
+  empate y un punto **y los goles no se mueven**. Antes fueron los cuatro de la Reválida
+  del `Argentino A 2011-12`, uno por contradicción de la página consigo misma y otro por
+  el blog del club.
+- **Dos fuentes que no coinciden en el día.** `61` partidos en 9 páginas. Los `10`
+  desacuerdos que el cruce denuncia son todos de día o de quién fue local, **con los
+  goles idénticos**. Se conserva el de la página y se avisa; cerrarlos pide una tercera
   fuente, o una regla de precedencia que hoy no está medida.
-- **Y queda `1` partido que dos fuentes cuentan con otro marcador**, el último del
-  dataset: `Platense` vs `Estudiantes (BA)`, fecha 6 de la `Primera B 2010-11`
-  —nosotros 1-1, la otra fuente 0-0—. No aparece en los 10 de arriba porque el
-  desacuerdo lo agarra el completador de fechas y no el cruce: al no verificarse el
-  emparejamiento, la fila se queda sin día y va a `sin-fecha/`. Es el mismo problema
-  contado dos veces y se cierra igual que los cuatro de la Reválida, con un testigo
-  contemporáneo.
-- **`10` partidos sin fecha, y sólo `4` esperan una.** Los otros `6` no se jugaron —los
-  que el Federal A 2024 le dio por perdidos a Sansinena—. De los 4: dos del `Argentino A
-  2004-05` (uno donde la fuente citada le erra al día y otro donde da otro marcador), uno
-  con el marcador en disputa y uno de la temporada en curso.
+- **Y uno de esos 61 ya tiene la respuesta, y no la sabemos escribir.** El mismo historial
+  que arbitró el marcador de `Platense` vs `Estudiantes (BA)` fecha el partido el **30 de
+  agosto** —la tabla no lo tenía a las 00:30 del 30 y sí a las 02:29 del 31—, que es el
+  día de ESPN contra el 31 de RSSSF, que es el que quedó escrito. Corregir un día pediría
+  un **noveno tipo de corrección** en `fad/correcciones.py`, y no se agrega uno por una
+  fila: primero hay que ver cuántas de las 61 se pueden cerrar con el mismo método.
+- **`9` partidos sin fecha, y sólo `3` esperan una.** Los otros `6` no se jugaron —los
+  que el Federal A 2024 le dio por perdidos a Sansinena—. De los 3: dos del `Argentino A
+  2004-05` (uno donde la fuente citada le erra al día y otro donde da otro marcador) y uno
+  de la temporada en curso, que va a tener fecha cuando la temporada la tenga.
 - **`3` tablas que no cierran con su grilla, y las tres son de la temporada en curso.**
   Ninguna es un error de lectura: `San Miguel` (Primera Nacional) desvía un gol, y
   `Real Pilar` (Primera B) y `Muñiz` (Primera C) desvían en G-E-P **con los goles

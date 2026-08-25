@@ -951,6 +951,77 @@ MARCADORES: tuple[Marcador, ...] = (
                "ronda, Rivadavia (L)-Juventud Unida, RSSSF reproduce la pagina ya "
                "espejada dato por dato (1-0 y 3-0), y lo mismo en tres de las "
                "cuatro llaves de la Segunda ronda. Difiere solo en esta serie."),
+
+    # --- El ultimo marcador en disputa del dataset, y lo arbitro la propia
+    # --- pagina contra si misma, doce anios despues ---
+    #
+    # EL ARBITRO DE SIEMPRE NO ARBITRA ACA, y conviene decirlo antes que nada
+    # porque parece que si. La tabla de hoy cierra con el 1-1 en los 22 clubes,
+    # al gol. Pero RSSSF tambien cierra consigo misma con el 0-0: su tabla da
+    # `Platense 42 11 20 11 30-33` y `Estudiantes (Buenos Aires) 42 21 10 11
+    # 53-42`, que es exactamente su grilla. LAS DOS FUENTES SON COHERENTES, asi
+    # que la aritmetica no elige. El G-E-P tampoco: el partido es empate en las
+    # dos versiones -- 11-20-11 y 21-10-11 en las dos tablas --, y lo unico que
+    # se mueve son dos goles.
+    #
+    # LO QUE DECIDE ES EL DELTA DE LA PAGINA DE 2010. El articulo se editaba EN
+    # VIVO, fecha por fecha. Dos revisiones a veintiseis horas de distancia:
+    #
+    #   30/08 03:30 UTC   Platense Pts 4, PJ 5, G0 E4 P1, 2-4
+    #                     Estudiantes Pts 13, PJ 5, G4 E1 P0, 7-2
+    #   31/08 05:29 UTC   Platense Pts 5, PJ 6, G0 E5 P1, 2-4
+    #                     Estudiantes Pts 14, PJ 6, G4 E2 P0, 7-2
+    #
+    # Entre las dos, los dos clubes suman un partido, un empate y un punto -- y
+    # LOS GOLES NO SE MUEVEN. Eso es un 0-0 anotado por el que estaba mirando, la
+    # misma noche. No hay que inferir nada de una suma acumulada: el delta es cero
+    # y el partido es el unico que entro.
+    #
+    # DE PASO FECHA EL PARTIDO EL 30, no el 31. A las 00:30 del 30 (hora
+    # argentina) la tabla todavia no lo tenia y a las 02:29 del 31 ya si, asi que
+    # se jugo el lunes 30 de agosto. Ese es el dia que da ESPN; RSSSF lo pone bajo
+    # `[Aug 31]` y de ahi sale la fecha que escribimos. El desacuerdo de dia queda
+    # AVISADO y sin resolver a proposito: corregir un dia pediria un noveno tipo
+    # de correccion, y no se agrega uno por una fila.
+    #
+    # El gol de mas entro en la pagina entre el 4 y el 16 de septiembre de 2010
+    # --la revision 40295378 ya lo tiene-- y se quedo. La tabla final de hoy lo
+    # arrastra, que es POR QUE la pagina cierra consigo misma: las dos mitades
+    # derivaron juntas. Al corregir la grilla la tabla deja de cerrar, y eso queda
+    # declarado abajo en dos `Revisado`.
+    #
+    # AFUERA COINCIDEN TRES, y ninguno puede venir de la Wikipedia de hoy: la
+    # grilla de RSSSF (`Round 6 [Aug 31] Platense 0-0 Estudiantes`) con su tabla
+    # final, ESPN --`Platense 0 - Estudiantes de Buenos Aires 0`, 30/08/2010-- y
+    # la tabla de la Wikipedia EN INGLES, que publica `42 11 20 11 30 33` y
+    # `42 21 10 11 53 42`, los numeros de RSSSF y no los de la pagina en
+    # castellano.
+    Marcador(
+        pagina="Campeonato de Primera B 2010-11 (Argentina)", jornada="Fecha 6",
+        local="Platense", visita="Estudiantes (BA)", dice=(1, 1), debe=(0, 0),
+        porque="Lo arbitra la TABLA DE POSICIONES de la propia pagina, pero no la "
+               "de hoy: la de 2010, cuando el articulo se editaba en vivo. Entre la "
+               "revision del 30/08 03:30 UTC y la del 31/08 05:29 UTC --veintiseis "
+               "horas-- Platense pasa de `Pts 4, PJ 5, G0 E4 P1, 2-4` a `Pts 5, "
+               "PJ 6, G0 E5 P1, 2-4` y Estudiantes de `Pts 13, PJ 5, G4 E1 P0, 7-2` "
+               "a `Pts 14, PJ 6, G4 E2 P0, 7-2`. Los dos suman un partido, un "
+               "empate y un punto Y LOS GOLES NO SE MUEVEN. Eso es un 0-0, anotado "
+               "la misma noche por el que estaba mirando.\n"
+               "LA TABLA DE HOY NO ARBITRA, y por eso hubo que ir al historial: "
+               "cierra con el 1-1 en los 22 clubes, pero RSSSF tambien cierra "
+               "consigo misma con el 0-0. Las dos fuentes son coherentes; el gol de "
+               "mas entro en la pagina entre el 4 y el 16 de septiembre de 2010 y se "
+               "llevo a las dos mitades. Al corregir la grilla la tabla deja de "
+               "cerrar: va declarado en dos `Revisado`.\n"
+               "AFUERA COINCIDEN TRES y ninguno copia a la Wikipedia de hoy: la "
+               "grilla de RSSSF (`Round 6 [Aug 31] Platense 0-0 Estudiantes`) con su "
+               "tabla final (`Platense 30-33`, `Estudiantes 53-42`), ESPN con el "
+               "mismo 0-0, y la tabla de la Wikipedia EN INGLES, que publica los "
+               "numeros de RSSSF y no los de la pagina en castellano.\n"
+               "OJO CON EL DIA: el mismo delta lo fecha el 30 y no el 31. A las "
+               "00:30 del 30 la tabla no lo tenia y a las 02:29 del 31 ya si. ESPN "
+               "da el 30; RSSSF, de donde sale nuestra fecha, lo pone bajo "
+               "`[Aug 31]`. Queda como desacuerdo de dia, avisado."),
     Marcador(
         pagina="Campeonato de Primera Nacional 2021", jornada="Fecha 17",
         local="Gimnasia y Esgrima (J)", visita="Defensores de Belgrano",
@@ -2448,6 +2519,23 @@ _TABLA_2008_09 = (
 
 # Los tres clubes de la Primera C 2011-12 comparten explicacion porque comparten
 # causa: no son tres desvios sino una tabla.
+_TABLA_B_2010_11 = (
+    "LA TABLA ARRASTRA EL MISMO GOL DE MAS QUE ARRASTRABA LA GRILLA. Hasta que "
+    "se corrigio la fecha 6, esta pagina cerraba consigo misma en los 22 clubes: "
+    "su `Platense 1-1 Estudiantes (BA)` y su tabla decian lo mismo. Eso no era "
+    "una verificacion sino la firma de que las dos mitades derivaron juntas -- "
+    "RSSSF tambien cierra consigo misma, con el 0-0 --.\n"
+    "LO DEMUESTRA EL HISTORIAL DE LA PROPIA PAGINA. Entre la revision del "
+    "30/08/2010 03:30 UTC y la del 31/08 05:29, con el partido jugado en el "
+    "medio, Platense y Estudiantes suman cada uno un partido, un empate y un "
+    "punto, y sus goles NO se mueven: `2-4` y `7-2` antes y despues. El gol de "
+    "mas aparecio entre el 4 y el 16 de septiembre de 2010 y se quedo en las dos "
+    "mitades del articulo.\n"
+    "Asi que no hay nada que corregirle a la grilla: la corregida es ella, y la "
+    "que quedo mal es la tabla. Ver el `Marcador` de la Fecha 6, que trae los "
+    "numeros y las otras tres fuentes que coinciden.")
+
+
 _TABLA_C_2011_12 = (
     "NO ES UN PARTIDO MAL LEIDO, Y LOS PROPIOS DESVIOS LO DICEN. Un marcador mal "
     "leido toca SIEMPRE a dos clubes con deltas espejados: lo que le sobra de "
@@ -2478,6 +2566,12 @@ _TABLA_C_2011_12 = (
 
 
 REVISADOS: tuple[Revisado, ...] = (
+    Revisado(
+        pagina="Campeonato de Primera B 2010-11 (Argentina)", club="Platense",
+        porque=_TABLA_B_2010_11),
+    Revisado(
+        pagina="Campeonato de Primera B 2010-11 (Argentina)", club="Estudiantes (BA)",
+        porque=_TABLA_B_2010_11),
     Revisado(
         pagina="Campeonato de Primera C 2011-12 (Argentina)", club="J. J. de Urquiza",
         porque=_TABLA_C_2011_12),

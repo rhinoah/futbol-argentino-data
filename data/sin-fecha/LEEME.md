@@ -1,11 +1,11 @@
 # Partidos sin fecha
 
 Estos partidos **están completos salvo por una cosa: no sabemos qué día se
-jugaron.** Son **10**. Todo lo demás —equipos, marcador, jornada, torneo,
+jugaron.** Son **9**. Todo lo demás —equipos, marcador, jornada, torneo,
 temporada— pasó por los mismos chequeos que el resto del dataset.
 
 Con una excepción que conviene decir arriba de todo, porque contradice el
-párrafo anterior: **seis de las 10 no esperan ninguna fecha, porque no se
+párrafo anterior: **seis de las 9 no esperan ninguna fecha, porque no se
 jugaron.** Son los que el Torneo Federal A 2024 le dio por perdidos a Sansinena
 cuando desertó del torneo. Llevan `status = no disputado` en el CSV, así que se
 los distingue sin leer esto: el marcador está porque cuenta para la tabla, pero
@@ -21,8 +21,8 @@ campo.
 ## Eran 2 345
 
 Esta carpeta tenía seis temporadas enteras: las tres de Primera C 2008-2011, la
-Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **10** filas en
-cuatro torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
+Primera B 2010-11 y los dos Argentinos A. Ya no. Lo que quedó son **9** filas en
+tres torneos, y salvo el bloque del Argentino A 2004-05 que se explica acá abajo,
 **ninguna está acá porque su torneo no tenga fuente de fechas**: están una por
 una, por su propio motivo.
 
@@ -83,19 +83,21 @@ los clubes y la llave identifican, y el marcador verifica. El detalle está en
 Las 2 que quedan son ésa y la vuelta de la final de la Reválida del Apertura,
 cuyo marcador el blog da 4-1 contra el 2-0 de la página.
 
-## Por qué quedaron las otras
+## Por qué quedó la otra
 
-Sacando las 21 del Argentino A 2004-05 y los 6 que no se jugaron, quedan **2**.
+Sacando las 2 del Argentino A 2004-05 y los 6 que no se jugaron, queda **1**.
 
-**Las dos fuentes cuentan el partido distinto.** Platense vs Estudiantes (BA),
-fecha 6 de la Primera B 2010-11: nosotros tenemos 1-1 y la otra fuente 0-0. El
-emparejamiento no está verificado, así que la fecha no se toma. Es la regla
-funcionando: un partido que dos fuentes cuentan distinto es información sobre los
-datos, no un problema a tapar.
-
-**Y uno que sigue en juego.** San Martín (SJ) vs Nueva Chicago, fecha 17 de la
+**Uno que sigue en juego.** San Martín (SJ) vs Nueva Chicago, fecha 17 de la
 Primera Nacional 2026, con `status = suspendido`. Ese va a tener fecha cuando la
 temporada la tenga.
+
+Acá había un segundo, y salió: **Platense vs Estudiantes (BA)**, fecha 6 de la
+Primera B 2010-11. Estaba porque las dos fuentes lo contaban distinto —la página
+1-1 y las otras 0-0—, y sin marcador que verifique el emparejamiento la fecha no
+se toma. Lo arbitró el **historial de la propia página**: el artículo se editaba
+en vivo, y entre la revisión del 30/08/2010 y la del 31/08 —con el partido jugado
+en el medio— los dos clubes suman un partido, un empate y un punto **y los goles
+no se mueven**. Era 0-0. El detalle está en `fad/correcciones.py`.
 
 Eran 13 hace poco, y las once que salieron no necesitaron ninguna fuente nueva:
 

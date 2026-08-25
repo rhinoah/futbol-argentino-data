@@ -613,6 +613,41 @@ Y antes de creerle a nadie, la prueba de que no están copiando: de las **seis l
 esas dos rondas, RSSSF reproduce **cuatro** dato por dato tal como las da la página, y
 difiere sólo en estas dos. Una fuente derivada coincidiría en las seis.
 
+#### Y una tabla que cierra puede no estar diciendo nada
+
+El último partido del dataset que dos fuentes contaban distinto —`Platense` vs
+`Estudiantes (BA)`, fecha 6 de la Primera B 2010-11, Wikipedia 1-1 contra el 0-0 de RSSSF
+y de ESPN— parecía el caso más fácil de todos: **la tabla de la página cierra al gol en los
+22 clubes con el 1-1**. Árbitro clásico, causa cerrada.
+
+No. **RSSSF también cierra consigo misma**: su tabla final da `Platense 30-33` y
+`Estudiantes 53-42`, que es exactamente su grilla con el 0-0. Las dos fuentes son
+internamente coherentes, así que la aritmética no elige — y el G-E-P menos todavía, porque
+el partido es empate en las dos versiones y lo único que se mueve son dos goles. Que una
+tabla cierre prueba que la página no se contradice; **no prueba que la tabla sea un testigo
+independiente**. Cuando las dos mitades derivan juntas, cerrar es exactamente lo que se
+espera.
+
+Lo que decidió fue **el historial de la propia página**. El artículo se editaba en vivo,
+fecha por fecha, y dos revisiones separadas por veintiséis horas tienen el partido en el
+medio:
+
+| | Platense | Estudiantes |
+|---|---|---|
+| 30/08 03:30 UTC | Pts 4, PJ 5, G0 E4 P1, **2-4** | Pts 13, PJ 5, G4 E1 P0, **7-2** |
+| 31/08 05:29 UTC | Pts 5, PJ 6, G0 E5 P1, **2-4** | Pts 14, PJ 6, G4 E2 P0, **7-2** |
+
+Los dos suman un partido, un empate y un punto **y los goles no se mueven**. Eso es un 0-0,
+anotado por el que estaba mirando esa misma noche. No hay que inferirlo de una suma
+acumulada: el delta es cero y el partido que entró es uno solo. El gol de más apareció entre
+el 4 y el 16 de septiembre de 2010 y se quedó en las dos mitades del artículo, que es *por
+qué* la página de hoy cierra consigo misma.
+
+Y el mismo delta fecha el partido: la tabla no lo tenía a las 00:30 del 30 y sí a las 02:29
+del 31, así que se jugó el lunes 30 —el día que da ESPN, no el 31 de RSSSF, que es el que
+quedó escrito—. Ese sigue abierto: corregir un día pediría un noveno tipo de corrección, y
+no se agrega uno por una fila.
+
 #### Los 16 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.
