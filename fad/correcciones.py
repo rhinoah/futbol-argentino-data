@@ -3201,10 +3201,35 @@ FECHADOS: tuple[Fechado, ...] = (
     Fechado(pagina="Torneo Argentino A 2012-13", jornada="Cuarta fase",
             local="San Jorge (T)", visita="San Martín (T)",
             nuestra="2013-06-09", otra="2013-06-08", porque=_BLOG_2012_13_CUARTA),
-    # LOS TRES DE ABAJO SON EL MISMO CHOQUE, no tres hallazgos sueltos: partidos
-    # que empezaron un dia y se completaron otro. Aparecieron juntos al preguntarle
-    # al corpus cuantos desacuerdos de dia tenian una nota de completado que
-    # nombrara justo la fecha de la otra fuente. Eran 3 de 34.
+    # LOS CUATRO DE ABAJO SON EL MISMO CHOQUE, no cuatro hallazgos sueltos:
+    # partidos que empezaron un dia y se completaron otro. Los tres primeros
+    # aparecieron juntos al preguntarle al corpus cuantos desacuerdos de dia
+    # tenian una nota de completado que nombrara justo la fecha de la otra
+    # fuente; eran 3 de 34. El cuarto aparecio por otro camino y eso vale la
+    # pena: su pagina NO trae la nota, asi que ese chequeo no lo veia. Lo
+    # delato el TAMANIO del desacuerdo -- 16 dias, demasiado para una
+    # postergacion de fin de semana -- y lo confirmo la prensa de la epoca.
+    Fechado(pagina="Campeonato de Primera C 2008-09 (Argentina)", jornada="Fecha 3",
+            local="Excursionistas", visita="Argentino de Merlo",
+            nuestra="2008-08-18", otra="2008-09-03",
+            porque="Empezo el lunes 18 de agosto de 2008, se suspendio a los 25 "
+                   "minutos y se completo el miercoles 3 de septiembre, 0-0. La "
+                   "pagina no lo dice --de esta temporada no publica ni el dia--, "
+                   "asi que aca no hubo nota que leer: lo delato el TAMANIO del "
+                   "desacuerdo. Dieciseis dias no es una postergacion de fin de "
+                   "semana, que es lo que son los otros diecinueve de estas tres "
+                   "temporadas.\n"
+                   "LO CONFIRMA EL BLOG DE EXCURSIONISTAS, escrito EN EL MOMENTO y "
+                   "por lo tanto anterior a cualquier compilacion posterior. En "
+                   "agosto de 2008: `El miercoles 3/9 se continuara el partido "
+                   "suspendio con Argentino de Merlo, a partir de las 15:30 hs, los "
+                   "no socios tendran que tener la entrada de los 25 minutos jugados "
+                   "el 18/8`. Y en septiembre, la cronica: `Excursio 0 - Arg. de "
+                   "Merlo 0 / En la continuacion del partido suspendido el 18/8 "
+                   "Excursionistas no pudo con Argentino de Merlo`. El 0-0 es el "
+                   "marcador que tiene nuestra fila, que es lo que verifica que "
+                   "hablan del mismo partido.\n" + _CONVENCION + "\n"
+                   "https://excursio.blogspot.com/2008/09/"),
     Fechado(pagina="Campeonato de Primera C 2024 (Argentina)", jornada="Fecha 14",
             local="Claypole", visita="Berazategui",
             nuestra="2024-09-24", otra="2024-11-06",
