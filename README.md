@@ -963,6 +963,64 @@ Ninguno se cerró eligiendo la fuente más prestigiosa: se cerraron leyendo mejo
 —el `rowspan`, el rango, la nota con nombre—, reconociendo dos convenciones que no se
 contradicen, o trayendo un tercero y midiéndolo antes de creerle.
 
+#### Las cuatro tablas de la temporada en curso: la equivocada era la tabla
+
+Quedaban cuatro filas de tabla que no cerraban con la grilla, y las cuatro de temporadas
+**todavía en juego**. Dos se resolvieron sin salir de la página; las otras dos parecían
+pedir una crónica y terminaron pidiendo otra cosa.
+
+**`San Miguel`, Primera Nacional 2026.** La tabla le da `GF19`; nuestra grilla, `GF20`. Y la
+propia tabla lo demuestra: sus dos columnas de goles suman **905 y 906** sobre los mismos
+partidos, y tienen que dar igual. Sobra un gol en contra que ningún club declara haber
+convertido, y es exactamente el que le falta a esa fila.
+
+**`Muñiz`, Primera C 2026.** Acá no se desvían los goles sino el G-E-P: la tabla dice
+`4-11-10` y la grilla `4-10-11`, **con los goles coincidiendo exacto en 17:26**. Un marcador
+mal leído mueve siempre los goles; si los goles coinciden y el reparto no, ningún partido
+puede explicarlo.
+
+**`Real Pilar` y `San Martín (B)`, Primera B 2026 — el par que casi pasa.** Real Pilar tiene
+2 goles a favor de más en nuestra grilla y San Martín (B) 2 en contra de más: la firma
+exacta de un partido entre ellos mal leído. Y lo que hace **invisible** al par es que las
+dos tablas cierran consigo mismas — bajar dos goles a favor de un club y dos en contra de
+otro deja los totales iguales, 688 contra 688 y 690 contra 690. La suma no denuncia nada.
+
+Pero no hay tal partido. La tabla publica también el G-E-P y **coincide con el nuestro**
+—`14-9-9` y `9-13-10`—, así que ningún resultado cambia de ganador; y los dos cruces entre
+ellos son `San Martín (B) 1-2 Real Pilar` y un `0-0`. Quitarle dos goles a Real Pilar en el
+primero lo convierte en derrota, que contradice el G-E-P de la propia tabla, y del segundo
+no hay dos goles que quitar. **La aritmética descarta la explicación que la aritmética
+sugería.**
+
+**Y las cuatro las confirma la misma fuente de afuera.** Para la temporada en curso el
+árbitro natural es Promiedos —y el único posible: su archivo sólo guarda la temporada que se
+está jugando, que es justo lo que acá hace falta—. Coincide **exacto** con nuestra grilla en
+las cuatro:
+
+| | Wikipedia | nosotros | Promiedos |
+|---|---|---|---|
+| San Miguel | GF19 GC28 | GF20 GC28 | `20:28` |
+| Real Pilar | GF34 GC31 | GF36 GC31 | `36:31`, 51 pts |
+| San Martín (B) | GF31 GC32 | GF31 GC34 | `31:34`, 40 pts |
+| Muñiz | 4-11-10 | 4-10-11 | `4-10-11`, 22 pts |
+
+Muñiz tiene además un testigo aritmético: la plantilla de la tabla calcula los puntos sola,
+y con `g=4|e=11|p=10` muestra **23**. Promiedos publica **22**, que es lo que sale de nuestro
+`4-10-11`. La tabla se contradice con el número que ella misma publica.
+
+**Un detalle de método que casi arruina la comparación.** Promiedos ya tenía jugada una fecha
+que la página todavía no cargaba, así que seis clubes tenían `PJ 32` de un lado y `31` del
+otro. Comparar goles acumulados entre dos cortes distintos del calendario da una diferencia
+que no es error de nadie. Sólo se compararon los clubes con el **mismo PJ en las tres
+partes**.
+
+**Lo que este trabajo deja abierto.** Éstas son las primeras `Revisado` sobre páginas
+**vivas**: las 56 anteriores son de temporadas cerradas, donde la tabla ya no se mueve. Y
+`Revisado` se identifica por (página, club) y nada más: si la tabla se arregla, la guarda de
+huérfanos avisa, pero si aparece un desvío *distinto* en el mismo club, la declaración vieja
+lo tapa en silencio. Es el hueco que `Fechado` y `Dia` ya cierran guardando el estado que
+verificaron, y que `Revisado` todavía no.
+
 #### Los 16 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.

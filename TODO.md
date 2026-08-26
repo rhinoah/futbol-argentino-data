@@ -11,21 +11,21 @@ reales, no estimados.
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno. **Ningún partido queda con dos marcadores en
-disputa, y ninguno con dos días distintos** —eran `61` cuando se empezaron a mirar—. De los
-`171` avisos, **ninguno es grave**; cada clase tiene su explicación en el archivo que la
-produce y no se repite acá. Lo que queda:
+`41 558` partidos y no falta ninguno. **Ningún partido queda con dos marcadores en disputa,
+ninguno con dos días distintos —eran `61`— y ninguna tabla queda sin contrastar contra su
+grilla.** De los `166` avisos, **ninguno es grave**; cada clase tiene su explicación en el
+archivo que la produce y no se repite acá. Lo que queda:
 
 - **`7` partidos sin fecha, y sólo `1` espera una.** Los otros `6` no se jugaron —los que
   el Federal A 2024 le dio por perdidos a Sansinena—. El que falta es la semifinal
   `Ben Hur` vs `Atlético Tucumán` del `Argentino A 2004-05`, donde la fuente citada le erra
   al día por diez meses.
-- **`4` tablas que no cierran con su grilla, y las cuatro son de la temporada en curso.**
-  Ninguna es un error de lectura: `San Miguel` (Primera Nacional), `Real Pilar` y
-  `San Martín (B)` (Primera B) desvían un gol, y `Muñiz` (Primera C) desvía en G-E-P **con
-  los goles coincidiendo exacto**, que es la firma de un fallo y no de un dígito mal leído.
-  Eran `3`: `San Martín (B)` apareció al refrescar la temporada en curso, que es lo que se
-  espera de una tabla que todavía se está jugando.
+- **`Revisado` no fija el estado que verificó, y ahora hay cuatro sobre páginas vivas.**
+  Las `60` declaraciones se identifican por (página, club) y nada más. Si la tabla se
+  arregla, `revisados_huerfanos` avisa; pero si aparece un desvío **distinto** en el mismo
+  club, la declaración vieja lo tapa en silencio. Con temporadas cerradas no pasaba nunca;
+  con las cuatro de 2026 sí puede. El arreglo es el mismo que ya usan `Fechado` y `Dia`:
+  guardar la magnitud del desvío verificado y dejar de enganchar cuando cambia.
 - **Extender la foja de RSSSF**, que es el testigo más fuerte que hay. Ya cruza las 4
   páginas sin grilla; lo que falta es correrla en las que **sí** tienen grilla, donde
   sería un testigo nuevo y gratis de nuestras lecturas de Wikipedia. Ahí falta el mapa de
