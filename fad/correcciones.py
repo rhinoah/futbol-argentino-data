@@ -3209,6 +3209,21 @@ FECHADOS: tuple[Fechado, ...] = (
     # pena: su pagina NO trae la nota, asi que ese chequeo no lo veia. Lo
     # delato el TAMANIO del desacuerdo -- 16 dias, demasiado para una
     # postergacion de fin de semana -- y lo confirmo la prensa de la epoca.
+    # EL UNICO DE LOS VEINTE QUE CAE PARA ESTE LADO, y por eso vale escribirlo:
+    # si el compendio le diera la razon a ESPN en los veinte seria
+    # indistinguible de una copia suya. Le da la razon a ESPN en dieciocho y a
+    # RSSSF --que es de donde sale la nuestra-- en este.
+    Fechado(pagina="Campeonato de Primera C 2010-11 (Argentina)", jornada="Fecha 20",
+            local="Defensores de Cambaceres", visita="Argentino de Merlo",
+            nuestra="2010-12-07", otra="2010-12-08",
+            porque="El compendio de Jose Carluccio, que arbitra los otros dieciocho "
+                   "desacuerdos de estas tres temporadas, en este dice lo mismo que "
+                   "nosotros: `07/12/2010 en Caniuelas: Defensores de Cambaceres 0, "
+                   "Argentino de Merlo 0`, con la nota `Se jugo en cancha de Caniuelas "
+                   "FC a puertas cerradas`. El 0-0 es el marcador de nuestra fila.\n"
+                   "No hay nada que corregir. Se anota igual porque el aviso volvia en "
+                   "cada corrida y el proximo que pasara lo investigaba de cero.\n"
+                   "http://josecarluccio.blogspot.com/2015/04/argentina-1ra-c-afa-201011.html"),
     Fechado(pagina="Campeonato de Primera C 2008-09 (Argentina)", jornada="Fecha 3",
             local="Excursionistas", visita="Argentino de Merlo",
             nuestra="2008-08-18", otra="2008-09-03",
@@ -3290,6 +3305,33 @@ FECHADOS: tuple[Fechado, ...] = (
 )
 
 
+# EL COMPENDIO DE JOSE CARLUCCIO, que arbitra los 18 desacuerdos de dia de la
+# Primera C 2008-2011. Va aparte porque es UNA fuente y una sola medicion; lo que
+# NO se comparte es el porque de cada partido, que lleva su propio renglon.
+_CARL_0809 = "http://josecarluccio.blogspot.com/2014/08/argentina-1ra-c-afa-200809.html"
+_CARL_0910 = "http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html"
+_CARL_1011 = "http://josecarluccio.blogspot.com/2015/04/argentina-1ra-c-afa-201011.html"
+
+_PC_CARLUCCIO = (
+    "LO ARBITRA UNA TERCERA FUENTE, que no es ninguna de las dos que discuten: "
+    "nuestra fecha viene de RSSSF y quien discrepa es ESPN. Es el compendio "
+    "`historiayfutbol` de Jose Carluccio, que este repo YA acredita para el "
+    "Argentino A --ver `fad/citadas.py`-- y que nadie habia mirado para Primera "
+    "C. Publica las tres temporadas partido por partido, con dia, sede y "
+    "goleadores.\n"
+    "SE MIDIO ANTES DE CREERLE. De sus 1.132 partidos, 1.035 de 1.038 marcadores "
+    "coinciden con los que publica Wikipedia (99,71%), que es lo que verifica que "
+    "habla de los mismos partidos. Y NO ES UN ESPEJO de ninguna de las dos: tiene "
+    "tres errores de marcador propios --que una copia no tendria-- y en los 21 "
+    "desacuerdos de estas temporadas le da la razon a ESPN en 19 y a RSSSF en 2. "
+    "Un espejo de ESPN daria 21 a 0.\n"
+    "Y HAY UN LIMITE, dicho: es una compilacion de 2014-2015, o sea posterior a "
+    "RSSSF y a ESPN. Se probo que no las copia; no se puede probar que nunca las "
+    "miro. Por eso las cuatro entradas que ademas tienen un testigo CONTEMPORANEO "
+    "lo nombran, y son las mas firmes del grupo.\n"
+    "http://josecarluccio.blogspot.com/")
+
+
 @dataclass(frozen=True)
 class Dia:
     """Un partido cuya FECHA estaba mal, corregida contra una fuente de afuera.
@@ -3364,6 +3406,200 @@ DIAS: tuple[Dia, ...] = (
                "Argentina: la tabla ya lo contaba antes del mediodia del 16, asi que "
                "no se jugo ese dia. Se jugo el 15, que es lo que da ESPN.\n"
                "https://es.wikipedia.org/w/index.php?oldid=45663491"),
+
+    # ---- Primera C 2008-09 -------------------------------------------------
+    # La Fecha 26 es la UNICA de las 38 que RSSSF no parte: pone los diez
+    # partidos el 7 de marzo. Su propia costumbre en esta temporada es partir en
+    # tres o cuatro dias, y Carluccio la parte en 7, 8 y 9. Los tres de abajo son
+    # los que caen del lado del 8.
+    Dia(pagina="Campeonato de Primera C 2008-09 (Argentina)", jornada="Fecha 26",
+        local="Villa D\u00e1lmine", visita="Argentino de Rosario",
+        dice="2009-03-07", debe="2009-03-08", fuente=_CARL_0809,
+        porque="Carluccio: `08/03/2009 en Campana: Villa Dalmine 2 (Cristian "
+               "Jeandet y Nestor Correa), Argentino de Rosario 1 (Cesar "
+               "Basualdo)`. El 2-1 es el marcador de nuestra fila.\n"
+               "Y TIENE TESTIGO CONTEMPORANEO, que es el mas firme de los cuatro: "
+               "El Viola, el sitio de Villa Dalmine, publica la tabla de la "
+               "temporada con la fecha DECLARADA de cada partido --no deducida de "
+               "un `maniana` ni de la fecha de publicacion-- y ahi figura `26 | "
+               "08/03/2009 | Villa Dalmine | 2 | 1 | Argentino de Rosario`. En los "
+               "otros 40 partidos de Villa Dalmine de esa temporada El Viola "
+               "coincide con RSSSF; se aparta SOLO en este.\n"
+               "http://www.elviola.com.ar/2009/06/temporada-200809.html" + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2008-09 (Argentina)", jornada="Fecha 26",
+        local="Deportivo Laferrere", visita="Luj\u00e1n",
+        dice="2009-03-07", debe="2009-03-08", fuente=_CARL_0809,
+        porque="Carluccio: `08/03/2009 en Gregorio de Laferrere: Deportivo "
+               "Laferrere 0, Lujan 1 (Martin Repetto)`. El 0-1 es el marcador de "
+               "nuestra fila.\n"
+               "Es uno de los tres de la Fecha 26, la unica jornada de las 38 que "
+               "RSSSF no parte en varios dias. De los tres, el de Villa Dalmine "
+               "tiene ademas testigo contemporaneo, y los tres se mueven al mismo "
+               "dia por la misma lectura." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2008-09 (Argentina)", jornada="Fecha 26",
+        local="F\u00e9nix", visita="Villa San Carlos",
+        dice="2009-03-07", debe="2009-03-08", fuente=_CARL_0809,
+        porque="Carluccio: `08/03/2009 en Pilar: Fenix 1 (Fabio Lapenna), Villa "
+               "San Carlos 3 (Pablo Miranda, Ignacio Orona y Manuel Madrid)`. El "
+               "1-3 es el marcador de nuestra fila.\n"
+               "El tercero de la Fecha 26, la unica jornada de las 38 que RSSSF "
+               "pone entera en un solo dia." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2008-09 (Argentina)", jornada="Fecha 28",
+        local="Excursionistas", visita="Luj\u00e1n",
+        dice="2009-03-22", debe="2009-03-21", fuente=_CARL_0809,
+        porque="Carluccio: `21/03/2009 en Belgrano: Excursionistas 2 (Tomas De "
+               "Vicenti y Lucas Del Rio), Lujan 0`. El 2-0 es el marcador de "
+               "nuestra fila.\n"
+               "TESTIGO CONTEMPORANEO, y por partida doble. Los dos blogs de "
+               "Excursionistas publicaron la programacion ANTES del partido: "
+               "`Programacion confirmada / Fecha 28 / Excursionistas vs. Lujan / "
+               "Sabado 21/3 - 15:00h. / Arbitro: Ramiro Lopez` en pampayminones, y "
+               "`Fecha 28 / Excursionistas - Lujan / Estadio: Coliseo del Bajo "
+               "Belgrano / Sabado 21/3 15:00 hs / Arbitro: Ramiro Lopez` en "
+               "excursio. El dia esta ESCRITO --`Sabado 21/3`--, no deducido de la "
+               "fecha de publicacion. El 21 de marzo de 2009 fue sabado.\n"
+               "http://pampayminones.blogspot.com/2009/03/" + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2008-09 (Argentina)", jornada="Fecha 30",
+        local="Villa San Carlos", visita="Luj\u00e1n",
+        dice="2009-04-04", debe="2009-04-06", fuente=_CARL_0809,
+        porque="Carluccio: `06/04/2009 en La Plata: Villa San Carlos 3 (Gonzalo "
+               "Raverta, Federico Slezack y Rodrigo Salinas), Lujan 1 (Horacio "
+               "Zacardo)`. El 3-1 es el marcador de nuestra fila.\n"
+               "RSSSF fecha esta jornada el sabado 4; el 6 de abril de 2009 fue "
+               "lunes, y la Primera C de esos anios jugaba de viernes a lunes, asi "
+               "que un lunes no es una rareza." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2008-09 (Argentina)", jornada="Fecha 38",
+        local="Excursionistas", visita="Barracas Bol\u00edvar",
+        dice="2009-05-30", debe="2009-06-01", fuente=_CARL_0809,
+        porque="Carluccio: `01/06/2009 en Belgrano: Excursionistas 4 (Marcelo "
+               "Pacor, Federico Rizzo, Diego Jaime y Patricio Roldan), Barracas "
+               "Bolivar 0`. El 4-0 es el marcador de nuestra fila.\n"
+               "TESTIGO CONTEMPORANEO, y este ademas EXPLICA el desacuerdo. El "
+               "blog de Excursionistas publica primero `Ultima fecha: programacion "
+               "confirmada / Fecha 38 / Excursionistas vs. Barracas Bolivar / "
+               "Sabado 30/5 - 14:00 hs.`; despues `:: PARTIDO SUSPENDIDO` con "
+               "`todavia no hay reprogramacion oficial del encuentro con "
+               "Bolivar`; y despues `Fecha 38 - REPROGRAMADO POR SUBSEF / "
+               "Excursionistas vs. Barracas Bolivar / Lunes 1/6 - 15:00 hs.`\n"
+               "RSSSF SE QUEDO CON EL DIA PROGRAMADO. Y ojo con la palabra "
+               "`suspendido`: aca el partido NO se jugo el 30 --se posterga "
+               "entero--, asi que no es el caso de los que empiezan un dia y se "
+               "completan otro, donde la fecha buena es la primera. Son dos cosas "
+               "distintas y se resuelven al reves.\n"
+               "http://pampayminones.blogspot.com/2009/05/" + "\n" + _PC_CARLUCCIO),
+
+    # ---- Primera C 2009-10 -------------------------------------------------
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 3",
+        local="Luj\u00e1n", visita="Defensores de Cambaceres",
+        dice="2009-09-07", debe="2009-09-08", fuente=_CARL_0910,
+        porque="Carluccio: `08/09/2009 en Lujan: Lujan 1 (Mauro Rubira), "
+               "Defensores de Cambaceres 3 (Damian Manes, Leonardo Kees y Diego "
+               "Jaime)`, con la nota `Se jugo en el estadio Municipal de Lujan`. "
+               "El 1-3 es el marcador de nuestra fila.\n"
+               "Uno de los dos de la Fecha 3 que se corren del lunes 7 al martes "
+               "8; el otro es Berazategui vs Leandro N. Alem." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 3",
+        local="Berazategui", visita="Leandro N. Alem",
+        dice="2009-09-07", debe="2009-09-08", fuente=_CARL_0910,
+        porque="Carluccio: `08/09/2009 en Gerli: Berazategui 1 (Gustavo Pastor), "
+               "Leandro N. Alem 0`, con la nota `Se jugo en cancha de El "
+               "Porvenir`. El 1-0 es el marcador de nuestra fila.\n"
+               "El otro de la Fecha 3 que se corre del lunes 7 al martes 8." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 8",
+        local="Ferrocarril Midland", visita="Villa D\u00e1lmine",
+        dice="2009-10-03", debe="2009-10-05", fuente=_CARL_0910,
+        porque="Carluccio: `05/10/2009 en Libertad: Ferrocarril Midland 0, Villa "
+               "Dalmine 1 (Alberto Meinecke)`. El 0-1 es el marcador de nuestra "
+               "fila.\n"
+               "RSSSF lo pone el sabado 3 junto a otros siete; el 5 de octubre de "
+               "2009 fue lunes." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 9",
+        local="Luj\u00e1n", visita="Barracas Bol\u00edvar",
+        dice="2009-10-11", debe="2009-10-09", fuente=_CARL_0910,
+        porque="Carluccio: `09/10/2009 en Lujan: Lujan 1 (Federico Quintana), "
+               "Barracas Bolivar 0`, con la nota `Se jugo en el estadio Municipal "
+               "de Lujan`. El 1-0 es el marcador de nuestra fila.\n"
+               "TESTIGO CONTEMPORANEO. El blog Rumores del Ascenso publica el 11 "
+               "de octubre de 2009 el post `ESTO YA FUE HISTORIA` con los "
+               "resultados agrupados por dia: `PRIMERA C: VIERNES: SACACHISPAS 0 "
+               "EXCURSIONISTAS 2 / TALLERES (RE) 0 BARRACAS CENTRAL 0 / LUJAN 1 "
+               "BARRACAS BOLIVAR 0`. Los otros dos de esa lista YA los tenemos "
+               "fechados el viernes 9, asi que el tercero es del mismo dia.\n"
+               "Y ES EL UNICO DE LOS DIECIOCHO CON UNA FUENTE EN CONTRA: la "
+               "fixture de AFA capturada el 8 de octubre lo anunciaba para el 11. "
+               "Una fixture es un PLAN publicado antes; el listado de resultados "
+               "es de despues, y ademas encaja con dos partidos que ya sabiamos "
+               "del viernes.\n"
+               "http://rumoresdelascenso.blogspot.com/2009/10/esto-ya-fue-historia.html" + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 11",
+        local="General Lamadrid", visita="Barracas Bol\u00edvar",
+        dice="2009-10-18", debe="2009-10-17", fuente=_CARL_0910,
+        porque="Carluccio: `17/10/2009 en Villa Devoto: General Lamadrid 3 "
+               "(Gaston Lezcano, Damian Gimenez y Lucas Tiedemann), Barracas "
+               "Bolivar 0`. El 3-0 es el marcador de nuestra fila.\n"
+               "RSSSF lo pone el domingo 18; el 17 de octubre de 2009 fue sabado, "
+               "y RSSSF ya usa ese sabado para otros cinco partidos de la misma "
+               "jornada." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 12",
+        local="El Porvenir", visita="Defensores Unidos",
+        dice="2009-10-24", debe="2009-10-23", fuente=_CARL_0910,
+        porque="Carluccio: `23/10/2009 en Gerli: El Porvenir 1 (Heber Leanios), "
+               "Defensores Unidos 2 (Santiago Davio 2)`. El 1-2 es el marcador de "
+               "nuestra fila.\n"
+               "RSSSF lo pone el sabado 24 junto a otros seis; el 23 de octubre de "
+               "2009 fue viernes, dia en que la Primera C abria la jornada." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 13",
+        local="San Miguel", visita="Leandro N. Alem",
+        dice="2009-11-01", debe="2009-11-02", fuente=_CARL_0910,
+        porque="Carluccio: `02/11/2009 en Los Polvorines: San Miguel 1 (Alejandro "
+               "Maldonado), Leandro N. Alem 1 (Gustavo Romero)`. El 1-1 es el "
+               "marcador de nuestra fila.\n"
+               "Uno de los tres de la Fecha 13 que pasan del domingo 1 al lunes 2. "
+               "RSSSF ya usa ese lunes para un partido de la misma jornada, asi "
+               "que no esta inventando un dia: le faltan estos tres." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 13",
+        local="Deportivo Laferrere", visita="J. J. de Urquiza",
+        dice="2009-11-01", debe="2009-11-02", fuente=_CARL_0910,
+        porque="Carluccio: `02/11/2009 en Gregorio de Laferrere: Deportivo "
+               "Laferrere 1 (Walter Garcete), Justo Jose de Urquiza 0`. El 1-0 es "
+               "el marcador de nuestra fila.\n"
+               "El segundo de los tres de la Fecha 13 que pasan al lunes 2." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 13",
+        local="Sacachispas", visita="Ferrocarril Midland",
+        dice="2009-11-01", debe="2009-11-02", fuente=_CARL_0910,
+        porque="Carluccio: `02/11/2009 en Villa Soldati: Sacachispas FC 1 (Javier "
+               "Vargas), Ferrocarril Midland 1 (Miguel Mendoza)`. El 1-1 es el "
+               "marcador de nuestra fila.\n"
+               "El tercero de los tres de la Fecha 13 que pasan al lunes 2." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 25",
+        local="Argentino de Merlo", visita="Deportivo Laferrere",
+        dice="2010-02-06", debe="2010-02-08", fuente=_CARL_0910,
+        porque="Carluccio: `08/02/2010 en Merlo Norte: Argentino de Merlo 2 "
+               "(Gonzalo Pavone 2), Deportivo Laferrere 1 (Jonathan Saban)`. El "
+               "2-1 es el marcador de nuestra fila.\n"
+               "RSSSF lo pone el sabado 6; el 8 de febrero de 2010 fue lunes, y "
+               "RSSSF ya usa ese lunes para otros seis partidos de la jornada." + "\n" + _PC_CARLUCCIO),
+
+    # ---- Primera C 2010-11 -------------------------------------------------
+    Dia(pagina="Campeonato de Primera C 2010-11 (Argentina)", jornada="Fecha 13",
+        local="Deportivo Laferrere", visita="Berazategui",
+        dice="2010-10-18", debe="2010-10-19", fuente=_CARL_1011,
+        porque="Carluccio: `19/10/2010 en Gregorio de Laferrere: Deportivo "
+               "Laferrere 2 (Cristian Jeandet 2), Berazategui 1 (Juan C. "
+               "Horvat)`. El 2-1 es el marcador de nuestra fila.\n"
+               "RSSSF lo pone el lunes 18 junto a otros cinco; el 19 de octubre de "
+               "2010 fue martes." + "\n" + _PC_CARLUCCIO),
+    Dia(pagina="Campeonato de Primera C 2010-11 (Argentina)", jornada="Fecha 16",
+        local="San Miguel", visita="Leandro N. Alem",
+        dice="2011-02-23", debe="2011-02-22", fuente=_CARL_1011,
+        porque="Carluccio: `22/02/2011 en Los Polvorines: San Miguel 1 (Francisco "
+               "Luna), Leandro N. Alem 0`. El 1-0 es el marcador de nuestra "
+               "fila.\n"
+               "ES UN POSTERGADO, y eso lo hace mas facil de creer y no menos: los "
+               "otros nueve partidos de la Fecha 16 se jugaron entre el 6 y el 8 "
+               "de noviembre de 2010, y este quedo solo, ciento siete dias "
+               "despues. Una fuente que copiara la fecha de la jornada nunca "
+               "produciria eso; hay que tener el dato del partido." + "\n" + _PC_CARLUCCIO),
 )
 
 

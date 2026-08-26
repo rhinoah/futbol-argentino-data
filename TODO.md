@@ -12,15 +12,15 @@ reales, no estimados.
 ## 2004–2026 — Cerrado
 
 `41 558` partidos y no falta ninguno, y **ningún partido queda con dos marcadores en
-disputa**. De los `177` avisos, **ninguno es grave**; cada clase tiene su explicación en el
+disputa**. De los `174` avisos, **ninguno es grave**; cada clase tiene su explicación en el
 archivo que la produce y no se repite acá. Lo que queda:
 
-- **`24` partidos con dos días distintos, en 6 páginas.** Se conserva el de la página y se
-  avisa. **`20` de los 24 son `Primera C` 2008-2011**, y ahí la página **no publica el
-  día**: nuestra fecha ya sale de RSSSF, así que la disputa es RSSSF contra ESPN y
-  Wikipedia no puede desempatar —haría falta una cuarta fuente—. Los `4` restantes están
-  sueltos, de a uno o dos por página. De los `10` que se cerraron en esta vuelta, `7` no
-  necesitaron ninguna fuente nueva: los cerró leer mejor la página. El detalle, en el
+- **`4` partidos con dos días distintos, en 3 páginas.** Se conserva el de la página y se
+  avisa. Eran `61` cuando se empezó a mirarlos. El bloque grande —los `20` de `Primera C`
+  2008-2011, donde la página no publica el día y la disputa era RSSSF contra ESPN— se
+  cerró con una cuarta fuente que **ya estaba acreditada en el repo** y que nadie había
+  mirado para esta categoría. Los `4` que quedan están sueltos: uno en `Primera B Nacional`
+  2007-08, uno en `Argentino A` 2012-13 y dos en `Primera B` 2010-11. El detalle, en el
   README.
 - **`8` partidos sin fecha, y sólo `2` esperan una.** Los otros `6` no se jugaron —los que
   el Federal A 2024 le dio por perdidos a Sansinena—. Los 2 son la semifinal `Ben Hur` vs

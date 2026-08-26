@@ -843,6 +843,95 @@ nada, porque lo que estaba mal no era el texto sino a quién se le había pegado
 se fueron: tres las resolvió el parser y una era el choque de convenciones. Hoy sólo se
 comparte **la regla**, y cada entrada guarda su evidencia propia.
 
+#### Los 20 de la Primera C: la cuarta fuente ya estaba adentro
+
+Quedaba un bloque duro: **20 partidos de la `Primera C` 2008-2011 con dos días distintos**,
+donde la página no publica el día, nuestra fecha sale de RSSSF y quien discute es ESPN. Sin
+un tercero, no hay con qué decidir.
+
+**Primero se midió si el problema era nuestro.** Cinco hipótesis, las cinco cerradas con un
+número:
+
+| | |
+|---|---|
+| RSSSF da una fecha por jornada y la repartimos | falso: parte el **91%** de las jornadas en 2 a 4 días |
+| los 20 caen donde RSSSF *no* partió | falso: **50%** vienen de tandas grandes contra un **61%** de base |
+| las jornadas de un solo día son poco fiables | falso: ESPN confirma **8 de las 10** exactas |
+| leemos mal la hora de ESPN, que viene en UTC | ya estaba resuelto, y documentado, en `fad/espn.py` |
+| ESPN duplica pares y elegimos el equivocado | falso: los 39 pares repetidos son revanchas del reducido, y **ninguno** es de los 20 |
+
+Y se calibraron las dos fuentes contra las páginas que **sí** publican el día: RSSSF acierta
+`588/593` (99,2%) y ESPN `1596/1602` (99,6%). Parece que ESPN gana, pero **no hay una sola
+página donde estén las dos**: son corpus distintos, de épocas distintas. Con eso no se
+prefiere a nadie. Sobre las tres temporadas las dos coinciden en `1068` de `1095` y difieren
+en `21`, que es el tamaño real del problema.
+
+**La cuarta fuente estaba en el repo desde antes.** `fad/citadas.py` acredita el compendio
+`historiayfutbol` de José Carluccio para el Argentino A 2004-05. Publica también las tres
+temporadas de `Primera C`, partido por partido, y nadie lo había mirado para esta categoría.
+
+Antes de creerle se lo midió, que es lo que separa una fuente de una opinión:
+
+- **`1132`** partidos leídos de los 1140 —los 8 huecos son erratas de la propia fuente—.
+- **`1035` de `1038` marcadores** coinciden con los que publica Wikipedia: **99,71%**. Eso
+  es lo que verifica que habla de los mismos partidos.
+- **No es un espejo.** Tiene tres errores de marcador propios, que una copia no tendría. Y
+  en los 21 desacuerdos le da la razón a ESPN en 19 y a RSSSF en 2: un espejo de ESPN daría
+  21 a 0. Un verificador adversarial hizo el cruce completo de la 2008-09 contra RSSSF y
+  obtuvo `361/371`.
+
+**Y hay un límite, dicho:** es una compilación de 2014-2015, posterior a RSSSF y a ESPN. Se
+probó que no las copia; no se puede probar que nunca las miró.
+
+#### Los cuatro que tienen testigo de la época
+
+Por eso las que se pudieron apoyar en prensa contemporánea lo dicen, y son las más firmes.
+Estas cuatro se leyeron verbatim:
+
+- **`Villa Dálmine` vs `Argentino de Rosario`** — El Viola, el sitio del club, publica la
+  tabla de la temporada con la fecha **declarada**: `26 | 08/03/2009 | Villa Dálmine | 2 |
+  1 | Argentino de Rosario`. En los otros 40 partidos de Villa Dálmine de esa temporada
+  coincide con RSSSF; se aparta sólo en éste.
+- **`Excursionistas` vs `Luján`** — los dos blogs del club publicaron la programación
+  *antes*: «Programación confirmada / Fecha 28 / **Sábado 21/3** - 15:00h. / Árbitro: Ramiro
+  López». El día está escrito, no deducido.
+- **`Luján` vs `Barracas Bolívar`** — el blog Rumores del Ascenso lista los resultados
+  agrupados por día: «PRIMERA C: **VIERNES**: … LUJÁN 1 BARRACAS BOLÍVAR 0». Los otros dos
+  de esa lista ya los teníamos fechados el viernes 9.
+- **`Excursionistas` vs `Barracas Bolívar`**, que además *explica* el desacuerdo: el club
+  publica «Fecha 38 / **Sábado 30/5** - 14:00 hs.», después «:: PARTIDO SUSPENDIDO», y
+  después «Fecha 38 - **REPROGRAMADO POR SUBSEF** / **Lunes 1/6** - 15:00 hs.». **RSSSF se
+  quedó con el día programado.**
+
+Ese último caso obliga a una distinción que es fácil pasar por alto y se resuelve **al
+revés** según cuál sea: un partido que **se posterga entero** lleva el día en que se jugó;
+uno que **empieza y se completa después** lleva el primero. `Excursionistas` vs `Argentino
+de Merlo` es del segundo tipo —empezó el 18/8, se suspendió a los 25 minutos y se completó
+el 3/9— y por eso nuestra fecha ahí estaba bien: va como `Fechado` y no como `Dia`.
+
+**Resultado: 18 `Dia`, 2 `Fechado`.** El único que cae para nuestro lado es
+`Defensores de Cambaceres` vs `Argentino de Merlo`, y vale escribirlo justamente porque si
+el compendio nos hubiera contradicho en los veinte sería indistinguible de una copia de
+ESPN.
+
+Los desacuerdos de día quedaron en **`4`**, en tres páginas, y ninguno es de Primera C.
+
+#### Lo que se probó y no sirvió
+
+Vale dejarlo escrito para que nadie lo vuelva a caminar:
+
+- **El historial de Wikipedia**: 604 revisiones de las tres páginas, bajadas enteras.
+  Ninguna publicó nunca el día. Y las secciones de resultados aparecieron en 2012-2013
+  **citando a RSSSF**, así que además habría sido contar su voto dos veces.
+- **Soccerway/Flashscore**: tiene las tres temporadas con fecha por partido, y parecía el
+  mejor candidato. Publica la fecha **en UTC**: de cinco partidos de prueba, tres estaban
+  corridos un día. Sirve, pero hay que convertir el timestamp, no leer la fecha.
+- **La fixture oficial de AFA**, rescatada de la Wayback Machine. Es la fuente primaria y
+  parecía inmejorable, pero es un **plan publicado antes**: para `Luján` vs `Barracas
+  Bolívar` anunciaba el 11 de octubre y el partido se jugó el 9. Un listado de resultados
+  posterior le gana a un fixture anterior.
+- **Promiedos** sólo guarda la temporada en curso.
+
 #### Los 16 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.
