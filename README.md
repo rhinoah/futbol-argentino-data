@@ -932,6 +932,37 @@ Vale dejarlo escrito para que nadie lo vuelva a caminar:
   posterior le gana a un fixture anterior.
 - **Promiedos** sólo guarda la temporada en curso.
 
+#### Los últimos cuatro, y el número que estaba escrito al lado de una lista
+
+Quedaban cuatro desacuerdos sueltos, uno por página, y los cuatro los cerró **la misma
+fuente**: el compendio de Carluccio, que a esta altura ya no era una apuesta sino algo
+medido. Vale contarlos porque cada uno tiene una forma distinta.
+
+**`Cipolletti` vs `Gimnasia y Esgrima (CdU)`, `Argentino A 2012-13`.** Este no hacía falta
+buscarlo: el comentario que ya estaba en `fad/correcciones.py` decía *«RSSSF corre **las
+cinco** un día para atrás»* y debajo había **cuatro** declaraciones. La quinta se siguió
+denunciando en cada corrida hasta que alguien fue a mirarla. Un número escrito al lado de
+una lista es un invariante gratis, y éste estuvo desmintiéndose solo un buen rato.
+
+**`Flandria` vs `Colegiales` y `Almagro` vs `Barracas Central`, `Primera B 2010-11`.** Los
+dos con el mismo argumento, y es más fuerte que «una fuente dice otra cosa»: el compendio
+**no usa nuestro día en toda la jornada**. La Fecha 14 la parte en 15, 16, 18 y 19 de
+octubre —el 17 no aparece— y la Fecha 36 en 22, 23, 24 y 26 de abril —sin el 25—. No es que
+la fuente ponga el partido en otro de los días de la fecha: es que ese día no es de la
+fecha. Los dos se corrigen.
+
+**`Ferro Carril Oeste` vs `Independiente Rivadavia`, `Primera B Nacional 2007-08`.** Acá
+nuestra fecha es la de la propia página y quien discute es worldfootball, que da el
+**29 de febrero**. 2008 fue bisiesto, así que el día existe y no es un error de calendario
+—que es lo primero que uno sospecha—. Lo que pasa es otra cosa: el compendio pone dos
+partidos el 28 (éste y `Quilmes` vs `Platense`) y **uno el 29, que es otro**,
+`Ben Hur` vs `Almagro`. worldfootball no inventó un día: corrió este partido al de al lado.
+
+**Con esto los desacuerdos de día quedan en cero.** Eran `61` cuando se empezaron a mirar.
+Ninguno se cerró eligiendo la fuente más prestigiosa: se cerraron leyendo mejor la página
+—el `rowspan`, el rango, la nota con nombre—, reconociendo dos convenciones que no se
+contradicen, o trayendo un tercero y midiéndolo antes de creerle.
+
 #### Los 16 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.

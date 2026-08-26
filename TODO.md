@@ -7,29 +7,25 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 022 | 8 | 149 | 981 | 411 |
+| 44 042 | 7 | 149 | 981 | 411 |
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno, y **ningún partido queda con dos marcadores en
-disputa**. De los `174` avisos, **ninguno es grave**; cada clase tiene su explicación en el
-archivo que la produce y no se repite acá. Lo que queda:
+`41 558` partidos y no falta ninguno. **Ningún partido queda con dos marcadores en
+disputa, y ninguno con dos días distintos** —eran `61` cuando se empezaron a mirar—. De los
+`171` avisos, **ninguno es grave**; cada clase tiene su explicación en el archivo que la
+produce y no se repite acá. Lo que queda:
 
-- **`4` partidos con dos días distintos, en 3 páginas.** Se conserva el de la página y se
-  avisa. Eran `61` cuando se empezó a mirarlos. El bloque grande —los `20` de `Primera C`
-  2008-2011, donde la página no publica el día y la disputa era RSSSF contra ESPN— se
-  cerró con una cuarta fuente que **ya estaba acreditada en el repo** y que nadie había
-  mirado para esta categoría. Los `4` que quedan están sueltos: uno en `Primera B Nacional`
-  2007-08, uno en `Argentino A` 2012-13 y dos en `Primera B` 2010-11. El detalle, en el
-  README.
-- **`8` partidos sin fecha, y sólo `2` esperan una.** Los otros `6` no se jugaron —los que
-  el Federal A 2024 le dio por perdidos a Sansinena—. Los 2 son la semifinal `Ben Hur` vs
-  `Atlético Tucumán` del `Argentino A 2004-05`, donde la fuente citada le erra al día por
-  diez meses, y uno de la temporada en curso.
-- **`3` tablas que no cierran con su grilla, y las tres son de la temporada en curso.**
-  Ninguna es un error de lectura: `San Miguel` (Primera Nacional) desvía un gol, y
-  `Real Pilar` (Primera B) y `Muñiz` (Primera C) desvían en G-E-P **con los goles
-  coincidiendo exacto**, que es la firma de un fallo y no de un dígito mal leído.
+- **`7` partidos sin fecha, y sólo `1` espera una.** Los otros `6` no se jugaron —los que
+  el Federal A 2024 le dio por perdidos a Sansinena—. El que falta es la semifinal
+  `Ben Hur` vs `Atlético Tucumán` del `Argentino A 2004-05`, donde la fuente citada le erra
+  al día por diez meses.
+- **`4` tablas que no cierran con su grilla, y las cuatro son de la temporada en curso.**
+  Ninguna es un error de lectura: `San Miguel` (Primera Nacional), `Real Pilar` y
+  `San Martín (B)` (Primera B) desvían un gol, y `Muñiz` (Primera C) desvía en G-E-P **con
+  los goles coincidiendo exacto**, que es la firma de un fallo y no de un dígito mal leído.
+  Eran `3`: `San Martín (B)` apareció al refrescar la temporada en curso, que es lo que se
+  espera de una tabla que todavía se está jugando.
 - **Extender la foja de RSSSF**, que es el testigo más fuerte que hay. Ya cruza las 4
   páginas sin grilla; lo que falta es correrla en las que **sí** tienen grilla, donde
   sería un testigo nuevo y gratis de nuestras lecturas de Wikipedia. Ahí falta el mapa de

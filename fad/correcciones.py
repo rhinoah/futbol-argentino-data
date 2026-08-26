@@ -3166,10 +3166,22 @@ class Fechado:
     porque: str
 
 
+# Y las otras dos categorias donde el mismo compendio zanja un desacuerdo
+# suelto. Se llego a ellas por el mismo camino: la fuente ya estaba adentro.
+_CARL_B_1011 = "http://josecarluccio.blogspot.com/2015/03/argentina-1ra-b-afa-201011.html"
+_CARL_BN_0708 = ("http://josecarluccio.blogspot.com/2014/05/"
+                 "argentina-1ra-b-nacional-afa-200708.html")
+
+
 # La 17a fecha de la Zona Sur y la vuelta de la Cuarta fase del Argentino A
 # 2012-13. RSSSF corre las cinco un dia para atras; el blog de Jose Carluccio
 # --que es una TERCERA fuente y publica cada partido con su ciudad y sus
 # goleadores-- coincide con la pagina en las cinco.
+#
+# Y ESTE COMENTARIO YA DECIA CINCO CUANDO ABAJO HABIA CUATRO. La quinta
+# --Cipolletti vs Gimnasia y Esgrima (CdU)-- siguio denunciandose en cada corrida
+# hasta que se la fue a buscar. El numero escrito al lado de una lista es un
+# invariante gratis: si no coincide con lo que la lista tiene, algo falta.
 _BLOG_2012_13 = (
     "Lo verifica una TERCERA fuente, que no es ninguna de las dos que discuten: "
     "el blog de Jose Carluccio, que publica cada partido con su ciudad y sus "
@@ -3186,6 +3198,9 @@ _BLOG_2012_13_CUARTA = (
 
 
 FECHADOS: tuple[Fechado, ...] = (
+    Fechado(pagina="Torneo Argentino A 2012-13", jornada="Fecha 17",
+            local="Cipolletti", visita="Gimnasia y Esgrima (CdU)",
+            nuestra="2013-01-27", otra="2013-01-26", porque=_BLOG_2012_13),
     Fechado(pagina="Torneo Argentino A 2012-13", jornada="Fecha 17",
             local="Ramón Santamarina", visita="Alvarado",
             nuestra="2013-01-27", otra="2013-01-26", porque=_BLOG_2012_13),
@@ -3213,6 +3228,22 @@ FECHADOS: tuple[Fechado, ...] = (
     # si el compendio le diera la razon a ESPN en los veinte seria
     # indistinguible de una copia suya. Le da la razon a ESPN en dieciocho y a
     # RSSSF --que es de donde sale la nuestra-- en este.
+    Fechado(pagina="Campeonato de Primera B Nacional 2007-08", jornada="Fecha 19",
+            local="Ferro Carril Oeste", visita="Independiente Rivadavia",
+            nuestra="2008-02-28", otra="2008-02-29",
+            porque="Aca la que discute es worldfootball y nuestra fecha es la que "
+                   "publica la propia pagina, asi que el compendio de Jose Carluccio "
+                   "es un TERCERO: `28/02/2008 en Caballito: Ferro Carril Oeste 1 "
+                   "(Santiago Rodriguez), Independiente Rivadavia de Mendoza 1 (Oscar "
+                   "Negri)`. El 1-1 es el marcador de nuestra fila.\n"
+                   "EL 29 DE FEBRERO EXISTE EN ESA JORNADA, pero para OTRO partido: el "
+                   "compendio pone dos encuentros el 28 --este y Quilmes vs Platense-- "
+                   "y uno el 29, que es Ben Hur vs Almagro. O sea que worldfootball no "
+                   "invento un dia: corrio este partido al de al lado.\n"
+                   "2008 fue bisiesto, asi que el 29 de febrero es una fecha real y no "
+                   "un error de calendario. Vale decirlo porque es lo primero que uno "
+                   "sospecha al ver un 29/02.\n"
+                   + _CARL_BN_0708),
     Fechado(pagina="Campeonato de Primera C 2010-11 (Argentina)", jornada="Fecha 20",
             local="Defensores de Cambaceres", visita="Argentino de Merlo",
             nuestra="2010-12-07", otra="2010-12-08",
@@ -3406,6 +3437,38 @@ DIAS: tuple[Dia, ...] = (
                "Argentina: la tabla ya lo contaba antes del mediodia del 16, asi que "
                "no se jugo ese dia. Se jugo el 15, que es lo que da ESPN.\n"
                "https://es.wikipedia.org/w/index.php?oldid=45663491"),
+
+    # ---- Primera B 2010-11 -------------------------------------------------
+    # Los dos que quedaban de esta pagina, y los dos con el mismo argumento:
+    # el compendio NO USA nuestro dia en toda la jornada.
+    Dia(pagina="Campeonato de Primera B 2010-11 (Argentina)", jornada="Fecha 14",
+        local="Flandria", visita="Colegiales",
+        dice="2010-10-17", debe="2010-10-18", fuente=_CARL_B_1011,
+        porque="Carluccio: `18/10/2010 en Jauregui: Flandria 2 (Mariano Barbieri "
+               "y Alejandro Noriega), Colegiales 0`. El 2-0 es el marcador de "
+               "nuestra fila.\n"
+               "Y LA JORNADA ENTERA LO RESPALDA: el compendio parte la Fecha 14 en "
+               "cuatro dias --15, 16, 18 y 19 de octubre-- y NO USA EL 17 para "
+               "ningun partido. Nuestra fecha viene de RSSSF; quien discute es "
+               "ESPN, que dice 18. Este partido es uno de los cuatro que el "
+               "compendio pone ese dia.\n"
+               "La fuente es la misma que arbitro los dieciocho de la Primera C "
+               "2008-2011, donde se midio: 99,71% de sus marcadores coinciden con "
+               "los que publica Wikipedia.\n" + _CARL_B_1011),
+    Dia(pagina="Campeonato de Primera B 2010-11 (Argentina)", jornada="Fecha 36",
+        local="Almagro", visita="Barracas Central",
+        dice="2011-04-25", debe="2011-04-26", fuente=_CARL_B_1011,
+        porque="Carluccio: `26/04/2011 en Jose Ingenieros: Almagro 1 (Humberto "
+               "Vega), Barracas Central 0`. El 1-0 es el marcador de nuestra "
+               "fila.\n"
+               "Mismo argumento que el de la Fecha 14 y con la misma forma: el "
+               "compendio parte la Fecha 36 en 22, 23, 24 y 26 de abril, y NO USA "
+               "EL 25. Este partido queda solo el 26, que es lo que dice ESPN.\n"
+               "Que el dia que damos nosotros no aparezca en ninguna otra fila de "
+               "la jornada es lo que distingue este caso de un simple desacuerdo "
+               "de asignacion: no es que la fuente ponga el partido en otro de los "
+               "dias de la fecha, es que ese dia no es de la fecha.\n"
+               + _CARL_B_1011),
 
     # ---- Primera C 2008-09 -------------------------------------------------
     # La Fecha 26 es la UNICA de las 38 que RSSSF no parte: pone los diez
