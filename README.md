@@ -753,6 +753,96 @@ las dos fechas candidatas*, que es imposible. El predicado ahora pide que suban 
 clubes en la misma edición** y que la transición caiga en la jornada del partido; con eso,
 1 de los 21 corchetes se descarta por incoherente y el resto queda auditado.
 
+#### Y lo dijo una tercera vez: la nota que se define una vez y se referencia por nombre
+
+Con 34 desacuerdos en pie, la `Primera C 2024` aportaba cuatro. Al abrir el wikitexto, dos
+de ellos estaban así:
+
+> `|15 de abril {{refn|group=n.|name=tres}}`
+
+Una nota **vacía**. MediaWiki deja definirla una sola vez y referenciarla después por
+nombre; al renderizar, las tres filas del grupo muestran el mismo texto, pero en el
+wikitexto crudo dos de las tres no dicen nada. El cuerpo vive en la tercera:
+
+> `{{refn|group=n.|name=tres|Suspendidos por las condiciones climáticas. **Se jugaron el 17
+> de abril**, desde las 15:30}}`
+
+Es **la misma forma que el `rowspan`** —una nota, varias filas, una sola con el texto— por
+otro mecanismo, y con la misma consecuencia. Se resuelve como ya se resolvía la ambigüedad
+de los rótulos de zona: juntando las notas de la **página entera** antes de leer ninguna
+fila. Tiene que ser de la página y no de la tabla, porque la definición y la referencia no
+tienen por qué caer en la misma, y desde adentro de una tabla una nota referenciada es
+indistinguible de una que no existe.
+
+Medido sobre el corpus: `31` referencias por nombre, `28` con el cuerpo en la misma página,
+**`5` cuyo cuerpo dice cuándo se jugó**. Movió cinco filas y cerró **cuatro** desacuerdos.
+
+**La quinta no estaba en disputa, y es la que mejor lo prueba.** En la `Primera C 2018-19`,
+`Deportivo Armenio` vs `Cañuelas` y `Argentino de Quilmes` vs `Sportivo Italiano` **cuelgan
+de la misma nota** —una la define, la otra la referencia— y estaban fechados con diecisiete
+días de diferencia. Ahora los dos dicen 28 de noviembre. Ninguna segunda fuente lo había
+denunciado: era un error silencioso que el propio artículo contradecía.
+
+Las otras tres referencias por nombre no tienen cuerpo en su página: apuntan a notas de
+otro artículo. Ésas se dejan como están.
+
+#### Los que no eran un error de nadie: dos convenciones para un mismo partido
+
+Tres de los desacuerdos que quedaban tenían una forma distinta, y aparecieron juntos al
+preguntarle al corpus algo muy concreto: *¿cuántos de estos partidos tienen una nota de
+completado que nombre justo la fecha de la otra fuente?* Eran **3 de 34**.
+
+Los tres son partidos que **empezaron un día y se completaron otro**. `Claypole` vs
+`Berazategui`, suspendido a los 36 minutos por incidentes y completado seis semanas
+después; `Gimnasia y Esgrima (J)` vs `Atlético de Rafaela`, a los 15 minutos por un corte
+de luz; `Quilmes` vs `Gimnasia y Esgrima (M)`, en el entretiempo, completado a puertas
+cerradas en cancha de Platense. RSSSF lo publica en dos renglones, que es la lectura más
+clara que hay:
+
+> `[Sep 24, Tue] CA Claypole  -  AD Berazategui   abandoned at 0-0 in 35m`
+> `[Nov  6, Wed] CA Claypole 0-2 AD Berazategui   remaining 55m`
+
+Ninguna de las dos fechas está mal: el repo usa la del día en que empezó y la otra fuente
+usa la del día en que se completó. Y eso **ya estaba decidido**, por escrito, desde antes
+—`_SE_JUGO` deja `completó`, `reanudó` y `terminó` afuera a propósito, y son **105**
+partidos—. Lo que faltaba era reconocer el caso al verlo.
+
+**La trampa, que casi se lleva puesto uno de los tres.** El de Jujuy estuvo a punto de
+entrar como *corrección de fecha*: Transfermarkt publica la ficha con `Sat, 18/03/23` y
+betexplorer da lo mismo, así que parecían tres fuentes contra una y el criterio de mayoría
+decía corregir. Las tres fechan por el día en que se completó. **Contar cuántas fuentes
+dicen cada cosa no sirve cuando no están midiendo lo mismo** — y con 105 partidos del mismo
+tipo tratados al revés, corregir ése habría metido una inconsistencia, no un arreglo.
+
+#### `Dia`, el tipo que sí toca el dato
+
+Quedaron dos casos donde nuestra fecha estaba mal de verdad, los dos de la `Primera B
+2010-11`, y los arbitra el historial de la propia página —que acá es un tercero: nuestra
+fecha viene de RSSSF y quien discute es ESPN, así que Wikipedia no es parte—. Uno de los
+corchetes es de **treinta y nueve segundos**.
+
+`Dia` es el hermano de `Fechado` que reescribe la fecha, y por eso pide más:
+
+- **Una fuente tercera, con su URL suelta**, que además va al `source` de la fila. Si la
+  fecha la puso esta declaración, dejar acreditando a quien la tenía mal sería escribir en
+  el dataset una procedencia falsa.
+- **La fecha que esperaba encontrar.** La fecha que se pisa la escribe un completador, y un
+  completador se puede arreglar solo. El día que RSSSF publique una fe de erratas, esta
+  declaración deja de enganchar y avisa, en vez de pisar en silencio una fecha ya correcta.
+- **Se aplica al final**, después de los completadores y no en `aplicar` como las demás: la
+  fecha que hay que pisar muchas veces todavía no existe cuando `aplicar` corre.
+- Y entra a la lista de verificados con **tres campos y no con cinco**, porque la propia
+  corrección fabrica un desacuerdo nuevo: al mover la fila al día bueno, la fuente que la
+  tenía mal pasa a discrepar con la nueva.
+
+**Una lección que costó.** Las primeras siete declaraciones incluían cuatro de la
+`Primera C 2024` que **compartían el texto de la justificación** —el temporal del 12 de
+marzo—. El texto era correcto para una de ellas. Las otras tres hablaban de partidos de
+abril y de septiembre, y compartir el `porque` las volvió invisibles: leerlo no delataba
+nada, porque lo que estaba mal no era el texto sino a quién se le había pegado. Las cuatro
+se fueron: tres las resolvió el parser y una era el choque de convenciones. Hoy sólo se
+comparte **la regla**, y cada entrada guarda su evidencia propia.
+
 #### Los 16 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.

@@ -358,6 +358,73 @@ def _fecha_de_la_nota(fila: str, anio: int, anio_fin: int | None,
     return jugada
 
 
+# UNA NOTA SE DEFINE UNA VEZ Y DESPUES SE REFERENCIA POR NOMBRE. MediaWiki lo
+# resuelve al renderizar; el wikitexto crudo no: la fila que la referencia trae
+# `{{refn|group=n.|name=tres}}` pelado y no dice nada.
+#
+# Es la MISMA FORMA que el `rowspan` --una nota, varias filas, una sola con el
+# texto-- por otro mecanismo, y con la misma consecuencia. La Primera C 2024
+# define `name=tres|Suspendidos por las condiciones climaticas. Se jugaron el 17
+# de abril` en una fila y la referencia en las otras dos, que quedaban fechadas el
+# 15 y el 16.
+#
+# Medido sobre el corpus son 31 referencias por nombre, 28 con el cuerpo en la
+# misma pagina y 5 cuyo cuerpo dice cuando se jugo. Se resuelve SOLO para la
+# fecha: `status_de_la_fila` sigue mirando la fila pelada, igual que con el
+# `rowspan`, y esas filas ya salen bien porque el partido se jugo.
+_REFN = re.compile(r"\{\{\s*refn\s*\|(?P<args>[^{}]*(?:\{\{[^{}]*\}\}[^{}]*)*)\}\}",
+                   re.I)
+_NOMBRE_DE_NOTA = re.compile(r"(?:^|\|)\s*name\s*=\s*\"?(?P<n>[^|\"]+?)\"?\s*(?=\||$)",
+                             re.I)
+
+
+def _cuerpo_de_la_nota(args: str) -> str:
+    """Lo que no es `group=` ni `name=`. Vacio cuando la nota es SOLO una
+    referencia, que es justamente como se distingue una de la otra."""
+    return " ".join(t for t in args.split("|")
+                    if t.strip() and not re.match(r"(?i)\s*(group|name)\s*=", t))
+
+
+def notas_con_nombre(texto: str) -> dict[str, str]:
+    """El cuerpo de cada nota que la pagina define una vez y despues referencia.
+
+    Se calcula sobre la PAGINA ENTERA y no sobre la tabla: la definicion y la
+    referencia no tienen por que caer en la misma, y desde adentro de una tabla
+    la nota referenciada es indistinguible de una que no existe. Es la misma
+    razon por la que `_zonas_ambiguas` tambien se calcula una vez.
+
+    Con `setdefault`: si la pagina define el mismo nombre dos veces manda la
+    primera, que es lo que hace MediaWiki.
+    """
+    notas: dict[str, str] = {}
+    for m in _REFN.finditer(texto):
+        nombre = _NOMBRE_DE_NOTA.search(m.group("args"))
+        cuerpo = _cuerpo_de_la_nota(m.group("args"))
+        if nombre and cuerpo:
+            notas.setdefault(nombre.group("n"), cuerpo)
+    return notas
+
+
+def _con_notas(texto: str, notas: dict[str, str] | None) -> str:
+    """Le devuelve el cuerpo a las referencias por nombre que lo tengan.
+
+    Una referencia cuyo nombre la pagina no define queda como esta: no se
+    inventa. Es el caso de las 3 que se midieron sin cuerpo, que son referencias
+    a notas de OTRO articulo.
+    """
+    if not notas:
+        return texto
+
+    def reponer(m):
+        if _cuerpo_de_la_nota(m.group("args")):
+            return m.group(0)
+        nombre = _NOMBRE_DE_NOTA.search(m.group("args"))
+        cuerpo = notas.get(nombre.group("n")) if nombre else None
+        return m.group(0) if cuerpo is None else "{{refn|" + cuerpo + "}}"
+
+    return _REFN.sub(reponer, texto)
+
+
 def a_iso(texto: str, anio: int, anio_fin: int | None = None,
           mes_inicio: int = MES_INICIO_HABITUAL) -> str:
     """'22 de enero' -> '2026-01-22'. Cadena vacia si no se entiende.
@@ -1216,7 +1283,8 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
                       zona_defecto: str = "", llave: str = "",
                       arts: dict[str, str] | None = None,
                       fuera_de_la_liga: bool = False,
-                      ambiguas: frozenset[str] = frozenset()) -> list[Partido]:
+                      ambiguas: frozenset[str] = frozenset(),
+                      notas: dict[str, str] | None = None) -> list[Partido]:
     """`fuera_de_la_liga` marca las tablas que NO cuelgan de un "Resultados".
 
     Ahi no hay fechas del calendario: son reducidos, promociones, finales y
@@ -1354,8 +1422,9 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             # --`pendientes[col][2]`, que se guarda justamente sin limpiar-- asi
             # que alcanza con mirarla. Se midieron 15 partidos asi en el corpus, y
             # los quince coinciden con lo que dicen ESPN y RSSSF por su lado.
-            fecha=(_fecha_de_la_nota(fila + " " + " ".join(crudos.values()),
-                                     anio, anio_fin, mes_inicio, programada)
+            fecha=(_fecha_de_la_nota(
+                       _con_notas(fila + " " + " ".join(crudos.values()), notas),
+                       anio, anio_fin, mes_inicio, programada)
                    or programada),
             hora=valores["hora"],
             local=valores["local"], visita=valores["visita"],
@@ -1902,6 +1971,8 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
     # Se calcula UNA vez sobre la pagina entera: la ambiguedad de un rotulo es una
     # propiedad de la pagina, y desde adentro de una seccion no se puede ver.
     ambiguas = _zonas_ambiguas(texto)
+    # Por lo mismo: una nota definida en una tabla se referencia en otra.
+    notas = notas_con_nombre(texto)
     zonas, leido = [], []
     for ini, fin, titulo, fase, cuerpo in _secciones_con_span(texto):
         leido.append((ini, fin))
@@ -1912,7 +1983,7 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
         # afuera: es una ronda.
         zonas += partidos_de_tabla(cuerpo, anio, torneo, anio_fin, mes_inicio,
                                    zona_defecto=_como_zona(titulo), llave=fase,
-                                   arts=arts,
+                                   arts=arts, notas=notas,
                                    # El nombre de la seccion NO decide solo: si la
                                    # tabla rotula sus bloques "Fecha N", es una
                                    # mini-liga aunque la seccion se llame como una
@@ -1994,7 +2065,7 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
         # fechas de liga aunque las numere.
         llave = _contexto(pos, 3, texto)
         for p in partidos_de_tabla(tabla, anio, torneo, anio_fin, mes_inicio,
-                                   llave=llave, arts=arts,
+                                   llave=llave, arts=arts, notas=notas,
                                    fuera_de_la_liga=not _rotula_fechas(tabla)
                                                     or bool(_ES_RONDA.match(llave))
                                                     or bool(_LLAVE_ELIMINATORIA.search(llave))):

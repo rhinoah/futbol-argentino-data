@@ -1874,6 +1874,78 @@ def test_las_columnas_se_leen_del_encabezado_y_no_por_su_posicion():
     assert [p.fecha for p in ps] == ["", ""]
 
 
+def _tabla_con_notas(*filas: str) -> str:
+    """Una tabla de resultados con las seis columnas de siempre."""
+    return ('{| class="wikitable"\n!Local\n!Resultado\n!Visitante\n!Estadio\n'
+            "!Fecha\n!Hora\n|-\n" + "\n|-\n".join(filas) + "\n|}")
+
+
+_ARMENIO = ("|Deportivo Armenio\n|1 - 1\n|Cañuelas\n|Armenia\n"
+            '|11 de noviembre{{refn|group="n."|name="susp"}}\n|15:30')
+_QUILMES = ("|Argentino de Quilmes\n|1 - 0\n|Sportivo Italiano\n|Argentino de Quilmes\n"
+            '|11 de noviembre{{refn|group="n."|name="susp"|Suspendido por las '
+            "condiciones climáticas. Se jugó el 28 de noviembre, a partir de las "
+            '17:00.}}\n|12:00')
+
+
+def test_una_nota_definida_una_vez_alcanza_a_las_filas_que_la_REFERENCIAN():
+    """MediaWiki deja definir una nota una vez y despues referenciarla sola por
+    nombre. Al renderizar las dos filas muestran el mismo texto; en el wikitexto
+    crudo, la segunda trae `{{refn|group="n."|name="susp"}}` y no dice nada.
+
+    Es la MISMA FORMA que el `rowspan` --una nota, varias filas, una sola con el
+    texto-- por otro mecanismo. La Primera C 2018-19 fechaba a Deportivo Armenio
+    el 11 de noviembre y a Argentino de Quilmes el 28, con la misma nota y en la
+    misma jornada, diecisiete dias de diferencia.
+    """
+    ps = parser.partidos(_tabla_con_notas(_QUILMES, _ARMENIO), 2018, "Primera C")
+    assert [p.fecha for p in ps] == ["2018-11-28"] * 2,         "las dos filas comparten la nota, asi que comparten el dia"
+
+
+def test_la_REFERENCIA_puede_venir_antes_que_la_definicion():
+    """El orden de las filas no puede decidir la fecha. Se juntan las notas de la
+    pagina entera ANTES de leer ninguna fila, justamente para eso."""
+    ps = parser.partidos(_tabla_con_notas(_ARMENIO, _QUILMES), 2018, "Primera C")
+    assert [p.fecha for p in ps] == ["2018-11-28"] * 2, ps
+
+
+def test_las_notas_se_juntan_de_la_PAGINA_y_no_de_la_tabla():
+    """Definicion y referencia no tienen por que caer en la misma tabla, y desde
+    adentro de una tabla la nota referenciada es indistinguible de una que no
+    existe. Es la misma razon por la que `_zonas_ambiguas` se calcula una vez."""
+    pagina = (_tabla_con_notas(_QUILMES) + "\n\n== Otra fecha ==\n"
+              + _tabla_con_notas(_ARMENIO))
+    ps = parser.partidos(pagina, 2018, "Primera C")
+    assert sorted(p.fecha for p in ps) == ["2018-11-28"] * 2, ps
+
+
+def test_una_referencia_que_la_pagina_NO_define_se_deja_como_esta():
+    """No se inventa. Son 3 de las 31 referencias por nombre del corpus, y apuntan
+    a notas de OTRO articulo: lo unico honesto es dejar la fila con su dia."""
+    solo = '|11 de noviembre{{refn|group="n."|name="no-existe"}}'
+    assert parser._con_notas(solo, {"otra": "Se jugó el 28 de noviembre"}) == solo
+    ps = parser.partidos(_tabla_con_notas(_ARMENIO), 2018, "Primera C")
+    assert [p.fecha for p in ps] == ["2018-11-11"], "sin cuerpo, manda la celda"
+
+
+def test_una_nota_que_es_SOLO_referencia_no_se_toma_por_definicion():
+    """Si una referencia pelada entrara al diccionario, su cuerpo vacio taparia a
+    la definicion de verdad -- y con `setdefault`, si ademas viene primero, la
+    tapa para siempre. Por eso se exige que tenga cuerpo."""
+    texto = _tabla_con_notas(_ARMENIO, _QUILMES)
+    assert parser.notas_con_nombre(texto) == {
+        "susp": "Suspendido por las condiciones climáticas. Se jugó el 28 de "
+                "noviembre, a partir de las 17:00."}
+
+
+def test_si_la_pagina_define_dos_veces_el_mismo_nombre_manda_la_PRIMERA():
+    """Que es lo que hace MediaWiki. Importa poco cual gane y mucho que no
+    dependa del orden en que el parser recorra la pagina."""
+    doble = ('{{refn|group=n.|name=x|Se jugó el 3 de mayo.}} '
+             '{{refn|group=n.|name=x|Se jugó el 9 de mayo.}}')
+    assert "3 de mayo" in parser.notas_con_nombre(doble)["x"]
+
+
 def test_la_nota_de_una_celda_con_rowspan_alcanza_a_todas_sus_filas():
     """Cuando se suspende una tanda entera, la nota cuelga de UNA celda que abarca
     a las tres filas -- y por eso habla en plural.

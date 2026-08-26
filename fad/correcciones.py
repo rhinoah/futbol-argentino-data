@@ -3116,6 +3116,22 @@ def renombrado(pagina: str, jornada: str, local: str, visita: str,
     return local, visita
 
 
+# La regla que zanja los tres desacuerdos de abajo. Va aparte porque es UNA
+# regla y no tres hallazgos: repetirla entera en cada entrada invita a leerla por
+# arriba, que es exactamente como se cuela una entrada que no la cumple.
+#
+# Y ojo con lo contrario, que ya paso: compartir el `porque` COMPLETO entre varias
+# entradas esconde a la que no describe. Cada una guarda su evidencia propia --que
+# partido fue, a que minuto se suspendio, quien lo publica-- y comparte solo esto.
+_CONVENCION = (
+    "NUESTRA FECHA ES LA BUENA POR LA REGLA QUE YA TIENE EL REPO: un partido que "
+    "empezo un dia y se completo otro lleva el PRIMERO, y por eso `_SE_JUGO` deja "
+    "`completo`, `reanudo` y `termino` afuera a proposito -- son 105 partidos. La "
+    "otra fuente fecha por el dia en que se completo; no es un error suyo, es otra "
+    "convencion. Y CONTAR CUANTAS FUENTES DICEN CADA COSA NO SIRVE cuando no estan "
+    "midiendo lo mismo.")
+
+
 @dataclass(frozen=True)
 class Fechado:
     """Un desacuerdo de DIA que se fue a verificar, y la fecha nuestra estaba bien.
@@ -3185,7 +3201,175 @@ FECHADOS: tuple[Fechado, ...] = (
     Fechado(pagina="Torneo Argentino A 2012-13", jornada="Cuarta fase",
             local="San Jorge (T)", visita="San Martín (T)",
             nuestra="2013-06-09", otra="2013-06-08", porque=_BLOG_2012_13_CUARTA),
+    # LOS TRES DE ABAJO SON EL MISMO CHOQUE, no tres hallazgos sueltos: partidos
+    # que empezaron un dia y se completaron otro. Aparecieron juntos al preguntarle
+    # al corpus cuantos desacuerdos de dia tenian una nota de completado que
+    # nombrara justo la fecha de la otra fuente. Eran 3 de 34.
+    Fechado(pagina="Campeonato de Primera C 2024 (Argentina)", jornada="Fecha 14",
+            local="Claypole", visita="Berazategui",
+            nuestra="2024-09-24", otra="2024-11-06",
+            porque="Suspendido a los 36 minutos del primer tiempo, 0-0, por "
+                   "incidentes de la barra local, y completado seis semanas "
+                   "despues. La celda lo dice entera: `24 de septiembre{{refn|"
+                   "group=n.|Suspendido por incidentes provocados por "
+                   "simpatizantes locales, a los 36' del primer tiempo, con el "
+                   "resultado 0-0. Se completo el 6 de noviembre, desde las "
+                   "14:15.}}`, con cita a Perfil.\n"
+                   "RSSSF lo publica en DOS renglones, que es la lectura mas "
+                   "clara que hay: `[Sep 24, Tue] CA Claypole - AD Berazategui "
+                   "abandoned at 0-0 in 35m` y `[Nov 6, Wed] CA Claypole 0-2 AD "
+                   "Berazategui remaining 55m`.\n" + _CONVENCION + "\n"
+                   "https://www.rsssf.org/tablesa/arg2024.html"),
+    Fechado(pagina="Campeonato de Primera Nacional 2023", jornada="Fecha 6",
+            local="Gimnasia y Esgrima (J)", visita="Atl\u00e9tico de Rafaela",
+            nuestra="2023-03-17", otra="2023-03-18",
+            porque="Suspendido a los 15 minutos del primer tiempo por un corte "
+                   "del suministro electrico. La celda lo dice: `17 de marzo"
+                   "{{refn|group=n.|Suspendido a los 15 minutos del primer "
+                   "tiempo, por corte del suministro electrico. Se completo el "
+                   "18 de marzo, a partir de las 15:00.}}`, con cita a Rafaela "
+                   "Noticias.\n"
+                   "ESTA ENTRADA ESTUVO A PUNTO DE IRSE PARA EL OTRO LADO, como "
+                   "una correccion de fecha: Transfermarkt publica la ficha con "
+                   "`Sat, 18/03/23` y betexplorer da lo mismo, asi que parecian "
+                   "tres fuentes contra una. Las tres fechan por el dia en que "
+                   "se completo.\n" + _CONVENCION + "\n"
+                   "https://es.wikipedia.org/wiki/"
+                   "Campeonato_de_Primera_Nacional_2023"),
+    Fechado(pagina="Campeonato de Primera Nacional 2023", jornada="Primera fase",
+            local="Quilmes", visita="Gimnasia y Esgrima (M)",
+            nuestra="2023-10-28", otra="2023-11-04",
+            porque="Suspendido en el entretiempo, 0-0, por una agresion al "
+                   "arquero visitante desde la parcialidad local, y completado a "
+                   "puertas cerradas en cancha de Platense. La ficha lo dice en "
+                   "su campo `suceso`, con citas a TyC Sports y a Diario "
+                   "Popular: `Se completo el 4 de noviembre, a partir de las "
+                   "13:00, en el estadio Ciudad de Vicente Lopez, a puertas "
+                   "cerradas`.\n" + _CONVENCION + "\n"
+                   "https://es.wikipedia.org/wiki/"
+                   "Campeonato_de_Primera_Nacional_2023"),
+    Fechado(pagina="Campeonato de Primera Nacional 2023", jornada="Fecha 11",
+            local="Deportivo Madryn", visita="Atlético de Rafaela",
+            nuestra="2023-04-23", otra="2023-04-22",
+            porque="La previa de La Nacion, publicada el sabado 22 de abril de "
+                   "2023, dice `este domingo a las 15:30` en el Coliseo del Golfo. "
+                   "El domingo era el 23, asi que ESPN esta dando el dia en que se "
+                   "anuncio y no en el que se jugo.\n"
+                   "Ambito lo confirma del otro lado: publica la cronica el 23 a "
+                   "las 13:40 con el partido ya terminado --`At. Rafaela se lleva "
+                   "un triunfo`, gol de Mauro Osores a los 8 minutos--. Las dos "
+                   "son independientes de ESPN.\n"
+                   "https://www.lanacion.com.ar/deportes/futbol/deportivo-madryn-"
+                   "atletico-rafaela-primera-nacional-el-partido-de-la-jornada-11-"
+                   "nid22042023/"),
 )
+
+
+@dataclass(frozen=True)
+class Dia:
+    """Un partido cuya FECHA estaba mal, corregida contra una fuente de afuera.
+
+    El hermano de `Fechado` que SI toca el dato. Los dos salen del mismo aviso
+    --dos fuentes que dan un partido en dias distintos-- y se reparten los dos
+    desenlaces: si la nuestra estaba bien va un `Fechado` y no se toca nada; si
+    estaba mal va uno de estos.
+
+    LA VARA ES LA DE SIEMPRE, con un requisito extra por tocar el dato: la fuente
+    que arbitra tiene que ser una TERCERA. Un desacuerdo de dia es entre dos, y si
+    el arbitro fuera una de ellas esto seria elegir y no verificar. Va con su URL
+    en `fuente`, que ademas es lo que queda en el credito de la fila: si la fecha
+    la puso esta declaracion, el `source` tiene que decirlo y no seguir
+    acreditando a quien la tenia mal.
+
+    SE APLICA AL FINAL, despues de los completadores, y no en `aplicar` como las
+    otras correcciones. No es un capricho: la fecha que hay que pisar muchas veces
+    todavia no existe cuando `aplicar` corre -- la escribe RSSSF o ESPN un rato
+    despues --, asi que declarar `dice` contra una fila vacia no engancharia nada.
+
+    Y `dice` se exige: es la verificacion de que la declaracion sigue hablando del
+    mismo estado. Si la fuente que fechaba mal se corrige sola, esta entrada deja
+    de enganchar y el aviso lo dice, en vez de pisar en silencio una fecha que ya
+    estaba bien.
+    """
+    pagina: str
+    jornada: str
+    local: str
+    visita: str
+    dice: str             # ISO, la que escribia el repo
+    debe: str             # ISO, la verificada
+    fuente: str           # la URL de quien lo verifico; va al credito de la fila
+    porque: str
+
+
+DIAS: tuple[Dia, ...] = (
+    # NO HAY NINGUNA DE LA PRIMERA C 2024, y ese hueco vale la pena.
+    # Hubo tres, hasta que se leyo la pagina: sus notas estaban definidas
+    # una vez y referenciadas por NOMBRE, asi que el dia bueno ya estaba
+    # escrito y no lo leiamos. Un desacuerdo de dia en una pagina con notas
+    # con nombre es una pregunta para el parser, no para este archivo.
+    # Ver `notas_con_nombre` en fad/parser.py.
+
+    # Las dos de la Primera B 2010-11 las arbitra el HISTORIAL de la propia pagina,
+    # que es un tercero: nuestra fecha viene de RSSSF y quien discute es ESPN.
+    Dia(pagina="Campeonato de Primera B 2010-11 (Argentina)", jornada="Fecha 6",
+        local="Platense", visita="Estudiantes (BA)",
+        dice="2010-08-31", debe="2010-08-30",
+        fuente="https://es.wikipedia.org/w/index.php?oldid=39894064",
+        porque="EL HISTORIAL DE LA PROPIA PAGINA, que aca es un TERCERO: la fecha "
+               "nuestra viene de RSSSF y quien discute es ESPN, asi que Wikipedia no "
+               "es parte. El articulo se editaba en vivo y su tabla de posiciones va "
+               "contando partidos.\nLa revision 39865552, del 30/08/2010 a las "
+               "03:30 UTC, da a los dos clubes 5 partidos jugados; la 39894064, del "
+               "31/08 a las 05:29 UTC --02:29 de la madrugada en la Argentina--, les "
+               "da 6 a los dos en la misma edicion. Un partido no termina antes del "
+               "mediodia, asi que no se jugo la tarde del 31: se jugo el 30.\n"
+               "ESPN da el 30 por su lado. Es el mismo delta que arbitro el marcador "
+               "de este partido; ver el `Marcador` de la Fecha 6.\n"
+               "https://es.wikipedia.org/w/index.php?oldid=39894064"),
+    Dia(pagina="Campeonato de Primera B 2010-11 (Argentina)", jornada="Fecha 35",
+        local="Estudiantes (BA)", visita="Sarmiento (J)",
+        dice="2011-04-16", debe="2011-04-15",
+        fuente="https://es.wikipedia.org/w/index.php?oldid=45663491",
+        porque="EL HISTORIAL DE LA PROPIA PAGINA, igual que el de la Fecha 6 y por el "
+               "mismo motivo: nuestra fecha viene de RSSSF, discute ESPN, y Wikipedia "
+               "no es ninguna de las dos.\nAca el corchete es de TREINTA Y NUEVE "
+               "SEGUNDOS: la revision 45663480 del 16/04/2011 a las 13:22:09 UTC da a "
+               "los dos clubes 34 partidos y la 45663491, a las 13:22:48, les da 35 en "
+               "una sola edicion. Las 13:22 UTC son las 10:22 de la maniana en la "
+               "Argentina: la tabla ya lo contaba antes del mediodia del 16, asi que "
+               "no se jugo ese dia. Se jugo el 15, que es lo que da ESPN.\n"
+               "https://es.wikipedia.org/w/index.php?oldid=45663491"),
+)
+
+
+def dias(pagina: str) -> tuple:
+    """Las correcciones de fecha declaradas para esa pagina."""
+    return tuple(d for d in DIAS if d.pagina == pagina)
+
+
+def corregir_fechas(ps: list, pagina: str) -> list[str]:
+    """Aplica las `Dia` de esa pagina. Devuelve los avisos.
+
+    Se llama DESPUES de todos los completadores: ver el docstring de `Dia`.
+    """
+    avisos = []
+    for d in dias(pagina):
+        candidatos = [p for p in ps if p.jornada == d.jornada and p.local == d.local
+                      and p.visita == d.visita]
+        if len(candidatos) != 1:
+            avisos.append(f"la fecha corregida de {d.jornada} ({d.local} vs "
+                          f"{d.visita}) engancha con {len(candidatos)} partidos y no "
+                          f"se aplica: no identifica uno solo")
+            continue
+        p = candidatos[0]
+        if p.fecha != d.dice:
+            avisos.append(f"la fecha corregida de {d.jornada} ({d.local} vs "
+                          f"{d.visita}) esperaba encontrar {d.dice} y la fila dice "
+                          f"{p.fecha or 'nada'}: si la fuente se arreglo, sacala de "
+                          f"fad/correcciones.py")
+            continue
+        p.fecha, p.fuente_fecha = d.debe, d.fuente
+    return avisos
 
 
 def fechados(pagina: str) -> set[tuple[str, str, str, str, str]]:
@@ -3194,8 +3378,15 @@ def fechados(pagina: str) -> set[tuple[str, str, str, str, str]]:
     Se le pasa a `fechas.completar` igual que `arbitrados`, y por el mismo motivo:
     la funcion que arma el aviso no sabe de que pagina viene.
     """
-    return {(f.jornada, f.local, f.visita, f.nuestra, f.otra) for f in FECHADOS
-            if f.pagina == pagina}
+    # Y las `Dia` entran con TRES campos y no con cinco. Un `Fechado` dice "de
+    # este desacuerdo puntual ya sabemos"; una `Dia` dice algo mas fuerte, "la
+    # fecha de este partido esta zanjada a mano", asi que calla cualquier
+    # desacuerdo sobre esa fila y no solo el que la motivo. Tiene que ser asi: al
+    # corregir la fecha, la fuente que la tenia mal pasa a discrepar con la nueva,
+    # y ese aviso lo generaria la misma correccion que lo resuelve.
+    return ({(f.jornada, f.local, f.visita, f.nuestra, f.otra) for f in FECHADOS
+             if f.pagina == pagina}
+            | {(d.jornada, d.local, d.visita) for d in DIAS if d.pagina == pagina})
 
 
 def arbitrado(pagina: str, jornada: str, local: str, visita: str,

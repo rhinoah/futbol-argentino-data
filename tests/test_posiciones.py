@@ -1519,6 +1519,136 @@ def test_los_fechados_se_pueden_buscar_por_pagina():
     assert correcciones.fechados("Una Pagina Cualquiera") == set()
 
 
+# --------------------------------------------------------------------------
+# `Dia`: el hermano de `Fechado` que SI toca el dato
+# --------------------------------------------------------------------------
+def _dia(**kw):
+    from fad import correcciones
+    return correcciones.Dia(**{"pagina": "Una Pagina", "jornada": "Fecha 1",
+                               "local": "Boca Juniors", "visita": "River Plate",
+                               "dice": "2010-03-01", "debe": "2010-03-02",
+                               "fuente": "https://ejemplo/1", "porque": "x", **kw})
+
+
+def _fila(fecha="2010-03-01", local="Boca Juniors", visita="River Plate"):
+    from fad.parser import Partido
+    return Partido(fecha=fecha, local=local, visita=visita, goles_local=2,
+                   goles_visita=1, fase="zonas", jornada="Fecha 1",
+                   fuente_fecha="https://quien-la-tenia-mal/")
+
+
+def test_una_dia_corrige_la_fecha_Y_EL_CREDITO():
+    """El credito no es decorativo. Si la fecha la puso esta declaracion, dejar
+    acreditando a la fuente que la tenia mal es escribir en el dataset una
+    procedencia falsa -- y encima la de alguien que en este punto se equivoco."""
+    from fad import correcciones
+    fila = _fila()
+    with mock.patch.object(correcciones, "DIAS", (_dia(),)):
+        avisos = correcciones.corregir_fechas([fila], "Una Pagina")
+    assert avisos == []
+    assert fila.fecha == "2010-03-02"
+    assert fila.fuente_fecha == "https://ejemplo/1", "el credito sigue al dato"
+
+
+def test_una_dia_de_otra_pagina_no_toca_nada():
+    from fad import correcciones
+    fila = _fila()
+    with mock.patch.object(correcciones, "DIAS", (_dia(pagina="Otra Pagina"),)):
+        assert correcciones.corregir_fechas([fila], "Una Pagina") == []
+    assert fila.fecha == "2010-03-01"
+
+
+def test_una_dia_que_no_encuentra_LA_FECHA_QUE_DECLARO_no_pisa_nada():
+    """`dice` es la verificacion de que la declaracion sigue hablando del mismo
+    estado. La fecha que se corrige la escribe un completador, y un completador
+    se puede arreglar solo: RSSSF publica una fe de erratas, ESPN edita la ficha.
+    El dia que eso pase, aplicar la correccion a ciegas seria pisar con la vieja
+    una fecha que ya estaba bien -- y sin que nada lo dijera."""
+    from fad import correcciones
+    fila = _fila(fecha="2010-03-05")
+    with mock.patch.object(correcciones, "DIAS", (_dia(),)):
+        avisos = correcciones.corregir_fechas([fila], "Una Pagina")
+    assert fila.fecha == "2010-03-05", "no se piso"
+    assert len(avisos) == 1 and "2010-03-01" in avisos[0], avisos
+
+
+def test_una_dia_que_engancha_DOS_partidos_no_se_aplica():
+    """La misma vara de siempre: una fila se identifica cuando es la UNICA
+    posible. Con dos candidatos no se sabe cual se verifico, y elegir por orden
+    de aparicion es elegir al azar."""
+    from fad import correcciones
+    a, b = _fila(), _fila()
+    with mock.patch.object(correcciones, "DIAS", (_dia(),)):
+        avisos = correcciones.corregir_fechas([a, b], "Una Pagina")
+    assert (a.fecha, b.fecha) == ("2010-03-01", "2010-03-01"), "no se toco ninguno"
+    assert len(avisos) == 1 and "2 partidos" in avisos[0], avisos
+
+
+def test_una_dia_que_no_engancha_NINGUNO_tambien_avisa():
+    """Caduca sola, como `Revisado`. Si la pagina se reescribio y el partido ya
+    no esta -- o cambio de nombre --, la declaracion quedo hablando de algo que
+    no existe, y callarse la convierte en una linea muerta que nadie sabe si
+    todavia hace algo."""
+    from fad import correcciones
+    with mock.patch.object(correcciones, "DIAS", (_dia(),)):
+        avisos = correcciones.corregir_fechas([_fila(local="Vélez Sarsfield")],
+                                              "Una Pagina")
+    assert len(avisos) == 1 and "0 partidos" in avisos[0], avisos
+
+
+def test_cada_dia_nombra_su_tercera_fuente():
+    """La vara de `Fechado`, y una mas: esta toca el dato.
+
+    `Fechado` dice "miramos y la nuestra estaba bien", asi que lo unico que
+    arriesga es callar un aviso. Una `Dia` REESCRIBE la fecha que sale publicada,
+    asi que ademas de la evidencia en prosa se le pide la URL suelta en `fuente`:
+    es la que termina en el `source` de la fila, y quien descargue el CSV va a
+    ver esa y no el comentario."""
+    from fad import correcciones
+    for d in correcciones.DIAS:
+        quien = f"{d.pagina} {d.jornada} {d.local}"
+        assert len(d.porque) > 120, f"{quien}: la evidencia es muy flaca"
+        assert "http" in d.porque, f"{quien}: no nombra la fuente"
+        assert d.fuente.startswith("http"), f"{quien}: `fuente` no es una URL"
+        assert d.dice != d.debe, f"{quien}: no hay nada que corregir"
+
+
+def test_una_dia_corrige_EL_DIA_y_no_la_temporada():
+    """Un cero de mas en el anio no lo atrapa nadie aguas abajo.
+
+    `anios_bien_asignados` -- que es lo unico que mira anios raros -- compara la
+    MEDIANA de cada jornada contra la anterior, asi que una sola fila corrida un
+    anio no mueve nada y pasa derecho al CSV. El resto de las validaciones mira
+    coherencia entre filas, no calendario.
+
+    El umbral es flojo a proposito, para no discutir con una postergacion de
+    verdad: la Fecha 14 de la Primera C 2024 se jugo seis semanas despues de lo
+    programado y esta bien. Lo que corta es el orden de magnitud del error de
+    tipeo, que es un anio."""
+    from datetime import date
+    from fad import correcciones
+    for d in correcciones.DIAS:
+        corrido = abs((date.fromisoformat(d.debe) - date.fromisoformat(d.dice)).days)
+        assert corrido < 100, (f"{d.pagina} {d.jornada} {d.local}: {d.dice} -> "
+                               f"{d.debe} son {corrido} dias; eso no es correr un "
+                               f"partido, es cambiarlo de temporada")
+
+
+def test_una_dia_calla_CUALQUIER_desacuerdo_sobre_esa_fila():
+    """Entra a `fechados` con TRES campos y no con cinco, y es a proposito.
+
+    Un `Fechado` zanja un desacuerdo puntual; una `Dia` zanja la fecha del
+    partido. Tiene que ser la forma corta porque la propia correccion FABRICA un
+    desacuerdo nuevo: al mover la fila al dia bueno, la fuente que la tenia mal
+    pasa a discrepar con la nueva, y ese aviso lo generaria la misma declaracion
+    que lo resuelve."""
+    from fad import correcciones
+    with mock.patch.object(correcciones, "DIAS", (_dia(),)):
+        clave = correcciones.fechados("Una Pagina")
+        assert clave == {("Fecha 1", "Boca Juniors", "River Plate")}
+        assert correcciones.fechados("Otra Pagina") == set()
+
+
 def test_cada_revisado_dice_contra_que_se_verifico():
     """La vara es la misma que para corregir: silenciar un aviso sin mirar es peor
     que dejarlo abierto. O nombra una fuente de afuera, o la prueba es INTERNA y

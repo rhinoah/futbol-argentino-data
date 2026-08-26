@@ -521,9 +521,15 @@ def completar(nuestros: list, ajenos: list[Ajeno],
                 # la clave del indice, y pisarla con una tupla rompe el resto del
                 # bucle -- `'tuple' object is not callable` --.
                 mirado = (p.jornada, p.local, p.visita, p.fecha, a.fecha)
-                if mirado in (verificadas or ()):
+                # Dos formas, y la corta es mas fuerte: con CINCO campos es un
+                # desacuerdo puntual ya verificado; con TRES es un partido cuya
+                # fecha se zanjo a mano, y ahi calla cualquier desacuerdo sobre esa
+                # fila. Ver `correcciones.fechados`.
+                zanjado = next((k for k in (mirado, mirado[:3])
+                                if k in (verificadas or ())), None)
+                if zanjado is not None:
                     if usadas is not None:
-                        usadas.add(mirado)
+                        usadas.add(zanjado)
                 else:
                     discrepan.append(f"{p.jornada} {p.local} vs {p.visita}: nosotros "
                                      f"{p.fecha}, esta fuente {a.fecha}")

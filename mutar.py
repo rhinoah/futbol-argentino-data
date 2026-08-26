@@ -831,8 +831,11 @@ MUTANTES = [
      '    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin'),
 
     ("fad/parser.py", "no leer la nota que dice cuando se jugo de verdad",
-     '            fecha=(_fecha_de_la_nota(fila + " " + " ".join(crudos.values()),',
-     '            fecha=("" or ("",)[0] if False else ""'),
+     '            fecha=(_fecha_de_la_nota(\n'
+     '                       _con_notas(fila + " " + " ".join(crudos.values()), notas),\n'
+     '                       anio, anio_fin, mes_inicio, programada)\n'
+     '                   or programada),',
+     "            fecha=programada,"),
 
     ("fad/parser.py", "tomar tambien `se completo` como si fuera otra fecha",
      'r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron)\s+(?:el\s+)?"',
@@ -1785,20 +1788,60 @@ MUTANTES = [
      "                and True):"),
 
     ("fad/fechas.py", "callar cualquier desacuerdo de dia, no solo el verificado",
-     "                if mirado in (verificadas or ()):",
+     "                if zanjado is not None:",
      "                if True:"),
 
     ("fad/fechas.py", "no anotar cual verificada engancho",
-     "                    if usadas is not None:\n                        usadas.add(mirado)",
+     "                    if usadas is not None:\n                        usadas.add(zanjado)",
      "                    pass"),
+
+    ("fad/fechas.py", "aceptar solo la forma larga de las verificadas",
+     "                zanjado = next((k for k in (mirado, mirado[:3])",
+     "                zanjado = next((k for k in (mirado,)"),
+
+    ("fad/correcciones.py", "corregir la fecha sin exigir la que se declaro",
+     "        if p.fecha != d.dice:",
+     "        if False:"),
+
+    ("fad/correcciones.py", "corregir la fecha aunque enganche varios partidos",
+     "        if len(candidatos) != 1:",
+     "        if len(candidatos) < 1:"),
+
+    ("fad/correcciones.py", "corregir la fecha y dejarle el credito viejo",
+     "        p.fecha, p.fuente_fecha = d.debe, d.fuente",
+     "        p.fecha = d.debe"),
+
+    ("fad/correcciones.py", "aplicar las correcciones de fecha de cualquier pagina",
+     "    return tuple(d for d in DIAS if d.pagina == pagina)",
+     "    return DIAS"),
+
+    ("fad/correcciones.py", "no callar los desacuerdos de una fecha zanjada a mano",
+     "            | {(d.jornada, d.local, d.visita) for d in DIAS if d.pagina == pagina})",
+     "            | set())"),
 
     ("build.py", "identificar la fila por el marcador CRUDO y no por el corregido",
      "                       if set(corregida(x)[2:]) == {p_.goles_local, p_.goles_visita}]",
      "                       if {x.goles_local, x.goles_visita} == {p_.goles_local, p_.goles_visita}]"),
 
     ("fad/parser.py", "buscar la nota solo en el texto de la fila",
-     '            fecha=(_fecha_de_la_nota(fila + " " + " ".join(crudos.values()),',
-     "            fecha=(_fecha_de_la_nota(fila,"),
+     '                       _con_notas(fila + " " + " ".join(crudos.values()), notas),',
+     "                       _con_notas(fila, notas),"),
+
+    ("fad/parser.py", "no resolver las notas con nombre",
+     "    if not notas:\n        return texto",
+     "    if True:\n        return texto"),
+
+    ("fad/parser.py", "tomar por definicion una nota que es solo referencia",
+     "        if nombre and cuerpo:",
+     "        if nombre:"),
+
+    ("fad/parser.py", "quedarse con la ultima definicion de una nota repetida",
+     '            notas.setdefault(nombre.group("n"), cuerpo)',
+     '            notas[nombre.group("n")] = cuerpo'),
+
+    ("fad/parser.py", "inventarle cuerpo a una nota que la pagina no define",
+     '        return m.group(0) if cuerpo is None else "{{refn|" + cuerpo + "}}"',
+     '        return "{{refn|" + (cuerpo or "") + "}}"'),
 
     ("fad/parser.py", "repartir un rango de fechas como si fueran dos dias",
      "    if _ES_RANGO.search(titulo):\n        return \"\", \"\"",

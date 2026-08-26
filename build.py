@@ -927,6 +927,12 @@ def procesar(texto: str, t) -> tuple[list, list]:
                    for d in fechas.completar(ps, citadas.ajenos(t.pagina),
                                              credito=citadas.CREDITO)[1]]
     avisos += _completar_fechas_espn(ps, t, usadas) if t.espn else []
+    # LAS FECHAS CORREGIDAS A MANO VAN AL FINAL, cuando ya paso todo el que
+    # sabe fechar. La que hay que pisar muchas veces todavia no existe cuando
+    # corren las otras correcciones --la escribe RSSSF o ESPN un rato despues--,
+    # asi que declararlas alla no engancharia nada. Ver `correcciones.Dia`.
+    avisos += [validar.Aviso(f"{t.pagina}: fecha corregida a mano", d, grave=False)
+               for d in correcciones.corregir_fechas(ps, t.pagina)]
     # Y RECIEN AHORA se puede decir cual no engancho con nada. Un `Fechado`
     # huerfano quiere decir que alguna de las dos fuentes cambio de fecha y que
     # la verificacion que lo sostiene quedo vieja: si se lo deja, silencia un

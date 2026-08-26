@@ -786,7 +786,6 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-11-11,11:00,Juventud Unida Universitario,Huracán Las Heras,1,1,,,Torneo Federal A,2018,zonas,Zona 3,Fecha 13,Mario Sebastián Diez,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19,
 2018-11-11,13:00,Ferro Carril Oeste (GP),Cipolletti,2,2,,,Torneo Federal A,2018,zonas,Zona 1,Fecha 13,El Coloso del Barrio Talleres,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19,
 2018-11-11,13:15,Independiente,Belgrano,2,1,,,Primera Division,2018,zonas,,Fecha 12,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina),
-2018-11-11,15:30,Deportivo Armenio,Cañuelas,1,1,,,Primera C,2018,zonas,,Fecha 15,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina),suspendido
 2018-11-11,15:30,Gimnasia y Esgrima (LP),Racing Club,0,3,,,Primera Division,2018,zonas,,Fecha 12,Del Bosque,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2018-19_(Argentina),
 2018-11-11,16:00,Deportivo Camioneros,Defensores de Belgrano (VR),2,0,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 13,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19,
 2018-11-11,16:00,Guillermo Brown,Platense,0,0,,,Primera Nacional,2018,zonas,,Fecha 10,Cayetano Castro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2018-19,
@@ -931,6 +930,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2018-11-28,,Gimnasia y Esgrima (LP),River Plate,2,2,5,4,Copa Argentina,2018,eliminacion,,Semifinales,José María Minella,true,https://es.wikipedia.org/wiki/Copa_Argentina_2017-18,
 2018-11-28,12:00,Argentino de Quilmes,Sportivo Italiano,1,0,,,Primera C,2018,zonas,,Fecha 15,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina),
 2018-11-28,15:30,Almirante Brown,Deportivo Español,4,2,,,Primera B,2018,zonas,,Fecha 15,Fragata Presidente Sarmiento,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina),
+2018-11-28,15:30,Deportivo Armenio,Cañuelas,1,1,,,Primera C,2018,zonas,,Fecha 15,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2018-19_(Argentina),suspendido
 2018-11-28,15:30,J. J. de Urquiza,Tristán Suárez,2,0,,,Primera B,2018,zonas,,Fecha 15,Malvinas Argentinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2018-19_(Argentina),
 2018-11-28,17:00,Deportivo Camioneros,Gimnasia y Esgrima (CdU),1,1,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 16,Hugo Moyano,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19,
 2018-11-28,20:30,Defensores de Belgrano (VR),Douglas Haig,2,0,,,Torneo Federal A,2018,zonas,Zona 2,Fecha 16,Salomón Boeseldín,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2018-19,

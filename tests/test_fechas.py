@@ -771,6 +771,44 @@ def test_las_verificadas_que_engancharon_se_avisan_al_llamador():
     assert vacias == set()
 
 
+def test_una_fecha_ZANJADA_A_MANO_calla_cualquier_desacuerdo():
+    """La forma corta, de tres campos, que usan las `Dia`.
+
+    La larga dice "de ESTE desacuerdo ya sabemos" y caduca si alguna de las dos
+    fuentes cambia de opinion. La corta dice algo mas fuerte -- "la fecha de este
+    partido se corrigio a mano" -- y por eso no puede llevar las dos fechas: la
+    correccion mueve la nuestra, asi que la tupla larga que la describia deja de
+    existir en el momento mismo en que se aplica.
+    """
+    nuestro = _p("2010-03-02")          # ya corregido a mano
+    zanjado = {("Fecha 1", "Boca Juniors", "River Plate")}
+    _, avisos = fechas.completar([nuestro], [_a("2010-03-08")], verificadas=zanjado)
+    assert not any("la da distinta" in a for a in avisos), avisos
+
+    # y sigue callando aunque la otra fuente cambie de dia, que es la diferencia
+    # con la forma larga
+    otro = _p("2010-03-02")
+    _, avisos = fechas.completar([otro], [_a("2010-03-09")], verificadas=zanjado)
+    assert not any("la da distinta" in a for a in avisos), avisos
+
+    # pero es de ESA fila y no de la jornada entera
+    ajeno = {("Fecha 1", "Vélez Sarsfield", "River Plate")}
+    _, avisos = fechas.completar([_p("2010-03-02")], [_a("2010-03-08")],
+                                 verificadas=ajeno)
+    assert any("la da distinta" in a for a in avisos), avisos
+
+
+def test_la_forma_corta_tambien_se_avisa_al_llamador():
+    """Si no volviera, `procesar` la denunciaria como huerfana en cada corrida:
+    la guarda compara lo declarado contra lo que engancho, y una declaracion que
+    funciona pero no se anota es indistinguible de una que no engancho."""
+    zanjado = {("Fecha 1", "Boca Juniors", "River Plate")}
+    usadas: set = set()
+    fechas.completar([_p("2010-03-02")], [_a("2010-03-08")],
+                     verificadas=zanjado, usadas=usadas)
+    assert usadas == zanjado
+
+
 def test_una_fecha_que_ya_estaba_y_la_fuente_contradice_se_denuncia():
     """SALTEAR EN SILENCIO CONVIERTE EL ORDEN EN EL ARBITRO. El completador se
     salteaba las filas que ya tenian fecha, asi que el primero que corriera ganaba
