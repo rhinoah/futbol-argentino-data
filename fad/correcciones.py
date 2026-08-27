@@ -471,7 +471,10 @@ class Marcador:
     penales_debe: tuple[int, int] | None = None
 
 
-def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
+def _arbitrado(jornada, local, visita, dice, debe, quien, detalle, historial=""):
+    """`historial` es el timestamp de la revision hasta la cual la pagina decia otra
+    cosa. Va aparte y no dentro de `detalle` porque no es evidencia del mismo tipo:
+    ver `_HISTORIAL`."""
     return Marcador(
         pagina={"2007": "Campeonato de Primera B Nacional 2007-08",
                 "2008": "Campeonato de Primera B Nacional 2008-09",
@@ -480,8 +483,32 @@ def _arbitrado(jornada, local, visita, dice, debe, quien, detalle):
         jornada=jornada[5:], local=local, visita=visita, dice=dice, debe=debe,
         porque=(f"Wikipedia dice {dice[0]}-{dice[1]} y worldfootball "
                 f"{debe[0]}-{debe[1]}. La tabla de posiciones de la propia pagina "
-                f"le da la razon a {quien}: {detalle}."))
+                f"le da la razon a {quien}: {detalle}."
+                + (_HISTORIAL + historial + "." if historial else "")))
 
+
+# EL HISTORIAL DE LA PROPIA PAGINA CORROBORA TRECE DE ESTOS MARCADORES, y no es una
+# fuente mas: es la unica que no puede derivar de las otras. Estas paginas se editaban
+# EN VIVO, asi que la tabla de posiciones de la noche del partido es lo que cargo el
+# que estaba mirando, antes de que nada se propagara. `fad/historial.py` acorrala las
+# dos revisiones que rodean al partido y lee el delta; si los dos clubes suman un
+# partido y los goles se mueven de forma espejo, ese delta ES el marcador.
+#
+# Se paso por los sesenta y cuatro. Trece dieron DERIVO --esa noche se habia cargado
+# otra cosa que lo que la pagina dice hoy-- y en los TRECE el marcador de esa noche
+# es exactamente el `debe` que ya estaba escrito. Cero discrepancias.
+#
+# Los otros no lo contradicen, dicen otra cosa: cinco dieron ORIGINAL --la pagina
+# cargo ese marcador la primera noche, asi que el error es de origen y del historial
+# no se recupera nada-- y cuarenta y seis no aplican, casi todos por ser copas, que no
+# publican tabla de posiciones. Confundir un ORIGINAL con un desmentido es el error
+# facil; ver la cabecera de `fad/historial.py`.
+_HISTORIAL = (
+    "Y lo corrobora el HISTORIAL DE LA PROPIA PAGINA, que es la unica fuente que no "
+    "puede derivar de las otras: el articulo se editaba en vivo, y entre las dos "
+    "revisiones que rodean al partido los dos clubes suman uno y los goles se mueven "
+    "en espejo, que es este marcador. El cambio a lo que la pagina dice hoy entro "
+    "despues del ")
 
 MARCADORES: tuple[Marcador, ...] = (
     # --- Copa Argentina 2018-19: seis filas mal en una sola ronda ---
@@ -704,7 +731,8 @@ MARCADORES: tuple[Marcador, ...] = (
                "tendria dos goleadores que nadie nombra.\n"
                "NO COPIA A WIKIPEDIA: coincide con la pagina en la otra rueda -- el "
                "3-2 de la Fecha 2, con sus cinco goles y sus asistencias -- y difiere "
-               "solo en esta."),
+               "solo en esta."
+               + _HISTORIAL + "2021-08-03T01:28:13Z."),
     Marcador(
         pagina="Torneo Federal A 2017-18", jornada="Fecha 15",
         local="Guaraní Antonio Franco", visita="Deportivo Mandiyú",
@@ -783,7 +811,8 @@ MARCADORES: tuple[Marcador, ...] = (
                "ademas cuenta un penal errado). Un 0-0 no tiene donde ponerlo.\n"
                "NO COPIAN A WIKIPEDIA: los dos coinciden con la pagina en la fecha 2 "
                "(0-0 en Lincoln, estadio Leonardo Costa, arbitro Billone) y en un "
-               "tercer cruce. Difieren solo en este."),
+               "tercer cruce. Difieren solo en este."
+               + _HISTORIAL + "2024-05-26T23:18:23Z."),
     Marcador(
         pagina="Torneo Federal A 2023", jornada="Fecha 11",
         local="Douglas Haig", visita="Independiente (C)", dice=(1, 0), debe=(0, 1),
@@ -1174,7 +1203,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "es este. Como la tabla sola no alcanza -- se equivoca, ver Platense en "
             "la B Nacional 2009-10 --, se busco afuera: varias fuentes dan "
             "San Martin (Formosa) 3-0 Union (Sunchales) el 1 de diciembre de 2019, "
-            "misma fecha que tiene el partido aca, incluido un video de los goles."),
+            "misma fecha que tiene el partido aca, incluido un video de los goles."
+               + _HISTORIAL + "2019-12-02T01:34:12Z."),
     ),
     Marcador(
         pagina="Campeonato de Primera B 2018-19 (Argentina)",
@@ -1186,7 +1216,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "clubes cierran, y con el 1-0 fallan San Telmo (45/33 publicados contra "
             "46/32 sumados) y UAI Urquiza (26/33 contra 25/34). Aparecio cruzando la "
             "temporada contra la pagina de worldfootball, que coincide en los otros "
-            "379 partidos."),
+            "379 partidos."
+               + _HISTORIAL + "2018-11-14T00:54:12Z."),
     ),
     # ------------------------------------------------------------------
     # Los cuatro que arbitro la prensa, no la tabla.
@@ -1232,7 +1263,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "OJO, y por eso queda escrito: es UNA SOLA fuente calificada. Los "
             "blogs de los dos clubes no publicaron nada ese mes y lo demas son "
             "agregadores. Se aplica porque contradice a Wikipedia con goleadores "
-            "nombrados, pero es la evidencia mas flaca de las quince."),
+            "nombrados, pero es la evidencia mas flaca de las quince."
+               + _HISTORIAL + "2015-09-28T20:02:17Z."),
     ),
     Marcador(
         pagina="Campeonato de Primera C 2026 (Argentina)",
@@ -1248,7 +1280,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "Godoy 11' y Llodra 19' para Claypole. Y aca la sospecha de siempre -- "
             "que la prensa haya copiado de Wikipedia -- esta muerta por "
             "construccion: Wikipedia publica 0-0, asi que un medio que diga 2-2 no "
-            "puede venir de ahi. Lo confirma De Brown con reporteo propio."),
+            "puede venir de ahi. Lo confirma De Brown con reporteo propio."
+               + _HISTORIAL + "2026-05-30T19:57:09Z."),
     ),
     Marcador(
         pagina="Campeonato de Primera Nacional 2022",
@@ -1411,7 +1444,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "con 6 puntos y Belgrano con 1, dos cifras que solo cierran con el 1-0. "
             "La tabla parcial de la primera rueda de la propia pagina confina todo el "
             "desvio de Agropecuario a esta rueda, y este es su unico cruce con "
-            "Belgrano ahi, asi que el partido queda determinado."),
+            "Belgrano ahi, asi que el partido queda determinado."
+               + _HISTORIAL + "2019-08-25T19:05:50Z."),
     ),
     Marcador(
         pagina="Campeonato de Primera Nacional 2019-20",
@@ -1422,7 +1456,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "Francisco Urbano con el 1-1 y los dos goles: Lucas Perez Godoy a los 30' "
             "para Moron y Pablo Vegetti a los 80' para Belgrano, arbitro Bruno Bocca. "
             "Igual que en la Fecha 2, la tabla parcial de la primera rueda deja este "
-            "como unico cruce posible entre los dos."),
+            "como unico cruce posible entre los dos."
+               + _HISTORIAL + "2019-09-07T03:57:42Z."),
     ),
     Marcador(
         pagina="Campeonato de Primera Nacional 2019-20",
@@ -1436,7 +1471,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "El otro cruce, el 1-1 de la Fecha 21, queda descartado por su propio "
             "testigo: Solo Ascenso publica su sintesis con los goles de Matias "
             "Tissera a los 16' y Pablo Vegetti a los 40', o sea que la grilla lo "
-            "tiene bien y no hay que tocarlo."),
+            "tiene bien y no hay que tocarlo."
+               + _HISTORIAL + "2019-09-24T02:19:14Z."),
     ),
     Marcador(
         pagina="Campeonato de Primera C 2011-12 (Argentina)",
@@ -1507,7 +1543,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "'Fue 2-0 a Desamparados por los goles de Hernan Zuliani -en contra- y "
             "Nicolas Gatica'. "
             "La aritmetica tambien lo fuerza: en la Fecha 15 Desamparados hizo 0 "
-            "goles, asi que su gol de mas sale si o si de este partido."),
+            "goles, asi que su gol de mas sale si o si de este partido."
+               + _HISTORIAL + "2021-11-01T02:19:56Z."),
     ),
     Marcador(
         pagina="Torneo Federal A 2022",
@@ -1590,7 +1627,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "William Gimenez a los 52' para Yupanqui. ESPN corrobora el 1-3. El "
             "resultado no cambia -- gana Cambaceres igual --, lo que falta es el "
             "gol de Yupanqui, y por eso la tabla le da un gol a favor mas del que "
-            "suma la grilla."),
+            "suma la grilla."
+               + _HISTORIAL + "2024-06-03T19:25:23Z."),
     ),
     Marcador(
         pagina="Campeonato de Primera C 2024 (Argentina)",
@@ -1638,10 +1676,12 @@ MARCADORES: tuple[Marcador, ...] = (
                "Boca Unidos publica GF42 y sumando daba 45; con este marcador cierra"),
     _arbitrado("2010 Fecha 22", "Ferro Carril Oeste", "Defensa y Justicia", (0, 3), (0, 0),
                "worldfootball",
-               "Defensa y Justicia publica GF37 y daba 40; Ferro publica GC47 y daba 50"),
+               "Defensa y Justicia publica GF37 y daba 40; Ferro publica GC47 y daba 50",
+               "2011-02-27T16:27:57Z"),
     _arbitrado("2010 Fecha 22", "San Martín (T)", "Patronato", (1, 3), (1, 2),
                "worldfootball",
-               "a Patronato le sobraba un gol a favor y a San Martín uno en contra"),
+               "a Patronato le sobraba un gol a favor y a San Martín uno en contra",
+               "2011-02-28T00:11:29Z"),
 )
 
 

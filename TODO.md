@@ -24,13 +24,13 @@ archivo que la produce y no se repite acá. Lo que queda:
 - **La foja de RSSSF cruza `13` páginas y respalda `251` clubes**, con `0` desacuerdos.
   La única que no tiene arreglo posible es el `Argentino A 2004-05`: RSSSF no publica
   ninguna tabla de esa temporada — `arg3-int05` son `306` renglones de índice.
-- **Usar el testigo del historial en los casos que quedan.** Ya existe
-  (`python -m fad.historial`): el delta entre las dos revisiones que rodean un partido
-  dice qué marcador se cargó esa noche, y separa dos cosas que se confunden — que la
-  página **derivó** de que el error sea **original**. Falta pasarlo por las `60`
-  verificaciones a mano para ver a cuáles les cambia el fundamento. No aplica donde no
-  hay tabla de posiciones (las copas) ni donde la página se escribió entera después del
-  torneo.
+- **El testigo del historial ya pasó por todo lo que estaba escrito.** De los `64`
+  marcadores arbitrados a mano, `13` resultaron ser una **deriva** de la página y en los
+  `13` el historial coincide con la corrección — cero discrepancias, y cada una fechada.
+  Otros `5` son error **de origen**. El resto no aplica: `16` son copas, que no publican
+  tabla. Con las `60` verificaciones de tabla rinde menos (`12` de origen, `3` datables,
+  `45` sin respuesta). Lo que queda es usarlo cuando aparezca un desacuerdo nuevo, que
+  es para lo que está.
 
 ## 1997–2003 — Cerrado
 

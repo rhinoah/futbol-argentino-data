@@ -2823,6 +2823,44 @@ python -m fad.historial "Campeonato de Primera B 2010-11 (Argentina)" \
                         "Platense" "Estudiantes (BA)" 2010-08-30 --dice 1-1
 ```
 
+### Pasado por las verificaciones que ya estaban escritas
+
+La prueba de un testigo nuevo no es que funcione en el caso que lo motivó: es qué
+dice de las conclusiones que ya se habían sacado sin él. Se corrió sobre los
+**64 marcadores arbitrados a mano** —fundados en crónicas, ESPN, archivos de club
+y aritmética— y sobre las **60 verificaciones de tabla**.
+
+| los 64 marcadores | |
+|---|---:|
+| **derivó** — la página cambió de opinión | **13** |
+| **original** — lo cargó así la primera noche | 5 |
+| no aplica: es una copa, sin tabla de posiciones | 16 |
+| no aplica: la ventana no aísla ese partido | 26 |
+| sin fecha en el dataset | 4 |
+
+**De los 13 que derivaron, los 13 coinciden con el marcador que ya estaba
+escrito. Cero discrepancias.** Trece conclusiones confirmadas por una fuente que
+ninguna de las trece citaba —la propia página, en la revisión de esa noche— y
+cada una queda fechada: el gol de más entró después del `2011-02-27`, del
+`2019-08-25`, del `2026-05-30`, según el caso. Va escrito en su `porque`.
+
+Los 5 **original** dicen lo contrario y también sirven: ahí la página nunca
+cambió de opinión, el error es de origen y la verificación externa sigue siendo el
+único sostén. Sin la distinción esos 5 se leerían como *«el historial desmiente la
+corrección»*, que es justo el error que el veredicto evita.
+
+**Con las 60 verificaciones de tabla rinde mucho menos, y conviene decirlo.** La
+pregunta ahí es otra —¿el desvío ya existía cuando terminó el torneo?— y hay que
+parsear las dos mitades de una revisión vieja. `12` confirman que el desvío es de
+origen, `3` que entró después (datables), y las `45` restantes no se pueden
+contestar: `18` páginas no se editaron más después del torneo, y el resto estaba a
+medio construir en la fecha mirada.
+
+Ese último detalle costó una pasada: la primera versión daba once *«otro desvío»*
+con firmas tipo `PJ-8` o `PJ+27`, que no son desvíos distintos sino **la página
+sin terminar**. El guard es el de siempre — comparar sólo si el club ya tenía
+todos sus partidos —, y sin él el ruido pasaba por hallazgo.
+
 ## La zona estaba en la página y no la pedíamos
 
 El pendiente decía que a tres `Torneo Argentino A` les faltaba leer las zonas. Al
