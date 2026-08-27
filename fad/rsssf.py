@@ -817,13 +817,27 @@ def _por_el_padron(corto: str) -> tuple[str, str]:
 # El separador es UN espacio o mas, no dos. Un nombre que llena la columna --
 # `Juventud Unida Universitario (San Luis)` -- deja uno solo, y al no matchear
 # la fila no solo se pierde ella: cierra la tabla y se lleva las de abajo.
-_FOJA = re.compile(r"^\s*\d+\.(?:.+?)\s+"
+# EL SEPARADOR ENTRE EL NOMBRE Y EL PRIMER NUMERO PUEDE NO EXISTIR. Las columnas
+# de la fuente son de ancho fijo, asi que un nombre largo se come el relleno y
+# queda pegado: `6. Defensores de Belgrano (V.Ramallo)22   8   6 ...`.
+#
+# Y NO SE PIERDE ESA FILA: SE PIERDEN TODAS LAS DE ABAJO, porque cualquier
+# renglon con texto cierra la tabla. La Zona Sur del Argentino A 2012-13 se leia
+# de cinco filas teniendo doce, y en `arg2011` pasaba en dos tablas mas, sin que
+# nada lo dijera.
+#
+# Se acepta espacio O que el nombre venga terminado en parentesis, que es como los
+# escribe la fuente. Aflojarlo a un `\s*` a secas mide IGUAL sobre los doce
+# archivos --diez filas nuevas y ninguna que hoy se lea distinto-- pero deja que la
+# parte perezosa frene en medio de un nombre el dia que aparezca uno con numeros
+# adentro. Esta version no puede.
+_FOJA = re.compile(r"^\s*\d+\.(?:.+?)(?:\s+|(?<=\)))"
                    r"(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)-\s?(\d+)\s+\d+")
 
 # EL SEGUNDO FORMATO DE TABLA, que la fuente usa desde 2011-12: los goles a favor y
 # en contra van en COLUMNAS SEPARADAS (`42  23`) en vez de pegados con un guion
 # (`42-23`). Mismo orden de campos, distinto separador.
-_FOJA_PARTIDAS = re.compile(r"^\s*\d+\.(?:.+?)\s+"
+_FOJA_PARTIDAS = re.compile(r"^\s*\d+\.(?:.+?)(?:\s+|(?<=\)))"
                             r"(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+\d+")
 
 # Y CUAL DE LOS DOS ES SE LEE, NO SE ADIVINA. El formato nuevo trae un encabezado que
@@ -857,6 +871,12 @@ FASES: dict[str, dict[str, str]] = {
     # regular y la de la final caen bajo la misma clave y el cruce no puede elegir.
     "Torneo Argentino A 2010-11": {"First Phase": "Primera fase",
                                    "Fase Final": "Segunda fase"},
+    # Igual que arriba: `Zona Norte` y `Zona Sur` aparecen una vez en cada fase, y
+    # sin separarlas las dos tablas de cada zona caen bajo la misma clave.
+    "Torneo Argentino A 2012-13": {"First Phase": "Primera fase",
+                                   "Reválida": "Segunda fase"},
+    "Torneo Argentino A 2011-12": {"First Phase": "Primera fase",
+                                   "Second Phase": "Segunda fase"},
     "Torneo Argentino A 2009-10": {"Apertura": "Torneo Apertura",
                                    "Clausura": "Torneo Clausura"},
 }
@@ -1912,7 +1932,63 @@ ARGENTINO_A_2012: dict[str, dict[str, str]] = {
 # Por eso van las dos formas: son 30 nombres para 24 clubes. Resolverlos por el
 # padron NO alcanza -- se midio, y once de los treinta vuelven sin traducir --, y
 # ahi es donde un nombre corto termina siendo el club equivocado.
+# Las dos zonas de la fase regular, para la foja. Como el de 2010-11: el mapa venia
+# escrito solo para las llaves, y sin las claves de zona sus tablas caian bajo la
+# vacia. Armado contra los clubes que la pagina hace jugar -- trece y doce, y calzan
+# uno a uno --. Los nombres van COMO LOS ESCRIBE LA FUENTE, con el parentesis pegado
+# donde ella lo pega: `Sportivo Belgrano(San Francisco)`.
+ARGENTINO_A_2011_ZONAS = {
+    "Zona Norte": {
+        "Alumni (Villa María)": "Alumni (VM)",
+        "Central Córdoba (Sgo.del Estero)": "Central Córdoba (SdE)",
+        "Central Norte (Salta)": "Central Norte (S)",
+        "Crucero del Norte (Garupá)": "Crucero del Norte",
+        "Gimnasia y Tiro (Salta)": "Gimnasia y Tiro (S)",
+        "Juventud Antoniana (Salta)": "Juventud Antoniana",
+        "Libertad (Sunchales)": "Libertad (S)",
+        "Racing (Córdoba)": "Racing (C)",
+        "San Martín (Tucumán)": "San Martín (T)",
+        "Sportivo Belgrano(San Francisco)": "Sportivo Belgrano",
+        "Talleres (Córdoba)": "Talleres (C)",
+        "Tiro Federal (Rosario)": "Tiro Federal",
+        "Unión (Sunchales)": "Unión (S)",
+        # Y las mismas, como las escribe en la lista de partidos.
+        "Central Córdoba (SdE)": "Central Córdoba (SdE)",
+        "Crucero del Norte (Mis)": "Crucero del Norte",
+        "Juventud Antoniana (S)": "Juventud Antoniana",
+        "Sp.Belgrano (S.Fco)": "Sportivo Belgrano",
+        "Tiro Federal (Ros)": "Tiro Federal",
+    },
+    "Zona Sur": {
+        "CAI (Comodoro Rivadavia)": "CAI",
+        "Cipolletti (Río Negro)": "Cipolletti",
+        "Def. de Belgrano (Villa Ramallo)": "Defensores de Belgrano (VR)",
+        "Deportivo Maipú (Mendoza)": "Deportivo Maipú",
+        "Douglas Haig (Pergamino)": "Douglas Haig",
+        "Gimnasia y Esgrima(Conc.Uruguay)": "Gimnasia y Esgrima (CdU)",
+        "Huracán (Tres Arroyos)": "Huracán (TA)",
+        "Juv.Unida Universitario (S.Luis)": "Juventud Unida Universitario",
+        "Racing (Olavarría)": "Racing (O)",
+        "Ramón Santamarina (Tandil)": "Ramón Santamarina",
+        "Rivadavia (Lincoln)": "Rivadavia (L)",
+        "Unión (Mar del Plata)": "Unión (MdP)",
+        # Y las mismas, como las escribe en la lista de partidos. `Gimnasia y
+        # Esgrima` aparece con y sin espacio antes del parentesis, en el mismo
+        # archivo y en la misma zona; van las dos porque el emparejamiento de este
+        # repo es exacto y no por parecido.
+        "CAI (Com.Rivadavia)": "CAI",
+        "Def.de Belgrano (VR)": "Defensores de Belgrano (VR)",
+        "Dep.Maipú (Mendoza)": "Deportivo Maipú",
+        "Douglas Haig(Pergamino)": "Douglas Haig",
+        "Gimnasia y Esgrima (CdU)": "Gimnasia y Esgrima (CdU)",
+        "Gimnasia y Esgrima(CdU)": "Gimnasia y Esgrima (CdU)",
+        "Juv.Unida Univ. (SL)": "Juventud Unida Universitario",
+        "Ramón Santamarina (T)": "Ramón Santamarina",
+    },
+}
+
 ARGENTINO_A_2011 = {
+    **ARGENTINO_A_2011_ZONAS,
     "Llaves": {
         "Alumni (Villa María)": "Alumni (VM)",
         "CAI (Comodoro Rivadavia)": "CAI",
@@ -2272,6 +2348,11 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
     # principio, o sea no recorta nada.
     "Torneo Argentino A 2010-11": (
         '\nTorneo Argentino "A" Interior\n', "\nTopscorer"),
+    # `Torneo Argentino A` aparece seis veces en `arg2012` -- el indice de arriba, la
+    # seccion de verdad y cuatro referencias cruzadas --, asi que el ancla va con lo
+    # que la sigue, igual que la de `SECCION`. Sin tope por abajo: esta division es
+    # la ultima del archivo.
+    "Torneo Argentino A 2011-12": ("Torneo Argentino A\n\n\nFirst Phase", ""),
 }
 
 

@@ -2747,6 +2747,97 @@ dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
 de parser recupera.
 
+## La zona estaba en la página y no la pedíamos
+
+El pendiente decía que a tres `Torneo Argentino A` les faltaba leer las zonas. Al
+mirarlo de cerca no era una limitación de la fuente ni un formato raro: las
+páginas publican `=== Zona Norte ===` y `=== Zona Sur ===`, y **el parser no las
+miraba**.
+
+### Un camino pedía la zona y el otro no
+
+Hay dos maneras de llegar a una tabla de partidos. Una es la sección
+`Resultados`, y ahí `partidos()` pasa `zona_defecto` con el título que la
+contiene. La otra es el **camino de respaldo**, que barre las tablas que *no*
+cuelgan de un `Resultados` — y ése pasaba la **llave** y no la zona.
+
+La diferencia es de un nivel de título: `_contexto(pos, 3, …)` devuelve el de
+nivel 2, que es la fase; la zona es el de nivel 3. Los `Argentino A` de 2011-12 y
+2012-13 no tienen ninguna sección `Resultados`, así que caían enteros por ahí.
+
+**No es un detalle de dos páginas: la zona viaja a la columna `group` del CSV.**
+Esas filas se publicaban sin un dato que la fuente tiene escrito.
+
+| | filas |
+|---|---:|
+| cambian de `''` a una zona real | **673** |
+| desaparecen o aparecen | 0 |
+| páginas tocadas | 2 |
+
+Medido con arnés de equivalencia contra el corpus entero: ninguna otra fila se
+mueve, y ningún partido entra ni sale.
+
+**Pero la zona no va a cualquier tabla.** Cuando la tabla está fuera de la liga,
+`partidos_de_tabla` **reusa** `zona_defecto` como nombre de la ronda — a
+propósito, y el otro llamador depende de eso —, así que pasársela ahí no llena la
+zona: le pisa la jornada. El playoff de descenso del Federal A 2024 pasaba de
+`Régimen de descenso` a `Zona B`, que es el título de su subsección y no la ronda.
+
+**Lo agarró el build y no el arnés**, que miraba fase, llave y zona y *no* la
+jornada. Una magnitud que el arnés no captura no está protegida, y las cuatro
+filas del Argentino A 2004-05 que también se movieron habrían pasado igual de
+calladas. El arnés ahora la mira.
+
+### Y una tabla que se leía de cinco filas teniendo doce
+
+Buscando por qué la Zona Sur de 2012-13 seguía sin cruzar apareció otra cosa. Las
+columnas de RSSSF son de ancho fijo, así que un nombre largo se come el relleno y
+queda pegado al primer número:
+
+```
+ 6. Defensores de Belgrano (V.Ramallo)22   8   6   8  19  22  30
+```
+
+El regex exigía un espacio ahí, así que esa fila no matcheaba — **y no se perdía
+esa fila: se perdían todas las de abajo**, porque cualquier renglón con texto
+cierra la tabla. Una tabla corta no se distingue de una zona chica, así que no lo
+decía nadie. Pasaba en tres tablas de dos archivos.
+
+Se acepta espacio **o** que el nombre venga terminado en paréntesis. Aflojarlo a
+un `\s*` a secas mide igual sobre los doce archivos —diez filas nuevas, ninguna
+que se lea distinto— pero deja que la parte perezosa frene *en medio* de un
+nombre y lea como PJ un pedazo del nombre. El ancla no cuesta una fila y saca la
+clase entera de error.
+
+### Lo que rinde
+
+Con las zonas leídas, más las fases declaradas y el mapa de nombres de 2011-12:
+
+| | páginas | clubes respaldados |
+|---|---:|---:|
+| antes | 10 | 201 |
+| ahora | **12** | **239** |
+
+Los cuatro `sin grilla` siguen en 8 / 17 / 25 / 25, el dataset no gana ni pierde
+una fila y los avisos siguen en 166.
+
+### Y una corroboración que no se buscaba
+
+La Zona Sur de 2012-13 cruza en ocho de sus doce clubes y no en cuatro. Esos
+cuatro son **exactamente** los que ya tenían un `Revisado` escrito: alguien
+verificó a mano que la tabla de la página se aparta y que no es error nuestro.
+
+Que una segunda tabla discrepara igual daba para pensar lo contrario — dos
+fuentes contra nuestra grilla —, así que se miró. **La lista de partidos de RSSSF
+coincide con nuestra grilla, marcador por marcador**: 2-0, 3-0, 0-2 y 4-2, los
+cuatro partidos de los dos pares en disputa. Lo que no cierra es RSSSF consigo
+misma: sus partidos no suman su propia tabla, y su tabla trae el mismo desvío que
+la de Wikipedia.
+
+O sea que las cuatro verificaciones no quedaron en duda: quedaron **corroboradas
+por una fuente independiente**, que es el testigo que a un `Revisado` le suele
+faltar.
+
 ## El mapa de zonas, y tres maneras de no publicar una tabla
 
 El pendiente decía que a los cinco `Torneo Argentino A` les faltaba **el mapa de
@@ -2931,11 +3022,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1001 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1007 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 429 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 435 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

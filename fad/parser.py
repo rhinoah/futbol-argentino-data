@@ -2064,11 +2064,26 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
         # `=== Resultados ===` colgado de `== Ronda de desempate ==` no trae
         # fechas de liga aunque las numere.
         llave = _contexto(pos, 3, texto)
+        fuera_de_la_liga = (not _rotula_fechas(tabla)
+                            or bool(_ES_RONDA.match(llave))
+                            or bool(_LLAVE_ELIMINATORIA.search(llave)))
+        # LA ZONA SALE DEL TITULO DE NIVEL 3, que es el que la nombra: `_contexto(pos,
+        # 3, ...)` devuelve el de nivel 2, que es la fase. Este camino --el de las
+        # tablas que NO cuelgan de un `Resultados`-- pedia la llave y no la zona, y el
+        # otro camino si la pedia. Los `Torneo Argentino A` de 2011-12 y 2012-13 no
+        # tienen ninguna seccion `Resultados`, asi que caian enteros por aca y sus 673
+        # filas se publicaban con la columna `group` vacia.
+        #
+        # PERO SOLO PARA LAS TABLAS DE LIGA. En una de eliminacion `partidos_de_tabla`
+        # REUSA `zona_defecto` como nombre de la ronda --a proposito, y el otro
+        # llamador depende de eso--, asi que pasarla ahi no llena la zona: pisa la
+        # jornada. El playoff de descenso del Federal A 2024 pasaba de `Régimen de
+        # descenso` a `Zona B`, que es el titulo de su subseccion y no la ronda.
         for p in partidos_de_tabla(tabla, anio, torneo, anio_fin, mes_inicio,
                                    llave=llave, arts=arts, notas=notas,
-                                   fuera_de_la_liga=not _rotula_fechas(tabla)
-                                                    or bool(_ES_RONDA.match(llave))
-                                                    or bool(_LLAVE_ELIMINATORIA.search(llave))):
+                                   zona_defecto=("" if fuera_de_la_liga else
+                                                 _como_zona(_contexto(pos, 4, texto))),
+                                   fuera_de_la_liga=fuera_de_la_liga):
             k = (p.fecha, p.local, p.visita, p.goles_local, p.goles_visita)
             if k in ya:
                 continue

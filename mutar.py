@@ -339,13 +339,13 @@ MUTANTES = [
      "    return [c for c in partes[1:] if c.strip()]"),
 
     ("fad/parser.py", "mandar a eliminacion toda tabla que no cuelgue de un Resultados",
-     "                                   fuera_de_la_liga=not _rotula_fechas(tabla)",
-     "                                   fuera_de_la_liga=True or not _rotula_fechas(tabla)"),
+     "        fuera_de_la_liga = (not _rotula_fechas(tabla)",
+     "        fuera_de_la_liga = (True or not _rotula_fechas(tabla)"),
 
     ("fad/parser.py", "ignorar la seccion y creerle solo al rotulo de fecha",
-     "                                                    or bool(_ES_RONDA.match(llave))\n"
-     "                                                    or bool(_LLAVE_ELIMINATORIA.search(llave))):",
-     "                                                    ):"),
+     "                            or bool(_ES_RONDA.match(llave))\n"
+     "                            or bool(_LLAVE_ELIMINATORIA.search(llave)))",
+     "                            )"),
 
     ("fad/parser.py", "contar la COLUMNA Fecha como si fuera un rotulo de jornada",
      r'    return any(re.match(r"(?i)fecha\s*\d+", limpiar(cab))'
@@ -1338,8 +1338,42 @@ MUTANTES = [
      '            if zona in mapa:'),
 
     ("fad/rsssf.py", "exigirle dos espacios a la fila de la foja",
-     '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s+"',
-     '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s{2,}"'),
+     '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s+|(?<=\\)))"',
+     '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s{2,}|(?<=\\)))"'),
+
+    # La zona que la pagina publica y el camino de respaldo no pedia.
+    ("fad/parser.py", "leer la tabla de respaldo sin la zona que la contiene",
+     "                                   zona_defecto=(\"\" if fuera_de_la_liga else\n"
+     "                                                 _como_zona(_contexto(pos, 4, texto))),",
+     "                                   zona_defecto=\"\","),
+
+    ("fad/parser.py", "tomar como zona el titulo de nivel 2, que es la llave",
+     "                                   zona_defecto=(\"\" if fuera_de_la_liga else\n"
+     "                                                 _como_zona(_contexto(pos, 4, texto))),",
+     "                                   zona_defecto=(\"\" if fuera_de_la_liga else\n"
+     "                                                 _como_zona(_contexto(pos, 3, texto))),"),
+
+    ("fad/parser.py", "darle la zona tambien a la tabla de eliminacion",
+     "                                   zona_defecto=(\"\" if fuera_de_la_liga else\n"
+     "                                                 _como_zona(_contexto(pos, 4, texto))),",
+     "                                   zona_defecto=_como_zona(_contexto(pos, 4, texto)),"),
+
+    # El separador entre el nombre y el primer numero, que puede no existir. Volver
+    # a exigirlo no pierde una fila: pierde todas las de abajo, porque el renglon que
+    # no matchea cierra la tabla.
+    ("fad/rsssf.py", "exigir un espacio entre el nombre y el primer numero",
+     '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s+|(?<=\\)))"',
+     '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s+"'),
+
+    ("fad/rsssf.py", "exigirselo tambien al formato de columnas partidas",
+     '_FOJA_PARTIDAS = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s+|(?<=\\)))"',
+     '_FOJA_PARTIDAS = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s+"'),
+
+    # Y aflojarlo de mas: sin el ancla del parentesis, la parte perezosa puede frenar
+    # en medio de un nombre con numeros adentro y leer como PJ un pedazo del nombre.
+    ("fad/rsssf.py", "aflojar el separador hasta dejarlo frenar en medio del nombre",
+     '_FOJA_PARTIDAS = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s+|(?<=\\)))"',
+     '_FOJA_PARTIDAS = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s*"'),
 
     # El segundo formato de tabla, el que declara sus columnas.
     ("fad/rsssf.py", "no leer la tabla que declara sus columnas",

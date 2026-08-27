@@ -7,29 +7,27 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 043 | 7 | 149 | 1001 | 429 |
+| 44 043 | 7 | 149 | 1007 | 435 |
 
 ## 2004–2026 — Cerrado
 
 `41 558` partidos y no falta ninguno. **Ningún partido queda con dos marcadores en disputa,
 ninguno con dos días distintos —eran `61`—, ninguna tabla queda sin contrastar contra su
 grilla, y las `60` verificaciones a mano fijan el estado que verificaron, así que caducan
-solas. `201` clubes de `10` temporadas tienen además el respaldo de una fuente independiente.** De los `166` avisos, **ninguno es grave**; cada clase tiene su explicación en el
+solas. `239` clubes de `12` temporadas tienen además el respaldo de una fuente independiente.** De los `166` avisos, **ninguno es grave**; cada clase tiene su explicación en el
 archivo que la produce y no se repite acá. Lo que queda:
 
 - **`7` partidos sin fecha, y sólo `1` espera una.** Los otros `6` no se jugaron —los que
   el Federal A 2024 le dio por perdidos a Sansinena—. El que falta es la semifinal
   `Ben Hur` vs `Atlético Tucumán` del `Argentino A 2004-05`, donde la fuente citada le erra
   al día por diez meses.
-- **Leer las zonas que las páginas sí publican.** `Torneo Argentino A` 2005-06, 2011-12
-  y 2012-13 traen `=== Zona Norte` / `===== Zona Sur` y el parser no las mira: los partidos
-  entran por el camino de respaldo, que pasa la llave pero **no** la zona, y salen con la
-  columna `group` vacía. Son unas `1 150` filas publicadas a las que les falta un dato que
-  la fuente tiene. Cambia el dataset, así que va con arnés de equivalencia. De paso deja
-  cruzar la foja en esas tres.
-- **La foja de RSSSF ya cruza `10` páginas y respalda `201` clubes**, con `0` desacuerdos.
-  La única que no tiene arreglo es el `Argentino A 2004-05`: RSSSF no publica ninguna
-  tabla de esa temporada.
+- **Queda una zona sin leer: la del `Argentino A 2005-06`.** Sus subsecciones
+  (`===== Zona Sur`) cuelgan de un `==== Resultados`, y ese camino lee la sección entera
+  como una sola zona en vez de partirla en las de adentro. Son `263` filas con la zona
+  gruesa, no vacía — distinto del caso de 2011-12 y 2012-13, que ya está resuelto.
+- **La foja de RSSSF cruza `12` páginas y respalda `239` clubes**, con `0` desacuerdos.
+  La única que no tiene arreglo posible es el `Argentino A 2004-05`: RSSSF no publica
+  ninguna tabla de esa temporada.
 - **Fechar un desacuerdo.** Ningún testigo puede decir *cuándo* la página cambió de
   opinión, y es la deuda más cara. Pide terminar el modelo de la «Evolución de las
   posiciones» —medido dio 12% de desvíos, un modelo incompleto haciendo ruido— o cruzar

@@ -1049,6 +1049,65 @@ def test_dos_tablas_de_la_misma_zona_vuelven_separadas():
     assert len(leidas) == 2 and all(z == "Zone 1" for _, z, _ in leidas)
 
 
+def test_el_nombre_PEGADO_al_numero_no_se_lleva_la_tabla_puesta():
+    """Las columnas de la fuente son de ancho fijo, asi que un nombre largo se come el
+    relleno y queda pegado al primer numero: `Defensores de Belgrano (V.Ramallo)22`.
+
+    Y NO SE PIERDE ESA FILA: SE PIERDEN TODAS LAS DE ABAJO, porque cualquier renglon
+    con texto cierra la tabla. La Zona Sur del Argentino A 2012-13 se leia de cinco
+    filas teniendo doce, y en `arg2011` pasaba en dos tablas mas, sin que nada lo
+    dijera: una tabla corta no se distingue de una zona chica.
+    """
+    texto = ("Zone 1\nFinal Table:\n\n"
+             " 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+             " 2.Un Club De Nombre Interminable (Lugar)  2   0  1  1   1-3   1\n"
+             " 3.C (Otra)                                2   0  1  1   1-3   1\n")
+    pegado = texto.replace("(Lugar)  2", "(Lugar)2")
+    assert len(rsssf.leer_tabla(pegado, _MAPA_FOJA)[0][2]) == 3, (
+        "la fila pegada entra, y las de abajo no se pierden")
+    assert rsssf.leer_tabla(pegado, _MAPA_FOJA) == rsssf.leer_tabla(texto, _MAPA_FOJA)
+
+
+def test_el_nombre_pegado_tambien_en_el_formato_DE_COLUMNAS_PARTIDAS():
+    """Es el mismo problema en la otra mitad, y es donde se encontro: la fila
+    `6. Defensores de Belgrano (V.Ramallo)22` esta en `arg3-int2013`, que es formato
+    nuevo. Los dos regex tienen que aflojar el separador o uno queda cortando."""
+    texto = ("Zone 1\nTable:\n\n"
+             "No. Team \t      G   W   D   L  Gf  Ga   P\n"
+             " 1. Un Nombre Interminable (Lugar)2   1   1   0   3   1   4\n"
+             " 2. B (Otra)\t     2   0   1   1   1   3   1\n")
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA) == [
+        ("", "Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)])]
+
+
+def test_el_separador_flojo_NO_deja_frenar_en_medio_del_nombre():
+    """Se acepta espacio O que el nombre venga terminado en parentesis. Aflojarlo a un
+    `\\s*` a secas mide IGUAL sobre los doce archivos de hoy --diez filas nuevas y
+    ninguna que se lea distinto-- y por eso hay que decir que separa:
+
+    un nombre que TERMINA EN DIGITO y viene pegado a la primera columna. Con `\\s*` la
+    parte perezosa frena antes de ese digito, lo lee como PJ y corre todas las
+    columnas: la fila entra con seis numeros que no son los suyos. Con el ancla no
+    puede, porque despues del nombre exige espacio o parentesis.
+
+    VA SOBRE EL FORMATO DE COLUMNAS PARTIDAS, y no es casual. En el viejo el
+    corrimiento NO cierra: arrancando un numero antes hacen falta cuatro numeros, un
+    par pegado con guion y uno final --ocho-- y la fila trae siete, asi que el regex
+    backtrackea y termina leyendo bien igual. En el partido son siete sueltos, y
+    arrancando uno antes quedan siete otra vez.
+
+    No hay hoy un club asi en el corpus, y por eso el ancla sale barata: no cuesta una
+    fila y saca la clase entera de error. Que es la unica forma de fallar que este
+    repo no perdona -- no leer de menos, leer OTRA COSA."""
+    texto = ("Zone 1\nTable:\n\n"
+             "No. Team \t      G   W   D   L  Gf  Ga   P\n"
+             " 1. Sportivo9   2   1   1   0   3   1   4\n"
+             " 2. B (Otra)    2   0   1   1   1   3   1\n")
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA) == [
+        ("", "Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)])], (
+        "con `\\s*` la primera fila entra corrida una columna")
+
+
 def test_la_misma_tabla_publicada_dos_veces_es_UNA():
     """RSSSF publica la tabla final ARRIBA del archivo, como resumen antes de la
     primera fecha, y DE NUEVO abajo despues de la ultima. Son dos apariciones de

@@ -2864,12 +2864,26 @@ REVISADOS: tuple[Revisado, ...] = (
                "homologado.\n"
                "Por eso el arreglo de cuatro goles que pedia la aritmetica no podia "
                "existir: la tabla esta contando ese partido con una mezcla del marcador "
-               "de cancha y el de escritorio."),
+               "de cancha y el de escritorio."
+               "\n"
+               "Y hay una corroboracion de afuera, encontrada despues al cruzar la "
+               "foja de RSSSF: su LISTA DE PARTIDOS coincide con nuestra grilla marcador "
+               "por marcador en los cuatro partidos de los dos pares en disputa -- 2-0, "
+               "3-0, 0-2 y 4-2 --, pero su TABLA trae el mismo desvio que la de Wikipedia. "
+               "O sea que la fuente independiente le da la razon a la grilla y se "
+               "contradice a si misma en la tabla, igual que la pagina."),
     Revisado(
         pagina="Torneo Argentino A 2012-13", club="Deportivo Maipú", desvio="GF+2 GC+2",
         porque="La otra mitad del par con Ramon Santamarina, incluido el partido "
                "suspendido y homologado 0-2. Misma cronica, mismo desenlace. Entrada "
-               "propia porque el aviso es por club."),
+               "propia porque el aviso es por club."
+               "\n"
+               "Y hay una corroboracion de afuera, encontrada despues al cruzar la "
+               "foja de RSSSF: su LISTA DE PARTIDOS coincide con nuestra grilla marcador "
+               "por marcador en los cuatro partidos de los dos pares en disputa -- 2-0, "
+               "3-0, 0-2 y 4-2 --, pero su TABLA trae el mismo desvio que la de Wikipedia. "
+               "O sea que la fuente independiente le da la razon a la grilla y se "
+               "contradice a si misma en la tabla, igual que la pagina."),
     Revisado(
         pagina="Torneo Argentino A 2012-13", club="Juventud Unida Universitario", desvio="GF-1",
         porque="Las dos ruedas con Guillermo Brown estan bien. El 3-0 de la Fecha 8 lo "
@@ -2879,12 +2893,26 @@ REVISADOS: tuple[Revisado, ...] = (
                "asi que hay fuentes que lo cuentan partido y otras entero.\n"
                "Ademas una tabla de Superdepor del 31/10/2012, contemporanea y anterior "
                "a la fecha 19, ya trae los totales del torneo, o sea que no puede "
-               "derivar de la Wikipedia de hoy."),
+               "derivar de la Wikipedia de hoy."
+               "\n"
+               "Y hay una corroboracion de afuera, encontrada despues al cruzar la "
+               "foja de RSSSF: su LISTA DE PARTIDOS coincide con nuestra grilla marcador "
+               "por marcador en los cuatro partidos de los dos pares en disputa -- 2-0, "
+               "3-0, 0-2 y 4-2 --, pero su TABLA trae el mismo desvio que la de Wikipedia. "
+               "O sea que la fuente independiente le da la razon a la grilla y se "
+               "contradice a si misma en la tabla, igual que la pagina."),
     Revisado(
         pagina="Torneo Argentino A 2012-13", club="Guillermo Brown", desvio="GC-1",
         porque="La otra mitad del par con Juventud Unida Universitario, incluido el "
                "partido que se jugo en dos dias. Mismas fuentes, mismo desenlace. "
-               "Entrada propia porque el aviso es por club."),
+               "Entrada propia porque el aviso es por club."
+               "\n"
+               "Y hay una corroboracion de afuera, encontrada despues al cruzar la "
+               "foja de RSSSF: su LISTA DE PARTIDOS coincide con nuestra grilla marcador "
+               "por marcador en los cuatro partidos de los dos pares en disputa -- 2-0, "
+               "3-0, 0-2 y 4-2 --, pero su TABLA trae el mismo desvio que la de Wikipedia. "
+               "O sea que la fuente independiente le da la razon a la grilla y se "
+               "contradice a si misma en la tabla, igual que la pagina."),
     Revisado(
         pagina="Campeonato de Primera B Nacional 2012-13", club="Atlético Tucumán", desvio="GF+1",
         porque="El 2-0 de la grilla es el correcto y la tabla es la equivocada. La "

@@ -885,6 +885,63 @@ def _tabla(rotulo, **kw):
             f'|14 de diciembre\n|17:15\n|}}')
 
 
+def _pagina_con_zonas(rotulo="Fecha 1"):
+    """Una fase con dos zonas y una tabla de partidos en cada una, SIN una seccion
+    `Resultados` -- que es como estan escritos los `Torneo Argentino A` de 2011-12 y
+    2012-13, y por eso caen en el camino de respaldo."""
+    def bloque(local, visita):
+        return ('{|class="wikitable"\n'
+                f'|-\n!colspan=6|{rotulo}\n'
+                '|-\n!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n'
+                f'|-\n|{local}\n|2 - 1\n|{visita}\n|Cancha\n|14 de diciembre\n|17:15\n|}}')
+    return ("== Primera fase ==\n"
+            "=== Zona Norte ===\n" + bloque("Talleres (C)", "Racing (C)") + "\n"
+            "=== Zona Sur ===\n" + bloque("Cipolletti", "Douglas Haig") + "\n")
+
+
+def test_la_tabla_QUE_NO_CUELGA_DE_RESULTADOS_igual_tiene_su_zona():
+    """El camino de respaldo --el que lee las tablas que no cuelgan de un
+    `Resultados`-- pedia la LLAVE, que es el titulo de nivel 2 que las contiene, y no
+    pedia la ZONA, que es el de nivel 3. El otro camino si la pedia.
+
+    No es un matiz de dos paginas: la zona viaja a la columna `group` del CSV, asi que
+    esas filas se publicaban sin un dato que la fuente tiene escrito. Son 673 entre el
+    Argentino A 2011-12 y el 2012-13.
+    """
+    ps = parser.partidos(_pagina_con_zonas(), 2012, "Argentino A")
+    assert {p.zona for p in ps} == {"Zona Norte", "Zona Sur"}
+    assert {p.llave for p in ps} == {"Primera fase"}
+
+
+def test_y_la_zona_no_se_inventa_cuando_el_titulo_no_es_una():
+    """`_como_zona` vacia los titulos que nombran una RONDA. Sin eso, una tabla
+    colgada de `=== Semifinales ===` saldria con la zona "Semifinales", que promete un
+    grupo que no existe."""
+    pagina = _pagina_con_zonas().replace("=== Zona Norte ===", "=== Semifinales ===")
+    ps = parser.partidos(pagina, 2012, "Argentino A")
+    assert {p.zona for p in ps} == {"", "Zona Sur"}
+
+
+def test_a_la_tabla_de_ELIMINACION_no_se_le_pasa_la_zona():
+    """`partidos_de_tabla` REUSA `zona_defecto` como nombre de la ronda cuando la
+    tabla esta fuera de la liga -- a proposito, y el otro llamador depende de eso --,
+    asi que pasarsela ahi no llena la zona: le pisa la jornada.
+
+    El playoff de descenso del Federal A 2024 pasaba de `Régimen de descenso` a
+    `Zona B`, que es el titulo de su subseccion y no la ronda. Lo agarro el build y no
+    el arnes de equivalencia, porque el arnes miraba fase, llave y zona y NO la
+    jornada: una magnitud que no se captura no se protege."""
+    tabla = ('{|class="wikitable"\n'
+             '|-\n!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n'
+             '|-\n|Talleres (C)\n|2 - 1\n|Racing (C)\n|Cancha\n'
+             '|14 de diciembre\n|17:15\n|}')
+    pagina = "== Régimen de descenso ==\n=== Zona B ===\n" + tabla + "\n"
+    ps = parser.partidos(pagina, 2024, "Federal A")
+    assert len(ps) == 1
+    assert ps[0].jornada == "Régimen de descenso", "la ronda no la nombra su subseccion"
+    assert ps[0].zona == ""
+
+
 def test_una_tabla_sin_local_marca_el_partido_neutral():
     """Cuando no hay local, la tabla rotula "Equipo 1 / Equipo 2" en vez de
     "Local / Visitante". No es una interpretacion nuestra: es la unica forma que
