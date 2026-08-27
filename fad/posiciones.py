@@ -1159,7 +1159,8 @@ def _propios_de(ps: list, alcance: str) -> dict:
 
 
 def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
-               pagina: str = "", respaldados: set[str] | None = None) -> list[str]:
+               pagina: str = "", respaldados: set[str] | None = None,
+               de_afuera: bool = False) -> list[str]:
     """Los clubes cuyos totales no coinciden con la tabla de la pagina.
 
     Solo se comparan los clubes que estan en las dos partes. Un club de la tabla
@@ -1232,7 +1233,8 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
                          + _de_quien_es_la_culpa(
                              desviados, club in (respaldados or set()),
                              _lo_prueba_el_desbalance(desviados, desbalanceada,
-                                                      gf2 - gf, gc2 - gc)))
+                                                      gf2 - gf, gc2 - gc),
+                             de_afuera))
     return fuera
 
 
@@ -1366,7 +1368,8 @@ def _lo_prueba_el_desbalance(desviados: int, desbalanceada: int,
 
 
 def _de_quien_es_la_culpa(desviados: int, respaldado: bool = False,
-                          lo_prueba_el_desbalance: bool = False) -> str:
+                          lo_prueba_el_desbalance: bool = False,
+                          de_afuera: bool = False) -> str:
     """De que lado esta el error, deducido de cuantos clubes se desvian.
 
     Un marcador mal leido toca siempre a DOS clubes: si a uno le sobra un gol a
@@ -1380,7 +1383,7 @@ def _de_quien_es_la_culpa(desviados: int, respaldado: bool = False,
     de gol, los puntos y el ganados-empatados-perdidos, y hasta la suma de toda
     la liga sigue dando GF total == GC total.
     """
-    if respaldado:
+    if respaldado and de_afuera:
         # LA FOJA YA DESCARTO LA MITAD DE LAS SOSPECHAS. Cuando los partidos no
         # salen de esta pagina sino de una fuente externa, esa fuente publica su
         # propia tabla al lado de ellos, y nuestra suma coincidio con la suya en
@@ -1395,6 +1398,25 @@ def _de_quien_es_la_culpa(desviados: int, respaldado: bool = False,
                 "con la tabla que esa fuente publica al lado de ellos. No es un "
                 "error de lectura: las dos fuentes no coinciden, y arbitrarlo pide "
                 "una tercera")
+    if respaldado:
+        # EL MISMO RESPALDO, PERO LA PAGINA TIENE GRILLA, y entonces dice otra cosa
+        # -- mas fuerte, y con menos que hacer --. Aca los partidos SI salen de esta
+        # pagina: los leimos de su grilla. Que una fuente independiente publique
+        # exactamente nuestras seis cifras deja a nuestra lectura respaldada, y al
+        # desacuerdo adentro de Wikipedia: su tabla contra su propia grilla.
+        #
+        # No hay tercera fuente que traer, que es toda la diferencia. Alla el
+        # desacuerdo es entre dos documentos que nadie obliga a coincidir; aca es
+        # una pagina contradiciendose, y ya sabemos cual de sus dos mitades tiene el
+        # respaldo de afuera.
+        #
+        # Escribir aca el texto de arriba seria decir algo falso: que estos partidos
+        # no salen de esta pagina. Y la mentira no era teorica -- la foja corria solo
+        # sin grilla, asi que la rama nunca se habia visto con una grilla al lado.
+        return ("Pero los partidos de esta pagina, leidos de su grilla, coinciden "
+                "EXACTO -- PJ, G, E, P, GF, GC -- con la tabla que publica una "
+                "fuente independiente. La lectura esta respaldada de afuera: lo que "
+                "no cierra es Wikipedia con Wikipedia, su tabla contra su grilla")
     if lo_prueba_el_desbalance:
         # NO ES UN "LO MAS PROBABLE": LA TABLA SE DELATA SOLA. Ver
         # `_lo_prueba_el_desbalance`.

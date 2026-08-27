@@ -26,6 +26,29 @@ from fad import (citadas, correcciones, dataset, equipos, fechas, parser,
 SALIDA = Path(__file__).resolve().parent / "data"   # una carpeta: un CSV por temporada
 
 
+def _foja_de(pagina: str) -> tuple[str, dict] | None:
+    """(texto crudo, mapa) de la fuente que publica su tabla al lado de sus partidos.
+
+    Para las paginas CON grilla, que no la traian de antes: las sin grilla ya tienen
+    el crudo en la mano de haber leido los partidos y no vuelven a pasar por aca.
+    `None` cuando la pagina no tiene mapa escrito, que son la mayoria.
+
+    SI LA FUENTE NO RESPONDE SE SIGUE SIN FOJA. Aca no hay nada que perder: el
+    respaldo mejora un aviso, no alimenta el dataset. La pagina sin grilla si frena
+    el build cuando RSSSF no contesta, y con razon -- ahi se quedaria sin partidos --,
+    pero eso pasa mucho antes que esta llamada.
+    """
+    from fad import rsssf
+
+    if pagina not in rsssf.FUENTES:
+        return None
+    archivo, mapa = rsssf.FUENTES[pagina]
+    try:
+        return rsssf.descargar(archivo), mapa
+    except OSError:
+        return None
+
+
 def _completar_fechas_rsssf(ps, t, usadas: set | None = None) -> list:
     """Igual que `_completar_fechas` pero contra RSSSF, para los torneos que
     worldfootball no tiene -- el Argentino A no figura en su selector.
@@ -551,7 +574,10 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
     from fad import rsssf
 
     fases = rsssf.FASES.get(pagina, {})
-    tablas = rsssf.leer_tabla(crudo, mapa, fases)
+    # El MISMO recorte que se quedan los partidos. Sin el, en la pagina del ano la
+    # tabla ve las siete divisiones y no la nuestra. Ver `rsssf._acotar`.
+    desde, hasta = rsssf.SECCION_LIGA.get(pagina, ("", ""))
+    tablas = rsssf.leer_tabla(crudo, mapa, fases, desde=desde, hasta=hasta)
 
     def etapa(zona: str) -> str:
         """Que secciones suman juntas. Sin fases declaradas, TODAS -- que es lo que
@@ -956,6 +982,23 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # cruce contra Wikipedia porque es lo que le da sentido: sin ella, un club que
     # no cierra manda a buscar un partido mal leido aunque no lo haya.
     respaldados: set[str] = set()
+    # Y LA FOJA NO ES SOLO PARA LAS PAGINAS SIN GRILLA. Nacio ahi porque ahi era
+    # imprescindible --si los partidos salen de RSSSF, lo primero que hay que
+    # descartar es haberla leido mal--, pero en una pagina CON grilla contesta algo
+    # distinto y mas fuerte. Ahi los partidos salen de Wikipedia, asi que una
+    # coincidencia exacta con la tabla de RSSSF dice que nuestra lectura de la
+    # grilla esta respaldada por una fuente independiente: si igual no cierra contra
+    # la tabla de la propia Wikipedia, la que se contradice es Wikipedia.
+    #
+    # Sale gratis: son las paginas que ya tienen mapa escrito -- para las llaves o
+    # para las fechas -- y `descargar` cachea el archivo en disco. Cinco de las diez
+    # cruzan hoy, con 102 clubes respaldados y cero desacuerdos: la B Nacional
+    # 2007-08, las Primera C 2008-09, 2009-10 y 2010-11 y la Primera B 2010-11.
+    #
+    # Las otras cinco --los Argentino A-- publican una tabla por zona y necesitan el
+    # mapa de nombres de cada temporada, que no esta escrito. Se abstienen, que es
+    # el caso previsto: cero respaldos y cero avisos, igual que antes.
+    foja = foja or _foja_de(t.pagina)
     if foja:
         respaldados, mas = la_fuente_se_respalda(ps, foja[0], foja[1], t.pagina)
         avisos += [validar.Aviso(f"{t.pagina}: RSSSF no cierra consigo misma", d,
@@ -963,7 +1006,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: no cierra con su tabla de posiciones", d,
                              grave=False)
                for d in posiciones.contrastar(ps, texto, pagina=t.pagina,
-                                              respaldados=respaldados)]
+                                              respaldados=respaldados,
+                                              de_afuera=t.sin_grilla)]
     # Y la tabla contra si misma. No compara contra nuestra grilla: suma sus dos
     # columnas de goles y las encuentra distintas, que es imposible. Cuando este
     # salta no hay nada que arbitrar -- la equivocada es la pagina.

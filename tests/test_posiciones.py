@@ -2041,12 +2041,38 @@ def test_la_foja_de_la_fuente_cambia_el_aviso():
     los mandaba a buscar un partido mal leido que no existe.
     """
     ps, texto = _dos_desviados()
-    salio = posiciones.contrastar(ps, texto, respaldados={"Boca Juniors"})
+    salio = posiciones.contrastar(ps, texto, respaldados={"Boca Juniors"},
+                                  de_afuera=True)
     boca = next(d for d in salio if d.startswith("Boca"))
     river = next(d for d in salio if d.startswith("River"))
     assert "las dos fuentes no coinciden" in boca
     assert "mal leido" not in boca
     assert "puede venir de un partido mal leido" in river, "el otro no esta respaldado"
+
+
+def test_el_MISMO_respaldo_dice_otra_cosa_si_la_pagina_tiene_grilla():
+    """EL RESPALDO ES EL MISMO Y LA CONCLUSION ES DISTINTA, y hasta hoy se escribia
+    una sola de las dos.
+
+    Sin grilla, los partidos salen de la fuente externa: que su tabla coincida
+    descarta que la hayamos leido mal, y deja un desacuerdo ENTRE FUENTES que pide
+    una tercera para arbitrar.
+
+    Con grilla, los partidos salen de esta misma pagina. Que una fuente
+    independiente publique nuestras seis cifras respalda nuestra lectura de la
+    grilla, y el desacuerdo queda ADENTRO de Wikipedia: su tabla contra su grilla.
+    No hay tercera que traer.
+
+    Escribir aca el texto de la otra rama seria afirmar algo falso -- que estos
+    partidos no salen de esta pagina --, y no era teorico: la foja corria solo en
+    las paginas sin grilla, asi que esa frase nunca se habia visto con una grilla al
+    lado. Ahora corre en diez paginas mas."""
+    ps, texto = _dos_desviados()
+    salio = posiciones.contrastar(ps, texto, respaldados={"Boca Juniors"})
+    boca = next(d for d in salio if d.startswith("Boca"))
+    assert "no salen de esta pagina" not in boca, "esta pagina SI tiene grilla"
+    assert "Wikipedia con Wikipedia" in boca
+    assert "mal leido" not in boca, "la lectura sigue respaldada"
 
 
 # --------------------------------------------------------------------------

@@ -362,6 +362,64 @@ def _fecha_iso(mes: int, dia: int, anio: int, anio_fin: int, mes_inicio: int) ->
     return f"{anio if mes >= mes_inicio else anio_fin:04d}-{mes:02d}-{dia:02d}"
 
 
+def _acotar(texto: str, desde: str, hasta: str,
+            que: str = "partidos") -> tuple[str | None, list[str]]:
+    """El pedazo del archivo que le toca a esta pagina. `None` si no aparece.
+
+    HACE FALTA DESDE 2010-11: a partir de ahi RSSSF deja de darle archivo propio a
+    cada division y las mete todas en la pagina del ano. `arg2011` trae la Primera
+    Division, la B Nacional, la B Metropolitana, el Argentino A, la Primera C, el
+    Argentino B y la Primera D, una atras de otra y todas con sus `Round N`.
+
+    SIN EL CORTE SE LEEN TODAS COMO SI FUERAN LA MISMA. Los encabezados de division
+    no son encabezados de zona -- `Primera C Metropolitano` no empieza con ninguna
+    de las palabras que abren seccion -- asi que la zona no cambia y los partidos de
+    siete torneos caen en la misma bolsa. Que es peor que no leer: el completador de
+    fechas fecharia partidos con la fecha de otro torneo.
+
+    Se busca el ancla ENTERA, con lo que la sigue, para no quedarse con el indice:
+    en la pagina del ano el mismo texto que abre la seccion aparece ANTES en el
+    indice y despues en las referencias cruzadas. Ese error ya se cometio dos veces
+    en este repo con los titulos de Wikipedia.
+
+    `hasta` NO ES OPCIONAL EN LA PRACTICA aunque lo sea en la firma: sin el, la
+    seccion se come todo lo que viene abajo. Si se pide y no aparece se avisa en vez
+    de seguir de largo, porque leer de mas aca es silencioso. En `leer_llaves` la
+    fase final del Argentino A 2010-11 seguia hasta la Primera C y el Argentino B, y
+    sus clubes -- `UAI-Urquiza`, `Dvo. Laferrere`, `Dvo Roca` -- caian como nombres
+    que el mapa no traduce: trece avisos sobre partidos que no son de este torneo.
+
+    ESTA ESCRITO UNA SOLA VEZ A PROPOSITO, y lo estuvo dos. Los tres lectores del
+    archivo -- partidos, llaves y tabla -- tienen que quedarse con EL MISMO pedazo:
+    una tabla leida del archivo entero mientras los partidos se leen de una seccion
+    no es un testigo de esos partidos, es un testigo de otro torneo. Cuando el
+    recorte se escribe una vez por lector, tarde o temprano se escribe distinto --
+    y de hecho asi estaba: `leer` y `leer_llaves` lo tenian, `leer_tabla` no, y por
+    eso veinte tablas de siete divisiones le caian encima a una.
+
+    (Unificarlo mueve donde vive la red: antes cada copia tenia su mutante y ahora
+    el mutante compartido cae por cualquiera de los tres. Lo que hay que sostener
+    pasa a ser otra cosa -- que cada lector PIDA su recorte --, y va con un mutante
+    por lector. Es la leccion de `teams.py` del repo hermano: unificar sin mover la
+    red deja tests que ya no miran nada.)
+    """
+    raros: list[str] = []
+    if desde:
+        i = texto.find(desde)
+        if i < 0:
+            return None, [f"no se encontro la seccion {desde.splitlines()[0]!r}"]
+        texto = texto[i:]
+    if hasta:
+        j = texto.find(hasta)
+        if j < 0:
+            raros.append(f"no se encontro el final de la seccion "
+                         f"{hasta.splitlines()[0]!r}; se leyo hasta el final del "
+                         f"archivo y puede haber {que} de otro torneo")
+        else:
+            texto = texto[:j]
+    return texto, raros
+
+
 def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
          mes_inicio: int = 8, desde: str = "",
          hasta: str = "") -> tuple[list[Ajeno], list[str]]:
@@ -371,36 +429,11 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
     las secciones que estan en el mapa: los playoffs mezclan las dos zonas y ahi
     un nombre corto deja de identificar a un club, asi que no se emparejan.
     """
-    # `desde`/`hasta` acotan a una seccion, y hacen falta desde 2010-11: a partir
-    # de ahi RSSSF deja de darle archivo propio a cada division y las mete todas en
-    # la pagina del ano. `arg2011` trae la Primera Division, la B Nacional, la B
-    # Metropolitana, el Argentino A, la Primera C, el Argentino B y la Primera D,
-    # una atras de otra y todas con sus `Round N`.
-    #
-    # SIN EL CORTE SE LEEN TODAS COMO SI FUERAN LA MISMA. Los encabezados de
-    # division no son encabezados de zona -- `Primera C Metropolitano` no empieza
-    # con ninguna de las palabras que abren seccion -- asi que la zona no cambia y
-    # los partidos de siete torneos caen en la misma bolsa. Que es peor que no
-    # leer: el completador de fechas fecharia partidos con la fecha de otro
-    # torneo.
-    #
-    # `hasta` NO ES OPCIONAL EN LA PRACTICA aunque lo sea en la firma: sin el, la
-    # seccion se come todo lo que viene abajo. Si se pide y no aparece, se avisa en
-    # vez de seguir de largo, porque leer de mas aca es silencioso.
-    raros: list[str] = []
-    if desde:
-        i = texto.find(desde)
-        if i < 0:
-            return [], [f"no se encontro la seccion {desde.splitlines()[0]!r}"]
-        texto = texto[i:]
-    if hasta:
-        j = texto.find(hasta)
-        if j < 0:
-            raros.append(f"no se encontro el final de la seccion "
-                         f"{hasta.splitlines()[0]!r}; se leyo hasta el final del "
-                         f"archivo y puede haber partidos de otro torneo")
-        else:
-            texto = texto[:j]
+    # El recorte de la seccion, que es de los tres lectores y vive en `_acotar`.
+    acotado, raros = _acotar(texto, desde, hasta, "partidos")
+    if acotado is None:
+        return [], raros
+    texto = acotado
 
     fuera: list[Ajeno] = []
     desconocidos: set[str] = set()
@@ -808,6 +841,7 @@ FASES: dict[str, dict[str, str]] = {
 def leer_tabla(texto: str,
                mapa: dict[str, dict[str, str]],
                fases: dict[str, str] | None = None,
+               desde: str = "", hasta: str = "",
                ) -> list[tuple[str, str, list[tuple]]]:
     """[(zona, [(PJ, GF, GC, G, E, P)])] -- las tablas que publica la fuente.
 
@@ -847,7 +881,22 @@ def leer_tabla(texto: str,
     segundo -- publica nueve tablas rotuladas y ninguna dice `Final Table:` --, y
     por eso figuraba como "no publica ninguna tabla rotulada", que era una
     afirmacion sobre nuestro lector y no sobre la fuente.
+
+    Y SE QUEDA CON LA MISMA SECCION QUE LOS PARTIDOS, que es `desde`/`hasta`. No lo
+    hacia, y era el bug mas silencioso de los tres: en la pagina del ano las veinte
+    tablas de siete divisiones caian todas bajo la misma clave, el que cruza veia
+    veinte donde esperaba una y se abstenia. Tres temporadas sin ningun respaldo por
+    leer de mas. Ver `_acotar`.
+
+    Un aviso de `_acotar` aca se pierde a proposito: esta funcion devuelve tablas y
+    no avisos, y la unica consecuencia de leer de mas es ABSTENERSE -- mas tablas
+    bajo una clave, el que cruza no elige --. Nunca una acusacion falsa. Ademas el
+    aviso ya sale: `leer` corre sobre el mismo archivo con el mismo recorte.
     """
+    acotado, _ = _acotar(texto, desde, hasta, "tablas")
+    if acotado is None:
+        return []
+    texto = acotado
     fuera: list[tuple[str, str, list[tuple]]] = []
     fases = fases or {}
     fase = ""
@@ -919,7 +968,32 @@ def leer_tabla(texto: str,
                                   "First Phase", "Second Phase", "Final", "Promoci",
                                   "Champion", "Relegation")):
                 zona = ""
-    return [(fa, z, f) for fa, z, f in fuera if f]
+    # LA MISMA TABLA DOS VECES NO ES UNA AMBIGUEDAD. RSSSF publica la tabla final
+    # ARRIBA del archivo, como resumen antes de la primera fecha, y DE NUEVO abajo
+    # despues de la ultima. Son dos apariciones de una tabla, no dos tablas: mismas
+    # veinte filas y mismos seis numeros. Pasa en la B Nacional 2007-08 y en las
+    # Primera C 2008-09 y 2009-10.
+    #
+    # Importa porque el que cruza exige UNA sola tabla por clave y se abstiene
+    # cuando hay dos. Hace bien: dos tablas DISTINTAS bajo el mismo rotulo no dicen
+    # cual cubre que partidos. Pero ante una copia no hay nada que elegir, y
+    # abstenerse ahi dejaba tres temporadas enteras sin respaldo.
+    #
+    # Se descarta solo la IDENTICA y bajo la MISMA clave, asi que la guarda queda
+    # entera: dos zonas distintas no se tocan nunca, y dos tablas distintas de la
+    # misma zona siguen siendo dos. Se compara el conjunto de filas y no su orden,
+    # que es como las compara el que cruza.
+    vistas: set[tuple] = set()
+    limpias: list[tuple[str, str, list[tuple]]] = []
+    for fa, z, f in fuera:
+        if not f:
+            continue
+        clave = (fa, z, tuple(sorted(f)))
+        if clave in vistas:
+            continue
+        vistas.add(clave)
+        limpias.append((fa, z, f))
+    return limpias
 
 
 def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
@@ -934,31 +1008,11 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
     """
     from fad.parser import Partido
 
-    # `desde` acota a una seccion, y hace falta cuando la temporada no tiene archivo
-    # propio sino que vive dentro de la pagina del ano: ahi el mismo texto que abre
-    # la seccion aparece ANTES en el indice y despues en las referencias cruzadas.
-    # Se busca el ancla ENTERA, con lo que la sigue, para no quedarse con el indice
-    # -- ese error ya se cometio dos veces en este repo con los titulos de Wikipedia.
-    raros: list[str] = []
-    if desde:
-        i = texto.find(desde)
-        if i < 0:
-            return [], [f"no se encontro la seccion {desde.splitlines()[0]!r}"]
-        texto = texto[i:]
-    # Y ACOTA POR ABAJO, por el mismo motivo que `leer`: en la pagina del anio las
-    # divisiones van una atras de otra y la fase final de una desemboca en la de la
-    # siguiente. Sin el corte, la del Argentino A 2010-11 seguia de largo hasta la
-    # Primera C y el Argentino B, y sus clubes -- `UAI-Urquiza`, `Dvo. Laferrere`,
-    # `Dvo Roca` -- caian como nombres que el mapa no traduce. Trece avisos sobre
-    # partidos que no son de este torneo.
-    if hasta:
-        j = texto.find(hasta)
-        if j < 0:
-            raros.append(f"no se encontro el final de la seccion "
-                         f"{hasta.splitlines()[0]!r}; se leyo hasta el final del "
-                         f"archivo y puede haber llaves de otro torneo")
-        else:
-            texto = texto[:j]
+    # El mismo recorte que pide `leer`, y por los mismos dos motivos. Ver `_acotar`.
+    acotado, raros = _acotar(texto, desde, hasta, "llaves")
+    if acotado is None:
+        return [], raros
+    texto = acotado
 
     fuera = []
     # (indice en `fuera`, penales del local, del visitante) de las tandas que no

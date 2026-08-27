@@ -7,24 +7,25 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 042 | 7 | 149 | 986 | 415 |
+| 44 042 | 7 | 149 | 995 | 422 |
 
 ## 2004–2026 — Cerrado
 
 `41 558` partidos y no falta ninguno. **Ningún partido queda con dos marcadores en disputa,
 ninguno con dos días distintos —eran `61`—, ninguna tabla queda sin contrastar contra su
 grilla, y las `60` verificaciones a mano fijan el estado que verificaron, así que caducan
-solas.** De los `166` avisos, **ninguno es grave**; cada clase tiene su explicación en el
+solas. `177` clubes de `9` temporadas tienen además el respaldo de una fuente independiente.** De los `166` avisos, **ninguno es grave**; cada clase tiene su explicación en el
 archivo que la produce y no se repite acá. Lo que queda:
 
 - **`7` partidos sin fecha, y sólo `1` espera una.** Los otros `6` no se jugaron —los que
   el Federal A 2024 le dio por perdidos a Sansinena—. El que falta es la semifinal
   `Ben Hur` vs `Atlético Tucumán` del `Argentino A 2004-05`, donde la fuente citada le erra
   al día por diez meses.
-- **Extender la foja de RSSSF**, que es el testigo más fuerte que hay. Ya cruza las 4
-  páginas sin grilla; lo que falta es correrla en las que **sí** tienen grilla, donde
-  sería un testigo nuevo y gratis de nuestras lecturas de Wikipedia. Ahí falta el mapa de
-  nombres por temporada, que es lo caro.
+- **Terminar de extender la foja de RSSSF.** Ya cruza `9` páginas y respalda `177`
+  clubes, con `0` desacuerdos: se extendió a las que **sí** tienen grilla, donde es un
+  testigo independiente de nuestra lectura de Wikipedia. Las `5` que faltan son los
+  `Torneo Argentino A`, que publican **una tabla por zona** y necesitan el mapa de nombres
+  de cada temporada — que es lo caro. Se abstienen declaradamente.
 - **Fechar un desacuerdo.** Ningún testigo puede decir *cuándo* la página cambió de
   opinión, y es la deuda más cara. Pide terminar el modelo de la «Evolución de las
   posiciones» —medido dio 12% de desvíos, un modelo incompleto haciendo ruido— o cruzar

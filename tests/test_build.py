@@ -8,6 +8,7 @@ clubes con media historia cada uno.
 from __future__ import annotations
 
 import build
+from fad import posiciones
 from fad.torneos import Torneo
 
 # `cerrado=False`: estos tests reconstruyen el torneo en cada corrida. Uno
@@ -1141,12 +1142,97 @@ def test_una_tabla_que_no_cubre_la_zona_no_se_cruza():
 
 
 def test_una_zona_con_dos_tablas_no_se_cruza():
-    """Cardinalidad: si la zona trae dos tablas no se sabe cual cubre que. Es el
-    Argentino A 2009-10, que corre dos fases rotulando las dos `Zone 1`."""
+    """Cardinalidad: si la zona trae dos tablas DISTINTAS no se sabe cual cubre que.
+    Es el Argentino A 2009-10, que corre dos fases rotulando las dos `Zone 1`."""
+    ps = [_zp("A", "B", 2, 0, "Zone 1")]
+    una = _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)])
+    otra = _tabla("Zone 1", [(3, 3, 0, 0, 9, 0), (3, 0, 0, 3, 0, 9)])
+    respaldados, avisos = build.la_fuente_se_respalda(ps, una + "\n" + otra, _MAPA_2)
+    assert (respaldados, avisos) == (set(), [])
+
+
+def test_la_foja_se_queda_con_LA_SECCION_de_su_pagina():
+    """El recorte no alcanza con que `leer_tabla` sepa hacerlo: hay que pedirselo.
+
+    Desde 2010-11 RSSSF mete siete divisiones en un archivo por ano, y la seccion que
+    le toca a cada pagina la declara `SECCION_LIGA` -- la misma que usan los partidos.
+    Sin pasarla, la foja ve las tablas de las siete: dos bajo la misma clave, el cruce
+    no puede elegir, y se abstiene en la temporada entera.
+
+    Se usa una pagina REAL y su recorte real, porque el que se puede escribir mal es
+    justamente ese: un test con anclas inventadas prueba el mecanismo y no el dato.
+    """
+    from fad import rsssf
+
+    pagina = "Campeonato de Primera B 2010-11 (Argentina)"
+    desde, hasta = rsssf.SECCION_LIGA[pagina]
+    ps = [_zp("A", "B", 2, 0, "Zone 1")]
+    mia = _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)])
+    ajena = _tabla("Zone 1", [(9, 9, 0, 0, 99, 0), (9, 0, 0, 9, 0, 99)])
+    crudo = f"{ajena}\n{desde}\n{mia}\n{hasta}\n{ajena}"
+    respaldados, avisos = build.la_fuente_se_respalda(ps, crudo, _MAPA_2, pagina)
+    assert (respaldados, avisos) == ({"A", "B"}, []), (
+        "sin el recorte se ven dos tablas distintas bajo la misma clave y se abstiene")
+
+
+def test_el_aviso_se_entera_de_que_la_pagina_TIENE_grilla(monkeypatch):
+    """Y la otra mitad del cableado: de donde salen los partidos decide cual de las
+    dos conclusiones se escribe, y eso lo sabe `build` y no `contrastar`.
+
+    Con grilla los partidos salen de la propia pagina, asi que el aviso NO puede
+    decir que vienen de una fuente externa. `contrastar` ya sabe redactar las dos; lo
+    que se prueba aca es que reciba cual.
+    """
+    visto = {}
+    real = posiciones.contrastar
+
+    def espiar(*a, **k):
+        visto.update(k)
+        return real(*a, **k)
+
+    monkeypatch.setattr(posiciones, "contrastar", espiar)
+    build.procesar(tabla(("Boca Juniors", "River Plate")), T)
+    assert visto["de_afuera"] is False
+
+
+def test_y_de_que_NO_la_tiene_cuando_los_partidos_son_de_RSSSF(monkeypatch):
+    """El mismo cableado del otro lado. Es el unico camino del repo por el que una
+    fila no viene de Wikipedia, y el aviso que le corresponde es el otro: ahi el
+    respaldo deja un desacuerdo ENTRE FUENTES, que pide una tercera para arbitrar.
+
+    La fuente se monkeypatchea vacia a proposito -- lo que se mira es el cableado,
+    no los partidos --, que es lo mismo que hacen los tests del completador de
+    fechas con `descargar`.
+    """
+    from fad import rsssf
+
+    visto = {}
+    real = posiciones.contrastar
+
+    def espiar(*a, **k):
+        visto.update(k)
+        return real(*a, **k)
+
+    t = Torneo("Anexo:Prueba", "Prueba", 2026, cerrado=False, sin_grilla=True)
+    monkeypatch.setattr(rsssf, "FUENTES", {t.pagina: ("archivo", {})})
+    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: "")
+    monkeypatch.setattr(posiciones, "contrastar", espiar)
+    build.procesar("", t)
+    assert visto["de_afuera"] is True
+
+
+def test_la_misma_tabla_dos_veces_SI_alcanza():
+    """Y esta es la otra mitad, que hasta hoy caia del lado equivocado. RSSSF
+    publica su tabla final arriba del archivo y de nuevo abajo: son dos apariciones
+    de una tabla, no dos tablas, y ahi no hay ninguna ambiguedad que cuidar.
+
+    Abstenerse igual costaba caro y en silencio -- la B Nacional 2007-08 y las
+    Primera C 2008-09 y 2009-10, sesenta clubes sin respaldo por una copia --. La
+    guarda queda entera: lo de arriba sigue sin cruzar."""
     ps = [_zp("A", "B", 2, 0, "Zone 1")]
     una = _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)])
     respaldados, avisos = build.la_fuente_se_respalda(ps, una + "\n" + una, _MAPA_2)
-    assert (respaldados, avisos) == (set(), []), "dos tablas iguales tampoco alcanzan"
+    assert (respaldados, avisos) == ({"A", "B"}, [])
 
 
 def test_un_club_ya_revisado_a_mano_calla_el_aviso_pero_no_el_cruce():

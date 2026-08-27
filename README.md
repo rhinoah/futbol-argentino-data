@@ -2747,13 +2747,122 @@ dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
 de parser recupera.
 
+## El testigo que estaba escrito y miraba el archivo equivocado
+
+La **foja** es el cruce que le pregunta a RSSSF si nuestra suma coincide con la
+tabla que ella misma publica al lado de sus partidos. Existía hacía rato, pero
+corría en cuatro páginas: las que no tienen grilla y sacan los partidos de ahí. En
+las otras diez que tienen mapa de RSSSF escrito devolvía **cero** respaldos, y esa
+línea de ceros parecía un límite del formato.
+
+No lo era. Eran tres cosas distintas, y las tres se veían igual desde afuera.
+
+### RSSSF publica su tabla dos veces
+
+La B Nacional 2007-08 y las Primera C 2008-09 y 2009-10 traen **dos tablas
+idénticas** bajo la misma clave: RSSSF imprime la tabla final arriba del archivo,
+como resumen antes de la primera fecha, y de nuevo abajo después de la última.
+
+El cruce exige *una sola* tabla por clave y se abstiene cuando hay dos. Y hace
+bien —dos tablas **distintas** bajo el mismo rótulo no dicen cuál cubre qué
+partidos—, pero ante una copia no hay nada que elegir. Sesenta clubes sin respaldo
+por una guarda que estaba cuidando una ambigüedad que no existía.
+
+El descarte va por **clave y contenido**, así que la guarda queda entera: dos zonas
+distintas no se tocan nunca, y dos tablas distintas de la misma zona siguen siendo
+dos.
+
+### El recorte estaba escrito dos veces, y faltaba la tercera
+
+Desde 2010-11 RSSSF deja de darle archivo propio a cada división y las mete todas
+en la página del año: `arg2011` trae la Primera, la B Nacional, la B Metropolitana,
+el Argentino A, la Primera C, el Argentino B y la Primera D, una atrás de otra.
+
+Los lectores de partidos y de llaves ya se acotaban a su sección. **El de tablas
+no.** Así que en esas páginas los partidos salían de la Primera C y las tablas eran
+las veinte de las siete divisiones — el cruce veía veinte bajo una clave y se
+abstenía.
+
+Es el bug más silencioso de los tres, y de una familia conocida: el recorte estaba
+escrito **dos veces**, una en cada lector que lo pedía, y cuando algo se escribe dos
+veces tarde o temprano se escribe distinto. Acá pasó la variante rara —la tercera
+copia no se escribió nunca—, que es peor: dos copias que divergen se notan cuando
+dan resultados distintos, y una que falta no da ningún resultado. Ahora vive en un
+solo `_acotar` que los tres piden.
+
+Eso mueve la red de tests, y hay que moverla a propósito: antes cada copia tenía su
+mutante; ahora el mutante compartido muere por cualquiera de los tres, y lo que hay
+que sostener pasa a ser **que cada lector pida su recorte**. Va con un mutante por
+lector. Es la lección de `teams.py` del repo hermano —unificar sin mover la red deja
+tests que ya no miran nada—, esta vez aplicada en el mismo commit.
+
+### Y la tercera no se arregló
+
+Los cinco Argentino A publican **una tabla por zona**, y para cruzarlas hace falta
+el mapa de nombres de cada temporada, que no está escrito. Siguen en cero. Pero
+ahora están en cero por abstención declarada y no por leer el archivo equivocado,
+que no es lo mismo aunque el número sea igual.
+
+### Lo que rinde
+
+| | páginas | clubes respaldados |
+|---|---:|---:|
+| antes | 4 | 75 |
+| ahora | 9 | **177** |
+
+Cinco temporadas enteras nuevas —B Nacional 2007-08, Primera C 2008-09, 2009-10 y
+2010-11, y Primera B 2010-11— en las que RSSSF le da la razón a nuestra grilla en
+las seis cifras, club por club. **Cero desacuerdos**, y el dataset no se mueve: la
+foja no escribe filas, mejora un aviso.
+
+Corre cuando la página se reprocesa —`python build.py --rehacer`—, igual que todos
+los chequeos de una temporada cerrada: el build diario reusa sus filas del CSV y no
+vuelve a bajar la página. Que es el punto de tenerlas cerradas.
+
+### El aviso decía algo que iba a volverse falso
+
+Cuando un club no cierra contra su tabla y la foja lo respalda, el aviso escribía:
+
+> *«esos partidos no salen de esta página sino de una fuente externa»*
+
+Cierto mientras la foja corría **sólo** sin grilla. Falso apenas corre con grilla:
+ahí los partidos sí salen de esta página, los leímos de su grilla.
+
+Y la conclusión, además, es distinta y más fuerte. Sin grilla, que la tabla de la
+fuente coincida descarta haberla leído mal y deja un desacuerdo **entre fuentes**,
+que pide una tercera para arbitrar. Con grilla, que una fuente independiente
+publique nuestras seis cifras respalda nuestra lectura, y el desacuerdo queda
+**adentro de Wikipedia**: su tabla contra su propia grilla. No hay tercera que
+traer.
+
+Son dos ramas, y hasta hoy estaba escrita una sola — la que nunca se había visto
+con una grilla al lado.
+
+### Y la mutación encontró dos agujeros, los dos de la misma forma
+
+Al correr `mutar.py` sobrevivieron dos mutantes nuevos, y no era casualidad que
+fueran dos: son el mismo agujero visto de dos lados. Los tests probaban **las
+piezas** —que `leer_tabla` sabe acotarse, que `contrastar` sabe redactar las dos
+conclusiones— y ninguno probaba que **`build` se las pidiera**. El cableado no lo
+miraba nadie.
+
+Es un punto ciego con forma propia: una función chica y testeable es fácil de
+probar, y justamente por eso la línea que la llama se siente ya cubierta. No lo
+está. Un mutante que cambia `de_afuera=t.sin_grilla` por `de_afuera=True` no toca
+ninguna función probada — cambia qué se le pasa a una.
+
+Se tapó con tres tests que van por `build`: uno le pasa a la foja una página real
+con su recorte real (con anclas inventadas se prueba el mecanismo, no el dato), y
+dos espían qué recibe `contrastar` desde los dos lados del `sin_grilla`. De paso
+quedó cubierto el camino sin grilla, que no tenía un solo test.
+
 ## Tests
 
-696 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+995 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 243 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 422 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

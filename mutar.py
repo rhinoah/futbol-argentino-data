@@ -193,8 +193,20 @@ MUTANTES = [
 
     ("build.py", "no cruzar contra la tabla de posiciones",
      "               for d in posiciones.contrastar(ps, texto, pagina=t.pagina,\n"
-     "                                              respaldados=respaldados)]",
+     "                                              respaldados=respaldados,\n"
+     "                                              de_afuera=t.sin_grilla)]",
      "               for d in []]"),
+
+    # El respaldo dice dos cosas distintas segun de donde salgan los partidos, y
+    # escribir la de la pagina sin grilla en una pagina CON grilla es afirmar algo
+    # falso: que esos partidos no salen de esta pagina.
+    ("build.py", "contarle al aviso que los partidos son de afuera cuando no lo son",
+     "                                              de_afuera=t.sin_grilla)]",
+     "                                              de_afuera=True)]"),
+
+    ("build.py", "callarle al aviso que los partidos SI son de afuera",
+     "                                              de_afuera=t.sin_grilla)]",
+     "                                              de_afuera=False)]"),
 
     ("build.py", "no chequear que la tabla cierre consigo misma",
      "               for d in posiciones.desbalance(ps, texto, pagina=t.pagina)]",
@@ -1120,10 +1132,12 @@ MUTANTES = [
      "        fuera.append(Partido(local=cv, visita=cl,",
      "        fuera.append(Partido(local=cl, visita=cv,"),
 
-    # La seccion de llaves y la fila de tabla que no es un partido.
-    ("fad/rsssf.py", "leer llaves mas alla del final de la seccion",
-     "        else:\n            texto = texto[:j]\n\n    fuera = []",
-     "        else:\n            pass\n\n    fuera = []"),
+    # La seccion de llaves y la fila de tabla que no es un partido. El recorte en si
+    # ya no vive aca sino en `_acotar`, que es de los tres lectores; lo que se
+    # sostiene aca es que ESTE lector lo pida.
+    ("fad/rsssf.py", "leer las llaves sin el recorte de su seccion",
+     '    acotado, raros = _acotar(texto, desde, hasta, "llaves")',
+     '    acotado, raros = _acotar(texto, "", "", "llaves")'),
 
     ("fad/rsssf.py", "leer una fila de tabla como si abriera una llave",
      "        if _FOJA.match(linea):\n            continue",
@@ -1187,9 +1201,24 @@ MUTANTES = [
      '            raros.append("") or raros.pop() or raros.append(f"x "'),
 
     ("fad/rsssf.py", "leer el archivo entero cuando la seccion no aparece",
-     '            return [], [f"no se encontro la seccion {desde.splitlines()[0]!r}"]\n'
+     '            return None, [f"no se encontro la seccion {desde.splitlines()[0]!r}"]\n'
      "        texto = texto[i:]",
      "        texto = texto[max(i, 0):]"),
+
+    # Y UNO POR LECTOR, que es lo que la unificacion vuelve interesante: el recorte
+    # esta bien escrito una sola vez, asi que lo que puede fallar ahora es que
+    # alguno de los tres no lo pida. `leer_tabla` es justamente el que no lo pedia.
+    ("fad/rsssf.py", "leer los partidos sin el recorte de su seccion",
+     '    acotado, raros = _acotar(texto, desde, hasta, "partidos")',
+     '    acotado, raros = _acotar(texto, "", "", "partidos")'),
+
+    ("fad/rsssf.py", "leer la tabla del archivo entero mientras los partidos se acotan",
+     '    acotado, _ = _acotar(texto, desde, hasta, "tablas")',
+     '    acotado, _ = _acotar(texto, "", "", "tablas")'),
+
+    ("build.py", "no pasarle a la tabla el recorte que si usan los partidos",
+     "    tablas = rsssf.leer_tabla(crudo, mapa, fases, desde=desde, hasta=hasta)",
+     "    tablas = rsssf.leer_tabla(crudo, mapa, fases)"),
 
     ("build.py", "no acotar la seccion al completar fechas",
      '    desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))',
@@ -1311,11 +1340,23 @@ MUTANTES = [
      '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s{2,}"'),
 
     ("fad/rsssf.py", "juntar por nombre las dos tablas de una misma zona",
-     "    return [(fa, z, f) for fa, z, f in fuera if f]",
+     "    return limpias",
      "    j = {}\n"
-     "    for fa, z, f in fuera:\n"
+     "    for fa, z, f in limpias:\n"
      "        j.setdefault(z, [fa, []])[1].extend(f)\n"
      "    return [(fa, z, f) for z, (fa, f) in j.items() if f]"),
+
+    # La copia que la fuente publica dos veces. Los dos mutantes son las dos maneras
+    # de equivocarse: no descartarla --y abstenerse en sesenta clubes-- o descartarla
+    # de mas, tapando una segunda tabla que SI es distinta y que el cruce necesita
+    # ver para saber que no puede elegir.
+    ("fad/rsssf.py", "contar como dos tablas la misma tabla publicada dos veces",
+     "        clave = (fa, z, tuple(sorted(f)))",
+     "        clave = (fa, z, tuple(sorted(f)), len(limpias))"),
+
+    ("fad/rsssf.py", "descartar la segunda tabla de una zona aunque sea distinta",
+     "        clave = (fa, z, tuple(sorted(f)))",
+     "        clave = (fa, z)"),
 
     ("build.py", "mandar al club del interzonal a la zona ajena",
      "                  if cuenta.most_common(1)[0][0] == zona and c in sumas}",

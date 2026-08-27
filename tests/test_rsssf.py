@@ -1032,13 +1032,75 @@ def test_una_tabla_sin_el_rotulo_no_se_lee():
 def test_dos_tablas_de_la_misma_zona_vuelven_separadas():
     """Una entrada por TABLA y no por zona. El Argentino A 2009-10 corre dos
     fases y las dos rotulan sus secciones `Zone 1`: juntarlas por nombre
-    fusionaria dos conjuntos de partidos distintos en una sola lista."""
+    fusionaria dos conjuntos de partidos distintos en una sola lista.
+
+    Y LAS DOS TABLAS DEL FIXTURE TIENEN QUE SER DISTINTAS, que es lo que la frase
+    de arriba dice y lo que el fixture no hacia: reusaba la misma dos veces. Con
+    dos copias el test no separaba "una entrada por tabla" de "una entrada por
+    tabla salvo las repetidas", que son dos comportamientos distintos y hoy el
+    lector tiene el segundo."""
+    una = (" 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+           " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    otra = (" 1.A (Ciudad)                              2   2  0  0   5-0   6\n"
+            " 2.B (Otra)                                2   0  0  2   0-5   0\n")
+    texto = ("Zone 1\nFinal Table:\n\n" + una +
+             "\nSecond Phase\n\nZone 1\nFinal Table:\n\n" + otra)
+    leidas = rsssf.leer_tabla(texto, _MAPA_FOJA)
+    assert len(leidas) == 2 and all(z == "Zone 1" for _, z, _ in leidas)
+
+
+def test_la_misma_tabla_publicada_dos_veces_es_UNA():
+    """RSSSF publica la tabla final ARRIBA del archivo, como resumen antes de la
+    primera fecha, y DE NUEVO abajo despues de la ultima. Son dos apariciones de
+    una tabla y no dos tablas.
+
+    Importa porque el que cruza exige UNA sola por clave y se abstiene cuando hay
+    dos -- con razon: dos tablas DISTINTAS bajo el mismo rotulo no dicen cual cubre
+    que partidos --. Ante una copia no hay nada que elegir, y abstenerse ahi dejaba
+    sin respaldo a la B Nacional 2007-08 y a las Primera C 2008-09 y 2009-10:
+    sesenta clubes."""
     una = (" 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
            " 2.B (Otra)                                2   0  1  1   1-3   1\n")
     texto = ("Zone 1\nFinal Table:\n\n" + una +
              "\nSecond Phase\n\nZone 1\nFinal Table:\n\n" + una)
-    leidas = rsssf.leer_tabla(texto, _MAPA_FOJA)
-    assert len(leidas) == 2 and all(z == "Zone 1" for _, z, _ in leidas)
+    assert len(rsssf.leer_tabla(texto, _MAPA_FOJA)) == 1
+
+
+def test_la_copia_se_descarta_por_CLAVE_y_no_a_secas():
+    """Dos zonas distintas con la misma tabla siguen siendo dos. La cardinalidad de
+    una zona es lo que el cruce le exige, y perder una fila porque otra zona tiene
+    los mismos numeros seria inventar una abstencion."""
+    una = (" 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+           " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    texto = ("Zone 1\nFinal Table:\n\n" + una +
+             "\nZone 2\nFinal Table:\n\n" + una)
+    assert [z for _, z, _ in rsssf.leer_tabla(texto, _MAPA_FOJA)] == ["Zone 1", "Zone 2"]
+
+
+def test_la_tabla_se_queda_con_LA_MISMA_SECCION_que_los_partidos():
+    """El recorte es de los tres lectores. `leer` y `leer_llaves` lo pedian y
+    `leer_tabla` no, y era el bug mas silencioso de los tres: en la pagina del ano
+    -- donde RSSSF mete siete divisiones en un archivo -- la tabla veia las veinte
+    tablas de todas, el que cruza veia veinte bajo una clave y se abstenia."""
+    una = (" 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+           " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    ajena = (" 1.A (Ciudad)                              9   9  0  0  99-0  27\n"
+             " 2.B (Otra)                                9   0  0  9   0-99  0\n")
+    texto = ("Otra Division\n\nZone 1\nFinal Table:\n\n" + ajena +
+             "\nLa Nuestra\n\nZone 1\nFinal Table:\n\n" + una +
+             "\nTopscorers\n\nZone 1\nFinal Table:\n\n" + ajena)
+    leidas = rsssf.leer_tabla(texto, _MAPA_FOJA,
+                              desde="La Nuestra", hasta="Topscorers")
+    assert [f for _, _, f in leidas] == [[(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)]]
+
+
+def test_la_tabla_de_una_seccion_que_no_esta_no_es_el_archivo_entero():
+    """Si el ancla no aparece, leer el archivo entero seria leer las tablas de otra
+    division y llamarlas nuestras. Silencioso y peor que no leer."""
+    una = (" 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+           " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    texto = "Zone 1\nFinal Table:\n\n" + una
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA, desde="Una Seccion Que No Esta") == []
 
 
 def test_la_fase_viaja_con_la_tabla_y_las_distingue():
