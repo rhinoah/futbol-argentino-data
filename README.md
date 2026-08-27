@@ -2747,6 +2747,79 @@ dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
 de parser recupera.
 
+## El mapa de zonas, y tres maneras de no publicar una tabla
+
+El pendiente decía que a los cinco `Torneo Argentino A` les faltaba **el mapa de
+nombres de cada temporada, que es lo caro**. Al medirlos, eso era cierto para
+ninguno: son cinco páginas y **tres causas distintas**, otra vez.
+
+### La fuente tiene dos formatos de tabla
+
+Desde 2011-12 RSSSF publica los goles a favor y en contra en **columnas
+separadas** (`42  23`) en vez de pegados con un guion (`42-23`). Nuestro lector
+sólo conocía el segundo, así que `arg2012` y `arg3-int2013` figuraban como *«no
+publican ninguna tabla»* — una afirmación sobre nuestro lector, no sobre la
+fuente.
+
+**Cuál de los dos es se lee, no se adivina.** El formato nuevo trae un encabezado
+que nombra sus columnas:
+
+```
+No. Team 			      G   W   D   L  Gf  Ga   P
+```
+
+Distinguirlos por el regex sería peligroso: el permisivo también matchea una fila
+del formato viejo, corriendo las columnas y leyendo números que no son. Y además
+el encabezado separa **dos cosas que se escriben igual** — los archivos viejos
+rotulan `Table:` a secas las tablas de *media* temporada, y el Argentino A 2006-07
+tiene seis. Abrirlas como si fueran la acumulada le mete a cada zona una segunda
+tabla distinta, y los ocho clubes que esa página respalda se van a cero. El
+encabezado no aparece en ninguna: medido, está en `arg2012` y `arg3-int2013` y en
+ningún otro archivo de los que leemos.
+
+### El mapa de zonas, que no existía
+
+Existía `FASES` —cómo rotula la fuente cada **fase** y cómo la llamamos nosotros—
+y no existía el equivalente para la **zona**. El cruce comparaba los dos rótulos
+literalmente, y por eso funcionaba sólo cuando coincidían solos:
+
+- en las páginas **sin grilla** los partidos salen de RSSSF, así que la zona de
+  nuestras filas *es* el rótulo de RSSSF y la comparación es contra sí misma;
+- en las de una sola zona los dos lados dicen `""` y también coinciden.
+
+En cuanto los dos lados nombran la misma zona distinto —`Zone 1` contra
+`Primera fase - Zona 1`— no cruza ni un club, la tabla se descarta por
+cardinalidad, y desde afuera se ve igual que *«la fuente no publica tablas»*.
+
+`ZONAS` lo declara, con la **fase en la clave**: un archivo repite los nombres de
+zona entre fases, y el Argentino A 2010-11 rotula `Zone 1` en la regular y otra vez
+en la final. Por defecto la traducción es la **identidad**, y tiene que serlo:
+volverla obligatoria se lleva puestas las cuatro temporadas que ya cruzaban.
+
+Con eso más el recorte de su sección —`arg2011` es la página del año, con siete
+divisiones adentro— el **Argentino A 2010-11 respalda sus 24 clubes**, las tres
+zonas de la fase regular, y el dataset no se mueve ni una fila.
+
+| | páginas | clubes respaldados |
+|---|---:|---:|
+| antes | 9 | 177 |
+| ahora | 10 | **201** |
+
+### Y las tres que faltan, ahora sí con su motivo
+
+- **2004-05** — RSSSF no publica **ninguna** tabla de esa temporada: `arg3-int05`
+  son 306 renglones de índice. No hay nada que leer mejor.
+- **2005-06, 2011-12 y 2012-13** — las tres tienen tablas legibles y clubes que
+  calzan, y lo que falta es **nuestro** lado: las páginas publican
+  `=== Zona Norte` / `===== Zona Sur` y el parser no las mira. Los partidos entran
+  por el camino de respaldo, que pasa la llave pero **no** la zona, así que sus
+  filas salen con la columna `group` vacía.
+
+Ese último es el hallazgo que vale más que el cruce: no es una limitación de la
+fuente sino un agujero nuestro, y taparlo llena una columna que hoy se publica
+vacía en unas 1 150 filas. Va con su propio arnés de equivalencia, porque cambia
+el dataset y no sólo un chequeo.
+
 ## El testigo que estaba escrito y miraba el archivo equivocado
 
 La **foja** es el cruce que le pregunta a RSSSF si nuestra suma coincide con la
@@ -2858,11 +2931,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-995 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1001 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 422 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 429 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

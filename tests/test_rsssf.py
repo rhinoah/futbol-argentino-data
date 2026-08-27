@@ -1152,6 +1152,54 @@ def test_el_encabezado_de_fase_borra_la_zona_anterior():
     assert [(fa, z) for fa, z, _ in leidas] == [("A", "Zone 1")]
 
 
+def test_la_tabla_QUE_DECLARA_SUS_COLUMNAS_se_lee_con_esas_columnas():
+    """El formato que la fuente usa desde 2011-12 pone los goles a favor y en contra
+    en COLUMNAS SEPARADAS (`42  23`) en vez de pegados con un guion (`42-23`), y lo
+    dice con un encabezado que nombra cada columna. Sin leerlo, `arg2012` y
+    `arg3-int2013` figuraban como "no publican ninguna tabla", que era una afirmacion
+    sobre nuestro lector."""
+    texto = ("Zone 1\nTable:\n\n"
+             "No. Team \t\t\t      G   W   D   L  Gf  Ga   P\n"
+             "----------------------------------------------\n"
+             " 1. A (Ciudad)\t\t     2   1   1   0   3   1   4\n"
+             " 2. B (Otra)\t\t     2   0   1   1   1   3   1\n")
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA) == [
+        ("", "Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)])]
+
+
+def test_el_encabezado_es_el_que_abre_y_no_el_rotulo_pelado():
+    """Y ESTO NO ES UN DETALLE: `Table:` a secas lo usan tambien las tablas de MEDIA
+    temporada del formato viejo. El Argentino A 2006-07 publica seis, despues de cada
+    bloque de fechas, y abrirlas como si fueran la acumulada le mete a cada zona una
+    segunda tabla distinta: el cruce no puede elegir y los ocho clubes que esa pagina
+    respalda se van a cero.
+
+    El encabezado no aparece en ninguna de ellas -- medido: esta en `arg2012` y
+    `arg3-int2013` y en ningun otro archivo de los que leemos --, asi que es el que
+    separa los dos casos."""
+    texto = ("Zone 1\nTable:\n\n"
+             " 1.A (Ciudad)                              2   1  1  0   3-1   4\n"
+             " 2.B (Otra)                                2   0  1  1   1-3   1\n")
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA) == [], (
+        "un `Table:` sin encabezado es una tabla de media temporada, no la acumulada")
+
+
+def test_el_formato_declarado_vale_hasta_la_proxima_tabla():
+    """Un archivo puede traer los dos. Si el formato se pegara, la tabla vieja de
+    abajo se leeria con las columnas de la nueva de arriba -- y no fallaria: leeria
+    OTROS numeros, que es la unica manera de equivocarse que este repo no perdona."""
+    texto = ("Zone 1\nTable:\n\n"
+             "No. Team \t      G   W   D   L  Gf  Ga   P\n"
+             " 1. A (Ciudad)\t     2   1   1   0   3   1   4\n"
+             " 2. B (Otra)\t     2   0   1   1   1   3   1\n"
+             "\nZone 2\nFinal Table:\n\n"
+             " 1.C (Ciudad)                              2   1  1  0   3-1   4\n"
+             " 2.D (Otra)                                2   0  1  1   1-3   1\n")
+    assert rsssf.leer_tabla(texto, _MAPA_FOJA) == [
+        ("", "Zone 1", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)]),
+        ("", "Zone 2", [(2, 3, 1, 1, 1, 0), (2, 1, 3, 0, 1, 1)])]
+
+
 def test_una_zona_que_el_mapa_no_nombra_no_se_lee():
     """El mapa es el que dice que secciones existen. Una tabla parada en una
     seccion que no esta ahi no tiene con que cruzarse."""

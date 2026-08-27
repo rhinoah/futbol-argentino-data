@@ -587,9 +587,17 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
             return ""
         return "Zone" if zona.startswith(("Zone", "Zona")) else zona
 
+    # COMO LLAMAMOS NOSOTROS A LA ZONA QUE LA FUENTE LLAMA ASI. Por defecto, igual:
+    # ver `rsssf.ZONAS`, que explica por que la identidad es el default correcto.
+    zonas = rsssf.ZONAS.get(pagina, {})
+
+    def nuestra(fase: str, zona: str) -> str:
+        return zonas.get((fase, zona), zona)
+
     def del_pool(fase: str, zona: str) -> list:
+        z = nuestra(fase, zona)
         return [p for p in ps if p.fase == "zonas"
-                and (not fase or p.llave == fase) and etapa(p.zona) == etapa(zona)]
+                and (not fase or p.llave == fase) and etapa(p.zona) == etapa(z)]
 
     # Los clubes con un partido dividido en esta pagina, sin importar la llave: la
     # foja acumulada cubre la temporada entera, asi que el alcance no acota nada.
@@ -609,7 +617,7 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
             donde[p.visita][p.zona] += 1
         sumas = posiciones.sumar(pool)
         clubes = {c for c, cuenta in donde.items()
-                  if cuenta.most_common(1)[0][0] == zona and c in sumas}
+                  if cuenta.most_common(1)[0][0] == nuestra(fase, zona) and c in sumas}
         if len(clubes) != len(filas):
             continue
         nuestras = sorted(sumas[c] for c in clubes)

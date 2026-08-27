@@ -1332,12 +1332,61 @@ MUTANTES = [
      '        if False:'),
 
     ("fad/rsssf.py", "leer tambien las tablas sin el rotulo Final Table",
-     '        if m := _FOJA.match(linea):\n            if abierta and zona in mapa:',
-     '        if m := _FOJA.match(linea):\n            if zona in mapa:'),
+     '        if m := (_FOJA_PARTIDAS if partidas else _FOJA).match(linea):\n'
+     '            if abierta and zona in mapa:',
+     '        if m := (_FOJA_PARTIDAS if partidas else _FOJA).match(linea):\n'
+     '            if zona in mapa:'),
 
     ("fad/rsssf.py", "exigirle dos espacios a la fila de la foja",
      '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s+"',
      '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s{2,}"'),
+
+    # El segundo formato de tabla, el que declara sus columnas.
+    ("fad/rsssf.py", "no leer la tabla que declara sus columnas",
+     '_ENCABEZADO = re.compile(r"^\\s*No\\.\\s+Team\\b", re.I)',
+     '_ENCABEZADO = re.compile(r"^(?!x)x", re.I)'),
+
+    # `Table:` a secas lo usan tambien las tablas de MEDIA temporada del formato
+    # viejo. Abrirlas le mete a cada zona una segunda tabla distinta y el Argentino A
+    # 2006-07 pierde sus ocho clubes.
+    ("fad/rsssf.py", "abrir tambien el rotulo pelado, que es media temporada",
+     '        if pelada.startswith("Final Table"):',
+     '        if pelada.startswith(("Final Table", "Table")):'),
+
+    ("fad/rsssf.py", "leer toda tabla con las columnas del formato viejo",
+     "        if m := (_FOJA_PARTIDAS if partidas else _FOJA).match(linea):",
+     "        if m := _FOJA.match(linea):"),
+
+    # Si el formato se pega, la tabla vieja de abajo se lee con las columnas de la
+    # nueva de arriba. No falla: lee OTROS numeros.
+    ("fad/rsssf.py", "dejar pegado el formato de una tabla a la siguiente",
+     "            abierta, partidas = True, False\n"
+     "            if zona in mapa:\n"
+     "                fuera.append((fase, zona, []))\n"
+     "            continue\n"
+     "        if _ENCABEZADO.match(linea):",
+     "            abierta = True\n"
+     "            if zona in mapa:\n"
+     "                fuera.append((fase, zona, []))\n"
+     "            continue\n"
+     "        if _ENCABEZADO.match(linea):"),
+
+    # El mapa de zonas: como se llama en la fuente la zona que nosotros llamamos de
+    # otra manera. Sin el, los dos rotulos se comparan literalmente y no cruza nadie.
+    ("build.py", "comparar los dos rotulos de zona sin traducir",
+     "        return zonas.get((fase, zona), zona)",
+     "        return zona"),
+
+    ("build.py", "traducir la zona sin mirar de que fase es",
+     "        return zonas.get((fase, zona), zona)",
+     "        return next((v for (_, z), v in zonas.items() if z == zona), zona)"),
+
+    ("build.py", "armar el pool con el rotulo de la fuente y no con el nuestro",
+     "        z = nuestra(fase, zona)\n"
+     "        return [p for p in ps if p.fase == \"zonas\"\n"
+     "                and (not fase or p.llave == fase) and etapa(p.zona) == etapa(z)]",
+     "        return [p for p in ps if p.fase == \"zonas\"\n"
+     "                and (not fase or p.llave == fase) and etapa(p.zona) == etapa(zona)]"),
 
     ("fad/rsssf.py", "juntar por nombre las dos tablas de una misma zona",
      "    return limpias",
@@ -1359,8 +1408,10 @@ MUTANTES = [
      "        clave = (fa, z)"),
 
     ("build.py", "mandar al club del interzonal a la zona ajena",
-     "                  if cuenta.most_common(1)[0][0] == zona and c in sumas}",
-     "                  if cuenta.most_common()[-1][0] == zona and c in sumas}"),
+     "                  if cuenta.most_common(1)[0][0] == nuestra(fase, zona)"
+     " and c in sumas}",
+     "                  if cuenta.most_common()[-1][0] == nuestra(fase, zona)"
+     " and c in sumas}"),
 
     ("build.py", "cruzar una tabla que no cubre la zona",
      "        if len(clubes) != len(filas):\n            continue",

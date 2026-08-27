@@ -1141,6 +1141,56 @@ def test_una_tabla_que_no_cubre_la_zona_no_se_cruza():
     assert (respaldados, avisos) == (set(), [])
 
 
+def test_la_zona_se_traduce_cuando_los_dos_lados_la_nombran_distinto(monkeypatch):
+    """EL MAPA DE ZONAS. La fuente dice `Zone 1` y nuestra pagina dice
+    `Primera fase - Zona 1`: es la misma zona con dos nombres, y el cruce los
+    comparaba literalmente. Sin traduccion no cruza ni un club y la tabla se descarta
+    por cardinalidad -- en silencio, y pareciendose a "la fuente no publica tablas".
+
+    Es el hermano de `FASES`, que ya existia para el otro rotulo."""
+    from fad import rsssf
+
+    ps = [_zp("A", "B", 2, 0, "Nuestra Zona")]
+    una = _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)])
+    mapa = {"Zone 1": {"A": "A", "B": "B"}}
+    assert build.la_fuente_se_respalda(ps, una, mapa, "P")[0] == set(), "sin traducir"
+    monkeypatch.setattr(rsssf, "ZONAS", {"P": {("", "Zone 1"): "Nuestra Zona"}})
+    assert build.la_fuente_se_respalda(ps, una, mapa, "P")[0] == {"A", "B"}
+
+
+def test_sin_mapa_la_zona_se_compara_CONTRA_SI_MISMA(monkeypatch):
+    """Y el default tiene que ser la IDENTIDAD, no un error. En las paginas sin
+    grilla nuestras filas salen de RSSSF y ya traen su rotulo puesto: ahi los dos
+    lados dicen `Zone 1` y no hay nada que traducir. Un mapa obligatorio se llevaria
+    puestas las cuatro temporadas que ya cruzan."""
+    from fad import rsssf
+
+    monkeypatch.setattr(rsssf, "ZONAS", {})
+    ps = [_zp("A", "B", 2, 0, "Zone 1")]
+    una = _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)])
+    assert build.la_fuente_se_respalda(ps, una, _MAPA_2, "P")[0] == {"A", "B"}
+
+
+def test_la_traduccion_va_POR_FASE_porque_la_zona_se_repite(monkeypatch):
+    """Un archivo repite los nombres de zona entre fases: el Argentino A 2010-11
+    rotula `Zone 1` en la fase regular y otra vez en la final, y son zonas distintas
+    con clubes distintos. Traducir por el nombre solo mandaria las dos a la misma."""
+    from fad import rsssf
+
+    monkeypatch.setattr(rsssf, "ZONAS",
+                        {"P": {("Uno", "Zone 1"): "La de la fase Uno",
+                               ("Dos", "Zone 1"): "La de la fase Dos"}})
+    monkeypatch.setattr(rsssf, "FASES", {"P": {"Fase Uno": "Uno", "Fase Dos": "Dos"}})
+    ps = [_zp("A", "B", 2, 0, "La de la fase Uno"),
+          _zp("C", "D", 1, 0, "La de la fase Dos")]
+    for p_, llave in zip(ps, ("Uno", "Dos")):
+        p_.llave = llave
+    mapa = {"Zone 1": {"A": "A", "B": "B", "C": "C", "D": "D"}}
+    crudo = ("Fase Uno\n" + _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)])
+             + "\nFase Dos\n" + _tabla("Zone 1", [(1, 1, 0, 0, 1, 0), (1, 0, 0, 1, 0, 1)]))
+    assert build.la_fuente_se_respalda(ps, crudo, mapa, "P")[0] == {"A", "B", "C", "D"}
+
+
 def test_una_zona_con_dos_tablas_no_se_cruza():
     """Cardinalidad: si la zona trae dos tablas DISTINTAS no se sabe cual cubre que.
     Es el Argentino A 2009-10, que corre dos fases rotulando las dos `Zone 1`."""

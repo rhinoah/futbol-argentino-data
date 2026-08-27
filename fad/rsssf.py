@@ -820,6 +820,26 @@ def _por_el_padron(corto: str) -> tuple[str, str]:
 _FOJA = re.compile(r"^\s*\d+\.(?:.+?)\s+"
                    r"(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)-\s?(\d+)\s+\d+")
 
+# EL SEGUNDO FORMATO DE TABLA, que la fuente usa desde 2011-12: los goles a favor y
+# en contra van en COLUMNAS SEPARADAS (`42  23`) en vez de pegados con un guion
+# (`42-23`). Mismo orden de campos, distinto separador.
+_FOJA_PARTIDAS = re.compile(r"^\s*\d+\.(?:.+?)\s+"
+                            r"(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+\d+")
+
+# Y CUAL DE LOS DOS ES SE LEE, NO SE ADIVINA. El formato nuevo trae un encabezado que
+# nombra sus columnas --`No. Team  G  W  D  L  Gf  Ga  P`-- y el viejo no trae
+# ninguno. Distinguir por el regex seria peligroso: el permisivo tambien matchea una
+# fila del formato viejo, corriendo las columnas y leyendo numeros que no son.
+#
+# Ademas es lo que separa DOS COSAS QUE SE ESCRIBEN IGUAL. Los archivos viejos
+# publican, despues de cada bloque de fechas, una tabla de MEDIA temporada rotulada
+# `Table:` a secas; el Argentino A 2006-07 tiene seis. Abrirlas como si fueran la
+# acumulada le mete a cada zona una segunda tabla distinta, el cruce no puede elegir
+# y los ocho clubes que esa pagina respalda se van a cero. El encabezado no aparece
+# en ninguna de ellas: medido, esta en `arg2012` y `arg3-int2013` y en ningun otro
+# archivo de los que leemos.
+_ENCABEZADO = re.compile(r"^\s*No\.\s+Team\b", re.I)
+
 
 # Como rotula la fuente cada FASE de una temporada, y como se llama esa fase en
 # nuestras filas (`Partido.llave`).
@@ -833,6 +853,10 @@ _FOJA = re.compile(r"^\s*\d+\.(?:.+?)\s+"
 # La traduccion va escrita y no se adivina: la fuente escribe `Apertura` y nosotros
 # `Torneo Apertura`, y emparejar por parecido es lo que este repo no hace.
 FASES: dict[str, dict[str, str]] = {
+    # Dos fases que repiten `Zone 1/2/3`. Sin declararlas, la Zone 3 de la fase
+    # regular y la de la final caen bajo la misma clave y el cruce no puede elegir.
+    "Torneo Argentino A 2010-11": {"First Phase": "Primera fase",
+                                   "Fase Final": "Segunda fase"},
     "Torneo Argentino A 2009-10": {"Apertura": "Torneo Apertura",
                                    "Clausura": "Torneo Clausura"},
 }
@@ -902,6 +926,9 @@ def leer_tabla(texto: str,
     fase = ""
     zona = ""
     abierta = False
+    # Si la tabla ABIERTA trae los goles en columnas separadas. Lo declara su
+    # encabezado y vale hasta que se abra otra. Ver `_ENCABEZADO`.
+    partidas = False
     # `Aggregate Tables:` esta arriba de sus tablas, asi que no abre una: deja
     # abiertas a las que vengan. Se apaga cuando la seccion termina.
     acumuladas = False
@@ -916,14 +943,22 @@ def leer_tabla(texto: str,
             continue
         if pelada.startswith("Final Table"):
             # El rotulo sobrevive la linea en blanco que lo separa de sus filas.
-            abierta = True
+            abierta, partidas = True, False
+            if zona in mapa:
+                fuera.append((fase, zona, []))
+            continue
+        if _ENCABEZADO.match(linea):
+            # EL ENCABEZADO ES EL QUE ABRE, y no el `Table:` que viene arriba. El
+            # rotulo pelado lo usan tambien las tablas de media temporada del
+            # formato viejo, que NO son la acumulada; el encabezado no.
+            abierta, partidas = True, True
             if zona in mapa:
                 fuera.append((fase, zona, []))
             continue
         if pelada.startswith("Aggregate Table"):
-            acumuladas, abierta = True, False
+            acumuladas, abierta, partidas = True, False, False
             continue
-        if m := _FOJA.match(linea):
+        if m := (_FOJA_PARTIDAS if partidas else _FOJA).match(linea):
             if abierta and zona in mapa:
                 pj, g, e, pp, gf, gc = (int(x) for x in m.groups())
                 fuera[-1][2].append((pj, gf, gc, g, e, pp))
@@ -953,7 +988,7 @@ def leer_tabla(texto: str,
                 # contra media temporada, y los ocho clubes que esa pagina
                 # respalda se irian a cero. Lo dice la fuente con su propio rotulo;
                 # no se adivina.
-                abierta = True
+                abierta, partidas = True, False
                 fuera.append(("", zona, []))
         else:
             # CUALQUIER renglon con texto que no sea una zona cierra la seccion
@@ -2204,11 +2239,39 @@ PRIMERA_C_2010 = {
 # varios. El corte de arriba es el titulo de la division y el de abajo es
 # `Topscorers`, que en estas paginas viene justo despues de la ultima fecha y
 # antes del `Reducido`: sin el, el reducido entraria como fase regular.
+# COMO SE LLAMA EN LA FUENTE LA ZONA QUE NOSOTROS LLAMAMOS DE OTRA MANERA.
+# {pagina: {(fase, zona de la fuente): nuestra zona}}. La fase va en la clave porque
+# un archivo repite los nombres de zona entre fases: el Argentino A 2010-11 rotula
+# `Zone 1` en la First Phase y otra vez en la Fase Final, y son zonas distintas.
+#
+# Por defecto la traduccion es la IDENTIDAD, y tiene que serlo: en las paginas sin
+# grilla nuestras filas salen de RSSSF y traen su rotulo puesto, asi que traducir ahi
+# romperia las cuatro que ya cruzan.
+#
+# Lo que NO esta en el mapa no se traduce y termina abstenido por cardinalidad, que
+# es lo correcto: la Fase Final del 2010-11 tiene tres zonas que nuestra pagina no
+# reparte igual, y preferimos no cruzarlas a cruzarlas mal.
+ZONAS: dict[str, dict[tuple[str, str], str]] = {
+    "Torneo Argentino A 2010-11": {
+        ("Primera fase", "Zone 1"): "Primera fase - Zona 1",
+        ("Primera fase", "Zone 2"): "Primera fase - Zona 2",
+        ("Primera fase", "Zone 3"): "Primera fase - Zona 3",
+    },
+}
+
+
 SECCION_LIGA: dict[str, tuple[str, str]] = {
     "Campeonato de Primera B 2010-11 (Argentina)": (
         'Primera B Metropolitano "Efectivo Sí"', "Topscorers"),
     "Campeonato de Primera C 2010-11 (Argentina)": (
         'Primera C Metropolitano "Efectivo Sí"', "Topscorers"),
+    # El ancla va con el salto de linea adelante y atras porque el mismo texto
+    # abre el INDICE del archivo, arriba de todo, en un renglon que encadena dos
+    # divisiones: `Primera B Metropolitano | Torneo Argentino "A" Interior`.
+    # Quedarse con esa ocurrencia recorta desde el indice, o sea desde el
+    # principio, o sea no recorta nada.
+    "Torneo Argentino A 2010-11": (
+        '\nTorneo Argentino "A" Interior\n', "\nTopscorer"),
 }
 
 
@@ -2224,7 +2287,48 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
 # El mapa se armo contra los VEINTISIETE clubes que la pagina hace jugar esa
 # temporada. Trae dos de mas -- `Defensores de Belgrano (VR)` y `Deportivo Roca`,
 # que vienen del Argentino B a la promocion -- y esos salen del padron.
+# Y LAS TRES ZONAS DE LA FASE REGULAR, que no hacian falta para las llaves pero si
+# para la foja: adentro de la seccion la fuente publica la tabla de cada zona bajo su
+# encabezado, y sin las claves las tres caian bajo la vacia -- tres tablas distintas
+# con el mismo rotulo, que es exactamente lo que el cruce no puede desempatar.
+#
+# Armado contra LOS CLUBES QUE LA PAGINA HACE JUGAR, como los demas: son ocho por
+# zona de los dos lados y calzan uno a uno.
+ARGENTINO_A_2010_ZONAS = {
+    "Zone 1": {
+        "Atlético Unión (Mar del Plata)": "Unión (MdP)",
+        "Cipolletti (Cipolletti)": "Cipolletti",
+        "Deportivo Santamarina (Tandil)": "Ramón Santamarina",
+        "Douglas Haig (Pergamino)": "Douglas Haig",
+        "Guillermo Brown (Puerto Madryn)": "Guillermo Brown",
+        "Huracán (Tres Arroyos)": "Huracán (TA)",
+        "Rivadavia (Lincoln)": "Rivadavia (L)",
+        "Villa Mitre (Bahía Blanca)": "Villa Mitre",
+    },
+    "Zone 2": {
+        "Alumni (Villa María)": "Alumni (VM)",
+        "Deportivo Maipú (Mendoza)": "Deportivo Maipú",
+        "Estudiantes (Río Cuarto)": "Estudiantes (RC)",
+        "Juventud Unida Universitario (S.Luis)": "Juventud Unida Universitario",
+        "Racing (Córdoba)": "Racing (C)",
+        "Sportivo Belgrano (San Francisco)": "Sportivo Belgrano",
+        "Sportivo Desamparados (San Juan)": "Desamparados",
+        "Talleres (Córdoba)": "Talleres (C)",
+    },
+    "Zone 3": {
+        "9 de Julio (Rafaela)": "9 de Julio (R)",
+        "Central Córdoba (Santiago del Estero)": "Central Córdoba (SdE)",
+        "Central Norte (Salta)": "Central Norte (S)",
+        "Crucero del Norte (Posadas)": "Crucero del Norte",
+        "Gimnasia y Esgrima (Conc. d. Uruguay)": "Gimnasia y Esgrima (CdU)",
+        "Juventud Antoniana (Salta)": "Juventud Antoniana",
+        "Libertad (Sunchales)": "Libertad (S)",
+        "Unión de Sunchales (Sunchales)": "Unión (S)",
+    },
+}
+
 ARGENTINO_A_2010 = {
+    **ARGENTINO_A_2010_ZONAS,
     "": {
         "9 de Julio": "9 de Julio (R)",
         "Alumni": "Alumni (VM)",
