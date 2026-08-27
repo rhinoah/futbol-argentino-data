@@ -172,10 +172,8 @@ MUTANTES = [
      "        if p.goles_local is None or p.goles_visita is None:"),
 
     ("fad/posiciones.py", "denunciar a un club de la tabla que no jugo",
-     "        if club not in contada or correcciones.revisado(pagina, club):" + chr(10) +
-     "            continue" + chr(10) + "        pj2, gf2, gc2 = contada[club][:3]",
-     "        if correcciones.revisado(pagina, club):" + chr(10) +
-     "            continue" + chr(10) + "        pj2, gf2, gc2 = contada[club][:3]"),
+     '        if club not in contada or correcciones.revisado(\n                pagina, club,\n                correcciones.firma_del_desvio(publicada[club], contada[club])):\n            continue',
+     '        if correcciones.revisado(pagina, club):\n            continue'),
 
     ("fad/fechas.py", "tomar la fecha de cualquier marcador distinto",
      "            if (p.jornada, p.local, p.visita) not in (arbitrados or ()):",
@@ -604,8 +602,8 @@ MUTANTES = [
      "        if gf != gc:"),
 
     ("fad/posiciones.py", "callar el desbalance sin exigir que este declarado",
-     "    if len(desviados) != 1 or not correcciones.revisado(pagina, desviados[0]):",
-     "    if len(desviados) != 1:"),
+     '    if len(desviados) != 1 or not correcciones.revisado(\n            pagina, desviados[0],',
+     '    if len(desviados) != 1 or not correcciones.revisado(\n            pagina, None,'),
 
     ("fad/posiciones.py", "callar el desbalance sin exigir que la fila lo explique",
      "    return _lo_prueba_el_desbalance(1, gc - gf,",
@@ -1516,30 +1514,24 @@ MUTANTES = [
 
     # --- el desvio verificado que no era nuestro ---
     ("fad/posiciones.py", "callar el desvio revisado tambien en `contrastar` sin mirar la pagina",
-     "        if club not in contada or correcciones.revisado(pagina, club):" + chr(10) +
-     "            continue" + chr(10) + "        pj2, gf2, gc2 = contada[club][:3]",
-     "        if club not in contada or any(r.club == club for r in correcciones.REVISADOS):" + chr(10) +
-     "            continue" + chr(10) + "        pj2, gf2, gc2 = contada[club][:3]"),
+     '        if club not in contada or correcciones.revisado(\n                pagina, club,\n                correcciones.firma_del_desvio(publicada[club], contada[club])):\n            continue',
+     '        if club not in contada or any(r.club == club for r in correcciones.REVISADOS):\n            continue'),
 
     ("fad/posiciones.py", "callar el desvio revisado en todas las paginas",
-     "        if club not in contada or correcciones.revisado(pagina, club):" + chr(10) +
-     "            continue" + chr(10) + "        pj, suyo = datos[0], tuple(datos[3:6])",
-     "        if club not in contada or any(r.club == club for r in correcciones.REVISADOS):" + chr(10) +
-     "            continue" + chr(10) + "        pj, suyo = datos[0], tuple(datos[3:6])"),
+     '        if club not in contada or correcciones.revisado(\n                pagina, club, correcciones.firma_del_desvio(datos, contada[club])):\n            continue',
+     '        if club not in contada or any(r.club == club for r in correcciones.REVISADOS):\n            continue'),
 
     ("fad/posiciones.py", "no callar nada aunque este revisado",
-     "        if club not in contada or correcciones.revisado(pagina, club):" + chr(10) +
-     "            continue" + chr(10) + "        pj, suyo = datos[0], tuple(datos[3:6])",
-     "        if club not in contada:" + chr(10) +
-     "            continue" + chr(10) + "        pj, suyo = datos[0], tuple(datos[3:6])"),
+     '        if club not in contada or correcciones.revisado(\n                pagina, club, correcciones.firma_del_desvio(datos, contada[club])):\n            continue',
+     '        if club not in contada:\n            continue'),
 
     ("fad/correcciones.py", "no denunciar la verificacion que caduco",
      "        if r.pagina != pagina:\n            continue",
      "        if True:\n            continue"),
 
     ("fad/correcciones.py", "dar por huerfano al que si engancha",
-     "        elif r.club in desviados:\n            continue",
-     "        elif False:\n            continue"),
+     '        if r.club not in desviados:',
+     '        if False:'),
 
     ("fad/posiciones.py", "preguntar por los desvios ya filtrados por revisado",
      "            if club not in propios:\n                continue",
@@ -1850,6 +1842,22 @@ MUTANTES = [
     ("build.py", "preguntar el arbitraje ANTES del espejo de la localia",
      "        return (dl, dv) + correcciones.arbitrado(pagina, x.jornada, dl, dv, gl, gv)",
      "        return (dl, dv) + correcciones.arbitrado(pagina, x.jornada, l, v, gl, gv)"),
+    ("fad/correcciones.py", "una verificacion calla cualquier desvio y no solo el suyo",
+     "            if desvio is None or not r.desvio or r.desvio == desvio:",
+     "            if True:"),
+
+    ("fad/correcciones.py", "no denunciar la verificacion cuyo desvio CAMBIO",
+     "        elif r.desvio and r.club in firmas and firmas[r.club] != r.desvio:",
+     "        elif False:"),
+
+    ("fad/correcciones.py", "firmar el desvio con el numero y no con la diferencia",
+     "publicada[i] - contada[i]:+d",
+     "publicada[i]:+d"),
+
+    ("fad/posiciones.py", "que `clubes_desviados` devuelva el club sin su firma",
+     "                fuera[club] = correcciones.firma_del_desvio(datos, propios[club])",
+     "                fuera[club] = str(club)"),
+
 ]
 
 

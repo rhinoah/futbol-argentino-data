@@ -1765,6 +1765,14 @@ DIVIDIDOS: tuple[Dividido, ...] = (
     Dividido(
         pagina="Torneo Argentino A 2005-06",
         local="La Florida", visita="Sportivo Patria", dice=(2, 2),
+        # LA SECCION, y hace falta declararla aunque el tipo la deje opcional. Sin
+        # ella `clubes_divididos` la lee como "la pagina tiene una sola tabla" y le
+        # aplica la consecuencia a las DOS: al Apertura y al Clausura. El anulado es
+        # el del Clausura --lo dicen la nota de la pagina y RSSSF-- y en el Apertura
+        # estos mismos dos clubes juegan OTRO partido, que esta escrito y cierra.
+        # Sin acotarlo, el chequeo de PJ esperaba en el Apertura un hueco que no
+        # existe y denunciaba a los dos clubes.
+        llave="Torneo Clausura",
         porque="la nota, que cuelga de la tabla y no de la fila, dice: El partido "
                "se interrumpio en el minuto 90 cuando empataban 2 a 2. Luego se "
                "resolvio darles por perdido el encuentro a ambos equipos por 1 a 0. "
@@ -2484,6 +2492,25 @@ class Revisado:
     club: str
     porque: str
 
+    # LA FIRMA DEL DESVIO QUE SE VERIFICO. Es lo que le faltaba a este tipo y lo
+    # que `Fechado` y `Dia` ya piden a su manera: la declaracion tiene que decir
+    # de QUE estado habla, para dejar de enganchar cuando el estado cambia.
+    #
+    # Sin esto, un `Revisado` se identifica por (pagina, club) y nada mas: si la
+    # pagina corrige su tabla, `revisados_huerfanos` avisa -- el club deja de
+    # desviarse --, pero si le aparece un desvio DISTINTO al mismo club, la
+    # entrada vieja lo tapa en silencio. Con temporadas cerradas no pasaba nunca
+    # y por eso el hueco vivio tranquilo; con las cuatro tablas de 2026 --las
+    # primeras sobre paginas todavia en juego-- pasa a ser posible.
+    #
+    # ES UNA DIFERENCIA Y NO UN NUMERO ABSOLUTO, y ahi esta todo el asunto. En
+    # una pagina viva la fila entera cambia cada fecha --sube el PJ, suben los
+    # goles-- asi que fijar la fila haria caducar la declaracion todas las
+    # semanas. Lo que NO cambia mientras la errata siga ahi es cuanto y en que se
+    # aparta la tabla de nuestra grilla: `GF-2` sigue siendo `GF-2` la fecha que
+    # viene. Ver `firma_del_desvio`.
+    desvio: str = ""
+
     # El rival, cuando lo que se verifico es una LLAVE y no una fila de tabla.
     #
     # Hace falta y se aprendio probando lo contrario: dejar que el chequeo del
@@ -2649,7 +2676,7 @@ _PROMIEDOS_C = "https://www.promiedos.com.ar/league/primera-c/ffjb"
 
 REVISADOS: tuple[Revisado, ...] = (
     Revisado(
-        pagina="Campeonato de Primera Nacional 2026", club="San Miguel",
+        pagina="Campeonato de Primera Nacional 2026", club="San Miguel", desvio="GF-1",
         porque="La tabla le da GF19 GC28 en 26 partidos y nuestra grilla GF20 "
                "GC28: le falta UN gol a favor.\n"
                "LA PROPIA TABLA LO DEMUESTRA, sin salir de la pagina: sus dos "
@@ -2662,7 +2689,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "comparando los mismos 26 partidos.\n"
                + _PROMIEDOS_BN),
     Revisado(
-        pagina="Campeonato de Primera B 2026 (Argentina)", club="Real Pilar",
+        pagina="Campeonato de Primera B 2026 (Argentina)", club="Real Pilar", desvio="GF-2",
         porque="La tabla le da GF34 GC31 en 32 partidos y nuestra grilla GF36 "
                "GC31: le faltan DOS goles a favor.\n"
                "NINGUN PARTIDO PUEDE EXPLICARLO, y eso se puede razonar antes de "
@@ -2680,7 +2707,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "14 ganados y 9 empatados, que es lo que decimos nosotros.\n"
                + _PROMIEDOS_B),
     Revisado(
-        pagina="Campeonato de Primera B 2026 (Argentina)", club="San Mart\u00edn (B)",
+        pagina="Campeonato de Primera B 2026 (Argentina)", club="San Mart\u00edn (B)", desvio="GC-2",
         porque="La tabla le da GF31 GC32 en 32 partidos y nuestra grilla GF31 "
                "GC34: le faltan DOS goles en contra. Es la otra mitad del desvio "
                "de Real Pilar, y por el mismo razonamiento ningun partido lo "
@@ -2694,7 +2721,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "GamesWon 9, GamesEven 13, GamesLost 10`.\n"
                + _PROMIEDOS_B),
     Revisado(
-        pagina="Campeonato de Primera C 2026 (Argentina)", club="Mu\u00f1iz",
+        pagina="Campeonato de Primera C 2026 (Argentina)", club="Mu\u00f1iz", desvio="E+1 P-1",
         porque="Aca no se desvian los goles sino el G-E-P: la tabla dice 4-11-10 "
                "en 25 partidos y la grilla da 4-10-11, con los GOLES coincidiendo "
                "exacto en 17:26.\n"
@@ -2713,56 +2740,56 @@ REVISADOS: tuple[Revisado, ...] = (
         pagina="Torneo Argentino A 2004-05", club="Luján de Cuyo",
         contra="Atlético Candelaria", porque=_CUADRO_REVA_2004),
     Revisado(
-        pagina="Campeonato de Primera B 2010-11 (Argentina)", club="Platense",
+        pagina="Campeonato de Primera B 2010-11 (Argentina)", club="Platense", desvio="GF+1 GC+1",
         porque=_TABLA_B_2010_11),
     Revisado(
-        pagina="Campeonato de Primera B 2010-11 (Argentina)", club="Estudiantes (BA)",
+        pagina="Campeonato de Primera B 2010-11 (Argentina)", club="Estudiantes (BA)", desvio="GF+1 GC+1",
         porque=_TABLA_B_2010_11),
     Revisado(
-        pagina="Campeonato de Primera C 2011-12 (Argentina)", club="J. J. de Urquiza",
+        pagina="Campeonato de Primera C 2011-12 (Argentina)", club="J. J. de Urquiza", desvio="GF+2 GC-3",
         porque=_TABLA_C_2011_12),
     Revisado(
-        pagina="Campeonato de Primera C 2011-12 (Argentina)", club="Sacachispas",
+        pagina="Campeonato de Primera C 2011-12 (Argentina)", club="Sacachispas", desvio="GF-1",
         porque=_TABLA_C_2011_12),
     Revisado(
-        pagina="Campeonato de Primera C 2011-12 (Argentina)", club="San Miguel",
+        pagina="Campeonato de Primera C 2011-12 (Argentina)", club="San Miguel", desvio="GF-2 GC+2",
         porque=_TABLA_C_2011_12),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Ramón Santamarina",
+        pagina="Torneo Argentino A 2008-09", club="Ramón Santamarina", desvio="GF+3 G+1 P-1",
         porque=_TABLA_2008_09),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Alvarado",
+        pagina="Torneo Argentino A 2008-09", club="Alvarado", desvio="GC+3 G-1 P+1",
         porque=_TABLA_2008_09),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Villa Mitre",
+        pagina="Torneo Argentino A 2008-09", club="Villa Mitre", desvio="GF+2",
         porque=_TABLA_2008_09),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Rivadavia (L)",
+        pagina="Torneo Argentino A 2008-09", club="Rivadavia (L)", desvio="GC+2",
         porque=_TABLA_2008_09),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Cipolletti",
+        pagina="Torneo Argentino A 2008-09", club="Cipolletti", desvio="GF+1",
         porque=_TABLA_2008_09),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Real Arroyo Seco",
+        pagina="Torneo Argentino A 2008-09", club="Real Arroyo Seco", desvio="GC+1",
         porque=_TABLA_2008_09),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Gimnasia y Esgrima (M)",
+        pagina="Torneo Argentino A 2008-09", club="Gimnasia y Esgrima (M)", desvio="GF+1",
         porque=_TABLA_2008_09),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Juventud Unida Universitario",
+        pagina="Torneo Argentino A 2008-09", club="Juventud Unida Universitario", desvio="GF+1 E+1 P-1",
         porque=_TABLA_2008_09),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Central Córdoba (SdE)",
+        pagina="Torneo Argentino A 2008-09", club="Central Córdoba (SdE)", desvio="GC+1 G-1 E+1",
         porque=_TABLA_2008_09),
     Revisado(
-        pagina="Torneo Argentino A 2008-09", club="Deportivo Maipú",
+        pagina="Torneo Argentino A 2008-09", club="Deportivo Maipú", desvio="GC+1",
         porque=_TABLA_2008_09),
 
     Revisado(
-        pagina="Torneo Argentino A 2007-08", club="Juventud Unida Universitario",
+        pagina="Torneo Argentino A 2007-08", club="Juventud Unida Universitario", desvio="GF-1",
         porque=_AWD_2007),
     Revisado(
-        pagina="Torneo Argentino A 2007-08", club="Luján de Cuyo",
+        pagina="Torneo Argentino A 2007-08", club="Luján de Cuyo", desvio="GC-1",
         porque=_AWD_2007),
     Revisado(
         pagina="Torneo Federal A 2025", club="9 de Julio (R)", contra="Germinal",
@@ -2790,7 +2817,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "Es 9 de Julio de RAFAELA y no el de Morteros: las cronicas ubican "
                "el partido en el German Soltermam."),
     Revisado(
-        pagina="Torneo Federal A 2024", club="Círculo Deportivo",
+        pagina="Torneo Federal A 2024", club="Círculo Deportivo", desvio="GC-1",
         porque="Se desvia en (0, +1) y no hay ningun club que lo aparee: para que un "
                "partido lo explicara haria falta otro desviado en (+1, 0), y el unico "
                "otro club desviado de la fase es Deportivo Camioneros, que va en "
@@ -2798,13 +2825,13 @@ REVISADOS: tuple[Revisado, ...] = (
                "rivales quedo fuera del cruce. Sin pareja posible no hay marcador que "
                "corregir: la equivocada es la fila de la tabla."),
     Revisado(
-        pagina="Torneo Federal A 2024", club="Deportivo Camioneros",
+        pagina="Torneo Federal A 2024", club="Deportivo Camioneros", desvio="GC+1",
         porque="Mismo caso que Circulo Deportivo en la misma fase y por el mismo "
                "motivo: su delta (0, -1) pediria una pareja en (-1, 0) que no existe, "
                "los dos desviados no se cruzan, y ninguno de sus rivales quedo fuera "
                "del cruce. La fila de la tabla es la que esta mal."),
     Revisado(
-        pagina="Campeonato de Primera Nacional 2021", club="Deportivo Maipú",
+        pagina="Campeonato de Primera Nacional 2021", club="Deportivo Maipú", desvio="GF-1 GC-1",
         porque="Es el unico club desviado de su zona una vez resueltos los otros dos "
                "-- Almirante Brown y Mitre (SdE), que se cerraron con el 0-0 de la "
                "Fecha 19 --, y ninguno de sus rivales quedo fuera del cruce. Un "
@@ -2812,7 +2839,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "asi que ningun partido puede explicarlo y la equivocada es la fila de "
                "la tabla."),
     Revisado(
-        pagina="Campeonato de Primera C 2015 (Argentina)", club="Talleres (RdE)",
+        pagina="Campeonato de Primera C 2015 (Argentina)", club="Talleres (RdE)", desvio="GF+2 GC+1",
         porque="Las dos ruedas con Argentino de Quilmes estan bien y la equivocada es "
                "la tabla. La segunda tiene ademas una explicacion que la aritmetica no "
                "podia adivinar: el 0-1 de la Fecha 36 es un resultado ADMINISTRATIVO. "
@@ -2823,12 +2850,12 @@ REVISADOS: tuple[Revisado, ...] = (
                "la senal de que el problema estaba del otro lado: una grilla no pierde "
                "tres goles por un tipeo."),
     Revisado(
-        pagina="Campeonato de Primera C 2015 (Argentina)", club="Argentino de Quilmes",
+        pagina="Campeonato de Primera C 2015 (Argentina)", club="Argentino de Quilmes", desvio="GF+1 GC+2",
         porque="La otra mitad del par con Talleres (RdE), incluido el partido que el "
                "Tribunal le dio por perdido. Mismas fuentes, mismo desenlace: la grilla "
                "tiene razon. Entrada propia porque el aviso se emite por club."),
     Revisado(
-        pagina="Torneo Argentino A 2012-13", club="Ramón Santamarina",
+        pagina="Torneo Argentino A 2012-13", club="Ramón Santamarina", desvio="GF+2 GC+2",
         porque="Las dos ruedas con Deportivo Maipu estan bien. La Fecha 5 fue 2-0 con "
                "los goles de Roman Strada a los 33 segundos y Arnaldo Gonzalez a los 34 "
                "del segundo tiempo. Y la Fecha 16 es otro resultado por fallo: iba 1-2 "
@@ -2839,12 +2866,12 @@ REVISADOS: tuple[Revisado, ...] = (
                "existir: la tabla esta contando ese partido con una mezcla del marcador "
                "de cancha y el de escritorio."),
     Revisado(
-        pagina="Torneo Argentino A 2012-13", club="Deportivo Maipú",
+        pagina="Torneo Argentino A 2012-13", club="Deportivo Maipú", desvio="GF+2 GC+2",
         porque="La otra mitad del par con Ramon Santamarina, incluido el partido "
                "suspendido y homologado 0-2. Misma cronica, mismo desenlace. Entrada "
                "propia porque el aviso es por club."),
     Revisado(
-        pagina="Torneo Argentino A 2012-13", club="Juventud Unida Universitario",
+        pagina="Torneo Argentino A 2012-13", club="Juventud Unida Universitario", desvio="GF-1",
         porque="Las dos ruedas con Guillermo Brown estan bien. El 3-0 de la Fecha 8 lo "
                "confirma una cronica con los goleadores y las jugadas. Y el 4-2 de la "
                "Fecha 19 tiene una particularidad que explica el desvio: el partido se "
@@ -2854,12 +2881,12 @@ REVISADOS: tuple[Revisado, ...] = (
                "a la fecha 19, ya trae los totales del torneo, o sea que no puede "
                "derivar de la Wikipedia de hoy."),
     Revisado(
-        pagina="Torneo Argentino A 2012-13", club="Guillermo Brown",
+        pagina="Torneo Argentino A 2012-13", club="Guillermo Brown", desvio="GC-1",
         porque="La otra mitad del par con Juventud Unida Universitario, incluido el "
                "partido que se jugo en dos dias. Mismas fuentes, mismo desenlace. "
                "Entrada propia porque el aviso es por club."),
     Revisado(
-        pagina="Campeonato de Primera B Nacional 2012-13", club="Atlético Tucumán",
+        pagina="Campeonato de Primera B Nacional 2012-13", club="Atlético Tucumán", desvio="GF+1",
         porque="El 2-0 de la grilla es el correcto y la tabla es la equivocada. La "
                "Gaceta de Tucuman, en una nota sobre el gol de Gabriel Mendez desde "
                "mitad de cancha, dice textual que \"Atletico ya ganaba 1-0 y se jugaba "
@@ -2870,12 +2897,12 @@ REVISADOS: tuple[Revisado, ...] = (
                "agrega un gol en contra a los 76 que no aparece en ninguna otra parte "
                "-- un gol fantasma en su feed, no uno que se le escapo a la cronica."),
     Revisado(
-        pagina="Campeonato de Primera B Nacional 2012-13", club="Olimpo",
+        pagina="Campeonato de Primera B Nacional 2012-13", club="Olimpo", desvio="GC+1",
         porque="La otra mitad del par con Atletico Tucuman. Mismo partido verificado "
                "con La Gaceta y el compilado de goleadores, mismo desenlace: la grilla "
                "tiene razon. Entrada propia porque el aviso se emite por club."),
     Revisado(
-        pagina="Campeonato de Primera B Nacional 2013-14", club="Talleres (C)",
+        pagina="Campeonato de Primera B Nacional 2013-14", club="Talleres (C)", desvio="GC+4",
         porque="El 1-4 de la grilla esta bien y el arreglo que pedia la aritmetica "
                "(1-8) era la senal de que el problema estaba del otro lado: cuatro "
                "goles de diferencia no son un digito mal transcripto. La cronica da "
@@ -2883,34 +2910,34 @@ REVISADOS: tuple[Revisado, ...] = (
                "para Talleres; Sproat a los 32, Guerrero y los demas para Brown --. La "
                "equivocada es la fila de la tabla."),
     Revisado(
-        pagina="Campeonato de Primera B Nacional 2013-14", club="Brown de Adrogué",
+        pagina="Campeonato de Primera B Nacional 2013-14", club="Brown de Adrogué", desvio="GF+4",
         porque="La otra mitad del par con Talleres (C): mismo partido, misma cronica "
                "con los cinco goleadores, mismo desenlace. Entrada propia porque el "
                "aviso es por club."),
     Revisado(
-        pagina="Campeonato de Primera B Nacional 2014", club="Instituto",
+        pagina="Campeonato de Primera B Nacional 2014", club="Instituto", desvio="GC-1",
         porque="El 1-2 de la grilla esta bien. La cronica da los tres goles con su "
                "minuto: Gotti a los 30 y Bernardi a los 61 para Instituto, Pinero da "
                "Silva a los 66 para Guarani. El 0-2 que pedia la tabla borraria un gol "
                "que la cronica nombra con su autor. La equivocada es la tabla."),
     Revisado(
-        pagina="Campeonato de Primera B Nacional 2014", club="Guaraní Antonio Franco",
+        pagina="Campeonato de Primera B Nacional 2014", club="Guaraní Antonio Franco", desvio="GF-1",
         porque="La otra mitad del par con Instituto: el gol que la tabla querria "
                "borrar es justamente el suyo, el de Pinero da Silva a los 66. Entrada "
                "propia porque el aviso es por club."),
     Revisado(
-        pagina="Campeonato de Primera C 2015 (Argentina)", club="Central Córdoba (R)",
+        pagina="Campeonato de Primera C 2015 (Argentina)", club="Central Córdoba (R)", desvio="GF-1",
         porque="El 0-2 de la grilla esta bien: los dos goles son de Central Cordoba de "
                "Rosario, Cristian Vella a los 7 y Federico Ferrari a los 87, los dos "
                "con su minuto en la cronica. El 0-1 que pedia la tabla tendria que "
                "borrar uno de esos dos. La equivocada es la tabla."),
     Revisado(
-        pagina="Campeonato de Primera C 2015 (Argentina)", club="Sacachispas",
+        pagina="Campeonato de Primera C 2015 (Argentina)", club="Sacachispas", desvio="GC-1",
         porque="La otra mitad del par con Central Cordoba (R): mismo partido, misma "
                "cronica con los dos goleadores. Entrada propia porque el aviso es por "
                "club."),
     Revisado(
-        pagina="Torneo Argentino A 2010-11", club="Sportivo Belgrano",
+        pagina="Torneo Argentino A 2010-11", club="Sportivo Belgrano", desvio="GF+1 GC+2",
         porque="Este es el mas interesante de los cinco: el 0-2 de la grilla es un "
                "resultado HOMOLOGADO, no el que quedo en la cancha. La cronica de La "
                "Voz del Interior del 25/04/2011, rescatada del Web Archive, da el "
@@ -2924,12 +2951,12 @@ REVISADOS: tuple[Revisado, ...] = (
                "con el homologado, sino con una mezcla. La grilla publica el "
                "homologado, que es lo que corresponde. No hay nada que corregir."),
     Revisado(
-        pagina="Torneo Argentino A 2010-11", club="Central Norte (S)",
+        pagina="Torneo Argentino A 2010-11", club="Central Norte (S)", desvio="GF+2 GC+1",
         porque="La otra mitad del par con Sportivo Belgrano, en el partido suspendido "
                "y homologado 0-2. Misma cronica de La Voz del Interior, mismo "
                "desenlace. Entrada propia porque el aviso es por club."),
     Revisado(
-        pagina="Campeonato de Primera B Nacional 2009-10", club="Platense",
+        pagina="Campeonato de Primera B Nacional 2009-10", club="Platense", desvio="GF-1 GC-1",
         porque="Se desvia SOLO, y eso alcanza para cerrarlo sin fuente de afuera. Un "
                "marcador mal leido toca siempre a dos clubes, con deltas espejados; "
                "aca ningun otro club de la tabla se desvia y ninguno de los rivales de "
@@ -2937,31 +2964,31 @@ REVISADOS: tuple[Revisado, ...] = (
                "todos los mismos partidos --, asi que no hay ningun partido que pueda "
                "explicarlo. La equivocada es la fila de la tabla."),
     Revisado(
-        pagina="Anexo:Torneo Final 2013 (Argentina)", club="Unión",
+        pagina="Anexo:Torneo Final 2013 (Argentina)", club="Unión", desvio="GC+1",
         porque="Se desvia solo y ninguno de sus rivales quedo fuera del cruce, asi que "
                "ningun partido puede explicarlo: un marcador mal leido movería a dos "
                "clubes y aca se mueve uno. La equivocada es la fila de la tabla, no la "
                "grilla. Es la misma prueba interna que cierra a Platense en el B "
                "Nacional 2009-10."),
     Revisado(
-        pagina="Copa de la Liga Profesional 2023", club="Racing Club",
+        pagina="Copa de la Liga Profesional 2023", club="Racing Club", desvio="GF-1",
         porque="Se desvia solo en su zona y ninguno de sus rivales quedo fuera del "
                "cruce. Sin un segundo club desviado en espejo no hay partido que "
                "explique la diferencia, asi que la fila de la tabla es la que esta "
                "mal. Prueba interna, no hace falta fuente externa."),
     Revisado(
-        pagina="Campeonato de Primera C 2024 (Argentina)", club="J. J. de Urquiza",
+        pagina="Campeonato de Primera C 2024 (Argentina)", club="J. J. de Urquiza", desvio="GC-1",
         porque="Se desvia solo en el Torneo Clausura y todos sus rivales son "
                "comparables. Ningun marcador mal leido puede mover a un club sin mover "
                "a otro, asi que la equivocada es la fila de la tabla."),
     Revisado(
-        pagina="Torneo Federal A 2016-17", club="Gutiérrez",
+        pagina="Torneo Federal A 2016-17", club="Gutiérrez", desvio="GF+2 GC+2",
         porque="Se desvia solo en la primera fase y ninguno de sus rivales quedo fuera "
                "del cruce. Su delta es ademas de dos goles en cada columna, que "
                "necesitaria dos partidos mal leidos y por lo tanto hasta cuatro clubes "
                "desviados; no hay ninguno mas. La equivocada es la fila de la tabla."),
     Revisado(
-        pagina="Torneo Federal A 2025", club="Cipolletti",
+        pagina="Torneo Federal A 2025", club="Cipolletti", desvio="GF+2 GC-1 G+1 P-1",
         porque="Las dos ruedas con Villa Mitre se fueron a verificar y las dos "
                "estan bien: la fecha 4 (Villa Mitre 0-2 Cipolletti, goles de "
                "Cristian Ibarra a los 23 de chilena y de Gonzalo Crespo) la cuentan "
@@ -2973,14 +3000,14 @@ REVISADOS: tuple[Revisado, ...] = (
                "marcadores. No hay nada que corregir en la grilla: la equivocada es "
                "la tabla de posiciones."),
     Revisado(
-        pagina="Torneo Federal A 2025", club="Villa Mitre",
+        pagina="Torneo Federal A 2025", club="Villa Mitre", desvio="GF+1 GC-2 G+1 P-1",
         porque="La otra mitad del par con Cipolletti: sus deltas son los de aquel. "
                "Las mismas dos ruedas verificadas con la prensa de Bahia Blanca y de "
                "Cipolletti, mismo desenlace. Va como entrada propia porque el aviso "
                "se emite POR CLUB, y callar uno solo dejaria el par denunciado a "
                "medias."),
     Revisado(
-        pagina="Torneo Federal A 2025", club="Círculo Deportivo",
+        pagina="Torneo Federal A 2025", club="Círculo Deportivo", desvio="GF-1 GC+2 G-1 P+1",
         porque="Las dos ruedas con Sol de Mayo verificadas y las dos estan bien. La "
                "fecha 6 (Circulo Deportivo 1-0, gol de Imanol Iriberri de penal a "
                "los 31) la cuentan TRES diarios de las dos puntas -- Rio Negro y "
@@ -2988,12 +3015,12 @@ REVISADOS: tuple[Revisado, ...] = (
                "con el goleador y su minuto. La fecha 15 (Sol de Mayo 4-1) tambien "
                "queda confirmada. La equivocada es la tabla."),
     Revisado(
-        pagina="Torneo Federal A 2025", club="Sol de Mayo (V)",
+        pagina="Torneo Federal A 2025", club="Sol de Mayo (V)", desvio="GF-2 GC+1 G-1 P+1",
         porque="La otra mitad del par con Circulo Deportivo: mismas dos ruedas, "
                "mismas fuentes de las dos ciudades, mismo desenlace. Entrada propia "
                "porque el aviso es por club."),
     Revisado(
-        pagina="Campeonato de Primera Nacional 2025", club="Defensores de Belgrano",
+        pagina="Campeonato de Primera Nacional 2025", club="Defensores de Belgrano", desvio="E+1 P-1",
         porque="Este no necesita fuente de afuera porque la prueba es interna y "
                "cierra sola. La tabla dice 12-13-9 y la grilla da 12-12-10 -- un "
                "empate menos y una derrota mas -- pero los GOLES coinciden exacto, "
@@ -3006,7 +3033,7 @@ REVISADOS: tuple[Revisado, ...] = (
     # Los cuatro clubes de los dos partidos arreglados. El desvio es real y esta
     # explicado: ver los `Dividido` de esta misma pagina.
     Revisado(
-        pagina="Torneo Argentino A 2006-07", club="Central Norte (S)",
+        pagina="Torneo Argentino A 2006-07", club="Central Norte (S)", desvio="PJ+1 GC+1 P+1",
         porque="La tabla le cuenta un partido que la grilla no tiene, y el partido no "
                "falta: es el del penal regalado, contra 9 de Julio (R), uno de los dos que la ultima fecha "
                "del Clausura 2007 termino con UN RESULTADO DISTINTO PARA CADA CLUB. "
@@ -3020,7 +3047,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "No hay nada que ir a buscar: del partido se sabe todo salvo como "
                "escribir su resultado, que es precisamente lo que no se puede."),
     Revisado(
-        pagina="Torneo Argentino A 2006-07", club="9 de Julio (R)",
+        pagina="Torneo Argentino A 2006-07", club="9 de Julio (R)", desvio="PJ+1 GC+1 P+1",
         porque="La tabla le cuenta un partido que la grilla no tiene, y el partido no "
                "falta: es el del penal regalado, contra Central Norte (S), uno de los dos que la ultima fecha "
                "del Clausura 2007 termino con UN RESULTADO DISTINTO PARA CADA CLUB. "
@@ -3034,7 +3061,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "No hay nada que ir a buscar: del partido se sabe todo salvo como "
                "escribir su resultado, que es precisamente lo que no se puede."),
     Revisado(
-        pagina="Torneo Argentino A 2006-07", club="San Martín (SM)",
+        pagina="Torneo Argentino A 2006-07", club="San Martín (SM)", desvio="PJ+1 P+1",
         porque="La tabla le cuenta un partido que la grilla no tiene, y el partido no "
                "falta: es el del soborno denunciado, contra Desamparados, uno de los dos que la ultima fecha "
                "del Clausura 2007 termino con UN RESULTADO DISTINTO PARA CADA CLUB. "
@@ -3048,7 +3075,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "No hay nada que ir a buscar: del partido se sabe todo salvo como "
                "escribir su resultado, que es precisamente lo que no se puede."),
     Revisado(
-        pagina="Torneo Argentino A 2006-07", club="Desamparados",
+        pagina="Torneo Argentino A 2006-07", club="Desamparados", desvio="PJ+1 GC+1 P+1",
         porque="La tabla le cuenta un partido que la grilla no tiene, y el partido no "
                "falta: es el del soborno denunciado, contra San Martín (SM), uno de los dos que la ultima fecha "
                "del Clausura 2007 termino con UN RESULTADO DISTINTO PARA CADA CLUB. "
@@ -3062,7 +3089,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "No hay nada que ir a buscar: del partido se sabe todo salvo como "
                "escribir su resultado, que es precisamente lo que no se puede."),
     Revisado(
-        pagina="Torneo Argentino A 2006-07", club="Sportivo Patria",
+        pagina="Torneo Argentino A 2006-07", club="Sportivo Patria", desvio="E+1 P-1",
         porque="La tabla acumulada le da 12-5-11 (G-E-P) y la grilla 12-4-12: un "
                "empate donde va una derrota. Los GOLES coinciden exacto, 32-38 de "
                "los dos lados, y un marcador mal leido mueve siempre los goles, asi "
@@ -3080,7 +3107,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "Patria no tiene ninguno, asi que aca no queda ni esa excusa. No hay "
                "a donde ir a buscar."),
     Revisado(
-        pagina="Torneo Argentino A 2006-07", club="Atlético Tucumán",
+        pagina="Torneo Argentino A 2006-07", club="Atlético Tucumán", desvio="G+1 P-1",
         porque="La tabla acumulada le da 14-7-7 (G-E-P) y la grilla 13-7-8: un ganado "
                "donde va un perdido. Los GOLES coinciden exacto, 42-30 de los dos "
                "lados.\n"
@@ -3095,7 +3122,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "anota la CANCHA y las mitades anotan el FALLO. No hay a donde ir a "
                "buscar: las dos versiones estan en la pagina."),
     Revisado(
-        pagina="Torneo Argentino A 2005-06", club="La Florida",
+        pagina="Torneo Argentino A 2005-06", club="La Florida", desvio="PJ+1 GC+1 P+1",
         porque="La tabla del Clausura le cuenta un partido que la grilla no "
                "tiene, y no falta: es el La Florida-Sportivo Patria de la "
                "Fecha 10, que termino 2-2 en la cancha, se anulo y se "
@@ -3107,7 +3134,7 @@ REVISADOS: tuple[Revisado, ...] = (
                "el minuto en que se interrumpio. Lo unico que no se puede es "
                "escribirlo."),
     Revisado(
-        pagina="Torneo Argentino A 2005-06", club="Sportivo Patria",
+        pagina="Torneo Argentino A 2005-06", club="Sportivo Patria", desvio="PJ+1 GC+1 P+1",
         porque="La tabla del Clausura le cuenta un partido que la grilla no "
                "tiene, y no falta: es el Sportivo Patria-La Florida de la "
                "Fecha 10, que termino 2-2 en la cancha, se anulo y se "
@@ -3123,13 +3150,63 @@ REVISADOS: tuple[Revisado, ...] = (
 
 
 
-def revisado(pagina: str, club: str) -> Revisado | None:
-    """La verificacion que cierra el desvio de ese club, si alguien la hizo."""
+# Los seis campos de una fila de tabla, en el orden en que vienen. Los nombra
+# `firma_del_desvio` y son los mismos que devuelven `posiciones.sumar` y la
+# lectura de la tabla, que es lo que hace comparable una cosa con la otra.
+_CAMPOS_DE_LA_FILA = ("PJ", "GF", "GC", "G", "E", "P")
+
+
+def firma_del_desvio(publicada, contada) -> str:
+    """En que y cuanto se aparta la fila de la TABLA de la de nuestra grilla.
+
+    `tabla menos grilla`, campo por campo, y solo los que difieren: `GF-2` quiere
+    decir que la tabla le da dos goles a favor MENOS que los que suman nuestros
+    partidos. Cadena vacia si no se aparta en nada.
+
+    ES EL DELTA Y NO LOS NUMEROS, por lo que dice el comentario de `Revisado`:
+    en una pagina viva los absolutos se mueven cada fecha y el delta no.
+
+    SE CALCULA CRUDO, sin mirar `DIVIDIDOS` ni ninguna otra explicacion. Quien
+    decide si un desvio se denuncia es cada chequeo, y cada uno lo decide a su
+    manera --`pj_que_no_coincide` le suma los partidos divididos, `contrastar` no
+    mira el PJ--; si la firma dependiera de eso, el mismo club tendria firmas
+    distintas segun quien preguntara y la declaracion engancharia en un chequeo y
+    en el otro no.
+
+    Compara el prefijo comun: la tabla de algunas paginas trae tres columnas y no
+    seis, y una fila corta no es un desvio en los campos que no publica.
+    """
+    n = min(len(publicada), len(contada), len(_CAMPOS_DE_LA_FILA))
+    return " ".join(f"{_CAMPOS_DE_LA_FILA[i]}{publicada[i] - contada[i]:+d}"
+                    for i in range(n) if publicada[i] != contada[i])
+
+
+def revisado(pagina: str, club: str, desvio: str | None = None) -> Revisado | None:
+    """La verificacion que cierra ESE desvio de ese club, si alguien la hizo.
+
+    Si la declaracion trae `desvio` y se le pregunta por uno, tienen que ser el
+    mismo: una verificacion habla de un estado concreto y deja de valer cuando el
+    estado cambia.
+
+    `desvio=None` PREGUNTA OTRA COSA -- "¿este club tiene alguna verificacion
+    escrita?" -- y lo usa el unico llamador al que la firma no le sirve:
+    `build.la_fuente_se_respalda` compara la tabla de RSSSF contra los partidos
+    de RSSSF, que es otra tabla y otro conjunto, asi que la firma de nuestro
+    desvio contra Wikipedia no dice nada ahi. Distinguirlo hace falta: al ponerle
+    firma a las 58 entradas viejas, ese llamador dejo de enganchar y volvio un
+    aviso que ya estaba explicado.
+
+    Las declaraciones sin `desvio` contestan a cualquiera, que es como se
+    comportaba esto antes de que el campo existiera. Hoy no queda ninguna de
+    tabla asi -- ver el test que lo exige -- pero el caso sigue definido.
+    """
     for r in REVISADOS:
         # Los que nombran rival NO contestan aca: verifican una llave, no la fila
         # de un club en la tabla.
         if r.pagina == pagina and r.club == club and not r.contra:
-            return r
+            if desvio is None or not r.desvio or r.desvio == desvio:
+                return r
+            return None
     return None
 
 
@@ -3144,15 +3221,27 @@ def revisado_llave(pagina: str, uno: str, otro: str) -> "Revisado | None":
     return None
 
 
-def revisados_huerfanos(pagina: str, desviados: set[str],
-                        llaves: set | None = None) -> list[str]:
-    """Los `Revisado` de esta pagina que ya no enganchan con ningun desvio.
+def revisados_huerfanos(pagina: str, desviados, llaves: set | None = None) -> list[str]:
+    """Los `Revisado` de esta pagina que ya no enganchan con el desvio que dicen.
 
     Un `Revisado` silencia un aviso, asi que tiene que caducar solo. Si la pagina
     se corrigio -- o si le cambiaron la tabla --, la verificacion que sostiene
     esta entrada hablaba de otra cosa y hay que rehacerla. Sin esto, una entrada
     vieja sigue tapando un desvio nuevo del mismo club y nadie se entera.
+
+    SON DOS FORMAS DE CADUCAR Y NO UNA, y hasta que `desvio` existio solo se veia
+    la primera:
+
+      * el club ya no se desvia -- la pagina se arreglo, o le cambiaron la fila --
+        y entonces la entrada no tiene nada que silenciar;
+      * el club SIGUE desviandose pero de otra manera. Esta es la peligrosa: la
+        entrada engancha igual y calla un problema que nadie miro. Se ve
+        comparando la firma declarada contra la de hoy.
+
+    `desviados` es {club: firma}; se acepta tambien un conjunto pelado, y ahi
+    solo se puede mirar la primera forma.
     """
+    firmas = desviados if isinstance(desviados, dict) else {}
     fuera = []
     for r in REVISADOS:
         if r.pagina != pagina:
@@ -3163,13 +3252,25 @@ def revisados_huerfanos(pagina: str, desviados: set[str],
         if r.contra:
             if llaves is None or frozenset((r.club, r.contra)) in llaves:
                 continue
-        elif r.club in desviados:
+            fuera.append(
+                f"la verificacion de {r.club} ya no engancha con ningun desvio: o "
+                f"la pagina se arreglo, o le cambiaron la tabla. Sacala de "
+                f"fad/correcciones.py, porque mientras siga ahi puede estar "
+                f"tapando un desvio nuevo del mismo club")
             continue
-        fuera.append(
-            f"la verificacion de {r.club} ya no engancha con ningun desvio: o la "
-            f"pagina se arreglo, o le cambiaron la tabla. Sacala de "
-            f"fad/correcciones.py, porque mientras siga ahi puede estar tapando "
-            f"un desvio nuevo del mismo club")
+        if r.club not in desviados:
+            fuera.append(
+                f"la verificacion de {r.club} ya no engancha con ningun desvio: o "
+                f"la pagina se arreglo, o le cambiaron la tabla. Sacala de "
+                f"fad/correcciones.py, porque mientras siga ahi puede estar "
+                f"tapando un desvio nuevo del mismo club")
+        elif r.desvio and r.club in firmas and firmas[r.club] != r.desvio:
+            fuera.append(
+                f"la verificacion de {r.club} hablaba de un desvio `{r.desvio}` y "
+                f"hoy el desvio es `{firmas[r.club]}`: el club se sigue apartando, "
+                f"pero de otra manera. Lo que se verifico ya no es lo que pasa, "
+                f"asi que hay que rehacerlo y actualizar `desvio` en "
+                f"fad/correcciones.py")
     return fuera
 
 

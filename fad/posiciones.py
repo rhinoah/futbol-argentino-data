@@ -478,16 +478,22 @@ def filas_que_no_cierran(texto: str, arts: dict[str, str] | None = None,
 
 
 def clubes_desviados(ps: list, texto: str, arts: dict[str, str] | None = None,
-                     pagina: str = "") -> set[str]:
-    """Los clubes cuya tabla no cierra con la grilla, SIN filtrar los revisados.
+                     pagina: str = "") -> dict[str, str]:
+    """{club: firma} de los que no cierran con la grilla, SIN filtrar revisados.
 
     Existe justamente para que `revisados_huerfanos` pueda preguntar por los
     desvios crudos. Si preguntara por los que quedan despues del filtro, cada
     `Revisado` se justificaria a si mismo -- tapa el desvio, el desvio desaparece,
     y por lo tanto nunca aparece como huerfano -- y la guarda no guardaria nada.
+
+    DEVUELVE LA FIRMA Y NO SOLO EL NOMBRE, y por eso es un dict. Con el nombre
+    solo, la guarda distingue "este club ya no se desvia" y nada mas; con la
+    firma distingue ademas "se desvia de OTRA manera", que es el caso que dejaba
+    pasar una verificacion vieja tapando un problema nuevo. Sigue sirviendo para
+    `in` y para iterar, que es lo unico que le pedian sus llamadores.
     """
     arts = arts if arts is not None else parser.articulos_de_la_pagina(texto)
-    fuera = set()
+    fuera: dict[str, str] = {}
     for alcance, filas in _alcance_de_cada_tabla(texto, arts, ps, pagina):
         propios = _propios_de(ps, alcance)
         for club, datos in filas.items():
@@ -498,12 +504,12 @@ def clubes_desviados(ps: list, texto: str, arts: dict[str, str] | None = None,
             # `revisados_huerfanos` lo denuncia por no existir un problema que si
             # existe. Antes se salteaba porque el unico consumidor comparaba goles.
             if propios[club][0] != datos[0]:
-                fuera.add(club)
+                fuera[club] = correcciones.firma_del_desvio(datos, propios[club])
                 continue
             if (tuple(datos[1:3]) != tuple(propios[club][1:3])
                     or (len(datos) >= 6
                         and tuple(datos[3:6]) != tuple(propios[club][3:6]))):
-                fuera.add(club)
+                fuera[club] = correcciones.firma_del_desvio(datos, propios[club])
     return fuera
 
 
@@ -634,7 +640,8 @@ def resultados_que_no_coinciden(ps: list, texto: str, arts: dict[str, str] | Non
                     contada[club] = propios[club]
     fuera = []
     for club, datos in sorted(publicada.items()):
-        if club not in contada or correcciones.revisado(pagina, club):
+        if club not in contada or correcciones.revisado(
+                pagina, club, correcciones.firma_del_desvio(datos, contada[club])):
             continue
         pj, suyo = datos[0], tuple(datos[3:6])
         # Misma guarda que `contrastar`, y por el mismo motivo: con distinta
@@ -716,7 +723,10 @@ def pj_que_no_coincide(ps: list, texto: str, arts: dict[str, str] | None = None,
         # callarse. Lo destaparon los dos partidos arreglados del Argentino A
         # 2006-07, donde la tabla cuenta un partido que el esquema no puede
         # escribir porque termino con dos resultados. Ver `DIVIDIDOS`.
-        desviados = [c for c in desviados if not correcciones.revisado(pagina, c)]
+        desviados = [c for c in desviados
+                     if not correcciones.revisado(
+                         pagina, c,
+                         correcciones.firma_del_desvio(publicada[c], contada[c]))]
         if not desviados:
             continue
         # Los desvios se agrupan por su DELTA, porque un partido toca a DOS
@@ -1204,7 +1214,9 @@ def contrastar(ps: list, texto: str, arts: dict[str, str] | None = None,
                          - sum(v[1] for v in publicada.values()))
     fuera = []
     for club, (pj, gf, gc, *_) in sorted(publicada.items()):
-        if club not in contada or correcciones.revisado(pagina, club):
+        if club not in contada or correcciones.revisado(
+                pagina, club,
+                correcciones.firma_del_desvio(publicada[club], contada[club])):
             continue
         pj2, gf2, gc2 = contada[club][:3]
         # Si no coincide la CANTIDAD de partidos, las dos partes no estan
@@ -1303,7 +1315,10 @@ def _ya_esta_declarado(publicada: dict, contada: dict, gf: int, gc: int,
     desviados = [c for c in publicada
                  if (publicada[c][1], publicada[c][2])
                  != (contada[c][1], contada[c][2])]
-    if len(desviados) != 1 or not correcciones.revisado(pagina, desviados[0]):
+    if len(desviados) != 1 or not correcciones.revisado(
+            pagina, desviados[0],
+            correcciones.firma_del_desvio(publicada[desviados[0]],
+                                          contada[desviados[0]])):
         return False
     c = desviados[0]
     return _lo_prueba_el_desbalance(1, gc - gf,

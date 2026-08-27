@@ -1021,6 +1021,58 @@ huérfanos avisa, pero si aparece un desvío *distinto* en el mismo club, la dec
 lo tapa en silencio. Es el hueco que `Fechado` y `Dia` ya cierran guardando el estado que
 verificaron, y que `Revisado` todavía no.
 
+#### Una verificación que no dice de qué habla puede tapar otra cosa
+
+Las cuatro tablas de la temporada en curso dejaron un pendiente y vale cerrarlo acá porque
+el arreglo se encontró a sí mismo un problema.
+
+`Revisado` se identificaba por **(página, club) y nada más**. Con temporadas cerradas eso
+alcanza: la tabla ya no se mueve, así que el desvío que se verificó es el único que puede
+haber. Con una página en curso no: si al mismo club le aparece un desvío **distinto**, la
+declaración vieja lo tapa —engancha por nombre— y nadie se entera. `revisados_huerfanos`
+sólo veía la otra mitad, la fácil: que el club dejara de desviarse.
+
+Es el hueco que `Fechado` y `Dia` ya cerraban a su manera —el uno guarda las dos fechas en
+disputa, el otro exige `dice`—, y la solución es la misma: **que la declaración diga de qué
+estado habla**.
+
+**Lo que se fija es la diferencia, no los números.** Es todo el asunto: en una página viva
+la fila entera cambia cada fecha —sube el PJ, suben los goles—, así que fijar la fila haría
+caducar la declaración todas las semanas y el aviso volvería sin que nada esté mal. Lo que
+*no* cambia mientras la errata siga ahí es cuánto y en qué se aparta la tabla. `GF-2` sigue
+siendo `GF-2` la fecha que viene.
+
+Las **58** declaraciones de tabla que ya existían se midieron, no se tipearon: 58 diferencias
+de seis campos escritas a mano son 58 oportunidades de una errata que después no encuentra
+nadie. Salen agrupadas así —`GF-1` siete veces, `GC-1` seis, `PJ+1 GC+1 P+1` cinco— y las
+dos de llave quedan afuera, porque verifican un cruce del cuadro y ahí no hay columnas que
+firmar. Un test exige que ninguna de tabla se escriba sin su firma.
+
+**Y hay un quinto llamador que pregunta otra cosa.** `build.la_fuente_se_respalda` cruza la
+tabla de RSSSF contra los partidos de RSSSF: otra tabla, otro conjunto, así que la firma de
+nuestro desvío contra Wikipedia no significa nada ahí; lo único que quiere saber es si ese
+club ya tiene una conclusión escrita, para no repetirla. Se aprendió rompiéndolo — al poner
+firma en las 58, ese llamador dejó de enganchar y volvió un aviso que ya estaba explicado.
+Lo agarró su test.
+
+#### Y a los cinco minutos de existir, la firma encontró algo
+
+Al medir, apareció **un aviso nuevo** donde no debía haber ninguno: el chequeo de PJ
+denunciaba a `La Florida` y `Sportivo Patria` en el **Torneo Apertura** del Argentino A
+2005-06. Ese aviso lo venía callando el `Revisado` de esos clubes… que habla del desvío del
+**Clausura**. Una verificación tapando otra cosa, que es exactamente lo que el campo vino a
+impedir.
+
+La causa estaba dos capas más abajo. El `Dividido` de `La Florida` vs `Sportivo Patria` —el
+partido abandonado a los 90' y dado por perdido a los dos— no declaraba su sección, y
+`clubes_divididos` lee eso como *«la página tiene una sola tabla»*: le aplicaba la
+consecuencia al Apertura **y** al Clausura. Pero el anulado es el del Clausura, y en el
+Apertura esos mismos dos clubes juegan **otro** partido, que está escrito y cierra perfecto.
+Así que en el Apertura el chequeo esperaba un hueco que no existe.
+
+Se arregla declarando la sección. Los avisos quedan en los mismos `166` de antes: el
+mecanismo es neutro sobre el estado de hoy, que es lo que tiene que ser.
+
 #### Los 16 que no cierran, ordenados
 
 Vale separarlos, porque no son un problema sino tres, con costos muy distintos.

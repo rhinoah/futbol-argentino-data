@@ -1159,7 +1159,10 @@ def test_un_desvio_de_PJ_tambien_es_un_desvio_para_los_huerfanos():
     ps = [zona("Boca Juniors", "River Plate", 3, 1),
           zona("Racing Club", "Independiente", 2, 0)]
     crudos = posiciones.clubes_desviados(ps, texto, pagina="Una Pagina")
-    assert {"Racing Club", "Independiente"} <= crudos
+    assert {"Racing Club", "Independiente"} <= crudos.keys()
+    # Y viene con su firma, que es lo que despues distingue "ya no se desvia" de
+    # "se desvia de otra manera": el desvio de PJ tiene que aparecer nombrado.
+    assert crudos["Racing Club"].startswith("PJ"), crudos["Racing Club"]
 
     r = correcciones.Revisado(pagina="Una Pagina", club="Racing Club", porque="x")
     with mock.patch.object(correcciones, "REVISADOS", (r,)):
@@ -1481,6 +1484,101 @@ def test_un_revisado_que_ya_no_engancha_se_denuncia():
         assert correcciones.revisados_huerfanos("Una Pagina", {"Boca Juniors"}) == []
         huerfanos = correcciones.revisados_huerfanos("Una Pagina", {"River Plate"})
     assert len(huerfanos) == 1 and "Boca Juniors" in huerfanos[0]
+
+
+def test_cada_revisado_de_tabla_FIJA_el_desvio_que_verifico():
+    """Es la vara que `Fechado` y `Dia` ya tenian y a este tipo le faltaba.
+
+    Una verificacion habla de un ESTADO: "mire esta fila, se aparta asi, y la
+    equivocada es la tabla". Sin escribir cual era ese estado, la entrada se
+    identifica por (pagina, club) y calla cualquier cosa que le pase despues a
+    ese club. Con temporadas cerradas la tabla no se mueve y el hueco no se
+    notaba; con las primeras cuatro sobre paginas en curso pasa a ser posible.
+
+    Las de LLAVE quedan afuera a proposito: verifican un cruce del cuadro, no una
+    fila de tabla, y ahi no hay diferencia de columnas que firmar.
+    """
+    from fad import correcciones
+    for r in correcciones.REVISADOS:
+        if r.contra:
+            continue
+        assert r.desvio, f"{r.pagina} / {r.club}: no dice de que desvio habla"
+
+
+def test_la_firma_es_LA_DIFERENCIA_y_no_los_numeros():
+    """Y por eso sobrevive a que la temporada siga jugandose.
+
+    Si la firma fueran los numeros de la fila, en una pagina viva caducaria todas
+    las fechas: sube el PJ, suben los goles, y la verificacion que sigue siendo
+    cierta deja de enganchar. Lo que no se mueve mientras la errata siga ahi es
+    cuanto y en que se aparta la tabla.
+    """
+    from fad import correcciones
+    hoy = correcciones.firma_del_desvio((32, 34, 31, 14, 9, 9),
+                                        (32, 36, 31, 14, 9, 9))
+    assert hoy == "GF-2"
+    # la fecha que viene: los dos lados suman tres goles y un partido ganado
+    sigue = correcciones.firma_del_desvio((33, 37, 31, 15, 9, 9),
+                                          (33, 39, 31, 15, 9, 9))
+    assert sigue == hoy, "el delta no se mueve porque la tabla avance"
+    assert correcciones.firma_del_desvio((1, 2, 3), (1, 2, 3)) == ""
+
+
+def test_una_verificacion_NO_calla_un_desvio_DISTINTO():
+    """El agujero que este campo vino a cerrar.
+
+    La entrada vieja seguia enganchando por (pagina, club) aunque el desvio
+    hubiera cambiado, asi que tapaba un problema nuevo sin decir nada. Ahora
+    contesta al desvio que verifico y a ningun otro.
+    """
+    from fad import correcciones
+    r = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors",
+                              porque="x", desvio="GF-2")
+    with mock.patch.object(correcciones, "REVISADOS", (r,)):
+        assert correcciones.revisado("Una Pagina", "Boca Juniors", "GF-2")
+        assert not correcciones.revisado("Una Pagina", "Boca Juniors", "GF-3")
+        assert not correcciones.revisado("Una Pagina", "Boca Juniors", "GC-2")
+
+
+def test_el_que_pregunta_SIN_firma_recibe_cualquier_verificacion():
+    """`desvio=None` es otra pregunta, y tiene un solo llamador.
+
+    `build.la_fuente_se_respalda` cruza la tabla de RSSSF contra los partidos de
+    RSSSF: otra tabla y otro conjunto, asi que la firma de nuestro desvio contra
+    Wikipedia no significa nada ahi. Lo unico que quiere saber es si ese club ya
+    tiene una conclusion escrita, para no repetirla.
+
+    Se aprendio rompiendolo: al ponerle firma a las 58 entradas viejas, ese
+    llamador dejo de enganchar y volvio un aviso que ya estaba explicado.
+    """
+    from fad import correcciones
+    r = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors",
+                              porque="x", desvio="GF-2")
+    with mock.patch.object(correcciones, "REVISADOS", (r,)):
+        assert correcciones.revisado("Una Pagina", "Boca Juniors")
+        assert correcciones.revisado("Una Pagina", "Boca Juniors", None)
+
+
+def test_la_verificacion_QUE_CAMBIO_DE_DESVIO_se_denuncia():
+    """Son dos formas de caducar y la guarda tiene que ver las dos.
+
+    Que el club ya no se desvie es la facil: la entrada no tiene nada que
+    silenciar. La otra es la peligrosa -- el club se sigue apartando, pero de
+    otra manera -- porque ahi la entrada engancha igual por nombre y calla un
+    problema que nadie miro.
+    """
+    from fad import correcciones
+    r = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors",
+                              porque="x", desvio="GF-2")
+    with mock.patch.object(correcciones, "REVISADOS", (r,)):
+        assert correcciones.revisados_huerfanos("Una Pagina",
+                                                {"Boca Juniors": "GF-2"}) == []
+        cambio = correcciones.revisados_huerfanos("Una Pagina",
+                                                  {"Boca Juniors": "GF-3"})
+        assert len(cambio) == 1
+        assert "GF-2" in cambio[0] and "GF-3" in cambio[0], cambio
+        fue = correcciones.revisados_huerfanos("Una Pagina", {"River Plate": "GF-1"})
+        assert len(fue) == 1 and "ya no engancha" in fue[0], fue
 
 
 def test_los_huerfanos_se_preguntan_sobre_los_desvios_CRUDOS():
