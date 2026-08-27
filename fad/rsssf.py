@@ -2328,6 +2328,13 @@ PRIMERA_C_2010 = {
 # es lo correcto: la Fase Final del 2010-11 tiene tres zonas que nuestra pagina no
 # reparte igual, y preferimos no cruzarlas a cruzarlas mal.
 ZONAS: dict[str, dict[tuple[str, str], str]] = {
+    # La fuente le pone letra Y punto cardinal a la misma zona que la pagina nombra
+    # solo por el punto cardinal. Sin fase en la clave porque este archivo no declara
+    # ninguna: las dos ruedas -- Apertura y Clausura -- suman en una sola tabla.
+    "Torneo Argentino A 2005-06": {
+        ("", "Zona A - Sur"): "Zona Sur",
+        ("", "Zona B - Norte"): "Zona Norte",
+    },
     "Torneo Argentino A 2010-11": {
         ("Primera fase", "Zone 1"): "Primera fase - Zona 1",
         ("Primera fase", "Zone 2"): "Primera fase - Zona 2",

@@ -65,6 +65,10 @@ _TITULO_RESULTADOS = re.compile(r"^(=+)\s*Resultados\s*=+\s*$", re.M)
 # despues de un titulo no pertenece a la tabla de arriba.
 _TITULO_CUALQUIERA = re.compile(r"^=+[^=\n]+=+\s*$", re.M)
 
+# Un titulo que NOMBRA una zona. `Interzonal` entra porque lo es: `_seccion` ya lo
+# normaliza como etiqueta de zona, y hay paginas que le dan seccion propia.
+_NOMBRA_UNA_ZONA = re.compile(r"(?i)^(?:zona|grupo|zone|interzonal)\b")
+
 # Un titulo de zona de primer nivel: `== Zona A ==`. En el ascenso la zona no
 # viene en un encabezado de tabla sino en el titulo de la seccion que la contiene.
 _TITULO_ZONA = re.compile(r"^==\s*((?:Zona|Grupo)\b[^=\n]*?)\s*==\s*$", re.M | re.I)
@@ -1849,6 +1853,51 @@ _NO_SON_FASE = frozenset({
 })
 
 
+def _por_subseccion(titulo: str, cuerpo: str) -> list[tuple[str, str]]:
+    """(titulo, cuerpo) de cada subseccion, o el cuerpo entero si no tiene ninguna.
+
+    Una seccion `Resultados` puede traer las zonas ADENTRO en vez de al lado: el
+    Argentino A 2005-06 escribe `==== Resultados ====` y cuelga de ahi
+    `===== Zona Sur =====` y `===== Zona Norte =====`. Sin partirla, las dos zonas
+    llegan al lector en un solo cuerpo con una sola etiqueta, y sus partidos salen
+    con la del padre -- `Primera fase` --, que no es una zona sino una fase.
+
+    Es peor que quedar vacia: una zona equivocada parece un dato, y `group` es una
+    columna que se publica.
+
+    SE CORTA POR EL NIVEL MAS ALTO QUE APAREZCA, y no por uno fijo: el mismo criterio
+    que usa `_secciones_con_span` un nivel mas arriba. Asi una subseccion con
+    sub-subsecciones entra entera y no se come a su hermana.
+
+    Y SOLO SI ALGUNA SUBSECCION SE LLAMA COMO UNA ZONA. Partir por cualquier subtitulo
+    mueve 13 781 filas del corpus, medido: hay paginas que cuelgan del `Resultados`
+    una `Primera rueda` y una `Segunda rueda`, que son mitades de la temporada y no
+    zonas, y terminaban escritas en la columna `group`. Cambiar una zona vacia por una
+    equivocada es peor que dejarla vacia -- una zona equivocada parece un dato.
+
+    Lo que hay ANTES del primer subtitulo se conserva con la etiqueta de afuera: si
+    una pagina pone tablas sueltas arriba de las zonas, tirarlas seria perder
+    partidos y ponerles la etiqueta de la primera zona seria mentir.
+    """
+    cortes = list(_TITULO.finditer(cuerpo))
+    if not cortes:
+        return [(titulo, cuerpo)]
+    arriba = min(len(m.group(1)) for m in cortes)
+    cortes = [m for m in cortes if len(m.group(1)) == arriba]
+    nombres = [_seccion(limpiar(m.group(2))) for m in cortes]
+    if not any(_NOMBRA_UNA_ZONA.match(n) for n in nombres):
+        return [(titulo, cuerpo)]
+    fuera = []
+    if cuerpo[:cortes[0].start()].strip():
+        fuera.append((titulo, cuerpo[:cortes[0].start()]))
+    for i, (m, n) in enumerate(zip(cortes, nombres)):
+        fin = cortes[i + 1].start() if i + 1 < len(cortes) else len(cuerpo)
+        # La que NO nombra una zona conserva la etiqueta de afuera: no se sabe que
+        # zona es, y ponerle su propio titulo escribiria en `group` algo que no lo es.
+        fuera.append((n if _NOMBRA_UNA_ZONA.match(n) else titulo, cuerpo[m.end():fin]))
+    return fuera
+
+
 def _contexto(pos: int, nivel: int, texto: str) -> str:
     """El titulo de la seccion que CONTIENE a esta.
 
@@ -1981,30 +2030,34 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
         # en fase de grupos lo deja mezclado con los demas y hace saltar
         # `todos_tienen_zona`, asi que va por el mismo camino que las tablas de
         # afuera: es una ronda.
-        zonas += partidos_de_tabla(cuerpo, anio, torneo, anio_fin, mes_inicio,
-                                   zona_defecto=_como_zona(titulo), llave=fase,
-                                   arts=arts, notas=notas,
-                                   # El nombre de la seccion NO decide solo: si la
-                                   # tabla rotula sus bloques "Fecha N", es una
-                                   # mini-liga aunque la seccion se llame como una
-                                   # llave. La `Ronda de desempate` del Federal A
-                                   # 2018-19 son tres clubes empatados en la tabla
-                                   # de descenso jugando un triangular de tres
-                                   # fechas, con su propia tabla de posiciones: no
-                                   # es una llave y quedaba en `eliminacion`.
-                                   #
-                                   # Es la misma pregunta que ya hace el camino de
-                                   # respaldo, y ahora los dos coinciden. Se midio
-                                   # antes de tocarla: de las dieciseis secciones
-                                   # del corpus cuyo titulo parece una ronda, esta
-                                   # es la UNICA que rotula fechas. Las otras
-                                   # quince -- octavos, cuartos, semis, finales,
-                                   # primera/segunda/tercera ronda -- no rotulan
-                                   # ninguna, asi que no se mueven.
-                                   fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))
-                                                     and not _rotula_fechas(cuerpo))
-                                                    or bool(_LLAVE_ELIMINATORIA.search(fase)),
-                                   ambiguas=ambiguas)
+        # Y SI LA SECCION TRAE SUS ZONAS ADENTRO, se parte: ver
+        # `_por_subseccion`. Sin subsecciones devuelve el cuerpo entero con su
+        # etiqueta, que es exactamente lo que se hacia antes.
+        for titulo, cuerpo in _por_subseccion(titulo, cuerpo):
+            zonas += partidos_de_tabla(cuerpo, anio, torneo, anio_fin, mes_inicio,
+                                       zona_defecto=_como_zona(titulo), llave=fase,
+                                       arts=arts, notas=notas,
+                                       # El nombre de la seccion NO decide solo: si la
+                                       # tabla rotula sus bloques "Fecha N", es una
+                                       # mini-liga aunque la seccion se llame como una
+                                       # llave. La `Ronda de desempate` del Federal A
+                                       # 2018-19 son tres clubes empatados en la tabla
+                                       # de descenso jugando un triangular de tres
+                                       # fechas, con su propia tabla de posiciones: no
+                                       # es una llave y quedaba en `eliminacion`.
+                                       #
+                                       # Es la misma pregunta que ya hace el camino de
+                                       # respaldo, y ahora los dos coinciden. Se midio
+                                       # antes de tocarla: de las dieciseis secciones
+                                       # del corpus cuyo titulo parece una ronda, esta
+                                       # es la UNICA que rotula fechas. Las otras
+                                       # quince -- octavos, cuartos, semis, finales,
+                                       # primera/segunda/tercera ronda -- no rotulan
+                                       # ninguna, asi que no se mueven.
+                                       fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))
+                                                         and not _rotula_fechas(cuerpo))
+                                                        or bool(_LLAVE_ELIMINATORIA.search(fase)),
+                                       ambiguas=ambiguas)
 
     # Las tablas de partidos que NO cuelgan de un "Resultados". Los reducidos,
     # las promociones y las finales de ascenso viven bajo titulos propios --

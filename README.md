@@ -2838,6 +2838,47 @@ O sea que las cuatro verificaciones no quedaron en duda: quedaron **corroboradas
 por una fuente independiente**, que es el testigo que a un `Revisado` le suele
 faltar.
 
+### Y la última: una zona que estaba adentro de la sección
+
+El `Argentino A 2005-06` cuelga sus dos zonas **dentro** del `Resultados`:
+
+```
+==== Resultados ====
+===== Zona Sur =====
+===== Zona Norte =====
+```
+
+Así que el lector recibía el cuerpo entero de una sola vez con una sola etiqueta
+—la de la sección que lo contiene— y sus **263** partidos salían con `Primera
+fase` en la columna `group`. Que es peor que quedar vacía: **una zona equivocada
+parece un dato**.
+
+El corte es el mismo que `_secciones_con_span` hace un nivel más arriba, un nivel
+más abajo. Pero la primera versión cortaba por *cualquier* subtítulo y eso mueve
+**13 781 filas** del corpus: hay páginas que cuelgan del `Resultados` una
+`Primera rueda` y una `Segunda rueda`, que son mitades de la temporada y no
+zonas.
+
+La regla se estrechó a lo que se puede defender: **se parte cuando alguna
+subsección se llama como una zona**, y la que no lo es conserva la etiqueta de
+afuera.
+
+Y esa guarda hace más de lo que parece. Partir cambia qué texto ve
+`_rotula_fechas`, y con eso se da vuelta `fuera_de_la_liga`: sin ella, el
+`Partido de desempate del primer puesto` de la B Nacional 2017-18 y el de la
+2018-19 se mudaban de `eliminacion` a `zonas` **y perdían su jornada entera**.
+Dos filas, las dos peores — las encontró el arnés, esta vez sí, porque ahora mira
+la jornada.
+
+| | páginas | clubes respaldados |
+|---|---:|---:|
+| antes | 12 | 239 |
+| ahora | **13** | **251** |
+
+De la Zona Sur cruzan sus doce clubes; la Norte se abstiene porque tiene el
+partido dividido de esa temporada, que es la rama prevista. El diff del CSV toca
+**sólo `group`**, 263 por 263.
+
 ## El mapa de zonas, y tres maneras de no publicar una tabla
 
 El pendiente decía que a los cinco `Torneo Argentino A` les faltaba **el mapa de
@@ -3022,11 +3063,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1007 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1012 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 435 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 439 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

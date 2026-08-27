@@ -813,10 +813,10 @@ MUTANTES = [
      'r"(?i)PP"'),
 
     ("fad/parser.py", "que el nombre de la seccion pise al rotulo de la tabla",
-     "                                   fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))" + chr(10) +
-     "                                                     and not _rotula_fechas(cuerpo))",
-     "                                   fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))" + chr(10) +
-     "                                                     and True)"),
+     "                                       fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))" + chr(10) +
+     "                                                         and not _rotula_fechas(cuerpo))",
+     "                                       fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))" + chr(10) +
+     "                                                         and True)"),
 
     ("fad/parser.py", "no mirar el nombre de la seccion en el primer camino",
      "                                   fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))",
@@ -1340,6 +1340,30 @@ MUTANTES = [
     ("fad/rsssf.py", "exigirle dos espacios a la fila de la foja",
      '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s+|(?<=\\)))"',
      '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s{2,}|(?<=\\)))"'),
+
+    # La seccion que trae sus zonas ADENTRO. Sin partirla, las dos llegan al lector en
+    # un solo cuerpo y sus partidos salen con la etiqueta del padre, que es una fase.
+    ("fad/parser.py", "no partir la seccion que trae sus zonas adentro",
+     "        for titulo, cuerpo in _por_subseccion(titulo, cuerpo):",
+     "        for titulo, cuerpo in [(titulo, cuerpo)]:"),
+
+    # Y partir por CUALQUIER subtitulo mueve 13 781 filas del corpus: hay paginas que
+    # cuelgan del `Resultados` una `Primera rueda`, que no es una zona.
+    ("fad/parser.py", "partir por cualquier subtitulo, sea una zona o no",
+     "    if not any(_NOMBRA_UNA_ZONA.match(n) for n in nombres):\n"
+     "        return [(titulo, cuerpo)]",
+     "    if False:\n"
+     "        return [(titulo, cuerpo)]"),
+
+    ("fad/parser.py", "darle su propio titulo a la subseccion que no es una zona",
+     "        fuera.append((n if _NOMBRA_UNA_ZONA.match(n) else titulo, cuerpo[m.end():fin]))",
+     "        fuera.append((n, cuerpo[m.end():fin]))"),
+
+    # El corte va por el nivel MAS ALTO que aparezca: cortando por cualquiera, una
+    # subseccion con sub-subsecciones se parte adentro y pierde su etiqueta.
+    ("fad/parser.py", "cortar la seccion por cualquier nivel de subtitulo",
+     "    cortes = [m for m in cortes if len(m.group(1)) == arriba]",
+     "    cortes = list(cortes)"),
 
     # La zona que la pagina publica y el camino de respaldo no pedia.
     ("fad/parser.py", "leer la tabla de respaldo sin la zona que la contiene",

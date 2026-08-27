@@ -922,6 +922,87 @@ def test_y_la_zona_no_se_inventa_cuando_el_titulo_no_es_una():
     assert {p.zona for p in ps} == {"", "Zona Sur"}
 
 
+def _pagina_de_dos_zonas():
+    """Una seccion `Resultados` con las zonas ADENTRO, que es como la escribe el
+    Argentino A 2005-06: `==== Resultados ====` y colgando de el
+    `===== Zona Sur =====` y `===== Zona Norte =====`."""
+    def bloque(local, visita):
+        return ('{|class="wikitable"\n'
+                '|-\n!colspan=6|Fecha 1\n'
+                '|-\n!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n'
+                f'|-\n|{local}\n|2 - 1\n|{visita}\n|Cancha\n'
+                '|14 de diciembre\n|17:15\n|}')
+    return ("== Torneo Apertura ==\n=== Primera fase ===\n==== Resultados ====\n"
+            "===== Zona Sur =====\n" + bloque("Cipolletti", "Douglas Haig") + "\n"
+            "===== Zona Norte =====\n" + bloque("Talleres (C)", "Racing (C)") + "\n")
+
+
+def test_la_seccion_QUE_TRAE_SUS_ZONAS_ADENTRO_se_parte():
+    """El Argentino A 2005-06 cuelga las dos zonas ADENTRO del `Resultados`. Sin
+    partirla llegan al lector en un solo cuerpo con una sola etiqueta, y sus 263
+    partidos salian con la del padre --`Primera fase`--, que no es una zona sino una
+    fase. Peor que quedar vacia: una zona equivocada parece un dato."""
+    ps = parser.partidos(_pagina_de_dos_zonas(), 2005, "Argentino A")
+    assert {p.zona for p in ps} == {"Zona Sur", "Zona Norte"}
+
+
+def test_pero_NO_se_parte_por_un_subtitulo_que_no_es_una_zona():
+    """Partir por cualquier subtitulo mueve 13 781 filas del corpus, medido: hay
+    paginas que cuelgan del `Resultados` una `Primera rueda` y una `Segunda rueda`,
+    que son mitades de la temporada y no zonas. La regla se estrecha a lo que se puede
+    defender: se parte cuando ALGUNA subseccion se llama como una zona."""
+    pagina = (_pagina_de_dos_zonas().replace("===== Zona Sur =====", "===== Primera rueda =====")
+              .replace("===== Zona Norte =====", "===== Segunda rueda ====="))
+    ps = parser.partidos(pagina, 2005, "Argentino A")
+    assert {p.zona for p in ps} == {"Primera fase"}, "queda la etiqueta de afuera"
+
+
+def test_y_la_que_no_es_zona_conserva_la_etiqueta_de_afuera():
+    """Cuando conviven las dos, la que no nombra una zona no se queda con su propio
+    titulo: no se sabe que zona es, y escribirlo en `group` seria inventarlo."""
+    pagina = _pagina_de_dos_zonas().replace("===== Zona Norte =====", "===== Desempate =====")
+    ps = parser.partidos(pagina, 2005, "Argentino A")
+    assert {p.zona for p in ps} == {"Zona Sur", "Primera fase"}
+
+
+def test_no_partir_TAMBIEN_protege_a_la_ronda_que_cuelga_de_la_seccion():
+    """La guarda no es solo cosmetica. Partir por cualquier subtitulo cambia que texto
+    ve `_rotula_fechas`, y con eso se da vuelta `fuera_de_la_liga`: el
+    `Partido de desempate del primer puesto` de la B Nacional 2017-18 y el de la
+    2018-19 se mudaban de `eliminacion` a `zonas` y perdian su jornada entera.
+
+    Medido: sin la guarda son dos filas mas del corpus, y las dos empeoran."""
+    tabla = ('{|class="wikitable"\n'
+             '|-\n!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n'
+             '|-\n|Talleres (C)\n|2 - 1\n|Racing (C)\n|Cancha\n'
+             '|14 de diciembre\n|17:15\n|}')
+    con_fecha = tabla.replace('|-\n!Local', '|-\n!colspan=6|Fecha 1\n|-\n!Local')
+    pagina = ("== Resultados ==\n" + con_fecha + "\n"
+              "=== Partido de desempate del primer puesto ===\n" + tabla + "\n")
+    ps = parser.partidos(pagina, 2018, "Primera Nacional")
+    desempate = [p for p in ps if p.fase == "eliminacion"]
+    assert len(desempate) == 1, "el desempate sigue siendo una llave"
+    assert desempate[0].jornada == "Partido de desempate del primer puesto"
+
+
+def test_el_corte_va_por_el_nivel_MAS_ALTO_que_aparezca():
+    """Una subseccion con sub-subsecciones entra ENTERA. Cortando por cualquier nivel,
+    la `Ficha` que cuelga del desempate lo parte al medio y la segunda mitad se queda
+    con la etiqueta de la ficha, que no es ni una zona ni una ronda.
+
+    Es el mismo criterio que usa `_secciones_con_span` un nivel mas arriba."""
+    tabla = ('{|class="wikitable"\n'
+             '|-\n!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n'
+             '|-\n|Talleres (C)\n|2 - 1\n|Racing (C)\n|Cancha\n'
+             '|14 de diciembre\n|17:15\n|}')
+    pagina = ("== Resultados ==\n"
+              "=== Zona Sur ===\n" + tabla + "\n"
+              "==== Ficha ====\n" + tabla.replace("Talleres (C)", "Cipolletti") + "\n")
+    ps = parser.partidos(pagina, 2018, "Primera Nacional")
+    assert {p.zona for p in ps} == {"Zona Sur"}, (
+        "la sub-subseccion entra en su zona, no se lleva una etiqueta propia")
+
+
 def test_a_la_tabla_de_ELIMINACION_no_se_le_pasa_la_zona():
     """`partidos_de_tabla` REUSA `zona_defecto` como nombre de la ronda cuando la
     tabla esta fuera de la liga -- a proposito, y el otro llamador depende de eso --,
