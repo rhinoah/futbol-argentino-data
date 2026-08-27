@@ -1341,6 +1341,58 @@ MUTANTES = [
      '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s+|(?<=\\)))"',
      '_FOJA = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s{2,}|(?<=\\)))"'),
 
+    # EL TESTIGO DEL HISTORIAL. Lo que aisla el partido es el PJ; lo que confirma que
+    # se aislo es que los dos lados sean espejo. Sin esas dos, el delta deja de ser un
+    # marcador y pasa a ser la suma de lo que haya entrado en el medio.
+    ("fad/historial.py", "no exigir que los dos clubes sumen un partido cada uno",
+     "    if salto != (1, 1):",
+     "    if False:"),
+
+    ("fad/historial.py", "aceptar un delta que no sea espejo entre los dos clubes",
+     "    if dl != (dv[1], dv[0]):",
+     "    if False:"),
+
+    ("fad/historial.py", "leer el delta del visitante sin darlo vuelta",
+     "    if dl != (dv[1], dv[0]):",
+     "    if dl != dv:"),
+
+    ("fad/historial.py", "devolver un marcador con goles negativos",
+     "    if min(dl) < 0:",
+     "    if False:"),
+
+    # La binaria: la condicion es "la tabla YA cuenta este partido", y los bordes van
+    # al reves de lo que uno escribe de memoria.
+    ("fad/historial.py", "mover el borde equivocado en la busqueda binaria",
+     "        bajo, alto = (bajo, medio) if ya else (medio, alto)",
+     "        bajo, alto = (medio, alto) if ya else (bajo, medio)"),
+
+    ("fad/historial.py", "correr el punto medio hacia arriba y dejar de borde una ilegible",
+     "            medio -= 1",
+     "            medio += 1"),
+
+    # ESTOS DOS NO FALLAN: CUELGAN. Aflojar el borde deja el indice negativo --Python
+    # indexa desde el final-- y correr el medio hacia arriba lo pega a `alto`, y en
+    # los dos casos el intervalo deja de achicarse. Cuentan como muertos porque la
+    # suite no pasa, y `correr_suite` los corta con su timeout en vez de quedarse
+    # esperando. Que la unica forma de romper esos bordes sea colgar el proceso ya
+    # dice que son load-bearing.
+    # (Aflojar ese `> bajo` a `>= 0` da un mutante EQUIVALENTE y por eso no esta: el
+    # while frena igual, porque `bajo` siempre es legible -- el indice 0 se verifica al
+    # entrar y todo `bajo` posterior es un medio que ya paso el chequeo. El borde es
+    # defensivo, no load-bearing, y lo que lo sostiene es esa invariante.)
+
+    # Los dos hallazgos que el veredicto tiene que separar: la pagina que derivo y la
+    # que nunca cambio de opinion. Confundirlos es leer el mismo numero al reves.
+    ("fad/historial.py", "no distinguir la pagina que derivo de la que no cambio",
+     "        if self.marcador == dice:",
+     "        if False:"),
+
+    # La ventana se abre un dia mas para atras: la tabla se edita a la noche, que en
+    # UTC ya es el dia siguiente, asi que un borde simetrico cae del lado equivocado.
+    ("fad/historial.py", "abrir la ventana simetrica en vez de un dia mas atras",
+     "    return d - timedelta(days=dias + 1), d + timedelta(days=dias)",
+     "    return d - timedelta(days=dias), d + timedelta(days=dias)"),
+
     # La seccion que trae sus zonas ADENTRO. Sin partirla, las dos llegan al lector en
     # un solo cuerpo y sus partidos salen con la etiqueta del padre, que es una fase.
     ("fad/parser.py", "no partir la seccion que trae sus zonas adentro",
@@ -2011,9 +2063,29 @@ MUTANTES = [
 ]
 
 
+# La suite entera tarda unos segundos. Este numero no es para apurar a nadie: es
+# para que un mutante que CUELGA no bloquee la corrida.
+TIMEOUT = 120
+
+
 def correr_suite() -> bool:
-    r = subprocess.run([sys.executable, "-m", "pytest", "tests/", "-q", "-x", "--no-header"],
-                       cwd=RAIZ, capture_output=True, text=True)
+    """Si la suite pasa. Un mutante que cuelga cuenta como muerto, y se dice.
+
+    UN MUTANTE PUEDE COLGAR EN VEZ DE FALLAR, y sin timeout eso no es un rojo sino un
+    job detenido para siempre -- que es peor, porque no dice nada. Pasa con los bordes
+    de una busqueda binaria: aflojarlos no rompe un test, hace que el while no
+    termine. Ahi la suite definitivamente NO pasa, asi que el mutante murio; pero
+    colgar y fallar son dos cosas distintas y la primera vale avisarla, porque suele
+    querer decir que lo que se rompio es la terminacion y no un resultado.
+    """
+    try:
+        r = subprocess.run([sys.executable, "-m", "pytest", "tests/", "-q", "-x",
+                            "--no-header"],
+                           cwd=RAIZ, capture_output=True, text=True, timeout=TIMEOUT)
+    except subprocess.TimeoutExpired:
+        print(f"      (la suite colgo mas de {TIMEOUT}s: el mutante rompe la "
+              f"terminacion, no un resultado)")
+        return False
     return r.returncode == 0
 
 

@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 043 | 7 | 149 | 1012 | 439 |
+| 44 043 | 7 | 149 | 1028 | 447 |
 
 ## 2004–2026 — Cerrado
 
@@ -24,10 +24,13 @@ archivo que la produce y no se repite acá. Lo que queda:
 - **La foja de RSSSF cruza `13` páginas y respalda `251` clubes**, con `0` desacuerdos.
   La única que no tiene arreglo posible es el `Argentino A 2004-05`: RSSSF no publica
   ninguna tabla de esa temporada — `arg3-int05` son `306` renglones de índice.
-- **Fechar un desacuerdo.** Ningún testigo puede decir *cuándo* la página cambió de
-  opinión, y es la deuda más cara. Pide terminar el modelo de la «Evolución de las
-  posiciones» —medido dio 12% de desvíos, un modelo incompleto haciendo ruido— o cruzar
-  contra una fuente de afuera.
+- **Usar el testigo del historial en los casos que quedan.** Ya existe
+  (`python -m fad.historial`): el delta entre las dos revisiones que rodean un partido
+  dice qué marcador se cargó esa noche, y separa dos cosas que se confunden — que la
+  página **derivó** de que el error sea **original**. Falta pasarlo por las `60`
+  verificaciones a mano para ver a cuáles les cambia el fundamento. No aplica donde no
+  hay tabla de posiciones (las copas) ni donde la página se escribió entera después del
+  torneo.
 
 ## 1997–2003 — Cerrado
 

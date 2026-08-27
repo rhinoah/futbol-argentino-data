@@ -2747,6 +2747,82 @@ dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
 de parser recupera.
 
+## Fechar un desacuerdo: la tabla, pero la del día del partido
+
+El árbitro de siempre de este repo es la tabla de posiciones: sumar la grilla
+tiene que dar sus PJ/GF/GC. Funciona **sólo si la tabla es una afirmación
+independiente de la grilla**, y cuando una sola mano escribe las dos, un error se
+propaga a las dos y el chequeo lo bendice. Ahí la aritmética deja de discriminar
+y no queda testigo — ningún chequeo puede decir *cuándo* la página cambió de
+opinión.
+
+Lo que sí arbitra: **las páginas de temporada se editan en vivo**, fecha por
+fecha. La tabla de hace quince años no es la de hoy: es lo que un editor cargó la
+noche del partido, antes de que nada derivara.
+
+```
+30/08 03:30 UTC   Platense PJ 5, 2-4   |   Estudiantes PJ 5, 7-2
+31/08 05:29 UTC   Platense PJ 6, 2-4   |   Estudiantes PJ 6, 7-2
+```
+
+Los dos clubes suman un partido y **los goles no se mueven**: es un 0-0, anotado
+por el que estaba mirando. Y de paso fecha el partido, porque el par de
+timestamps lo encierra.
+
+### Lo que contesta no es «cuál es el marcador»
+
+Son **dos hallazgos** y el pendiente pedía separarlos, porque se parecen y no
+sirven para lo mismo:
+
+| el historial… | qué significa |
+|---|---|
+| **difiere** de la grilla de hoy | la página **derivó**, y el par de revisiones fecha cuándo. El marcador de esa noche gana |
+| **coincide** con la grilla de hoy | **no** derivó: el error, si lo hay, es **original**, y hace falta una fuente de afuera |
+
+El segundo es el que se lee mal. Corrido contra las conclusiones ya escritas a
+mano, el mecanismo re-derivó solo el `0-0` de Platense —mismo par de revisiones
+que había encontrado una persona, con 6 descargas de 13 revisiones— y sobre
+Huracán vs Defensa y Justicia 2011-12 dijo `1-3` donde la declaración dice `2-3`.
+Eso **no la contradice**: dice que ese `1-3` se cargó así la primera noche, o sea
+que del historial no se recupera nada y las fuentes externas de la declaración
+—el timeline de ESPN, el archivo del club— son el único camino. Por eso el
+veredicto lo escribe con todas las letras en vez de devolver un número pelado.
+
+### Cómo se acorrala
+
+No se piden dos instantes escritos a mano: la revisión de ese caso está a las
+`05:29:54` y pedir `05:29:00` devuelve la anterior, **en silencio**. Se pide la
+lista de revisiones de una ventana alrededor del día y se busca el salto donde
+los dos clubes suman exactamente un partido. PJ sólo crece, así que la condición
+es monótona y se parte al medio: log(n) descargas en vez de n.
+
+Dos guardas hacen el trabajo: que los dos clubes sumen **exactamente uno cada
+uno** —lo único que no admite interpretación— y que los deltas de gol sean
+**espejo** entre local y visitante. Si no, en el medio entró algo más y no hay
+veredicto. Y una página de copa no tiene tabla, así que ahí el testigo no aplica
+y lo dice.
+
+### Un mutante que no falla: cuelga
+
+Los mutantes de los bordes de esa búsqueda binaria **no rompen un test: hacen que
+el `while` no termine**. Sin timeout eso no es un rojo en CI, es un job detenido
+para siempre — que es peor, porque no dice nada. `mutar.py` ahora corta la suite a
+los 120 s y cuenta el mutante como muerto, diciendo que lo que se rompió fue la
+terminación y no un resultado.
+
+De paso salió un bug propio: la primera versión saltaba una revisión ilegible
+moviéndole el borde de abajo, y la dejaba **de borde** — y los dos bordes se leen
+al final para sacar el delta. El test no lo agarraba porque su revisión rota caía
+en un índice que la binaria nunca visita.
+
+No corre en el build: son varias descargas por partido y la respuesta no cambia
+nunca, porque una revisión vieja es inmutable.
+
+```bash
+python -m fad.historial "Campeonato de Primera B 2010-11 (Argentina)" \
+                        "Platense" "Estudiantes (BA)" 2010-08-30 --dice 1-1
+```
+
 ## La zona estaba en la página y no la pedíamos
 
 El pendiente decía que a tres `Torneo Argentino A` les faltaba leer las zonas. Al
@@ -3063,11 +3139,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1012 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1028 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 439 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 447 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
