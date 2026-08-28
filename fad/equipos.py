@@ -733,6 +733,10 @@ ARTICULOS: dict[str, str] = {
     'Club Unión Aconquija': 'Unión Aconquija',
     'Club Villa Dálmine': 'Villa Dálmine',
     'Club Villa Mitre': 'Villa Mitre',
+    # Las paginas de los noventa lo titulan sin el segundo "de". Es el mismo
+    # articulo y el mismo club; sin esta variante, la tabla del Apertura 1992 no
+    # engancha con ningun partido y salen dos avisos por una letra.
+    'Club de Gimnasia y Esgrima La Plata': 'Gimnasia y Esgrima (LP)',
     'Club de Gimnasia y Esgrima de La Plata': 'Gimnasia y Esgrima (LP)',
     'Club de Gimnasia y Tiro': 'Gimnasia y Tiro (S)',
     # Santamarina de Tandil tiene dos titulos, y el Argentino A 2007-08 usa UNO EN

@@ -1211,6 +1211,41 @@ def test_el_encabezado_de_fase_borra_la_zona_anterior():
     assert [(fa, z) for fa, z, _ in leidas] == [("A", "Zone 1")]
 
 
+_MAPA_LIGA = {"": {"Aldosivi": "Aldosivi", "Banfield": "Banfield"}}
+
+
+def _dos_renglones(nota="[Suspended in 52'; continued Dec 13]"):
+    """Como la fuente publica un partido que empezo un dia y siguio otro: el primer
+    renglon con la fecha buena y el marcador PARCIAL, el segundo con el final."""
+    return ("Round 1@N@"
+            "[Dec 12]@N@"
+            f"Aldosivi                     2-1 Banfield  {nota}@N@"
+            "[Dec 13]@N@"
+            "Aldosivi                     2-3 Banfield@N@").replace("@N@", "\n")
+
+
+def test_el_partido_que_sigue_otro_dia_CONSERVA_LA_FECHA_DEL_PRIMERO():
+    """Es la convencion que este repo ya usa del lado de Wikipedia -- ver `_SE_JUGO`,
+    que excluye `completó`/`reanudó`/`terminó` justamente para eso -- y aca se aplica
+    con las palabras de la otra fuente.
+
+    Y el marcador es el de la CONTINUACION, que es el final: el primer renglon trae
+    el parcial del minuto en que se suspendio."""
+    aj, _ = rsssf.leer(_dos_renglones(), _MAPA_LIGA, 1992, 1992, 8)
+    assert len(aj) == 1, "un partido, no dos"
+    assert (aj[0].fecha, aj[0].goles_local, aj[0].goles_visita) == ("1992-12-12", 2, 3)
+
+
+def test_sin_la_nota_son_DOS_partidos_y_chocan():
+    """El contraste que le da sentido al de arriba. Sin la nota los dos renglones son
+    dos partidos del mismo par en la misma ronda: la regla de colision de `completar`
+    se los lleva a los dos y ninguno se fecha. Eran los dos unicos partidos del
+    Apertura 1992 que se quedaban sin fecha."""
+    aj, _ = rsssf.leer(_dos_renglones(nota=""), _MAPA_LIGA, 1992, 1992, 8)
+    assert len(aj) == 2
+    assert {a.fecha for a in aj} == {"1992-12-12", "1992-12-13"}
+
+
 def test_la_tabla_QUE_DECLARA_SUS_COLUMNAS_se_lee_con_esas_columnas():
     """El formato que la fuente usa desde 2011-12 pone los goles a favor y en contra
     en COLUMNAS SEPARADAS (`42  23`) en vez de pegados con un guion (`42-23`), y lo

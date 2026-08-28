@@ -430,6 +430,12 @@ VIEJO = [
     # fila sin fecha no se escribe. Necesitan segunda fuente; RSSSF publica
     # Primera de esos anios. El Clausura 1997 esta de ese lado: de sus 190
     # partidos, 10 traen fecha.
+    # La capa 1991-1996 empieza por aca: RSSSF publica Primera de estos anios con sus
+    # rondas y sus dias, en el mismo formato que el repo ya lee. Va una temporada por
+    # vez y midiendo -- el archivo del anio trae las dos ruedas, y el recorte que las
+    # separa se declara en `rsssf.SECCION_LIGA`.
+    Torneo("Anexo:Torneo Apertura 1992 (Argentina)", "Primera Division - Apertura", 1992,
+           rsssf="arg93"),
     Torneo("Anexo:Torneo Apertura 1997 (Argentina)", "Primera Division - Apertura", 1997),
     Torneo("Anexo:Torneo Apertura 1998 (Argentina)", "Primera Division - Apertura", 1998),
     Torneo("Anexo:Torneo Apertura 1999 (Argentina)", "Primera Division - Apertura", 1999),

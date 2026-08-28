@@ -2747,6 +2747,71 @@ dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
 de parser recupera.
 
+## 1991-1996: la primera temporada, y el camino medido
+
+La capa decía «los partidos están; lo que falta es la fecha»: 2 280 partidos que
+ya parseaban y 2 270 sin una sola fecha. Una fila sin fecha no se escribe, así que
+la capa entera estaba afuera.
+
+RSSSF publica Primera de esos años **con sus rondas y sus días**, en el mismo
+formato que el repo ya lee. Se hizo una temporada de punta a punta —el
+`Apertura 1992`— para medir el camino antes de repetirlo doce veces:
+
+**190 partidos, 190 con fecha, cero avisos, cero graves.**
+
+### Tres cosas que el camino enseñó
+
+**El mapa tiene que traer los veinte, no sólo los raros.** La rama de partidos de
+liga de `leer` usa `mapa[zona].get(...)` directo y **no** cae al padrón —eso es a
+propósito: `_club`, que sí cae, existe para las secciones de promoción, donde un
+nombre corto deja de identificar porque cruzan dos divisiones—. Verificado por
+cardinalidad antes de escribirlo: los veinte que RSSSF nombra traducen a
+exactamente los veinte que la página hace jugar. Dieciocho los resolvió el padrón;
+dos hubo que mirar a mano.
+
+**El recorte empieza después del rótulo.** El archivo del año trae las dos ruedas,
+38 rondas seguidas, así que hace falta cortar. Pero si el corte *incluye* el
+`Apertura 1992`, `leer` lo lee como llave y lo normaliza a `Torneo Apertura`
+—mientras nuestra página, que **es** un solo torneo, no lleva llave— y entonces
+los dos lados arman claves distintas: **no se empareja ni un partido**. Con el
+rótulo afuera, 188.
+
+**Y termina en su tabla, para que la foja no la lea.** La tabla de esta época trae
+**once** columnas numéricas —PJ, G-E-P, las de local, las de visitante, y recién
+ahí GF y GC— y el lector espera siete. Cualquier corrido de siete que agarre son
+números que no son, y la foja denunciaba *20 de 20 clubes*: un aviso falso hecho
+con nuestra propia mala lectura. Se probó un guard que exigiera que las siete
+fueran las últimas y no alcanza — la fila siempre ofrece otro corrido. Acá el
+testigo no aplica, igual que en una copa, y decirlo es la respuesta correcta.
+
+### El partido que se suspende y sigue otro día
+
+Los dos últimos sin fecha eran el mismo caso, y RSSSF lo escribe:
+
+```
+[Dec 12, Sat]
+Newell's Old Boys  2-1  Lanús   [Suspended in 52'; continued Dec 13]
+[Dec 13, Sun]
+Newell's Old Boys  2-3  Lanús
+```
+
+Dos renglones para un partido: el primero con la fecha buena y el marcador
+parcial, el segundo con el final. Entraban como dos partidos, chocaban en la misma
+ronda y la regla de colisión se los llevaba a los dos — que es lo correcto sin
+saber qué son.
+
+**La convención ya estaba escrita en este repo**, del lado de Wikipedia: un
+partido que empezó un día y se completó después conserva la fecha del primero. Es
+lo que hace `_SE_JUGO` al excluir `completó`/`reanudó`/`terminó`. Ahora se aplica
+igual con las palabras de la otra fuente.
+
+### Lo que falta, medido
+
+De las doce temporadas restantes: **ocho** están a una tabla chica de nombres
+—siempre `Dep.Mandiyú (Ctes.)` y uno o dos más—, **dos** (`arg97`) usan un formato
+alineado por espacios que el lector todavía no cubre, y **dos** tienen el rótulo o
+el ancla escritos distinto. Ninguna está bloqueada por falta de fuente.
+
 ## La última fecha, y por qué el crédito tiene que viajar por fila
 
 Quedaba **un** partido en el dataset esperando una fecha: la ida de la semifinal
@@ -3226,11 +3291,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1032 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1036 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 450 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 452 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

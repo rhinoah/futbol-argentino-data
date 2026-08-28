@@ -235,6 +235,9 @@ def _anotacion(lineas: list[str], i: int, desde: int = 0) -> str:
 
 _FALLADO = re.compile(r"awarded\s+(\d+)\s*-\s*(\d+)")
 _ABANDONADO = re.compile(r"abandoned at\s+(\d+)\s*-\s*(\d+)")
+# El partido que se suspendio y sigue otro dia. La fuente lo dice en la cola del
+# renglon del PRIMER dia; el segundo renglon viene pelado, con el marcador final.
+_CONTINUA = re.compile(r"(?i)continued\s")
 
 
 # El motivo del abandono va en una constante y no suelto en el return porque
@@ -437,6 +440,9 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
 
     fuera: list[Ajeno] = []
     desconocidos: set[str] = set()
+    # (ronda, local, visita) -> el dia en que EMPEZO, para los que se completan
+    # despues. Ver el comentario en el cuerpo del partido.
+    empezados: dict[tuple, str] = {}
     # Los partidos que la nota deja afuera, con su ronda y sus dos clubes, para
     # poder decir al final cuales se recuperan y cuales se pierden de verdad.
     caidos: list[tuple] = []
@@ -574,7 +580,18 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                 desconocidos.add(f"{zona}: {nombre}")
         if not cl or not cv:
             continue
-        fuera.append(Ajeno(fecha=_fecha_iso(*fecha, anio, anio_fin, mes_inicio),
+        dia = _fecha_iso(*fecha, anio, anio_fin, mes_inicio)
+        # EL QUE SE SUSPENDIO Y SIGUIO OTRO DIA CONSERVA LA FECHA DEL PRIMERO, que es
+        # la convencion que este repo ya usa del lado de Wikipedia -- ver `_SE_JUGO`.
+        # La fuente publica los dos renglones: el primero con la fecha buena y un
+        # marcador parcial, el segundo con el final. Sin esto entran como dos partidos
+        # distintos, chocan en la misma jornada y la regla de colision se lleva los
+        # dos: son los dos unicos del Apertura 1992 que se quedaban sin fecha.
+        if _CONTINUA.search(cruda):
+            empezados[(ronda, cl, cv)] = dia
+            continue
+        dia = empezados.pop((ronda, cl, cv), dia)
+        fuera.append(Ajeno(fecha=dia,
                            jornada=ronda, local=cl, visita=cv,
                            goles_local=gl, goles_visita=gv, llave=llave,
                            zona=zona))
@@ -2343,6 +2360,42 @@ ZONAS: dict[str, dict[tuple[str, str], str]] = {
 }
 
 
+# LA PRIMERA DIVISION DE LOS NOVENTA. El mapa trae LOS VEINTE y no solo los raros:
+# la rama de partidos de liga de `leer` usa `mapa[zona].get(...)` directo y NO cae al
+# padron. Eso es a proposito -- `_club`, que si cae, existe para las secciones de
+# promocion, donde un nombre corto deja de identificar porque cruzan dos divisiones --
+# y aca hay que respetarlo.
+#
+# VERIFICADO POR CARDINALIDAD antes de escribirlo, que es como se armaron los del
+# Argentino A: los veinte que RSSSF nombra traducen a exactamente los veinte que la
+# pagina hace jugar, sin sobrar ni faltar ninguno. Dieciocho los resolvio el padron; los
+# dos que no van escritos, y son los unicos que hubo que mirar a mano.
+PRIMERA_1992 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Belgrano (Cba.)": "Belgrano",
+        "Boca Juniors": "Boca Juniors",
+        "Dep. Español": "Deportivo Español",
+        "Dep.Mandiyú (Ctes.)": "Deportivo Mandiyú",
+        "Estudiantes (LP)": "Estudiantes (LP)",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Gimnasia y Esgrima (LP)": "Gimnasia y Esgrima (LP)",
+        "Huracán": "Huracán",
+        "Independiente": "Independiente",
+        "Lanús": "Lanús",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Racing Club": "Racing Club",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "San Lorenzo": "San Lorenzo",
+        "San Martín (Tuc.)": "San Martín (T)",
+        "Talleres (Cba.)": "Talleres (C)",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
+
 SECCION_LIGA: dict[str, tuple[str, str]] = {
     "Campeonato de Primera B 2010-11 (Argentina)": (
         'Primera B Metropolitano "Efectivo Sí"', "Topscorers"),
@@ -2360,6 +2413,27 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
     # que la sigue, igual que la de `SECCION`. Sin tope por abajo: esta division es
     # la ultima del archivo.
     "Torneo Argentino A 2011-12": ("Torneo Argentino A\n\n\nFirst Phase", ""),
+    # Los archivos de los noventa traen LAS DOS RUEDAS del anio, 38 rondas seguidas.
+    # Sin el corte, las fechas del Clausura se le ofrecerian a los partidos del
+    # Apertura: mismos clubes, misma numeracion de ronda, y `completar` no tiene como
+    # saber que son otro torneo.
+    # EMPIEZA DESPUES DEL ROTULO, y no en el: `leer` lee `Apertura 1992` como una
+    # llave y la normaliza a `Torneo Apertura`, pero nuestra pagina ES un solo
+    # torneo y sus filas no llevan llave. Con el rotulo adentro, los dos lados
+    # arman claves distintas y no se empareja ni un partido. El recorte ya aisla el
+    # Apertura, asi que ese rotulo no agrega nada: sobra.
+    #
+    # Y TERMINA EN SU TABLA, que es el primer `Table:` despues de las rondas. No es
+    # por los partidos --terminan antes-- sino para que LA FOJA NO LA LEA: la tabla
+    # de esta epoca trae ONCE columnas numericas --PJ, G-E-P, las de local, las de
+    # visitante, y recien ahi GF y GC-- y el lector espera siete. Cualquier corrido
+    # de siete que agarre son numeros que no son. Se probo un guard que exigiera que
+    # las siete fueran las ultimas y no alcanza: la fila siempre ofrece otro corrido.
+    #
+    # Sin esto la foja denuncia 20 de 20 clubes, que es un aviso falso hecho con
+    # nuestra propia mala lectura. Aca el testigo no aplica, igual que en una copa.
+    "Anexo:Torneo Apertura 1992 (Argentina)": (
+        "Round 1\t\n[Aug 7, Fri]", "Table:"),
 }
 
 
@@ -2476,6 +2550,7 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2009-10": ("arg3-int2010", ARGENTINO_A_2009),
     "Torneo Argentino A 2012-13": ("arg3-int2013", ARGENTINO_A_2012),
     "Torneo Argentino A 2011-12": ("arg2012", ARGENTINO_A_2011),
+    "Anexo:Torneo Apertura 1992 (Argentina)": ("arg93", PRIMERA_1992),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),
     "Campeonato de Primera C 2009-10 (Argentina)": ("arg4-2010", PRIMERA_C_2009),
     "Campeonato de Primera C 2010-11 (Argentina)": ("arg2011", PRIMERA_C_2010),

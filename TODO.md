@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 044 | 6 | 149 | 1032 | 450 |
+| 44 234 | 6 | 150 | 1036 | 452 |
 
 ## 2004–2026 — Cerrado
 
@@ -41,13 +41,21 @@ Eran 14 y entraron 13: el Clausura 1997 cae del otro lado de la línea de las fe
 
 Esta sección decía «acá se termina Wikipedia» y **estaba equivocada**. Afirmaba que ninguna página de estos años trae sección de resultados, y eso vale para las de temporada pero no para los anexos: el `Anexo:Torneo Apertura 1993` da `190` partidos, 20 clubes con **ninguno desconocido** y 19 fechas de diez exactas. Un todos contra todos perfecto.
 
-Son **2 280** partidos que ya parsean, y **2 270** de ellos **no traen una sola fecha**. Una fila sin fecha no se escribe, así que quedan afuera hasta conseguir de dónde fecharlos.
+Son **2 280** partidos que ya parsean. RSSSF publica Primera de estos años con sus
+rondas y sus días, y **el `Apertura 1992` ya entró: 190 partidos, 190 con fecha, cero
+avisos**. Se hizo una sola de punta a punta para medir el camino antes de repetirlo.
+
+De las **12** que faltan: `8` están a una tabla chica de nombres —siempre
+`Dep.Mandiyú (Ctes.)` y uno o dos más—, `2` (`arg97`) usan un formato alineado por
+espacios que el lector todavía no cubre, y `2` tienen el rótulo o el ancla escritos
+distinto. Ninguna está bloqueada por falta de fuente.
 
 - **`Huracán Corrientes` ya está en el padrón**, que era el único club de verdad que
   estos años traen y faltaba. El pendiente estaba anotado en la capa de arriba y ahí el
   club no aparece: sólo está en el `Apertura 1996` y en el `Clausura 1997`, las dos de
   esta capa.
-- **RSSSF publica Primera de estos años.** Es el mismo mecanismo que fechó cinco temporadas del Argentino A esta semana, y la fuente ya está acreditada en el repo.
+- **Repetir el camino del `Apertura 1992` en las 12 que faltan.** Está medido cuál
+  necesita qué; el README cuenta las tres cosas que el camino enseñó.
 - El **Clausura 1997** entra acá: de sus 190 partidos, 10 traen fecha.
 - **Hueco:** `Anexo:Torneo Clausura 1991` es un stub de 83 bytes. Ese torneo hay que buscarlo en otro lado.
 - Fuente candidata para lo que no cubra RSSSF: planillas de la AFA, *Torneos y Certámenes Oficiales 1990-91 … 1994-95*.

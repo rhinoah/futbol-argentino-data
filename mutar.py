@@ -1466,6 +1466,17 @@ MUTANTES = [
      '_FOJA_PARTIDAS = re.compile(r"^\\s*\\d+\\.(?:.+?)(?:\\s+|(?<=\\)))"',
      '_FOJA_PARTIDAS = re.compile(r"^\\s*\\d+\\.(?:.+?)\\s*"'),
 
+    # El partido que se suspende y sigue otro dia. La fuente publica DOS renglones y
+    # sin esto entran como dos partidos: chocan en la misma ronda y la regla de
+    # colision se los lleva a los dos.
+    ("fad/rsssf.py", "no reconocer el partido que sigue otro dia",
+     "        if _CONTINUA.search(cruda):",
+     "        if False:"),
+
+    ("fad/rsssf.py", "fechar la continuacion con SU dia y no con el del primero",
+     "        dia = empezados.pop((ronda, cl, cv), dia)",
+     "        empezados.pop((ronda, cl, cv), dia)"),
+
     # El segundo formato de tabla, el que declara sus columnas.
     ("fad/rsssf.py", "no leer la tabla que declara sus columnas",
      '_ENCABEZADO = re.compile(r"^\\s*No\\.\\s+Team\\b", re.I)',
