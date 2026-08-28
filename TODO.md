@@ -29,7 +29,9 @@ ninguna tabla de esa temporada, y su archivo son `306` renglones de índice.
 
 Las páginas `Anexo:Torneo Apertura/Clausura AAAA (Argentina)` traen los resultados completos —`190` por torneo, que es veinte clubes todos contra todos— y el parser ya las leía **sin un solo cambio**. Entraron 13 temporadas, del Apertura 1997 al Clausura 2003, con cero graves.
 
-- **Sumar Huracán Corrientes al padrón.** Es el único club de verdad que estos años traen y que no está. Los otros dos nombres desconocidos no son clubes: `Deportivo Maniyú` es la página escribiendo mal `Deportivo Mandiyú`, que ya está, y `Gimnasia J)` es markup roto.
+No queda nada pendiente. El padrón de estos años está completo: los dos nombres que
+figuraban como desconocidos no son clubes —`Deportivo Maniyú` es la página escribiendo
+mal `Deportivo Mandiyú`, que ya está, y `Gimnasia J)` es markup roto—.
 
 Eran 14 y entraron 13: el Clausura 1997 cae del otro lado de la línea de las fechas y se fue con la capa de abajo.
 
@@ -41,6 +43,10 @@ Esta sección decía «acá se termina Wikipedia» y **estaba equivocada**. Afir
 
 Son **2 280** partidos que ya parsean, y **2 270** de ellos **no traen una sola fecha**. Una fila sin fecha no se escribe, así que quedan afuera hasta conseguir de dónde fecharlos.
 
+- **`Huracán Corrientes` ya está en el padrón**, que era el único club de verdad que
+  estos años traen y faltaba. El pendiente estaba anotado en la capa de arriba y ahí el
+  club no aparece: sólo está en el `Apertura 1996` y en el `Clausura 1997`, las dos de
+  esta capa.
 - **RSSSF publica Primera de estos años.** Es el mismo mecanismo que fechó cinco temporadas del Argentino A esta semana, y la fuente ya está acreditada en el repo.
 - El **Clausura 1997** entra acá: de sus 190 partidos, 10 traen fecha.
 - **Hueco:** `Anexo:Torneo Clausura 1991` es un stub de 83 bytes. Ese torneo hay que buscarlo en otro lado.

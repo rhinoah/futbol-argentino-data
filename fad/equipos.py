@@ -302,7 +302,8 @@ PADRON: tuple[Equipo, ...] = (
            alias=("At. Candelaria", "Atl. Candelaria", "At: Candelaria")),
     Equipo("General Paz Juniors", alias=("General Paz Junior",)),
     # "(CR)" es Comodoro Rivadavia. Convive con Huracan (Parque Patricios),
-    # Huracan (TA) de Tres Arroyos y Huracan Las Heras: son cuatro clubes.
+    # Huracan (TA) de Tres Arroyos, Huracan Las Heras y Huracan Corrientes: son
+    # CINCO clubes distintos, y por eso ninguno puede quedarse con el nombre pelado.
     Equipo("Huracán (CR)"),
     # "(P)" ya significa cuatro ciudades en este padron -- Parana, Posadas, Perico
     # y Pergamino --. No choca porque la base difiere en los cuatro, pero a ojo la
@@ -419,6 +420,11 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Guillermo Brown", alias=("Guillermon Brown", "Guillermo Brown (PM)")),
     Equipo("Gutiérrez", alias=("Gutiérrez SC",)),
     Equipo('Güemes (SdE)', alias=('Güemes (Santiago del Estero)', 'Güemes')),
+    # Jugo en Primera hasta el Clausura 1997. Va con el nombre entero y no con un
+    # `(Ctes)` porque es como lo escriben las paginas de esos anios y como se lo
+    # conoce, igual que `Huracán Las Heras`: la letra entre parentesis se usa cuando
+    # la fuente abrevia, no para inventarle una abreviatura a una fuente que no la usa.
+    Equipo('Huracán Corrientes'),
     Equipo('Huracán Las Heras'),
     Equipo('Independiente (C)'),
     Equipo("J. J. de Urquiza", alias=("J. J. Urquiza",)),
@@ -563,6 +569,7 @@ ARTICULOS: dict[str, str] = {
     'Club Atlético Gimnasia y Esgrima (Mendoza)': 'Gimnasia y Esgrima (M)',
     'Club Atlético Güemes': 'Güemes (SdE)',
     'Club Atlético Huracán': 'Huracán',
+    'Club Atlético Huracán Corrientes': 'Huracán Corrientes',
     'Club Atlético Huracán Las Heras': 'Huracán Las Heras',
     'Club Atlético Independiente (Chivilcoy)': 'Independiente (C)',
     'Club Atlético Independiente (Neuquén)': 'Independiente (N)',

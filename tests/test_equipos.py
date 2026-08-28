@@ -110,6 +110,26 @@ def test_los_homonimos_no_se_mezclan(nombre, canonico):
     assert equipos.canonical(nombre) == canonico
 
 
+def test_los_CINCO_huracan_son_cinco_clubes():
+    """El padron tiene cinco: el de Parque Patricios, el de Tres Arroyos, el de
+    Comodoro Rivadavia, Las Heras y Corrientes. El ultimo entro para la capa
+    1991-1996 --juga en Primera hasta el Clausura 1997-- y el riesgo de agregarlo no
+    es que no resuelva sino que se coma al que ya estaba: `Huracán` a secas tiene que
+    seguir siendo el de Parque Patricios."""
+    cinco = ["Huracán", "Huracán (TA)", "Huracán (CR)",
+             "Huracán Las Heras", "Huracán Corrientes"]
+    assert len({equipos.canonical(n) for n in cinco}) == 5
+    assert equipos.canonical("Huracán") == "Huracán"
+
+
+def test_huracan_corrientes_resuelve_tambien_por_su_articulo():
+    """Las paginas de esos anios lo enlazan como `[[Club Atlético Huracán
+    Corrientes|Huracán Corrientes]]`, asi que el articulo tiene que traducir igual que
+    el display: es por donde resuelven los clubes cuando el nombre corto es ambiguo."""
+    assert equipos.canonizar("Huracán Corrientes",
+                             "Club Atlético Huracán Corrientes") == "Huracán Corrientes"
+
+
 def test_los_dos_gimnasia_son_dos_clubes():
     assert equipos.canonical("Gimnasia") != equipos.canonical("Gimnasia (Mendoza)")
 
