@@ -15,20 +15,13 @@ reales, no estimados.
 ninguno con dos días distintos —eran `61`—, ninguna tabla queda sin contrastar contra su
 grilla, y las `60` verificaciones a mano fijan el estado que verificaron, así que caducan
 solas. `251` clubes de `13` temporadas tienen además el respaldo de una fuente independiente.** De los `164` avisos, **ninguno es grave**; cada clase tiene su explicación en el
-archivo que la produce y no se repite acá. Lo que queda:
+archivo que la produce y no se repite acá.
 
-- **Ningún partido espera una fecha.** Quedan `6` sin fecha y ninguno la espera: son los
-  que el Federal A 2024 le dio por perdidos a Sansinena, que no se jugaron.
-- **La foja de RSSSF cruza `13` páginas y respalda `251` clubes**, con `0` desacuerdos.
-  La única que no tiene arreglo posible es el `Argentino A 2004-05`: RSSSF no publica
-  ninguna tabla de esa temporada — `arg3-int05` son `306` renglones de índice.
-- **El testigo del historial ya pasó por todo lo que estaba escrito.** De los `64`
-  marcadores arbitrados a mano, `13` resultaron ser una **deriva** de la página y en los
-  `13` el historial coincide con la corrección — cero discrepancias, y cada una fechada.
-  Otros `5` son error **de origen**. El resto no aplica: `16` son copas, que no publican
-  tabla. Con las `60` verificaciones de tabla rinde menos (`12` de origen, `3` datables,
-  `45` sin respuesta). Lo que queda es usarlo cuando aparezca un desacuerdo nuevo, que
-  es para lo que está.
+**No queda nada pendiente en esta capa.** Ningún partido espera una fecha: los `6` que
+están sin fecha no se jugaron —son los que el Federal A 2024 le dio por perdidos a
+Sansinena—. Lo único que no tiene arreglo posible no es una tarea sino una propiedad de
+la fuente: la foja no puede cruzar el `Argentino A 2004-05` porque RSSSF no publica
+ninguna tabla de esa temporada, y su archivo son `306` renglones de índice.
 
 ## 1997–2003 — Cerrado
 
