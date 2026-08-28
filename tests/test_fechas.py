@@ -10,6 +10,8 @@ Ninguno sale a la red: se le pasa el HTML.
 """
 from __future__ import annotations
 
+import dataclasses
+
 import pytest
 
 from fad import fechas
@@ -315,6 +317,33 @@ def test_la_fila_que_no_uso_la_segunda_fuente_no_la_nombra():
     p = nuestro("Aldosivi", "Almagro", 3, 1, 1, fecha="2007-08-09")
     fila = dataset.a_fila(p, "Primera Nacional", 2007, "https://es.wikipedia.org/wiki/X")
     assert fila["source"] == "https://es.wikipedia.org/wiki/X"
+
+
+def test_la_fila_puede_traer_SU_fuente_y_pisa_la_del_lector():
+    """`credito` es el del lector entero, pero una fila puede traer el suyo.
+
+    Las fechas citadas a mano de una temporada pueden salir de DOS blogs distintos
+    -- el segundo entra justamente donde el primero publica un dia roto -- y
+    atribuirle las dos al primero seria escribir algo falso en la columna que existe
+    para no hacer eso."""
+    from fad import dataset
+    p = nuestro("Aldosivi", "Almagro", 3, 1, 1)
+    a = ajeno("A", "B", 3, 1, 1, fecha="2007-08-09")
+    fechas.completar([p], [dataclasses.replace(a, fuente="http://otra.fuente/")],
+                     {"teA": "Aldosivi", "teB": "Almagro"}, credito="http://el.lector/")
+    fila = dataset.a_fila(p, "Primera Nacional", 2007, "https://es.wikipedia.org/wiki/X")
+    assert "otra.fuente" in fila["source"]
+    assert "el.lector" not in fila["source"]
+
+
+def test_y_sin_fuente_propia_vale_la_del_lector():
+    """Que es el caso de casi todas: un lector habla con una sola fuente."""
+    from fad import dataset
+    p = nuestro("Aldosivi", "Almagro", 3, 1, 1)
+    fechas.completar([p], [ajeno("A", "B", 3, 1, 1, fecha="2007-08-09")],
+                     {"teA": "Aldosivi", "teB": "Almagro"}, credito="http://el.lector/")
+    fila = dataset.a_fila(p, "Primera Nacional", 2007, "https://es.wikipedia.org/wiki/X")
+    assert "el.lector" in fila["source"]
 
 
 def test_el_credito_no_se_pone_si_no_se_completo():

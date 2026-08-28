@@ -123,6 +123,28 @@ def test_la_llave_separa_al_apertura_del_clausura():
     assert not any("cruces" in a for a in avisos), avisos
 
 
+def test_la_cita_de_otra_fuente_dice_de_cual():
+    """Una cita con `fuente` propia entra al `Ajeno` con ella, que es lo que despues
+    va a `source`. Si se perdiera en el camino, la fila quedaria atribuida al blog
+    que NO publico esa fecha -- y justamente esa fecha existe porque el otro la
+    publica rota."""
+    from fad import citadas
+    con = [a for a in citadas.ajenos("Torneo Argentino A 2004-05") if a.fuente]
+    assert len(con) == 1
+    assert con[0].fuente == citadas.CREDITO_SOYBH
+    assert (con[0].local, con[0].visita, con[0].fecha) == (
+        "Ben Hur", "Atlético Tucumán", "2004-12-01")
+
+
+def test_las_demas_citas_no_inventan_una_fuente():
+    """El default es la del modulo, y tiene que quedar vacio para que `completar`
+    use esa. Ponerle el credito del modulo a cada cita seria lo mismo escrito dos
+    veces, y lo mismo escrito dos veces se escribe distinto."""
+    from fad import citadas
+    sin = [a for a in citadas.ajenos("Torneo Argentino A 2004-05") if not a.fuente]
+    assert len(sin) >= 30
+
+
 def test_ninguna_cita_cae_fuera_de_su_temporada():
     """EL MARCADOR VERIFICA QUE ES EL PARTIDO; NADA VERIFICABA LA FECHA.
 

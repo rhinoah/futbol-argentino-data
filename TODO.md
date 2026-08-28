@@ -7,20 +7,18 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 44 043 | 7 | 149 | 1028 | 447 |
+| 44 044 | 6 | 149 | 1032 | 450 |
 
 ## 2004–2026 — Cerrado
 
-`41 558` partidos y no falta ninguno. **Ningún partido queda con dos marcadores en disputa,
+`41 559` partidos y no falta ninguno. **Ningún partido queda con dos marcadores en disputa,
 ninguno con dos días distintos —eran `61`—, ninguna tabla queda sin contrastar contra su
 grilla, y las `60` verificaciones a mano fijan el estado que verificaron, así que caducan
-solas. `251` clubes de `13` temporadas tienen además el respaldo de una fuente independiente.** De los `166` avisos, **ninguno es grave**; cada clase tiene su explicación en el
+solas. `251` clubes de `13` temporadas tienen además el respaldo de una fuente independiente.** De los `164` avisos, **ninguno es grave**; cada clase tiene su explicación en el
 archivo que la produce y no se repite acá. Lo que queda:
 
-- **`7` partidos sin fecha, y sólo `1` espera una.** Los otros `6` no se jugaron —los que
-  el Federal A 2024 le dio por perdidos a Sansinena—. El que falta es la semifinal
-  `Ben Hur` vs `Atlético Tucumán` del `Argentino A 2004-05`, donde la fuente citada le erra
-  al día por diez meses.
+- **Ningún partido espera una fecha.** Quedan `6` sin fecha y ninguno la espera: son los
+  que el Federal A 2024 le dio por perdidos a Sansinena, que no se jugaron.
 - **La foja de RSSSF cruza `13` páginas y respalda `251` clubes**, con `0` desacuerdos.
   La única que no tiene arreglo posible es el `Argentino A 2004-05`: RSSSF no publica
   ninguna tabla de esa temporada — `arg3-int05` son `306` renglones de índice.

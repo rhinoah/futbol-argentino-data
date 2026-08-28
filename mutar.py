@@ -896,7 +896,7 @@ MUTANTES = [
      '        m = re.search(r"/(co\d+)/", valor)'),
 
     ("fad/fechas.py", "completar sin dejar el credito de la fuente",
-     "        p.fuente_fecha = credito",
+     "        p.fuente_fecha = a.fuente or credito",
      "        pass"),
 
     ("fad/dataset.py", "no nombrar la segunda fuente en source",
@@ -1223,6 +1223,21 @@ MUTANTES = [
     ("build.py", "no acotar la seccion al completar fechas",
      '    desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))',
      '    desde, hasta = "", ""'),
+
+    # El credito de la fecha: el de la FILA manda sobre el del lector. Sin eso, una
+    # fecha que salio del segundo blog queda atribuida al primero -- que es el que la
+    # publica rota -- en la columna que existe justamente para no hacer eso.
+    ("fad/fechas.py", "atribuirle al lector una fecha que trajo su propia fuente",
+     "        p.fuente_fecha = a.fuente or credito",
+     "        p.fuente_fecha = credito"),
+
+    ("fad/fechas.py", "dejar sin credito la fecha que no trae fuente propia",
+     "        p.fuente_fecha = a.fuente or credito",
+     "        p.fuente_fecha = a.fuente"),
+
+    ("fad/citadas.py", "perder la fuente de la cita al armar el Ajeno",
+     "    return [Ajeno(fecha=c.fecha, jornada=0, llave=c.llave, fuente=c.fuente,",
+     "    return [Ajeno(fecha=c.fecha, jornada=0, llave=c.llave,"),
 
     # El padron como ultimo recurso, y la deduplicacion viendo los renombres
     # que corren despues.

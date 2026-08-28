@@ -2747,6 +2747,55 @@ dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
 de parser recupera.
 
+## La última fecha, y por qué el crédito tiene que viajar por fila
+
+Quedaba **un** partido en el dataset esperando una fecha: la ida de la semifinal
+`Ben Hur 2-1 Atlético Tucumán` del Apertura 2004. La fuente citada le erra al día
+por **diez meses** —escribe `01/02/2004` en un torneo que empezó en septiembre— y
+el test que exige que toda cita caiga en la ventana de su temporada la frenaba,
+que es exactamente lo que tenía que hacer.
+
+**La página no sirve de testigo acá:** se creó en 2010, seis años después del
+torneo, así que no hubo edición en vivo y el mecanismo del historial no aplica.
+Medido, no supuesto.
+
+### La segunda fuente no se cree por ser segunda
+
+Se cree porque **reproduce a la primera donde la primera está bien**. La web del
+hincha de Ben Hur publica las cuatro fechas de esa llave:
+
+```
+Ida:    Ben Hur 2 (D. Cabrol/J. Sabia)-1 Atlético Tucumán (01/12/04).
+Vuelta: Atlético Tucumán 2-2 Ben Hur (G. Sandoval x2) (05/12/04).
+Ida:    Desamparados (SJ) 0-1 Ben Hur (A. Vaca) (08/12/04).
+Vuelta: Ben Hur 3 (L. Zárate/A. Romero/M. Monay)-0 Desamparados (SJ) (12/12/04).
+```
+
+Tres de esas cuatro —`05/12`, `08/12` y `12/12`— son **exactamente** las que este
+repo ya tenía verificadas de la primera fuente. Discrepa sólo donde la primera
+está visiblemente rota. Y trae los goleadores de cada partido, que una lista de
+fixtures copiada no tiene. El sitio del club y el diario local confirman los
+marcadores, aunque sin fechas.
+
+### El crédito, fila por fila
+
+El módulo de citas tenía **un solo** `CREDITO`, así que escribir esta fecha
+habría atribuido al primer blog un dato que publica mal. `Ajeno` y `Cita` llevan
+ahora su propia fuente y `completar` usa la de la fila cuando la hay:
+
+```
+2004-12-01,,Ben Hur,Atlético Tucumán,2,1,…,
+  https://es.wikipedia.org/wiki/Torneo_Argentino_A_2004-05 + http://soybh.blogspot.com/…
+```
+
+Es lo que el README ya prometía —*«la columna `source` lleva la atribución fila
+por fila, así que viaja con el dato»*— y que hasta acá era cierto sólo entre
+lectores, no dentro de uno.
+
+**Ningún partido del dataset espera una fecha.** Quedan 6 sin fecha y ninguno la
+espera: son los que el Federal A 2024 le dio por perdidos a Sansinena, que no se
+jugaron. Los avisos bajan de `166` a `164`.
+
 ## Fechar un desacuerdo: la tabla, pero la del día del partido
 
 El árbitro de siempre de este repo es la tabla de posiciones: sumar la grilla
@@ -3177,11 +3226,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1028 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1032 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 447 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 450 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

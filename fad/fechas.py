@@ -98,6 +98,11 @@ class Ajeno:
     goles_visita: int
     id_local: str = ""        # `te17568`: testigo estable, no depende del nombre
     id_visita: str = ""
+    # De donde salio ESTA fecha, cuando no es la fuente del lector que la trajo. Un
+    # lector suele hablar con una sola fuente y ahi va vacio; pero las fechas citadas
+    # a mano pueden venir de dos sitios distintos, y el credito no puede ser el del
+    # modulo: la columna `source` dice de donde salio cada dato, fila por fila.
+    fuente: str = ""
     # La seccion de nivel 2 de la pagina, cuando la fuente la distingue y nosotros
     # tambien. Vacio = no se usa, que es como venia y como sigue para worldfootball.
     #
@@ -552,7 +557,12 @@ def completar(nuestros: list, ajenos: list[Ajeno],
         # worldfootball no tiene el Argentino A y esas fechas salen de RSSSF. Va
         # a `source` fila por fila, asi que el dataset dice de donde salio cada
         # dato aunque el torneo se haya armado con dos fuentes.
-        p.fuente_fecha = credito
+        #
+        # Y LA FILA MANDA SOBRE EL LECTOR. `credito` es el del lector entero, pero
+        # una fila puede traer el suyo: las fechas citadas a mano de una temporada
+        # salen de dos blogs distintos, y atribuirle las dos al primero seria
+        # escribir algo falso en una columna que existe para no hacer eso.
+        p.fuente_fecha = a.fuente or credito
         puestos += 1
 
     if chocados:

@@ -87,6 +87,14 @@ from dataclasses import dataclass
 # Lo que se escribe en `source` de las filas cuya fecha salio de aca.
 CREDITO = "http://josecarluccio.blogspot.com/"
 
+# LA SEGUNDA FUENTE, para las fechas que la primera no da o da rotas. No se cree por
+# ser segunda: se cree porque REPRODUCE A LA PRIMERA donde la primera esta bien. En la
+# llave del Apertura 2004 publica las cuatro fechas y tres --05/12, 08/12 y 12/12--
+# son exactamente las que ya estaban verificadas; la cuarta es justo donde la primera
+# escribe un dia diez meses afuera. Y trae los goleadores de cada partido, que una
+# lista de fixtures copiada no tiene.
+CREDITO_SOYBH = "http://soybh.blogspot.com/p/argentino-200405.html"
+
 
 @dataclass(frozen=True)
 class Cita:
@@ -102,6 +110,10 @@ class Cita:
     goles_local: int
     goles_visita: int
     llave: str = ""       # el cuadro, cuando hace falta para identificar
+    # De que fuente salio ESTA cita. Vacio = la del modulo. Va por cita y no por
+    # modulo porque una temporada puede necesitar dos, y el credito de una fecha no
+    # se le puede poner a un blog que no la publico.
+    fuente: str = ""
 
     # POR QUE LA LLAVE. El marcador VERIFICA pero no IDENTIFICA: la clave de
     # `fechas.completar` es (llave, jornada, local, visita). En una temporada con
@@ -151,6 +163,14 @@ FECHAS: dict[str, tuple[Cita, ...]] = {
              "Torneo Apertura - Zona Campeonato"),
         Cita("2004-11-28", "Cipolletti", "Desamparados", 0, 1,
              "Torneo Apertura - Zona Campeonato"),
+        # LA IDA DE ESTA SEMIFINAL NO LA DA LA FUENTE DEL MODULO, que le erra al dia
+        # por diez meses --`01/02/2004` en un torneo que empezo en septiembre-- y por
+        # eso el test de la ventana de temporada la frenaba, con razon. La segunda
+        # fuente publica las cuatro fechas de esta llave y tres coinciden EXACTO con
+        # las que ya estaban verificadas: es la de abajo, la del 08/12 y la del 12/12.
+        # Discrepa solo donde la primera esta visiblemente rota. Ver `CREDITO_SOYBH`.
+        Cita("2004-12-01", "Ben Hur", "Atlético Tucumán", 2, 1,
+             "Torneo Apertura - Zona Campeonato", fuente=CREDITO_SOYBH),
         Cita("2004-12-05", "Atlético Tucumán", "Ben Hur", 2, 2,
              "Torneo Apertura - Zona Campeonato"),
         # La final del Apertura la suspendieron a los 41 del segundo tiempo por
@@ -246,7 +266,7 @@ def ajenos(pagina: str) -> list:
     """
     from fad.fechas import Ajeno
 
-    return [Ajeno(fecha=c.fecha, jornada=0, llave=c.llave,
+    return [Ajeno(fecha=c.fecha, jornada=0, llave=c.llave, fuente=c.fuente,
                   local=c.local, visita=c.visita,
                   goles_local=c.goles_local, goles_visita=c.goles_visita)
             for c in FECHAS.get(pagina, ())]
