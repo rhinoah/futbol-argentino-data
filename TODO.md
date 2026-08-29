@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 46 331 | 9 | 156 | 1043 | 452 |
+| 46 331 | 9 | 156 | 1043 | 456 |
 
 ## 2004–2026 — Cerrado
 

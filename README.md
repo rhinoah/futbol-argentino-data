@@ -3394,7 +3394,7 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 452 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 456 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
