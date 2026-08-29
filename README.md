@@ -2751,7 +2751,7 @@ dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
 de parser recupera.
 
-## 1991-1996: ocho temporadas que Wikipedia publica sin fechas
+## 1991-1996: doce temporadas que Wikipedia publica sin fechas
 
 La capa decía «los partidos están; lo que falta es la fecha»: 2 280 partidos que
 ya parseaban y 2 270 sin una sola fecha. Una fila sin fecha no se escribe, así que
@@ -2840,6 +2840,39 @@ una fecha ilegible tiene que doler.
 febrero y marzo del 94, y la fuente lo escribe: `[Feb 25, 1994 Fri]`. Sin el
 `anio_fin` esas cuarenta fechas salían un año corridas —y el chequeo que lo agarra
 ya estaba puesto, comparando contra `{temporada, anio_fin}`.
+
+### Las últimas cuatro, y una medición que estaba mal otra vez
+
+Con siete adentro quedaban cuatro, y este README decía —recién escrito, unas horas
+antes— que las cuatro estaban trabadas por el formato. **Eran una.**
+
+`arg97` no necesitaba nada del lector. Alinea por espacios en vez de separar con
+tabs, sí, pero `_PARTIDO` usa `\s+` desde siempre: ya leía sus `382` partidos. Lo
+que no leía eran sus **nombres**, porque es el único archivo de Primera que abrevia
+—y no de una sola manera: el mismo torneo escribe `Boca` y `Boca Juniors`, `Racing`
+y `Racing Club`—. Veinticuatro grafías para veinte clubes.
+
+Una de esas veinticuatro no se resuelve leyendo: un **`Huracán` a secas**, en un
+torneo donde juegan los dos y donde el archivo escribe `Huracán BA` y `Huracán Ctes`
+en todos los demás partidos. Lo desempata la estructura: aparece una sola vez, en la
+Round 10, y esa ronda ya tiene a `Huracán Ctes` jugando contra Colón. Como cada club
+juega una vez por fecha, el otro es el de Buenos Aires.
+
+`arg96` sí obligó a tocar el lector, por una diferencia de un carácter: escribe el
+marcador con el guion separado, `2 - 0`. Con el regex viejo leía **16 renglones de
+397** —es decir, perdía dos torneos enteros casi en silencio—. Aflojar el guion se
+midió antes de escribirlo, sobre los 23 archivos de la caché: **21 leen exactamente
+los mismos renglones que antes**, y el único que cambia entre los cableados es
+`arg96`. Lo que sostiene la laxitud es lo de siempre —un renglón cuyos flancos no
+traducen por el mapa de la zona no entra— y por eso los goleadores que `arg96`
+intercala, con sus minutos separados por guion, siguen sin ser partidos.
+
+`arg96` tampoco se recorta con `Table:`: no publica sus tablas al lado de los
+partidos sino todas juntas al final. El corte de cada torneo es el rótulo del otro.
+
+**Y el número que se corrigió solo.** Al medir para actualizar la tabla del `TODO.md`
+apareció que la columna «torneos» decía `150` cuando eran `145`. Contarla bien pedía
+un parser de CSV y no un `awk`, que se parte con las comas de los nombres de cancha.
 
 ### Los dos clubes que no existen
 
@@ -3357,7 +3390,7 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1041 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1043 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a

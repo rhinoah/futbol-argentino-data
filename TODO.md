@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 45 571 | 9 | 152 | 1041 | 452 |
+| 46 331 | 9 | 156 | 1043 | 452 |
 
 ## 2004–2026 — Cerrado
 
@@ -35,28 +35,28 @@ mal `Deportivo Mandiyú`, que ya está, y `Gimnasia J)` es markup roto—.
 
 Eran 14 y entraron 13: el Clausura 1997 cae del otro lado de la línea de las fechas y se fue con la capa de abajo.
 
-## 1991–1996 — Ocho de trece
+## 1991–1996 — Doce de trece
 
 **Wikipedia pone los partidos, RSSSF pone las fechas**
 
 Esta sección decía «acá se termina Wikipedia» y **estaba equivocada**. Afirmaba que ninguna página de estos años trae sección de resultados, y eso vale para las de temporada pero no para los anexos: el `Anexo:Torneo Apertura 1993` da `190` partidos, 20 clubes con **ninguno desconocido** y 19 fechas de diez exactas. Un todos contra todos perfecto.
 
 Wikipedia publica estos años **sin una sola fecha**, y RSSSF los publica con sus
-rondas y sus días. Ya entraron **ocho torneos: `1 327` partidos, cero graves**, del
-`Apertura 1991` al `Clausura 1995`.
+rondas y sus días. Entraron **los doce torneos que la fuente cubre**, del `Apertura 1991`
+al `Clausura 1997`: `2 280` partidos, de los que `2 277` quedaron escritos con su
+fecha y `3` no. Cero graves.
 
-De los **5** que faltan, `4` son de formato: `arg96` y `arg97` alinean por espacios
-en vez de tabs y `arg97` además abrevia los nombres (`Newell's OB`, `Rosario C`).
-El quinto es un hueco de fuente.
+La fuente los escribe de tres maneras y las tres están cubiertas: `arg92`–`arg95`
+separan con tabs, `arg97` alinea por espacios y abrevia los nombres, y `arg96`
+alinea por espacios **y** separa el guion del marcador (`2 - 0`), que fue lo único
+que obligó a tocar el lector.
+
+**No queda nada por hacer acá salvo el hueco de fuente.**
 
 - **`Huracán Corrientes` ya está en el padrón**, que era el único club de verdad que
   estos años traen y faltaba. El pendiente estaba anotado en la capa de arriba y ahí el
   club no aparece: sólo está en el `Apertura 1996` y en el `Clausura 1997`, las dos de
   esta capa.
-- **Un lector para el formato alineado por espacios**, que destraba las 4 restantes
-  (`Apertura 1995`, `Clausura 1996`, `Apertura 1996`, `Clausura 1997`). `arg96` trae
-  además renglones de goleadores intercalados y `arg97` abrevia los nombres, así que
-  necesita su tabla de nombres igual.
 - **Tres partidos sin fecha**, de dos clases. Dos terminaron en un escritorio y cada
   fuente publica un marcador distinto —el de la cancha y el del fallo—: `Racing–River`
   (Fecha 3 del Apertura 1991) y `Vélez–Boca` (Fecha 4 del Clausura 1993, donde además
@@ -64,11 +64,11 @@ El quinto es un hueco de fuente.
   `Gimnasia (LP)–Boca` (Fecha 19 del Apertura 1993), no es un marcador sino una
   **localía**: las dos fuentes dan la misma ronda y el mismo `1-1` y difieren en quién
   fue local.
-- El **Clausura 1997** entra acá: de sus 190 partidos, 10 traen fecha.
 - **Hueco:** `Anexo:Torneo Clausura 1991` es un stub de 83 bytes. Ese torneo hay que buscarlo en otro lado.
 - Fuente candidata para lo que no cubra RSSSF: planillas de la AFA, *Torneos y Certámenes Oficiales 1990-91 … 1994-95*.
 
-El muro se corrió: ya no es «no hay datos» sino «no hay fechas», que es un problema con solución conocida.
+El muro se corrió y después se cayó: era «no hay datos», pasó a ser «no hay fechas»
+y ahora las fechas están. Lo único que sobrevive es el stub del Clausura 1991.
 
 ## 1985–1990 — Muro
 

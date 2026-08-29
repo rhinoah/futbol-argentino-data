@@ -1291,6 +1291,29 @@ def test_una_nota_colgada_que_NO_es_continuacion_no_toca_nada():
     assert (aj[0].goles_local, aj[0].goles_visita) == (1, 0)
 
 
+def test_el_guion_del_marcador_puede_venir_SEPARADO():
+    """`arg96` escribe `2 - 0` y los otros veintidos archivos escriben `2-0`. Sin
+    esto ese archivo lee 16 renglones de 397 -- o sea que el torneo entero se pierde
+    en silencio, que es la peor forma de fallar que tiene este modulo."""
+    aj, _ = rsssf.leer(("Round 1@N@[Aug 4]@N@"
+                        "Aldosivi                     2 - 0  Banfield@N@").replace("@N@", "\n"),
+                       _MAPA_LIGA, 1995, 1995, 8)
+    assert len(aj) == 1
+    assert (aj[0].goles_local, aj[0].goles_visita) == (2, 0)
+
+
+def test_los_goleadores_intercalados_no_entran_como_partido():
+    """`arg96` cuelga los goleadores debajo de cada partido, y entre corchetes hay
+    minutos con guion: `[50' Cedres, 77' Ortega - 84' Ruggeri]`. Aflojar el guion del
+    marcador no puede convertir eso en un partido -- lo impide que los flancos del
+    regex excluyen los corchetes."""
+    aj, _ = rsssf.leer(("Round 1@N@[Aug 4]@N@"
+                        "Aldosivi                     2 - 1  Banfield@N@"
+                        "  [50' Cedres, 77' Ortega - 84' Ruggeri]@N@").replace("@N@", "\n"),
+                       _MAPA_LIGA, 1995, 1995, 8)
+    assert len(aj) == 1, "un partido, no dos"
+
+
 def test_el_mes_ESCRITO_EN_CASTELLANO_se_lee_igual():
     """`Abr` aparece una sola vez en los seis archivos de Primera -- la ronda 7 del
     Clausura 1995 --, rodeada de meses en ingles. Es un desliz de la fuente y no otro

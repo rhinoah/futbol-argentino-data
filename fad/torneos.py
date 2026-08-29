@@ -434,9 +434,13 @@ VIEJO = [
     # Primera de estos anios con sus rondas y sus dias, y el archivo del anio trae
     # las dos ruedas: el recorte que las separa se declara en `rsssf.SECCION_LIGA`.
     #
-    # Van los ocho torneos de `arg92` a `arg95`, que son los que la fuente escribe
-    # separando con tabs. Los cuatro de `arg96` y `arg97` alinean por espacios --y
-    # `arg97` ademas abrevia los nombres--, que el lector todavia no cubre.
+    # Van LOS DOCE, de `arg92` a `arg97`. La capa entera menos el Clausura 1991, que
+    # Wikipedia deja en un stub de 83 bytes y hay que buscar en otro lado.
+    #
+    # La fuente escribe estos anios de tres maneras y las tres estan cubiertas:
+    # `arg92`-`arg95` separan con tabs, `arg97` alinea por espacios y abrevia los
+    # nombres, y `arg96` alinea por espacios Y separa el guion del marcador
+    # (`2 - 0`) -- el unico que obligo a aflojar `_PARTIDO`.
     #
     # EL APERTURA 1993 CRUZA EL ANIO y es el unico: sus rondas 16 a 19 se jugaron en
     # febrero y marzo del 94, y la fuente lo escribe -- `[Feb 25, 1994 Fri]`. Sin el
@@ -457,6 +461,14 @@ VIEJO = [
            rsssf="arg95"),
     Torneo("Anexo:Torneo Clausura 1995 (Argentina)", "Primera Division - Clausura", 1995,
            rsssf="arg95"),
+    Torneo("Anexo:Torneo Apertura 1996 (Argentina)", "Primera Division - Apertura", 1996,
+           rsssf="arg97"),
+    Torneo("Anexo:Torneo Clausura 1997 (Argentina)", "Primera Division - Clausura", 1997,
+           rsssf="arg97"),
+    Torneo("Anexo:Torneo Apertura 1995 (Argentina)", "Primera Division - Apertura", 1995,
+           rsssf="arg96"),
+    Torneo("Anexo:Torneo Clausura 1996 (Argentina)", "Primera Division - Clausura", 1996,
+           rsssf="arg96"),
     Torneo("Anexo:Torneo Apertura 1997 (Argentina)", "Primera Division - Apertura", 1997),
     Torneo("Anexo:Torneo Apertura 1998 (Argentina)", "Primera Division - Apertura", 1998),
     Torneo("Anexo:Torneo Apertura 1999 (Argentina)", "Primera Division - Apertura", 1999),

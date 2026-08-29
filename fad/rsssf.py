@@ -165,8 +165,14 @@ _SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(,[^\])]*)?[\])]\s*$")
 # perdian sus doce partidos de local, y como el club es el mismo en todos, se
 # perdian de a bloques y no al azar -- que es la forma de fallar mas facil de no
 # ver, porque no rompe nada, solo deja un club sin fechar.
+# El guion del marcador puede venir PEGADO o SEPARADO: `2-0` en casi todos los
+# archivos y `2 - 0` en `arg96`. Aflojarlo no abre la puerta a nada -- medido
+# sobre los 23 archivos de la cache, 21 leen exactamente los mismos renglones que
+# antes y el unico que cambia entre los cableados es `arg96`, que pasa de 16 a
+# 397. Lo que sostiene esa laxitud es lo de siempre: un renglon cuyos flancos no
+# traducen por el mapa de la zona no entra.
 _PARTIDO = re.compile(
-    r"^([^\[\]]{3,34}?)\s+(\d+)-(\d+)\s+([^\[\]\s](?:[^\[\]]*?[^\[\]\s])?)(?:\s{2,}.*)?$")
+    r"^([^\[\]]{3,34}?)\s+(\d+)\s*-\s*(\d+)\s+([^\[\]\s](?:[^\[\]]*?[^\[\]\s])?)(?:\s{2,}.*)?$")
 
 
 # Un partido cuyo marcador NO ES UN MARCADOR. RSSSF escribe una palabra en la
@@ -2482,6 +2488,14 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
         'Round 1\t\n[Sep 2]', "Table:"),
     "Anexo:Torneo Clausura 1995 (Argentina)": (
         'Round 1\t\t\n\n[Feb 24]\t', "Table:"),
+    "Anexo:Torneo Apertura 1996 (Argentina)": (
+        'Round 1\n[Aug 23, Fri]', "Table:"),
+    "Anexo:Torneo Clausura 1997 (Argentina)": (
+        'Round 1 \n[Feb 21, Fri]', "Table:"),
+    "Anexo:Torneo Apertura 1995 (Argentina)": (
+        'Round 1\n[Aug 4, 1995]', "CLAUSURA TOURNAMENT"),
+    "Anexo:Torneo Clausura 1996 (Argentina)": (
+        'Round 1\n[Mar 8, 1996]', "APERTURA TOURNAMENT"),
 }
 
 
@@ -2677,6 +2691,87 @@ PRIMERA_1994 = {
     },
 }
 
+# Primera Division 1996-97. Es el unico archivo de Primera que ABREVIA, y no de
+# una sola manera: el mismo torneo escribe `Boca` y `Boca Juniors`, `Racing` y
+# `Racing Club`, `Estudiantes` y `Estudiantes LP`. Por eso el mapa tiene 24
+# entradas para 20 clubes.
+#
+# EL `Huracan` A SECAS NO SE RESUELVE LEYENDO: en este torneo juegan los dos, el
+# de Parque Patricios y el de Corrientes, y el archivo los escribe `Huracan BA` y
+# `Huracan Ctes` en todos los demas partidos. Lo desempata la estructura: aparece
+# una sola vez, en la Round 10, y esa ronda ya tiene a `Huracan Ctes` jugando
+# contra Colon. Como cada club juega una vez por fecha, el otro es el de Buenos
+# Aires. Es el mismo argumento que resuelve los nombres cortos del Argentino A
+# 2010-11, y no el parecido de las cadenas.
+
+PRIMERA_1996 = {
+    "": {
+        "Banfield": "Banfield",
+        "Boca": "Boca Juniors",
+        "Boca Juniors": "Boca Juniors",
+        "Colón": "Colón",
+        "Dep Español": "Deportivo Español",
+        "Estudiantes": "Estudiantes (LP)",
+        "Estudiantes LP": "Estudiantes (LP)",
+        "Ferro": "Ferro Carril Oeste",
+        "Gimnasia J": "Gimnasia y Esgrima (J)",
+        "Gimnasia LP": "Gimnasia y Esgrima (LP)",
+        "Huracán": "Huracán",
+        "Huracán BA": "Huracán",
+        "Huracán Ctes": "Huracán Corrientes",
+        "Independiente": "Independiente",
+        "Lanús": "Lanús",
+        "Newell's OB": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Racing": "Racing Club",
+        "Racing Club": "Racing Club",
+        "River Plate": "River Plate",
+        "Rosario C": "Rosario Central",
+        "San Lorenzo": "San Lorenzo",
+        "Unión": "Unión",
+        "Vélez": "Vélez Sarsfield",
+    },
+}
+
+# Primera Division 1995-96. Los dos torneos usan los mismos veinte nombres y cada
+# uno mapea a un club distinto: la traduccion es una biyeccion contra los veinte
+# que la pagina hace jugar.
+#
+# Este archivo es el que obligo a aflojar `_PARTIDO`: escribe el marcador con el
+# guion separado (`2 - 0`) y ninguno de los otros veintidos lo hace. Ademas
+# intercala renglones de goleadores entre los partidos, que `_NOTA_COLGADA`
+# absorbe sin tocar nada.
+#
+# Y NO SE RECORTA CON `Table:` sino con el rotulo del otro torneo: este archivo no
+# publica sus tablas al lado de los partidos sino todas juntas al final, bajo un
+# segundo `APERTURA TOURNAMENT` / `CLAUSURA TOURNAMENT`. Por eso el corte del
+# Clausura es el `APERTURA TOURNAMENT` de abajo, que es el de las tablas.
+
+PRIMERA_1995 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Banfield": "Banfield",
+        "Belgrano (C)": "Belgrano",
+        "Boca Juniors": "Boca Juniors",
+        "Colón": "Colón",
+        "Deportivo Español": "Deportivo Español",
+        "Estudiantes LP": "Estudiantes (LP)",
+        "Ferro Carril Oeste (BA)": "Ferro Carril Oeste",
+        "Gimnasia y Esgrima J": "Gimnasia y Esgrima (J)",
+        "Gimnasia y Esgrima LP": "Gimnasia y Esgrima (LP)",
+        "Huracán (BA)": "Huracán",
+        "Independiente (A)": "Independiente",
+        "Lanús": "Lanús",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense (VL)": "Platense",
+        "Racing Club": "Racing Club",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "San Lorenzo de Almagro": "San Lorenzo",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
@@ -2693,6 +2788,10 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Anexo:Torneo Clausura 1994 (Argentina)": ("arg94", PRIMERA_1993),
     "Anexo:Torneo Apertura 1994 (Argentina)": ("arg95", PRIMERA_1994),
     "Anexo:Torneo Clausura 1995 (Argentina)": ("arg95", PRIMERA_1994),
+    "Anexo:Torneo Apertura 1996 (Argentina)": ("arg97", PRIMERA_1996),
+    "Anexo:Torneo Clausura 1997 (Argentina)": ("arg97", PRIMERA_1996),
+    "Anexo:Torneo Apertura 1995 (Argentina)": ("arg96", PRIMERA_1995),
+    "Anexo:Torneo Clausura 1996 (Argentina)": ("arg96", PRIMERA_1995),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),
     "Campeonato de Primera C 2009-10 (Argentina)": ("arg4-2010", PRIMERA_C_2009),
     "Campeonato de Primera C 2010-11 (Argentina)": ("arg2011", PRIMERA_C_2010),
