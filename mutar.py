@@ -307,8 +307,14 @@ MUTANTES = [
      "    con_jornada = True"),
 
     ("fad/rsssf.py", "exigir dos espacios antes del marcador (pierde al club de 28 letras)",
-     r'    r"^([^\[\]]{3,34}?)\s+(\d+)-(\d+)',
-     r'    r"^([^\[\]]{3,34}?)\s{2,}(\d+)-(\d+)'),
+     r'    r"^([^\[\]]{3,34}?)\s+(\d+)\s*-\s*(\d+)',
+     r'    r"^([^\[\]]{3,34}?)\s{2,}(\d+)\s*-\s*(\d+)'),
+
+    # El guion separado. `arg96` escribe `2 - 0` y es el unico de los veintitres
+    # archivos que lo hace: sin esto lee 16 renglones de 397 y pierde dos torneos.
+    ("fad/rsssf.py", "volver a exigir el guion pegado al marcador",
+     r'    r"^([^\[\]]{3,34}?)\s+(\d+)\s*-\s*(\d+)',
+     r'    r"^([^\[\]]{3,34}?)\s+(\d+)-(\d+)'),
 
     ("fad/rsssf.py", "dejar que la anotacion derramada se pegue al visitante",
      r'([^\[\]\s](?:[^\[\]]*?[^\[\]\s])?)(?:\s{2,}.*)?$")',
@@ -1470,8 +1476,25 @@ MUTANTES = [
     # sin esto entran como dos partidos: chocan en la misma ronda y la regla de
     # colision se los lleva a los dos.
     ("fad/rsssf.py", "no reconocer el partido que sigue otro dia",
-     "        if _CONTINUA.search(cruda):",
+     "        if _CONTINUA.search(_con_lo_colgado(lineas, idx)):",
      "        if False:"),
+
+    # La misma nota, escrita en el otro lugar: el Clausura 1992 la pega al partido
+    # y el Apertura 1993 la cuelga en el renglon de abajo, porque la cola ya la
+    # ocupa `[at Cordoba]`. Mirar solo el renglon del partido pierde la segunda.
+    ("fad/rsssf.py", "no mirar la nota que cuelga del renglon de abajo",
+     "        if _CONTINUA.search(_con_lo_colgado(lineas, idx)):",
+     "        if _CONTINUA.search(cruda):"),
+
+    ("fad/rsssf.py", "colgar la nota del renglon equivocado",
+     "    if i + 1 < len(lineas) and _NOTA_COLGADA.match(lineas[i + 1].rstrip()):",
+     "    if i + 2 < len(lineas) and _NOTA_COLGADA.match(lineas[i + 2].rstrip()):"),
+
+    # `[Abr 18]`, una vez en seis archivos. Sin el alias el lector explota; con el
+    # de mas -- si se aceptara cualquier cosa -- una fecha ilegible entraria callada.
+    ("fad/rsssf.py", "no entender el mes escrito en castellano",
+     '_MESES["Abr"] = _MESES["Apr"]',
+     '_MESES["Abr"] = _MESES["Aug"]'),
 
     ("fad/rsssf.py", "fechar la continuacion con SU dia y no con el del primero",
      "        dia = empezados.pop((ronda, cl, cv), dia)",
