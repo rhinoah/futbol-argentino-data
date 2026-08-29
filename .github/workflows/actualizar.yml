@@ -5,7 +5,12 @@ name: actualizar dataset
 # siguientes, asi que a la manana ya estan.
 on:
   schedule:
-    - cron: "0 12 * * *"
+    # A las 11:23 y no a las 12 en punto. El comienzo de hora es donde se
+    # amontonan los cron de todo el mundo y GitHub encola los `schedule`, que
+    # son best-effort. Con "0 12" el disparo se venia atrasando media hora, y
+    # el 27 y el 28/08 salio 9h35 y 9h38 tarde -- dos dias cayendo en la misma
+    # ventana de tres minutos, que ya no parece ruido de cola.
+    - cron: "23 11 * * *"
   workflow_dispatch:        # para poder correrlo a mano
 
 # Solo escribir el repo. El token por defecto alcanza y no hay que crear secrets.

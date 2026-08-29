@@ -1519,9 +1519,13 @@ Dos workflows en `.github/workflows/`:
 
 - **`tests.yml`** — la suite en Python 3.11 y 3.13 en cada push, más el mutation
   testing en una de las dos.
-- **`actualizar.yml`** — todos los días a las 12:00 UTC (09:00 en Argentina, con
+- **`actualizar.yml`** — todos los días a las 11:23 UTC (08:23 en Argentina, con
   los partidos de la noche anterior ya cargados): corre la suite, reconstruye el
-  dataset y commitea **sólo si cambió algo**.
+  dataset y commitea **sólo si cambió algo**. El minuto es raro a propósito: los
+  eventos `schedule` de GitHub son *best-effort* y el comienzo de hora es donde
+  se amontonan los cron de todo el mundo. Con `0 12` el disparo se venía
+  atrasando media hora todos los días, y dos veces seguidas salió nueve horas y
+  media tarde.
 
 Lo importante no es el cron, es qué lo frena. Un scraper desatendido no falla
 explotando: falla escribiendo algo plausible y equivocado, y nadie lo mira.
