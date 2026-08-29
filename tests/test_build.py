@@ -480,6 +480,35 @@ def test_un_mapa_declarado_inservible_no_se_usa(monkeypatch):
     assert any("no sirve" in a.que for a in avisos)
 
 
+def test_la_rama_de_RSSSF_tambien_pasa_los_arbitrados(monkeypatch):
+    """Un partido que termino en un escritorio tiene DOS marcadores ciertos -- el de
+    la cancha y el que homologo el tribunal -- y cada fuente publica uno. `completar`
+    usa el marcador para VERIFICAR el emparejamiento, asi que sin `arbitrados` lee
+    ese caso como desacuerdo y no lo fecha.
+
+    El mecanismo ya existia pero solo lo usaba la rama de worldfootball; la de RSSSF
+    llamaba a `completar` sin el, y los dos partidos de escritorio de la capa
+    1991-1996 se quedaban sin fecha aunque estuvieran escritos y justificados en
+    `correcciones.MARCADORES`.
+    """
+    from fad import fechas, rsssf, torneos
+    visto = {}
+
+    def espiar(nuestros, ajenos, mapa=None, arbitrados=None, **k):
+        visto["arbitrados"] = arbitrados
+        return 0, []
+
+    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: "")
+    monkeypatch.setattr(fechas, "completar", espiar)
+    pagina = "Anexo:Torneo Apertura 1991 (Argentina)"
+    t = [x for x in torneos.TODOS if x.pagina == pagina][0]
+    build._completar_fechas_rsssf([], t)
+
+    assert visto["arbitrados"] is not None, "se llamo a `completar` sin `arbitrados`"
+    assert ("Fecha 3", "Racing Club", "River Plate") in visto["arbitrados"], (
+        "el Racing-River del Apertura 1991 esta arbitrado y no llego a `completar`")
+
+
 def test_una_fecha_fuera_de_la_temporada_no_entra(monkeypatch):
     """Nadie mas lo mira: `anios_bien_asignados` compara la MEDIANA de cada
     jornada, asi que un partido suelto tres anios afuera lo absorbe sin quejarse.

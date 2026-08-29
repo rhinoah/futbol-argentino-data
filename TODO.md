@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 46 331 | 9 | 156 | 1043 | 456 |
+| 46 333 | 7 | 156 | 1044 | 457 |
 
 ## 2004–2026 — Cerrado
 
@@ -35,7 +35,7 @@ mal `Deportivo Mandiyú`, que ya está, y `Gimnasia J)` es markup roto—.
 
 Eran 14 y entraron 13: el Clausura 1997 cae del otro lado de la línea de las fechas y se fue con la capa de abajo.
 
-## 1991–1996 — Doce de trece
+## 1991–1996 — Doce de trece, y la trece está a la vista
 
 **Wikipedia pone los partidos, RSSSF pone las fechas**
 
@@ -57,18 +57,35 @@ que obligó a tocar el lector.
   estos años traen y faltaba. El pendiente estaba anotado en la capa de arriba y ahí el
   club no aparece: sólo está en el `Apertura 1996` y en el `Clausura 1997`, las dos de
   esta capa.
-- **Tres partidos sin fecha**, de dos clases. Dos terminaron en un escritorio y cada
-  fuente publica un marcador distinto —el de la cancha y el del fallo—: `Racing–River`
-  (Fecha 3 del Apertura 1991) y `Vélez–Boca` (Fecha 4 del Clausura 1993, donde además
-  la página cuelga una nota sobre el fallo que el parser no supo leer). El tercero,
-  `Gimnasia (LP)–Boca` (Fecha 19 del Apertura 1993), no es un marcador sino una
-  **localía**: las dos fuentes dan la misma ronda y el mismo `1-1` y difieren en quién
-  fue local.
-- **Hueco:** `Anexo:Torneo Clausura 1991` es un stub de 83 bytes. Ese torneo hay que buscarlo en otro lado.
+- **Queda UN partido sin fecha**: `Gimnasia (LP) 1-1 Boca` (Fecha 19 del Apertura
+  1993). La localía está probada y es de Gimnasia —en el mismo archivo de RSSSF, la
+  Round 19 del Apertura 1993 y la del Clausura 1994 son el mismo fixture invertido, y
+  nueve de los diez cruces invierten prolijamente: el único que no es éste—. Lo que
+  falta es el **día**: dos fuentes dicen sábado 19/03/1994 y RSSSF dice viernes 18, y la
+  jornada se jugó partida entre los dos.
+- **El lector no lee `won the points (N-M)`**, que es como RSSSF escribe el marcador que
+  homologó un tribunal al lado del de la cancha. Son `5` apariciones en los archivos
+  cableados. Leerla cerraría estos casos sin arbitraje a mano — pero **destaparía uno**:
+  el `Talleres (C) 2-2 River Plate` de la Fecha 16 del Clausura 1993, donde la página
+  publica el marcador de la cancha y RSSSF dice `River won the points (0-2)`. La misma
+  página usa el criterio del fallo en un partido y el de la cancha en el otro.
+- **El `Clausura 1991` ya no es un hueco: RSSSF lo publica entero.**
+  `rsssf.org/tablesa/arg91.html` trae los `190` partidos en 19 rondas de 10, todos bajo
+  un encabezado de fecha, y declara a *El Gráfico* como fuente. Wikipedia no tiene grilla
+  —lo que hay en `Anexo:Torneo Clausura 1991` es una **redirección**, no un stub— pero sí
+  publica la tabla de posiciones final, y eso alcanza para verificarlo: sumando los 190
+  partidos, **17 de 20 clubes cierran exacto**; `Lanús` y `Platense` cierran también al
+  aplicarle a su partido suspendido el fallo `0-1` que las dos tablas ya aplican; y el
+  vigésimo, `Huracán`, desvía porque **la tabla de Wikipedia no cierra consigo misma**
+  (publica 22 puntos para un 7-7-5 que da 21, y RSSSF publica 21).
+  Entra por el camino de `sin_grilla`, que ya usan cuatro torneos del Argentino A.
+- El mismo archivo trae además el **`Apertura 1990`**, que es de la capa de abajo: 191
+  partidos, 19 rondas, los mismos 20 clubes.
 - Fuente candidata para lo que no cubra RSSSF: planillas de la AFA, *Torneos y Certámenes Oficiales 1990-91 … 1994-95*.
 
 El muro se corrió y después se cayó: era «no hay datos», pasó a ser «no hay fechas»
-y ahora las fechas están. Lo único que sobrevive es el stub del Clausura 1991.
+y ahora las fechas están. Y lo último que quedaba —el Clausura 1991— resultó que
+tampoco era un muro: estaba publicado y nadie lo había mirado.
 
 ## 1985–1990 — Muro
 

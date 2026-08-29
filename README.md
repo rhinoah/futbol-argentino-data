@@ -2887,11 +2887,63 @@ exactamente una vez, así que el club al que le faltan partidos tiene un solo ri
 ausente, y ese rival es el de la fila rota. No hay otra fila posible. RSSSF lo
 corrobora por su lado con la misma jornada, la misma localía y el mismo marcador.
 
-### Los tres que se quedaron sin fecha
+### Buscar en prensa: dos se cerraron, uno no
+
+**Los dos de escritorio, resueltos.** El `Racing 0-1 River` de la Fecha 3 del Apertura
+1991 se suspendió a los 73' del domingo 15/09/1991, con 0-0, después de que un proyectil
+desde la tribuna golpeara al arquero Ángel Comizzo; el Tribunal de Disciplina se lo dio a
+River. Lo cuentan El Gráfico, Infobae y El Litoral de Santa Fe, y hay una huella
+aritmética linda: la tabla de goles por fecha de El Gráfico le asigna a esa jornada tres
+goles de visitante, y en la cancha se hicieron dos — el tercero es el del escritorio.
+
+El `Vélez 1-0 Boca` de la Fecha 4 del Clausura 1993 **lo explicaba la propia página** y
+nadie había mirado: en una nota al pie dice que terminó 1-1 y que se le dio por perdido a
+Boca porque un jugador no se presentó al antidoping. Fue Alejandro Giuntini, y el
+Tribunal lo suspendió cuatro meses.
+
+Los dos tienen la misma forma: **RSSSF publica el marcador de la cancha y la página el que
+homologó el tribunal**. No es un desacuerdo, es que cada fuente contesta una pregunta
+distinta. Y RSSSF lo dice — cuelga `[River won the points (0-1)]` y
+`[Later Vélez Sarsfield won the points (1-0)]` al lado del marcador—, sólo que el lector
+todavía no lee esa nota.
+
+**Lo que faltaba no era la evidencia sino el cable.** El mecanismo para esto ya existía:
+`correcciones.MARCADORES` con `debe == dice`, que quiere decir «la página ya tenía razón y
+de la otra fuente se toma sólo la fecha». Pero `build` le pasaba los arbitrados a
+`fechas.completar` **únicamente en la rama de worldfootball**; la de RSSSF llamaba sin
+ellos. Escribir las dos justificaciones no alcanzaba: había que pasar el argumento.
+
+**El tercero no se cerró, y es el más interesante.** En el `Gimnasia (LP) 1-1 Boca` de la
+Fecha 19 del Apertura 1993 la localía quedó probada, y por un argumento que no necesita
+salir de RSSSF: en el mismo archivo, la Round 19 del Apertura 1993 y la del Clausura 1994
+son el mismo fixture con las localías invertidas. **Nueve de los diez cruces invierten
+prolijamente y el único que no es justo el que está en disputa** — RSSSF pone a Boca de
+local en los dos. Es la fuente contradiciéndose a sí misma en esa línea.
+
+Pero el DÍA no se pudo cerrar: dos fuentes independientes dicen sábado 19/03/1994 y RSSSF
+dice viernes 18, y la jornada estuvo efectivamente partida entre los dos días —hay otros
+partidos de la fecha 19 el 18—. Que RSSSF se equivoque en la localía no prueba que se
+equivoque en el día. Queda sin fechar, que es lo que corresponde.
+
+### Lo que no hay: prensa de época
+
+De los tres partidos, **cero fuentes contemporáneas**. Todo lo que se consiguió son
+reconstrucciones de 2012-2025: bases de estadística, blogs y notas retrospectivas. Los
+archivos digitales de Clarín y La Nación no llegan a 1991-1994, y El Gráfico no tiene sus
+ediciones digitalizadas.
+
+Lo que sí existe, y sirve para más adelante: la **Hemeroteca Digital de la Biblioteca
+Nacional** tiene Página/12 de 1987 a 2009 en acceso libre, con los PDF servidos sin login
+—514 ejemplares de 1991, unos 19 MB cada uno—. No tiene buscador de texto completo, así
+que reconstruir una fecha implica abrir el PDF del lunes correspondiente. Es un camino
+real pero caro, y conviene guardarlo para lo que no se pueda de otro modo.
+
+### Los tres que se quedaron sin fecha *(quedó uno)*
 
 De 1 330, tres. Son **dos clases distintas de desacuerdo**, y conviene no meterlas
 en la misma bolsa: la primera versión de este párrafo decía que las tres eran lo
-mismo y era falso —salió de suponer, no de mirar—.
+mismo y era falso —salió de suponer, no de mirar—. Los dos primeros ya se cerraron;
+el detalle está arriba.
 
 **Dos terminaron en un escritorio y no en la cancha**, que es donde dos fuentes
 honestas se separan sin contradecirse. `Racing 0-1 River`, Fecha 3 del Apertura 1991:
@@ -3390,11 +3442,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1043 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1044 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 456 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 457 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

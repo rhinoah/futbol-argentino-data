@@ -1726,6 +1726,56 @@ MARCADORES: tuple[Marcador, ...] = (
                "worldfootball",
                "a Patronato le sobraba un gol a favor y a San Martín uno en contra",
                "2011-02-28T00:11:29Z"),
+
+    # ------------------------------------------------------------------
+    # DOS PARTIDOS QUE TERMINARON EN UN ESCRITORIO, y donde las dos fuentes tienen
+    # razon sobre cosas distintas: RSSSF publica el marcador DE LA CANCHA y la
+    # pagina el que homologo el tribunal. No es un desacuerdo, es que cada una
+    # contesta una pregunta distinta -- y por eso los dos van con `debe` == `dice`:
+    # la pagina ya tenia razon y lo unico que se toma de RSSSF es LA FECHA.
+    #
+    # RSSSF lo escribe: en los dos casos cuelga la nota `won the points (N-M)` al
+    # lado del marcador. El lector todavia no la lee, y por eso estos dos partidos
+    # llegaban a `completar` como un desacuerdo y se quedaban sin fecha.
+    # ------------------------------------------------------------------
+    Marcador(
+        pagina="Anexo:Torneo Apertura 1991 (Argentina)",
+        jornada="Fecha 3", local="Racing Club", visita="River Plate",
+        dice=(0, 1), debe=(0, 1),
+        porque=(
+            "En la cancha iba 0-0 y el partido no llego al final: Francisco "
+            "Lamolina lo suspendio a los 73' del domingo 15/09/1991 en Avellaneda, "
+            "despues de que un proyectil tirado desde la tribuna golpeara al "
+            "arquero de River, Angel Comizzo. El Tribunal de Disciplina de la AFA "
+            "se lo dio ganado a River. RSSSF publica las dos cosas en la misma "
+            "linea -- `Racing Club 0-0 River Plate [Suspended at 73' for the "
+            "agression to River's goalkeeper] [River won the points (0-1)]` --, "
+            "asi que la fuente que parecia contradecir a la pagina en realidad la "
+            "confirma. La cuentan igual El Grafico, Infobae y El Litoral de Santa "
+            "Fe, y hay una huella aritmetica: la tabla de goles por fecha de El "
+            "Grafico le asigna a esta fecha 3 goles de visitante y en la cancha se "
+            "hicieron 2 -- el tercero es este, el del escritorio. El minuto queda "
+            "entre 73' y 74' segun la fuente; no cambia nada."),
+    ),
+    Marcador(
+        pagina="Anexo:Torneo Clausura 1993 (Argentina)",
+        jornada="Fecha 4", local="Vélez Sarsfield", visita="Boca Juniors",
+        dice=(1, 0), debe=(1, 0),
+        porque=(
+            "Termino 1-1 en Liniers el domingo 07/03/1993 -- penal de Roberto "
+            "Trotta para Velez y gol de Alberto Acosta para Boca --, y despues el "
+            "Tribunal de Disciplina se lo dio por perdido a Boca porque su "
+            "defensor Alejandro Giuntini no se presento al control antidoping. LA "
+            "PROPIA PAGINA LO EXPLICA en una nota al pie: `Originalmente el "
+            "partido finalizo 1-1. Sin embargo, se dio por perdido el partido a "
+            "Boca Juniors por no presentarse un jugador al control antidoping`. Y "
+            "RSSSF publica los dos numeros en la misma linea: `Velez Sarsfield "
+            "1-1 Boca Juniors [Later Velez Sarsfield won the points (1-0)]`. El "
+            "sitio oficial de Velez lista el homologado, `07/03/1993 Velez "
+            "Sarsfield 1-0 Boca Juniors`. Hay seis medios que en 2016, al morir "
+            "Giuntini, escribieron `2-0`, pero es un solo texto de agencia "
+            "replicado y contradice la tabla de la propia pagina."),
+    ),
 )
 
 

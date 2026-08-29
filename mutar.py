@@ -1496,6 +1496,12 @@ MUTANTES = [
      '_MESES["Abr"] = _MESES["Apr"]',
      '_MESES["Abr"] = _MESES["Aug"]'),
 
+    # Un partido de escritorio tiene dos marcadores ciertos y cada fuente publica
+    # uno. Sin los arbitrados, `completar` lo lee como desacuerdo y no lo fecha.
+    ("build.py", "no pasarle los marcadores arbitrados a la rama de RSSSF",
+     "    puestas, mas = fechas.completar(ps, ajenos, arbitrados=correcciones.arbitrados(t.pagina),",
+     "    puestas, mas = fechas.completar(ps, ajenos, arbitrados=None,"),
+
     ("fad/rsssf.py", "fechar la continuacion con SU dia y no con el del primero",
      "        dia = empezados.pop((ronda, cl, cv), dia)",
      "        empezados.pop((ronda, cl, cv), dia)"),

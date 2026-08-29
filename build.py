@@ -68,7 +68,14 @@ def _completar_fechas_rsssf(ps, t, usadas: set | None = None) -> list:
     desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))
     ajenos, avisos = rsssf.leer(crudo, mapa, t.temporada, t.anio_fin or t.temporada,
                                 t.mes_inicio, desde=desde, hasta=hasta)
-    puestas, mas = fechas.completar(ps, ajenos, credito=rsssf.CREDITO,
+    # `arbitrados` va aca por la misma razon que en la rama de worldfootball, y
+    # faltaba: un partido que termino en un escritorio tiene DOS marcadores ciertos
+    # -- el de la cancha y el que homologo el tribunal -- y cada fuente publica uno.
+    # Sin esto `completar` lo lee como desacuerdo y no lo fecha, que es la conducta
+    # correcta MIENTRAS el caso no este mirado; una vez mirado y escrito en
+    # `correcciones.MARCADORES`, el emparejamiento esta confirmado y la fecha se toma.
+    puestas, mas = fechas.completar(ps, ajenos, arbitrados=correcciones.arbitrados(t.pagina),
+                                    credito=rsssf.CREDITO,
                                     verificadas=correcciones.fechados(t.pagina),
                                     usadas=usadas)
     return [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False)
