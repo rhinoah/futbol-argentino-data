@@ -430,12 +430,33 @@ VIEJO = [
     # fila sin fecha no se escribe. Necesitan segunda fuente; RSSSF publica
     # Primera de esos anios. El Clausura 1997 esta de ese lado: de sus 190
     # partidos, 10 traen fecha.
-    # La capa 1991-1996 empieza por aca: RSSSF publica Primera de estos anios con sus
-    # rondas y sus dias, en el mismo formato que el repo ya lee. Va una temporada por
-    # vez y midiendo -- el archivo del anio trae las dos ruedas, y el recorte que las
-    # separa se declara en `rsssf.SECCION_LIGA`.
+    # La capa 1991-1996, que Wikipedia publica SIN UNA SOLA FECHA. RSSSF publica
+    # Primera de estos anios con sus rondas y sus dias, y el archivo del anio trae
+    # las dos ruedas: el recorte que las separa se declara en `rsssf.SECCION_LIGA`.
+    #
+    # Van los ocho torneos de `arg92` a `arg95`, que son los que la fuente escribe
+    # separando con tabs. Los cuatro de `arg96` y `arg97` alinean por espacios --y
+    # `arg97` ademas abrevia los nombres--, que el lector todavia no cubre.
+    #
+    # EL APERTURA 1993 CRUZA EL ANIO y es el unico: sus rondas 16 a 19 se jugaron en
+    # febrero y marzo del 94, y la fuente lo escribe -- `[Feb 25, 1994 Fri]`. Sin el
+    # `anio_fin` esas cuarenta fechas saldrian un anio corridas.
     Torneo("Anexo:Torneo Apertura 1992 (Argentina)", "Primera Division - Apertura", 1992,
            rsssf="arg93"),
+    Torneo("Anexo:Torneo Apertura 1991 (Argentina)", "Primera Division - Apertura", 1991,
+           rsssf="arg92"),
+    Torneo("Anexo:Torneo Clausura 1992 (Argentina)", "Primera Division - Clausura", 1992,
+           rsssf="arg92"),
+    Torneo("Anexo:Torneo Clausura 1993 (Argentina)", "Primera Division - Clausura", 1993,
+           rsssf="arg93"),
+    Torneo("Anexo:Torneo Apertura 1993 (Argentina)", "Primera Division - Apertura", 1993, anio_fin=1994,
+           rsssf="arg94"),
+    Torneo("Anexo:Torneo Clausura 1994 (Argentina)", "Primera Division - Clausura", 1994,
+           rsssf="arg94"),
+    Torneo("Anexo:Torneo Apertura 1994 (Argentina)", "Primera Division - Apertura", 1994,
+           rsssf="arg95"),
+    Torneo("Anexo:Torneo Clausura 1995 (Argentina)", "Primera Division - Clausura", 1995,
+           rsssf="arg95"),
     Torneo("Anexo:Torneo Apertura 1997 (Argentina)", "Primera Division - Apertura", 1997),
     Torneo("Anexo:Torneo Apertura 1998 (Argentina)", "Primera Division - Apertura", 1998),
     Torneo("Anexo:Torneo Apertura 1999 (Argentina)", "Primera Division - Apertura", 1999),

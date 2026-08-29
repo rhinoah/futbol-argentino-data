@@ -89,6 +89,16 @@ _CACHE = Path(__file__).resolve().parent.parent / ".cache" / "rsssf"
 
 _MESES = {m: i + 1 for i, m in enumerate(
     "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split())}
+# `Abr` es abril en castellano y aparece UNA vez en los seis archivos de Primera:
+# el `[Abr 18]` de la ronda 7 del Clausura 1995, metido entre un `[Apr 10]` y un
+# `[May 24]`, en una ronda cuyas otras fechas van del 7 al 10 de abril. No hay
+# ambiguedad posible sobre que mes es.
+#
+# Va como ALIAS y no como un juego de meses en castellano porque es un desliz de
+# la fuente, no otro formato: los otros 209 dias de ese mismo archivo estan en
+# ingles. Y el resto de los meses desconocidos tiene que seguir explotando -- una
+# fecha ilegible tiene que doler, no saltearse en silencio.
+_MESES["Abr"] = _MESES["Apr"]
 
 # El dia viene entre corchetes o entre parentesis segun la temporada, y no hay una
 # forma "correcta": 2005-06 y 2008-09 escriben `[Oct 14]` en las 106 y las 120
@@ -238,6 +248,30 @@ _ABANDONADO = re.compile(r"abandoned at\s+(\d+)\s*-\s*(\d+)")
 # El partido que se suspendio y sigue otro dia. La fuente lo dice en la cola del
 # renglon del PRIMER dia; el segundo renglon viene pelado, con el marcador final.
 _CONTINUA = re.compile(r"(?i)continued\s")
+
+# La nota puede venir PEGADA al partido o COLGADA sola en el renglon de abajo, y
+# las dos formas conviven en la misma fuente: el Clausura 1992 escribe
+# `[Suspended in 82'; continued Jun 24]` a la derecha del partido y el Apertura
+# 1993 lo cuelga debajo.
+#
+# `_anotacion` no sirve para esto: corta apenas la nota de la derecha CIERRA, y
+# el partido de marras trae `[at Cordoba]` ahi, con lo que la profundidad vuelve
+# a cero y nunca baja un renglon. Son cosas distintas -- aquella junta una nota
+# partida en varias lineas, esta mira si hay OTRA nota abajo.
+_NOTA_COLGADA = re.compile(r"^\s+\[[^\]]*\]\s*$")
+
+
+def _con_lo_colgado(lineas: list[str], i: int) -> str:
+    """El renglon del partido mas la nota que cuelgue debajo, si la hay.
+
+    Sirve para preguntarle a la linea algo que la fuente pudo escribir en
+    cualquiera de los dos lugares. En los seis archivos de Primera hay nueve
+    notas colgadas: siete son listas de goleadores, una dice que un partido se
+    fallo y una sola es la continuacion que este lector busca.
+    """
+    if i + 1 < len(lineas) and _NOTA_COLGADA.match(lineas[i + 1].rstrip()):
+        return lineas[i] + " " + lineas[i + 1].strip()
+    return lineas[i]
 
 
 # El motivo del abandono va en una constante y no suelto en el return porque
@@ -587,7 +621,7 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         # marcador parcial, el segundo con el final. Sin esto entran como dos partidos
         # distintos, chocan en la misma jornada y la regla de colision se lleva los
         # dos: son los dos unicos del Apertura 1992 que se quedaban sin fecha.
-        if _CONTINUA.search(cruda):
+        if _CONTINUA.search(_con_lo_colgado(lineas, idx)):
             empezados[(ronda, cl, cv)] = dia
             continue
         dia = empezados.pop((ronda, cl, cv), dia)
@@ -2434,6 +2468,20 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
     # nuestra propia mala lectura. Aca el testigo no aplica, igual que en una copa.
     "Anexo:Torneo Apertura 1992 (Argentina)": (
         "Round 1\t\n[Aug 7, Fri]", "Table:"),
+    "Anexo:Torneo Apertura 1991 (Argentina)": (
+        'Round 1\n[Sep 10]', "Table:"),
+    "Anexo:Torneo Clausura 1992 (Argentina)": (
+        'Round 1\t\n[Feb 21]', "Table:"),
+    "Anexo:Torneo Clausura 1993 (Argentina)": (
+        'Round 1\t\t\n[Feb 20, Sat]', "Table:"),
+    "Anexo:Torneo Apertura 1993 (Argentina)": (
+        'Round 1\t\n[Sep 10, Fri]', "Table:"),
+    "Anexo:Torneo Clausura 1994 (Argentina)": (
+        'Round 1\t\n[Mar 25, Fri]', "Table:"),
+    "Anexo:Torneo Apertura 1994 (Argentina)": (
+        'Round 1\t\n[Sep 2]', "Table:"),
+    "Anexo:Torneo Clausura 1995 (Argentina)": (
+        'Round 1\t\t\n\n[Feb 24]\t', "Table:"),
 }
 
 
@@ -2542,6 +2590,93 @@ B_NACIONAL_2007 = {
 }
 
 
+# Primera Division, temporadas 1991-92 a 1994-95. UN MAPA POR ARCHIVO y no por
+# torneo: el Apertura y el Clausura de una misma temporada los juegan los mismos
+# veinte clubes, asi que el mapa es el mismo. La unica asimetria es `arg94`, donde
+# el Apertura escribe `Ferrocarril Oeste` ademas de `Ferro Carril Oeste`; la clave
+# de mas es inerte para el Clausura y deja anotado que la fuente lo escribe de las
+# dos formas.
+#
+# Los mapas traen LOS VEINTE y no solo los raros: la rama de partidos de liga de
+# `leer` usa `mapa[zona].get(...)` directo y NO cae al padron. Verificado por
+# cardinalidad contra los clubes que cada pagina hace jugar.
+
+PRIMERA_1991 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Belgrano (Cba.)": "Belgrano",
+        "Boca Juniors": "Boca Juniors",
+        "Dep. Español": "Deportivo Español",
+        "Dep.Mandiyú (Ctes.)": "Deportivo Mandiyú",
+        "Estudiantes (LP)": "Estudiantes (LP)",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Gimnasia y Esgrima (LP)": "Gimnasia y Esgrima (LP)",
+        "Huracán": "Huracán",
+        "Independiente": "Independiente",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Quilmes": "Quilmes",
+        "Racing Club": "Racing Club",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "San Lorenzo": "San Lorenzo",
+        "Talleres (Cba.)": "Talleres (C)",
+        "Unión (Sta Fe)": "Unión",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
+PRIMERA_1993 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Banfield": "Banfield",
+        "Belgrano (Cba.)": "Belgrano",
+        "Boca Juniors": "Boca Juniors",
+        "Dep. Español": "Deportivo Español",
+        "Dep.Mandiyú (Ctes.)": "Deportivo Mandiyú",
+        "Estudiantes (LP)": "Estudiantes (LP)",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Ferrocarril Oeste": "Ferro Carril Oeste",
+        "Gimnasia y Esgrima (LP)": "Gimnasia y Esgrima (LP)",
+        "Gimnasia y Tiro (Salta)": "Gimnasia y Tiro (S)",
+        "Huracán": "Huracán",
+        "Independiente": "Independiente",
+        "Lanús": "Lanús",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Racing Club": "Racing Club",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "San Lorenzo": "San Lorenzo",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
+PRIMERA_1994 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Banfield": "Banfield",
+        "Belgrano (Cba.)": "Belgrano",
+        "Boca Juniors": "Boca Juniors",
+        "Dep. Español": "Deportivo Español",
+        "Dep.Mandiyú (Ctes.)": "Deportivo Mandiyú",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Gimnasia y Esg. (Jujuy)": "Gimnasia y Esgrima (J)",
+        "Gimnasia y Esgrima (LP)": "Gimnasia y Esgrima (LP)",
+        "Huracán": "Huracán",
+        "Independiente": "Independiente",
+        "Lanús": "Lanús",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Racing Club": "Racing Club",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "San Lorenzo": "San Lorenzo",
+        "Talleres (Cba.)": "Talleres (C)",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
@@ -2551,6 +2686,13 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2012-13": ("arg3-int2013", ARGENTINO_A_2012),
     "Torneo Argentino A 2011-12": ("arg2012", ARGENTINO_A_2011),
     "Anexo:Torneo Apertura 1992 (Argentina)": ("arg93", PRIMERA_1992),
+    "Anexo:Torneo Apertura 1991 (Argentina)": ("arg92", PRIMERA_1991),
+    "Anexo:Torneo Clausura 1992 (Argentina)": ("arg92", PRIMERA_1991),
+    "Anexo:Torneo Clausura 1993 (Argentina)": ("arg93", PRIMERA_1992),
+    "Anexo:Torneo Apertura 1993 (Argentina)": ("arg94", PRIMERA_1993),
+    "Anexo:Torneo Clausura 1994 (Argentina)": ("arg94", PRIMERA_1993),
+    "Anexo:Torneo Apertura 1994 (Argentina)": ("arg95", PRIMERA_1994),
+    "Anexo:Torneo Clausura 1995 (Argentina)": ("arg95", PRIMERA_1994),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),
     "Campeonato de Primera C 2009-10 (Argentina)": ("arg4-2010", PRIMERA_C_2009),
     "Campeonato de Primera C 2010-11 (Argentina)": ("arg2011", PRIMERA_C_2010),

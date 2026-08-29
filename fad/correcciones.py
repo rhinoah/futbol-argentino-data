@@ -422,6 +422,50 @@ CORRECCIONES: tuple[Correccion, ...] = (
             "trae los mismos diez partidos con los mismos diez marcadores y el "
             "primero como All Boys 0-0 GyE Jujuy."),
     ),
+
+    # ------------------------------------------------------------------
+    # Los dos clubes FANTASMA de la capa 1991-1996. No son clubes: son el nombre
+    # de uno real roto de dos maneras distintas -- una letra de menos y un enlace
+    # partido al medio --, y en los dos casos el partido queda a nombre de nadie
+    # mientras al club de verdad le falta uno.
+    #
+    # Se arbitran POR LA ESTRUCTURA DE LA PAGINA y no por parecido de cadenas, que
+    # es lo que haria falta si `Maniyu` no se pareciera tanto a `Mandiyu`: un
+    # todos-contra-todos de veinte hace que cada club enfrente a cada otro
+    # EXACTAMENTE UNA VEZ. El club al que le faltan partidos tiene un solo rival
+    # ausente, y ese rival es el de la fila rota. No hay otra fila posible.
+    #
+    # RSSSF lo corrobora por su lado, con la misma jornada, la misma localia y el
+    # mismo marcador en los dos casos.
+    # ------------------------------------------------------------------
+    Correccion(
+        pagina="Anexo:Torneo Clausura 1994 (Argentina)",
+        jornada="Fecha 8",
+        dice=("Deportivo Maniyú", "Platense", 1, 1),
+        debe=("Deportivo Mandiyú", "Platense"),
+        porque=(
+            "`Deportivo Maniyu` no existe: es la pagina escribiendo mal "
+            "`Deportivo Mandiyu`, y ademas se queda sin enlace al articulo. "
+            "Mandiyu tiene 18 partidos en la grilla contra los 19 de todos los "
+            "demas, y el UNICO club al que no enfrenta en ninguna fecha es "
+            "Platense -- que es el rival de esta fila. En un todos contra todos "
+            "de veinte eso la identifica sin ambiguedad. RSSSF publica el mismo "
+            "partido en su ronda 8: `Deportivo Mandiyu 1-1 Platense`."),
+    ),
+    Correccion(
+        pagina="Anexo:Torneo Clausura 1995 (Argentina)",
+        jornada="Fecha 6",
+        dice=("Ferro Carril Oeste", "Gimnasia J)", 2, 2),
+        debe=("Ferro Carril Oeste", "Gimnasia y Esgrima (J)"),
+        porque=(
+            "`Gimnasia J)` no es un club sino un enlace roto: el markup se parte "
+            "al medio y deja el parentesis de cierre pegado a la mitad del "
+            "nombre, sin articulo. Gimnasia y Esgrima (J) tiene 18 partidos "
+            "contra los 19 de los demas y el unico club al que no enfrenta es "
+            "Ferro Carril Oeste, que es el local de esta fila. RSSSF publica el "
+            "mismo partido en su ronda 6: `Ferro Carril Oeste 2-2 Gimnasia y "
+            "Esgrima (J)`."),
+    ),
 )
 
 

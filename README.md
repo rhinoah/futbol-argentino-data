@@ -2751,7 +2751,7 @@ dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
 de parser recupera.
 
-## 1991-1996: la primera temporada, y el camino medido
+## 1991-1996: ocho temporadas que Wikipedia publica sin fechas
 
 La capa decía «los partidos están; lo que falta es la fecha»: 2 280 partidos que
 ya parseaban y 2 270 sin una sola fecha. Una fila sin fecha no se escribe, así que
@@ -2809,12 +2809,74 @@ partido que empezó un día y se completó después conserva la fecha del primer
 lo que hace `_SE_JUGO` al excluir `completó`/`reanudó`/`terminó`. Ahora se aplica
 igual con las palabras de la otra fuente.
 
-### Lo que falta, medido
+### Y después las otras siete, de una
 
-De las doce temporadas restantes: **ocho** están a una tabla chica de nombres
-—siempre `Dep.Mandiyú (Ctes.)` y uno o dos más—, **dos** (`arg97`) usan un formato
-alineado por espacios que el lector todavía no cubre, y **dos** tienen el rótulo o
-el ancla escritos distinto. Ninguna está bloqueada por falta de fuente.
+Medido el camino, repetirlo salió barato: `1 327` partidos más, **cero graves**, y
+la capa pasó de una temporada a ocho. Lo caro fue lo que apareció por el camino, que
+no era lo anotado.
+
+**El relevamiento anterior estaba mal contado, y el error fue mirar un proxy.** Decía
+«dos usan un formato alineado por espacios». Son cuatro: `arg96` alinea igual que
+`arg97` y además escribe el marcador con espacios (`2 - 0`). Peor: las cuentas de
+partidos por temporada las había sacado con una regex mía que pedía tabs, y con eso
+«faltaba» un partido en el Clausura 1994 y «sobraba» uno en el Apertura 1993. No
+faltaba ninguno: `_PARTIDO`, que es el regex del lector de verdad, usa `\s+` y los
+lee. **El veredicto tiene que salir del lector, no de un parecido al lector.**
+
+**La misma nota, escrita en dos lugares.** Un partido suspendido que sigue otro día
+lo dice en la cola del renglón —y el Apertura 1993 lo cuelga en el renglón de abajo,
+porque la cola ya la ocupa `[at Córdoba]`. `_anotacion` no servía: corta apenas la
+nota de la derecha cierra, con lo que nunca baja. Van por caminos distintos a
+propósito —aquella junta una nota partida en varias líneas, la nueva mira si hay
+*otra* nota abajo—. De las nueve notas colgadas de estos seis archivos, siete son
+listas de goleadores y una dice que un partido se falló: sólo una es continuación.
+
+**`[Abr 18]`.** Una vez en seis archivos, rodeada de meses en inglés, en una ronda
+cuyas otras fechas van del 7 al 10 de abril. Es un desliz de la fuente y no otro
+formato, así que va como alias y el resto de los meses desconocidos sigue explotando:
+una fecha ilegible tiene que doler.
+
+**El Apertura 1993 cruza el año y es el único.** Sus rondas 16 a 19 se jugaron en
+febrero y marzo del 94, y la fuente lo escribe: `[Feb 25, 1994 Fri]`. Sin el
+`anio_fin` esas cuarenta fechas salían un año corridas —y el chequeo que lo agarra
+ya estaba puesto, comparando contra `{temporada, anio_fin}`.
+
+### Los dos clubes que no existen
+
+Dos graves, y los dos eran el mismo error de Wikipedia: un club fantasma nacido de
+un nombre roto. El Clausura 1994 escribe `Deportivo Maniyú` —una letra de menos— y
+el Clausura 1995 escribe `Gimnasia J)` —el enlace partido al medio—. En los dos el
+partido queda a nombre de nadie mientras al club de verdad le falta uno.
+
+Lo que los resuelve no es el parecido de las cadenas sino **la estructura de la
+página**: un todos contra todos de veinte hace que cada club enfrente a cada otro
+exactamente una vez, así que el club al que le faltan partidos tiene un solo rival
+ausente, y ese rival es el de la fila rota. No hay otra fila posible. RSSSF lo
+corrobora por su lado con la misma jornada, la misma localía y el mismo marcador.
+
+### Los tres que se quedaron sin fecha
+
+De 1 330, tres. Son **dos clases distintas de desacuerdo**, y conviene no meterlas
+en la misma bolsa: la primera versión de este párrafo decía que las tres eran lo
+mismo y era falso —salió de suponer, no de mirar—.
+
+**Dos terminaron en un escritorio y no en la cancha**, que es donde dos fuentes
+honestas se separan sin contradecirse. `Racing 0-1 River`, Fecha 3 del Apertura 1991:
+RSSSF publica `0-0` y aclara al lado `[Suspended at 73' for the agression to River's
+goalkeeper]` `[River won the points (0-1)]`. O sea que dice *las dos cosas* —el
+marcador de la cancha y el del fallo— y nosotros leemos sólo la primera. `Vélez–Boca`
+de la Fecha 4 del Clausura 1993 es el mismo caso al revés: la página trae el `1-0`
+del fallo, RSSSF el `1-1` de la cancha, y la propia página cuelga una nota sobre el
+fallo que el parser tampoco supo leer.
+
+**El tercero no es un marcador sino una localía.** `Gimnasia (LP)–Boca`, Fecha 19 del
+Apertura 1993: las dos fuentes coinciden en la ronda y en el `1-1`, y difieren en
+quién jugó de local. Ahí no alcanza con mirar el resultado —hay que averiguar en qué
+cancha se jugó—, y hasta entonces no se fecha.
+
+En los tres el motivo de fondo es el mismo y es deliberado: `completar` usa el
+marcador para **verificar** y los equipos para **identificar**. Prefiere no fechar
+antes que elegir sin haber mirado.
 
 ## La última fecha, y por qué el crédito tiene que viajar por fila
 
@@ -3295,7 +3357,7 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1036 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1041 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a

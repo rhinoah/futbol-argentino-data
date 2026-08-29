@@ -1246,6 +1246,72 @@ def test_sin_la_nota_son_DOS_partidos_y_chocan():
     assert {a.fecha for a in aj} == {"1992-12-12", "1992-12-13"}
 
 
+def _nota_colgada(nota="[Suspended in 33'; continued Oct 17]"):
+    """La MISMA suspension, pero con la nota colgada en el renglon de abajo.
+
+    Es como lo escribe el Apertura 1993 y no como lo escribe el Clausura 1992: la
+    columna de la derecha del partido ya esta ocupada por la sede, asi que la nota
+    baja un renglon. La sede importa para el test -- con ella `_anotacion` cierra
+    la nota ahi mismo y nunca mira abajo, que es justo el caso que se rompia.
+    """
+    return ("Round 1@N@"
+            "[Oct 16]@N@"
+            "Aldosivi                     1-0 Banfield  [at Cordoba]@N@"
+            f"                                                    {nota}@N@"
+            "[Oct 17]@N@"
+            "Aldosivi                     1-0 Banfield  [at Cordoba]@N@").replace("@N@", "\n")
+
+
+def test_la_continuacion_vale_TAMBIEN_COLGADA_DEL_RENGLON_DE_ABAJO():
+    """La fuente escribe la misma nota en dos lugares distintos y las dos formas
+    tienen que valer. Sin esto el partido entra dos veces, choca consigo mismo en la
+    ronda y la regla de colision de `completar` se lleva los dos: era el unico
+    partido del Apertura 1993 que se quedaba sin fecha."""
+    aj, _ = rsssf.leer(_nota_colgada(), _MAPA_LIGA, 1993, 1994, 8)
+    assert len(aj) == 1, "un partido, no dos"
+    assert aj[0].fecha == "1993-10-16", "la fecha es la del PRIMER dia"
+
+
+def test_sin_la_nota_colgada_el_partido_entra_DOS_VECES():
+    """El contraste que le da sentido al de arriba: lo unico que distingue un
+    partido continuado de dos partidos repetidos es la nota."""
+    aj, _ = rsssf.leer(_nota_colgada(nota="[8' Palermo]"), _MAPA_LIGA, 1993, 1994, 8)
+    assert len(aj) == 2
+
+
+def test_una_nota_colgada_que_NO_es_continuacion_no_toca_nada():
+    """De las nueve notas colgadas de estos seis archivos, siete son listas de
+    goleadores y una dice que un partido se fallo. Ninguna tiene que cambiar como se
+    lee el partido de arriba."""
+    aj, _ = rsssf.leer(("Round 1@N@[Oct 16]@N@"
+                        "Aldosivi                     1-0 Banfield@N@"
+                        "     [River won the points (0-1)]@N@").replace("@N@", "\n"),
+                       _MAPA_LIGA, 1993, 1993, 8)
+    assert len(aj) == 1
+    assert (aj[0].goles_local, aj[0].goles_visita) == (1, 0)
+
+
+def test_el_mes_ESCRITO_EN_CASTELLANO_se_lee_igual():
+    """`Abr` aparece una sola vez en los seis archivos de Primera -- la ronda 7 del
+    Clausura 1995 --, rodeada de meses en ingles. Es un desliz de la fuente y no otro
+    formato, y por eso se resuelve con un alias."""
+    aj, _ = rsssf.leer(("Round 1@N@[Abr 18]@N@"
+                        "Aldosivi                     1-0 Banfield@N@").replace("@N@", "\n"),
+                       _MAPA_LIGA, 1995, 1995, 2)
+    assert [a.fecha for a in aj] == ["1995-04-18"]
+
+
+def test_un_mes_QUE_NO_EXISTE_no_se_saltea_en_silencio():
+    """El alias de arriba no es una puerta abierta: una fecha ilegible tiene que
+    doler. Si se saltearan, el partido entraria con la fecha del dia anterior, que es
+    afirmar algo que la fuente no dice."""
+    import pytest
+    with pytest.raises(KeyError):
+        rsssf.leer(("Round 1@N@[Xyz 18]@N@"
+                    "Aldosivi                     1-0 Banfield@N@").replace("@N@", "\n"),
+                   _MAPA_LIGA, 1995, 1995, 2)
+
+
 def test_la_tabla_QUE_DECLARA_SUS_COLUMNAS_se_lee_con_esas_columnas():
     """El formato que la fuente usa desde 2011-12 pone los goles a favor y en contra
     en COLUMNAS SEPARADAS (`42  23`) en vez de pegados con un guion (`42-23`), y lo
