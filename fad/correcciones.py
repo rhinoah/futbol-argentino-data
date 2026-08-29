@@ -1766,7 +1766,23 @@ MARCADORES: tuple[Marcador, ...] = (
             "cuenta a River 19 partidos con GF 33 y GC 21, y sumando la grilla con "
             "el 2-2 dan GC 23. Con el 0-2 dan 21, y los ganados-empatados-perdidos "
             "pasan de 9-4-6 a 10-3-6, que es justo lo que la tabla publica. Cierra "
-            "en las cuatro cifras a la vez."),
+            "en las cuatro cifras a la vez. "
+            "Y la hipotesis rival se probo y se cae: el walkover habitual de AFA es "
+            "1-0 -- es el que RSSSF le aplica al Velez-Boca de este mismo torneo -- "
+            "y daria River 32-21, no 33-21. "
+            "LA PRENSA LO DICE EN PROSA, no en una planilla, que es lo que despeja "
+            "el riesgo de que todas las bases desciendan de una sola: El Grafico, en "
+            "`Partidos suspendidos por inferioridad numerica en el futbol argentino` "
+            "(Silvio Maverino, 07/11/2022), escribe que `Posteriormente se le dio por "
+            "ganado el encuentro al Millonario por 2-0`; y Cadena 3, que es cordobes "
+            "y por lo tanto local al perjudicado, que `El Tribunal de Disciplinas de "
+            "la AFA dio por perdido (0-2) el partido a Talleres`. Las dos "
+            "contradicen la grilla de la pagina, asi que ninguna puede estar "
+            "copiandola. "
+            "El partido fue el 23/05/1993 en Cordoba, lo arbitro Javier Castrilli y "
+            "lo suspendio a los 27 del segundo tiempo despues de que un hincha "
+            "entrara a la cancha a empujarlo; en la cancha iba 2-2 con dos goles de "
+            "Kenig contra los de Medina Bello y Da Silva de penal."),
     ),
 
     # ------------------------------------------------------------------

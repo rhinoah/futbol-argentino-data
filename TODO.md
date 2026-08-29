@@ -66,7 +66,12 @@ que obligó a tocar el lector.
 - **La página del Clausura 1993 usa dos criterios distintos** para el mismo tipo de
   hecho: publica el marcador del fallo en el `Vélez–Boca` de la fecha 4 y el de la cancha
   en el `Talleres–River` de la fecha 16. El segundo quedó arbitrado por su propia tabla de
-  posiciones; los otros tres clubes que no cierran en esa página siguen abiertos.
+  posiciones y por prensa.
+- **Quedan `3` clubes que no cierran en esa página** —`Gimnasia y Esgrima (LP)`,
+  `Newell's Old Boys` y `Talleres (C)`— y hay una pista concreta: `zerozero.com.ar`
+  publica ese torneo con una grilla que **cierra con su propia tabla** en los tres.
+  Diffear las dos grillas partido por partido debería señalar cuáles filas de Wikipedia
+  están mal, sin necesidad de prensa.
 - **El `--rehacer` levanta una regresión de Wikipedia en el Apertura 2007**: 20 filas
   cambiaron de la Fecha 18 a la 19 y viceversa, y la versión nueva deja las fechas fuera
   de orden cronológico mientras la vieja va en orden. El `cerrado` la frena en la corrida
