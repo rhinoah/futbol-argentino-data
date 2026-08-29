@@ -249,7 +249,13 @@ def _anotacion(lineas: list[str], i: int, desde: int = 0) -> str:
     return " ".join(trozos).strip()
 
 
-_FALLADO = re.compile(r"awarded\s+(\d+)\s*-\s*(\d+)")
+# LA FUENTE ESCRIBE EL FALLO DE DOS MANERAS y las dos dicen lo mismo:
+#   `[awarded 0-1, ...]`                          -- 2 veces en los cableados
+#   `[River won the points (0-2)]`                -- 3 veces
+# Los numeros van SIEMPRE en el orden local-visitante del propio renglon, no en
+# el del club que nombra la nota: `Talleres 2-2 River [River won the points (0-2)]`
+# es Talleres 0, River 2.
+_FALLADO = re.compile(r"(?:awarded\s+|won the points\s*\()(\d+)\s*-\s*(\d+)")
 _ABANDONADO = re.compile(r"abandoned at\s+(\d+)\s*-\s*(\d+)")
 # El partido que se suspendio y sigue otro dia. La fuente lo dice en la cola del
 # renglon del PRIMER dia; el segundo renglon viene pelado, con el marcador final.
@@ -620,6 +626,27 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                 desconocidos.add(f"{zona}: {nombre}")
         if not cl or not cv:
             continue
+        # EL MARCADOR QUE VALE ES EL QUE HOMOLOGO EL TRIBUNAL, no el de la cancha.
+        # Cuando un partido termina en un escritorio la fuente publica LOS DOS -- el
+        # de la cancha en la columna del resultado y el del fallo en la nota -- y
+        # hasta ahora se leia solo el primero. Eso hacia que RSSSF pareciera
+        # contradecir a la pagina en partidos donde en realidad la confirma: son los
+        # dos casos que se arbitraron a mano en `correcciones.py` antes de que esto
+        # existiera.
+        #
+        # EL STATUS SIGUE LA PRECEDENCIA DE `_leer_anotacion`, que es la de
+        # `parser.status_de_la_fila`: NO LLEGAR AL FINAL MANDA SOBRE EL FALLO. Un
+        # partido suspendido a los 72' cuyo resultado despues puso un tribunal es
+        # `suspendido`, porque lo que la fuente dice sin ambiguedad es que no se
+        # jugaron los noventa. Uno que SI termino y despues cambio de manos es
+        # `escritorio`.
+        nota = _con_lo_colgado(lineas, idx)
+        fallo = _FALLADO.search(nota)
+        estado = ""
+        if fallo:
+            gl, gv = int(fallo.group(1)), int(fallo.group(2))
+            estado = ("suspendido" if re.search(r"(?i)suspend|abandon", nota)
+                      else "escritorio")
         dia = _fecha_iso(*fecha, anio, anio_fin, mes_inicio)
         # EL QUE SE SUSPENDIO Y SIGUIO OTRO DIA CONSERVA LA FECHA DEL PRIMERO, que es
         # la convencion que este repo ya usa del lado de Wikipedia -- ver `_SE_JUGO`.
@@ -634,7 +661,7 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         fuera.append(Ajeno(fecha=dia,
                            jornada=ronda, local=cl, visita=cv,
                            goles_local=gl, goles_visita=gv, llave=llave,
-                           zona=zona))
+                           zona=zona, status=estado))
     avisos = ([f"{len(desconocidos)} nombres de RSSSF que el mapa no traduce: "
                + "; ".join(sorted(desconocidos)[:6])] if desconocidos else [])
     avisos += raros + _los_que_se_pierden(caidos, fuera)

@@ -1279,16 +1279,43 @@ def test_sin_la_nota_colgada_el_partido_entra_DOS_VECES():
     assert len(aj) == 2
 
 
-def test_una_nota_colgada_que_NO_es_continuacion_no_toca_nada():
+def test_una_nota_colgada_de_GOLEADORES_no_toca_nada():
     """De las nueve notas colgadas de estos seis archivos, siete son listas de
-    goleadores y una dice que un partido se fallo. Ninguna tiene que cambiar como se
-    lee el partido de arriba."""
+    goleadores: no dicen nada sobre como termino el partido y no tienen que cambiar
+    como se lee el de arriba."""
     aj, _ = rsssf.leer(("Round 1@N@[Oct 16]@N@"
                         "Aldosivi                     1-0 Banfield@N@"
-                        "     [River won the points (0-1)]@N@").replace("@N@", "\n"),
+                        "     [8' and 88' Carrario]@N@").replace("@N@", "\n"),
                        _MAPA_LIGA, 1993, 1993, 8)
     assert len(aj) == 1
     assert (aj[0].goles_local, aj[0].goles_visita) == (1, 0)
+    assert aj[0].status == ""
+
+
+def test_la_nota_del_FALLO_manda_sobre_el_marcador_de_la_cancha():
+    """Un partido que termina en un escritorio tiene DOS marcadores y la fuente
+    publica los dos: el de la cancha en la columna del resultado y el del fallo en la
+    nota. El que vale es el segundo.
+
+    Y los numeros del fallo van en el orden LOCAL-VISITANTE DEL RENGLON, no en el del
+    club que la nota nombra: `Aldosivi 1-1 Banfield [Banfield won the points (0-2)]`
+    es Aldosivi 0, Banfield 2."""
+    aj, _ = rsssf.leer(("Round 1@N@[Oct 16]@N@"
+                        "Aldosivi                     1-1 Banfield  [Banfield won the points (0-2)]@N@"
+                        ).replace("@N@", "\n"), _MAPA_LIGA, 1993, 1993, 8)
+    assert (aj[0].goles_local, aj[0].goles_visita) == (0, 2)
+    assert aj[0].status == "escritorio", "termino y el numero lo puso un fallo"
+
+
+def test_el_fallo_COLGADO_del_renglon_de_abajo_tambien_manda():
+    """Asi lo escribe el Apertura 1991: la cola del renglon ya la ocupa el motivo de
+    la suspension, y el fallo cuelga debajo."""
+    aj, _ = rsssf.leer(("Round 1@N@[Oct 16]@N@"
+                        "Aldosivi                     0-0 Banfield  [Suspended at 73']@N@"
+                        "                    [Banfield won the points (0-1)]@N@"
+                        ).replace("@N@", "\n"), _MAPA_LIGA, 1993, 1993, 8)
+    assert (aj[0].goles_local, aj[0].goles_visita) == (0, 1)
+    assert aj[0].status == "suspendido", "NO LLEGAR AL FINAL MANDA SOBRE EL FALLO"
 
 
 def test_el_guion_del_marcador_puede_venir_SEPARADO():

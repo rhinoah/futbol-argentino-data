@@ -513,9 +513,14 @@ def test_la_rama_de_RSSSF_tambien_pasa_los_arbitrados(monkeypatch):
     ese caso como desacuerdo y no lo fecha.
 
     El mecanismo ya existia pero solo lo usaba la rama de worldfootball; la de RSSSF
-    llamaba a `completar` sin el, y los dos partidos de escritorio de la capa
-    1991-1996 se quedaban sin fecha aunque estuvieran escritos y justificados en
+    llamaba a `completar` sin el, y los partidos de escritorio de la capa 1991-1996 se
+    quedaban sin fecha aunque estuvieran escritos y justificados en
     `correcciones.MARCADORES`.
+
+    Dos de aquellos tres ya no necesitan arbitraje --el lector aprendio a leer la nota
+    del fallo y las fuentes coinciden solas--, pero el permiso sigue haciendo falta
+    para el que quedo: en el `Talleres (C) 2-2 River Plate` del Clausura 1993 la que
+    publica el marcador de la cancha es LA PAGINA y RSSSF el del fallo.
     """
     from fad import fechas, rsssf, torneos
     visto = {}
@@ -526,13 +531,13 @@ def test_la_rama_de_RSSSF_tambien_pasa_los_arbitrados(monkeypatch):
 
     monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: "")
     monkeypatch.setattr(fechas, "completar", espiar)
-    pagina = "Anexo:Torneo Apertura 1991 (Argentina)"
+    pagina = "Anexo:Torneo Clausura 1993 (Argentina)"
     t = [x for x in torneos.TODOS if x.pagina == pagina][0]
     build._completar_fechas_rsssf([], t)
 
     assert visto["arbitrados"] is not None, "se llamo a `completar` sin `arbitrados`"
-    assert ("Fecha 3", "Racing Club", "River Plate") in visto["arbitrados"], (
-        "el Racing-River del Apertura 1991 esta arbitrado y no llego a `completar`")
+    assert ("Fecha 16", "Talleres (C)", "River Plate") in visto["arbitrados"], (
+        "el Talleres-River del Clausura 1993 esta arbitrado y no llego a `completar`")
 
 
 def test_una_fecha_fuera_de_la_temporada_no_entra(monkeypatch):

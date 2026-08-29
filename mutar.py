@@ -1502,6 +1502,25 @@ MUTANTES = [
      "    puestas, mas = fechas.completar(ps, ajenos, arbitrados=correcciones.arbitrados(t.pagina),",
      "    puestas, mas = fechas.completar(ps, ajenos, arbitrados=None,"),
 
+    # LA NOTA DEL FALLO. Un partido que termina en un escritorio tiene dos
+    # marcadores y la fuente publica los dos: el de la cancha en la columna del
+    # resultado y el del tribunal en la nota. Leer solo el primero hacia que RSSSF
+    # pareciera contradecir a la pagina en partidos donde la confirma.
+    ("fad/rsssf.py", "no leer el fallo cuando el renglon ya trae marcador",
+     "        fallo = _FALLADO.search(nota)",
+     "        fallo = None"),
+
+    # La fuente lo escribe de dos maneras y las dos tienen que valer.
+    ("fad/rsssf.py", "olvidar la forma `won the points` del fallo",
+     'r"(?:awarded\s+|won the points\s*\()(\d+)\s*-\s*(\d+)"',
+     'r"(?:awarded\s+)(\d+)\s*-\s*(\d+)"'),
+
+    # No llegar al final manda sobre el fallo: un partido suspendido a los 72' cuyo
+    # resultado despues puso un tribunal es `suspendido`, no `escritorio`.
+    ("fad/rsssf.py", "dar por terminado un partido que se suspendio",
+     '            estado = ("suspendido" if re.search(r"(?i)suspend|abandon", nota)',
+     '            estado = ("escritorio" if re.search(r"(?i)suspend|abandon", nota)'),
+
     # `arg91` trae DOS torneos con los mismos veinte clubes. Sin recorte, el
     # Clausura 1991 se lleva tambien los 191 partidos del Apertura 1990.
     ("build.py", "leer el archivo entero en la rama sin grilla",

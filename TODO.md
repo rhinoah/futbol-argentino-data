@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 46 523 | 7 | 157 | 1045 | 458 |
+| 46 523 | 7 | 157 | 1047 | 461 |
 
 ## 2004–2026 — Cerrado
 
@@ -63,12 +63,14 @@ que obligó a tocar el lector.
   nueve de los diez cruces invierten prolijamente: el único que no es éste—. Lo que
   falta es el **día**: dos fuentes dicen sábado 19/03/1994 y RSSSF dice viernes 18, y la
   jornada se jugó partida entre los dos.
-- **El lector no lee `won the points (N-M)`**, que es como RSSSF escribe el marcador que
-  homologó un tribunal al lado del de la cancha. Son `5` apariciones en los archivos
-  cableados. Leerla cerraría estos casos sin arbitraje a mano — pero **destaparía uno**:
-  el `Talleres (C) 2-2 River Plate` de la Fecha 16 del Clausura 1993, donde la página
-  publica el marcador de la cancha y RSSSF dice `River won the points (0-2)`. La misma
-  página usa el criterio del fallo en un partido y el de la cancha en el otro.
+- **La página del Clausura 1993 usa dos criterios distintos** para el mismo tipo de
+  hecho: publica el marcador del fallo en el `Vélez–Boca` de la fecha 4 y el de la cancha
+  en el `Talleres–River` de la fecha 16. El segundo quedó arbitrado por su propia tabla de
+  posiciones; los otros tres clubes que no cierran en esa página siguen abiertos.
+- **El `--rehacer` levanta una regresión de Wikipedia en el Apertura 2007**: 20 filas
+  cambiaron de la Fecha 18 a la 19 y viceversa, y la versión nueva deja las fechas fuera
+  de orden cronológico mientras la vieja va en orden. El `cerrado` la frena en la corrida
+  diaria; sólo aparece al reparsear todo.
 - **El `Clausura 1991` entró**, y es el primero del repo que lo hace **sin grilla de
   Wikipedia**: sus 190 partidos son los de RSSSF. La tabla que Wikipedia sí publica los
   verifica en **19 de 20 clubes**; el vigésimo desvía porque esa tabla no cierra consigo

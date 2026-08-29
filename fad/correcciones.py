@@ -1728,53 +1728,45 @@ MARCADORES: tuple[Marcador, ...] = (
                "2011-02-28T00:11:29Z"),
 
     # ------------------------------------------------------------------
-    # DOS PARTIDOS QUE TERMINARON EN UN ESCRITORIO, y donde las dos fuentes tienen
-    # razon sobre cosas distintas: RSSSF publica el marcador DE LA CANCHA y la
-    # pagina el que homologo el tribunal. No es un desacuerdo, es que cada una
-    # contesta una pregunta distinta -- y por eso los dos van con `debe` == `dice`:
-    # la pagina ya tenia razon y lo unico que se toma de RSSSF es LA FECHA.
+    # EL QUE DESTAPO LEER LA NOTA DEL FALLO. Aca estaban escritos a mano los dos
+    # partidos de escritorio del Apertura 1991 y el Clausura 1993: RSSSF publicaba
+    # el marcador de la cancha, la pagina el que homologo el tribunal, y el lector
+    # leia solo el primero, con lo que las dos fuentes parecian pelearse. AHORA EL
+    # LECTOR LEE LA NOTA -- ver `_FALLADO` en `fad/rsssf.py` --, los dos coinciden
+    # solos y esos dos arbitrajes se borraron: una correccion que ya no corrige
+    # nada es peso muerto. La evidencia de prensa de los dos quedo en el README.
     #
-    # RSSSF lo escribe: en los dos casos cuelga la nota `won the points (N-M)` al
-    # lado del marcador. El lector todavia no la lee, y por eso estos dos partidos
-    # llegaban a `completar` como un desacuerdo y se quedaban sin fecha.
+    # Leer la nota destapo este, que estaba tapado al reves: aca la que publica el
+    # marcador de la cancha es LA PAGINA, y RSSSF el del fallo. La misma pagina usa
+    # un criterio en un partido y el otro en otro.
+    #
+    # LO ZANJA SU PROPIA TABLA DE POSICIONES, a digito. River Plate:
+    #
+    #     la tabla publica          19 PJ, GF 33, GC 21
+    #     la grilla, con el 2-2     19 PJ, GF 33, GC 23
+    #     la grilla, con el 0-2     19 PJ, GF 33, GC 21   <- cierra
+    #
+    # y en ganados-empatados-perdidos pasa de 9-4-6 a 10-3-6, que es exactamente lo
+    # que la tabla le cuenta. Talleres no cierra de ninguna de las dos formas, pero
+    # eso no debilita la prueba: esa pagina tiene mas errores del lado de Talleres
+    # y el build los denuncia aparte.
     # ------------------------------------------------------------------
     Marcador(
-        pagina="Anexo:Torneo Apertura 1991 (Argentina)",
-        jornada="Fecha 3", local="Racing Club", visita="River Plate",
-        dice=(0, 1), debe=(0, 1),
-        porque=(
-            "En la cancha iba 0-0 y el partido no llego al final: Francisco "
-            "Lamolina lo suspendio a los 73' del domingo 15/09/1991 en Avellaneda, "
-            "despues de que un proyectil tirado desde la tribuna golpeara al "
-            "arquero de River, Angel Comizzo. El Tribunal de Disciplina de la AFA "
-            "se lo dio ganado a River. RSSSF publica las dos cosas en la misma "
-            "linea -- `Racing Club 0-0 River Plate [Suspended at 73' for the "
-            "agression to River's goalkeeper] [River won the points (0-1)]` --, "
-            "asi que la fuente que parecia contradecir a la pagina en realidad la "
-            "confirma. La cuentan igual El Grafico, Infobae y El Litoral de Santa "
-            "Fe, y hay una huella aritmetica: la tabla de goles por fecha de El "
-            "Grafico le asigna a esta fecha 3 goles de visitante y en la cancha se "
-            "hicieron 2 -- el tercero es este, el del escritorio. El minuto queda "
-            "entre 73' y 74' segun la fuente; no cambia nada."),
-    ),
-    Marcador(
         pagina="Anexo:Torneo Clausura 1993 (Argentina)",
-        jornada="Fecha 4", local="Vélez Sarsfield", visita="Boca Juniors",
-        dice=(1, 0), debe=(1, 0),
+        jornada="Fecha 16", local="Talleres (C)", visita="River Plate",
+        dice=(2, 2), debe=(0, 2),
         porque=(
-            "Termino 1-1 en Liniers el domingo 07/03/1993 -- penal de Roberto "
-            "Trotta para Velez y gol de Alberto Acosta para Boca --, y despues el "
-            "Tribunal de Disciplina se lo dio por perdido a Boca porque su "
-            "defensor Alejandro Giuntini no se presento al control antidoping. LA "
-            "PROPIA PAGINA LO EXPLICA en una nota al pie: `Originalmente el "
-            "partido finalizo 1-1. Sin embargo, se dio por perdido el partido a "
-            "Boca Juniors por no presentarse un jugador al control antidoping`. Y "
-            "RSSSF publica los dos numeros en la misma linea: `Velez Sarsfield "
-            "1-1 Boca Juniors [Later Velez Sarsfield won the points (1-0)]`. El "
-            "sitio oficial de Velez lista el homologado, `07/03/1993 Velez "
-            "Sarsfield 1-0 Boca Juniors`. Hay seis medios que en 2016, al morir "
-            "Giuntini, escribieron `2-0`, pero es un solo texto de agencia "
-            "replicado y contradice la tabla de la propia pagina."),
+            "Iba 2-2 cuando se suspendio a los 72' y despues el tribunal le dio los "
+            "puntos a River. RSSSF lo publica entero en una linea: `Talleres (Cba.) "
+            "2-2 River Plate [at Cordoba][Suspended in 72'; River won the points "
+            "(0-2)]`. La grilla de la pagina se queda con el 2-2 de la cancha -- y "
+            "es inconsistente consigo misma, porque en el Velez-Boca de la fecha 4 "
+            "de este mismo torneo publica el marcador del fallo y no el de la "
+            "cancha. Quien decide es la tabla de posiciones de la propia pagina: le "
+            "cuenta a River 19 partidos con GF 33 y GC 21, y sumando la grilla con "
+            "el 2-2 dan GC 23. Con el 0-2 dan 21, y los ganados-empatados-perdidos "
+            "pasan de 9-4-6 a 10-3-6, que es justo lo que la tabla publica. Cierra "
+            "en las cuatro cifras a la vez."),
     ),
 
     # ------------------------------------------------------------------

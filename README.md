@@ -2887,6 +2887,46 @@ exactamente una vez, así que el club al que le faltan partidos tiene un solo ri
 ausente, y ese rival es el de la fila rota. No hay otra fila posible. RSSSF lo
 corrobora por su lado con la misma jornada, la misma localía y el mismo marcador.
 
+### La nota que decia quien se quedo con los puntos
+
+Un partido que termina en un escritorio tiene **dos marcadores ciertos** —el de la
+cancha y el que homologa el tribunal— y RSSSF publica los dos: el primero en la columna
+del resultado y el segundo en la nota, `[River won the points (0-2)]`. El lector leía
+sólo el primero, así que en esos partidos **parecía contradecir a la página cuando en
+realidad la confirma**.
+
+No hizo falta un mecanismo nuevo: ya existía `_FALLADO`, que leía la otra forma de
+decirlo (`[awarded 0-1, originally 0-0]`). Aprendió la segunda redacción y se lo aplicó
+también a los renglones que traen marcador —antes sólo corría sobre los que no lo
+traen—. El status sale de la precedencia que ya estaba escrita: **no llegar al final
+manda sobre el fallo**, así que un partido suspendido a los 72' cuyo resultado después
+puso un tribunal queda `suspendido`, y uno que sí terminó queda `escritorio`.
+
+**Dos arbitrajes escritos a mano se borraron.** El `Racing–River` del Apertura 1991 y el
+`Vélez–Boca` del Clausura 1993 estaban resueltos a mano en `correcciones.py` porque las
+fuentes parecían pelearse. Ahora coinciden solas y esas dos correcciones no corregían
+nada: peso muerto.
+
+**Y destapó uno, al revés.** En el `Talleres (C) 2-2 River Plate` de la Fecha 16 del
+Clausura 1993, la que publica el marcador de la cancha es **la página**, y RSSSF el del
+fallo. O sea que la misma página usa un criterio en un partido y el otro en otro.
+
+Lo zanja su propia tabla de posiciones, y a dígito:
+
+| River Plate | PJ | GF | GC | G-E-P |
+|---|---|---|---|---|
+| lo que publica su tabla | 19 | 33 | **21** | **10-3-6** |
+| su grilla, con el `2-2` | 19 | 33 | 23 | 9-4-6 |
+| su grilla, con el `0-2` | 19 | 33 | **21** | **10-3-6** |
+
+Cierra en las cuatro cifras a la vez. Aplicado, River **desaparece de la lista de clubes
+que no cierran** en esa página: eran cuatro y quedaron tres.
+
+**Una fila ganó un dato de arrastre.** El `Ben Hur 0-1 9 de Julio` del Argentino A
+2008-09 —que RSSSF anota `[awarded 0-1, originally 0-0]`— ahora entra con `escritorio`.
+Ese torneo viene sin grilla, así que el status de RSSSF llega al dataset; antes se
+perdía en el camino.
+
 ### El Clausura 1991: el primero que entra sin grilla de Wikipedia
 
 La capa cerró con el torneo que el `TODO.md` describía como «un stub de 83 bytes que
@@ -3499,11 +3539,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1045 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1047 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 458 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 461 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
