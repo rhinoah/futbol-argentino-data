@@ -1307,6 +1307,22 @@ def test_la_nota_del_FALLO_manda_sobre_el_marcador_de_la_cancha():
     assert aj[0].status == "escritorio", "termino y el numero lo puso un fallo"
 
 
+def test_el_fallo_escrito_como_PERDER_los_puntos_manda_igual():
+    """La fuente lo dice de tres maneras -- `awarded`, `X won the points` y `X lost
+    the points` -- y las tres significan lo mismo. La tercera aparece dos veces, en
+    los dos partidos que Talleres gano en la cancha y perdio en el escritorio en el
+    Clausura 1993; sin leerla, tres clubes de esa pagina dejan de cerrar contra su
+    propia tabla de posiciones.
+
+    Y el marcador va en el orden del RENGLON aunque la nota nombre al perdedor:
+    `Aldosivi 0-1 Banfield [Later Banfield lost the points (1-0)]` es Aldosivi 1."""
+    aj, _ = rsssf.leer(("Round 1@N@[Oct 16]@N@"
+                        "Aldosivi                     0-1 Banfield  [Later Banfield lost the points (1-0)]@N@"
+                        ).replace("@N@", "\n"), _MAPA_LIGA, 1993, 1993, 8)
+    assert (aj[0].goles_local, aj[0].goles_visita) == (1, 0)
+    assert aj[0].status == "escritorio"
+
+
 def test_el_fallo_COLGADO_del_renglon_de_abajo_tambien_manda():
     """Asi lo escribe el Apertura 1991: la cola del renglon ya la ocupa el motivo de
     la suspension, y el fallo cuelga debajo."""

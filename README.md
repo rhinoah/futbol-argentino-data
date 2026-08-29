@@ -2927,6 +2927,56 @@ que no cierran** en esa página: eran cuatro y quedaron tres.
 Ese torneo viene sin grilla, así que el status de RSSSF llega al dataset; antes se
 perdía en el camino.
 
+### Deducir un marcador antes de encontrar la fuente que lo dice
+
+La página del Clausura 1993 dejaba tres clubes sin cerrar contra su propia tabla:
+
+| | la tabla publica | su grilla suma |
+|---|---|---|
+| `Gimnasia y Esgrima (LP)` | GF 14, GC 15 | GF 13, GC 16 |
+| `Newell's Old Boys` | GF 13, GC 19 | GF 12, GC 20 |
+| `Talleres (C)` | GF 13, GC 31 | GF 15, GC 29 |
+
+Los otros diecisiete cerraban, y **eso acota el problema hasta resolverlo**: si la
+corrección tiene que dejar intactos a diecisiete, sólo puede caer en partidos **entre
+los tres desviados**. En un todos contra todos hay exactamente tres cruces posibles, y
+el sistema de seis ecuaciones tiene solución única mínima: el `Gimnasia–Talleres` con un
+gol más de Gimnasia y uno menos de Talleres, y el `Newell's–Talleres` igual. Es decir,
+**dos victorias de Talleres que pasan a derrotas por 1-0** — que es, casualmente, el
+walkover habitual de la AFA.
+
+Recién después se miró la fuente. RSSSF dice, en esas dos líneas exactas:
+
+```
+Newell's Old Boys  0-1  Talleres (Cba.)          [Later Talleres lost the points (1-0)]
+Talleres (Cba.)    1-0  Gimnasia y Esgrima (LP)  [Later Talleres lost the points (0-1)]
+```
+
+**El mismo par de partidos y el mismo par de marcadores**, por dos caminos que no se
+tocan: la aritmética de la tabla de Wikipedia y el texto de RSSSF. Aplicados los dos,
+cierran **los veinte clubes** en las seis cifras, y los avisos de esa página pasaron de
+ocho a uno.
+
+El contexto lo explica y ya lo había traído la búsqueda anterior: venían del escándalo
+de la fecha 16, Talleres tenía un amparo de la justicia cordobesa y siguió poniendo a los
+jugadores que la AFA le había suspendido.
+
+**Y el lector no lo leía por una palabra.** `_FALLADO` conocía `awarded` y
+`won the points`; esto se escribe `lost the points`. Una alternación más en el regex.
+
+### Un flag inventado hace pasar cualquier cosa
+
+Los mutantes nuevos se verificaron con `pytest -x --timeout=60`, y este proyecto no tiene
+`pytest-timeout` instalado. Pytest devuelve **error de uso** —exit 4— y el script que
+miraba «¿devolvió distinto de cero?» leyó ocho «el mutante muere» seguidos sin haber
+corrido un solo test.
+
+Lo destapó que uno de esos mutantes, al verificarlo bien, **sobrevivía**: faltaba el test
+de `lost the points`. Es la misma familia que el `cmd | head -N` que devuelve el status de
+`head`: el veredicto salía de algo que no estaba juzgando. La forma correcta es mirar las
+líneas `FAILED` y exigir que el test que mata al mutante sea el que uno espera — así se ve
+además si murió por accidente.
+
 ### El Clausura 1991: el primero que entra sin grilla de Wikipedia
 
 La capa cerró con el torneo que el `TODO.md` describía como «un stub de 83 bytes que
@@ -3539,11 +3589,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1047 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1048 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 461 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 462 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 46 523 | 7 | 157 | 1047 | 461 |
+| 46 523 | 7 | 157 | 1048 | 462 |
 
 ## 2004–2026 — Cerrado
 
@@ -67,11 +67,14 @@ que obligó a tocar el lector.
   hecho: publica el marcador del fallo en el `Vélez–Boca` de la fecha 4 y el de la cancha
   en el `Talleres–River` de la fecha 16. El segundo quedó arbitrado por su propia tabla de
   posiciones y por prensa.
-- **Quedan `3` clubes que no cierran en esa página** —`Gimnasia y Esgrima (LP)`,
-  `Newell's Old Boys` y `Talleres (C)`— y hay una pista concreta: `zerozero.com.ar`
-  publica ese torneo con una grilla que **cierra con su propia tabla** en los tres.
-  Diffear las dos grillas partido por partido debería señalar cuáles filas de Wikipedia
-  están mal, sin necesidad de prensa.
+- **Los `3` clubes que no cerraban ya cierran**, y los `20` de esa página con ellos.
+  Eran dos partidos que Talleres ganó en la cancha y perdió en el escritorio; la
+  aritmética de la tabla dijo cuáles y con qué marcador **antes** de mirar la fuente, y
+  RSSSF resultó decir exactamente eso. No hizo falta zerozero.
+- **Falta el `status` de los partidos de escritorio que vienen de Wikipedia.** El
+  `Vélez–Boca` de la fecha 4 y los dos de Talleres quedan con `status` vacío —que
+  significa «la página no dijo nada»— cuando la página sí lo dice, en un `<ref>`.
+  `parser.status_de_la_fila` mira la fila y no las referencias.
 - **El `--rehacer` levanta una regresión de Wikipedia en el Apertura 2007**: 20 filas
   cambiaron de la Fecha 18 a la 19 y viceversa, y la versión nueva deja las fechas fuera
   de orden cronológico mientras la vieja va en orden. El `cerrado` la frena en la corrida

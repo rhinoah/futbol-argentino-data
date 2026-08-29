@@ -1786,6 +1786,65 @@ MARCADORES: tuple[Marcador, ...] = (
     ),
 
     # ------------------------------------------------------------------
+    # LOS DOS QUE TALLERES GANO EN LA CANCHA Y PERDIO EN EL ESCRITORIO, y la unica
+    # vez en este repo que un marcador se dedujo ANTES de encontrar la fuente que lo
+    # dice.
+    #
+    # La pagina dejaba tres clubes sin cerrar contra su propia tabla:
+    #
+    #     Gimnasia (LP)   la tabla GF14 GC15   la grilla GF13 GC16
+    #     Newell's        la tabla GF13 GC19   la grilla GF12 GC20
+    #     Talleres (C)    la tabla GF13 GC31   la grilla GF15 GC29
+    #
+    # Los otros diecisiete cerraban, asi que la correccion tenia que caer SOLO sobre
+    # estos tres -- es decir, en partidos ENTRE ellos. En un todos contra todos hay
+    # exactamente tres cruces posibles, y el sistema tiene solucion unica minima: el
+    # `Gimnasia-Talleres` con un gol mas de Gimnasia y uno menos de Talleres, y el
+    # `Newell's-Talleres` igual. O sea, dos victorias de Talleres que pasan a
+    # derrotas por 1-0, que es el walkover habitual de AFA.
+    #
+    # RECIEN DESPUES se miro la fuente, y dice exactamente eso en esas dos lineas:
+    # `[Later Talleres lost the points (1-0)]` y `[Later Talleres lost the points
+    # (0-1)]`. Dos metodos independientes -- la aritmetica de la tabla de Wikipedia y
+    # el texto de RSSSF -- dan el mismo par de partidos y el mismo par de marcadores.
+    # Con los dos aplicados cierran LOS VEINTE clubes en las seis cifras.
+    #
+    # El contexto lo explica: venian del escandalo de la fecha 16, Talleres tenia un
+    # amparo de la justicia cordobesa y siguio poniendo a los jugadores que la AFA le
+    # habia suspendido.
+    # ------------------------------------------------------------------
+    Marcador(
+        pagina="Anexo:Torneo Clausura 1993 (Argentina)",
+        jornada="Fecha 17", local="Newell's Old Boys", visita="Talleres (C)",
+        dice=(0, 1), debe=(1, 0),
+        porque=(
+            "Talleres lo gano 1-0 en la cancha y despues perdio los puntos. RSSSF lo "
+            "publica en la misma linea: `Newell's Old Boys 0-1 Talleres (Cba.) "
+            "[Later Talleres lost the points (1-0)]`. Y la tabla de posiciones de la "
+            "propia pagina lo pedia antes de mirar esa nota: con la grilla como esta, "
+            "Newell's suma GF12 GC20 y la tabla publica GF13 GC19; con este 1-0 suma "
+            "exactamente lo publicado, y sus ganados-empatados-perdidos pasan de "
+            "3-7-9 a 4-7-8, que es lo que la tabla dice. Junto con el de la Fecha 18 "
+            "hacen cerrar a los VEINTE clubes; sueltos, no cierra ninguno de los tres "
+            "desviados."),
+    ),
+    Marcador(
+        pagina="Anexo:Torneo Clausura 1993 (Argentina)",
+        jornada="Fecha 18", local="Talleres (C)", visita="Gimnasia y Esgrima (LP)",
+        dice=(1, 0), debe=(0, 1),
+        porque=(
+            "El gemelo del anterior, una fecha despues y con Talleres de local en "
+            "Cordoba. RSSSF: `Talleres (Cba.) 1-0 Gimnasia y Esgrima (LP) [at "
+            "Cordoba][Later Talleres lost the points (0-1)]`. La tabla de posiciones "
+            "de la pagina tambien lo pedia sola: Gimnasia y Esgrima (LP) suma GF13 "
+            "GC16 con la grilla como esta y la tabla publica GF14 GC15; con este 0-1 "
+            "cierra, y pasa de 4-9-6 a 5-9-5, que es lo publicado. Talleres, que era "
+            "el mas desviado, pasa de 4-7-8 a 2-7-10 y de GF15 GC29 a GF13 GC31: "
+            "cierra en las seis cifras con los dos arbitrajes puestos y con ninguno "
+            "de los dos suelto."),
+    ),
+
+    # ------------------------------------------------------------------
     # EL UNICO DEL CLAUSURA 1991, y el primero donde la fuente se contradice A SI
     # MISMA en vez de contradecir a otra. Ese torneo no tiene grilla en Wikipedia:
     # los 190 partidos vienen de RSSSF, asi que aca `dice` es lo que dice RSSSF.

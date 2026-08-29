@@ -1511,9 +1511,15 @@ MUTANTES = [
      "        fallo = None"),
 
     # La fuente lo escribe de dos maneras y las dos tienen que valer.
-    ("fad/rsssf.py", "olvidar la forma `won the points` del fallo",
-     'r"(?:awarded\s+|won the points\s*\()(\d+)\s*-\s*(\d+)"',
+    ("fad/rsssf.py", "olvidar las formas `won`/`lost the points` del fallo",
+     'r"(?:awarded\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)"',
      'r"(?:awarded\s+)(\d+)\s*-\s*(\d+)"'),
+
+    # `lost` sola: sin ella se pierden los dos partidos que Talleres gano en la
+    # cancha y perdio en el escritorio, y tres clubes dejan de cerrar con la tabla.
+    ("fad/rsssf.py", "olvidar la forma `lost the points` del fallo",
+     'r"(?:awarded\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)"',
+     'r"(?:awarded\s+|won the points\s*\()(\d+)\s*-\s*(\d+)"'),
 
     # No llegar al final manda sobre el fallo: un partido suspendido a los 72' cuyo
     # resultado despues puso un tribunal es `suspendido`, no `escritorio`.

@@ -249,13 +249,18 @@ def _anotacion(lineas: list[str], i: int, desde: int = 0) -> str:
     return " ".join(trozos).strip()
 
 
-# LA FUENTE ESCRIBE EL FALLO DE DOS MANERAS y las dos dicen lo mismo:
+# LA FUENTE ESCRIBE EL FALLO DE TRES MANERAS y las tres dicen lo mismo:
 #   `[awarded 0-1, ...]`                          -- 2 veces en los cableados
 #   `[River won the points (0-2)]`                -- 3 veces
+#   `[Later Talleres lost the points (1-0)]`      -- 2 veces
+#
+# La tercera se encontro AL REVES que las otras dos: primero la aritmetica de la
+# tabla del Clausura 1993 dijo que dos partidos tenian que cambiar y cuales, y
+# recien despues aparecio que la fuente ya lo decia en esos dos renglones.
 # Los numeros van SIEMPRE en el orden local-visitante del propio renglon, no en
 # el del club que nombra la nota: `Talleres 2-2 River [River won the points (0-2)]`
 # es Talleres 0, River 2.
-_FALLADO = re.compile(r"(?:awarded\s+|won the points\s*\()(\d+)\s*-\s*(\d+)")
+_FALLADO = re.compile(r"(?:awarded\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)")
 _ABANDONADO = re.compile(r"abandoned at\s+(\d+)\s*-\s*(\d+)")
 # El partido que se suspendio y sigue otro dia. La fuente lo dice en la cola del
 # renglon del PRIMER dia; el segundo renglon viene pelado, con el marcador final.
