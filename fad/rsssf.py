@@ -260,6 +260,9 @@ def _anotacion(lineas: list[str], i: int, desde: int = 0) -> str:
 # Los numeros van SIEMPRE en el orden local-visitante del propio renglon, no en
 # el del club que nombra la nota: `Talleres 2-2 River [River won the points (0-2)]`
 # es Talleres 0, River 2.
+# No llego al final. Mismo eje y mismas palabras que `parser.status_de_la_fila`
+# del lado de Wikipedia, en el idioma de esta fuente.
+_NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspend|abandon")
 _FALLADO = re.compile(r"(?:awarded\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)")
 _ABANDONADO = re.compile(r"abandoned at\s+(\d+)\s*-\s*(\d+)")
 # El partido que se suspendio y sigue otro dia. La fuente lo dice en la cola del
@@ -647,11 +650,21 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         # `escritorio`.
         nota = _con_lo_colgado(lineas, idx)
         fallo = _FALLADO.search(nota)
-        estado = ""
         if fallo:
             gl, gv = int(fallo.group(1)), int(fallo.group(2))
-            estado = ("suspendido" if re.search(r"(?i)suspend|abandon", nota)
-                      else "escritorio")
+        # QUE NO LLEGO AL FINAL SE DICE IGUAL, aunque nadie se llevara los puntos.
+        # Son siete filas de los torneos SIN GRILLA -- los unicos donde este status
+        # llega al dataset, porque en los demas la fila la pone Wikipedia y el status
+        # sale de `parser.status_de_la_fila` -- y la fuente lo dice sin ambiguedad:
+        # `[Suspended in 46'; not continued]`. Tirarlo era perder informacion que la
+        # fuente da, y dejar la fila diciendo "nadie dijo lo contrario" cuando si lo
+        # dijeron.
+        #
+        # El renglon que abre un partido continuado no llega hasta aca: lo saltea
+        # `_CONTINUA` unas lineas mas abajo, y el que entra es el segundo, que no trae
+        # nota. Eso tambien esta bien: ese partido SI llego al final, en dos dias.
+        estado = ("suspendido" if _NO_LLEGO_AL_FINAL.search(nota)
+                  else "escritorio" if fallo else "")
         dia = _fecha_iso(*fecha, anio, anio_fin, mes_inicio)
         # EL QUE SE SUSPENDIO Y SIGUIO OTRO DIA CONSERVA LA FECHA DEL PRIMERO, que es
         # la convencion que este repo ya usa del lado de Wikipedia -- ver `_SE_JUGO`.

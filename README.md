@@ -2927,6 +2927,36 @@ que no cierran** en esa página: eran cuatro y quedaron tres.
 Ese torneo viene sin grilla, así que el status de RSSSF llega al dataset; antes se
 perdía en el camino.
 
+### El `status` de los partidos que no terminaron en la cancha
+
+Dos agujeros distintos en la misma columna, los dos encontrados por el mismo aviso —el
+que dice «la página habló de un fallo y no se supo qué»—, que existe justamente para que
+el vacío no se vuelva una afirmación inventada.
+
+**Una palabra separaba al detector del clasificador.** `_HABLA_DE_FALLO` acepta
+`dio por (ganado|perdido)` sin el `le`, y `_HUBO_FALLO` lo exigía. Una fila en todo el
+dataset caía en esa grieta: el `Vélez 1-0 Boca` del Clausura 1993, cuya nota dice
+«Originalmente el partido **finalizó** 1-1. Sin embargo, se dio por perdido el partido a
+Boca Juniors por no presentarse un jugador al control antidoping». Llegó al final, así que
+es `escritorio`. Las otras tres filas del dataset que dicen `dio por ganado/perdido` sin
+`le` no cambian, y no por suerte: las tres mencionan una suspensión, así que la
+precedencia —**no llegar al final manda sobre el fallo**— las agarra antes.
+
+**Y del lado de RSSSF se tiraba la suspensión cuando no había fallo.** El lector recién
+aprendió a leer quién se quedó con los puntos, pero una nota como
+`[Suspended in 46'; not continued]` no dice eso y sí dice lo otro: que el partido no
+llegó al final, que es el eje entero de la columna. Son seis filas, todas de torneos **sin
+grilla** —los únicos donde este status llega al dataset, porque en los demás la fila la
+pone Wikipedia—.
+
+En total la columna pasó de `76`/`8` a `82` suspendidos y `9` de escritorio.
+
+**Un séptimo candidato que no era.** El conteo previo decía siete filas y entraron seis.
+La que falta —un `Racing 0-1 Dvo Santamarina` abandonado— está en una sección de
+playoffs, donde el lector **se niega a propósito** a emparejar: ahí un nombre corto ya no
+identifica a un club porque se mezclan las zonas. El conteo había mirado renglones y no
+filas, que es el mismo error de medir con un proxy.
+
 ### Deducir un marcador antes de encontrar la fuente que lo dice
 
 La página del Clausura 1993 dejaba tres clubes sin cerrar contra su propia tabla:
@@ -3589,11 +3619,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1048 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1051 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 462 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 464 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

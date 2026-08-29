@@ -1307,6 +1307,19 @@ def test_la_nota_del_FALLO_manda_sobre_el_marcador_de_la_cancha():
     assert aj[0].status == "escritorio", "termino y el numero lo puso un fallo"
 
 
+def test_un_partido_que_no_llego_al_final_lo_dice_aunque_nadie_gane_los_puntos():
+    """`[Suspended in 46'; not continued]` no dice quien se quedo con los puntos, pero
+    si dice que el partido no llego al final -- que es el eje de esta columna. Son
+    siete filas de los torneos sin grilla, los unicos donde este status llega al
+    dataset; callarlas dejaba la fila diciendo `nadie dijo lo contrario` cuando la
+    fuente si lo habia dicho."""
+    aj, _ = rsssf.leer(("Round 1@N@[Oct 16]@N@"
+                        "Aldosivi                     0-0 Banfield  [Suspended in 46'; not continued]@N@"
+                        ).replace("@N@", "\n"), _MAPA_LIGA, 1993, 1993, 8)
+    assert (aj[0].goles_local, aj[0].goles_visita) == (0, 0), "el marcador no se toca"
+    assert aj[0].status == "suspendido"
+
+
 def test_el_fallo_escrito_como_PERDER_los_puntos_manda_igual():
     """La fuente lo dice de tres maneras -- `awarded`, `X won the points` y `X lost
     the points` -- y las tres significan lo mismo. La tercera aparece dos veces, en

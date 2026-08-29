@@ -2264,3 +2264,29 @@ def test_un_titulo_que_no_es_una_ronda_no_entra():
     """El testigo: si el vocabulario se abriera de mas, cualquier seccion pasaria
     a ser una ronda y el cuadro se llenaria de rondas inventadas."""
     assert _rondas("== Entrenadores ==\n== Goleadores ==\n== Equipos participantes ==") == []
+
+def test_el_fallo_se_lee_con_el_le_y_SIN_el_le():
+    """`se le dio por perdido` y `se dio por perdido` son la misma cosa, y el segundo
+    no se leia: `_HABLA_DE_FALLO` lo detectaba y `_HUBO_FALLO` no lo clasificaba, asi
+    que la fila caia en `sin_clasificar` -- que es el aviso de "la pagina dijo algo y
+    no se supo que", el unico caso en que el vacio seria una afirmacion inventada.
+
+    Es una sola fila en el dataset: el Velez-Boca del Clausura 1993, que la pagina
+    anota `Originalmente el partido finalizo 1-1. Sin embargo, se dio por perdido el
+    partido a Boca Juniors por no presentarse un jugador al control antidoping`.
+    Llego al final, asi que es `escritorio` y no `suspendido`."""
+    con_le = "|1 - 0 se le dio por perdido el partido a Boca Juniors"
+    sin_le = "|1 - 0 se dio por perdido el partido a Boca Juniors"
+    assert parser.status_de_la_fila(con_le) == "escritorio"
+    assert parser.status_de_la_fila(sin_le) == "escritorio"
+    assert not parser.sin_clasificar(sin_le), "la pagina dijo algo y se supo que"
+
+
+def test_una_suspension_le_gana_al_fallo_aunque_el_fallo_se_lea():
+    """El contraste que sostiene al de arriba. Las otras tres filas del dataset que
+    dicen `dio por ganado/perdido` sin `le` mencionan ademas una suspension, y tienen
+    que seguir siendo `suspendido`: el eje de esta columna es si el partido LLEGO AL
+    FINAL, y eso manda sobre quien se quedo con los puntos."""
+    fila = ("|7 de abril Suspendido a los 46' del segundo tiempo con el resultado "
+            "2 a 2, por invasion del campo. Se dio por ganado a Central Cordoba")
+    assert parser.status_de_la_fila(fila) == "suspendido"

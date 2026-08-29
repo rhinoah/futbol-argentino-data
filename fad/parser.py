@@ -509,8 +509,19 @@ _NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspendid|abandon[oó]|no se present[oó]|
 # Un fallo que cambio el numero. Se pregunta DESPUES de descartar que el partido
 # no haya llegado al final, y ese orden es la regla entera: si hubo suspension,
 # manda la suspension; si el partido termino y aun asi hubo fallo, es escritorio.
+# EL `le` ES OPCIONAL, y no serlo dejaba una asimetria de una palabra entre este
+# regex y `_HABLA_DE_FALLO`: aquel acepta `dio por (ganado|perdido)` sin el `le` y
+# este lo exigia, con lo que la fila caia en `sin_clasificar` -- "la pagina dice algo
+# sobre un fallo y no se supo que". Era una sola fila en todo el dataset, el
+# `Velez Sarsfield 1-0 Boca Juniors` del Clausura 1993, cuya nota dice "Originalmente
+# el partido finalizo 1-1. Sin embargo, se dio por perdido el partido a Boca Juniors
+# por no presentarse un jugador al control antidoping".
+#
+# Las otras tres filas del dataset que dicen `dio por ganado/perdido` sin `le` NO
+# cambian, y no por suerte: las tres mencionan una suspension, asi que
+# `_NO_LLEGO_AL_FINAL` las agarra antes. La precedencia las protege sola.
 _HUBO_FALLO = re.compile(
-    r"(?i)se le dio por (ganado|perdido)|se lo dio (por )?ganado|le dio por ganado"
+    r"(?i)se (?:le )?dio por (ganado|perdido)|se lo dio (por )?ganado|le dio por ganado"
     r"|otorg[aá]ndole|le gan[oó] los puntos|(mala|indebida) inclusi[oó]n|inclusi[oó]n indebida")
 # El partido se suspendio y DESPUES se jugo o se completo: llego al final igual,
 # aunque en dos dias. Son 356 de las 409 filas que mencionan una suspension, y

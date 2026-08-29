@@ -1517,6 +1517,12 @@ MUTANTES = [
 
     # `lost` sola: sin ella se pierden los dos partidos que Talleres gano en la
     # cancha y perdio en el escritorio, y tres clubes dejan de cerrar con la tabla.
+    # El `le` opcional. Sin el, la fila cae en `sin_clasificar` y el status queda
+    # vacio, que significa "la pagina no dijo nada" -- y aca si dijo.
+    ("fad/parser.py", "volver a exigir el `le` en `se le dio por perdido`",
+     'r"(?i)se (?:le )?dio por (ganado|perdido)|se lo dio (por )?ganado|le dio por ganado"',
+     'r"(?i)se le dio por (ganado|perdido)|se lo dio (por )?ganado|le dio por ganado"'),
+
     ("fad/rsssf.py", "olvidar la forma `lost the points` del fallo",
      'r"(?:awarded\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)"',
      'r"(?:awarded\s+|won the points\s*\()(\d+)\s*-\s*(\d+)"'),
@@ -1524,8 +1530,15 @@ MUTANTES = [
     # No llegar al final manda sobre el fallo: un partido suspendido a los 72' cuyo
     # resultado despues puso un tribunal es `suspendido`, no `escritorio`.
     ("fad/rsssf.py", "dar por terminado un partido que se suspendio",
-     '            estado = ("suspendido" if re.search(r"(?i)suspend|abandon", nota)',
-     '            estado = ("escritorio" if re.search(r"(?i)suspend|abandon", nota)'),
+     '        estado = ("suspendido" if _NO_LLEGO_AL_FINAL.search(nota)',
+     '        estado = ("escritorio" if _NO_LLEGO_AL_FINAL.search(nota)'),
+
+    # Sin fallo tambien: la fuente dice que no llego al final y eso vale solo.
+    ("fad/rsssf.py", "callar la suspension cuando nadie se llevo los puntos",
+     '        estado = ("suspendido" if _NO_LLEGO_AL_FINAL.search(nota)\n'
+     '                  else "escritorio" if fallo else "")',
+     '        estado = ("suspendido" if _NO_LLEGO_AL_FINAL.search(nota) and fallo\n'
+     '                  else "escritorio" if fallo else "")'),
 
     # `arg91` trae DOS torneos con los mismos veinte clubes. Sin recorte, el
     # Clausura 1991 se lleva tambien los 191 partidos del Apertura 1990.
