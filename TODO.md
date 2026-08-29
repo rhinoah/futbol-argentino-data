@@ -71,6 +71,10 @@ que obligó a tocar el lector.
   Eran dos partidos que Talleres ganó en la cancha y perdió en el escritorio; la
   aritmética de la tabla dijo cuáles y con qué marcador **antes** de mirar la fuente, y
   RSSSF resultó decir exactamente eso. No hizo falta zerozero.
+- **Curiosidad medida, sin efecto sobre el dataset:** a `Rosario Central` le
+  descontaron `2` puntos en ese Clausura. RSSSF lo aplica (`19 [-2]`) y `zerozero` no
+  (le deja 21). No nos toca porque acá se guardan partidos y no tablas, pero explica
+  por qué dos fuentes buenas pueden diferir en una posición sin diferir en un marcador.
 - **Falta el `status` de los partidos de escritorio que vienen de Wikipedia.** El
   `Vélez–Boca` de la fecha 4 y los dos de Talleres quedan con `status` vacío —que
   significa «la página no dijo nada»— cuando la página sí lo dice, en un `<ref>`.

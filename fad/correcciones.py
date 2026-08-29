@@ -1809,9 +1809,24 @@ MARCADORES: tuple[Marcador, ...] = (
     # el texto de RSSSF -- dan el mismo par de partidos y el mismo par de marcadores.
     # Con los dos aplicados cierran LOS VEINTE clubes en las seis cifras.
     #
-    # El contexto lo explica: venian del escandalo de la fecha 16, Talleres tenia un
-    # amparo de la justicia cordobesa y siguio poniendo a los jugadores que la AFA le
-    # habia suspendido.
+    # EL MECANISMO ESTA DOCUMENTADO, y con estas palabras: `El partido fue jugado bajo
+    # protesta por Newell's Old Boys a raiz de la inclusion, por parte de Talleres de
+    # Cordoba, de los jugadores que fueron suspendidos por el Tribunal de Disciplina
+    # de la AFA, como consecuencia de las expulsiones sufridas en el partido ante
+    # River Plate. Posteriormente se dio ganado a Newell's Old Boys por 1-0`
+    # (historiayfutbol). La nota de la fecha 18 es la misma y cierra `Posteriormente
+    # se dio ganado a Gimnasia y Esgrima La Plata por 1-0`.
+    #
+    # HAY UN TERCER PARTIDO JUGADO BAJO PROTESTA por lo mismo -- la fecha 19, Racing
+    # 4-0 Talleres -- y ESE NO SE TOCA: Talleres lo perdio en la cancha, asi que no
+    # habia nada que revertir. Que la fuente lo nombre y no le cambie el marcador es
+    # una prueba mas de que las otras dos notas dicen lo que dicen.
+    #
+    # Salvedad honesta: el MECANISMO lo sostiene una sola fuente. Lo que tiene tres
+    # testigos independientes es el RESULTADO -- la aritmetica de la tabla de
+    # Wikipedia, la nota de RSSSF, y zerozero.com.ar, que publica el torneo con los
+    # marcadores homologados y cuya tabla da a estos tres clubes exactamente lo mismo
+    # que produce nuestra grilla corregida.
     # ------------------------------------------------------------------
     Marcador(
         pagina="Anexo:Torneo Clausura 1993 (Argentina)",
@@ -1826,7 +1841,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "exactamente lo publicado, y sus ganados-empatados-perdidos pasan de "
             "3-7-9 a 4-7-8, que es lo que la tabla dice. Junto con el de la Fecha 18 "
             "hacen cerrar a los VEINTE clubes; sueltos, no cierra ninguno de los tres "
-            "desviados."),
+            "desviados. zerozero.com.ar, que publica el torneo con los marcadores "
+            "homologados, le da a Newell's 4-7-8 y 13:19: lo mismo."),
     ),
     Marcador(
         pagina="Anexo:Torneo Clausura 1993 (Argentina)",
@@ -1841,7 +1857,8 @@ MARCADORES: tuple[Marcador, ...] = (
             "cierra, y pasa de 4-9-6 a 5-9-5, que es lo publicado. Talleres, que era "
             "el mas desviado, pasa de 4-7-8 a 2-7-10 y de GF15 GC29 a GF13 GC31: "
             "cierra en las seis cifras con los dos arbitrajes puestos y con ninguno "
-            "de los dos suelto."),
+            "de los dos suelto. zerozero.com.ar da Gimnasia 5-9-5 con 14:15 y "
+            "Talleres 2-7-10 con 13:31, que es exactamente lo que queda."),
     ),
 
     # ------------------------------------------------------------------
