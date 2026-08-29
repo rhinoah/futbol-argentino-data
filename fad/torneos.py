@@ -465,6 +465,13 @@ VIEJO = [
            rsssf="arg97"),
     Torneo("Anexo:Torneo Clausura 1997 (Argentina)", "Primera Division - Clausura", 1997,
            rsssf="arg97"),
+
+    # LA TRECE, y la unica de la capa que entra SIN GRILLA: su pagina de Wikipedia
+    # es una redireccion a la seccion de la temporada, que publica la tabla final y
+    # no los partidos. Los 190 vienen de RSSSF y la tabla de Wikipedia los verifica
+    # en 19 de 20 clubes -- ver el comentario del mapa en `fad/rsssf.py`.
+    Torneo("Anexo:Torneo Clausura 1991 (Argentina)", "Primera Division - Clausura", 1991,
+           rsssf="arg91", sin_grilla=True),
     Torneo("Anexo:Torneo Apertura 1995 (Argentina)", "Primera Division - Apertura", 1995,
            rsssf="arg96"),
     Torneo("Anexo:Torneo Clausura 1996 (Argentina)", "Primera Division - Clausura", 1996,

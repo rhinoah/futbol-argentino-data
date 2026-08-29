@@ -1776,6 +1776,44 @@ MARCADORES: tuple[Marcador, ...] = (
             "Giuntini, escribieron `2-0`, pero es un solo texto de agencia "
             "replicado y contradice la tabla de la propia pagina."),
     ),
+
+    # ------------------------------------------------------------------
+    # EL UNICO DEL CLAUSURA 1991, y el primero donde la fuente se contradice A SI
+    # MISMA en vez de contradecir a otra. Ese torneo no tiene grilla en Wikipedia:
+    # los 190 partidos vienen de RSSSF, asi que aca `dice` es lo que dice RSSSF.
+    #
+    # Su renglon publica `Lanus 0-0 Platense [Suspended in 46'; not continued]` -- o
+    # sea que el 0-0 es el marcador AL MOMENTO DE LA SUSPENSION y la nota no dice
+    # como termino --, pero SU PROPIA TABLA cuenta el partido como derrota de Lanus
+    # y victoria de Platense. Lo mismo la tabla de Wikipedia. Con el 0-0 ninguno de
+    # los dos clubes cierra; con el 0-1 cierran los dos, en las SEIS cifras y contra
+    # las DOS tablas:
+    #
+    #   Lanus     tabla 18pts 5-8-6 15:16   con 0-0 da 19pts 5-9-5 15:15   con 0-1 CIERRA
+    #   Platense  tabla 19pts 5-9-5 11:16   con 0-0 da 18pts 4-10-5 10:16  con 1-0 CIERRA
+    #
+    # El otro suspendido del torneo -- `Newell's 4-0 Rosario Central`, fecha 8, a los
+    # 86' -- NO se toca: los dos clubes cierran exacto con ese 4-0, asi que ahi el
+    # resultado quedo firme. La diferencia entre uno y otro no se adivino: la
+    # contesto la aritmetica de las tablas, club por club.
+    # ------------------------------------------------------------------
+    Marcador(
+        pagina="Anexo:Torneo Clausura 1991 (Argentina)",
+        jornada="Fecha 15", local="Lanús", visita="Platense",
+        dice=(0, 0), debe=(0, 1),
+        porque=(
+            "RSSSF publica `Lanus 0-0 Platense [Suspended in 46'; not continued]`: "
+            "el 0-0 es el marcador al momento de la suspension y la nota no dice "
+            "quien se quedo con los puntos. Lo dice la tabla de posiciones, y por "
+            "duplicado: la que publica la propia RSSSF y la que publica Wikipedia "
+            "coinciden entre si, y las dos le cuentan a Lanus una derrota y a "
+            "Platense una "
+            "victoria. Sumando los 190 partidos del torneo, 17 de los 20 clubes "
+            "cierran exacto en las seis cifras; estos dos son de los tres que no, y "
+            "cierran los dos al aplicarles este 0-1. El tercero, Huracan, desvia "
+            "por otra razon que no es un partido: la tabla de Wikipedia no cierra "
+            "consigo misma, publica 22 puntos para un 7-7-5 que da 21."),
+    ),
 )
 
 

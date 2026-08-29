@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 46 333 | 7 | 156 | 1044 | 457 |
+| 46 523 | 7 | 157 | 1045 | 458 |
 
 ## 2004–2026 — Cerrado
 
@@ -35,16 +35,16 @@ mal `Deportivo Mandiyú`, que ya está, y `Gimnasia J)` es markup roto—.
 
 Eran 14 y entraron 13: el Clausura 1997 cae del otro lado de la línea de las fechas y se fue con la capa de abajo.
 
-## 1991–1996 — Doce de trece, y la trece está a la vista
+## 1991–1996 — Cerrada
 
 **Wikipedia pone los partidos, RSSSF pone las fechas**
 
 Esta sección decía «acá se termina Wikipedia» y **estaba equivocada**. Afirmaba que ninguna página de estos años trae sección de resultados, y eso vale para las de temporada pero no para los anexos: el `Anexo:Torneo Apertura 1993` da `190` partidos, 20 clubes con **ninguno desconocido** y 19 fechas de diez exactas. Un todos contra todos perfecto.
 
 Wikipedia publica estos años **sin una sola fecha**, y RSSSF los publica con sus
-rondas y sus días. Entraron **los doce torneos que la fuente cubre**, del `Apertura 1991`
-al `Clausura 1997`: `2 280` partidos, de los que `2 277` quedaron escritos con su
-fecha y `3` no. Cero graves.
+rondas y sus días. Entraron **los trece torneos de la capa**, del `Clausura 1991` al `Clausura 1997`:
+`2 470` partidos, de los que `2 469` quedaron escritos con su fecha y `1` no. Cero
+graves.
 
 La fuente los escribe de tres maneras y las tres están cubiertas: `arg92`–`arg95`
 separan con tabs, `arg97` alinea por espacios y abrevia los nombres, y `arg96`
@@ -69,23 +69,18 @@ que obligó a tocar el lector.
   el `Talleres (C) 2-2 River Plate` de la Fecha 16 del Clausura 1993, donde la página
   publica el marcador de la cancha y RSSSF dice `River won the points (0-2)`. La misma
   página usa el criterio del fallo en un partido y el de la cancha en el otro.
-- **El `Clausura 1991` ya no es un hueco: RSSSF lo publica entero.**
-  `rsssf.org/tablesa/arg91.html` trae los `190` partidos en 19 rondas de 10, todos bajo
-  un encabezado de fecha, y declara a *El Gráfico* como fuente. Wikipedia no tiene grilla
-  —lo que hay en `Anexo:Torneo Clausura 1991` es una **redirección**, no un stub— pero sí
-  publica la tabla de posiciones final, y eso alcanza para verificarlo: sumando los 190
-  partidos, **17 de 20 clubes cierran exacto**; `Lanús` y `Platense` cierran también al
-  aplicarle a su partido suspendido el fallo `0-1` que las dos tablas ya aplican; y el
-  vigésimo, `Huracán`, desvía porque **la tabla de Wikipedia no cierra consigo misma**
-  (publica 22 puntos para un 7-7-5 que da 21, y RSSSF publica 21).
-  Entra por el camino de `sin_grilla`, que ya usan cuatro torneos del Argentino A.
-- El mismo archivo trae además el **`Apertura 1990`**, que es de la capa de abajo: 191
-  partidos, 19 rondas, los mismos 20 clubes.
+- **El `Clausura 1991` entró**, y es el primero del repo que lo hace **sin grilla de
+  Wikipedia**: sus 190 partidos son los de RSSSF. La tabla que Wikipedia sí publica los
+  verifica en **19 de 20 clubes**; el vigésimo desvía porque esa tabla no cierra consigo
+  misma. Lo que se creía un stub de 83 bytes era una redirección.
+- **El mismo archivo trae el `Apertura 1990`**, que es de la capa de abajo: 191 partidos,
+  19 rondas, los mismos 20 clubes, con un `[Suspended in 45'; both teams lost the match]`
+  que ningún marcador puede expresar — para eso está `Dividido`.
 - Fuente candidata para lo que no cubra RSSSF: planillas de la AFA, *Torneos y Certámenes Oficiales 1990-91 … 1994-95*.
 
-El muro se corrió y después se cayó: era «no hay datos», pasó a ser «no hay fechas»
-y ahora las fechas están. Y lo último que quedaba —el Clausura 1991— resultó que
-tampoco era un muro: estaba publicado y nadie lo había mirado.
+El muro se corrió y después se cayó: era «no hay datos», pasó a ser «no hay fechas»,
+y lo último que quedaba —el Clausura 1991— resultó que tampoco era un muro. Estaba
+publicado y nadie lo había mirado.
 
 ## 1985–1990 — Muro
 

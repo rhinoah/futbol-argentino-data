@@ -480,6 +480,32 @@ def test_un_mapa_declarado_inservible_no_se_usa(monkeypatch):
     assert any("no sirve" in a.que for a in avisos)
 
 
+def test_una_pagina_SIN_GRILLA_recorta_su_seccion(monkeypatch):
+    """Los cuatro torneos que estrenaron este camino tenian archivo propio en RSSSF,
+    asi que leer el archivo entero alcanzaba. El Clausura 1991 comparte `arg91` con el
+    Apertura 1990 y LOS DOS LOS JUEGAN LOS MISMOS VEINTE CLUBES: el mapa no puede
+    desempatarlos, asi que sin recorte entran los 381 partidos de los dos torneos bajo
+    el rotulo de uno -- y encima fechados, porque cada seccion trae sus dias.
+    """
+    from fad import rsssf, torneos
+    visto = {}
+
+    def espiar(texto, mapa, anio, anio_fin, mes_inicio=8, desde="", hasta=""):
+        visto["desde"], visto["hasta"] = desde, hasta
+        return [], []
+
+    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: "")
+    monkeypatch.setattr(rsssf, "leer", espiar)
+    pagina = "Anexo:Torneo Clausura 1991 (Argentina)"
+    t = [x for x in torneos.TODOS if x.pagina == pagina][0]
+    assert t.sin_grilla, "este test solo tiene sentido sobre una pagina sin grilla"
+    build.procesar("", t)
+
+    assert visto.get("desde"), "se leyo el archivo entero, sin recortar la seccion"
+    assert visto["desde"] == rsssf.SECCION_LIGA[pagina][0]
+    assert visto["hasta"] == rsssf.SECCION_LIGA[pagina][1]
+
+
 def test_la_rama_de_RSSSF_tambien_pasa_los_arbitrados(monkeypatch):
     """Un partido que termino en un escritorio tiene DOS marcadores ciertos -- el de
     la cancha y el que homologo el tribunal -- y cada fuente publica uno. `completar`

@@ -2751,7 +2751,7 @@ dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
 de parser recupera.
 
-## 1991-1996: doce temporadas que Wikipedia publica sin fechas
+## 1991-1996: trece temporadas, y la última sin grilla
 
 La capa decía «los partidos están; lo que falta es la fecha»: 2 280 partidos que
 ya parseaban y 2 270 sin una sola fecha. Una fila sin fecha no se escribe, así que
@@ -2886,6 +2886,63 @@ página**: un todos contra todos de veinte hace que cada club enfrente a cada ot
 exactamente una vez, así que el club al que le faltan partidos tiene un solo rival
 ausente, y ese rival es el de la fila rota. No hay otra fila posible. RSSSF lo
 corrobora por su lado con la misma jornada, la misma localía y el mismo marcador.
+
+### El Clausura 1991: el primero que entra sin grilla de Wikipedia
+
+La capa cerró con el torneo que el `TODO.md` describía como «un stub de 83 bytes que
+hay que buscar en otro lado». **Las dos mitades de esa frase eran falsas.** No es un
+stub sino una **redirección** a la sección de la temporada, y no hay que buscarlo en
+ningún lado: RSSSF lo publica entero —190 partidos en 19 rondas de 10, todos bajo un
+encabezado de fecha, declarando a *El Gráfico* como fuente—.
+
+Lo que sí es cierto es que Wikipedia no tiene la grilla: la sección de la temporada
+publica la tabla final y nada más. Así que este torneo entra por el camino de
+`sin_grilla`, que ya usaban cuatro del Argentino A: **los partidos son los de RSSSF**.
+
+**Y eso obliga a probar que están bien, no a suponerlo.** El testigo es la tabla que
+Wikipedia sí publica. Sumando los 190 partidos y exigiendo las siete cifras —puntos,
+PJ, ganados, empatados, perdidos, goles a favor y en contra—:
+
+| | resultado |
+|---|---|
+| clubes que cierran exacto | **19 de 20** |
+| el que no | `Huracán` |
+| por qué | la tabla de Wikipedia **no cierra consigo misma**: publica 22 puntos para un 7-7-5 que da 21, y la de RSSSF publica 21 |
+
+Los otros tres huecos que aparecieron en la primera pasada se cerraron todos por
+aritmética, no por criterio.
+
+### Un renglón que ninguna fuente sostenía
+
+De los 190, uno decía algo que nadie afirma: `Lanús 0-0 Platense`, con la nota
+`[Suspended in 46'; not continued]`. Ese `0-0` es el marcador **al momento de la
+suspensión** y la nota no dice quién se quedó con los puntos — pero las dos tablas de
+posiciones, la de RSSSF y la de Wikipedia, le cuentan a Lanús una derrota y a Platense
+una victoria. Con el `0-0` ninguno de los dos cierra; con el `0-1` cierran los dos.
+
+El contraste importa: el otro suspendido del torneo —`Newell's 4-0 Rosario Central`, a
+los 86' de la fecha 8— **no se toca**, porque los dos clubes cierran exacto con ese
+4-0. Ahí el resultado quedó firme. La diferencia entre uno y otro no se adivinó: la
+contestó la aritmética, club por club.
+
+Es la primera vez en el repo que **la fuente se contradice a sí misma** en vez de
+contradecir a otra, y no hizo falta inventar nada: `correcciones.MARCADORES` ya sabía
+escribir un marcador arbitrado por la tabla, y `aplicar` ya lo escribía sobre la fila.
+Se escribió un aplicador nuevo antes de descubrirlo, y hubo que sacarlo.
+
+### Dos cables que faltaban, y el archivo compartido
+
+`sin_grilla` leía el archivo de RSSSF **entero**. A los cuatro torneos que estrenaron
+ese camino les alcanzaba, porque tenían archivo propio; `arg91` trae el Clausura 1991
+**y** el Apertura 1990, y los dos los juegan **los mismos veinte clubes**, con lo que
+el mapa no puede desempatarlos. Sin recortar entraban los 381 partidos de los dos
+torneos bajo el rótulo de uno, y encima fechados, que es la peor forma de estar mal.
+
+El recorte tampoco puede estirarse hasta incluir la tabla de RSSSF para que la foja la
+lea: se probó, y la tabla de esta época trae **once columnas numéricas** donde el
+lector espera siete, así que devuelve números que no son. Es el mismo motivo por el
+que el recorte del `Apertura 1992` termina en su tabla. Acá el testigo automático no
+aplica y el que vale es el manual, que está medido arriba.
 
 ### Buscar en prensa: dos se cerraron, uno no
 
@@ -3442,11 +3499,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1044 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1045 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 457 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 458 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

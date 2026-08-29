@@ -2496,6 +2496,8 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
         'Round 1\n[Aug 4, 1995]', "CLAUSURA TOURNAMENT"),
     "Anexo:Torneo Clausura 1996 (Argentina)": (
         'Round 1\n[Mar 8, 1996]', "APERTURA TOURNAMENT"),
+    "Anexo:Torneo Clausura 1991 (Argentina)": (
+        'Round 1\n\n[Feb 22]', "Table:"),
 }
 
 
@@ -2772,6 +2774,48 @@ PRIMERA_1995 = {
     },
 }
 
+# Primera Division 1990-91. ES EL PRIMER TORNEO QUE ENTRA SIN GRILLA DE WIKIPEDIA:
+# la pagina del Clausura 1991 no es un stub sino una REDIRECCION a la seccion de la
+# temporada, y esa seccion publica la tabla final pero no los partidos. RSSSF si los
+# publica -- 190 en 19 rondas de 10, todos bajo un encabezado de fecha, declarando a
+# El Grafico como fuente --, asi que los partidos vienen de ahi enteros.
+#
+# QUE ESO ESTE BIEN NO SE DA POR HECHO, se midio: sumando los 190 partidos contra la
+# tabla que publica Wikipedia, 17 de los 20 clubes cierran exacto en puntos, PJ,
+# ganados, empatados, perdidos, goles a favor y en contra. `Lanus` y `Platense`
+# cierran tambien al aplicarle a su partido suspendido el fallo 0-1 que las dos
+# tablas ya aplican -- ver el `Marcador` en `correcciones.py`. Y el vigesimo,
+# `Huracan`, desvia porque LA TABLA DE WIKIPEDIA NO CIERRA CONSIGO MISMA: publica 22
+# puntos para un 7-7-5 que da 21, y la de RSSSF publica 21.
+#
+# Ojo con los nombres: este archivo escribe `Racing` y `Velez` CON TILDE donde no va
+# (`Racing Club`, `Velez Sarsfield`), asi que el padron no los reconoceria.
+
+PRIMERA_1990 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Boca Juniors": "Boca Juniors",
+        "Chaco For Ever": "Chaco For Ever",
+        "Dep. Español": "Deportivo Español",
+        "Estudiantes (LP)": "Estudiantes (LP)",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Gimnasia y Esgrima (LP)": "Gimnasia y Esgrima (LP)",
+        "Huracán": "Huracán",
+        "Independiente": "Independiente",
+        "Lanús": "Lanús",
+        "Mandiyú (Ctes.)": "Deportivo Mandiyú",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "Rácing Club": "Racing Club",
+        "San Lorenzo": "San Lorenzo",
+        "Talleres (Cba.)": "Talleres (C)",
+        "Unión (Sta. Fe)": "Unión",
+        "Vélez Sársfield": "Vélez Sarsfield",
+    },
+}
+
 FUENTES: dict[str, tuple[str, dict]] = {
     "Torneo Argentino A 2005-06": ("arg3-int06", ARGENTINO_A_2005),
     "Torneo Argentino A 2006-07": ("arg3-int07", ARGENTINO_A_2006),
@@ -2790,6 +2834,7 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Anexo:Torneo Clausura 1995 (Argentina)": ("arg95", PRIMERA_1994),
     "Anexo:Torneo Apertura 1996 (Argentina)": ("arg97", PRIMERA_1996),
     "Anexo:Torneo Clausura 1997 (Argentina)": ("arg97", PRIMERA_1996),
+    "Anexo:Torneo Clausura 1991 (Argentina)": ("arg91", PRIMERA_1990),
     "Anexo:Torneo Apertura 1995 (Argentina)": ("arg96", PRIMERA_1995),
     "Anexo:Torneo Clausura 1996 (Argentina)": ("arg96", PRIMERA_1995),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),

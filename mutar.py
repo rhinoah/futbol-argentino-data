@@ -1502,6 +1502,12 @@ MUTANTES = [
      "    puestas, mas = fechas.completar(ps, ajenos, arbitrados=correcciones.arbitrados(t.pagina),",
      "    puestas, mas = fechas.completar(ps, ajenos, arbitrados=None,"),
 
+    # `arg91` trae DOS torneos con los mismos veinte clubes. Sin recorte, el
+    # Clausura 1991 se lleva tambien los 191 partidos del Apertura 1990.
+    ("build.py", "leer el archivo entero en la rama sin grilla",
+     "        desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, (\"\", \"\"))",
+     "        desde, hasta = \"\", \"\""),
+
     ("fad/rsssf.py", "fechar la continuacion con SU dia y no con el del primero",
      "        dia = empezados.pop((ronda, cl, cv), dia)",
      "        empezados.pop((ronda, cl, cv), dia)"),

@@ -797,8 +797,15 @@ def procesar(texto: str, t) -> tuple[list, list]:
             return [], [validar.Aviso(
                 f"{t.pagina}: RSSSF no respondio y esta pagina no tiene grilla "
                 f"propia, asi que el torneo queda sin partidos", repr(e), grave=True)]
+        # EL RECORTE VA TAMBIEN ACA, y faltaba. Los cuatro torneos que estrenaron
+        # este camino tenian archivo propio, asi que leer entero alcanzaba; el
+        # Clausura 1991 comparte `arg91` con el Apertura 1990 y los dos los juegan
+        # LOS MISMOS VEINTE CLUBES, con lo que el mapa no puede desempatarlos. Sin
+        # cortar entran los 381 partidos de los dos torneos bajo el rotulo de uno.
+        desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))
         ajenos, mas = rsssf.leer(crudo, mapa, t.temporada,
-                                 t.anio_fin or t.temporada, t.mes_inicio)
+                                 t.anio_fin or t.temporada, t.mes_inicio,
+                                 desde=desde, hasta=hasta)
         importados = [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False) for d in mas]
         ps = rsssf.a_partidos(ajenos, t.torneo, t.temporada)
         # Se guardan para cruzar la foja MAS ABAJO y no aca: la fuente publica
