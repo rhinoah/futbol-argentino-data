@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 46 523 | 7 | 157 | 1051 | 464 |
+| 46 523 | 7 | 157 | 1053 | 465 |
 
 ## 2004–2026 — Cerrado
 
@@ -75,14 +75,6 @@ que obligó a tocar el lector.
   descontaron `2` puntos en ese Clausura. RSSSF lo aplica (`19 [-2]`) y `zerozero` no
   (le deja 21). No nos toca porque acá se guardan partidos y no tablas, pero explica
   por qué dos fuentes buenas pueden diferir en una posición sin diferir en un marcador.
-- **Quedan `3` filas de escritorio con `status` vacío**, y es una pregunta de diseño
-  más que un bug: son los tres partidos del Clausura 1993 cuyo marcador lo puso un
-  tribunal según RSSSF, pero cuya fila la pone Wikipedia, que no dice nada. Hoy `status`
-  describe **lo que dijo la fuente de la fila**; como el marcador de esas tres ya no sale
-  de esa fuente sino de un `Marcador` arbitrado, habría que decidir si el arbitraje
-  también puede fijar el `status`. Ojo: de los `66` marcadores que cambian un marcador,
-  sólo esos tres son fallos — el resto arregla un dígito mal transcripto y poner
-  `escritorio` ahí sería mentir.
 - **El `--rehacer` levanta una regresión de Wikipedia en el Apertura 2007**: 20 filas
   cambiaron de la Fecha 18 a la 19 y viceversa, y la versión nueva deja las fechas fuera
   de orden cronológico mientras la vieja va en orden. El `cerrado` la frena en la corrida

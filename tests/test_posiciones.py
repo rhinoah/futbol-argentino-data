@@ -147,6 +147,48 @@ def _prueba_de_no_copia(porque: str) -> bool:
             or "no la esta copiando" in b or "no esta copiando" in b)
 
 
+def test_el_status_arbitrado_SE_ESCRIBE_en_la_fila():
+    """Que el valor sea valido no alcanza: hay que ver que llegue a la fila. Se corre
+    `aplicar` sobre un partido armado con el `dice` de un arbitraje real y se exige que
+    salga con su `debe` Y con su `status_debe`.
+
+    Sin esto el campo se puede declarar, justificar y no escribir nunca -- y la fila
+    seguiria diciendo, en una columna publica, que nadie dijo lo contrario."""
+    from fad import correcciones
+    from fad.parser import Partido
+    m = next(x for x in correcciones.MARCADORES if x.status_debe)
+    p = Partido(jornada=m.jornada, local=m.local, visita=m.visita,
+                goles_local=m.dice[0], goles_visita=m.dice[1])
+    assert p.status == "", "el partido de prueba tiene que arrancar sin status"
+    n, avisos = correcciones.aplicar([p], m.pagina)
+    assert n >= 1, f"la correccion no engancho: {avisos}"
+    assert (p.goles_local, p.goles_visita) == m.debe
+    assert p.status == m.status_debe, "el arbitraje trajo el status y no se escribio"
+
+
+def test_el_status_arbitrado_es_uno_de_los_que_el_esquema_conoce():
+    """`status_debe` escribe en una columna publica, asi que no puede decir cualquier
+    cosa: los valores son los mismos cuatro que produce `parser.status_de_la_fila`.
+
+    Y tiene que ser EXCEPCIONAL. La enorme mayoria de los marcadores arregla un digito
+    mal transcripto sobre un partido que se jugo normalmente; ponerle `escritorio` a
+    uno de esos seria mentir. Si algun dia la mitad de los marcadores lo usa, el que lo
+    haga tiene que venir a mirar este test y explicar por que."""
+    from fad import correcciones
+    validos = {"suspendido", "escritorio", "no disputado"}
+    con_status = [m for m in correcciones.MARCADORES if m.status_debe]
+    assert con_status, "nadie lo usa: se perdio el mecanismo"
+    for m in con_status:
+        assert m.status_debe in validos, (
+            f"{m.jornada} {m.local}: `{m.status_debe}` no es un status del esquema")
+        assert m.debe != m.dice, (
+            f"{m.jornada} {m.local}: fija el status sin cambiar el marcador; si la "
+            f"fila ya dice el numero bueno, el status sale del parser")
+    assert len(con_status) <= 6, (
+        f"{len(con_status)} marcadores fijan el status a mano. Es una excepcion, no "
+        f"la regla: si de verdad son tantos, lo que hay que arreglar es el lector")
+
+
 def test_los_marcadores_arbitrados_estan_justificados():
     """Cada correccion tiene que nombrar a su testigo.
 

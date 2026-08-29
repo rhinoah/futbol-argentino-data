@@ -2957,6 +2957,33 @@ playoffs, donde el lector **se niega a propósito** a emparejar: ahí un nombre 
 identifica a un club porque se mezclan las zonas. El conteo había mirado renglones y no
 filas, que es el mismo error de medir con un proxy.
 
+### Cuando el marcador viene de otro lado, el `status` también
+
+Quedaban tres filas diciendo, en una columna pública, que nadie había dicho lo
+contrario — y sí lo habían dicho. Son los tres partidos del Clausura 1993 cuyo número
+lo puso un tribunal: su fila la arma Wikipedia, que no los anota, y su marcador sale de
+un `Marcador` arbitrado. `status` describía **lo que dijo la fuente de la fila**, y para
+esas tres el marcador ya no salía de esa fuente.
+
+`Marcador` ganó un campo opcional, `status_debe`, que **se escribe a mano uno por uno**.
+No se deduce de que haya habido fallo, porque el eje de la columna es otro: es si el
+partido llegó al final. De los tres, dos son `escritorio` —se jugaron los noventa y el
+número cambió después— y **uno es `suspendido`**, el `Talleres–River`, que Castrilli
+cortó a los 27 del segundo tiempo. Deducirlo habría dado mal en uno de tres.
+
+Y es una excepción, no la regla: de los `66` marcadores que cambian un resultado, sólo
+esos tres son fallos. El resto arregla un dígito mal transcripto sobre un partido que se
+jugó normalmente, y escribirles `escritorio` sería mentir. Un test lo sostiene —exige
+que el valor sea uno de los del esquema y **que no sean más de seis**—, porque si alguna
+vez la mitad de los marcadores lo usa, lo que hay que arreglar es el lector.
+
+**Dos mutantes sobrevivieron y enseñaron algo distinto cada uno.** El primero mostró que
+el test validaba los valores pero nadie comprobaba que el status **llegara a la fila**:
+el campo se podía declarar, justificar y no escribirse nunca. El segundo guardaba una
+rama que ningún dato recorre —un arbitraje que fije sólo el status sin tocar el
+marcador—, así que la rama se sacó: el test que la prohibe explica por qué, y si alguna
+vez hace falta se agrega junto con el primer caso que la use.
+
 ### Deducir un marcador antes de encontrar la fuente que lo dice
 
 La página del Clausura 1993 dejaba tres clubes sin cerrar contra su propia tabla:
@@ -3619,11 +3646,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1051 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1053 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 464 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 465 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

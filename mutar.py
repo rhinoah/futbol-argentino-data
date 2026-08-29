@@ -1517,6 +1517,13 @@ MUTANTES = [
 
     # `lost` sola: sin ella se pierden los dos partidos que Talleres gano en la
     # cancha y perdio en el escritorio, y tres clubes dejan de cerrar con la tabla.
+    # `status_debe`. Cuando el arbitraje trae el marcador que homologo un tribunal,
+    # la fila termina diciendo un numero que su propia fuente no publica; sin esto la
+    # columna queda en vacio, que significa "nadie dijo lo contrario".
+    ("fad/correcciones.py", "no escribir el status que el arbitraje trae",
+     "        if m.status_debe:\n            candidatos[0].status = m.status_debe",
+     "        if False:\n            candidatos[0].status = m.status_debe"),
+
     # El `le` opcional. Sin el, la fila cae en `sin_clasificar` y el status queda
     # vacio, que significa "la pagina no dijo nada" -- y aca si dijo.
     ("fad/parser.py", "volver a exigir el `le` en `se le dio por perdido`",

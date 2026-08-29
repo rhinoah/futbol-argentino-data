@@ -514,6 +514,25 @@ class Marcador:
     penales_dice: tuple[int, int] | None = None
     penales_debe: tuple[int, int] | None = None
 
+    # DE DONDE SALIO EL NUMERO QUE ESTE ARBITRAJE PONE. Vacio quiere decir "no lo
+    # toques", y es lo que corresponde en la enorme mayoria: de los marcadores que
+    # cambian un resultado, casi todos arreglan un DIGITO MAL TRANSCRIPTO sobre un
+    # partido que se jugo normalmente, y escribirles `escritorio` seria mentir.
+    #
+    # Hace falta para el puñado en que el arbitraje NO arregla una transcripcion
+    # sino que trae el marcador que homologo un tribunal. Ahi la fila termina
+    # diciendo un numero que su propia fuente no publica, y sin esto la columna
+    # queda en vacio -- que significa "nadie dijo lo contrario" -- justo donde si
+    # lo dijeron. Es la unica forma de que `status` siga queriendo decir una sola
+    # cosa cuando el marcador vino de otro lado.
+    #
+    # El valor NO se deduce de que haya habido fallo, porque el eje de la columna es
+    # otro: es si el partido LLEGO AL FINAL. Uno que se suspendio a los 72' y que
+    # despues un tribunal resolvio es `suspendido`, no `escritorio`. Por eso se
+    # escribe a mano, uno por uno, y lo controla
+    # `test_el_status_arbitrado_es_uno_de_los_que_el_esquema_conoce`.
+    status_debe: str = ""
+
 
 def _arbitrado(jornada, local, visita, dice, debe, quien, detalle, historial=""):
     """`historial` es el timestamp de la revision hasta la cual la pagina decia otra
@@ -1755,6 +1774,11 @@ MARCADORES: tuple[Marcador, ...] = (
         pagina="Anexo:Torneo Clausura 1993 (Argentina)",
         jornada="Fecha 16", local="Talleres (C)", visita="River Plate",
         dice=(2, 2), debe=(0, 2),
+        # `suspendido` y NO `escritorio`: este no llego al final -- Castrilli lo corto
+        # a los 27 del segundo tiempo -- y ese eje manda sobre el fallo. Es el unico
+        # de los tres al que le toca este valor, y la diferencia sale de la fuente:
+        # los otros dos se jugaron enteros.
+        status_debe="suspendido",
         porque=(
             "Iba 2-2 cuando se suspendio a los 72' y despues el tribunal le dio los "
             "puntos a River. RSSSF lo publica entero en una linea: `Talleres (Cba.) "
@@ -1832,6 +1856,9 @@ MARCADORES: tuple[Marcador, ...] = (
         pagina="Anexo:Torneo Clausura 1993 (Argentina)",
         jornada="Fecha 17", local="Newell's Old Boys", visita="Talleres (C)",
         dice=(0, 1), debe=(1, 0),
+        # Se jugaron los noventa y Talleres lo gano en la cancha; el numero que queda
+        # escrito lo puso un tribunal despues. Eso es exactamente `escritorio`.
+        status_debe="escritorio",
         porque=(
             "Talleres lo gano 1-0 en la cancha y despues perdio los puntos. RSSSF lo "
             "publica en la misma linea: `Newell's Old Boys 0-1 Talleres (Cba.) "
@@ -1848,6 +1875,7 @@ MARCADORES: tuple[Marcador, ...] = (
         pagina="Anexo:Torneo Clausura 1993 (Argentina)",
         jornada="Fecha 18", local="Talleres (C)", visita="Gimnasia y Esgrima (LP)",
         dice=(1, 0), debe=(0, 1),
+        status_debe="escritorio",
         porque=(
             "El gemelo del anterior, una fecha despues y con Talleres de local en "
             "Cordoba. RSSSF: `Talleres (Cba.) 1-0 Gimnasia y Esgrima (LP) [at "
@@ -4274,6 +4302,11 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
     for m in MARCADORES:
         # `debe == dice` y sin penales que tocar: la pagina ya esta bien y de la
         # otra fuente se toma solo la FECHA.
+        # No se le agrega `or m.status_debe` a esta condicion: un arbitraje que fije
+        # SOLO el status y no toque el marcador seria una rama que ningun dato
+        # recorre, y `test_el_status_arbitrado_es_uno_de_los_que_el_esquema_conoce`
+        # la prohibe con un mensaje que dice por que. Si alguna vez hace falta, la
+        # rama se agrega junto con el primer caso que la use.
         if m.pagina != pagina or (m.debe == m.dice and m.penales_debe is None
                                   and m.penales_dice is None):
             continue
@@ -4294,6 +4327,8 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
         elif m.debe[0] != m.debe[1]:
             # El marcador corregido no es empate: la tanda no pudo existir.
             candidatos[0].penales_local = candidatos[0].penales_visita = None
+        if m.status_debe:
+            candidatos[0].status = m.status_debe
         aplicadas += 1
 
     # Los divididos se SACAN. Antes que todo lo demas, porque una fila que no
