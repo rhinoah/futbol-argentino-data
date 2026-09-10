@@ -2984,6 +2984,42 @@ rama que ningún dato recorre —un arbitraje que fije sólo el status sin tocar
 marcador—, así que la rama se sacó: el test que la prohibe explica por qué, y si alguna
 vez hace falta se agrega junto con el primer caso que la use.
 
+### El último sin fecha, y lo zanjó el diario del día siguiente
+
+Quedaba uno solo en la capa: el `Gimnasia (LP) 1-1 Boca` de la fecha 19 del Apertura
+1993. La localía ya estaba probada sin salir de RSSSF —en el mismo archivo, esa fecha
+19 y la del Clausura 1994 son el mismo fixture invertido, y nueve de los diez cruces
+invierten prolijamente; el único que no es éste—. **El día era el que no cerraba**: tres
+fuentes secundarias decían sábado 19 de marzo de 1994 y dos decían viernes 18, y como la
+jornada se jugó partida entre los dos días, «la fecha fue el 19» no servía de argumento.
+
+Lo cerró una fuente que ninguna búsqueda anterior había abierto: **Página/12 está
+digitalizado entero de 1987 a 2009 en la Hemeroteca Digital de la Biblioteca Nacional,
+con acceso libre**. No tiene OCR ni buscador de texto —hay que ubicar el ejemplar por
+fecha y leer la página— pero los PDF se sirven sin login.
+
+Dos ejemplares alcanzan, y se apoyan entre sí:
+
+- El del **sábado 19** publica las formaciones de los partidos de *ese* día, y ahí están
+  las dos: «Gimnasia: Lavallén… DT: Roberto Perfumo» y «Boca: Navarro Montoya… DT: César
+  Luis Menotti. **Árbitro: Juan Carlos Crespi**». En la misma página, la crónica del
+  Huracán–Independiente del viernes dice que Independiente debía ganar y esperar que
+  «**hoy** perdieran River, Vélez y Boca».
+- El del **domingo 20** lo cuenta jugado: el penal que «Juan Carlos Crespi» cobró y
+  «Sergio Martínez» convirtió, el cabezazo de «Fabián *Pícaro* Fernández», las
+  expulsiones de Acosta y Noriega, y el equipo «dirigido por Roberto Perfumo».
+
+Los dos goleadores, el árbitro, los dos expulsados y los dos técnicos coinciden con la
+ficha. **El partido fue el sábado 19 y RSSSF le erró.**
+
+**Es la única cita del repo que le gana a una base de datos**, y la distinción está
+escrita en el código. `fad/citadas.py` se construyó con la regla «si alguna vez una base
+de datos contradice esto, gana la base de datos» — y esa regla vale para un blog. No vale
+para el diario del día siguiente: ahí la base de datos es la reconstrucción posterior y
+el diario es el hecho.
+
+Con eso **la capa 1991-1996 queda en 2 470 partidos y ninguno sin fecha**.
+
 ### Deducir un marcador antes de encontrar la fuente que lo dice
 
 La página del Clausura 1993 dejaba tres clubes sin cerrar contra su propia tabla:
@@ -3646,11 +3682,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1053 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1054 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 465 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 466 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

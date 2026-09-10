@@ -95,6 +95,19 @@ CREDITO = "http://josecarluccio.blogspot.com/"
 # lista de fixtures copiada no tiene.
 CREDITO_SOYBH = "http://soybh.blogspot.com/p/argentino-200405.html"
 
+# LA TERCERA, Y ES DE OTRA CATEGORIA: PRENSA DEL DIA. Pagina/12 esta digitalizado
+# entero de 1987 a 2009 en la Hemeroteca Digital de la Biblioteca Nacional, con
+# acceso libre y los PDF servidos sin login. No tiene OCR ni buscador de texto, asi
+# que hay que ubicar el ejemplar por fecha y leer la pagina; por eso se usa sólo
+# donde de verdad hace falta y no como fuente de volumen.
+#
+# ES LA UNICA CITA QUE LE GANA A UNA BASE DE DATOS. El resto de este modulo se
+# escribio con la regla "si alguna vez una base de datos contradice esto, gana la
+# base de datos", y esa regla vale para un blog. No vale para el diario del dia
+# siguiente: ahi la base de datos es la reconstruccion posterior y el diario es el
+# hecho. Ver el comentario del Apertura 1993, que es el caso.
+CREDITO_P12 = "https://hemerotecadigital.bn.gob.ar/collection/001207768/pagina-12"
+
 
 @dataclass(frozen=True)
 class Cita:
@@ -126,6 +139,44 @@ class Cita:
 
 
 FECHAS: dict[str, tuple[Cita, ...]] = {
+    # ------------------------------------------------------------------
+    # UN SOLO PARTIDO, Y LO ZANJO EL DIARIO DEL DIA SIGUIENTE.
+    #
+    # Era el ultimo sin fecha de la capa 1991-1996. Las dos fuentes que el repo lee
+    # coinciden en la ronda y en el 1-1 y se pelean en dos cosas: RSSSF lo pone con
+    # BOCA DE LOCAL y bajo `[Mar 18, Fri]`, y la pagina lo pone con Gimnasia de local
+    # y sin dia.
+    #
+    # La localia ya estaba probada sin salir de RSSSF: en el mismo archivo, la Round
+    # 19 del Apertura 1993 y la del Clausura 1994 son el mismo fixture invertido, y
+    # nueve de los diez cruces invierten prolijamente -- el unico que no es este. La
+    # fuente se contradice a si misma en esa linea.
+    #
+    # EL DIA NO SE PODIA CERRAR con fuentes secundarias: tres decian sabado 19 y dos
+    # decian viernes 18, y la jornada se jugo PARTIDA entre los dos dias, asi que
+    # "la fecha fue el 19" no servia como argumento. Lo cerro Pagina/12:
+    #
+    #   * El ejemplar del SABADO 19 (Pagina/23) publica las formaciones de los
+    #     partidos de ESE dia y ahi estan las dos: "Gimnasia: Lavallen; ... DT:
+    #     Roberto Perfumo." y "Boca: Navarro Montoya; ... DT: Cesar Luis Menotti.
+    #     Arbitro: Juan Carlos Crespi." En la misma pagina, la cronica del
+    #     Huracan-Independiente del viernes dice que Independiente "debia ganar por
+    #     una diferencia de tres goles y esperar que HOY perdieran River, Velez y
+    #     Boca".
+    #
+    #   * El del DOMINGO 20 (Pagina/24) lo cuenta jugado: Boca "empatarle a Gimnasia
+    #     recien sobre el final", el penal que "Juan Carlos Crespi" cobro y "Sergio
+    #     Martinez" convirtio, el cabezazo de "Fabian `Picaro` Fernandez", las
+    #     expulsiones de Acosta y Noriega, y el equipo "dirigido por Roberto Perfumo".
+    #
+    # Los dos goleadores, el arbitro, los dos expulsados y los dos tecnicos coinciden
+    # con la ficha del partido. El dia es el 19 y RSSSF le erro.
+    # ------------------------------------------------------------------
+    "Anexo:Torneo Apertura 1993 (Argentina)": (
+        Cita("1994-03-19", "Gimnasia y Esgrima (LP)", "Boca Juniors", 1, 1,
+             fuente=CREDITO_P12),
+    ),
+
     "Torneo Argentino A 2004-05": (
         # La fase regular de la Zona Norte, fecha por fecha. La 7 y la 9 se
         # jugaron partidas en dos dias, y la fuente lo dice asi.

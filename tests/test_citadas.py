@@ -136,6 +136,30 @@ def test_la_cita_de_otra_fuente_dice_de_cual():
         "Ben Hur", "Atlético Tucumán", "2004-12-01")
 
 
+def test_la_cita_que_sale_de_prensa_del_dia_le_gana_a_la_base_de_datos():
+    """La unica cita del modulo que CONTRADICE a una fuente que el repo lee.
+
+    El resto se escribio con la regla "si alguna vez una base de datos contradice
+    esto, gana la base de datos", que vale para un blog. No vale para el diario del
+    dia siguiente: ahi la base de datos es la reconstruccion posterior y el diario es
+    el hecho. RSSSF fecha este partido el viernes 18 de marzo de 1994 y Pagina/12 lo
+    publica jugado el sabado 19.
+
+    Se exige que la fecha CAIGA EN SABADO, que es lo que dice la evidencia y ademas
+    ataja el error mas facil de cometer al copiarla a mano: un digito. El 18 era
+    viernes."""
+    import datetime
+    from fad import citadas
+    citas = citadas.FECHAS["Anexo:Torneo Apertura 1993 (Argentina)"]
+    assert len(citas) == 1, "esta pagina tiene una sola cita y es esta"
+    c = citas[0]
+    assert (c.local, c.visita) == ("Gimnasia y Esgrima (LP)", "Boca Juniors")
+    assert (c.goles_local, c.goles_visita) == (1, 1)
+    assert c.fecha == "1994-03-19"
+    assert c.fuente == citadas.CREDITO_P12, "el credito va por cita, no por modulo"
+    assert datetime.date.fromisoformat(c.fecha).weekday() == 5, "sabado"
+
+
 def test_las_demas_citas_no_inventan_una_fuente():
     """El default es la del modulo, y tiene que quedar vacio para que `completar`
     use esa. Ponerle el credito del modulo a cada cita seria lo mismo escrito dos

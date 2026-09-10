@@ -1171,6 +1171,12 @@ MUTANTES = [
      "    if citadas.FECHAS.get(t.pagina):",
      "    if True:"),
 
+    # La unica cita que contradice a una base de datos. RSSSF la fecha el viernes 18
+    # y el diario del dia siguiente la publica jugada el sabado 19.
+    ("fad/citadas.py", "creerle a RSSSF y no al diario del dia siguiente",
+     'Cita("1994-03-19", "Gimnasia y Esgrima (LP)", "Boca Juniors", 1, 1,',
+     'Cita("1994-03-18", "Gimnasia y Esgrima (LP)", "Boca Juniors", 1, 1,'),
+
     ("fad/citadas.py", "mandar la cita con jornada en vez de sin ella",
      "    return [Ajeno(fecha=c.fecha, jornada=0, llave=c.llave,",
      "    return [Ajeno(fecha=c.fecha, jornada=1, llave=c.llave,"),

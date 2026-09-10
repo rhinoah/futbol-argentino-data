@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 46 523 | 7 | 157 | 1053 | 465 |
+| 46 675 | 6 | 157 | 1054 | 466 |
 
 ## 2004–2026 — Cerrado
 
@@ -43,26 +43,24 @@ Esta sección decía «acá se termina Wikipedia» y **estaba equivocada**. Afir
 
 Wikipedia publica estos años **sin una sola fecha**, y RSSSF los publica con sus
 rondas y sus días. Entraron **los trece torneos de la capa**, del `Clausura 1991` al `Clausura 1997`:
-`2 470` partidos, de los que `2 469` quedaron escritos con su fecha y `1` no. Cero
-graves.
+`2 470` partidos, **todos con su fecha**. Cero graves.
 
 La fuente los escribe de tres maneras y las tres están cubiertas: `arg92`–`arg95`
 separan con tabs, `arg97` alinea por espacios y abrevia los nombres, y `arg96`
 alinea por espacios **y** separa el guion del marcador (`2 - 0`), que fue lo único
 que obligó a tocar el lector.
 
-**No queda nada por hacer acá salvo el hueco de fuente.**
+**La capa está cerrada y sin pendientes.**
 
 - **`Huracán Corrientes` ya está en el padrón**, que era el único club de verdad que
   estos años traen y faltaba. El pendiente estaba anotado en la capa de arriba y ahí el
   club no aparece: sólo está en el `Apertura 1996` y en el `Clausura 1997`, las dos de
   esta capa.
-- **Queda UN partido sin fecha**: `Gimnasia (LP) 1-1 Boca` (Fecha 19 del Apertura
-  1993). La localía está probada y es de Gimnasia —en el mismo archivo de RSSSF, la
-  Round 19 del Apertura 1993 y la del Clausura 1994 son el mismo fixture invertido, y
-  nueve de los diez cruces invierten prolijamente: el único que no es éste—. Lo que
-  falta es el **día**: dos fuentes dicen sábado 19/03/1994 y RSSSF dice viernes 18, y la
-  jornada se jugó partida entre los dos.
+- **Ya no queda ningún partido sin fecha en esta capa.** El último era el
+  `Gimnasia (LP) 1-1 Boca` de la fecha 19 del Apertura 1993, y lo zanjó **Página/12 del
+  domingo 20 de marzo de 1994**, que lo cuenta jugado el día anterior con los dos
+  goleadores, el árbitro y los dos expulsados que coinciden con la ficha. Es la única
+  cita del repo que le gana a una base de datos: RSSSF lo fechaba el viernes 18.
 - **La página del Clausura 1993 usa dos criterios distintos** para el mismo tipo de
   hecho: publica el marcador del fallo en el `Vélez–Boca` de la fecha 4 y el de la cancha
   en el `Talleres–River` de la fecha 16. El segundo quedó arbitrado por su propia tabla de
