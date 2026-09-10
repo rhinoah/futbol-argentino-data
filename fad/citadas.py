@@ -170,7 +170,36 @@ FECHAS: dict[str, tuple[Cita, ...]] = {
     #     expulsiones de Acosta y Noriega, y el equipo "dirigido por Roberto Perfumo".
     #
     # Los dos goleadores, el arbitro, los dos expulsados y los dos tecnicos coinciden
-    # con la ficha del partido. El dia es el 19 y RSSSF le erro.
+    # con la ficha del partido. Y el diario lo dice de cuatro maneras en la misma
+    # edicion: la cronica del viernes ("esperar que HOY perdieran River, Velez y
+    # Boca"), las formaciones con su arbitro, el aviso de que el campeonato "hoy
+    # llegara a su fin", y que Canal 13 transmitiria "con conexiones con Liniers y LA
+    # PLATA" -- que son las canchas de Velez y de Gimnasia.
+    #
+    # HAY UNA FUENTE BUENA QUE DICE VIERNES 18, y conviene dejarla anotada para que
+    # el que la encuentre no crea que esto se escribio sin verla. `gelp.org`, el
+    # archivo estadistico de Gimnasia, publica la ficha mas completa que existe de
+    # este partido -- estadio con direccion, arbitro, recaudacion ($ 111.014),
+    # publico (8812), formaciones con suplentes, los dos DT, el gol de Fernandez a
+    # los 42' CON la asistencia de Stremiz, el penal de Martinez a los 41' del
+    # segundo tiempo y los dos expulsados CON MINUTO -- y la fecha con "18-03-1994
+    # (Viernes)".
+    #
+    # No gana, por tres razones y en este orden:
+    #
+    #   1. Es reconstruccion posterior y el diario es contemporaneo. Un archivo de
+    #      club se arma anios despues; el diario del sabado anuncia el partido de esa
+    #      tarde y el del domingo lo cuenta jugado.
+    #   2. `gelp.org` DECLARA usar material de RSSSF entre sus fuentes, y RSSSF es
+    #      justamente quien fecha este partido el 18. Que gelp corrija la localia que
+    #      RSSSF tiene mal no prueba que no le haya tomado el dia: el estadio es suyo
+    #      y el dia no.
+    #   3. Tiene al menos otra discrepancia de fecha con RSSSF en esta misma
+    #      temporada -- el Gimnasia-Mandiyu, que gelp fecha 24/06 y RSSSF 24/07 --,
+    #      asi que sus dias no son infalibles.
+    #
+    # Lo que gelp aporta y nadie mas tiene son los DETALLES del partido, y esos no se
+    # discuten: coinciden con el diario en todo lo que los dos publican.
     # ------------------------------------------------------------------
     "Anexo:Torneo Apertura 1993 (Argentina)": (
         Cita("1994-03-19", "Gimnasia y Esgrima (LP)", "Boca Juniors", 1, 1,

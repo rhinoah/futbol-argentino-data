@@ -3010,7 +3010,22 @@ Dos ejemplares alcanzan, y se apoyan entre sí:
   expulsiones de Acosta y Noriega, y el equipo «dirigido por Roberto Perfumo».
 
 Los dos goleadores, el árbitro, los dos expulsados y los dos técnicos coinciden con la
-ficha. **El partido fue el sábado 19 y RSSSF le erró.**
+ficha. Y el diario lo dice de cuatro maneras en la misma edición — la crónica del
+viernes, las formaciones, el aviso de que el campeonato «hoy llegará a su fin», y que
+Canal 13 transmitiría «con conexiones con Liniers y **La Plata**», que son las canchas de
+Vélez y de Gimnasia. **El partido fue el sábado 19.**
+
+**Y hay una fuente buena que dice viernes 18**, que conviene dejar anotada para que quien
+la encuentre no crea que esto se escribió sin verla. `gelp.org`, el archivo estadístico
+de Gimnasia, publica la ficha más completa que existe de este partido —estadio con
+dirección, recaudación, público, formaciones con suplentes, la asistencia del gol y los
+expulsados con minuto— y la fecha el 18. No gana por tres razones, en este orden: es
+reconstrucción posterior y el diario es contemporáneo; el propio sitio **declara usar
+material de RSSSF**, que es justamente quien fecha el partido el 18 —corregir la localía,
+que es su cancha, no prueba que no le haya tomado el día—; y tiene al menos otra
+discrepancia de fecha con RSSSF en esa misma temporada. Lo que gelp aporta y nadie más
+tiene son los *detalles*, y ésos no se discuten: coinciden con el diario en todo lo que
+los dos publican.
 
 **Es la única cita del repo que le gana a una base de datos**, y la distinción está
 escrita en el código. `fad/citadas.py` se construyó con la regla «si alguna vez una base
