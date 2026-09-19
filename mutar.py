@@ -2174,6 +2174,26 @@ MUTANTES = [
      "publicada[i] - contada[i]:+d",
      "publicada[i]:+d"),
 
+    # LA IDENTIDAD DE RESULTADOS. Cada partido reparte o un ganado y un perdido, o
+    # dos empatados, asi que sobre un conjunto cerrado la suma de empatados es PAR y
+    # la de ganados igual a la de perdidos. Es lo que convirtio el "la que esta mal
+    # es la fila de la tabla" en algo demostrado en vez de afirmado.
+    ("fad/posiciones.py", "dejar que la identidad culpe a una fila sin localizarla",
+     "    if desviados != 1:",
+     "    if False:"),
+
+    ("fad/posiciones.py", "dar por probada una tabla que ya cierra consigo misma",
+     "    if e % 2 == 0 and g == p:",
+     "    if False:"),
+
+    ("fad/posiciones.py", "pedirle a la identidad solo la paridad y no las dos",
+     "    return (e + de) % 2 == 0 and g + dg == p + dp",
+     "    return (e + de) % 2 == 0"),
+
+    ("fad/posiciones.py", "no usar nunca la identidad, ni cuando prueba",
+     "    identidad_utilizable = en % 2 == 0 and gn == pn",
+     "    identidad_utilizable = False"),
+
     ("fad/posiciones.py", "que `clubes_desviados` devuelva el club sin su firma",
      "                fuera[club] = correcciones.firma_del_desvio(datos, propios[club])",
      "                fuera[club] = str(club)"),

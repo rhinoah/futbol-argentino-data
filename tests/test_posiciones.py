@@ -1547,8 +1547,129 @@ def test_si_los_goles_coinciden_no_hay_partido_que_buscar():
     boca = [a for a in avisos if a.startswith("Boca Juniors")]
     assert len(boca) == 1
     assert "los GOLES coinciden exacto" in boca[0]
-    assert "la que esta mal es la fila de la tabla" in boca[0]
+    assert "es la fila de la tabla" in boca[0]
     assert "PARTIDO ENTERO" not in boca[0]
+    # Y AHORA ADEMAS LO DEMUESTRA. Que los goles coincidan dice que ningun partido
+    # SOLO lo explica, y con eso el aviso concluia de mas; lo que lo prueba es que
+    # las columnas de resultado de la tabla no cierran entre si.
+    assert "NO CIERRA CONSIGO MISMA" in boca[0]
+    assert "lo demuestra la tabla misma" in boca[0]
+
+
+def test_la_identidad_de_la_tabla_prueba_que_la_fila_esta_mal():
+    """Cada partido reparte o un ganado y un perdido, o dos empatados. Asi que
+    sobre un conjunto cerrado la suma de EMPATADOS es par y la de GANADOS es igual
+    a la de PERDIDOS. Si la tabla no cumple eso y le falta exactamente lo que a la
+    fila discutida, la fila esta mal y lo dice la tabla sola.
+
+    Los numeros son los de la Primera Nacional 2026: la tabla suma G353 E339 P352
+    --E impar y un ganado de menos-- y a Nueva Chicago le da un empate donde va una
+    derrota. Poniendo nuestro numero cierran las dos identidades a la vez."""
+    assert posiciones._lo_prueba_la_identidad(1, 353, 339, 352, 0, -1, 1)
+
+
+def test_con_dos_clubes_desviados_la_identidad_no_prueba_nada():
+    """La identidad prueba que la tabla esta mal EN ALGUN LADO; no dice donde.
+    Cambiarle el empate por derrota a cualquiera de las filas la arregla igual, asi
+    que la localizacion la pone el cruce contra la grilla y hace falta que el club
+    sea el unico desviado."""
+    assert not posiciones._lo_prueba_la_identidad(2, 353, 339, 352, 0, -1, 1)
+
+
+def test_el_desvio_que_la_identidad_NO_PUEDE_VER():
+    """El punto ciego, y hay que elegirlo a proposito para encontrarlo.
+
+    La identidad es ciega a todo delta que la respete, y hay uno que la respeta: el
+    que cambia DOS empates por una victoria y una derrota. Ahi `de` es par y `dg`
+    es igual a `dp`, asi que las dos sumas quedan intactas y la tabla sigue
+    cerrando consigo misma aunque la fila este mal.
+
+    Es el gemelo del punto ciego que `desbalance` ya tiene documentado --el error de
+    tipeo que baja los DOS goles de la misma fila-- y por la misma razon: un cambio
+    que se cancela no deja huella en un agregado.
+
+    Ojo que este test hace falta de verdad. El primero que se escribio usaba
+    `(0, -1, 1)` y pasaba igual con la guarda sacada, porque ahi la ARITMETICA ya
+    devolvia False --la paridad no cerraba-- y no la guarda. El mutante lo
+    denuncio: sobrevivio."""
+    # la tabla cierra: 80 empates (par) y 100 ganados contra 100 perdidos
+    assert not posiciones._lo_prueba_la_identidad(1, 100, 80, 100, 1, -2, 1)
+    # y sin la guarda de "ya cierra" la aritmetica sola diria que si, que es
+    # exactamente el error que la guarda impide
+    dg, de, dp = 1, -2, 1
+    assert (80 + de) % 2 == 0 and 100 + dg == 100 + dp
+
+
+def test_la_identidad_tiene_que_cerrar_LAS_DOS():
+    """Que el arreglo acomode la paridad de los empates no alcanza: tambien tiene
+    que igualar ganados con perdidos. Aca la tabla le sobran TRES ganados y la fila
+    discutida explica uno solo, asi que el resto viene de otra parte y esta fila no
+    queda probada."""
+    assert not posiciones._lo_prueba_la_identidad(1, 355, 339, 352, 0, -1, 1)
+
+
+def test_si_la_identidad_no_prueba_el_aviso_no_afirma_que_la_tabla_esta_mal():
+    """EL AGUJERO QUE TENIA EL AVISO. Decia "ningun partido puede explicar esto: la
+    que esta mal es la fila de la tabla". Vale para UN partido mal leido, pero "los
+    goles coinciden" es una afirmacion sobre el AGREGADO, y dos errores que se
+    compensan reproducen la firma exacta con la tabla bien y la grilla mal.
+
+    Aca la tabla le da a Boca una victoria y a River una derrota sobre un empate, y
+    las dos sumas quedan intactas --G2 E0 P2 contra nuestras G1 E2 P1--. No hay
+    contradiccion interna que denunciar, asi que el aviso tiene que decir que es lo
+    mas probable y no que esta probado."""
+    ps = [zona("Boca Juniors", "River Plate", 1, 1),
+          zona("Independiente", "San Lorenzo", 2, 0)]
+    texto = _tabla_gep(
+        # Boca y River: la tabla les cambia el empate por victoria y derrota, con
+        # los MISMOS goles. Las dos sumas de la tabla siguen cerrando.
+        _fila_gep("Boca Juniors", 3, 1, 1, 0, 0, 1, 1),
+        _fila_gep("River Plate", 0, 1, 0, 0, 1, 1, 1),
+        _fila_gep("Independiente", 3, 1, 1, 0, 0, 2, 0),
+        _fila_gep("San Lorenzo", 0, 1, 0, 0, 1, 0, 2))
+    boca = [a for a in posiciones.resultados_que_no_coinciden(ps, texto)
+            if a.startswith("Boca Juniors")]
+    assert len(boca) == 1
+    assert "ningun partido SOLO puede explicar" in boca[0]
+    assert "NO LO DEMUESTRA" in boca[0]
+    assert "probado no esta" in boca[0]
+    assert "NO CIERRA CONSIGO MISMA" not in boca[0]
+
+
+def test_con_la_identidad_a_favor_no_manda_a_buscar_club_espejo():
+    """Cuando los goles TAMBIEN difieren el aviso manda a buscar el club espejo, y
+    casi siempre hace bien. Pero si la identidad prueba que la fila esta mal, ese
+    cruce no existe y mandar a buscarlo es mandar a perder el tiempo.
+
+    Pasa una vez en el corpus: Union en el Clausura 1999, donde la tabla le quita un
+    ganado y le agrega un empate, y ademas le quita un gol a favor."""
+    ps = [zona("Boca Juniors", "River Plate", 1, 0)]
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 1, 1, 0, 1, 0, 0, 0),
+                       _fila_gep("River Plate", 0, 1, 0, 0, 1, 0, 1))
+    boca = [a for a in posiciones.resultados_que_no_coinciden(ps, texto)
+            if a.startswith("Boca Juniors")][0]
+    assert "NO HAY CLUB ESPEJO QUE BUSCAR" in boca
+    assert "el cruce entre los dos" not in boca
+
+
+def test_si_nuestra_grilla_tampoco_cierra_la_identidad_no_opina():
+    """La identidad solo vale sobre un conjunto CERRADO de partidos. Si nuestra
+    propia suma no la cumple, el alcance no es cerrado --una zona con partidos
+    interzonales, por ejemplo-- y que la tabla tampoco la cumpla no prueba nada.
+
+    Se comprueba sobre el flag y no sobre una pagina armada: lo que decide es que
+    NUESTRA suma cierre, y eso es una condicion sobre los partidos, no sobre el
+    texto."""
+    import itertools
+    # cualquier conjunto cerrado de partidos cumple las dos identidades
+    for combinacion in itertools.product([(1, 0), (0, 1), (1, 1)], repeat=3):
+        ps = [zona(f"A{i}", f"B{i}", gl, gv)
+              for i, (gl, gv) in enumerate(combinacion)]
+        sumas = posiciones.sumar(ps)
+        g = sum(v[3] for v in sumas.values())
+        e = sum(v[4] for v in sumas.values())
+        p = sum(v[5] for v in sumas.values())
+        assert e % 2 == 0 and g == p, (combinacion, g, e, p)
 
 
 def test_si_los_goles_tambien_se_desvian_manda_a_buscar_el_partido():

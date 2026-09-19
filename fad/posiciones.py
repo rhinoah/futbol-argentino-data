@@ -638,6 +638,21 @@ def resultados_que_no_coinciden(ps: list, texto: str, arts: dict[str, str] | Non
                 publicada[club] = datos
                 if club in propios:
                     contada[club] = propios[club]
+    # LAS DOS COSAS QUE NECESITA `_lo_prueba_la_identidad`, y que hay que calcular
+    # antes de recorrer: cuantos clubes se desvian en RESULTADOS, y las sumas de la
+    # tabla. Se miden sobre los clubes efectivamente COMPARABLES --los que estan en
+    # las dos partes y con el mismo PJ--, que es el mismo conjunto que juzga el
+    # bucle. Y solo se usan si NUESTRA suma cumple las identidades: si no las
+    # cumple, el alcance no es un conjunto cerrado --una zona con interzonales, por
+    # ejemplo-- y entonces que la tabla tampoco las cumpla no prueba nada.
+    comparables = [c for c in publicada
+                   if c in contada and contada[c][0] == publicada[c][0]]
+    desviados = [c for c in comparables
+                 if tuple(publicada[c][3:6]) != tuple(contada[c][3:6])]
+    sumas_de_la_tabla = _identidad_de_resultados(publicada, comparables)
+    gn, en, pn = _identidad_de_resultados(contada, comparables)
+    identidad_utilizable = en % 2 == 0 and gn == pn
+
     fuera = []
     for club, datos in sorted(publicada.items()):
         if club not in contada or correcciones.revisado(
@@ -659,12 +674,43 @@ def resultados_que_no_coinciden(ps: list, texto: str, arts: dict[str, str] | Non
         # GC a los dos clubes. Asi que si los goles coinciden exacto y lo unico
         # que se corrio es el resultado, no hay ningun partido que pueda explicarlo
         # y no hay nada que buscar afuera: la que esta mal es la fila.
+        # Nuestro G-E-P menos el de la tabla, para esta fila. Va antes del `if`
+        # porque lo miran las dos ramas.
+        dg, de, dp = (contada[club][3] - datos[3],
+                      contada[club][4] - datos[4],
+                      contada[club][5] - datos[5])
         if tuple(datos[1:3]) == tuple(contada[club][1:3]):
+            # LOS GOLES COINCIDEN, asi que ningun partido SOLO puede explicarlo:
+            # cambiarle un digito a un marcador mueve el GF o el GC de los dos
+            # clubes. Pero eso no alcanza para culpar a la tabla, y durante un
+            # tiempo el aviso dijo que si. Lo que decide es la identidad.
+            if identidad_utilizable and _lo_prueba_la_identidad(
+                    len(desviados), *sumas_de_la_tabla, dg, de, dp):
+                fuera.append(
+                    f"{cabeza} Pero los GOLES coinciden exacto, y ademas "
+                    f"{_LA_IDENTIDAD_LO_PRUEBA}. No hay nada que ir a buscar "
+                    f"afuera")
+            else:
+                fuera.append(
+                    f"{cabeza} Los GOLES coinciden exacto, y un marcador mal leido "
+                    f"mueve siempre los goles: ningun partido SOLO puede explicar "
+                    f"esto. OJO QUE ESO NO LO DEMUESTRA -- dos errores que se "
+                    f"compensan, un empate leido como derrota mas otro partido con "
+                    f"un gol de menos, reproducen esta misma firma con la tabla "
+                    f"bien y la grilla mal --, asi que lo mas probable es que este "
+                    f"mal la fila de la tabla, pero probado no esta. Releer los "
+                    f"partidos de este club antes de declarar nada")
+        elif identidad_utilizable and _lo_prueba_la_identidad(
+                len(desviados), *sumas_de_la_tabla, dg, de, dp):
+            # LOS GOLES TAMBIEN DIFIEREN, que normalmente manda a buscar el club
+            # espejo. Aca no hay a quien buscar, y decirlo importa: el aviso mandaba
+            # a rastrear un cruce que no existe. Pasa una vez en el corpus --Union
+            # en el Clausura 1999-- y ahi las otras dos denuncias de la pagina ya
+            # apuntaban a la fila; esta lo dice tambien desde los resultados.
             fuera.append(
-                f"{cabeza} Pero los GOLES coinciden exacto, y un marcador mal "
-                f"leido mueve siempre los goles. Ningun partido puede explicar "
-                f"esto: la que esta mal es la fila de la tabla, no la grilla. No "
-                f"hay nada que ir a buscar afuera")
+                f"{cabeza} Los goles tambien difieren, que normalmente querria "
+                f"decir un PARTIDO ENTERO dado a distinto ganador -- pero aca NO "
+                f"HAY CLUB ESPEJO QUE BUSCAR, porque {_LA_IDENTIDAD_LO_PRUEBA}")
         else:
             fuera.append(
                 f"{cabeza} No es un digito mal leido sino un PARTIDO ENTERO que "
@@ -1365,6 +1411,76 @@ def _lo_prueba_el_desbalance(desviados: int, desbalanceada: int,
     if desviados != 1 or desbalanceada == 0:
         return False
     return (dgf == desbalanceada and dgc == 0) or (dgc == -desbalanceada and dgf == 0)
+
+
+# La mitad del aviso que explica la identidad. Va aparte porque la usan las DOS
+# ramas de `resultados_que_no_coinciden` -- la de los goles que coinciden y la del
+# partido entero -- y escribirla dos veces es como se desincronizan.
+_LA_IDENTIDAD_LO_PRUEBA = (
+    "LA TABLA NO CIERRA CONSIGO MISMA en sus columnas de resultado: la suma de "
+    "empatados tiene que ser PAR --cada empate lo cuentan los dos clubes-- y la de "
+    "ganados igual a la de perdidos, y le falta exactamente lo que a esta fila. "
+    "Poniendo nuestro numero cierran las dos a la vez. La que esta mal es la fila "
+    "de la tabla, no la grilla, y lo demuestra la tabla misma")
+
+
+def _identidad_de_resultados(filas: dict, clubes) -> tuple[int, int, int]:
+    """Suma de ganados, empatados y perdidos sobre los clubes indicados."""
+    return (sum(filas[c][3] for c in clubes),
+            sum(filas[c][4] for c in clubes),
+            sum(filas[c][5] for c in clubes))
+
+
+def _lo_prueba_la_identidad(desviados: int, g: int, e: int, p: int,
+                            dg: int, de: int, dp: int) -> bool:
+    """Si arreglar ESTA fila con nuestro G-E-P hace cerrar la tabla consigo misma.
+
+    Es el gemelo de `_lo_prueba_el_desbalance` en las columnas de RESULTADO, y se
+    apoya en la misma clase de hecho: cada partido reparte o un ganado y un
+    perdido, o dos empatados. Asi que sobre un conjunto cerrado la suma de
+    EMPATADOS es PAR --cada empate lo cuentan los dos clubes-- y la de GANADOS es
+    igual a la de PERDIDOS. Siempre. No es una comparacion contra nadie: es la
+    tabla contradiciendose sola.
+
+    POR QUE HACIA FALTA. El aviso de `resultados_que_no_coinciden` concluia "la
+    que esta mal es la fila de la tabla" a partir de que los goles coincidieran, y
+    ese argumento no alcanza: vale para UN partido mal leido, pero "los goles
+    coinciden" es una afirmacion sobre un agregado de treinta, y dos errores que
+    se compensan --un empate leido como derrota mas otro partido con un gol de
+    menos-- reproducen la firma exacta con la tabla bien y la grilla mal. Esto si
+    lo demuestra, porque la verdad TIENE que cumplir las dos identidades.
+
+    LO QUE NO HACE ES LOCALIZAR. Que las identidades no cierren prueba que las
+    columnas de resultado de la tabla estan mal en algun lado, pero cambiarle el
+    empate por derrota a cualquiera de las filas las arregla igual. La
+    localizacion la sigue poniendo el cruce contra la grilla, que coincide en
+    todas las demas. Por eso se pide `desviados == 1`: sin eso la identidad no
+    puede sostener que la culpa es de esta fila.
+
+    EL PUNTO CIEGO, que lo encontro la mutacion y no el razonamiento: la identidad
+    no ve ningun delta que la RESPETE, y hay uno que la respeta -- el que cambia DOS
+    empates por una victoria y una derrota. Ahi `de` es par y `dg` es igual a `dp`,
+    asi que las dos sumas quedan intactas y la tabla sigue cerrando aunque la fila
+    este mal. De eso se ocupa la guarda de arriba. Es el gemelo del punto ciego que
+    `desbalance` ya tiene documentado --el tipeo que baja los DOS goles de la misma
+    fila-- y por la misma razon: un cambio que se cancela no deja huella en un
+    agregado.
+
+    SE MIDIO ANTES DE PRENDERLO, sobre las 181 tablas del corpus que se pueden
+    comparar. Las identidades fallan en TRES: el Clausura 1999 (G130 E119 P131,
+    y su unica fila discutida es la de Union, a la que le damos un ganado mas),
+    la Primera Nacional 2025 Zona B (G214 E185 P213, Defensores de Belgrano, que
+    ya tiene su `Revisado`) y la Primera Nacional 2026 (G353 E339 P352, Nueva
+    Chicago). En los tres poner nuestro numero cierra las dos a la vez. Y en los
+    tres el club ya estaba denunciado por otro camino: por eso esto NO es un
+    aviso nuevo -- no agregaria una sola deteccion -- sino la prueba que le
+    faltaba al que ya existe.
+    """
+    if desviados != 1:
+        return False
+    if e % 2 == 0 and g == p:
+        return False        # la tabla ya cierra sola: no hay nada que probar
+    return (e + de) % 2 == 0 and g + dg == p + dp
 
 
 def _de_quien_es_la_culpa(desviados: int, respaldado: bool = False,
