@@ -3571,6 +3571,25 @@ def revisado_llave(pagina: str, uno: str, otro: str) -> "Revisado | None":
     return None
 
 
+# QUE TAPA DE VERDAD UN `Revisado` CADUCADO, que no es lo que este aviso decia.
+#
+# Decia "mientras siga ahi puede estar tapando un desvio nuevo del mismo club", y
+# para los chequeos de tabla eso es FALSO desde que existe el campo `desvio`:
+# `revisado()` contesta solo si la firma coincide, asi que una entrada cuya firma
+# ya no es la de hoy no calla nada y el desvio nuevo sale igual. La frase quedo de
+# cuando la entrada se identificaba solo por (pagina, club).
+#
+# Pero no es falso en todas las puertas, y por eso el aviso tiene que decir cual:
+# `build.la_fuente_se_respalda` --la foja-- pregunta SIN firma, a proposito,
+# porque cruza la tabla de RSSSF contra los partidos de RSSSF y la firma de
+# nuestro desvio contra Wikipedia no significa nada ahi. A esa si la calla.
+_LO_QUE_SIGUE_CALLANDO = (
+    "Ojo con lo que SI y lo que NO tapa: los chequeos de tabla de `posiciones.py` "
+    "preguntan por la firma, asi que a ellos ya no los calla y el desvio de hoy "
+    "sale igual; pero la foja --`build.la_fuente_se_respalda`-- pregunta SIN "
+    "firma, y a esa la sigue callando mientras la entrada exista")
+
+
 def revisados_huerfanos(pagina: str, desviados, llaves: set | None = None) -> list[str]:
     """Los `Revisado` de esta pagina que ya no enganchan con el desvio que dicen.
 
@@ -3584,9 +3603,20 @@ def revisados_huerfanos(pagina: str, desviados, llaves: set | None = None) -> li
 
       * el club ya no se desvia -- la pagina se arreglo, o le cambiaron la fila --
         y entonces la entrada no tiene nada que silenciar;
-      * el club SIGUE desviandose pero de otra manera. Esta es la peligrosa: la
-        entrada engancha igual y calla un problema que nadie miro. Se ve
-        comparando la firma declarada contra la de hoy.
+      * el club SIGUE desviandose pero de otra manera. Se ve comparando la firma
+        declarada contra la de hoy.
+
+    LOS TRES FINALES DICEN COSAS DISTINTAS, y antes los tres decian lo mismo. El
+    aviso unico repetia "puede estar tapando un desvio nuevo del mismo club", que
+    para los dos casos de CLUB es falso --ver `_LO_QUE_SIGUE_CALLANDO`-- y para el
+    de LLAVE es verdad, porque `revisado_llave` identifica por el par de clubes y
+    no tiene firma con que desempatar.
+
+    Y el primero de los tres ya no es una alarma sino un FINAL FELIZ con una
+    consecuencia: desde que no se aceptan `Revisado` sobre temporadas abiertas,
+    todas las entradas hablan de paginas cerradas. Si el desvio desaparecio,
+    alguien edito la tabla de una temporada que ya no deberia moverse, y eso es
+    justamente lo que conviene ir a mirar antes de borrar la entrada.
 
     `desviados` es {club: firma}; se acepta tambien un conjunto pelado, y ahi
     solo se puede mirar la primera forma.
@@ -3603,24 +3633,29 @@ def revisados_huerfanos(pagina: str, desviados, llaves: set | None = None) -> li
             if llaves is None or frozenset((r.club, r.contra)) in llaves:
                 continue
             fuera.append(
-                f"la verificacion de {r.club} ya no engancha con ningun desvio: o "
-                f"la pagina se arreglo, o le cambiaron la tabla. Sacala de "
-                f"fad/correcciones.py, porque mientras siga ahi puede estar "
-                f"tapando un desvio nuevo del mismo club")
+                f"la verificacion de la llave {r.club} - {r.contra} ya no engancha "
+                f"con ningun desacuerdo del cuadro: o la pagina se arreglo, o le "
+                f"cambiaron el cuadro. Sacala de fad/correcciones.py, y esta SI "
+                f"puede tapar: `revisado_llave` identifica por el par de clubes y "
+                f"no por una firma, asi que mientras siga ahi calla cualquier "
+                f"desacuerdo nuevo entre esos dos")
             continue
         if r.club not in desviados:
             fuera.append(
-                f"la verificacion de {r.club} ya no engancha con ningun desvio: o "
-                f"la pagina se arreglo, o le cambiaron la tabla. Sacala de "
-                f"fad/correcciones.py, porque mientras siga ahi puede estar "
-                f"tapando un desvio nuevo del mismo club")
+                f"la verificacion de {r.club} ya no engancha porque el club NO SE "
+                f"DESVIA MAS: la errata que se verifico esta corregida y la entrada "
+                f"cumplio. Sacala de fad/correcciones.py. {_LO_QUE_SIGUE_CALLANDO}. "
+                f"Y antes de borrarla, un dato que vale mirar: los `Revisado` solo "
+                f"se escriben sobre temporadas CERRADAS, asi que si el desvio "
+                f"desaparecio es porque alguien edito una tabla que ya no deberia "
+                f"moverse")
         elif r.desvio and r.club in firmas and firmas[r.club] != r.desvio:
             fuera.append(
                 f"la verificacion de {r.club} hablaba de un desvio `{r.desvio}` y "
                 f"hoy el desvio es `{firmas[r.club]}`: el club se sigue apartando, "
                 f"pero de otra manera. Lo que se verifico ya no es lo que pasa, "
                 f"asi que hay que rehacerlo y actualizar `desvio` en "
-                f"fad/correcciones.py")
+                f"fad/correcciones.py. {_LO_QUE_SIGUE_CALLANDO}")
     return fuera
 
 

@@ -1801,9 +1801,15 @@ def test_la_verificacion_QUE_CAMBIO_DE_DESVIO_se_denuncia():
     """Son dos formas de caducar y la guarda tiene que ver las dos.
 
     Que el club ya no se desvie es la facil: la entrada no tiene nada que
-    silenciar. La otra es la peligrosa -- el club se sigue apartando, pero de
-    otra manera -- porque ahi la entrada engancha igual por nombre y calla un
-    problema que nadie miro.
+    silenciar. La otra es que el club se sigue apartando, pero de otra manera.
+
+    CUIDADO CON LA RAZON QUE ESTE DOCSTRING DABA: decia que en el segundo caso "la
+    entrada engancha igual por nombre y calla un problema que nadie miro", y eso
+    dejo de ser cierto cuando se agrego el campo `desvio` -- que es lo que este
+    mismo test ejercita. `revisado()` contesta solo si la firma coincide, asi que
+    una entrada cuya firma cambio NO calla el chequeo de tabla. Lo que si sigue
+    callando es la foja, que pregunta sin firma. Ver
+    `test_el_aviso_del_huerfano_no_miente_sobre_lo_que_tapa`.
     """
     from fad import correcciones
     r = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors",
@@ -1817,6 +1823,78 @@ def test_la_verificacion_QUE_CAMBIO_DE_DESVIO_se_denuncia():
         assert "GF-2" in cambio[0] and "GF-3" in cambio[0], cambio
         fue = correcciones.revisados_huerfanos("Una Pagina", {"River Plate": "GF-1"})
         assert len(fue) == 1 and "ya no engancha" in fue[0], fue
+
+
+def test_el_aviso_del_huerfano_no_miente_sobre_lo_que_tapa():
+    """EL AVISO AFIRMABA ALGO QUE SU PROPIO CODIGO YA NO HACIA.
+
+    Decia "mientras siga ahi puede estar tapando un desvio nuevo del mismo club",
+    y para los chequeos de tabla es falso desde que existe `desvio`: `revisado()`
+    contesta solo si la firma coincide. La frase quedo de cuando la entrada se
+    identificaba por (pagina, club) y nada mas.
+
+    Pero no es falso en todas las puertas, y de eso se trata el test: la foja
+    pregunta SIN firma --a proposito, porque cruza la tabla de RSSSF contra los
+    partidos de RSSSF-- y a esa la sigue callando. El aviso ahora dice las dos
+    mitades, y este test las verifica CONTRA EL CODIGO en vez de leer el texto."""
+    ps = [zona("Boca Juniors", "River Plate", 0, 1)]
+    texto = _tabla_gep(_fila_gep("Boca Juniors", 3, 1, 1, 0, 0, 1, 0),
+                       _fila_gep("River Plate", 0, 1, 0, 0, 1, 0, 1))
+    # una entrada que habla de OTRO desvio que el de hoy
+    r = correcciones.Revisado(pagina="Una Pagina", club="Boca Juniors",
+                              porque="x", desvio="NO-ES-LA-FIRMA-DE-HOY")
+    with mock.patch.object(correcciones, "REVISADOS", (r,)):
+        # 1) lo que el aviso promete: al chequeo de tabla NO lo calla
+        assert [a for a in posiciones.resultados_que_no_coinciden(
+            ps, texto, pagina="Una Pagina") if a.startswith("Boca Juniors")], \
+            "una entrada con otra firma no tiene que callar el desvio de hoy"
+        # 2) lo que el aviso admite: a la foja SI la calla, porque pregunta sin firma
+        assert correcciones.revisado("Una Pagina", "Boca Juniors") is r
+        # 3) y el aviso dice las dos mitades
+        aviso = correcciones.revisados_huerfanos(
+            "Una Pagina", {"Boca Juniors": "GF-1 GC-1 G+1 P-1"})[0]
+        assert "ya no los calla" in aviso
+        assert "la sigue callando" in aviso
+
+
+def test_los_tres_finales_del_huerfano_dicen_cosas_distintas():
+    """Antes los tres decian la misma frase, y una de las tres era mentira.
+
+    El de LLAVE es el unico donde la advertencia de tapar es cierta:
+    `revisado_llave` identifica por el par de clubes y no tiene firma con que
+    desempatar, asi que una entrada vieja calla cualquier desacuerdo nuevo entre
+    esos dos. Los dos de CLUB no tapan el chequeo de tabla.
+
+    Y el primero dejo de ser una alarma: es el final feliz --la errata se
+    corrigio-- con una consecuencia que conviene mirar, porque desde que no se
+    aceptan `Revisado` sobre temporadas abiertas, una que caduca quiere decir que
+    alguien edito la tabla de una temporada cerrada."""
+    club = correcciones.Revisado(pagina="P", club="Boca Juniors", porque="x",
+                                 desvio="GF-2")
+    llave = correcciones.Revisado(pagina="P", club="Boca Juniors",
+                                  contra="River Plate", porque="x")
+
+    with mock.patch.object(correcciones, "REVISADOS", (club,)):
+        fue = correcciones.revisados_huerfanos("P", {"Otro": "GF-1"})[0]
+        cambio = correcciones.revisados_huerfanos("P", {"Boca Juniors": "GF-3"})[0]
+    with mock.patch.object(correcciones, "REVISADOS", (llave,)):
+        par = correcciones.revisados_huerfanos("P", {}, llaves=set())[0]
+
+    # el final feliz: no alarma, y nombra la consecuencia de la temporada cerrada
+    assert "NO SE DESVIA MAS" in fue and "cumplio" in fue
+    assert "temporadas CERRADAS" in fue
+    # el que cambio de forma: manda a rehacer la verificacion
+    assert "GF-2" in cambio and "GF-3" in cambio and "rehacerlo" in cambio
+    # LAS DOS DE CLUB dicen las dos mitades de lo que tapan, y las dos hacen falta:
+    # el mutante que saca la aclaracion de este final sobrevivia porque solo se la
+    # exigia al otro.
+    for a in (fue, cambio):
+        assert "ya no los calla" in a and "la sigue callando" in a, a
+    # la llave: es la UNICA donde la advertencia de tapar es cierta
+    assert "SI puede tapar" in par and "revisado_llave" in par
+    assert "SI puede tapar" not in fue and "SI puede tapar" not in cambio
+    # y los tres son textos distintos
+    assert len({fue, cambio, par}) == 3
 
 
 def test_los_huerfanos_se_preguntan_sobre_los_desvios_CRUDOS():

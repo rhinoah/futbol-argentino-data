@@ -2166,6 +2166,17 @@ MUTANTES = [
      "            if desvio is None or not r.desvio or r.desvio == desvio:",
      "            if True:"),
 
+    # LOS TRES FINALES DEL HUERFANO. El aviso unico repetia "puede estar tapando un
+    # desvio nuevo del mismo club", que para los dos casos de club es falso desde que
+    # existe `desvio`, y para el de llave es verdad.
+    ("fad/correcciones.py", "callarse lo que el huerfano sigue tapando",
+     'f"cumplio. Sacala de fad/correcciones.py. {_LO_QUE_SIGUE_CALLANDO}. "',
+     'f"cumplio. Sacala de fad/correcciones.py. "'),
+
+    ("fad/correcciones.py", "decir que el huerfano de llave no tapa nada",
+     'f"cambiaron el cuadro. Sacala de fad/correcciones.py, y esta SI "',
+     'f"cambiaron el cuadro. Sacala de fad/correcciones.py, y esta NO "'),
+
     ("fad/correcciones.py", "no denunciar la verificacion cuyo desvio CAMBIO",
      "        elif r.desvio and r.club in firmas and firmas[r.club] != r.desvio:",
      "        elif False:"),
