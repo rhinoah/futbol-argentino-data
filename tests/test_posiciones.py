@@ -246,6 +246,81 @@ def test_el_arbitraje_no_le_da_siempre_la_razon_al_mismo():
     assert sin_cambio, "ninguno le da la razon a Wikipedia: sospechoso"
 
 
+def test_el_arbitraje_de_la_Primera_C_2026_hace_cerrar_las_dos_filas():
+    """El unico arbitraje sobre una temporada TODAVIA ABIERTA.
+
+    La grilla publica `Claypole 2-2 Sacachispas` en la fecha 28 y la pagina se
+    contradice CUATRO VECES CONTRA UNA: el total de goles del infobox, las dos
+    tablas de zona y la tabla de evolucion de posiciones estan escritos desde un
+    2-0. Ver el comentario de la entrada en `fad/correcciones.py`.
+
+    EL TEST NO REPITE LOS NUMEROS DE LA CORRECCION, los verifica: suma el dataset
+    y exige que con el `debe` puesto las dos filas den exactamente lo que publican
+    las dos tablas de Wikipedia --que son el testigo-- y que con el `dice` NO den.
+    Asi un digito mal copiado en `debe` rompe el test en vez de pasar inadvertido.
+
+    DOS COSAS QUE LO HACEN SOBREVIVIR A LA TEMPORADA, que es donde este repo ya se
+    tropezo una vez con los `Revisado` anclados a una foto:
+
+    - Suma solo las fechas 1 a 28. Lo que juegue Claypole despues no puede mover
+      la fila de 28 partidos contra la que se verifica.
+    - Saca el cruce de la suma y le prueba los dos marcadores. Asi da igual si el
+      CSV todavia tiene el 2-2 de Wikipedia o si ya se le escribio el 2-0: el
+      build aplica MARCADORES sobre las filas, asi que ese valor cambia solo."""
+    import csv
+    import pathlib
+
+    import pytest
+
+    from fad import correcciones
+    datos = pathlib.Path(__file__).resolve().parent.parent / "data" / "partidos-2026.csv"
+    if not datos.exists():
+        pytest.skip("hace falta el dataset")
+
+    arbitrajes = [m for m in correcciones.MARCADORES
+                  if m.pagina == "Campeonato de Primera C 2026 (Argentina)"
+                  and (m.local, m.visita) == ("Claypole", "Sacachispas")]
+    assert len(arbitrajes) == 1, "este arbitraje tiene que existir y ser uno solo"
+    m = arbitrajes[0]
+    assert m.jornada == "Fecha 28"
+
+    with datos.open(encoding="utf-8") as fh:
+        filas = [f for f in csv.DictReader(fh)
+                 if f["tournament"] == "Primera C" and f["season"] == "2026"
+                 and f["matchday"].startswith("Fecha ")
+                 and int(f["matchday"].split()[1]) <= 28]
+    assert filas, "no hay filas de la Primera C 2026 en el dataset"
+
+    def fila_de(club, marcador):
+        """El g-e-p-GF-GC del club sumando sus 28 fechas, con el cruce puesto a mano."""
+        g = e = p_ = gf = gc = 0
+        for f in filas:
+            if club not in (f["home_team"], f["away_team"]):
+                continue
+            es_el_cruce = (f["matchday"] == m.jornada
+                           and {f["home_team"], f["away_team"]} == {m.local, m.visita})
+            a, b = ((marcador if f["home_team"] == m.local else marcador[::-1])
+                    if es_el_cruce
+                    else (int(f["home_score"]), int(f["away_score"])))
+            mio, suyo = (a, b) if f["home_team"] == club else (b, a)
+            gf += mio
+            gc += suyo
+            g += mio > suyo
+            e += mio == suyo
+            p_ += mio < suyo
+        return (g, e, p_, gf, gc)
+
+    # lo que publican las dos tablas de posiciones de la pagina, a 28 partidos
+    PUBLICA = {"Claypole": (7, 8, 13, 21, 35), "Sacachispas": (13, 7, 8, 32, 22)}
+    for club, publicado in PUBLICA.items():
+        assert fila_de(club, m.debe) == publicado, (
+            f"{club}: con el arbitraje puesto la fila tiene que dar lo que publica "
+            f"la tabla de posiciones")
+        assert fila_de(club, m.dice) != publicado, (
+            f"{club}: con el marcador de la grilla la fila NO tiene que cerrar; si "
+            f"cierra, el arbitraje no esta arreglando nada")
+
+
 def test_los_arbitrados_se_pueden_buscar_por_pagina():
     from fad import correcciones
     clave = correcciones.arbitrados("Campeonato de Primera B Nacional 2010-11")

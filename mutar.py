@@ -1173,6 +1173,12 @@ MUTANTES = [
 
     # La unica cita que contradice a una base de datos. RSSSF la fecha el viernes 18
     # y el diario del dia siguiente la publica jugada el sabado 19.
+    # El unico arbitraje sobre una temporada abierta. La grilla dice 2-2 y las dos
+    # tablas, el infobox y la prensa del dia dicen 2-0.
+    ("fad/correcciones.py", "creerle a la celda de la grilla y no a las dos tablas",
+     'dice=(2, 2), debe=(2, 0),',
+     'dice=(2, 2), debe=(2, 2),'),
+
     ("fad/citadas.py", "creerle a RSSSF y no al diario del dia siguiente",
      'Cita("1994-03-19", "Gimnasia y Esgrima (LP)", "Boca Juniors", 1, 1,',
      'Cita("1994-03-18", "Gimnasia y Esgrima (LP)", "Boca Juniors", 1, 1,'),

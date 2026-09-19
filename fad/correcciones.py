@@ -1926,6 +1926,90 @@ MARCADORES: tuple[Marcador, ...] = (
             "por otra razon que no es un partido: la tabla de Wikipedia no cierra "
             "consigo misma, publica 22 puntos para un 7-7-5 que da 21."),
     ),
+
+    # ------------------------------------------------------------------
+    # EL PRIMERO DE UN TORNEO EN CURSO, y el unico donde la pagina se contradice
+    # CUATRO VECES CONTRA UNA. La grilla publica `Claypole 2-2 Sacachispas` en la
+    # ultima fecha interzonal; las dos tablas de zona, la tabla de evolucion de
+    # posiciones y el TOTAL DE GOLES DEL INFOBOX estan escritos desde un 2-0.
+    #
+    # NO ES UN DIGITO MAL TIPEADO, y eso cambia que clase de error es. El historial
+    # muestra al mismo editor cargando la fecha 28 en cuatro ediciones de tres
+    # minutos, el 15/09/2026:
+    #
+    #   20:13:59  infobox  (175374306):  partidos 391->392, goles 733->735. Un
+    #                                      2-2 sumaria +4, no +2.
+    #   20:14:52  Zona A   (175374320):  Sacachispas 13-7-7 GF32 GC20 ->
+    #                                      13-7-8 GF32 GC22.
+    #   20:16:34  Zona B   (175374340):  Claypole 6-8-13 GF19 GC35 ->
+    #                                      7-8-13 GF21 GC35, y la tabla de
+    #                                      evolucion le pone 12.o en la fecha 28,
+    #                                      intercambiando su fila con la de Fenix,
+    #                                      que queda 13.o.
+    #   20:17:21  grilla   (175374354):  ver abajo.
+    # y en esa ultima la celda del cruce pasa de `| -` --el placeholder de "no
+    # se jugo"-- a `|bgcolor=#d0e7ff|'''2 - 2`.
+    #
+    # ESE FORMATO ES EL DEL EMPATE: de las 393 celdas de marcador de la grilla, las
+    # 142 que llevan color y negrita son empates, y ninguna que no lo sea los lleva.
+    # Asi que no se le corrio un dedo: cargo el cruce COMO EMPATE tres minutos
+    # despues de haber escrito la victoria en cuatro lugares. Y en los dias
+    # siguientes nadie toco el infobox ni las tablas, que hoy siguen diciendo 2-0
+    # con la fecha 29 ya cargada.
+    #
+    # POR ESO ACA EL HISTORIAL NO ES UN DESMENTIDO, y no va la frase de `_HISTORIAL`.
+    # La celda nunca dijo otra cosa --paso de vacia a 2-2--, o sea ORIGINAL en la
+    # taxonomia de `fad/historial.py`; confundir eso con una pagina que se desmiente
+    # es el error facil que esa cabecera marca. Lo que aporta el historial no es "la
+    # pagina cambio de opinion" sino EL ORDEN en que se escribio.
+    # ------------------------------------------------------------------
+    Marcador(
+        pagina="Campeonato de Primera C 2026 (Argentina)",
+        jornada="Fecha 28", local="Claypole", visita="Sacachispas",
+        dice=(2, 2), debe=(2, 0),
+        porque=(
+            "La tabla de posiciones de las dos zonas pide este 2-0, y lo pide EXACTO: "
+            "con la grilla como esta, Claypole suma 6-9-13 GF21 GC37 y Sacachispas "
+            "13-8-7 GF34 GC22; con el 2-0 puesto pasan a 7-8-13 GF21 GC35 y a 13-7-8 "
+            "GF32 GC22, que es literalmente lo que publican las dos tablas, en las "
+            "seis cifras cada una.\n"
+            "Y ES EL UNICO ARREGLO POSIBLE, no uno que anda: de los 28 clubes de la "
+            "pagina solo estos dos se desvian en goles, asi que el partido tiene que "
+            "ser entre ellos. El otro cruce --`Sacachispas 3-0 Claypole`, fecha "
+            "12-- queda descartado porque el GF de Claypole tiene que quedar en 21 y "
+            "el GC de Sacachispas en 22, y cualquier cambio ahi los mueve. Y adentro "
+            "de la fecha 28 el marcador queda forzado: Claypole 2 porque su GF no se "
+            "mueve, Sacachispas 0 porque el GC de Claypole baja dos.\n"
+            "LA PROPIA PAGINA SE CONTRADICE CUATRO A UNO, y se chequea sin salir de "
+            "ella. ESTA MEDIDO SOBRE UNA REVISION FIJA, porque el torneo sigue en "
+            "curso y los totales se mueven cada fecha: `oldid=175424628`, del "
+            "2026-09-18T23:48:25Z. Ahi el infobox dice `partidos = 393` y "
+            "`goles = 735`, la grilla tiene los MISMOS 393 partidos y suma 737, y con "
+            "este cruce en 2-0 suma exactamente 735. Que los partidos coincidan es lo "
+            "que cierra el argumento: la diferencia de dos goles no puede venir de un "
+            "partido que a una parte le falte. La unica celda que dice 2-2 es la de la "
+            "grilla; el infobox, las dos tablas de zona y la tabla de evolucion de "
+            "posiciones estan las cuatro escritas desde un 2-0.\n"
+            "Y LO CONFIRMA LA PRENSA DEL DIA -- tres medios, dos de ellos nombrando "
+            "a los dos goleadores. noticiasmercedinas.com: `Claypole 2: Leonel "
+            "Llodra y Axel Paiva de penal. Sacachispas 0`, ubicado en la 28a fecha y "
+            "en el Capocasa. cadenalaser.com titula `Batacazo de Claypole: vencio "
+            "2-0 al puntero Sacachispas` y da los goles de Llodra y Paiva. "
+            "cultivosdequilmes.com abre con la derrota de Sacachispas en Claypole. "
+            "Ninguno de los tres puede venir de Wikipedia, que publica 2-2: una "
+            "fuente derivada no inventa un marcador distinto Y dos goleadores.\n"
+            "https://noticiasmercedinas.com/site/2026/09/15/"
+            "con-distintas-realidades-claypole-le-gano-a-sacachispas/\n"
+            "https://cadenalaser.com/nota/batacazo-de-claypole-vencio-2-0-al-puntero-"
+            "sacachispas-y-tomo-aire-en-la-pelea-por-el-descenso\n"
+            "http://www.cultivosdequilmes.com/2026/09/"
+            "perdio-sacachispas-y-festejo-berazategui.html\n"
+            "OJO AL LEER ESTO DESDE OTRO CASO: aca el ajuste es de DOS goles, no de "
+            "uno. La advertencia de `posiciones.py` --que se probaron seis contra la "
+            "prensa y la tabla tenia razon en cuatro-- habla de ajustes de un "
+            "digito, que son los que la aritmetica no puede decidir sola. Este no se "
+            "decidio con aritmetica."),
+    ),
 )
 
 
