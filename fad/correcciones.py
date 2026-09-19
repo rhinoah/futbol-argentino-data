@@ -3023,87 +3023,41 @@ _TABLA_C_2011_12 = (
     "las tres filas. Por eso tampoco es \"una celda mal tipeada\".")
 
 
-# LAS CUATRO DE LA TEMPORADA EN CURSO. Son las primeras `Revisado` sobre paginas
-# VIVAS: las 56 anteriores son de temporadas cerradas, donde la tabla ya no se
-# mueve. Conviene tenerlo presente al leerlas, y hay una consecuencia escrita al
-# pie de este bloque.
+# SE PROBO ESCRIBIR `Revisado` SOBRE UNA TEMPORADA EN CURSO Y NO FUNCIONA. Hubo
+# cuatro --San Miguel en la Primera Nacional 2026, Real Pilar y San Martin (B) en
+# la Primera B, Muniz en la Primera C-- y se sacaron a los 23 dias. Vale contarlo
+# porque el que venga va a tener otra vez la tentacion, y porque el motivo NO es el
+# que sugiere el aviso que las denuncia.
 #
-# Las arbitra Promiedos, que para la temporada en curso es la fuente natural --y
-# la unica que sirve: se probo su archivo historico y solo guarda la temporada
-# que se esta jugando--. Publica PJ, goles y G-E-P por club, y en los cuatro
-# casos coincide EXACTO con nuestra grilla y no con la tabla de Wikipedia.
+# LAS CUATRO CADUCARON PORQUE WIKIPEDIA ARREGLO SUS FILAS, no porque nos hayamos
+# movido nosotros. Esto se midio, no se supuso: reconstruida nuestra grilla al MISMO
+# PJ que declaraba cada entrada, sigue dando exactamente lo que cada `porque` habia
+# anotado --San Miguel GF20 GC28 a 26 partidos, Real Pilar GF36 GC31 y San Martin
+# (B) GF31 GC34 a 32, Muniz 4-10-11 17:26 a 25--, y hoy las cuatro filas de la
+# tabla coinciden al digito con nuestra suma. La que se movio fue la tabla.
 #
-# Se comparan clubes con el MISMO PJ en las tres partes. No es un detalle: al
-# momento de mirar, Promiedos ya tenia jugada una fecha que la pagina todavia no
-# cargaba para seis clubes, y comparar goles acumulados entre dos cortes
-# distintos del calendario da una diferencia que no es un error de nadie.
-_PROMIEDOS_B = "https://www.promiedos.com.ar/league/primera-b-metropolitana/fahh"
-_PROMIEDOS_BN = "https://www.promiedos.com.ar/league/primera-nacional/ebj"
-_PROMIEDOS_C = "https://www.promiedos.com.ar/league/primera-c/ffjb"
-
+# Y NO ES QUE EL MECANISMO NO AGUANTE QUE EL TORNEO AVANCE. La firma es un DELTA y
+# no un total --`test_la_firma_es_LA_DIFERENCIA_y_no_los_numeros` lo exige--, asi
+# que un `GF-1` sigue enganchando cuando el club pasa de 25 a 26 fechas, y de hecho
+# engancho. Lo que no aguanta es otra cosa: una pagina viva tiene un editor que
+# recalcula la tabla despues de cada fecha y, al recalcularla, repara la errata de
+# paso. La vida util de estas cuatro fue de 4, 4, 5 y 12 dias, y despues quedaron
+# entre 11 y 19 corridas gritando un aviso por algo ya resuelto.
+#
+# HAY UN AGRAVANTE, y es el que cierra la cuestion: la evidencia de las cuatro era
+# Promiedos, que --como decia su propio comentario-- solo guarda la temporada que se
+# esta jugando. O sea que el arnes se muere antes que la declaracion: dentro de un
+# anio ninguna de las cuatro se podia volver a auditar.
+#
+# LA REGLA QUE QUEDA: sobre una temporada abierta no se declara, se espera. Y si hay
+# que tocar un dato igual --porque el dato esta mal y no solo la tabla-- eso es un
+# `Marcador`, que arregla el dato en vez de declarar un estado, y de esos si hay uno
+# sobre torneo en curso: el `Claypole 2-0 Sacachispas` de mas arriba. La diferencia
+# es la que importa: un `Marcador` cita una revision fija, asi que sigue siendo
+# auditable cuando la pagina se mueva. Lo cuida
+# `test_ningun_revisado_habla_de_una_temporada_todavia_abierta`.
 
 REVISADOS: tuple[Revisado, ...] = (
-    Revisado(
-        pagina="Campeonato de Primera Nacional 2026", club="San Miguel", desvio="GF-1",
-        porque="La tabla le da GF19 GC28 en 26 partidos y nuestra grilla GF20 "
-               "GC28: le falta UN gol a favor.\n"
-               "LA PROPIA TABLA LO DEMUESTRA, sin salir de la pagina: sus dos "
-               "columnas de goles suman GF905 y GC906 sobre los mismos partidos, "
-               "y tienen que dar igual. Sobra un gol en contra que ningun club "
-               "declara haber convertido, y es exactamente el que le falta a esta "
-               "fila: poniendo nuestro numero, la tabla cierra.\n"
-               "Y LO CONFIRMA PROMIEDOS, que le da `PJ 26, goles 20:28, 6-11-9`. "
-               "El PJ y el G-E-P coinciden en las tres partes, asi que se estan "
-               "comparando los mismos 26 partidos.\n"
-               + _PROMIEDOS_BN),
-    Revisado(
-        pagina="Campeonato de Primera B 2026 (Argentina)", club="Real Pilar", desvio="GF-2",
-        porque="La tabla le da GF34 GC31 en 32 partidos y nuestra grilla GF36 "
-               "GC31: le faltan DOS goles a favor.\n"
-               "NINGUN PARTIDO PUEDE EXPLICARLO, y eso se puede razonar antes de "
-               "ir a buscar nada. Un marcador mal leido mueve a los DOS clubes "
-               "del partido, y aca solo se desvian Real Pilar (en GF) y San "
-               "Martin (B) (en GC): el unico cruce posible seria entre ellos. "
-               "Pero la tabla publica tambien el G-E-P y coincide con el nuestro "
-               "--14-9-9 y 9-13-10--, asi que ningun resultado cambia de ganador; "
-               "y los dos partidos entre ellos son `San Martin (B) 1-2 Real "
-               "Pilar` y un 0-0. Quitarle dos goles a Real Pilar en el primero lo "
-               "convierte en derrota, que contradice el G-E-P de la propia tabla, "
-               "y del segundo no hay dos goles que quitar.\n"
-               "Y LO CONFIRMA PROMIEDOS: `GamePlayed 32, Goals 36:31, Points 51, "
-               "GamesWon 14, GamesEven 9, GamesLost 9`. Los 51 puntos cierran con "
-               "14 ganados y 9 empatados, que es lo que decimos nosotros.\n"
-               + _PROMIEDOS_B),
-    Revisado(
-        pagina="Campeonato de Primera B 2026 (Argentina)", club="San Mart\u00edn (B)", desvio="GC-2",
-        porque="La tabla le da GF31 GC32 en 32 partidos y nuestra grilla GF31 "
-               "GC34: le faltan DOS goles en contra. Es la otra mitad del desvio "
-               "de Real Pilar, y por el mismo razonamiento ningun partido lo "
-               "explica: ver la entrada de Real Pilar en este mismo archivo.\n"
-               "Lo que hace INVISIBLE a este par es que las dos tablas cierran "
-               "consigo mismas. Bajar dos goles a favor de un club y dos en "
-               "contra de otro deja los totales iguales --688 y 688 en la tabla, "
-               "690 y 690 en la grilla--, asi que la suma no denuncia nada. Hay "
-               "que mirar fila por fila.\n"
-               "LO CONFIRMA PROMIEDOS: `GamePlayed 32, Goals 31:34, Points 40, "
-               "GamesWon 9, GamesEven 13, GamesLost 10`.\n"
-               + _PROMIEDOS_B),
-    Revisado(
-        pagina="Campeonato de Primera C 2026 (Argentina)", club="Mu\u00f1iz", desvio="E+1 P-1",
-        porque="Aca no se desvian los goles sino el G-E-P: la tabla dice 4-11-10 "
-               "en 25 partidos y la grilla da 4-10-11, con los GOLES coincidiendo "
-               "exacto en 17:26.\n"
-               "ESO SOLO YA LO PRUEBA. Un marcador mal leido mueve siempre los "
-               "goles; si los goles coinciden y el reparto de ganados, empatados "
-               "y perdidos no, ningun partido puede explicarlo. No hay a donde ir "
-               "a buscar.\n"
-               "Y HAY UN SEGUNDO TESTIGO, que ademas es aritmetico: la plantilla "
-               "de la tabla calcula los puntos sola, y con `g=4|e=11|p=10` "
-               "muestra 23. Promiedos publica `PJ 25, goles 17:26, pts 22, "
-               "4-10-11`, y 22 es lo que sale de 4 ganados y 10 empatados: los "
-               "nuestros. La tabla se contradice con el marcador que ella misma "
-               "publica.\n"
-               + _PROMIEDOS_C),
     Revisado(
         pagina="Torneo Argentino A 2004-05", club="Luján de Cuyo",
         contra="Atlético Candelaria", porque=_CUADRO_REVA_2004),

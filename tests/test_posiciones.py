@@ -1929,6 +1929,37 @@ def test_cada_revisado_dice_contra_que_se_verifico():
             f"{r.pagina} {r.club}: no dice contra que se verifico"
 
 
+def test_ningun_revisado_habla_de_una_temporada_todavia_abierta():
+    """La regla que dejaron las cuatro que se sacaron a los 23 dias.
+
+    Un `Revisado` es una declaracion PERMANENTE: dice "este desvio se miro y la
+    equivocada es la tabla". Sobre una pagina viva eso no se sostiene, y no porque
+    el mecanismo falle --la firma es un delta, asi que sigue enganchando cuando el
+    club suma fechas-- sino porque la pagina tiene un editor que recalcula la tabla
+    despues de cada fecha y le repara la errata de paso. Las cuatro duraron entre 4
+    y 12 dias y despues quedaron entre 11 y 19 corridas gritando por algo resuelto.
+
+    Y el arnes se muere antes que la declaracion: la evidencia era Promiedos, que
+    solo guarda la temporada en curso, asi que al anio siguiente no habia con que
+    re-auditarlas.
+
+    LO QUE SI SE PUEDE es un `Marcador`, y hay uno sobre torneo en curso. La
+    diferencia no es de grado: un `Marcador` arregla EL DATO y cita una revision
+    fija, asi que sigue siendo auditable cuando la pagina se mueva; un `Revisado`
+    declara un ESTADO de la pagina, y ese estado cambia sin avisar. Por eso el test
+    mira `REVISADOS` y no `MARCADORES`.
+
+    Sobre una temporada abierta, entonces: o se espera --el desvio se arregla solo--
+    o se corrige el dato. Declarar no es una opcion."""
+    from fad import torneos
+    abiertas = {t.pagina for t in torneos.TODOS if not t.cerrado}
+    assert abiertas, "si no hay ninguna temporada abierta el test no prueba nada"
+    sobre_abiertas = [r for r in correcciones.REVISADOS if r.pagina in abiertas]
+    assert not sobre_abiertas, (
+        "sobre una temporada abierta no se declara, se espera: "
+        + ", ".join(f"{r.club} en {r.pagina}" for r in sobre_abiertas))
+
+
 def test_el_revisado_tambien_calla_el_aviso_de_goles_y_solo_en_su_pagina():
     """El desvio de un club sale por DOS puertas -- `contrastar` mira los goles y
     `resultados_que_no_coinciden` los resultados -- y una verificacion cierra las
