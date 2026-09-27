@@ -392,6 +392,30 @@ def test_una_correccion_que_quedo_sin_efecto_frena_el_build(monkeypatch):
     assert any("correccion que no aplica" in a.que for a in graves)
 
 
+def test_un_arbitraje_que_la_fuente_alcanzo_NO_frena_el_build(monkeypatch):
+    """La otra mitad del de arriba, y la que se pago cara.
+
+    Una correccion que deja de enganchar es grave porque puede estar apuntando a
+    otra cosa. Pero hay un caso en que se sabe que no: cuando la pagina publica
+    EXACTAMENTE lo que la correccion pedia. Ahi la fuente nos dio la razon, el dato
+    sale bien con la entrada o sin ella, y frenar el build es frenarlo por acertar.
+
+    Paso de verdad: el 26/09/2026 el bot aborto porque Wikipedia habia corregido el
+    `Claypole 2-2 Sacachispas` a 2-0, que es lo que el arbitraje decia desde el 19.
+    El dataset se quedo sin actualizar por haber tenido razon."""
+    from fad import correcciones
+    from fad.correcciones import Marcador
+    monkeypatch.setattr(correcciones, "MARCADORES", (
+        Marcador(pagina=T.pagina, jornada="Fecha 1", local="Racing Club",
+                 visita="Boca Juniors", dice=(9, 9), debe=(2, 1),
+                 porque="x" * 90),))
+    _, avisos = build.procesar(tabla(("Racing Club", "Boca Juniors")), T)
+    alcanzados = [a for a in avisos if "arbitraje que la fuente alcanzo" in a.que]
+    assert len(alcanzados) == 1, [a.que for a in avisos]
+    assert not alcanzados[0].grave, "el build no se puede frenar por haber acertado"
+    assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
+
+
 def test_un_torneo_con_segunda_fuente_no_se_le_pide_dos_veces(monkeypatch, tmp_path):
     """El test que faltaba, y el que habria agarrado el bug.
 

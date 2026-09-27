@@ -174,15 +174,24 @@ def test_las_correcciones_usan_nombres_del_padron():
 
 def test_un_marcador_arbitrado_que_ya_no_engancha_avisa(monkeypatch):
     """Si Wikipedia corrige el marcador, el arbitraje queda sin efecto. Tiene que
-    decirlo en vez de reventar o de tocar el partido que no es."""
+    decirlo en vez de reventar o de tocar el partido que no es.
+
+    LO SIGUE DICIENDO, PERO POR OTRO CANAL, y ese es el cambio del 26/09/2026. La
+    fila de este fixture ya dice `debe`: la pagina se corrigio sola y le dio la
+    razon al arbitraje. Eso salia por `aplicar` como "correccion que no aplica",
+    que `build.py` hace GRAVE, y grave aborta el build -- asi que el bot se caia
+    justo cuando el repo acertaba. Ahora lo reporta `marcadores_cumplidos`, que no
+    es grave, y `aplicar` se calla. Que la pagina cambie a una TERCERA cosa sigue
+    siendo grave: ver `test_si_la_pagina_cambio_a_OTRA_cosa_sigue_siendo_grave`."""
     from fad.correcciones import Marcador
     monkeypatch.setattr(correcciones, "MARCADORES", (
         Marcador(pagina="Una Pagina", jornada="Fecha 1", local="All Boys",
                  visita="Belgrano", dice=(0, 1), debe=(1, 0), porque="x" * 90),))
     ps = [partido("All Boys", "Belgrano", 1, 0, jornada="Fecha 1")]   # ya esta bien
     n, avisos = correcciones.aplicar(ps, "Una Pagina")
-    assert n == 0
-    assert any("no se aplica" in a for a in avisos)
+    assert (n, avisos) == (0, []), "no se aplica, y no se denuncia como grave"
+    dichos = correcciones.marcadores_cumplidos("Una Pagina", ps)
+    assert len(dichos) == 1 and "YA NO HACE FALTA" in dichos[0]
 
 
 def test_un_marcador_arbitrado_se_aplica(monkeypatch):
@@ -199,6 +208,101 @@ def test_un_marcador_arbitrado_se_aplica(monkeypatch):
 # la cancha: la tercera forma que tiene la fuente de contradecirse
 # --------------------------------------------------------------------------
 from fad.correcciones import Cancha
+
+# --------------------------------------------------------------------------
+# el arbitraje que la fuente alcanzo
+# --------------------------------------------------------------------------
+from fad.correcciones import Marcador  # noqa: E402
+
+UN_ARBITRAJE = Marcador(pagina="Una Pagina", jornada="Fecha 12",
+                        local="All Boys", visita="Belgrano",
+                        dice=(2, 2), debe=(2, 0), porque="de prueba")
+
+
+def _con_marcador(monkeypatch, *ms):
+    monkeypatch.setattr(correcciones, "MARCADORES", ms)
+
+
+def test_un_arbitraje_que_la_fuente_alcanzo_no_es_grave(monkeypatch):
+    """EL DIA QUE ACERTAR TUMBO EL BOT.
+
+    Un `Marcador` se identifica por el marcador que la pagina publicaba, asi que
+    cuando la pagina SE CORRIGE deja de enganchar. Eso salia como "correccion que
+    no aplica", que es grave, y grave aborta el build: el 26/09/2026 el bot se cayo
+    porque Wikipedia le dio la razon al arbitraje del Claypole siete dias despues
+    de escrito.
+
+    No hay nada que mirar antes de escribir: la pagina publica lo que el arbitraje
+    pedia, asi que el dato sale bien con la entrada o sin ella."""
+    _con_marcador(monkeypatch, UN_ARBITRAJE)
+    ps = [partido("All Boys", "Belgrano", 2, 0)]      # la pagina ya dice el `debe`
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert (n, avisos) == (0, []), "no se aplica nada y NO se denuncia"
+    assert (ps[0].goles_local, ps[0].goles_visita) == (2, 0)
+
+
+def test_el_cumplido_se_reporta_para_que_alguien_lo_saque(monkeypatch):
+    """Callarse no alcanza: una entrada que ya no hace nada tiene que pedir que la
+    saquen, o se acumula en silencio -- que es el problema que `revisados_huerfanos`
+    ya resolvia para la otra familia."""
+    _con_marcador(monkeypatch, UN_ARBITRAJE)
+    ps = [partido("All Boys", "Belgrano", 2, 0)]
+    dichos = correcciones.marcadores_cumplidos("Una Pagina", ps)
+    assert len(dichos) == 1
+    assert "YA NO HACE FALTA" in dichos[0] and "2-0" in dichos[0]
+    assert correcciones.marcadores_cumplidos("Otra Pagina", ps) == []
+
+
+def test_si_la_pagina_cambio_a_OTRA_cosa_sigue_siendo_grave(monkeypatch):
+    """LA MITAD QUE NO SE AFLOJA, y es la razon de que el eje sea DEMOSTRABLE y no
+    "temporada abierta".
+
+    Que la pagina diga hoy exactamente nuestro `debe` se prueba mirando la fila.
+    Que haya cambiado a una TERCERA cosa no prueba nada: es un marcador que nadie
+    arbitro, sobre un partido que el repo tiene documentado de otra manera. Eso hay
+    que mirarlo antes de publicarlo."""
+    _con_marcador(monkeypatch, UN_ARBITRAJE)
+    ps = [partido("All Boys", "Belgrano", 1, 1)]      # ni `dice` ni `debe`
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 0
+    assert len(avisos) == 1 and "engancha con 0 partidos" in avisos[0]
+    assert correcciones.marcadores_cumplidos("Una Pagina", ps) == []
+
+
+def test_los_cumplidos_se_preguntan_ANTES_de_aplicar(monkeypatch):
+    """La dependencia de orden, escrita para que no se pierda.
+
+    `aplicar` ESCRIBE `debe` sobre la fila. Despues de correr, un arbitraje que se
+    aplico perfecto deja la fila diciendo exactamente lo mismo que uno que la pagina
+    alcanzo sola, y los dos serian indistinguibles. Preguntar despues convertiria
+    cada correccion aplicada en un falso "ya no hace falta"."""
+    _con_marcador(monkeypatch, UN_ARBITRAJE)
+    ps = [partido("All Boys", "Belgrano", 2, 2)]      # la pagina dice `dice`
+    assert correcciones.marcadores_cumplidos("Una Pagina", ps) == [], "antes: no"
+    n, _ = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 1 and (ps[0].goles_local, ps[0].goles_visita) == (2, 0)
+    assert correcciones.marcadores_cumplidos("Una Pagina", ps), \
+        "despues de aplicar la fila dice `debe`, y por eso hay que preguntar antes"
+
+
+def test_el_arbitraje_de_solo_penales_tambien_se_da_por_cumplido(monkeypatch):
+    """El caso que rompia la guarda de mas.
+
+    Cuando el arbitraje corrige SOLO la tanda, `debe` es igual a `dice` en goles.
+    La primera version preguntaba "¿la fila todavia dice `dice`?" antes que nada, y
+    para estos contestaba que si --porque los goles coinciden-- aunque la pagina ya
+    hubiera arreglado los penales. Lo encontre pensando el caso, no corriendolo:
+    hoy no hay ninguno de estos sobre una pagina viva."""
+    m = Marcador(pagina="Una Pagina", jornada="Fecha 12", local="All Boys",
+                 visita="Belgrano", dice=(1, 1), debe=(1, 1),
+                 penales_dice=(3, 4), penales_debe=(4, 3), porque="de prueba")
+    _con_marcador(monkeypatch, m)
+    p = partido("All Boys", "Belgrano", 1, 1)
+    p.penales_local, p.penales_visita = 4, 3          # la pagina ya la arreglo
+    assert correcciones.marcadores_cumplidos("Una Pagina", [p]), \
+        "los goles coinciden en las dos puntas, pero la tanda ya es la nuestra"
+    assert correcciones.aplicar([p], "Una Pagina") == (0, [])
+
 
 UNA_CANCHA = Cancha(pagina="Una Pagina", jornada="Fecha 36",
                     local="Gimnasia y Esgrima (J)", visita="San Martín (T)",

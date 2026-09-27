@@ -935,6 +935,10 @@ def procesar(texto: str, t) -> tuple[list, list]:
                 | {equipos.canonizar(crudo, art)
                    for crudo, art in parser.clubes_del_cuadro(texto).items()
                    if equipos.conocido(crudo, art)})
+    # ANTES de `aplicar`, y tiene que ser antes: `aplicar` escribe `debe` sobre las
+    # filas, asi que despues un arbitraje aplicado y uno que la pagina alcanzo sola
+    # se ven igual. Ver `correcciones.marcadores_cumplidos`.
+    cumplidos = correcciones.marcadores_cumplidos(t.pagina, ps)
     arregladas, dudas = correcciones.aplicar(ps, t.pagina)
     borradas = _borrar_jornadas_falsas(ps)
     # La segunda fuente va DESPUES de borrar las jornadas falsas y ANTES de
@@ -1139,6 +1143,11 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # sacarla, o cambio de otra forma y esta tocando lo que no es. Las dos cosas
     # se miran antes de escribir nada.
     avisos += [validar.Aviso("correccion que no aplica", d) for d in dudas]
+    # Y este NO es grave, porque no hay nada que mirar antes de escribir: la pagina
+    # publica lo que el arbitraje pedia, asi que el dato sale bien con la entrada o
+    # sin ella. Lo unico que hay que hacer es sacarla, y eso no corre apuro.
+    avisos += [validar.Aviso("un arbitraje que la fuente alcanzo", d, grave=False)
+               for d in cumplidos]
     return ps, avisos
 
 

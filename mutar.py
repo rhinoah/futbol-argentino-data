@@ -1173,12 +1173,6 @@ MUTANTES = [
 
     # La unica cita que contradice a una base de datos. RSSSF la fecha el viernes 18
     # y el diario del dia siguiente la publica jugada el sabado 19.
-    # El unico arbitraje sobre una temporada abierta. La grilla dice 2-2 y las dos
-    # tablas, el infobox y la prensa del dia dicen 2-0.
-    ("fad/correcciones.py", "creerle a la celda de la grilla y no a las dos tablas",
-     'dice=(2, 2), debe=(2, 0),',
-     'dice=(2, 2), debe=(2, 2),'),
-
     ("fad/citadas.py", "creerle a RSSSF y no al diario del dia siguiente",
      'Cita("1994-03-19", "Gimnasia y Esgrima (LP)", "Boca Juniors", 1, 1,',
      'Cita("1994-03-18", "Gimnasia y Esgrima (LP)", "Boca Juniors", 1, 1,'),
@@ -2162,6 +2156,20 @@ MUTANTES = [
     ("build.py", "preguntar el arbitraje ANTES del espejo de la localia",
      "        return (dl, dv) + correcciones.arbitrado(pagina, x.jornada, dl, dv, gl, gv)",
      "        return (dl, dv) + correcciones.arbitrado(pagina, x.jornada, l, v, gl, gv)"),
+    # EL ARBITRAJE QUE LA FUENTE ALCANZO. Que la pagina se corrija sola no es un
+    # error --es la fuente dandonos la razon-- pero que cambie a OTRA cosa si.
+    ("fad/correcciones.py", "dar por cumplido un arbitraje aunque la pagina diga otra cosa",
+     "    if (x.goles_local, x.goles_visita) != m.debe:\n        return False",
+     "    if False:\n        return False"),
+
+    ("fad/correcciones.py", "dar por cumplido un arbitraje con la fila repetida",
+     "    if len(fila) != 1:\n        return False",
+     "    if False:\n        return False"),
+
+    ("build.py", "hacer grave el arbitraje que la fuente alcanzo",
+     'validar.Aviso("un arbitraje que la fuente alcanzo", d, grave=False)',
+     'validar.Aviso("un arbitraje que la fuente alcanzo", d)'),
+
     ("fad/correcciones.py", "una verificacion calla cualquier desvio y no solo el suyo",
      "            if desvio is None or not r.desvio or r.desvio == desvio:",
      "            if True:"),
