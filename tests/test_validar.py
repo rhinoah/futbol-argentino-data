@@ -7,9 +7,11 @@ datos rotos y que se calle con datos sanos.
 """
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
-from fad import validar
+from fad import dataset, torneos, validar
 from fad.parser import Partido
 
 
@@ -261,11 +263,32 @@ def test_jornadas_seguidas_no_avisan():
     assert validar.jornadas_sin_huecos(ps) == []
 
 
+QUE_JORNADA = "una jornada cae medio anio antes que la anterior"
+QUE_RONDA = "una ronda cae medio anio antes que la anterior"
+QUE_SECCION = "una seccion entera cae medio anio antes que la anterior"
+QUE_FINAL = "una ronda de eliminacion antes de que empiece la fase de zonas"
+
+
+def _jornada(n, fecha, *, llave="", z="Zona A", equipos=6):
+    """Una jornada entera jugada el mismo dia: `equipos / 2` partidos. Tres por
+    defecto: con menos, el chequeo la trata como jornada chica."""
+    return [Partido(fecha=fecha, local=p.local, visita=p.visita, goles_local=1,
+                    goles_visita=0, fase="zonas", llave=llave, zona=z,
+                    jornada=f"Fecha {n}") for p in torneo_de(equipos)]
+
+
+def _ronda(nombre, fecha, *, llave="", partidos=2):
+    eq = CLUBES[:partidos * 2]
+    return [Partido(fecha=fecha, local=eq[2 * i], visita=eq[2 * i + 1], goles_local=1,
+                    goles_visita=0, fase="eliminacion", llave=llave, jornada=nombre)
+            for i in range(partidos)]
+
+
+# ---- pista 1: las jornadas de cada grupo ----------------------------------
 def test_una_jornada_un_anio_fuera_de_lugar():
     """El caso de la 2019-20 con el corte en el mes equivocado: la Fecha 1 entera
     fechada doce meses adelante, coherente consigo misma y con el marcador bien."""
-    ps = ([zona(p.local, p.visita, fecha="2020-07-26", j="Fecha 1") for p in torneo_de(4)]
-          + [zona(p.local, p.visita, fecha="2019-08-02", j="Fecha 2") for p in torneo_de(4)])
+    ps = _jornada(1, "2020-07-26") + _jornada(2, "2019-08-02")
     avisos = validar.anios_bien_asignados(ps)
     assert len(avisos) == 1 and avisos[0].grave
 
@@ -273,9 +296,777 @@ def test_una_jornada_un_anio_fuera_de_lugar():
 def test_una_postergacion_de_dos_meses_no_es_un_anio_mal_puesto():
     """La Fecha 9 del Apertura 2026 se jugo entera dos meses despues de la 10 y
     esta perfecta. El umbral es generoso justamente por esto."""
-    ps = ([zona(p.local, p.visita, fecha="2026-05-02", j="Fecha 9") for p in torneo_de(4)]
-          + [zona(p.local, p.visita, fecha="2026-03-10", j="Fecha 10") for p in torneo_de(4)])
+    ps = _jornada(9, "2026-05-02") + _jornada(10, "2026-03-10")
     assert validar.anios_bien_asignados(ps) == []
+
+
+def test_la_postergacion_MAS_LARGA_que_existe_no_es_un_anio_mal_puesto():
+    """El borde de abajo del umbral, con el caso real: la Fecha 7 de la B Nacional
+    2016-17 se jugo entera el 14 y 15 de marzo de 2017, 158 dias despues de la 8."""
+    ps = _jornada(7, "2017-03-15") + _jornada(8, "2016-10-08")
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_revisar_SI_corre_el_chequeo_de_los_anios():
+    """Todos los tests de este chequeo lo llaman a mano. El build llama a
+    `revisar`, que recorre la lista `CHEQUEOS`: sacandolo de esa lista la suite
+    entera pasaba, y el dia que hiciera falta no corria."""
+    ps = _jornada(1, "2020-07-26") + _jornada(2, "2019-08-02")
+    assert QUE_JORNADA in [a.que for a in validar.revisar(ps) if a.grave]
+
+
+def test_la_liga_comun_SIN_llave_ni_zona_tambien_se_mira():
+    """98 de las 168 paginas son esto: un todos contra todos sin zonas y sin
+    secciones, donde `llave` y `zona` vienen vacias. Un chequeo que mirara solo
+    los grupos CON nombre dejaria ciegas a seis de cada diez.
+
+    Y fija lo que dice el aviso: sin donde, no queda un ": " colgado adelante."""
+    ps = (_jornada(1, "2020-07-26", z="") + _jornada(2, "2019-08-02", z="")
+          + _jornada(3, "2019-08-09", z=""))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [(a.que, a.grave) for a in avisos] == [(QUE_JORNADA, True)]
+    assert avisos[0].detalle.startswith("Fecha 2 en 2019-08-02 contra Fecha 1 en 2020-07-26;")
+
+
+def test_con_zona_y_sin_llave_el_aviso_dice_la_zona_a_secas():
+    ps = _jornada(1, "2020-07-26") + _jornada(2, "2019-08-02")
+    avisos = validar.anios_bien_asignados(ps)
+    assert len(avisos) == 1
+    assert avisos[0].detalle.startswith("Zona A: Fecha 2 en 2019-08-02 contra Fecha 1")
+
+
+def test_el_apertura_y_el_clausura_NO_se_juntan_por_numero_de_fecha():
+    """LA CEGUERA CON LA QUE NACIO ESTE CHEQUEO, y es la Primera C 2019-20 tal cual.
+
+    La pagina trae el Apertura y el Clausura, los dos con su "Fecha 1". La Fecha 1
+    del Apertura se jugo en julio de 2019 y salia fechada en julio de 2020. Juntando
+    por numero, esos partidos caian en la misma bolsa que la Fecha 1 del Clausura
+    -- de enero de 2020, y con mas partidos --: el del medio de la bolsa era de
+    enero y no desentonaba con nada. Ocho filas un anio corridas, publicadas dos
+    meses.
+
+    Mirando cada torneo por separado la Fecha 2 del Apertura queda 358 dias antes
+    que su Fecha 1."""
+    apertura = dict(llave="Torneo Apertura", z="Torneo Apertura")
+    clausura = dict(llave="Torneo Clausura", z="Torneo Clausura", equipos=8)
+    ps = (_jornada(1, "2020-07-27", **apertura) + _jornada(2, "2019-08-04", **apertura)
+          + _jornada(3, "2019-08-11", **apertura) + _jornada(4, "2019-08-18", **apertura)
+          + _jornada(1, "2020-01-27", **clausura) + _jornada(2, "2020-02-01", **clausura)
+          + _jornada(3, "2020-02-08", **clausura) + _jornada(4, "2020-02-15", **clausura))
+    avisos = validar.anios_bien_asignados(ps)
+    assert len(avisos) == 1 and avisos[0].grave, [str(a) for a in avisos]
+    assert avisos[0].detalle.startswith("Torneo Apertura: Fecha 2 en 2019-08-04"), \
+        "dice de que torneo es, y una sola vez aunque la zona se llame igual"
+
+
+def test_dos_fases_con_grupos_del_mismo_nombre_tampoco_se_juntan():
+    """La otra pagina que paso de largo, la Copa de la Liga 2020: una Fase
+    Clasificatoria y una Fase Campeonato, las dos con su "Grupo A" y su "Fecha 4".
+    La Fecha 4 de la segunda era de enero de 2021 y salia en enero de 2020; mezclada
+    con la Fecha 4 de la primera, de noviembre, no se veia."""
+    ps = (_jornada(3, "2020-11-14", llave="Fase Clasificatoria", z="Grupo A", equipos=8)
+          + _jornada(4, "2020-11-21", llave="Fase Clasificatoria", z="Grupo A", equipos=8)
+          + _jornada(3, "2020-12-27", llave="Fase Campeonato", z="Grupo A")
+          + _jornada(4, "2020-01-03", llave="Fase Campeonato", z="Grupo A"))
+    avisos = validar.anios_bien_asignados(ps)
+    assert len(avisos) == 1, [str(a) for a in avisos]
+    assert "Fase Campeonato Grupo A: Fecha 4 en 2020-01-03" in avisos[0].detalle
+
+
+def test_dos_grupos_de_la_misma_fase_tampoco_se_juntan():
+    """Y adentro de una fase, cada grupo es su propia pista: el Grupo B, sano y con
+    mas partidos, no tapa al Grupo A."""
+    ps = (_jornada(3, "2020-12-27", llave="Fase Campeonato", z="Grupo A")
+          + _jornada(4, "2020-01-03", llave="Fase Campeonato", z="Grupo A")
+          + _jornada(3, "2020-12-28", llave="Fase Campeonato", z="Grupo B", equipos=8)
+          + _jornada(4, "2021-01-04", llave="Fase Campeonato", z="Grupo B", equipos=8))
+    avisos = validar.anios_bien_asignados(ps)
+    assert len(avisos) == 1, [str(a) for a in avisos]
+    assert "Grupo A" in avisos[0].detalle
+
+
+def test_las_jornadas_van_por_NUMERO_aunque_la_pagina_las_traiga_en_otro_orden():
+    """Una pagina puede publicar la Fecha 2 antes que la 1. Lo que tiene orden es
+    el numero: recorridas como vienen, una temporada sana de agosto a mayo parece
+    ir para atras."""
+    ps = _jornada(2, "2020-05-17") + _jornada(1, "2019-08-01")
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_la_Fecha_10_va_despues_de_la_9_y_no_entre_la_1_y_la_2():
+    """"Por numero" es por NUMERO. Ordenadas como texto las fechas quedan 1, 10,
+    11, ..., 19, 2, 20, ...: en una temporada de 38 fechas la 3 aparece despues de
+    la 29, siete meses para atras. Con ese error el dataset sano da mas de cien
+    avisos graves."""
+    from datetime import date, timedelta
+    primera = date(2007, 8, 11)
+    ps = [p for n in range(1, 39)
+          for p in _jornada(n, (primera + timedelta(weeks=n - 1)).isoformat(), z="")]
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_el_grupo_se_mira_ENTERO_y_no_solo_sus_dos_primeras_fechas():
+    ps = (_jornada(1, "2019-08-03") + _jornada(2, "2019-08-10") + _jornada(3, "2019-08-17")
+          + _jornada(4, "2018-08-24") + _jornada(5, "2019-08-31"))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_JORNADA], [str(a) for a in avisos]
+    assert "Fecha 4 en 2018-08-24 contra Fecha 3 en 2019-08-17" in avisos[0].detalle
+
+
+def test_dos_saltos_en_un_mismo_grupo_son_dos_avisos():
+    ps = (_jornada(1, "2020-07-27") + _jornada(2, "2019-08-04")
+          + _jornada(3, "2020-08-11") + _jornada(4, "2019-08-18"))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.detalle[:16] for a in avisos] == ["Zona A: Fecha 2 ", "Zona A: Fecha 4 "]
+
+
+def test_un_partido_suelto_fuera_de_lugar_no_mueve_a_su_jornada():
+    """Se compara el DEL MEDIO: lo que se busca es la jornada entera corrida. Un
+    partido adelantado lejos de los suyos -- que los hay, y estan bien -- no puede
+    hacer que toda la fecha parezca de otro anio."""
+    ps = (_jornada(1, "2019-08-03", equipos=8) + _jornada(2, "2019-08-10", equipos=8))
+    ps[4].fecha = "2018-08-10"            # el primero de la Fecha 2, un anio antes
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_un_partido_POSTERGADO_lejos_tampoco_mueve_a_su_jornada():
+    """El caso de todos los dias es el otro: un partido postergado meses, que la
+    pagina deja en su jornada. Mirando el ultimo partido de la jornada en vez del
+    del medio, la Fecha 2 parece caer nueve meses antes que la 1."""
+    ps = _jornada(1, "2019-08-03", equipos=8) + _jornada(2, "2019-08-10", equipos=8)
+    ps[2].fecha = "2020-05-02"            # el tercero de la Fecha 1, nueve meses despues
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_un_partido_postergado_siete_meses_no_es_un_anio_mal_puesto():
+    """Con uno o dos partidos, "el del medio" es un partido, y un partido se
+    posterga. El grupo `Interzonal` de las ligas de dos zonas tiene casi todas sus
+    fechas de un partido: un solo interzonal jugado siete meses tarde no puede ser
+    un GRAVE, que frena la actualizacion de todas las paginas. Lo mismo una zona de
+    cuatro equipos, que juega de a dos: con dos, el del medio es el mas tardio.
+
+    Se comparan igual, pero se les pide ocho meses y no seis."""
+    interzonal = dict(z="Interzonal", equipos=2)
+    ps = (_jornada(1, "2026-07-25", **interzonal) + _jornada(2, "2027-03-06", **interzonal)
+          + _jornada(3, "2026-08-08", **interzonal))
+    assert validar.anios_bien_asignados(ps) == []
+
+    de_a_dos = (_jornada(1, "2019-08-03", equipos=4) + _jornada(2, "2019-08-10", equipos=4)
+                + _jornada(3, "2019-08-17", equipos=4))
+    de_a_dos[3].fecha = "2020-03-14"      # el segundo de la Fecha 2, siete meses despues
+    assert validar.anios_bien_asignados(de_a_dos) == []
+
+
+def test_una_jornada_chica_corrida_UN_ANIO_si_se_ve():
+    """La primera idea fue no compararlas, y fue peor: zonas de cuatro equipos y
+    el `Interzonal` quedaban sin ninguna comparacion -- 47 grupos de 17 torneos --,
+    y dos de los tres errores historicos se avisaban uno y dos dias mas tarde.
+
+    Un anio mal puesto da mas de 280 dias aun entre una fecha de marzo y una de
+    diciembre, que es el caso mas apretado."""
+    interzonal = dict(z="Interzonal", equipos=2)
+    un_anio = (_jornada(5, "2026-08-22", **interzonal) + _jornada(6, "2025-08-29", **interzonal)
+               + _jornada(7, "2026-09-05", **interzonal))
+    avisos = validar.anios_bien_asignados(un_anio)
+    assert [(a.que, a.grave) for a in avisos] == [(QUE_JORNADA, True)], [str(a) for a in avisos]
+    assert "Interzonal: Fecha 6 en 2025-08-29 contra Fecha 5 en 2026-08-22" in avisos[0].detalle
+
+    marzo_y_diciembre = (_jornada(1, "2026-12-12", **interzonal)
+                         + _jornada(2, "2026-03-07", **interzonal))
+    assert [a.que for a in validar.anios_bien_asignados(marzo_y_diciembre)] == [QUE_JORNADA]
+
+
+def test_la_unica_jornada_grande_de_un_grupo_de_jornadas_chicas_tambien_se_mira():
+    """El `Interzonal` no es todo de un partido: tiene UNA fecha en la que cruzan
+    todos (15 partidos en el Clausura 2026). Si las chicas no se compararan, esa
+    seria la unica de su grupo y no habria contra que mirarla."""
+    interzonal = dict(z="Interzonal")
+    ps = (_jornada(5, "2026-08-22", equipos=2, **interzonal)
+          + _jornada(6, "2025-08-29", equipos=8, **interzonal)
+          + _jornada(7, "2026-09-05", equipos=2, **interzonal))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_JORNADA], [str(a) for a in avisos]
+    assert "Fecha 6 en 2025-08-29 contra Fecha 5 en 2026-08-22" in avisos[0].detalle
+
+
+def test_una_jornada_a_medio_jugar_no_apaga_al_resto_de_su_grupo():
+    """El estado de todas las semanas en un torneo en curso: de la ultima fecha hay
+    uno o dos partidos jugados."""
+    ps = (_jornada(1, "2020-07-27") + _jornada(2, "2019-08-04") + _jornada(3, "2019-08-11")
+          + _jornada(4, "2019-08-18", equipos=2))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_JORNADA], [str(a) for a in avisos]
+    assert "Fecha 2 en 2019-08-04 contra Fecha 1 en 2020-07-27" in avisos[0].detalle
+
+
+def test_alcanza_con_que_UNA_de_las_dos_jornadas_sea_chica():
+    """De la Fecha 4 hay un solo partido con fecha, postergado siete meses (o
+    adelantado siete meses). La 3 y la 5 estan enteras. Ni la 4 contra la 3 ni la 5
+    contra la 4 son un anio mal puesto: en las dos comparaciones hay un partido
+    suelto de un lado."""
+    for suelto in ("2027-03-06", "2026-01-10"):
+        ps = (_jornada(1, "2026-07-25") + _jornada(2, "2026-08-01") + _jornada(3, "2026-08-08")
+              + _jornada(4, suelto, equipos=2) + _jornada(5, "2026-08-22"))
+        assert validar.anios_bien_asignados(ps) == [], suelto
+
+
+def test_con_tres_partidos_ya_es_una_jornada():
+    """El borde de `_JORNADA_CHICA`: tres partidos, 200 dias para atras, avisa. Con
+    dos se le pedirian 240."""
+    assert [a.que for a in validar.anios_bien_asignados(
+        _jornada(1, "2020-02-20") + _jornada(2, "2019-08-04"))] == [QUE_JORNADA]
+    assert validar.anios_bien_asignados(
+        _jornada(1, "2020-02-20", equipos=4) + _jornada(2, "2019-08-04", equipos=4)) == []
+
+
+# ---- pista 2: las rondas de cada llave -------------------------------------
+def test_una_ronda_de_eliminacion_despues_de_la_que_le_sigue():
+    """La Copa Argentina 2011-12: los treintaidosavos, de noviembre de 2011, salian
+    fechados en noviembre de 2012 -- despues de la final --. La eliminacion no la
+    miraba nadie: el chequeo era solo para la fase de zonas."""
+    mal = (_ronda("Treintaidosavos", "2012-11-29", partidos=4)
+           + _ronda("Dieciseisavos", "2012-03-20") + _ronda("Final", "2012-08-08", partidos=1))
+    avisos = validar.anios_bien_asignados(mal)
+    assert [(a.que, a.grave) for a in avisos] == [(QUE_RONDA, True)], [str(a) for a in avisos]
+    assert "Dieciseisavos en 2012-03-20 contra Treintaidosavos en 2012-11-29" in avisos[0].detalle
+
+    bien = (_ronda("Treintaidosavos", "2011-11-29", partidos=4)
+            + _ronda("Dieciseisavos", "2012-03-20") + _ronda("Final", "2012-08-08", partidos=1))
+    assert validar.anios_bien_asignados(bien) == []
+
+
+def test_el_error_mas_chico_que_una_configuracion_produce_si_avisa():
+    """El borde de ARRIBA del 180, que el comentario de `_ATRAS_DE_MAS` cita: en la
+    Copa Argentina 2018-19 con un `anio_fin` de mas, los dieciseisavos quedan 189
+    dias antes que los treintaidosavos."""
+    ps = _ronda("Treintaidosavos", "2019-07-31", partidos=4) + _ronda("Dieciseisavos", "2019-01-23")
+    assert [a.que for a in validar.anios_bien_asignados(ps)] == [QUE_RONDA]
+
+
+def test_un_partido_suelto_tampoco_mueve_a_su_RONDA():
+    """Las rondas tambien se comparan por su partido del medio."""
+    ps = (_ronda("Treintaidosavos", "2011-11-29", partidos=4)
+          + _ronda("Dieciseisavos", "2012-03-20", partidos=4))
+    ps[0].fecha = "2012-11-29"            # un treintaidosavo, un anio despues
+    ps[4].fecha = "2011-03-20"            # un dieciseisavo, un anio antes
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_el_aviso_de_una_ronda_dice_de_que_llave_es():
+    """En una pagina con tres reducidos, "Final en ... contra Semifinales en ..."
+    no dice cual."""
+    ps = (_ronda("Semifinales", "2012-12-01", llave="Reducido")
+          + _ronda("Final", "2012-03-20", llave="Reducido", partidos=1))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_RONDA]
+    assert avisos[0].detalle.startswith(
+        "Reducido: Final en 2012-03-20 contra Semifinales en 2012-12-01;")
+
+
+def test_dos_cuadros_de_llaves_distintas_no_se_comparan_entre_si():
+    """Las rondas tienen orden ADENTRO de su cuadro. Una pagina que pone el cuadro
+    final (agosto de 2012) y despues la fase preliminar (agosto de 2011): casi un
+    anio para atras, y esta perfecto, porque son dos cuadros."""
+    ps = (_ronda("Semifinales", "2012-08-01", llave="Fase final")
+          + _ronda("Final", "2012-08-08", llave="Fase final", partidos=1)
+          + _ronda("Primera fase", "2011-08-31", llave="Fase preliminar"))
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_se_miran_TODAS_las_llaves_y_cada_una_ENTERA():
+    """La rota es la segunda llave de tres, entre su segunda y su tercera ronda."""
+    ps = (_ronda("Semifinales", "2012-06-10", llave="Reducido")
+          + _ronda("Final", "2012-06-20", llave="Reducido", partidos=1)
+          + _ronda("Cuartos de final", "2012-05-01", llave="Segundo ascenso", partidos=4)
+          + _ronda("Semifinales", "2012-05-10", llave="Segundo ascenso")
+          + _ronda("Final", "2011-05-20", llave="Segundo ascenso", partidos=1)
+          + _ronda("Ida", "2012-06-27", llave="Promoción", partidos=1)
+          + _ronda("Vuelta", "2012-06-30", llave="Promoción", partidos=1))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_RONDA], [str(a) for a in avisos]
+    assert avisos[0].detalle.startswith(
+        "Segundo ascenso: Final en 2011-05-20 contra Semifinales en 2012-05-10;")
+
+
+def test_una_ronda_que_la_pagina_pone_despues_y_se_jugo_seis_dias_antes():
+    """El borde de abajo de esta pista, con el caso real. En el Argentino A 2011-12
+    la llave "Promociones" lista primero "Partidos" (30 de junio) y despues
+    "Promoción 1" (24 de junio): 6 dias para atras, el mayor del dataset."""
+    ps = (_ronda("Partidos", "2012-06-30", llave="Promociones")
+          + _ronda("Promoción 1", "2012-06-24", llave="Promociones"))
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_los_partidos_de_eliminacion_sin_nombre_de_ronda_no_forman_una_ronda():
+    """Hay 15 en 9 paginas. Sin nombre no hay orden que mirar."""
+    ps = (_ronda("", "2013-03-20", llave="Promoción")
+          + _ronda("Final", "2012-06-10", llave="Promoción", partidos=1))
+    assert validar.anios_bien_asignados(ps) == []
+
+
+# ---- pista 3: las secciones entre si ---------------------------------------
+def test_una_seccion_ENTERA_corrida_la_delata_la_seccion_de_al_lado():
+    """Lo que las pistas de adentro no pueden ver. Si el Apertura completo se va de
+    anio, sus fechas siguen en orden entre si; lo que desentona es que el Clausura,
+    que viene despues, quede siete meses antes."""
+    apertura = dict(llave="Torneo Apertura", z="")
+    clausura = dict(llave="Torneo Clausura", z="")
+    mal = (_jornada(1, "2020-09-05", **apertura) + _jornada(2, "2020-09-12", **apertura)
+           + _jornada(3, "2020-09-19", **apertura)
+           + _jornada(1, "2020-02-01", **clausura) + _jornada(2, "2020-02-08", **clausura)
+           + _jornada(3, "2020-02-15", **clausura))
+    avisos = validar.anios_bien_asignados(mal)
+    assert [(a.que, a.grave) for a in avisos] == [(QUE_SECCION, True)]
+    assert avisos[0].detalle.startswith(
+        "Torneo Clausura en 2020-02-08 contra Torneo Apertura en 2020-09-12;")
+
+
+def test_el_error_para_el_que_existe_esta_pista_cae_a_180_dias():
+    """Un Apertura y un Clausura tienen sus fechas del medio a unos 185 dias. Si uno
+    se va de anio, queda unos 180 dias ANTES que el otro: con el umbral comun de 180
+    se veia por un dia o no se veia. Por eso esta pista tiene el suyo."""
+    apertura = dict(llave="Torneo Apertura", z="")
+    clausura = dict(llave="Torneo Clausura", z="")
+    ps = (_jornada(1, "2020-09-05", **apertura) + _jornada(2, "2020-09-12", **apertura)
+          + _jornada(3, "2020-09-19", **apertura)
+          + _jornada(1, "2020-03-09", **clausura) + _jornada(2, "2020-03-16", **clausura)
+          + _jornada(3, "2020-03-23", **clausura))
+    assert [a.que for a in validar.anios_bien_asignados(ps)] == [QUE_SECCION]
+
+
+def test_una_seccion_de_dos_partidos_tambien_se_compara():
+    """Lo de las jornadas chicas es de las JORNADAS. Una seccion de dos partidos --
+    un desempate a ida y vuelta -- se compara como cualquiera."""
+    ps = (_jornada(1, "2018-09-02", llave="Primera fase", z="")
+          + _jornada(1, "2018-01-10", llave="Desempate", z="", equipos=4))
+    assert [a.que for a in validar.anios_bien_asignados(ps)] == [QUE_SECCION]
+
+
+def test_la_revalida_que_arranca_antes_no_es_una_seccion_corrida():
+    """En el Federal A 2018-19 la pagina pone primero la Tercera fase y despues la
+    Revalida, que se juega 49 dias antes."""
+    ps = (_jornada(1, "2019-04-14", llave="Tercera fase", z="")
+          + _jornada(1, "2019-02-24", llave="Reválida", z=""))
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_las_secciones_ordenadas_por_RAMA_tampoco():
+    """La Primera B 1969 ordena sus secciones por rama y no por fecha: la Etapa
+    descenso (julio a octubre) viene despues del Torneo de Reclasificacion
+    (diciembre), 103 dias antes. No hay anio que asignar mal -- es un torneo de un
+    solo anio --, y con el umbral de 90 que esta pista tuvo al principio daba un
+    grave que ninguna configuracion apagaba."""
+    ps = (_jornada(1, "1969-09-20", llave="Etapa campeonato", z="")
+          + _jornada(1, "1969-12-18", llave="Torneo de Reclasificación", z="")
+          + _jornada(1, "1969-09-06", llave="Etapa descenso", z=""))
+    assert validar.anios_bien_asignados(ps) == []
+
+    # Y lo mas largo que se midio en una pagina sana: 140 dias, en una liga regional
+    # donde el orden en que llegan los partidos no es el de la pagina.
+    ps = (_jornada(1, "2022-08-20", llave="Torneo Clausura", z="")
+          + _jornada(1, "2022-04-02", llave="Torneo Apertura", z=""))
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_las_secciones_van_en_el_orden_en_que_llegan_no_en_el_alfabetico():
+    """"Primera fase" (septiembre) y despues "Descenso" (abril). Ordenadas por
+    nombre, el Descenso queda adelante y la Primera fase parece caer siete meses
+    antes."""
+    ps = (_jornada(1, "2018-09-02", llave="Primera fase", z="")
+          + _jornada(1, "2019-04-07", llave="Descenso", z=""))
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_se_miran_TODAS_las_secciones():
+    """La corrida es la tercera."""
+    ps = (_jornada(1, "2018-09-02", llave="Primera fase", z="")
+          + _jornada(1, "2019-02-03", llave="Segunda fase", z="")
+          + _jornada(1, "2018-04-14", llave="Tercera fase", z=""))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_SECCION], [str(a) for a in avisos]
+    assert avisos[0].detalle.startswith(
+        "Tercera fase en 2018-04-14 contra Segunda fase en 2019-02-03;")
+
+
+def test_la_seccion_que_no_tiene_nombre_se_llama_la_fase_de_zonas():
+    """Hay paginas con partidos de zonas sueltos y ademas una seccion con nombre.
+    El aviso tiene que poder nombrar a las dos."""
+    ps = (_jornada(1, "1989-05-28", z="")
+          + _jornada(1, "1988-10-02", llave="Liguilla", z=""))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_SECCION]
+    assert avisos[0].detalle.startswith(
+        "Liguilla en 1988-10-02 contra la fase de zonas en 1989-05-28;")
+
+
+# ---- pista 4: la fase final contra el arranque ------------------------------
+def test_una_fase_final_que_queda_ANTES_de_que_empiece_el_torneo():
+    """Una fase final corrida un anio para atras no cae lejos: en una temporada de
+    agosto a junio, la final de junio queda mes y medio ANTES del primer partido.
+    Las rondas entre si estan en orden y la fase de zonas tambien; lo unico que no
+    cierra es que se defina un torneo que todavia no empezo."""
+    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10")
+    avisos = validar.anios_bien_asignados(zonas + _ronda("Final", "2019-06-20", partidos=1))
+    assert [(a.que, a.grave) for a in avisos] == [(QUE_FINAL, True)]
+    assert "2019-06-20" in avisos[0].detalle
+
+    assert validar.anios_bien_asignados(zonas + _ronda("Final", "2020-06-20", partidos=1)) == []
+
+
+def test_una_eliminatoria_previa_de_verdad_no_frena_la_corrida_de_todos_los_dias():
+    """El Torneo Integracion 2016 de Catamarca: un repechaje el 22 de junio y los
+    grupos desde el 28. No hay ningun anio mal puesto.
+
+    Por eso esta pista es la unica que distingue: en un torneo EN CURSO -- lo unico
+    que la corrida diaria vuelve a leer -- avisa y no frena, porque un cambio de
+    formato no puede dejar sin actualizar a todas las paginas. En uno cerrado, que
+    se lee con alguien mirando, frena. Se prueba por `revisar`, que es por donde
+    pasa el build."""
+    ps = _ronda("Repechaje", "2016-06-22") + _jornada(1, "2016-06-28") + _jornada(2, "2016-07-05")
+    en_curso = [a for a in validar.revisar(ps, en_curso=True) if a.que == QUE_FINAL]
+    assert len(en_curso) == 1 and not en_curso[0].grave
+    assert "eliminatoria previa" in en_curso[0].detalle
+    assert "no llevaba jugados mas de 0 de sus 6 partidos con fecha" in en_curso[0].detalle, \
+        "con menos de veinte partidos el arranque ES el primero, y el aviso no dice otra cosa"
+
+    cerrado = [a for a in validar.revisar(ps) if a.que == QUE_FINAL]
+    assert len(cerrado) == 1 and cerrado[0].grave
+
+
+def test_las_rondas_regionales_de_meses_antes_tampoco_frenan_un_torneo_en_curso():
+    """La otra forma real, el Argentino B 2000-01: rondas regionales desde
+    septiembre que el parser lee como eliminacion, y la Ronda final -- lo unico que
+    queda como zonas -- en mayo. 224 dias antes."""
+    ps = (_ronda("Fecha 1", "2000-09-24", llave="Primera ronda", partidos=4)
+          + _jornada(1, "2001-05-06", llave="Ronda final") + _jornada(2, "2001-05-13", llave="Ronda final"))
+    avisos = validar.anios_bien_asignados(ps, en_curso=True)
+    assert [(a.que, a.grave) for a in avisos] == [(QUE_FINAL, False)]
+
+
+def test_las_otras_tres_pistas_frenan_tambien_en_un_torneo_en_curso():
+    """Lo de avisar sin frenar es de la cuarta sola."""
+    ps = (_jornada(1, "2020-07-26") + _jornada(2, "2019-08-02")
+          + _jornada(1, "2019-01-06", llave="Torneo Clausura")
+          + _ronda("Semifinales", "2020-12-15", llave="Reducido")
+          + _ronda("Final", "2019-12-22", llave="Reducido", partidos=1))
+    avisos = validar.anios_bien_asignados(ps, en_curso=True)
+    assert [(a.que, a.grave) for a in avisos] == [
+        (QUE_JORNADA, True), (QUE_RONDA, True), (QUE_SECCION, True)]
+
+
+def test_el_arranque_es_el_de_TODA_la_pagina_y_no_el_de_una_seccion():
+    """Dos formas reales en las que una ronda cae en el medio de la fase de zonas y
+    esta perfecta. El Argentino A 2005-06: el Apertura define su campeon en
+    diciembre y el Clausura sigue hasta marzo. Y el Federal A 2018-19: la pagina
+    pone primero la Tercera fase (abril) y despues la Revalida (febrero), cuya ida
+    se juega en marzo."""
+    apertura = dict(llave="Torneo Apertura", z="")
+    clausura = dict(llave="Torneo Clausura", z="")
+    ps = (_jornada(1, "2005-08-14", **apertura) + _jornada(2, "2005-11-06", **apertura)
+          + _ronda("Final", "2005-12-18", llave="Torneo Apertura", partidos=1)
+          + _jornada(1, "2006-02-05", **clausura) + _jornada(2, "2006-03-26", **clausura))
+    assert validar.anios_bien_asignados(ps) == []
+
+    fases = (_jornada(1, "2019-04-14", llave="Tercera fase", z="")
+             + _jornada(1, "2019-02-24", llave="Reválida", z=""))
+    ida = dict(llave="Reválida", partidos=1)
+    assert validar.anios_bien_asignados(fases + _ronda("Partidos de ida", "2019-03-31", **ida)) == []
+    avisos = validar.anios_bien_asignados(fases + _ronda("Partidos de ida", "2018-03-31", **ida))
+    assert [a.que for a in avisos] == [QUE_FINAL]
+
+
+def test_la_pista_de_la_fase_final_va_SIN_margen():
+    """Corriendo la eliminacion un anio para atras en los torneos reales, la ronda
+    que queda mas pegada es la Promocion de la Primera B 2010-11, a 32 dias del
+    primer partido. Un colchon del tamanio de los otros umbrales dejaria pasar a
+    tres de cada cuatro."""
+    zonas = _jornada(1, "2010-08-07") + _jornada(2, "2010-08-14")
+    a_32_dias = validar.anios_bien_asignados(zonas + _ronda("Promoción", "2010-07-06", partidos=1))
+    assert [a.que for a in a_32_dias] == [QUE_FINAL]
+    la_vispera = validar.anios_bien_asignados(zonas + _ronda("Promoción", "2010-08-06", partidos=1))
+    assert [a.que for a in la_vispera] == [QUE_FINAL]
+    # "antes" es antes: una ronda jugada el mismo dia del primer partido no lo esta.
+    assert validar.anios_bien_asignados(zonas + _ronda("Promoción", "2010-08-07", partidos=1)) == []
+
+
+def test_un_partido_de_liga_corrido_no_se_lleva_el_arranque():
+    """La Primera C 2008-09 con el corte dos meses antes: la fase final de junio se
+    iba un anio para atras JUNTO con un partido de liga jugado el 1 de junio. Ese
+    partido pasaba a ser "el primero de la fase de zonas", la fase final quedaba
+    despues de el y la pista se callaba con quince filas mal. Por eso el arranque
+    no es el primer partido sino el que deja atras al 5%."""
+    liga = [p for n in range(1, 9)
+            for p in _jornada(n, f"2008-{8 + (n - 1) // 4:02d}-{2 + 7 * ((n - 1) % 4):02d}")]
+    liga[-1].fecha = "2008-06-01"         # uno de la ultima fecha, corrido con la fase final
+    avisos = validar.anios_bien_asignados(liga + _ronda("Final", "2008-06-14", partidos=1))
+    assert [a.que for a in avisos] == [QUE_FINAL], [str(a) for a in avisos]
+    assert "para el 2008-08-02 la fase de zonas" in avisos[0].detalle, \
+        "y el aviso dice contra que fecha comparo, que no es la del primer partido"
+
+
+def test_el_arranque_deja_atras_al_cinco_por_ciento_ni_mas_ni_menos():
+    """Con cuarenta partidos de zonas, dos sueltos corridos no se llevan el
+    arranque; con treinta y nueve, el segundo si. Es donde se eligio cortar."""
+    final = _ronda("Final", "2019-06-14", partidos=1)
+
+    def liga(n):
+        ps = [p for j in range(1, 15)
+              for p in _jornada(j, f"2019-{8 + (j - 1) // 4:02d}-{3 + 7 * ((j - 1) % 4):02d}")]
+        ps = ps[:n]
+        ps[0].fecha, ps[1].fecha = "2019-06-01", "2019-06-02"
+        return ps
+    avisos = validar.anios_bien_asignados(liga(40) + final)
+    assert [a.que for a in avisos] == [QUE_FINAL]
+    assert "no llevaba jugados mas de 2 de sus 40 partidos con fecha" in avisos[0].detalle
+    assert validar.anios_bien_asignados(liga(39) + final) == []
+
+
+def test_con_la_fase_de_zonas_casi_sin_fechas_la_pista_se_calla():
+    """Como llegan las paginas viejas antes de tener segunda fuente: dos partidos
+    fechados de diez, salidos de una nota. El "arranque" seria el dia de un
+    postergado cualquiera, y la primera llave quedaria "antes" de un torneo que
+    empezo meses atras."""
+    zonas = _jornada(1, "", equipos=8) + _jornada(2, "", equipos=8) + _jornada(3, "", equipos=4)
+    zonas[0].fecha = zonas[1].fecha = "2015-10-07"
+    assert validar.anios_bien_asignados(zonas + _ronda("Final", "2015-09-20", partidos=1)) == []
+
+
+def test_la_guarda_de_la_mitad_en_sus_dos_bordes():
+    """Justo la mitad de la fase de zonas con fecha alcanza; un partido sin fecha
+    mas, no."""
+    final = _ronda("Final", "2019-06-14", partidos=1)
+    mitad = _jornada(1, "2019-08-03", equipos=8) + _jornada(2, "", equipos=8)
+    avisos = validar.anios_bien_asignados(mitad + final)
+    assert [a.que for a in avisos] == [QUE_FINAL]
+    assert "de sus 4 partidos con fecha" in avisos[0].detalle, "los que no tienen fecha no cuentan"
+    menos = mitad + _jornada(3, "", equipos=2)
+    assert validar.anios_bien_asignados(menos + final) == []
+
+
+def test_alcanza_con_UN_partido_de_la_ronda_antes_del_arranque():
+    """La ronda avisa por los partidos que quedaron antes, aunque no sean todos."""
+    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10")
+    promo = _ronda("Promoción", "2019-06-20")
+    promo[1].fecha = "2020-06-27"
+    avisos = validar.anios_bien_asignados(zonas + promo)
+    assert [a.que for a in avisos] == [QUE_FINAL]
+    assert avisos[0].detalle.startswith("Promoción: 1 partido desde el 2019-06-20,")
+
+
+def test_la_eliminacion_sin_llave_ni_ronda_se_nombra_sin_rotulo():
+    """Sin esto el detalle arranca con ": 1 partido"."""
+    ps = _jornada(1, "2019-08-03") + _ronda("", "2019-06-14", partidos=1)
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_FINAL]
+    assert avisos[0].detalle.startswith("sin rotulo: 1 partido desde el 2019-06-14,")
+
+
+def test_la_pista_de_la_fase_final_tampoco_cuenta_las_fechas_que_no_existen():
+    """Ni como arranque ni como ronda adelantada."""
+    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10")
+    zonas[0].fecha = "2019-06-31"
+    avisos = validar.anios_bien_asignados(zonas + _ronda("Final", "2019-07-20", partidos=1))
+    assert [a.que for a in avisos] == [QUE_FINAL]
+    assert "para el 2019-08-03 la fase de zonas" in avisos[0].detalle
+
+    sanas = _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10")
+    assert validar.anios_bien_asignados(sanas + _ronda("Final", "2019-06-31", partidos=1)) == []
+
+
+def test_cada_ronda_adelantada_es_UN_aviso_y_dice_cual_es():
+    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10")
+    semis = _ronda("Semifinales", "2019-06-10", llave="Reducido")
+    semis[1].fecha = "2019-06-12"
+    final = _ronda("Final", "2019-06-20", llave="Reducido", partidos=1)
+    promo = _ronda("Final", "2019-06-25", llave="Promoción")
+    promo[1].fecha = "2019-06-28"
+    avisos = validar.anios_bien_asignados(zonas + semis + final + promo)
+    assert [a.que for a in avisos] == [QUE_FINAL] * 3, [str(a) for a in avisos]
+    for aviso, donde, desde in zip(avisos,
+                                   ("Reducido Semifinales: 2 partidos desde",
+                                    "Reducido Final: 1 partido desde",
+                                    "Promoción Final: 2 partidos desde"),
+                                   ("2019-06-10", "2019-06-20", "2019-06-25")):
+        assert aviso.detalle.startswith(donde), aviso.detalle
+        assert f"desde el {desde}," in aviso.detalle
+        assert "para el 2019-08-03 la fase de zonas" in aviso.detalle
+
+
+def test_lo_que_no_tiene_numero_de_jornada_no_es_una_Fecha_0_pero_cuenta_para_el_arranque():
+    """Hoy ningun partido de zonas llega sin numero de jornada, asi que esto no lo
+    decide el dataset sino el codigo: no entran a la pista de las jornadas, y si a
+    las secciones y al arranque."""
+    def sin_numero(fecha, **donde):
+        ps = _jornada(1, fecha, **donde)
+        for p in ps:
+            p.jornada = "Desempate"
+        return ps
+    ps = sin_numero("2020-06-20") + _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10")
+    assert validar.anios_bien_asignados(ps) == []
+
+    ps = (sin_numero("2019-07-20") + _ronda("Final", "2019-07-27", partidos=1)
+          + _jornada(1, "2019-08-03"))
+    assert validar.anios_bien_asignados(ps) == []
+
+    # A su seccion SI entra: no tiene jornada, pero es de donde es.
+    ps = (_jornada(1, "2020-09-05", llave="Torneo Apertura")
+          + sin_numero("2020-02-08", llave="Torneo Clausura"))
+    assert [a.que for a in validar.anios_bien_asignados(ps)] == [QUE_SECCION]
+
+
+# ---- pista 4, sobre lo que ya esta publicado ---------------------------------
+DATOS = Path(__file__).resolve().parent.parent / "data"
+
+
+def _publicado() -> dict[tuple, list[Partido]]:
+    """Las filas del CSV de cada torneo, como las veria la pista 4. El CSV no trae
+    la llave, que esa pista usa nada mas que para rotular."""
+    de_cada_uno: dict[tuple, list[Partido]] = {}
+    for f in dataset.leer_carpeta(DATOS):
+        clave = (dataset.pagina_de(f), f["tournament"], f["season"])
+        de_cada_uno.setdefault(clave, []).append(Partido(
+            fecha=f["date"], local=f["home_team"], visita=f["away_team"],
+            fase=f["phase"], zona=f["group"], jornada=f["matchday"]))
+    return de_cada_uno
+
+
+def _de(t, publicado) -> list[Partido]:
+    return publicado.get((t.url, t.torneo, str(t.temporada)), [])
+
+
+def test_ningun_torneo_CERRADO_del_dataset_tiene_la_fase_final_antes_del_arranque():
+    """La pista 4 sobre lo PUBLICADO. Un torneo que se sigue en vivo pasa por esa
+    pista como torneo en curso, donde solo avisa; cuando se lo cierra ya tiene sus
+    filas en el CSV y el build no lo vuelve a leer. Sin esto la rama que frena no
+    le tocaria nunca: el error se publicaria con un aviso y ahi quedaria.
+
+    La suite corre antes que el build de todos los dias, asi que el dia que alguien
+    pasa a `cerrado=True` un torneo con ese error adentro, esto falla. La corrida
+    diaria no lo puede hacer fallar: mira solo torneos cerrados, que el bot no toca.
+    """
+    publicado = _publicado()
+    cerrados = [t for t in torneos.TODOS if t.cerrado]
+    sin_filas = [t.pagina for t in cerrados if not _de(t, publicado)]
+    assert len(cerrados) > 150 and not sin_filas, \
+        f"si no encuentra las filas de un torneo, no lo esta mirando: {sin_filas}"
+    malos = {t.pagina: [str(a) for a in avisos] for t in cerrados
+             if (avisos := validar._fase_final_antes_del_arranque(_de(t, publicado), False))}
+    assert not malos, malos
+
+
+def test_y_la_veria_si_la_fase_final_publicada_estuviera_un_anio_antes():
+    """El de arriba no dice nada, y un test que no dice nada puede ser un test que
+    no mira. Con las filas de verdad de la B Nacional 2017-18 y su fase final un
+    anio para atras -- lo que deja un corte de mes mal puesto --, frena."""
+    (t,) = [t for t in torneos.TODOS if t.pagina == "Campeonato de Primera B Nacional 2017-18"]
+    ps = _de(t, _publicado())
+    finales = [p for p in ps if p.fase == "eliminacion" and p.fecha]
+    assert len(finales) > 5
+    for p in finales:
+        p.fecha = f"{int(p.fecha[:4]) - 1}{p.fecha[4:]}"
+    avisos = validar._fase_final_antes_del_arranque(ps, False)
+    assert avisos and all(a.grave and a.que == QUE_FINAL for a in avisos)
+
+
+# ---- las pistas se suman, y las fechas raras --------------------------------
+def test_las_llaves_sanas_NO_tapan_a_un_grupo_roto():
+    """La Copa de la Liga 2020 tiene grupos Y llaves. Si la pista de las rondas
+    PISA los avisos de la de jornadas en vez de sumarlos, la pagina que motivo este
+    cambio vuelve a salir limpia."""
+    ps = (_jornada(3, "2020-12-27", llave="Fase Campeonato", z="Grupo A")
+          + _jornada(4, "2020-01-03", llave="Fase Campeonato", z="Grupo A")
+          + _ronda("Final", "2021-01-17", partidos=1))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_JORNADA], [str(a) for a in avisos]
+
+
+def test_las_cuatro_pistas_SE_SUMAN():
+    """Una pagina con un error en cada pista da los cuatro avisos. No es un caso
+    real: es la manera mas corta de decir que ninguna pista pisa, corta ni
+    reemplaza a otra. En un torneo cerrado frenan las cuatro; en uno en curso, la
+    cuarta avisa."""
+    apertura = dict(llave="Torneo Apertura", z="")
+    clausura = dict(llave="Torneo Clausura", z="")
+    ps = (_jornada(1, "2020-08-04", **apertura)                 # 1: la Fecha 1, un anio despues
+          + _jornada(2, "2019-08-11", **apertura) + _jornada(3, "2019-08-18", **apertura)
+          + _jornada(1, "2019-01-06", **clausura)               # 3: el Clausura entero, un anio antes
+          + _jornada(2, "2019-01-13", **clausura)
+          + _ronda("Semifinales", "2020-12-15", llave="Reducido")       # 2: semis despues de la final
+          + _ronda("Final", "2019-12-22", llave="Reducido", partidos=1)
+          + _ronda("Desempate", "2018-12-20", llave="Desempate", partidos=1))   # 4: antes de todo
+    avisos = validar.anios_bien_asignados(ps)
+    assert [(a.que, a.grave) for a in avisos] == [
+        (QUE_JORNADA, True), (QUE_RONDA, True), (QUE_SECCION, True), (QUE_FINAL, True)], \
+        [str(a) for a in avisos]
+    assert [a.grave for a in validar.anios_bien_asignados(ps, en_curso=True)] == [
+        True, True, True, False]
+
+
+def test_una_fecha_que_NO_EXISTE_no_tumba_el_chequeo():
+    """Hubo un `31 de noviembre` y tres `31 de junio` en el dataset, y el parser los
+    arma igual. Si a una fecha asi le tocaba ser la del medio de su jornada, la
+    resta levantaba un `ValueError` y este chequeo se llevaba el build entero. No
+    paso de casualidad. Se la saltea: decir que no existe es otro chequeo."""
+    ps = (_jornada(18, "2014-10-25") + _jornada(19, "2014-11-31") + _jornada(20, "2014-11-08"))
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_una_fecha_rara_se_saltea_ELLA_y_el_resto_se_sigue_mirando():
+    """El de arriba pide `== []`, y eso lo cumple tambien un chequeo que al ver una
+    fecha rara deja de mirar. Aca la pagina tiene una fecha que no existe, un
+    partido sin fecha Y un anio mal puesto de verdad: el aviso tiene que salir."""
+    ps = (_jornada(1, "2020-07-27", equipos=8) + _jornada(2, "2019-08-04", equipos=8)
+          + _jornada(3, "2019-08-11", equipos=8))
+    ps[0].fecha = "2019-06-31"            # no existe, y es el primer partido de la pagina
+    ps[5].fecha = ""                      # y uno sin fecha
+    avisos = validar.anios_bien_asignados(ps)
+    assert len(avisos) == 1 and avisos[0].grave, [str(a) for a in avisos]
+    assert "Fecha 2 en 2019-08-04 contra Fecha 1 en 2020-07-27" in avisos[0].detalle
+
+
+def test_un_partido_SIN_FECHA_no_tumba_ni_apaga_nada():
+    """Sin fecha no es lo mismo que con una fecha imposible. Si la cadena vacia se
+    diera por buena, una jornada entera sin fecha quedaria en el medio y la resta
+    explotaria, y un solo partido de zonas sin fecha se volveria el "arranque" del
+    torneo -- la cadena vacia es menor que cualquier fecha -- y la pista de la fase
+    final no avisaria nunca mas."""
+    ps = _jornada(1, "2019-08-03") + _jornada(2, "") + _jornada(3, "2019-08-17")
+    assert validar.anios_bien_asignados(ps) == []
+
+    zonas = _jornada(1, "2019-08-03", equipos=8)
+    zonas[0].fecha = ""
+    avisos = validar.anios_bien_asignados(zonas + _ronda("Final", "2019-06-20", partidos=1))
+    assert [a.que for a in avisos] == [QUE_FINAL]
+
+
+def test_una_ronda_con_fecha_rara_o_sin_fecha_tampoco():
+    """Una final que llega sin fecha -- hay paginas que traen el marcador y no el
+    dia -- no esta "antes de que empiece la fase de zonas", y una ronda con un 31
+    de noviembre no puede tumbar la comparacion entre rondas."""
+    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10")
+    assert validar.anios_bien_asignados(zonas + _ronda("Final", "", partidos=1)) == []
+
+    for rara in ("", "2019-11-31"):
+        ps = _ronda("Semifinales", "2019-11-24") + _ronda("Final", rara, partidos=1)
+        assert validar.anios_bien_asignados(ps) == []
+
+
+def test_una_seccion_entera_con_fechas_que_no_existen_no_es_una_seccion():
+    ps = (_jornada(1, "2014-10-25", llave="Torneo Inicial", z="")
+          + _jornada(1, "2014-11-31", llave="Torneo Final", z=""))
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_existe_dice_que_no_a_lo_vacio_a_lo_imposible_y_a_lo_que_no_esta_en_forma_larga():
+    """Las dos ultimas son fechas de verdad -- el 5 y el 15 de enero de 2020 --
+    escritas como `fromisoformat` tambien acepta. Este modulo ordena y compara las
+    fechas como texto, y eso solo vale para `AAAA-MM-DD`."""
+    assert validar._existe("2019-08-03")
+    assert not validar._existe("")
+    assert not validar._existe("2014-11-31")
+    assert not validar._existe(None)
+    assert not validar._existe("20200105")
+    assert not validar._existe("2020-W03-3")
 
 
 # --------------------------------------------------------------------------

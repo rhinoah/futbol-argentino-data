@@ -6,6 +6,7 @@ test detecta -- o sea, un agujero en la red.
 """
 from __future__ import annotations
 
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -460,7 +461,7 @@ MUTANTES = [
 
     ("fad/fechas.py", "no contar el pedido que fallo para la pausa de cortesia",
      "    finally:\n        _ULTIMO = time.monotonic()",
-     "    _ULTIMO = time.monotonic()"),
+     "    finally:\n        pass\n    _ULTIMO = time.monotonic()"),
 
     ("fad/dataset.py", "buscar la pagina sin sacar el credito de la segunda fuente",
      '    return fila["source"].split(SEPARADOR, 1)[0]',
@@ -854,8 +855,8 @@ MUTANTES = [
      "            fecha=programada,"),
 
     ("fad/parser.py", "tomar tambien `se completo` como si fuera otra fecha",
-     'r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron)\s+(?:el\s+)?"',
-     'r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron|complet[oó])\s+(?:el\s+)?"'),
+     r'r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron)\s+(?:el\s+)?"',
+     r'r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron|complet[oó])\s+(?:el\s+)?"'),
 
     ("fad/parser.py", "dejar que la fecha jugada caiga antes de la programada",
      '    if jugada and programada and jugada < programada:',
@@ -895,11 +896,11 @@ MUTANTES = [
 
     ("fad/fechas.py", "aceptar como temporada cualquier opcion del selector",
      '        m = _IDS.search(valor)',
-     '        m = _IDS.search(valor) or re.search(r"(cy\d+)()", valor)'),
+     r'        m = _IDS.search(valor) or re.search(r"(cy\d+)()", valor)'),
 
     ("fad/fechas.py", "confundir una competencia con una temporada",
-     '        m = re.fullmatch(r"/competition/(co\d+)/", valor)',
-     '        m = re.search(r"/(co\d+)/", valor)'),
+     r'        m = re.fullmatch(r"/competition/(co\d+)/", valor)',
+     r'        m = re.search(r"/(co\d+)/", valor)'),
 
     ("fad/fechas.py", "completar sin dejar el credito de la fuente",
      "        p.fuente_fecha = a.fuente or credito",
@@ -961,9 +962,243 @@ MUTANTES = [
      "    faltan = [i for i in range(nums[0], nums[-1] + 1) if i not in nums]",
      "    faltan = []"),
 
-    ("fad/validar.py", "no mirar si una jornada cae un anio fuera de lugar",
-     "        if previo and _dias(medio, previo[1]) > 180:",
-     "        if False:"),
+    ("fad/validar.py", "no mirar si algo cae un anio fuera de lugar",
+     "            if _dias(medio, previo[1]) > (_ATRAS_DE_MAS_CHICA if corto else umbral):",
+     "            if False:"),
+
+    ("fad/validar.py", "desenchufar de `revisar` el chequeo de los anios",
+     "            una_vez_por_jornada, jornadas_sin_huecos, anios_bien_asignados,",
+     "            una_vez_por_jornada, jornadas_sin_huecos,"),
+
+    # La ceguera con la que nacio: juntar por numero de jornada todo lo que haya en
+    # la pagina. Los tres que siguen son las tres maneras de volver a mezclar.
+    ("fad/validar.py", "juntar las jornadas por numero sin mirar de que grupo son",
+     "                grupos.setdefault((p.llave, p.zona), {}).setdefault(n, []).append(p.fecha)",
+     '                grupos.setdefault(("", ""), {}).setdefault(n, []).append(p.fecha)'),
+
+    ("fad/validar.py", "juntar los grupos de una misma fase",
+     "                grupos.setdefault((p.llave, p.zona), {}).setdefault(n, []).append(p.fecha)",
+     '                grupos.setdefault((p.llave, ""), {}).setdefault(n, []).append(p.fecha)'),
+
+    ("fad/validar.py", "juntar dos fases que le ponen el mismo nombre a sus grupos",
+     "                grupos.setdefault((p.llave, p.zona), {}).setdefault(n, []).append(p.fecha)",
+     '                grupos.setdefault(("", p.zona), {}).setdefault(n, []).append(p.fecha)'),
+
+    ("fad/validar.py", "no mirar la liga comun, la que no tiene llave ni zona",
+     "            if n := _numero(p.jornada):\n                grupos.setdefault(",
+     "            if (n := _numero(p.jornada)) and (p.llave or p.zona):\n                grupos.setdefault("),
+
+    ("fad/validar.py", "recorrer las jornadas como vienen y no por numero",
+     '            [(f"Fecha {n}", porjornada[n]) for n in sorted(porjornada)',
+     '            [(f"Fecha {n}", porjornada[n]) for n in porjornada'),
+
+    ("fad/validar.py", "ordenar las jornadas como texto: la Fecha 10 antes que la 2",
+     '            [(f"Fecha {n}", porjornada[n]) for n in sorted(porjornada)',
+     '            [(f"Fecha {n}", porjornada[n]) for n in sorted(porjornada, key=str)'),
+
+    ("fad/validar.py", "mirar solo las dos primeras jornadas de cada grupo",
+     '            [(f"Fecha {n}", porjornada[n]) for n in sorted(porjornada)',
+     '            [(f"Fecha {n}", porjornada[n]) for n in sorted(porjornada)[:2]'),
+
+    ("fad/validar.py", "pedirle a un partido suelto lo mismo que a una jornada entera",
+     "            chica=_JORNADA_CHICA)",
+     "            chica=0)"),
+
+    ("fad/validar.py", "tratar como jornada entera a una de dos partidos",
+     "_JORNADA_CHICA = 3",
+     "_JORNADA_CHICA = 2"),
+
+    ("fad/validar.py", "tratar como chica a una jornada de tres partidos",
+     "_JORNADA_CHICA = 3",
+     "_JORNADA_CHICA = 4"),
+
+    ("fad/validar.py", "tomar por un anio mal puesto a un partido postergado siete meses",
+     "_ATRAS_DE_MAS_CHICA = 240",
+     "_ATRAS_DE_MAS_CHICA = 200"),
+
+    ("fad/validar.py", "no ver una jornada chica corrida un anio entre marzo y diciembre",
+     "_ATRAS_DE_MAS_CHICA = 240",
+     "_ATRAS_DE_MAS_CHICA = 300"),
+
+    ("fad/validar.py", "exigir que las DOS jornadas sean chicas para pedirles mas",
+     "            corto = min(len(fechas), previo[2]) < chica",
+     "            corto = max(len(fechas), previo[2]) < chica"),
+
+    ("fad/validar.py", "no comparar las jornadas chicas, que dejaba grupos enteros sin mirar",
+     '            [(f"Fecha {n}", porjornada[n]) for n in sorted(porjornada)],',
+     '            [(f"Fecha {n}", porjornada[n]) for n in sorted(porjornada)\n'
+     '             if len(porjornada[n]) >= _JORNADA_CHICA],'),
+
+    ("fad/validar.py", "tomar por un anio mal puesto la postergacion mas larga que hubo",
+     "_ATRAS_DE_MAS = 180",
+     "_ATRAS_DE_MAS = 150"),
+
+    ("fad/validar.py", "dejar pasar el error de anio mas chico que hubo",
+     "_ATRAS_DE_MAS = 180",
+     "_ATRAS_DE_MAS = 300"),
+
+    ("fad/validar.py", "tomar por un error cualquier paso atras entre dos rondas",
+     "_ATRAS_DE_MAS = 180",
+     "_ATRAS_DE_MAS = 5"),
+
+    ("fad/validar.py", "dejar pasar el error mas chico que una configuracion produce",
+     "_ATRAS_DE_MAS = 180",
+     "_ATRAS_DE_MAS = 190"),
+
+    ("fad/validar.py", "volver al umbral de 90 con el que una pagina ordenada por rama no entraba",
+     "_SECCION_ATRAS_DE_MAS = 160",
+     "_SECCION_ATRAS_DE_MAS = 90"),
+
+    ("fad/validar.py", "tomar por un anio mal puesto el salto mas largo entre secciones sanas",
+     "_SECCION_ATRAS_DE_MAS = 160",
+     "_SECCION_ATRAS_DE_MAS = 130"),
+
+    ("fad/validar.py", "poner las secciones en 180, justo donde cae el error que tienen que ver",
+     "_SECCION_ATRAS_DE_MAS = 160",
+     "_SECCION_ATRAS_DE_MAS = 180"),
+
+    ("fad/validar.py", "comparar las secciones con el umbral de las jornadas",
+     "        umbral=_SECCION_ATRAS_DE_MAS)",
+     "        )"),
+
+    ("fad/validar.py", "mirar el primer partido de la jornada y no la jornada",
+     "        medio = sorted(fechas)[len(fechas) // 2]",
+     "        medio = min(fechas)"),
+
+    ("fad/validar.py", "mirar el ultimo partido de la jornada y no la jornada",
+     "        medio = sorted(fechas)[len(fechas) // 2]",
+     "        medio = sorted(fechas)[-1]"),
+
+    ("fad/validar.py", "decir que es una ronda lo que es una jornada",
+     '            "una jornada cae medio anio antes que la anterior", _donde(llave, zona),',
+     '            "una ronda cae medio anio antes que la anterior", _donde(llave, zona),'),
+
+    ("fad/validar.py", "no mirar las rondas de eliminacion",
+     '        elif p.fase == "eliminacion" and p.jornada:',
+     "        elif False:"),
+
+    ("fad/validar.py", "comparar entre si las rondas de cuadros distintos",
+     "            rondas.setdefault(p.llave, {}).setdefault(p.jornada, []).append(p.fecha)",
+     '            rondas.setdefault("", {}).setdefault(p.jornada, []).append(p.fecha)'),
+
+    ("fad/validar.py", "que la pista de las rondas pise los avisos de la de jornadas",
+     "    for llave, porronda in rondas.items():\n        avisos += _saltos_para_atras(",
+     "    for llave, porronda in rondas.items():\n        avisos = _saltos_para_atras("),
+
+    ("fad/validar.py", "mirar solo la primera llave de la pagina",
+     "    for llave, porronda in rondas.items():",
+     "    for llave, porronda in list(rondas.items())[:1]:"),
+
+    ("fad/validar.py", "mirar solo las dos primeras rondas de cada llave",
+     "            list(porronda.items()),\n",
+     "            list(porronda.items())[:2],\n"),
+
+    ("fad/validar.py", "restar una fecha que no existe",
+     "        if not _existe(p.fecha):\n            continue\n        if p.fase == \"zonas\":",
+     "        if not p.fecha:\n            continue\n        if p.fase == \"zonas\":"),
+
+    ("fad/validar.py", "dejar de mirar la pagina en la primera fecha que no existe",
+     "        if not _existe(p.fecha):\n            continue\n        if p.fase == \"zonas\":",
+     "        if not _existe(p.fecha):\n            break\n        if p.fase == \"zonas\":"),
+
+    ("fad/validar.py", "dejar entrar a las rondas una fecha que no existe",
+     "        if not _existe(p.fecha):\n            continue\n        if p.fase == \"zonas\":",
+     "        if p.fase == \"zonas\" and not _existe(p.fecha):\n            continue\n        if p.fase == \"zonas\":"),
+
+    ("fad/validar.py", "dar por buena una fecha vacia",
+     "    try:\n        return date.fromisoformat(fecha).isoformat() == fecha",
+     "    if not fecha:\n        return True\n    try:\n        return date.fromisoformat(fecha).isoformat() == fecha"),
+
+    ("fad/validar.py", "dar por buena una fecha que no ordena como texto",
+     "        return date.fromisoformat(fecha).isoformat() == fecha",
+     "        return bool(date.fromisoformat(fecha))"),
+
+    ("fad/validar.py", "no comparar una seccion contra la de al lado",
+     "            secciones.setdefault(p.llave, []).append(p.fecha)",
+     '            secciones.setdefault("", []).append(p.fecha)'),
+
+    ("fad/validar.py", "recorrer las secciones por orden alfabetico y no como llegan",
+     '        [(llave or "la fase de zonas", fechas) for llave, fechas in secciones.items()],',
+     '        [(llave or "la fase de zonas", fechas) for llave, fechas in sorted(secciones.items())],'),
+
+    ("fad/validar.py", "mirar solo las dos primeras secciones",
+     '        [(llave or "la fase de zonas", fechas) for llave, fechas in secciones.items()],',
+     '        [(llave or "la fase de zonas", fechas) for llave, fechas in list(secciones.items())[:2]],'),
+
+    # ---- la pista 4: frena en un torneo cerrado, avisa en uno en curso
+    ("fad/validar.py", "no mirar la fase final contra el arranque de las zonas",
+     "    return avisos + _fase_final_antes_del_arranque(ps, en_curso)",
+     "    return avisos"),
+
+    ("fad/validar.py", "frenar la corrida diaria por una eliminatoria previa de verdad",
+     'f"asignado", grave=not en_curso)',
+     'f"asignado")'),
+
+    ("fad/validar.py", "no frenar nunca por una fase final antes del arranque",
+     'f"asignado", grave=not en_curso)',
+     'f"asignado", grave=False)'),
+
+    ("fad/validar.py", "decir que la fase de zonas llevaba jugado lo que no llevaba",
+     'no llevaba jugados mas de {len(fechadas) // 20} de "',
+     'no llevaba jugados mas de {len(fechadas) // 10} de "'),
+
+    ("fad/validar.py", "contar entre los partidos de zonas a los que no tienen fecha",
+     'f"sus {len(fechadas)} partidos con fecha;',
+     'f"sus {len(zonas)} partidos con fecha;'),
+
+    ("fad/validar.py", "no decirle al chequeo de los anios si el torneo esta en curso",
+     "        elif chequeo is anios_bien_asignados:\n            avisos += chequeo(ps, en_curso)",
+     "        elif chequeo is anios_bien_asignados:\n            avisos += chequeo(ps)"),
+
+    # EL CABLE. Todo lo de arriba prueba de `revisar` para adentro, y que un torneo
+    # este en curso lo sabe una sola linea de build.py. Con `en_curso=True` fijo no
+    # se rompia nada a la vista: la pista 4 quedaba como aviso para siempre y
+    # `zonas_completas` apagado en los torneos cerrados.
+    ("build.py", "decirle a los chequeos que todo torneo esta en curso",
+     "    avisos += validar.revisar(ps, en_curso=not t.cerrado,",
+     "    avisos += validar.revisar(ps, en_curso=True,"),
+
+    ("build.py", "decirle a los chequeos que ningun torneo esta en curso",
+     "    avisos += validar.revisar(ps, en_curso=not t.cerrado,",
+     "    avisos += validar.revisar(ps, en_curso=False,"),
+
+    ("build.py", "decirle a los chequeos lo contrario de lo que el torneo es",
+     "    avisos += validar.revisar(ps, en_curso=not t.cerrado,",
+     "    avisos += validar.revisar(ps, en_curso=t.cerrado,"),
+
+    ("fad/validar.py", "dejar afuera de su seccion a lo que no tiene numero de jornada",
+     "            secciones.setdefault(p.llave, []).append(p.fecha)\n"
+     "            if n := _numero(p.jornada):\n",
+     "            if n := _numero(p.jornada):\n"
+     "                secciones.setdefault(p.llave, []).append(p.fecha)\n"),
+
+    ("fad/validar.py", "armar una ronda con la eliminacion que no tiene nombre de ronda",
+     '        elif p.fase == "eliminacion" and p.jornada:',
+     '        elif p.fase == "eliminacion":'),
+
+    ("fad/validar.py", "tomar por arranque el primer partido, que se lo lleva un error suelto",
+     "    arranque = fechadas[len(fechadas) // 20]",
+     "    arranque = fechadas[0]"),
+
+    ("fad/validar.py", "tomar por arranque el ULTIMO partido de zonas",
+     "    arranque = fechadas[len(fechadas) // 20]",
+     "    arranque = fechadas[-1]"),
+
+    ("fad/validar.py", "medir el arranque con dos partidos fechados de cien",
+     "    if not fechadas or len(fechadas) * 2 < len(zonas):",
+     "    if not fechadas:"),
+
+    ("fad/validar.py", "ponerle un colchon de un mes a la pista de la fase final",
+     '        if p.fase == "eliminacion" and _existe(p.fecha) and p.fecha < arranque:',
+     '        if p.fase == "eliminacion" and _existe(p.fecha) and _dias(p.fecha, arranque) > 30:'),
+
+    ("fad/validar.py", "tomar una ronda sin fecha por una ronda anterior al arranque",
+     '        if p.fase == "eliminacion" and _existe(p.fecha) and p.fecha < arranque:',
+     '        if p.fase == "eliminacion" and p.fecha < arranque:'),
+
+    ("fad/validar.py", "juntar en un solo aviso todas las rondas adelantadas",
+     "            antes.setdefault((p.llave, p.jornada), []).append(p.fecha)",
+     '            antes.setdefault(("", ""), []).append(p.fecha)'),
 
     ("fad/validar.py", "quejarse de un torneo de zona unica",
      "    if not sin or len(sin) == len(zonas):",
@@ -1215,7 +1450,7 @@ MUTANTES = [
     ("fad/rsssf.py", "leer el archivo entero cuando la seccion no aparece",
      '            return None, [f"no se encontro la seccion {desde.splitlines()[0]!r}"]\n'
      "        texto = texto[i:]",
-     "        texto = texto[max(i, 0):]"),
+     "            pass\n        texto = texto[max(i, 0):]"),
 
     # Y UNO POR LECTOR, que es lo que la unificacion vuelve interesante: el recorte
     # esta bien escrito una sola vez, asi que lo que puede fallar ahora es que
@@ -2352,8 +2587,28 @@ MUTANTES = [
 TIMEOUT = 120
 
 
-def correr_suite() -> bool:
-    """Si la suite pasa. Un mutante que cuelga cuenta como muerto, y se dice.
+# Lo que pytest escribe cuando un modulo no se pudo importar y ningun test llego a
+# correr. Son DOS formas y la que importa es la segunda. "errors during collection"
+# lo escribe cuando termina de juntar; con `-x`, que es como se lo llama aca, corta
+# en el primer modulo roto y no llega a escribirlo, salvo que ese modulo sea el
+# ultimo. La primera version de esto buscaba solo esa frase y no disparaba nunca.
+# Lo que queda siempre es el renglon del resumen corto, que para un error de colecta
+# nombra al ARCHIVO, sin `::test`. Un error de fixture lleva el `::` y no engancha,
+# y esta bien: ahi el test si se junto y algo de el corrio.
+#
+# Lo sostiene tests/test_mutar.py, contra el pytest que este instalado.
+_NO_JUNTO = re.compile(r"errors? during collection|^ERROR [^\s:]+\.py(?: - |$)", re.M)
+
+
+def correr_suite() -> str:
+    """"pasa", "falla" o "no corrio". Un mutante que cuelga cuenta como muerto, y se dice.
+
+    "NO CORRIO" NO ES "FALLA", y desde afuera se parecen: en los dos casos pytest
+    sale con error. Si el fuente mutado compila pero revienta al importarse -- un
+    nombre que no existe a nivel de modulo --, pytest corta en la colecta y ningun
+    test llega a mirar nada. Contarlo como muerto es decir que la red lo agarro
+    cuando la red no corrio. Es la misma trampa que la del mutante que no compila,
+    por la puerta de al lado.
 
     UN MUTANTE PUEDE COLGAR EN VEZ DE FALLAR, y sin timeout eso no es un rojo sino un
     job detenido para siempre -- que es peor, porque no dice nada. Pasa con los bordes
@@ -2369,12 +2624,19 @@ def correr_suite() -> bool:
     except subprocess.TimeoutExpired:
         print(f"      (la suite colgo mas de {TIMEOUT}s: el mutante rompe la "
               f"terminacion, no un resultado)")
-        return False
-    return r.returncode == 0
+        return "falla"
+    return como_salio(r.returncode, r.stdout)
+
+
+def como_salio(codigo: int, salida: str) -> str:
+    """Lo que dice una corrida de pytest: "pasa", "falla" o "no corrio"."""
+    if codigo == 0:
+        return "pasa"
+    return "no corrio" if _NO_JUNTO.search(salida) else "falla"
 
 
 def main():
-    if not correr_suite():
+    if correr_suite() != "pasa":
         print("La suite no pasa ANTES de mutar. Abortando.")
         return 1
 
@@ -2387,14 +2649,31 @@ def main():
             print(f"      (no se encontro el texto en {archivo})")
             sobrevivientes.append((desc, "no aplico"))
             continue
-        ruta.write_text(original.replace(viejo, nuevo, 1), encoding="utf-8")
+        mutado = original.replace(viejo, nuevo, 1)
+        # UN MUTANTE QUE NO COMPILA NO MURIO: no se puede importar, pytest corta en
+        # la colecta y sale con error, que desde aca se ve igual que un test que
+        # falla. Pero ningun test llego a mirar nada. Hubo dos asi durante meses,
+        # contados como muertos; los encontro una revision, no esta herramienta.
+        if archivo.endswith(".py"):
+            try:
+                compile(mutado, archivo, "exec")
+            except SyntaxError as e:
+                print(f"  ??  NO COMPILA  {desc}")
+                print(f"      ({archivo}, linea {e.lineno}: {e.msg})")
+                sobrevivientes.append((desc, "no compila"))
+                continue
+        ruta.write_text(mutado, encoding="utf-8")
         try:
-            paso = correr_suite()
+            como = correr_suite()
         finally:
             ruta.write_text(original, encoding="utf-8")
-        if paso:
+        if como == "pasa":
             print(f"  !!  SOBREVIVE  {desc}")
             sobrevivientes.append((desc, archivo))
+        elif como == "no corrio":
+            print(f"  ??  NO SE PUDO IMPORTAR  {desc}")
+            print(f"      (pytest corto en la colecta: ningun test llego a mirarlo)")
+            sobrevivientes.append((desc, "no se pudo importar"))
         else:
             print(f"  ok  muere      {desc}")
 

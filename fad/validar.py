@@ -448,8 +448,56 @@ def jornadas_sin_huecos(ps: list[Partido]) -> list[Aviso]:
                   f"{', '.join(map(str, faltan))}", grave=False)] if faltan else []
 
 
-def anios_bien_asignados(ps: list[Partido]) -> list[Aviso]:
-    """Una jornada no puede caer medio anio ANTES que la anterior.
+# Cuanto puede caer algo ANTES de lo que lo precede sin que sea un anio mal puesto.
+# Son tres numeros y los tres salen de medir, no de una intuicion (10/10/2026: los
+# 168 torneos del catalogo, el historial de 72 de sus paginas en Wikipedia --53 mil
+# revisiones-- y unas 1300 paginas que todavia no entraron).
+#
+# ENTRE DOS JORNADAS O DOS RONDAS SEGUIDAS, 180. Lo mas largo que es legitimo son
+# 158 dias --la Fecha 7 de la B Nacional 2016-17, que se jugo entera en marzo,
+# cinco meses despues de la 8--; entre rondas, 6 en el catalogo y 9 en su historial.
+# Los errores de anio que hubo dieron 358 y 359 entre jornadas y 254 entre rondas.
+# Queda apretado de los dos lados y conviene saberlo antes de moverlo: 22 dias por
+# encima de lo legitimo, y 9 por debajo del error mas chico que una configuracion
+# equivocada del catalogo llega a producir (189, simulado).
+_ATRAS_DE_MAS = 180
+
+# ENTRE DOS SECCIONES SEGUIDAS, 160, y no 180: el error para el que existe esta
+# pista puede caer justo ahi. Si dos mitades de un anio tienen sus fechas del medio
+# a D dias y una se va de anio, queda 365 - D ANTES que la otra. En el catalogo D
+# va de 140 a 164 y con 180 sobraba; en la Primera B 1967 es 185, y ahi con el
+# umbral en 180 se veia por un dia o no se veia. Del otro lado, lo mas largo que
+# es legitimo son 49 dias en el catalogo (53 en su historial), 103 en la Primera B
+# 1969 --que ordena sus secciones por rama y no por fecha-- y 140 en una liga
+# regional donde el orden en que llegan los partidos no es el de la pagina. Empezo
+# en 90, y con 90 esas dos daban un grave sobre paginas sanas. Quedan 20 dias de
+# cada lado: si un dia esta pista frena en falso, lo que hay que arreglar es el
+# orden en que el parser entrega las secciones, no este numero.
+_SECCION_ATRAS_DE_MAS = 160
+
+# UNA JORNADA DE UNO O DOS PARTIDOS no tiene "el del medio" que la proteja: el del
+# medio ES un partido, y un partido se posterga. Se la compara igual, pero se le
+# pide mas: 240 dias, ocho meses. Un anio mal puesto da mas de 280 aun entre una
+# fecha de marzo y una de diciembre, y lo mas largo que es legitimo son 157 dias:
+# una revision de la B Nacional 2016-17 con un solo partido cargado de una fecha
+# postergada cinco meses.
+#
+# La primera idea fue saltearlas, y fue peor: costaba y no compraba nada. Zonas de
+# cuatro equipos y el grupo `Interzonal` se quedaban sin ninguna comparacion (47
+# grupos de 17 torneos), una pagina con un error real dejaba de verse --la Copa
+# Entre Rios 2021-22, que escribe "enero de 2021" donde va 2022--, y dos de los
+# tres errores historicos se avisaban uno y dos dias mas tarde. Y comparandolas
+# con el umbral comun no habia un solo aviso de mas en todo lo medido.
+#
+# Lo que cuesta: una celda sola con el mes mal en una jornada de un partido frena
+# si queda a mas de ocho meses. En 11 870 revisiones reales que hacen alguna de
+# estas comparaciones no paso nunca, y esa fecha estaria mal de verdad.
+_JORNADA_CHICA = 3
+_ATRAS_DE_MAS_CHICA = 240
+
+
+def anios_bien_asignados(ps: list[Partido], en_curso: bool = False) -> list[Aviso]:
+    """Nada puede caer medio anio ANTES de lo que lo precede.
 
     Las paginas escriben el dia y el mes pero no el anio, asi que en una
     temporada que cruza el calendario hay que decidirlo por el mes. Cuando ese
@@ -462,23 +510,212 @@ def anios_bien_asignados(ps: list[Partido]) -> list[Aviso]:
     algun mes -- la Fecha 9 del Apertura 2026 se jugo entera dos meses despues de
     la 10 y esta perfecta --, pero medio anio para atras no es una postergacion,
     es un anio mal puesto.
+
+    SE MIRA POR PISTAS. Una pista es una lista de cosas que tienen un orden
+    propio, y son cuatro:
+
+      1. las jornadas de un mismo GRUPO -- (llave, zona) --, por numero;
+      2. las rondas de eliminacion de una misma llave, en el orden en que llegan;
+      3. las secciones de la fase de zonas, en el orden en que llegan;
+      4. y la eliminacion entera contra el arranque de la fase de zonas.
+
+    Las tres primeras son GRAVES siempre. La cuarta es grave en un torneo cerrado
+    y solo avisa en uno en curso; por que, en `_fase_final_antes_del_arranque`.
+
+    HASTA EL 10/10/2026 HABIA UNA SOLA, Y MAL ARMADA: se juntaba por NUMERO de
+    jornada todo lo que hubiera en la pagina. Una pagina que reusa "Fecha 1" --
+    para el Apertura y el Clausura, o para dos fases con sus grupos -- mezclaba
+    en una misma bolsa partidos de meses distintos, la fecha del medio de la bolsa
+    caia en el medio y no se movia nadie. Asi pasaron 24 partidos de la Copa de la
+    Liga 2020 fechados un anio antes y 8 de la Primera C 2019-20 fechados un anio
+    despues -- que es EXACTAMENTE el caso que cuenta el parrafo de arriba, en
+    otra division --. Y la eliminacion no se miraba: 26 partidos de la Copa
+    Argentina 2011-12 figuraban despues de su propia final.
+
+    Las tres las encontro un barrido del CSV, no este chequeo. Repuestas, las
+    pistas 1 y 2 dan 6 avisos graves, uno por cada grupo roto. Sobre el dataset
+    sano ninguna de las cuatro dice nada: ni al final de cada torneo, ni
+    cortandolo en cada uno de los dias en que tuvo partidos (14 571 cortes), ni
+    -- que es lo que de verdad veia la corrida diaria -- sobre el historial de
+    revisiones de Wikipedia de las seis paginas en curso y de otras 66. Ahi lo
+    unico que frena son 18 revisiones de una misma tarde de diciembre de 2014, con
+    el fixture de la B Nacional 2015 a medio cargar y una jornada diez meses antes
+    que la anterior; el chequeo de antes las frenaba igual.
+
+    "EN EL ORDEN EN QUE LLEGAN" es el orden de `ps`, que es el de la pagina casi
+    siempre: el parser entrega primero las tablas que cuelgan de un `Resultados`,
+    despues las tablas sueltas y al final las plantillas, y las llaves que vienen
+    de otra fuente se agregan atras. En las paginas del catalogo coincide.
+
+    LO QUE SIGUE SIN VERSE, que no es poco y por eso este chequeo no esta solo:
+
+      * El torneo ENTERO corrido un anio. Adentro no desentona nada. La mayor
+        parte la frena `tests/test_torneos.py`, que corre antes que el build: el
+        anio con que se fecha tiene que ser el del titulo de la pagina.
+      * Un bloque que se ALEJA en vez de encimarse: con un `anio_fin` un anio mas
+        grande de lo que va, la segunda mitad queda catorce meses despues de la
+        primera y nada cae antes de nada. Tambien lo frena ese test.
+      * Una llave de una sola ronda: no hay contra que comparar. Si la pagina
+        tiene fase de zonas la ve la pista 4, y solo para atras. Son 55 llaves y
+        125 partidos.
+      * Un grupo ENTERO corrido respecto de los otros grupos de su llave: la
+        pista 1 mira adentro de cada grupo, la 3 compara llaves y la 4 solo filas
+        de eliminacion. El chequeo de antes lo veia cuando la numeracion seguia
+        de un grupo al otro: el `Interzonal` de una sola fecha de la Copa de la
+        Liga 2022, 2023 y 2024 (42 partidos) y, con el corte de mes mal puesto,
+        siete revisiones de mayo de 2017 de la Primera C 2016-17, que esa semana
+        tuvo sus dos ruedas escritas como dos zonas. Con el corte de mes
+        equivocado en los 59 torneos que cruzan el anio -- 540 configuraciones,
+        al final y dia por dia -- no hay ninguna que el de antes frenara y este no.
+      * Al lado de una jornada de uno o dos partidos el umbral sube a 240 para
+        LAS DOS comparaciones, la que llega a ella y la que sale: un salto de
+        181 a 240 dias ahi no se ve.
+      * Un partido suelto. Se mira la fecha del medio de cada tramo a proposito.
+      * Dos rondas con el MISMO nombre adentro de una llave se juntan en una.
     """
-    porjornada: dict[int, list[str]] = {}
+    grupos: dict[tuple[str, str], dict[int, list[str]]] = {}
+    rondas: dict[str, dict[str, list[str]]] = {}
+    secciones: dict[str, list[str]] = {}
     for p in ps:
-        if p.fase == "zonas" and p.fecha and (n := _numero(p.jornada)):
-            porjornada.setdefault(n, []).append(p.fecha)
+        if not _existe(p.fecha):
+            continue
+        if p.fase == "zonas":
+            secciones.setdefault(p.llave, []).append(p.fecha)
+            if n := _numero(p.jornada):
+                grupos.setdefault((p.llave, p.zona), {}).setdefault(n, []).append(p.fecha)
+        elif p.fase == "eliminacion" and p.jornada:
+            rondas.setdefault(p.llave, {}).setdefault(p.jornada, []).append(p.fecha)
 
     avisos = []
+    for (llave, zona), porjornada in grupos.items():
+        avisos += _saltos_para_atras(
+            [(f"Fecha {n}", porjornada[n]) for n in sorted(porjornada)],
+            "una jornada cae medio anio antes que la anterior", _donde(llave, zona),
+            chica=_JORNADA_CHICA)
+    for llave, porronda in rondas.items():
+        avisos += _saltos_para_atras(
+            list(porronda.items()),
+            "una ronda cae medio anio antes que la anterior", llave)
+    avisos += _saltos_para_atras(
+        [(llave or "la fase de zonas", fechas) for llave, fechas in secciones.items()],
+        "una seccion entera cae medio anio antes que la anterior",
+        umbral=_SECCION_ATRAS_DE_MAS)
+    return avisos + _fase_final_antes_del_arranque(ps, en_curso)
+
+
+def _saltos_para_atras(pista: list[tuple[str, list[str]]], que: str, donde: str = "",
+                       umbral: int = _ATRAS_DE_MAS, chica: int = 0) -> list[Aviso]:
+    """Los tramos de `pista` que caen mas de `umbral` dias antes que el anterior.
+
+    `pista` es [(etiqueta, fechas)] EN EL ORDEN en que las cosas tienen que
+    pasar. Se compara la fecha DEL MEDIO de cada tramo y no su primer dia: lo que
+    se busca es el tramo entero fuera de lugar.
+
+    `chica` es el tamanio por debajo del cual un tramo no tiene "el del medio" que
+    lo proteja de un partido postergado; cuando cualquiera de los dos tramos que se
+    comparan es asi, el umbral es `_ATRAS_DE_MAS_CHICA`. Lo piden las jornadas. Las
+    rondas y las secciones no: una final es de un partido, y ahi no hay nada mas
+    chico contra que cuidarse.
+    """
+    avisos = []
     previo = None
-    for n in sorted(porjornada):
-        medio = sorted(porjornada[n])[len(porjornada[n]) // 2]
-        if previo and _dias(medio, previo[1]) > 180:
-            avisos.append(Aviso(
-                "una jornada cae medio anio antes que la anterior",
-                f"Fecha {n} en {medio} contra Fecha {previo[0]} en {previo[1]}; "
-                f"parece un anio mal asignado, no una postergacion"))
-        previo = (n, medio)
+    for etiqueta, fechas in pista:
+        medio = sorted(fechas)[len(fechas) // 2]
+        if previo:
+            corto = min(len(fechas), previo[2]) < chica
+            if _dias(medio, previo[1]) > (_ATRAS_DE_MAS_CHICA if corto else umbral):
+                avisos.append(Aviso(
+                    que,
+                    f"{donde + ': ' if donde else ''}{etiqueta} en {medio} contra "
+                    f"{previo[0]} en {previo[1]}; son las fechas del medio de cada una "
+                    f"y parece un anio mal asignado"))
+        previo = (etiqueta, medio, len(fechas))
     return avisos
+
+
+def _fase_final_antes_del_arranque(ps: list[Partido], en_curso: bool) -> list[Aviso]:
+    """Las rondas de eliminacion que se juegan antes de que empiece la fase de zonas.
+
+    Una fase final corrida un anio para atras NO cae lejos: en una temporada de
+    agosto a junio, la de junio queda dos meses antes del primer partido. Las
+    rondas entre si siguen en orden y la fase de zonas tambien, asi que ninguna de
+    las otras pistas lo ve. Va sin margen por eso mismo: un colchon del tamanio de
+    los otros umbrales dejaria pasar a tres de cada cuatro.
+
+    ES GRAVE EN UN TORNEO CERRADO Y SOLO AVISA EN UNO EN CURSO, y es la unica de
+    las cuatro que distingue. Hay torneos de verdad en los que la eliminacion va
+    primero: una eliminatoria previa que reparte los cupos de los grupos (el
+    Torneo Integracion 2016 de Catamarca), o rondas regionales con "Fecha 1, Fecha
+    2" que el parser lee como eliminacion por el nombre de su seccion (el Argentino
+    B 2000-01). Ninguno esta en el catalogo, pero existen. Los torneos en curso
+    son lo que la corrida de todos los dias vuelve a leer: si un anio cambia de
+    formato, un grave ahi frena la actualizacion de todas las paginas por una que
+    esta sana. Uno cerrado se lee al cargarlo o con `--rehacer`, que es cuando hay
+    alguien mirando -- y ahi conviene que frene: es la pista que ve un corte de mes
+    que se lleva solamente la fase final.
+
+    Lo que eso cuesta: en un torneo en curso, ese error se publica con un aviso. Y
+    cuando se lo pasa a cerrado no se vuelve a leer, porque ya tiene sus filas en
+    el CSV. Por eso `tests/test_validar.py` corre esta pista sobre las filas
+    PUBLICADAS de cada torneo cerrado: la suite corre antes que el build, y el dia
+    que alguien cierra un torneo con ese error adentro, se entera.
+
+    EL ARRANQUE NO ES EL PRIMER PARTIDO sino el que deja atras al 5% de la fase de
+    zonas (con menos de veinte partidos fechados, si es el primero). A un minimo
+    lo mueve un solo partido, y el error que se busca se lleva justamente partidos
+    sueltos: en la Primera C 2008-09 con el corte dos meses antes, la fase final de
+    junio se iba un anio para atras JUNTO con un partido de liga jugado el 1 de
+    junio, ese partido pasaba a ser "el arranque" y la pista se quedaba muda con
+    quince filas mal.
+
+    Y SE CALLA SI MENOS DE LA MITAD DE LA FASE DE ZONAS TIENE FECHA. Con dos fechados
+    de cien -- que es como llegan las paginas viejas antes de tener segunda fuente
+    --, el "arranque" es el dia de un postergado cualquiera.
+    """
+    zonas = [p.fecha for p in ps if p.fase == "zonas"]
+    fechadas = sorted(f for f in zonas if _existe(f))
+    if not fechadas or len(fechadas) * 2 < len(zonas):
+        return []
+    arranque = fechadas[len(fechadas) // 20]
+    antes: dict[tuple[str, str], list[str]] = {}
+    for p in ps:
+        if p.fase == "eliminacion" and _existe(p.fecha) and p.fecha < arranque:
+            antes.setdefault((p.llave, p.jornada), []).append(p.fecha)
+    return [Aviso(
+        "una ronda de eliminacion antes de que empiece la fase de zonas",
+        f"{_donde(llave, ronda) or 'sin rotulo'}: {len(fechas)} "
+        f"partido{'s' if len(fechas) != 1 else ''} desde el {min(fechas)}, y para el "
+        f"{arranque} la fase de zonas no llevaba jugados mas de {len(fechadas) // 20} de "
+        f"sus {len(fechadas)} partidos con fecha; o la pagina trae una eliminatoria "
+        f"previa, o se leyo como eliminacion una ronda de grupos, o el anio esta mal "
+        f"asignado", grave=not en_curso)
+        for (llave, ronda), fechas in antes.items()]
+
+
+def _donde(*partes: str) -> str:
+    """`llave zona`, sin repetir: hay paginas donde la zona se llama igual que la
+    llave que la contiene."""
+    return " ".join(dict.fromkeys(x for x in partes if x))
+
+
+def _existe(fecha: str) -> bool:
+    """La fecha esta, es un dia del calendario y esta escrita `AAAA-MM-DD`.
+
+    Las paginas a veces escriben uno que no existe -- hubo un `31 de noviembre` y
+    tres `31 de junio` en el dataset -- y el parser lo arma igual. Una fecha asi
+    no se puede restar: si le tocaba ser la del medio de su jornada, `_dias`
+    levantaba un `ValueError` y el chequeo tumbaba el build en vez de avisar. No
+    paso de casualidad. Aca se la saltea; decir que no existe es otro chequeo.
+
+    Se le pide ademas que vuelva igual por `isoformat`: `fromisoformat` acepta
+    otras formas -- `20200105`, `2020-W03-3` -- y este modulo ordena y compara las
+    fechas como texto, que solo vale para la forma larga.
+    """
+    from datetime import date
+    try:
+        return date.fromisoformat(fecha).isoformat() == fecha
+    except (TypeError, ValueError):
+        return False
 
 
 def _numero(jornada: str) -> int:
@@ -827,14 +1064,16 @@ def revisar(ps: list[Partido], en_curso: bool = False,
             divididos: tuple = ()) -> list[Aviso]:
     """Corre todos los chequeos. Devuelve los avisos, graves primero.
 
-    `en_curso` dice que el torneo todavia se esta jugando. Hoy lo mira uno solo
-    -- `zonas_completas` --, y va como parametro y no como una deteccion por
-    fecha para que se vea en la lista de torneos quien lo declara.
+    `en_curso` dice que el torneo todavia se esta jugando. Lo miran dos --
+    `zonas_completas` y `anios_bien_asignados` --, y va como parametro y no como
+    una deteccion por fecha para que se vea en la lista de torneos quien lo declara.
     """
     avisos = []
     for chequeo in CHEQUEOS:
         if chequeo is zonas_completas:
             avisos += chequeo(ps, en_curso, divididos)
+        elif chequeo is anios_bien_asignados:
+            avisos += chequeo(ps, en_curso)
         else:
             avisos += chequeo(ps)
     return sorted(avisos, key=lambda a: not a.grave)

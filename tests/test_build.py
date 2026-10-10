@@ -2069,3 +2069,26 @@ def test_el_build_fecha_las_llaves_de_la_pagina_que_vienen_sin_dia(monkeypatch):
     ps, _ = build.procesar(_cuadro(("Racing (C)", "Talleres (C)", 1, 1),
                                    ("Talleres (C)", "Racing (C)", 2, 0)), t)
     assert sorted(p.fecha for p in ps) == ["2013-05-22", "2013-05-26"]
+
+
+def test_procesar_le_dice_a_los_chequeos_si_el_torneo_esta_en_curso(monkeypatch):
+    """EL CABLE. `en_curso` sale de `Torneo.cerrado` y de ningun otro lado, por una
+    sola linea. Los tests del validador prueban de `revisar` para adentro: si esa
+    linea dijera siempre "en curso" no fallaba ninguno, y dos chequeos quedaban
+    apagados justo donde importan -- un torneo cerrado al que le faltan partidos
+    dejaba de frenar, y una fase final antes del arranque era un aviso para siempre.
+    """
+    from dataclasses import replace
+
+    visto = []
+    real = build.validar.revisar
+
+    def espia(ps, en_curso=False, **k):
+        visto.append(en_curso)
+        return real(ps, en_curso=en_curso, **k)
+
+    monkeypatch.setattr(build.validar, "revisar", espia)
+    pagina = tabla(("Boca Juniors", "River Plate"))
+    build.procesar(pagina, T)
+    build.procesar(pagina, replace(T, cerrado=True))
+    assert visto == [True, False]

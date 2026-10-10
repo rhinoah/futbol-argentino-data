@@ -452,8 +452,8 @@ ASCENSO_HISTORICO = [
     # corte en agosto esos 8 partidos quedaban en julio de 2020, cuando no habia
     # futbol en ninguna cancha. Es el mismo arreglo que la Primera Division de esa
     # temporada ya tenia, y el caso exacto que describe el docstring de
-    # `validar.anios_bien_asignados` -- que aca no lo vio porque junta el Apertura y
-    # el Clausura por numero de fecha.
+    # `validar.anios_bien_asignados` -- que aca no lo vio porque juntaba el Apertura
+    # y el Clausura por numero de fecha. Desde el 10/10/2026 los mira por separado.
     Torneo('Campeonato de Primera C 2019-20 (Argentina)', 'Primera C', 2019, anio_fin=2020,
            mes_inicio=7),
 
