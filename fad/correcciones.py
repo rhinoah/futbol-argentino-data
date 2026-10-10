@@ -1996,6 +1996,44 @@ class Dividido:
 
 DIVIDIDOS: tuple[Dividido, ...] = (
     # ------------------------------------------------------------------
+    # OTRO CLASICO ROSARINO QUE PERDIERON LOS DOS, un anio antes que el de abajo:
+    # fecha 13 de la 1988-89, 27 de noviembre de 1988.
+    #
+    # `arg89` lo publica asi: `Newell's Old Boys 0-0 Rosario Central [Suspended in
+    # 22'; later both teams lost the points (0-1)]`, y lo repite en las notas de la
+    # tabla del Apertura. Iban 0-0 a los 22 minutos; el tribunal se lo dio por
+    # perdido 0-1 a cada uno.
+    #
+    # EL LECTOR LO LEIA COMO VICTORIA DE ROSARIO CENTRAL: aplica el `(0-1)` de la
+    # nota sobre el renglon y escribe `Newell's 0-1 Rosario Central`. A Newell's lo
+    # deja bien --perdio 0-1, que es su fallo-- y a Central le regala un triunfo y un
+    # gol que no hizo.
+    #
+    # Lo delata la tabla del Apertura de la pagina, que es la que arbitra las
+    # primeras 19 fechas: con esa fila Central suma 5-8-6 con 26:28 y la tabla le
+    # publica 4-8-7 con 25:29. Los otros 18 clubes que la tabla permite cruzar
+    # cierran en las seis cifras. Y la huella es la de siempre: la tabla final de
+    # RSSSF suma 889 goles a favor contra 891 en contra.
+    #
+    # Lleva `llave` porque esa tabla se compara contra las rondas del Apertura y no
+    # contra el campeonato entero: el partido que falta tiene que contarse ahi.
+    # ------------------------------------------------------------------
+    Dividido(
+        pagina="Campeonato de Primera División 1988-89 (Argentina)",
+        local="Newell's Old Boys", visita="Rosario Central", dice=(0, 1),
+        llave="Torneo Apertura 1988-89",
+        porque=(
+            "RSSSF publica `Newell's Old Boys 0-0 Rosario Central [Suspended in 22'; "
+            "later both teams lost the points (0-1)]`: lo perdieron los dos, 0-1 cada "
+            "uno. El lector aplica ese 0-1 y escribe una victoria de Rosario Central "
+            "que no existio. La tabla del Apertura de la pagina lo confirma: con esa "
+            "fila Central suma 5-8-6 con 26:28 y la tabla le publica 4-8-7 con 25:29 "
+            "--una derrota y no un triunfo--, mientras Newell's cierra exacto porque "
+            "el 0-1 es justo su fallo. La tabla final de la propia fuente suma GF889 "
+            "contra GC891: el desbalance de dos es el gol de castigo contado dos "
+            "veces."),
+    ),
+    # ------------------------------------------------------------------
     # EL CLASICO ROSARINO DE LA ULTIMA FECHA DE LA 1989-90, y es el gemelo del
     # Boca - San Lorenzo de abajo: otro partido que perdieron los dos.
     #

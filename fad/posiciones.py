@@ -998,6 +998,17 @@ def _por_wikitabla(bloque: str, arts: dict[str, str],
     if not m:
         return []
     fuera: list[tuple[str, str, tuple[int, int, int]]] = []
+    # LA TABLA DE NUEVE COLUMNAS. En la 1988-89 los empates se definian por penales
+    # y la pagina reparte la columna de empates en dos: `EG`, los que el club gano
+    # en la tanda, y `EP`, los que perdio. Es la unica temporada que lo hace --dos
+    # tablas en las 9272 de la cache, las dos de esa pagina--.
+    #
+    # Sin saberlo se tomaban las ultimas ocho cifras de una fila que tiene nueve:
+    # todo corrido una columna, el PJ leido como puntos y los ganados como PJ. Las
+    # veinte filas salian "no cierra sola" y el aviso le echaba la culpa a la tabla,
+    # que estaba bien. Se pregunta por el ENCABEZADO y no por la cantidad de cifras:
+    # una fila con una celda de mas por cualquier otro motivo no es esto.
+    empates_en_dos = {"eg", "ep"} <= _etiquetas(m.group(0))
     for fila in m.group(0).split("\n|-"):
         # Las celdas van separadas por `||` o por `\n|`, y arrancan con un `|`
         # suelto que hay que sacar antes de pasarlas por `_celda` -- si no, el
@@ -1021,6 +1032,10 @@ def _por_wikitabla(bloque: str, arts: dict[str, str],
         # estilo (`style="background: ..."` tambien tiene letras).
         nombres = [i for i, c in enumerate(celdas)
                    if re.search(r"[A-Za-zÁ-ú]{3}", c) and "=" not in c]
+        if empates_en_dos and len(numeros) > _COLUMNAS:
+            # ... pts, pj, pg, EG, EP, pp, gf, gc, dif: las dos del medio son UNA.
+            numeros = (numeros[:-6] + [str(int(numeros[-6]) + int(numeros[-5]))]
+                       + numeros[-4:])
         if len(numeros) < _COLUMNAS or not nombres:
             continue
         pts, pj, pg, pe, pp, gf, gc, dif = (int(x) for x in numeros[-_COLUMNAS:])

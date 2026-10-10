@@ -1952,6 +1952,54 @@ def test_cada_dia_nombra_su_tercera_fuente():
         assert d.dice != d.debe, f"{quien}: no hay nada que corregir"
 
 
+_TABLA_CON_PENALES = """== Tabla de posiciones final ==
+{| class="wikitable sortable" style="text-align:center;"
+|- style="background:#dddddd;"
+!Pos
+!Equipo
+!Pts
+!PJ
+!PG
+!EG
+!EP
+!PP
+!GF
+!GC
+!DIF
+|- style="background: #CCFFCF;"
+||'''1.º'''||align="left"|[[Racing Club]]||'''39'''||19||10||3||3||3||28||18||10
+|-
+||'''2.º'''||align="left"|[[Club Atlético Boca Juniors|Boca Juniors]]||'''39'''||19||10||4||1||4||26||18||8
+|}
+"""
+
+
+def test_la_tabla_que_parte_los_empates_en_dos_se_lee_entera():
+    """La 1988-89 definia los empates por penales y la pagina reparte esa columna en
+    `EG` (los que el club gano en la tanda) y `EP` (los que perdio). Son NUEVE
+    cifras por fila y el lector tomaba las ultimas ocho: todo corrido una columna,
+    las veinte filas descartadas por "no cierra sola" y la culpa puesta en la tabla.
+
+    Las dos del medio son una sola: Racing empato 6, gano 3 por penales y perdio 3."""
+    filas = {club: datos for club, _, datos in posiciones._por_wikitabla(_TABLA_CON_PENALES, {})}
+    assert filas == {"Racing Club": (19, 28, 18, 10, 6, 3),
+                     "Boca Juniors": (19, 26, 18, 10, 5, 4)}
+
+
+def test_una_tabla_comun_con_una_cifra_de_mas_NO_se_junta():
+    """El borde del de arriba: se pregunta por el ENCABEZADO, no por cuantas cifras
+    trae la fila. Una tabla comun con la posicion escrita como numero tambien tiene
+    nueve, y juntarle dos columnas le rompe la cuenta."""
+    comun = ("== Tabla de posiciones ==\n"
+             '{| class="wikitable"\n'
+             "!Pos!!Equipo!!Pts!!PJ!!PG!!PE!!PP!!GF!!GC!!DIF\n"
+             "|-\n"
+             "|1||[[Racing Club]]||39||19||10||6||3||28||18||10\n"
+             "|}\n")
+    filas = {club: datos for club, _, datos in posiciones._por_wikitabla(comun, {})}
+    assert filas == {"Racing Club": (19, 28, 18, 10, 6, 3)}
+
+
 def test_una_dia_corrige_EL_DIA_y_no_la_temporada():
     """Un cero de mas en el anio no lo atrapa nadie aguas abajo.
 

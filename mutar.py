@@ -2231,6 +2231,42 @@ MUTANTES = [
      "        if _NO_EMPEZO.search(n):",
      "        if False:"),
 
+    ("fad/rsssf.py", "no sacar la tanda de penales del renglon",
+     "        if tanda:\n            cruda = cruda[:tanda.start()]",
+     "        if False:\n            cruda = cruda[:tanda.start()]"),
+
+    ("fad/rsssf.py", "perder la tanda al leer el partido",
+     "                           penales_local=int(tanda.group(1)) if tanda else None,",
+     "                           penales_local=None,"),
+
+    ("fad/rsssf.py", "cruzar los penales del local con los del visitante",
+     "                           penales_visita=int(tanda.group(3)) if tanda else None))",
+     "                           penales_visita=int(tanda.group(1)) if tanda else None))"),
+
+    ("fad/rsssf.py", "no pasarle los penales a la fila",
+     "            penales_local=a.penales_local,",
+     "            penales_local=None,"),
+
+    ("fad/rsssf.py", "no cerrar la ronda al llegar a una tabla",
+     '        if pelada == "Table:":',
+     '        if False:'),
+
+    ("fad/rsssf.py", "ponerle la llave a una ronda de mas",
+     "if desde <= a.jornada <= hasta), a.llave))",
+     "if desde <= a.jornada <= hasta + 1), a.llave))"),
+
+    ("build.py", "no pedir la llave de las rondas que son un torneo aparte",
+     "        ajenos = rsssf.con_llaves(ajenos, t.pagina)",
+     "        ajenos = list(ajenos)"),
+
+    ("fad/posiciones.py", "leer corrida la tabla que parte los empates en dos",
+     '    empates_en_dos = {"eg", "ep"} <= _etiquetas(m.group(0))',
+     '    empates_en_dos = False'),
+
+    ("fad/posiciones.py", "juntar dos columnas en una tabla comun",
+     '    empates_en_dos = {"eg", "ep"} <= _etiquetas(m.group(0))',
+     '    empates_en_dos = True'),
+
     ("build.py", "recortar la seccion sin su propio encabezado",
      "            return chr(10).join(lineas[n:fin])",
      "            return chr(10).join(lineas[n + 1:fin])"),

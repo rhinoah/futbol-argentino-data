@@ -193,6 +193,23 @@ _PARTIDO = re.compile(
     r"^([^\[\]]{3,34}?)\s+(\d+)\s*-\s*(\d+)\s+([^\[\]\s](?:[^\[\]]*?[^\[\]\s])?)(?:\s{2,}.*)?$")
 
 
+# LA TANDA DE PENALES PEGADA AL MARCADOR: `Ferro Carril Oeste   [3]0-0[1]
+# Newell's Old Boys`. Asi escribe `arg89` los 131 empates de la 1988-89, el unico
+# campeonato argentino que los definio por penales --tres puntos al que ganaba, dos
+# al que empataba y ganaba la tanda, uno al que la perdia--.
+#
+# ERA LA PEOR FORMA DE FALLAR QUE TUVO ESTE MODULO. `_PARTIDO` no admite corchetes
+# en el nombre del local --con razon: ahi un corchete es una nota encabalgada--, asi
+# que esos 131 renglones no eran partidos ni eran nada: se salteaban sin un aviso.
+# La temporada leia 249 de 380, con sus 38 rondas, sus fechas y sus veinte clubes en
+# orden. Lo unico raro era que las rondas tenian entre dos y nueve partidos en vez
+# de diez, y eso no lo mira nadie cuando el torneo todavia no esta cableado.
+#
+# Va pegada, sin espacios, que es como la escribe este archivo. `arg2020` tiene
+# otra forma (`[4] 0- 0  [1]`, con aire) en un torneo que no sale de aca; aflojar la
+# regla para cubrirla seria leer renglones que nadie midio.
+_TANDA = re.compile(r"\[(\d+)\](\d+\s*-\s*\d+)\[(\d+)\]")
+
 # El "local" de un gol: el minuto. Son 9 renglones en los 29 archivos de la cache,
 # 2 en `arg87` y 7 en `arg88`, y ninguno es otra cosa.
 _MINUTO = re.compile(r"\d+'")
@@ -669,6 +686,19 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
             ronda = fecha = None
             interzonal = pendiente = ""
             continue
+        # UNA TABLA CIERRA LA RONDA ABIERTA, y con ella las notas que le cuelgan.
+        # `arg89` mete la tabla del Apertura entre la ronda 19 y la 20, y debajo:
+        #
+        #     . Newell's Old Boys 0-0 Rosario Central, suspended at 22'.
+        #
+        # que tiene la forma exacta de un partido de la ronda 19 --el ultimo
+        # encabezado que se vio--. No entraba, porque `. Newell's Old Boys` no esta
+        # en ningun mapa, pero dejaba un aviso permanente de cuatro nombres sin
+        # traducir. No toca la zona ni la llave: lo que sigue a la tabla puede ser
+        # la ronda siguiente de la misma zona, que es justo lo que pasa aca.
+        if pelada == "Table:":
+            ronda = fecha = None
+            continue
         m = _RONDA.match(pelada)
         if m:
             ronda = int(m.group(1))
@@ -692,6 +722,11 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         # Argentino A 2008-09, y con ellos 20 avisos graves.
         if interzonal and not zona.rstrip().endswith(interzonal.split("-")[0]):
             continue
+        # La tanda se saca del renglon ANTES de preguntar si es un partido, y se
+        # guarda aparte. Ver `_TANDA`.
+        tanda = _TANDA.search(cruda)
+        if tanda:
+            cruda = cruda[:tanda.start()] + tanda.group(2) + cruda[tanda.end():]
         m = _PARTIDO.match(cruda)
         if not m:
             # Puede ser un partido cuyo marcador no es un marcador. Se decide con
@@ -809,7 +844,9 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         fuera.append(Ajeno(fecha=dia,
                            jornada=ronda, local=cl, visita=cv,
                            goles_local=gl, goles_visita=gv, llave=llave,
-                           zona=zona, status=estado))
+                           zona=zona, status=estado,
+                           penales_local=int(tanda.group(1)) if tanda else None,
+                           penales_visita=int(tanda.group(3)) if tanda else None))
     avisos = ([f"{len(desconocidos)} nombres de RSSSF que el mapa no traduce: "
                + "; ".join(sorted(desconocidos)[:6])] if desconocidos else [])
     avisos += raros + _los_que_se_pierden(caidos, fuera)
@@ -1591,10 +1628,14 @@ def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
     sola fuente o no hay temporada.
 
     LOS CAMPOS QUE `Ajeno` NO TRAE QUEDAN VACIOS, no inventados. RSSSF publica
-    fecha, jornada, clubes y marcador, y nada mas: no trae hora, ni cancha, ni
-    penales. Rellenar eso con un valor plausible seria afirmar algo que nadie
-    verifico, que es justo lo que este repo no hace. Vacio se lee como vacio; un
-    dato inventado se lee como un dato.
+    fecha, jornada, clubes y marcador, y casi nada mas: no trae hora ni cancha.
+    Rellenar eso con un valor plausible seria afirmar algo que nadie verifico, que
+    es justo lo que este repo no hace. Vacio se lee como vacio; un dato inventado
+    se lee como un dato.
+
+    LOS PENALES SI VIAJAN, cuando la fuente los publica, que es una sola vez: la
+    1988-89 definia los empates por penales y `arg89` escribe la tanda pegada al
+    marcador. Ver `_TANDA`.
 
     `neutral` es la excepcion, y no por descuido: no lo pone esta funcion sino
     `dataset.a_fila`, a partir de la declaracion del TORNEO. Es un dato del
@@ -1627,6 +1668,8 @@ def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
             jornada=f"Fecha {a.jornada}",
             llave=a.llave,
             status=a.status,
+            penales_local=a.penales_local,
+            penales_visita=a.penales_visita,
             fuente_fecha=CREDITO,
         ))
     return fuera
@@ -2611,6 +2654,45 @@ PRIMERA_1992 = {
 }
 
 
+# LA LLAVE DE UNA TANDA DE RONDAS, cuando la pagina de Wikipedia le da seccion y
+# tabla propias y la fuente no la rotula. {pagina: ((ronda desde, hasta, llave), ...)}
+#
+# Existe por la 1988-89. Sus primeras 19 fechas fueron ademas un torneo, el
+# Apertura, que clasifico dos equipos a la Libertadores, y la pagina le publica una
+# tabla bajo `== Torneo Apertura 1988-89 ==`. `arg89` tambien lo sabe, pero lo dice
+# DESPUES: el rotulo `Apertura tournament - 1988/1989` esta debajo de la ronda 19,
+# encabezando la tabla, y no arriba de la ronda 1. El lector no puede ponerle la
+# llave a rondas que ya leyo.
+#
+# Y HACE FALTA, porque es lo unico que le da arbitro a esa temporada. La tabla del
+# campeonato entero que publica la misma pagina tiene mal los goles de 14 clubes
+# --se contradice con su propia tabla del Apertura: restandolas, Argentinos Juniors
+# habria ganado 6 partidos de la segunda rueda con 3 goles a favor--, asi que no se
+# usa (ver `seccion` en `torneos.py`). La del Apertura esta bien, pero cuenta 19
+# partidos por club contra 38 de la grilla, y ante un PJ que no coincide en ningun
+# club todos los chequeos se callan. Con la llave, `posiciones` compara esa tabla
+# contra SUS 190 partidos, que es el mecanismo que ya usa para las paginas que
+# reparten en Apertura y Clausura.
+#
+# La llave NO VA AL CSV --no hay columna--: no cambia ninguna fila publicada.
+LLAVES_POR_RONDA: dict[str, tuple[tuple[int, int, str], ...]] = {
+    "Campeonato de Primera División 1988-89 (Argentina)": (
+        (1, 19, "Torneo Apertura 1988-89"),),
+}
+
+
+def con_llaves(ajenos: list, pagina: str) -> list:
+    """Los mismos partidos, con la llave que `LLAVES_POR_RONDA` les declara."""
+    from dataclasses import replace
+
+    tramos = LLAVES_POR_RONDA.get(pagina, ())
+    if not tramos:
+        return ajenos
+    return [replace(a, llave=next((llave for desde, hasta, llave in tramos
+                                   if desde <= a.jornada <= hasta), a.llave))
+            for a in ajenos]
+
+
 SECCION_LIGA: dict[str, tuple[str, str]] = {
     "Campeonato de Primera B 2010-11 (Argentina)": (
         'Primera B Metropolitano "Efectivo Sí"', "Topscorers"),
@@ -2724,6 +2806,18 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
     # como en la 1986-87: esta en el MEDIO, entre la ronda 36 y la 37.
     "Campeonato de Primera División 1987-88 (Argentina)": (
         "Round 1\n[Aug 30, Sun]", "\n 1. NEWELL'S OLD BOYS"),
+    # La 1988-89. `arg89` PUBLICA LA TABLA FINAL DOS VECES, arriba de la ronda 1 y
+    # abajo de la 38, las dos bajo el mismo titulo `Primera División 1988/1989`. El
+    # corte va de la ronda 1 --con sus dos tabuladores, que es como esta escrita-- a
+    # la SEGUNDA aparicion de ese titulo, que es la primera que queda despues del
+    # arranque. Lo que sigue son las liguillas, que no son de la liga.
+    #
+    # En el medio queda la tabla del Apertura con sus notas, entre la ronda 19 y la
+    # 20. No hay ancla que la saque y no hace falta: una tabla cierra la ronda
+    # abierta --ver `leer`--, asi que nada de lo que tiene adentro se lee como
+    # partido.
+    "Campeonato de Primera División 1988-89 (Argentina)": (
+        "Round 1\t\t", "\nPrimera División 1988/1989"),
     # La 1989-90. EL CORTE ES LA TRAMPA DE ESTA TEMPORADA, y es la peor de la capa:
     # `arg90` mete una tabla de media temporada ENTRE la ronda 19 y la 20, rotulada
     # `Table:` igual que la final. Cortando en `Table:` a secas --lo que usan las
@@ -3128,6 +3222,40 @@ PRIMERA_1987 = {
     },
 }
 
+# Primera Division 1988-89. Veinte clubes, 380 partidos, y el unico campeonato
+# argentino en que un empate no terminaba ahi: se pateaban penales por un punto mas.
+#
+# Cuarto vocabulario en cinco temporadas: aca las ciudades van ABREVIADAS y con el
+# espacio --`Instituto (Cba.)`, `San Martín (Tuc.)`--, las columnas se separan con
+# tabuladores, y `Deportivo` es `Dep.`. Y Gimnasia aparece de dos maneras, con el
+# `(LP)` y sin el: cuando el renglon trae una tanda de penales el nombre se corta
+# para que el marcador siga cayendo en su columna. No hay otro Gimnasia en el torneo.
+PRIMERA_1988 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Boca Juniors": "Boca Juniors",
+        "Dep. Armenio": "Deportivo Armenio",
+        "Dep. Español": "Deportivo Español",
+        "Estudiantes (LP)": "Estudiantes (LP)",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Gimnasia y Esgrima": "Gimnasia y Esgrima (LP)",
+        "Gimnasia y Esgrima (LP)": "Gimnasia y Esgrima (LP)",
+        "Independiente": "Independiente",
+        "Instituto (Cba.)": "Instituto",
+        "Mandiyú (Ctes.)": "Deportivo Mandiyú",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Racing (Cba.)": "Racing (C)",
+        "Racing Club": "Racing Club",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "San Lorenzo": "San Lorenzo",
+        "San Martín (Tuc.)": "San Martín (T)",
+        "Talleres (Cba.)": "Talleres (C)",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
 # Primera Division 1989-90. Veinte clubes, 38 fechas de diez, 380 partidos.
 #
 # `arg90` ESCRIBE LOS PARENTESIS PEGADOS AL NOMBRE --`Estudiantes(LP)`,
@@ -3224,6 +3352,7 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Campeonato de Primera División 1985-86 (Argentina)": ("arg86", PRIMERA_1985),
     "Campeonato de Primera División 1986-87 (Argentina)": ("arg87", PRIMERA_1986),
     "Campeonato de Primera División 1987-88 (Argentina)": ("arg88", PRIMERA_1987),
+    "Campeonato de Primera División 1988-89 (Argentina)": ("arg89", PRIMERA_1988),
     "Campeonato de Primera División 1989-90 (Argentina)": ("arg90", PRIMERA_1989),
     "Anexo:Torneo Apertura 1995 (Argentina)": ("arg96", PRIMERA_1995),
     "Anexo:Torneo Clausura 1996 (Argentina)": ("arg96", PRIMERA_1995),

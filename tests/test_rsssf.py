@@ -1547,6 +1547,77 @@ def test_el_que_si_se_jugo_y_se_fallo_sigue_siendo_ESCRITORIO():
     assert rsssf._leer_anotacion("[not played; awarded 0-1]") == ((0, 1), "no disputado", "")
 
 
+def _con_tanda():
+    """Dos partidos como los escribe `arg89`: columnas separadas por tabuladores, y
+    en el que termino empatado, la tanda de penales pegada al marcador."""
+    return ("Round 1@T@@T@@N@[Sep 11]@N@"
+            "Aldosivi             [3]0-0[1]@T@Banfield@N@"
+            "Cipolletti@T@@T@2-1@T@Unión (Santa Fe)@N@"
+            ).replace("@N@", "\n").replace("@T@", "\t")
+
+
+def test_la_tanda_de_penales_pegada_al_marcador_NO_esconde_el_partido():
+    """`Ferro Carril Oeste   [3]0-0[1]   Newell's Old Boys`. En la 1988-89 los
+    empates se definian por penales y la fuente pega la tanda al marcador.
+
+    FUE EL PEOR SILENCIO DEL MODULO: el patron de un partido no admite corchetes en
+    el nombre del local, asi que esos renglones no eran nada y se salteaban sin un
+    aviso. Eran 131 de 380. La temporada leia 249 partidos con sus 38 rondas, sus
+    fechas y sus veinte clubes, y nada se quejaba."""
+    aj, avisos = rsssf.leer(_con_tanda(), _MAPA_CUATRO, 1988, 1989, 8)
+    assert avisos == []
+    assert [(a.local, a.visita) for a in aj] == [("Aldosivi", "Banfield"),
+                                                 ("Cipolletti", "Unión")]
+    assert (aj[0].goles_local, aj[0].goles_visita) == (0, 0), "el marcador es el empate"
+    assert (aj[0].penales_local, aj[0].penales_visita) == (3, 1), "y la tanda va aparte"
+    assert aj[1].penales_local is None and aj[1].penales_visita is None, \
+        "el que no fue a penales no tiene tanda"
+
+
+def test_la_tanda_llega_a_la_fila():
+    """Es el unico dato ademas de la fecha, los clubes y el marcador que esta fuente
+    le pone a una fila. Si se pierde en `a_partidos`, el CSV publica 131 empates
+    pelados de un campeonato en el que ninguno termino asi."""
+    aj, _ = rsssf.leer(_con_tanda(), _MAPA_CUATRO, 1988, 1989, 8)
+    ps = rsssf.a_partidos(aj, "Primera Division", 1988)
+    assert (ps[0].penales_local, ps[0].penales_visita) == (3, 1)
+    assert ps[1].penales_local is None
+
+
+def test_una_tabla_cierra_la_ronda_y_sus_notas_no_son_partidos():
+    """`arg89` mete la tabla del Apertura entre la ronda 19 y la 20, con sus notas
+    debajo, y una nota --`. Newell's Old Boys 0-0 Rosario Central, suspended at
+    22'.`-- tiene la forma de un partido de la ultima ronda que se abrio. No entraba,
+    pero dejaba un aviso permanente de nombres sin traducir."""
+    aj, avisos = rsssf.leer(("Round 19@T@@N@[Dec 22]@N@"
+                             "Aldosivi                     1-0 Banfield@N@"
+                             "@N@Apertura tournament - 1988/1989@N@@N@"
+                             "Table:@T@@T@@N@"
+                             " 1. Aldosivi                         19  10   6   3  28  18   39@N@"
+                             "@N@Notes: @N@"
+                             ". Aldosivi 0-0 Banfield, suspended at 22'.@N@"
+                             "  Later, both teams lost the points (0-1).@N@"
+                             "@N@Round 20@T@@N@[Jan 28]@N@"
+                             "Banfield                     2-1 Aldosivi@N@"
+                             ).replace("@N@", "\n").replace("@T@", "\t"),
+                            _MAPA_LIGA, 1988, 1989, 8)
+    assert [(a.jornada, a.fecha) for a in aj] == [(19, "1988-12-22"), (20, "1989-01-28")]
+    assert avisos == [], "lo que cuelga de una tabla no es de ninguna ronda"
+
+
+def test_las_rondas_que_son_un_torneo_aparte_llevan_su_llave():
+    """Las primeras 19 fechas de la 1988-89 fueron ademas el Apertura, y la pagina
+    le publica tabla propia. La fuente lo rotula DESPUES de jugado, asi que la llave
+    se declara. Sin ella esa tabla --19 partidos por club contra 38-- no se compara
+    con nada y la temporada se queda sin arbitro, callada."""
+    from fad.fechas import Ajeno
+    aj = [Ajeno("1988-12-22", 19, "Aldosivi", "Banfield", 1, 0),
+          Ajeno("1989-01-28", 20, "Banfield", "Aldosivi", 2, 1)]
+    pagina = "Campeonato de Primera División 1988-89 (Argentina)"
+    assert [a.llave for a in rsssf.con_llaves(aj, pagina)] == ["Torneo Apertura 1988-89", ""]
+    assert rsssf.con_llaves(aj, "Otra pagina") == aj, "una pagina sin declaracion no cambia"
+
+
 def test_el_guion_del_marcador_puede_venir_SEPARADO():
     """`arg96` escribe `2 - 0` y los otros veintidos archivos escriben `2-0`. Sin
     esto ese archivo lee 16 renglones de 397 -- o sea que el torneo entero se pierde

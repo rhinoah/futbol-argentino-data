@@ -134,6 +134,17 @@ class Ajeno:
     # cosa".
     status: str = ""
 
+    # La tanda de penales, cuando la fuente la publica junto al marcador. `None` =
+    # no la dice, que es lo normal: un partido de liga no se define por penales.
+    #
+    # Salvo en la 1988-89, que es por lo que esto existe. Ese campeonato le daba un
+    # punto extra al que ganaba la tanda despues de un empate, y RSSSF la escribe
+    # pegada al marcador de 131 de sus 380 partidos. Solo viaja en los torneos SIN
+    # GRILLA, donde la fila entera sale de esta fuente; cuando la fila es de
+    # Wikipedia, de aca se toma la fecha y nada mas, como dice el docstring.
+    penales_local: int | None = None
+    penales_visita: int | None = None
+
 
 # Cache propia, al lado de la de Wikipedia y por la misma razon: durante el
 # desarrollo la misma temporada se lee decenas de veces. Aca ademas importa por

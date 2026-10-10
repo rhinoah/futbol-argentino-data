@@ -471,7 +471,7 @@ def test_el_recorte_conserva_su_propio_encabezado():
 import pytest  # noqa: E402
 
 # temporada -> (clubes, partidos que NO se pueden escribir)
-_CAPA_1985 = {1985: (19, 0), 1986: (20, 0), 1987: (20, 0), 1989: (20, 1)}
+_CAPA_1985 = {1985: (19, 0), 1986: (20, 0), 1987: (20, 0), 1988: (20, 1), 1989: (20, 1)}
 
 
 @pytest.mark.parametrize("temporada", sorted(_CAPA_1985))
@@ -509,6 +509,164 @@ def test_la_capa_1985_1990_trae_el_torneo_entero(temporada):
     esperadas = 2 * clubes if clubes % 2 else 2 * (clubes - 1)
     assert len(jornadas) == esperadas, f"{len(jornadas)} jornadas, van {esperadas}"
     assert all(f["date"] for f in filas), "un partido sin dia no se escribe"
+
+
+# --------------------------------------------------------------------------
+# la 1988-89: la temporada que se definia por penales
+# --------------------------------------------------------------------------
+# La tabla final tal como la publica RSSSF en `arg89`: PJ, G, E, P, GF, GC.
+_FINAL_1988 = {
+    'Independiente': (38, 22, 11, 5, 58, 32),
+    'Boca Juniors': (38, 20, 9, 9, 56, 38),
+    'Deportivo Español': (38, 16, 14, 8, 45, 31),
+    'River Plate': (38, 16, 13, 9, 61, 36),
+    'San Lorenzo': (38, 16, 10, 12, 58, 44),
+    'Talleres (C)': (38, 16, 12, 10, 48, 43),
+    'Argentinos Juniors': (38, 13, 16, 9, 55, 39),
+    'Estudiantes (LP)': (38, 15, 12, 11, 53, 41),
+    'Racing Club': (38, 13, 16, 9, 47, 41),
+    'Gimnasia y Esgrima (LP)': (38, 10, 16, 12, 31, 30),
+    'Vélez Sarsfield': (38, 8, 17, 13, 37, 54),
+    "Newell's Old Boys": (38, 11, 13, 14, 42, 44),
+    'Rosario Central': (38, 10, 16, 12, 49, 55),
+    'Deportivo Mandiyú': (38, 7, 19, 12, 35, 44),
+    'Platense': (38, 11, 11, 16, 36, 51),
+    'Racing (C)': (38, 11, 11, 16, 38, 54),
+    'San Martín (T)': (38, 12, 10, 16, 38, 49),
+    'Ferro Carril Oeste': (38, 8, 14, 16, 35, 43),
+    'Deportivo Armenio': (38, 5, 15, 18, 29, 57),
+    'Instituto': (38, 7, 9, 22, 38, 65),
+}
+
+
+def _filas_de_la_1988():
+    import csv
+    import pathlib
+    datos = pathlib.Path(__file__).resolve().parent.parent / "data" / "partidos-1988.csv"
+    if not datos.exists():
+        pytest.skip("hace falta el dataset")
+    with datos.open(encoding="utf-8") as fh:
+        return [f for f in csv.DictReader(fh)
+                if f["tournament"] == "Primera Division" and f["season"] == "1988"]
+
+
+def test_la_1988_89_cierra_contra_la_tabla_final_de_su_fuente():
+    """EL TESTIGO DE LAS FECHAS 20 A 38, que no tienen otro. La tabla del campeonato
+    que publica Wikipedia tiene mal los goles de 14 clubes y no se usa; la del
+    Apertura arbitra la primera rueda. Para la segunda queda esto: la tabla final
+    de la propia fuente, contra la suma de los partidos.
+
+    No es un testigo independiente --son la tabla y los partidos del mismo
+    archivo--, pero dice que el archivo se leyo entero y bien, que es lo que mas
+    fallo en esta temporada: leyendo 249 partidos de 380 no cierra ni un club.
+
+    Dieciocho cierran en las seis cifras. Los otros dos son Newell's y Rosario
+    Central, a los que les falta lo mismo: un partido, una derrota y un gol en
+    contra. Es el clasico que perdieron los dos, que no tiene fila."""
+    suma = {}
+    for f in _filas_de_la_1988():
+        gl, gv = int(f["home_score"]), int(f["away_score"])
+        for club, gf, gc in ((f["home_team"], gl, gv), (f["away_team"], gv, gl)):
+            r = suma.setdefault(club, [0, 0, 0, 0, 0, 0])
+            r[0] += 1
+            r[1 + (0 if gf > gc else 1 if gf == gc else 2)] += 1
+            r[4] += gf
+            r[5] += gc
+    assert set(suma) == set(_FINAL_1988)
+    for club, (pj, g, e, p, gf, gc) in _FINAL_1988.items():
+        if club in ("Newell's Old Boys", "Rosario Central"):
+            pj, p, gc = pj - 1, p - 1, gc - 1
+        assert tuple(suma[club]) == (pj, g, e, p, gf, gc), club
+
+
+# La tabla de penales que `arg89` publica aparte de los partidos: por club, los
+# partidos empatados, las tandas ganadas y las perdidas.
+_PENALES_1988 = {
+    'Vélez Sarsfield': (17, 12, 5),
+    'Gimnasia y Esgrima (LP)': (16, 11, 5),
+    'Deportivo Mandiyú': (19, 11, 8),
+    'San Lorenzo': (10, 8, 2),
+    'Boca Juniors': (9, 7, 2),
+    'Independiente': (11, 7, 4),
+    "Newell's Old Boys": (13, 7, 6),
+    'Ferro Carril Oeste': (14, 7, 7),
+    'Deportivo Armenio': (15, 7, 8),
+    'Rosario Central': (16, 7, 9),
+    'Platense': (11, 6, 5),
+    'Racing (C)': (11, 6, 5),
+    'River Plate': (13, 6, 7),
+    'Deportivo Español': (14, 6, 8),
+    'Racing Club': (16, 6, 10),
+    'Argentinos Juniors': (16, 6, 10),
+    'Talleres (C)': (12, 5, 7),
+    'Estudiantes (LP)': (12, 4, 8),
+    'San Martín (T)': (10, 2, 8),
+    'Instituto': (9, 1, 8),
+}
+
+
+def test_en_la_1988_89_las_tandas_cierran_contra_la_tabla_de_penales():
+    """Tres puntos al que ganaba, dos al que empataba y ganaba la tanda, uno al que
+    la perdia. La fuente publica las tandas dos veces y por separado: pegadas al
+    marcador de cada partido, y en una tabla que cuenta, por club, cuantas gano y
+    cuantas perdio. Contar las primeras tiene que dar la segunda.
+
+    Y da, en los veinte clubes, salvo por UN PARTIDO: `Rosario Central 1-1
+    Instituto`, fecha 12. Es el unico de los 132 empates que la fuente escribe sin
+    su tanda. La tabla dice que existio y quien la gano --a Central le falta una
+    ganada y a Instituto una perdida-- pero no por cuanto, asi que la fila queda con
+    los penales vacios: se sabe el ganador y no hay columna para eso."""
+    filas = _filas_de_la_1988()
+    empates = [f for f in filas if f["home_score"] == f["away_score"]]
+    con_tanda = [f for f in filas if f["home_pens"] != ""]
+    assert len(empates) == 132 and len(con_tanda) == 131
+    assert all(f["home_score"] == f["away_score"] for f in con_tanda), \
+        "una tanda sobre un partido con ganador"
+    assert all(f["home_pens"] != f["away_pens"] for f in con_tanda), "una tanda tiene ganador"
+    assert [(f["home_team"], f["away_team"], f["matchday"]) for f in empates
+            if f["home_pens"] == ""] == [("Rosario Central", "Instituto", "Fecha 12")]
+
+    cuenta = {}
+    for f in empates:
+        for club, mios, suyos in ((f["home_team"], f["home_pens"], f["away_pens"]),
+                                  (f["away_team"], f["away_pens"], f["home_pens"])):
+            r = cuenta.setdefault(club, [0, 0, 0])
+            r[0] += 1
+            if mios != "":
+                r[1 if int(mios) > int(suyos) else 2] += 1
+    falta = {"Rosario Central": (0, 1, 0), "Instituto": (0, 0, 1)}
+    for club, tabla_de_la_fuente in _PENALES_1988.items():
+        esperado = tuple(a - b for a, b in zip(tabla_de_la_fuente, falta.get(club, (0, 0, 0))))
+        assert tuple(cuenta[club]) == esperado, club
+
+
+def test_las_rondas_declaradas_como_torneo_aparte_SALEN_CON_SU_LLAVE(monkeypatch):
+    """El cableado de `rsssf.con_llaves`. La llave no va al CSV, asi que si
+    `procesar` deja de pedirla ninguna fila cambia y ningun otro test se entera: lo
+    unico que se pierde es el arbitro de esas rondas, que es justo lo que no avisa."""
+    from fad import rsssf
+    t = Torneo("Anexo:Prueba", "Prueba", 1988, anio_fin=1989, cerrado=False,
+               sin_grilla=True)
+    crudo = ("Round 1@N@[Sep 11]@N@Boca Juniors            1-0 River Plate@N@"
+             "Round 2@N@[Sep 18]@N@River Plate             2-2 Boca Juniors@N@"
+             ).replace("@N@", chr(10))
+    monkeypatch.setattr(rsssf, "FUENTES", {t.pagina: ("archivo", {"": {
+        "Boca Juniors": "Boca Juniors", "River Plate": "River Plate"}})})
+    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: crudo)
+    monkeypatch.setattr(rsssf, "LLAVES_POR_RONDA", {t.pagina: ((1, 1, "Torneo Apertura"),)})
+    ps, _ = build.procesar("", t)
+    assert {p.jornada: p.llave for p in ps} == {"Fecha 1": "Torneo Apertura", "Fecha 2": ""}
+
+
+def test_la_llave_declarada_es_la_seccion_que_el_torneo_recorta():
+    """Las dos declaraciones tienen que decir lo mismo y viven en archivos
+    distintos: `torneos.py` dice que tabla de la pagina se lee (`seccion`) y
+    `rsssf.py` dice que rondas le tocan (`LLAVES_POR_RONDA`). Si una cambia sola, la
+    tabla y los partidos dejan de encontrarse y los chequeos se callan."""
+    from fad import rsssf, torneos
+    for pagina, tramos in rsssf.LLAVES_POR_RONDA.items():
+        (t,) = [x for x in torneos.TODOS if x.pagina == pagina]
+        assert t.seccion in {llave for _, _, llave in tramos}, pagina
 
 
 def test_si_la_seccion_no_esta_devuelve_la_pagina_entera():

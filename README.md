@@ -181,7 +181,7 @@ que ya lee aquel dataset lee este casi sin tocar nada.
 | `date` `time` | ISO (`2026-01-22`) y hora local |
 | `home_team` `away_team` | los equipos |
 | `home_score` `away_score` | el marcador de los 90 (más alargue si hubo) |
-| `home_pens` `away_pens` | la tanda de penales, vacío si no hubo |
+| `home_pens` `away_pens` | la tanda de penales, vacío si no hubo. En la Primera División 1988-89 la llevan también los partidos de **liga**: ese campeonato definía cada empate por penales, con un punto más para el que ganaba la tanda. Son 131; al empate que falta (`Rosario Central 1-1 Instituto`) la fuente no le publica la tanda |
 | `tournament` `season` | `Primera Division - Apertura`, `Copa Argentina`, `2026` |
 | | ojo: `season` es la **temporada**, no el año del partido. La 2016-17 lleva `season=2016` y sus partidos van de agosto de 2016 a junio de 2017. La fecha real está en `date`. |
 | `phase` | `zonas` o `eliminacion` |

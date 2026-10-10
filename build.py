@@ -842,6 +842,9 @@ def procesar(texto: str, t) -> tuple[list, list]:
                                  t.anio_fin or t.temporada, t.mes_inicio,
                                  desde=desde, hasta=hasta)
         importados = [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False) for d in mas]
+        # La llave de las rondas que la pagina trata como un torneo aparte, para
+        # que su tabla tenga contra que compararse. Ver `rsssf.LLAVES_POR_RONDA`.
+        ajenos = rsssf.con_llaves(ajenos, t.pagina)
         ps = rsssf.a_partidos(ajenos, t.torneo, t.temporada)
         # Se guardan para cruzar la foja MAS ABAJO y no aca: la fuente publica
         # su propia tabla al lado de sus propios partidos, y compararla contra

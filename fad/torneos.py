@@ -573,6 +573,23 @@ VIEJO = [
     Torneo("Campeonato de Primera División 1987-88 (Argentina)",
            "Primera Division", 1987, anio_fin=1988,
            rsssf="arg88", sin_grilla=True),
+    # La 1988-89, del 11 de septiembre al 28 de mayo.
+    #
+    # `seccion` APUNTA AL APERTURA Y NO A LA TABLA FINAL, y es a proposito. La pagina
+    # publica dos tablas: la del campeonato entero y la de su primera rueda, que fue
+    # ademas un torneo. La del campeonato tiene mal los goles de 14 de los 20 clubes,
+    # y se prueba sin salir de la pagina: restandole la del Apertura, a Argentinos
+    # Juniors le quedan 6 victorias en la segunda rueda con 3 goles a favor. (Los
+    # ganados, empatados y perdidos si coinciden con RSSSF; son las dos columnas de
+    # goles las que estan mal.) La del Apertura cierra contra los partidos.
+    #
+    # Asi que el arbitro de Wikipedia cubre las fechas 1 a 19 --ver
+    # `rsssf.LLAVES_POR_RONDA`, que es lo que le dice contra que 190 partidos
+    # compararse--. Las fechas 20 a 38 no tienen tabla de Wikipedia que sirva; las
+    # sostiene la tabla final de la propia fuente, que esta en un test.
+    Torneo("Campeonato de Primera División 1988-89 (Argentina)",
+           "Primera Division", 1988, anio_fin=1989,
+           rsssf="arg89", sin_grilla=True, seccion="Torneo Apertura 1988-89"),
     # La 1989-90 va `sin_grilla` AUNQUE LA PAGINA TIENE UNA GRILLA, y hay que
     # decirlo porque el proximo que la abra la va a ver: publica `== Resultados ==`
     # con 79 partidos, las fechas 1 a 8, y ahi se termina. Leyendola entran 79 de
