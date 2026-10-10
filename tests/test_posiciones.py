@@ -1964,10 +1964,21 @@ def test_una_dia_corrige_EL_DIA_y_no_la_temporada():
     verdad: la Fecha 14 de la Primera C 2024 se jugo seis semanas despues de lo
     programado y esta bien. Lo que corta es el orden de magnitud del error de
     tipeo, que es un anio."""
-    from datetime import date
+    from datetime import date, timedelta
     from fad import correcciones
+
+    def dia_mas_cercano(iso: str) -> date:
+        """`dice` puede ser UNA FECHA QUE NO EXISTE --`2014-11-31`--, porque es lo
+        que la pagina escribe y lo que la correccion tiene que encontrar en la fila.
+        Para medir cuanto se corre se la lleva al ultimo dia real de ese mes. `debe`
+        no pasa por aca: lo que se publica tiene que existir."""
+        anio, mes, dia = (int(x) for x in iso.split("-"))
+        primero_del_siguiente = date(anio + mes // 12, mes % 12 + 1, 1)
+        return min(date(anio, mes, 1) + timedelta(days=dia - 1),
+                   primero_del_siguiente - timedelta(days=1))
+
     for d in correcciones.DIAS:
-        corrido = abs((date.fromisoformat(d.debe) - date.fromisoformat(d.dice)).days)
+        corrido = abs((date.fromisoformat(d.debe) - dia_mas_cercano(d.dice)).days)
         assert corrido < 100, (f"{d.pagina} {d.jornada} {d.local}: {d.dice} -> "
                                f"{d.debe} son {corrido} dias; eso no es correr un "
                                f"partido, es cambiarlo de temporada")

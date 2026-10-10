@@ -4298,6 +4298,122 @@ DIAS: tuple[Dia, ...] = (
                "de noviembre de 2010, y este quedo solo, ciento siete dias "
                "despues. Una fuente que copiara la fecha de la jornada nunca "
                "produciria eso; hay que tener el dato del partido." + "\n" + _PC_CARLUCCIO),
+
+    # ---- Las fechas que encontro el barrido del 10/10/2026 -------------------
+    # Seis filas con el dia mal, cada una verificada contra fuentes de afuera. Las
+    # otras 32 de ese barrido no estan aca porque no eran de la fila sino del
+    # torneo: se arreglaron en `torneos.py` (`anio_fin` de la Copa de la Liga 2020
+    # y `mes_inicio` de la Primera C 2019-20).
+    #
+    # ESTAS SEIS VIVEN EN PAGINAS SIN SEGUNDA FUENTE --salvo la de 1995--, y son
+    # las primeras: hasta aca toda `Dia` salia de un desacuerdo entre dos fuentes
+    # que el build ya cruzaba. Estas las encontro un barrido del CSV, no un aviso.
+
+    # Se postergo dos dias y la pagina se quedo con el programado.
+    Dia(pagina="Copa de la Liga Profesional 2020", jornada="Fecha 1",
+        local="River Plate", visita="Banfield",
+        dice="2020-11-01", debe="2020-11-03",
+        fuente="https://www.rsssf.org/tablesa/arg2020.html",
+        porque="La pagina lo fecha el domingo 1 de noviembre de 2020, que es cuando "
+               "estaba programado, y se jugo el martes 3.\n"
+               "RSSSF lo publica bajo el encabezado `[Nov 3, Tue]` de la Round 1 del "
+               "Group 3 --`CA River Plate 1-3 CA Banfield`, en el Libertadores de "
+               "America--, y el encabezado anterior de esa misma ronda es `[Nov 2, "
+               "Mon]`: no hay ningun `[Nov 1]` del que se haya podido caer.\n"
+               "La portada de Promiedos archivada esa noche lo confirma por su lado: "
+               "la captura 20201104024920 de web.archive.org --las 23:49 del 3 en la "
+               "Argentina-- dice `HOY Martes 03 de Noviembre de 2020` y trae `River "
+               "Plate 1 3 Banfield` como final, con los goleadores. La captura del "
+               "domingo 1 no lo tiene. El feed de ESPN lo da el 3 a las 21:00.\n"
+               "Es el unico dia en que la pagina discrepa con RSSSF en los 135 "
+               "partidos del torneo.\n"
+               "https://www.rsssf.org/tablesa/arg2020.html\n"
+               "https://web.archive.org/web/20201104024920/https://www.promiedos.com.ar/"),
+
+    # UN DIA QUE NO EXISTE. La pagina escribe `31 de noviembre` y el parser arma
+    # `2014-11-31` sin preguntarse nada. `dice` lleva esa fecha imposible a
+    # proposito: es lo que la fila tiene, y es lo que hace que esta entrada deje
+    # de enganchar el dia que la pagina se corrija.
+    Dia(pagina="Campeonato de Primera B 2014 (Argentina)", jornada="Fecha 19",
+        local="Platense", visita="Deportivo Morón",
+        dice="2014-11-31", debe="2014-10-31",
+        fuente="https://www.rsssf.org/tablesa/arg2015.html",
+        porque="LA FECHA QUE PUBLICA LA PAGINA NO EXISTE: noviembre tiene 30 dias. Es "
+               "una errata de mes, no de dia: el partido se jugo el viernes 31 de "
+               "OCTUBRE de 2014.\n"
+               "RSSSF lo publica como el unico partido bajo el encabezado `[Oct 31]` "
+               "de la Round 19 de la Zona B --`Club Atletico Platense AC 1-2 Club "
+               "Deportivo Moron AC`--, y los otros de esa ronda van del 25 al 27 de "
+               "octubre. El feed de ESPN (evento 407951) lo da el 31/10 a las 21:00 de "
+               "la Argentina. Recortar al ultimo dia del mes hubiera dado el 30 de "
+               "noviembre, un mes tarde.\n"
+               "https://www.rsssf.org/tablesa/arg2015.html"),
+
+    # Y TRES MAS, las tres de la misma fecha y con la misma errata: `31 de junio`.
+    # Se habian suspendido por lluvia el domingo 28 y se jugaron el miercoles 1 de
+    # julio; quien anoto la reprogramacion conto un dia de mas en junio.
+    Dia(pagina="Campeonato de Primera B 2015 (Argentina)", jornada="Fecha 21",
+        local="Colegiales", visita="Fénix",
+        dice="2015-06-31", debe="2015-07-01",
+        fuente="https://www.rsssf.org/tablesa/arg2015a.html",
+        porque="LA FECHA QUE PUBLICA LA PAGINA NO EXISTE: junio tiene 30 dias. El "
+               "partido se jugo el miercoles 1 de julio de 2015, reprogramado por "
+               "lluvia desde el domingo 28 de junio.\n"
+               "RSSSF publica los tres partidos que quedaban de la Round 21 bajo el "
+               "encabezado `[Jul 1 Wed]`: `Colegiales 0-0 Fenix`, `UAI Urquiza 0-0 "
+               "Platense` y `Deportivo Merlo 2-2 Tristan Suarez`; el encabezado "
+               "anterior es `[Jun 28 Sun]`, con dos partidos. El sitio de la AFA "
+               "archivado ese mismo dia los lista en juego bajo el rotulo `Miercoles "
+               "1 de julio`, con sus arbitros.\n"
+               "https://www.rsssf.org/tablesa/arg2015a.html\n"
+               "http://web.archive.org/web/20150701204843/http://www.afa.org.ar/376/"
+               "apenas-dos-partidos-y-mucha-agua"),
+    Dia(pagina="Campeonato de Primera B 2015 (Argentina)", jornada="Fecha 21",
+        local="UAI Urquiza", visita="Platense",
+        dice="2015-06-31", debe="2015-07-01",
+        fuente="https://www.rsssf.org/tablesa/arg2015a.html",
+        porque="LA FECHA QUE PUBLICA LA PAGINA NO EXISTE: junio tiene 30 dias. Es uno "
+               "de los tres de la Fecha 21 que se reprogramaron por lluvia y se "
+               "jugaron el miercoles 1 de julio de 2015; ver el `Colegiales - Fenix` "
+               "de arriba, que tiene la evidencia de los tres.\n"
+               "RSSSF: `[Jul 1 Wed]` / `Club Deportivo UAI Urquiza 0-0 Club Atletico "
+               "Platense AC`.\n"
+               "https://www.rsssf.org/tablesa/arg2015a.html"),
+    Dia(pagina="Campeonato de Primera B 2015 (Argentina)", jornada="Fecha 21",
+        local="Deportivo Merlo", visita="Tristán Suárez",
+        dice="2015-06-31", debe="2015-07-01",
+        fuente="https://www.rsssf.org/tablesa/arg2015a.html",
+        porque="LA FECHA QUE PUBLICA LA PAGINA NO EXISTE: junio tiene 30 dias. Es uno "
+               "de los tres de la Fecha 21 que se reprogramaron por lluvia y se "
+               "jugaron el miercoles 1 de julio de 2015; ver el `Colegiales - Fenix` "
+               "de arriba, que tiene la evidencia de los tres.\n"
+               "RSSSF: `[Jul 1 Wed]` / `Club Social y Deportivo Merlo AC 2-2 CSyD "
+               "Tristan Suarez`.\n"
+               "https://www.rsssf.org/tablesa/arg2015a.html"),
+
+    # LA UNICA DE ESTAS SEIS QUE LE DISCUTE A RSSSF, y con un solo testigo de
+    # afuera. Lo que la sostiene es que la fecha de RSSSF se contradice con las
+    # otras fechas del propio RSSSF.
+    Dia(pagina="Anexo:Torneo Apertura 1995 (Argentina)", jornada="Fecha 8",
+        local="Gimnasia y Esgrima (LP)", visita="Boca Juniors",
+        dice="1995-11-11", debe="1995-11-09",
+        fuente="https://historiadeboca.com.ar/partido/"
+               "gimnasia-lp-0-boca-1-torneo-apertura-1995/2569/1995/41/13.html",
+        porque="RSSSF lo fecha el sabado 11 de noviembre de 1995 y ese dia NO PUDO "
+               "SER: el mismo archivo pone a los dos clubes jugando la Round 14 al dia "
+               "siguiente, domingo 12 --`Banfield 0-2 Boca Juniors` y `Velez "
+               "Sarsfield 2-0 Gimnasia y Esgrima LP`--. Era un postergado de la "
+               "fecha 8, jugado en cancha de Velez, y Velez recibio a Gimnasia el 12 "
+               "en esa misma cancha.\n"
+               "La ficha de historiadeboca.com.ar lo da el JUEVES 9 de noviembre de "
+               "1995, en cancha de Velez Sarsfield, con Elizondo de arbitro y el gol "
+               "de Scotto --que es el goleador y el estadio que anota RSSSF--. El 9 "
+               "de noviembre de 1995 fue jueves.\n"
+               "ES UN SOLO TESTIGO EXTERNO, y hay que decirlo: la Wikipedia en ingles "
+               "da el mismo dia pero lo cita a el. Alcanza porque del otro lado no "
+               "hay una fecha posible sino una que la propia fuente desmiente.\n"
+               "https://historiadeboca.com.ar/partido/"
+               "gimnasia-lp-0-boca-1-torneo-apertura-1995/2569/1995/41/13.html"),
 )
 
 

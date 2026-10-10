@@ -129,7 +129,20 @@ HISTORICO = [
     Torneo("Campeonato de Primera División 2019-20 (Argentina)",
            "Primera Division", 2019, anio_fin=2020, mes_inicio=7),
 
-    Torneo("Copa de la Liga Profesional 2020", "Copa de la Liga", 2020),
+    # LA COPA DE LA LIGA 2020 TERMINO EN 2021, y hasta el 10/10/2026 este renglon no
+    # lo decia. Arranco el 30 de octubre de 2020 y sus fechas 4 y 5 de la segunda
+    # fase se jugaron entre el 2 y el 14 de enero de 2021; la pagina las escribe "2
+    # de enero" a secas, y sin `anio_fin` el anio que se les ponia era el de la
+    # temporada. Eran 24 partidos fechados en enero de 2020, diez meses ANTES de que
+    # el torneo empezara -- entre ellos un `Boca 2-2 River`.
+    #
+    # Las dos finales y el partido del 31 de marzo ya estaban bien: a esos la pagina
+    # les escribe el anio. Por eso nadie lo vio mirando el final del torneo.
+    #
+    # `mes_inicio` queda en el 8 por defecto, y NO hay que copiarle el 11 de los
+    # torneos de transicion de ese mismo anio: con 11, los seis partidos de octubre
+    # se van a octubre de 2021. Medido: cualquier valor de 2 a 10 da lo mismo.
+    Torneo("Copa de la Liga Profesional 2020", "Copa de la Liga", 2020, anio_fin=2021),
     Torneo("Copa de la Liga Profesional 2021", "Copa de la Liga", 2021),
     Torneo("Campeonato de Primera División 2021 (Argentina)",
            "Primera Division", 2021),
@@ -406,7 +419,14 @@ ASCENSO_HISTORICO = [
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),
     Torneo('Campeonato de Primera C 2017-18 (Argentina)', 'Primera C', 2017, anio_fin=2018),
     Torneo('Campeonato de Primera C 2018-19 (Argentina)', 'Primera C', 2018, anio_fin=2019),
-    Torneo('Campeonato de Primera C 2019-20 (Argentina)', 'Primera C', 2019, anio_fin=2020),
+    # `mes_inicio=7`: la fecha 1 se jugo el 27, 28 y 30 de julio de 2019. Con el
+    # corte en agosto esos 8 partidos quedaban en julio de 2020, cuando no habia
+    # futbol en ninguna cancha. Es el mismo arreglo que la Primera Division de esa
+    # temporada ya tenia, y el caso exacto que describe el docstring de
+    # `validar.anios_bien_asignados` -- que aca no lo vio porque junta el Apertura y
+    # el Clausura por numero de fecha.
+    Torneo('Campeonato de Primera C 2019-20 (Argentina)', 'Primera C', 2019, anio_fin=2020,
+           mes_inicio=7),
 
     Torneo('Campeonato de Primera C 2021 (Argentina)', 'Primera C', 2021),
     Torneo('Campeonato de Primera C 2022 (Argentina)', 'Primera C', 2022),
