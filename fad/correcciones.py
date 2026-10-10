@@ -1995,6 +1995,58 @@ class Dividido:
 
 
 DIVIDIDOS: tuple[Dividido, ...] = (
+    # ------------------------------------------------------------------
+    # EL PRIMERO QUE NO VIENE DE WIKIPEDIA SINO DE RSSSF, y el mas claro de los
+    # seis: no hay que deducir que cada club quedo distinto, lo dice la fuente.
+    #
+    # `arg91` publica el renglon como `Boca Juniors 0-1 San Lorenzo [Suspended in
+    # 45'; both teams lost the match]`, y sus notas al pie lo repiten dos veces:
+    # "Later, both teams lost the match (0-1)" y, al pie de la tabla final, "match
+    # suspended at half-time with San Lorenzo leading 1-0; awarded 0-1 against both
+    # teams due to hooliganism by fans, which ended in a death". San Lorenzo ganaba
+    # 1-0 en la cancha y termino perdiendo 0-1 en el escritorio, igual que Boca.
+    #
+    # LA TABLA LO CONFIRMA POR PARTIDA DOBLE, y las dos son verificables sin salir
+    # de la pagina de Wikipedia:
+    #
+    #   1. Marca a los DOS clubes con asterisco --los unicos dos de las veinte
+    #      filas-- y el asterisco es esa nota.
+    #   2. Sacado el partido, los DOS clubes desvian contra la tabla, y desvian
+    #      IGUAL: a los dos les falta un PJ, un gol en contra y una derrota, y a
+    #      ninguno le falta un gol a favor ni un ganado ni un empate.
+    #
+    #          Boca Juniors  tabla PJ19 18:16 6-7-6   nuestra PJ18 18:15 6-7-5
+    #          San Lorenzo   tabla PJ19 15:18 4-10-5  nuestra PJ18 15:17 4-10-4
+    #
+    #      Ese delta --+1 PJ, +1 GC, +1 perdido, y nada mas-- es exactamente "cada
+    #      uno perdio un partido 0-1". Los otros 18 clubes cierran al digito. No es
+    #      que la tabla no cuadre: cuadra con el fallo y no con la cancha.
+    #
+    # Y HAY UNA TERCERA, que es la mas linda porque parece un error y no lo es: las
+    # columnas de la tabla suman GF406 contra GC408. Un desbalance de exactamente
+    # DOS, que es lo que tiene que pasar cuando un partido termina con los dos
+    # clubes recibiendo un gol y ninguno convirtiendolo. No es una errata: es la
+    # huella aritmetica del fallo. RSSSF publica "Goals: 406" al pie, que es la
+    # columna de a favor, y coincide.
+    # ------------------------------------------------------------------
+    Dividido(
+        pagina="Campeonato de Primera División 1990-91 (Argentina)",
+        local="Boca Juniors", visita="San Lorenzo", dice=(0, 1),
+        porque=(
+            "RSSSF lo publica como `Boca Juniors 0-1 San Lorenzo [Suspended in 45'; "
+            "both teams lost the match]` y lo repite al pie: `awarded 0-1 against "
+            "both teams`. San Lorenzo ganaba 1-0 cuando se suspendio y termino "
+            "perdiendo 0-1, lo mismo que Boca, asi que ninguna pareja de numeros "
+            "dice la verdad de los dos. La tabla de posiciones de la pagina lo "
+            "confirma: marca con asterisco a esos dos clubes y a ningun otro. Y "
+            "sacado el partido, los dos desvian contra ella con el MISMO delta -- a "
+            "cada uno le falta un PJ, un gol en contra y una derrota, y a ninguno "
+            "un gol a favor ni un ganado ni un empate --, que es exactamente `cada "
+            "uno perdio un partido 0-1`; los otros 18 clubes cierran al digito. Y "
+            "la propia tabla suma GF406 contra GC408: ese desbalance de dos "
+            "no es una errata sino lo que tiene que dar un partido en el que los "
+            "dos reciben un gol y ninguno lo convierte."),
+    ),
     Dividido(
         pagina="Campeonato de Primera B Nacional 2011-12",
         local="Chacarita Juniors", visita="Atlanta", dice=(0, 1),

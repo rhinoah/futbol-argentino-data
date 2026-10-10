@@ -192,7 +192,7 @@ MUTANTES = [
      '    sf_dir = Path(__file__).resolve().parent / "data" / "sin-fecha"'),
 
     ("build.py", "no cruzar contra la tabla de posiciones",
-     "               for d in posiciones.contrastar(ps, texto, pagina=t.pagina,\n"
+     "               for d in posiciones.contrastar(ps, tabla_txt, pagina=t.pagina,\n"
      "                                              respaldados=respaldados,\n"
      "                                              de_afuera=t.sin_grilla)]",
      "               for d in []]"),
@@ -209,7 +209,7 @@ MUTANTES = [
      "                                              de_afuera=False)]"),
 
     ("build.py", "no chequear que la tabla cierre consigo misma",
-     "               for d in posiciones.desbalance(ps, texto, pagina=t.pagina)]",
+     "               for d in posiciones.desbalance(ps, tabla_txt, pagina=t.pagina)]",
      "               for d in []]"),
 
     ("fad/posiciones.py", "denunciar el desbalance aunque la tabla y la grilla "
@@ -1915,7 +1915,7 @@ MUTANTES = [
 
     # --- el cuadro de llaves, segundo testigo de una copa ---
     ("build.py", "no cruzar la grilla contra el cuadro de llaves",
-     "               for d in posiciones.fuera_del_cuadro(ps, texto, t.pagina)]",
+     "               for d in posiciones.fuera_del_cuadro(ps, tabla_txt, t.pagina)]",
      "               for d in []]"),
 
     ("fad/posiciones.py", "no nombrar al homonimo que si juega",
@@ -2165,6 +2165,19 @@ MUTANTES = [
     ("fad/correcciones.py", "dar por cumplido un arbitraje con la fila repetida",
      "    if len(fila) != 1:\n        return False",
      "    if False:\n        return False"),
+
+    # EL RECORTE POR SECCION, para un torneo que comparte la pagina de la temporada.
+    ("build.py", "cortar la seccion en el primer subtitulo",
+     '               and not ln.strip().startswith("===")]',
+     '               ]'),
+
+    ("build.py", "dejar al torneo sin tabla si la seccion no esta",
+     "            return chr(10).join(lineas[n + 1:fin])\n    return texto",
+     "            return chr(10).join(lineas[n + 1:fin])\n    return \"\""),
+
+    ("fad/wiki.py", "no seguir la redireccion y quedarse con el stub",
+     '"&prop=wikitext&redirects=1&formatversion=2&format=json")',
+     '"&prop=wikitext&formatversion=2&format=json")'),
 
     ("build.py", "hacer grave el arbitraje que la fuente alcanzo",
      'validar.Aviso("un arbitraje que la fuente alcanzo", d, grave=False)',

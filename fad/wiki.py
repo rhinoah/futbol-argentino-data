@@ -69,13 +69,30 @@ def _pedir(url: str) -> str:
 
 
 def wikitexto(titulo: str, usar_cache: bool = True) -> str:
-    """El wikitexto crudo de una pagina. Levanta si la pagina no existe."""
+    """El wikitexto crudo de una pagina, SIGUIENDO LA REDIRECCION si la hay.
+
+    Levanta si la pagina no existe.
+
+    SEGUIR LA REDIRECCION no estaba, y lo que devolvia en su lugar era el stub:
+    `#REDIRECCION [[...]]`, ochenta y tres bytes. Pasaba en UNA de las 162 paginas
+    --el `Anexo:Torneo Clausura 1991 (Argentina)`, que apunta a
+    `Campeonato de Primera Division 1990-91 (Argentina)`-- y no se veia porque ese
+    torneo saca sus 190 partidos de RSSSF: el wikitexto solo se usa para la tabla
+    que los verifica, asi que faltando la tabla el torneo entraba igual, sin
+    arbitro y sin que nada lo dijera. El comentario de `rsssf.py` afirmaba que "17
+    de los 20 clubes cierran exacto" contra esa tabla; era cierto, pero medido a
+    mano una vez, no por el build.
+
+    El radio esta medido: de las 162 paginas, UNA sola es redireccion hoy. Asi que
+    esto no cambia nada de lo que ya andaba, y evita que la proxima vez que alguien
+    de Wikipedia convierta una pagina en redireccion el torneo se quede mudo.
+    """
     archivo = CACHE / (urllib.parse.quote(titulo, safe="") + ".wiki")
     if usar_cache and archivo.exists():
         return archivo.read_text(encoding="utf-8")
 
     url = (f"{API}?action=parse&page={urllib.parse.quote(titulo)}"
-           "&prop=wikitext&formatversion=2&format=json")
+           "&prop=wikitext&redirects=1&formatversion=2&format=json")
     import json
     datos = json.loads(_pedir(url))
     if "error" in datos:

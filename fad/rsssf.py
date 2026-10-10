@@ -2543,6 +2543,15 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
         'Round 1\n[Mar 8, 1996]', "APERTURA TOURNAMENT"),
     "Anexo:Torneo Clausura 1991 (Argentina)": (
         'Round 1\n\n[Feb 22]', "Table:"),
+    # El Apertura es la PRIMERA mitad de `arg91`. El ancla lleva los DOS TABULADORES
+    # que el archivo le pega al `Round 1` de esta mitad --la otra no los tiene, asi
+    # que con ellos es unica-- y eso no es cosmetico: el ancla tiene que incluir el
+    # encabezado de la ronda. Anclando en `[Aug 20]`, que tambien es unico, la
+    # seccion arranca DESPUES del `Round 1` y la primera fecha entra sin numero de
+    # jornada: se pierden sus diez partidos y quedan 180 en 18 jornadas, sin que
+    # nada lo denuncie. Corta en el `Table:` que repite la tabla final tras las 19.
+    "Campeonato de Primera División 1990-91 (Argentina)": (
+        "Round 1\t\t", "Table:"),
 }
 
 
@@ -2880,6 +2889,7 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Anexo:Torneo Apertura 1996 (Argentina)": ("arg97", PRIMERA_1996),
     "Anexo:Torneo Clausura 1997 (Argentina)": ("arg97", PRIMERA_1996),
     "Anexo:Torneo Clausura 1991 (Argentina)": ("arg91", PRIMERA_1990),
+    "Campeonato de Primera División 1990-91 (Argentina)": ("arg91", PRIMERA_1990),
     "Anexo:Torneo Apertura 1995 (Argentina)": ("arg96", PRIMERA_1995),
     "Anexo:Torneo Clausura 1996 (Argentina)": ("arg96", PRIMERA_1995),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),

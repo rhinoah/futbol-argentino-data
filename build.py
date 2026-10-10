@@ -751,6 +751,30 @@ def sin_repetir_sin_fecha(llaves: list, ps: list,
     return nuevas, repetidas, discuten
 
 
+def _sola_su_seccion(texto: str, seccion: str) -> str:
+    """El wikitexto recortado a la seccion de nivel 2 que se pide.
+
+    Para una pagina de TEMPORADA que publica dos torneos. Devuelve el texto entero
+    si no se pide seccion o si el encabezado no esta --no inventa un recorte vacio,
+    que dejaria al torneo sin arbitro sin decir nada.
+
+    Un encabezado de nivel 2 es `== Titulo ==` y NO `=== Subtitulo ===`, y la guarda
+    importa: sin ella el recorte cortaria en el primer subtitulo y se comeria la
+    tabla, que justamente cuelga de uno (`=== Tabla de posiciones final ===`).
+    """
+    if not seccion:
+        return texto
+    lineas = texto.split(chr(10))
+    titulos = [(n, ln.strip()[2:-2].strip()) for n, ln in enumerate(lineas)
+               if ln.strip().startswith("==") and ln.strip().endswith("==")
+               and not ln.strip().startswith("===")]
+    for i, (n, titulo) in enumerate(titulos):
+        if titulo == seccion:
+            fin = titulos[i + 1][0] if i + 1 < len(titulos) else len(lineas)
+            return chr(10).join(lineas[n + 1:fin])
+    return texto
+
+
 def procesar(texto: str, t) -> tuple[list, list]:
     """Parsea, lleva los nombres al canonico y valida. Devuelve (partidos, avisos).
 
@@ -940,6 +964,9 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # se ven igual. Ver `correcciones.marcadores_cumplidos`.
     cumplidos = correcciones.marcadores_cumplidos(t.pagina, ps)
     arregladas, dudas = correcciones.aplicar(ps, t.pagina)
+    # Lo que ven los chequeos de tabla. Igual al texto salvo para un torneo que
+    # comparte la pagina de la temporada con otro; ver `Torneo.seccion`.
+    tabla_txt = _sola_su_seccion(texto, getattr(t, "seccion", ""))
     borradas = _borrar_jornadas_falsas(ps)
     # La segunda fuente va DESPUES de borrar las jornadas falsas y ANTES de
     # validar, y las dos mitades del sandwich importan.
@@ -1031,7 +1058,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
                                  grave=False) for d in mas]
     avisos += [validar.Aviso(f"{t.pagina}: no cierra con su tabla de posiciones", d,
                              grave=False)
-               for d in posiciones.contrastar(ps, texto, pagina=t.pagina,
+               for d in posiciones.contrastar(ps, tabla_txt, pagina=t.pagina,
                                               respaldados=respaldados,
                                               de_afuera=t.sin_grilla)]
     # Y la tabla contra si misma. No compara contra nuestra grilla: suma sus dos
@@ -1039,7 +1066,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # salta no hay nada que arbitrar -- la equivocada es la pagina.
     avisos += [validar.Aviso(f"{t.pagina}: su tabla de posiciones no cierra sola", d,
                              grave=False)
-               for d in posiciones.desbalance(ps, texto, pagina=t.pagina)]
+               for d in posiciones.desbalance(ps, tabla_txt, pagina=t.pagina)]
     # Un club que la tabla nombra y el padron no conoce. No afecta a los datos --
     # por eso no es grave-- pero apaga el arbitro en esa fila sin decir nada, que
     # es peor: el chequeo sigue corriendo y ya no mira todo.
@@ -1052,19 +1079,19 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # apaga al arbitro.
     avisos += [validar.Aviso(f"{t.pagina}: un club de la tabla no jugo ahi", d,
                              grave=False)
-               for d in posiciones.sin_partidos(ps, texto, pagina=t.pagina)]
+               for d in posiciones.sin_partidos(ps, tabla_txt, pagina=t.pagina)]
     # El cuarto y ultimo del cruce, y el unico que mira la GRILLA. Los otros tres
     # miran la tabla, y ninguno ve el error que no falla nunca: un nombre pelado
     # que el padron resuelve solo, y lo resuelve al club equivocado.
     avisos += [validar.Aviso(f"{t.pagina}: la grilla nombra un club sin desambiguar", d,
                              grave=False)
-               for d in posiciones.homonimo_de_la_pagina(ps, texto, pagina=t.pagina)]
+               for d in posiciones.homonimo_de_la_pagina(ps, tabla_txt, pagina=t.pagina)]
     # Las filas que la pagina publica y la guarda de coherencia descarta. Sin
     # esto, ese club se queda sin arbitro y no lo dice nadie: ni contrastar ni
     # desbalance opinan sobre una fila que no llego a parsearse.
     avisos += [validar.Aviso(f"{t.pagina}: una fila de la tabla no cierra sola", d,
                              grave=False)
-               for d in posiciones.filas_que_no_cierran(texto, pagina=t.pagina)]
+               for d in posiciones.filas_que_no_cierran(tabla_txt, pagina=t.pagina)]
     # Y las verificaciones que caducaron. Un `Revisado` silencia un aviso, asi
     # que tiene que denunciarse solo cuando deja de enganchar: si la pagina
     # cambio, esa verificacion hablaba de otra cosa y puede estar tapando un
@@ -1072,18 +1099,18 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: una verificacion que ya no engancha", d,
                              grave=False)
                for d in correcciones.revisados_huerfanos(
-                   t.pagina, posiciones.clubes_desviados(ps, texto, pagina=t.pagina),
-                   posiciones.marcadores_del_cuadro(ps, texto, t.pagina, crudo=True))]
+                   t.pagina, posiciones.clubes_desviados(ps, tabla_txt, pagina=t.pagina),
+                   posiciones.marcadores_del_cuadro(ps, tabla_txt, t.pagina, crudo=True))]
     # Y los RESULTADOS, que es la otra mitad de la misma tabla: `contrastar`
     # pregunta cuantos goles y este pregunta quien gano. Separa un digito mal
     # leido de un partido entero al reves, y eso cambia que hay que ir a buscar.
     avisos += [validar.Aviso(f"{t.pagina}: la tabla y la grilla dan distinto ganador", d,
                              grave=False)
-               for d in posiciones.resultados_que_no_coinciden(ps, texto, pagina=t.pagina)]
+               for d in posiciones.resultados_que_no_coinciden(ps, tabla_txt, pagina=t.pagina)]
     # Y el PJ, que `contrastar` mira para CALLARSE y que aca se mira para hablar.
     avisos += [validar.Aviso(f"{t.pagina}: la tabla y la grilla cuentan distintos partidos", d,
                              grave=False)
-               for d in posiciones.pj_que_no_coincide(ps, texto, pagina=t.pagina)]
+               for d in posiciones.pj_que_no_coincide(ps, tabla_txt, pagina=t.pagina)]
     # Un partido que la pagina tiene y que el esquema no puede escribir. No se
     # arregla -- no hay par de goles que diga que perdieron los dos --, pero sin
     # avisarlo el hueco aparece como un partido que falta y manda a buscar un
@@ -1115,12 +1142,12 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # catorce paginas son casi toda la region donde nada puede opinar.
     avisos += [validar.Aviso(f"{t.pagina}: el cuadro y la grilla no coinciden", d,
                              grave=False)
-               for d in posiciones.fuera_del_cuadro(ps, texto, t.pagina)]
+               for d in posiciones.fuera_del_cuadro(ps, tabla_txt, t.pagina)]
     # Y el cuadro tambien sabe MARCADORES, que es lo unico que puede arbitrar la
     # fase final: la tabla de posiciones solo habla de las zonas.
     avisos += [validar.Aviso(f"{t.pagina}: el cuadro dice otro marcador", d,
                              grave=False)
-               for d in posiciones.marcadores_del_cuadro(ps, texto, t.pagina)]
+               for d in posiciones.marcadores_del_cuadro(ps, tabla_txt, t.pagina)]
     # Y si algun homonimo dejo de hacer falta porque arreglaron la pagina.
     avisos += [validar.Aviso(f"{t.pagina}: un homonimo quedo sin uso", d, grave=False)
                for d in correcciones.homonimos_huerfanos(t.pagina, escritos)]

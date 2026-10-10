@@ -32,6 +32,20 @@ class Torneo:
     # partido ya se jugo; el dato es duro. `build.py --rehacer` los vuelve a
     # parsear cuando de verdad haga falta.
     cerrado: bool = True
+    # LA SECCION DE NIVEL 2 EN QUE VIVE ESTE TORNEO, cuando la pagina es la de una
+    # TEMPORADA ENTERA y no la de un torneo. Vacio = la pagina es toda suya.
+    #
+    # Hace falta desde que `wikitexto` sigue las redirecciones. La temporada
+    # 1990-91 publica el Apertura y el Clausura en la misma pagina, con una tabla
+    # cada uno, una tabla combinada de 38 partidos y el cuadro de la Liguilla
+    # Pre-Libertadores. Sin acotar, los chequeos de tabla se quedan con la
+    # combinada --gana por PJ-- y despues se callan porque 38 no es 19; y el cuadro
+    # de la Liguilla sale como si fuera la fase final de cada torneo.
+    #
+    # Acota SOLO lo que se le pasa a `fad/posiciones.py`. El resto del pipeline
+    # sigue viendo la pagina entera: los nombres de club del padron, por ejemplo,
+    # viven en la seccion `Equipos`, que es de la temporada y no de un torneo.
+    seccion: str = ""
     # ------------------------------------------------------------------
     # De donde sale la FECHA cuando la pagina de Wikipedia no la trae.
     #
@@ -471,7 +485,16 @@ VIEJO = [
     # no los partidos. Los 190 vienen de RSSSF y la tabla de Wikipedia los verifica
     # en 19 de 20 clubes -- ver el comentario del mapa en `fad/rsssf.py`.
     Torneo("Anexo:Torneo Clausura 1991 (Argentina)", "Primera Division - Clausura", 1991,
-           rsssf="arg91", sin_grilla=True),
+           rsssf="arg91", sin_grilla=True, seccion="Torneo Clausura"),
+    # LA OTRA MITAD DE `arg91`, y el primer torneo de la capa 1985-1990. El archivo
+    # trae los dos juegos de 19 rondas de la temporada 1990-91, y la pagina de
+    # Wikipedia es la MISMA: no existe `Anexo:Torneo Apertura 1990 (Argentina)` ni
+    # como redireccion, asi que este torneo usa directo el titulo de la temporada.
+    # Por eso tambien lleva `seccion`: sin acotar, los dos tomarian la tabla
+    # combinada de 38 partidos.
+    Torneo("Campeonato de Primera División 1990-91 (Argentina)",
+           "Primera Division - Apertura", 1990,
+           rsssf="arg91", sin_grilla=True, seccion="Torneo Apertura"),
     Torneo("Anexo:Torneo Apertura 1995 (Argentina)", "Primera Division - Apertura", 1995,
            rsssf="arg96"),
     Torneo("Anexo:Torneo Clausura 1996 (Argentina)", "Primera Division - Clausura", 1996,

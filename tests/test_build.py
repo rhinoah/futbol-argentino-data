@@ -392,6 +392,72 @@ def test_una_correccion_que_quedo_sin_efecto_frena_el_build(monkeypatch):
     assert any("correccion que no aplica" in a.que for a in graves)
 
 
+# --------------------------------------------------------------------------
+# un torneo que comparte la pagina de la temporada con otro
+# --------------------------------------------------------------------------
+_TEMPORADA = """== Equipos ==
+los veinte de siempre
+
+== Torneo Apertura ==
+=== Tabla de posiciones final ===
+la tabla del Apertura
+
+== Torneo Clausura ==
+=== Tabla de posiciones final ===
+la tabla del Clausura
+
+== Tabla de posiciones final del campeonato ==
+la combinada, de 38 partidos
+"""
+
+
+def test_el_recorte_se_queda_con_su_seccion_y_entera():
+    """Una pagina de TEMPORADA publica dos torneos, con una tabla cada uno y una
+    combinada. Sin recortar, los chequeos de tabla se quedan con la combinada
+    --gana por PJ-- y despues se callan porque 38 no es 19."""
+    apertura = build._sola_su_seccion(_TEMPORADA, "Torneo Apertura")
+    assert "la tabla del Apertura" in apertura
+    assert "la tabla del Clausura" not in apertura
+    assert "la combinada" not in apertura
+    assert "los veinte de siempre" not in apertura
+
+
+def test_el_recorte_no_corta_en_un_subtitulo():
+    """LA GUARDA QUE IMPORTA. La tabla cuelga de un `=== Tabla de posiciones final
+    ===`, que esta ADENTRO de la seccion. Si el corte tomara cualquier renglon de
+    `=`, cortaria ahi y devolveria una seccion vacia: el torneo se quedaria sin
+    arbitro y el build no diria nada, que es exactamente el modo de falla que este
+    recorte vino a cerrar."""
+    apertura = build._sola_su_seccion(_TEMPORADA, "Torneo Apertura")
+    assert "Tabla de posiciones final" in apertura, "se comio el subtitulo"
+    assert apertura.strip(), "recorte vacio"
+
+
+def test_si_la_seccion_no_esta_devuelve_la_pagina_entera():
+    """Un nombre mal escrito no puede dejar al torneo mudo. Devolver vacio seria
+    sacarle el arbitro sin que nada lo denuncie; devolver todo lo deja como estaba
+    antes del recorte, y de ahi en mas hablan los chequeos de tabla."""
+    assert build._sola_su_seccion(_TEMPORADA, "Torneo Que No Existe") == _TEMPORADA
+    assert build._sola_su_seccion(_TEMPORADA, "") == _TEMPORADA
+
+
+def test_los_dos_torneos_de_1990_91_miran_tablas_distintas():
+    """El caso real que lo motivo: el Apertura 1990 y el Clausura 1991 comparten
+    pagina, porque la del Clausura es una redireccion a la de la temporada y la del
+    Apertura directamente no existe."""
+    from fad import torneos
+    pagina_clausura = "Anexo:Torneo Clausura 1991 (Argentina)"
+    pagina_temporada = "Campeonato de Primera División 1990-91 (Argentina)"
+    de = {t.pagina: t for t in torneos.TODOS
+          if t.pagina in (pagina_clausura, pagina_temporada)}
+    assert set(de) == {pagina_clausura, pagina_temporada}, sorted(de)
+    assert de[pagina_clausura].seccion == "Torneo Clausura"
+    assert de[pagina_temporada].seccion == "Torneo Apertura"
+    assert de[pagina_clausura].rsssf == de[pagina_temporada].rsssf == "arg91"
+    # y los dos sin grilla: la pagina publica tablas, no partidos
+    assert de[pagina_clausura].sin_grilla and de[pagina_temporada].sin_grilla
+
+
 def test_un_arbitraje_que_la_fuente_alcanzo_NO_frena_el_build(monkeypatch):
     """La otra mitad del de arriba, y la que se pago cara.
 

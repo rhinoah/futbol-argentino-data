@@ -35,6 +35,25 @@ def test_trae_el_wikitexto(cache, monkeypatch):
     assert wiki.wikitexto("Anexo:X") == "== Hola =="
 
 
+def test_sigue_la_redireccion(cache, monkeypatch):
+    """Sin esto devolvia el stub de la redireccion y nadie se enteraba.
+
+    Pasaba en UNA de las 162 paginas --el `Anexo:Torneo Clausura 1991`, que apunta
+    a la de la temporada 1990-91-- y era invisible porque ese torneo saca sus
+    partidos de RSSSF: el wikitexto solo se usa para la TABLA que los verifica, asi
+    que faltando la tabla el torneo entraba igual, sin arbitro y sin aviso. Son 83
+    bytes de `#REDIRECCION [[...]]` contra 39 000 de pagina.
+
+    El test mira la URL y no el contenido a proposito: lo que se rompio es el
+    pedido, y un test sobre el texto devuelto pasaria con cualquier `_pedir` falso
+    que devuelva lo que uno quiera."""
+    pedidos = []
+    responder(monkeypatch, '{"parse": {"wikitext": "== Hola =="}}', pedidos)
+    wiki.wikitexto("Una Pagina")
+    assert pedidos, "no pidio nada"
+    assert "redirects=1" in pedidos[0], pedidos[0]
+
+
 def test_guarda_en_cache(cache, monkeypatch):
     responder(monkeypatch, "contenido")
     wiki.wikitexto("Anexo:X")
