@@ -495,6 +495,24 @@ VIEJO = [
     Torneo("Campeonato de Primera División 1990-91 (Argentina)",
            "Primera Division - Apertura", 1990,
            rsssf="arg91", sin_grilla=True, seccion="Torneo Apertura"),
+
+    # LA CAPA 1985-1990: cinco campeonatos unicos, de agosto a junio, que Wikipedia
+    # publica con su tabla y sin sus partidos. Entran como el Clausura 1991 --los
+    # partidos de RSSSF, la tabla de Wikipedia de arbitro-- y cada uno trae lo suyo;
+    # ver los mapas en `fad/rsssf.py`.
+    #
+    # `mes_inicio=7` porque la 1985-86 arranco el 6 de julio. Con el corte por
+    # defecto en agosto, las cuatro primeras fechas quedaban en julio de 1986, al
+    # final de la temporada.
+    #
+    # SIN `seccion`: la pagina tiene una sola tabla del torneo y no hay nada que
+    # acotar. Y la verificacion puede ser CIRCULAR, que conviene decirlo: la unica
+    # referencia de la pagina es el propio `arg86`, asi que los 19 clubes que cierran
+    # exacto pueden estar cerrando contra una tabla copiada de ahi. No hay tercera
+    # fuente a mano; entra respaldada por si misma, y dicho.
+    Torneo("Campeonato de Primera División 1985-86 (Argentina)",
+           "Primera Division", 1985, anio_fin=1986, mes_inicio=7,
+           rsssf="arg86", sin_grilla=True),
     Torneo("Anexo:Torneo Apertura 1995 (Argentina)", "Primera Division - Apertura", 1995,
            rsssf="arg96"),
     Torneo("Anexo:Torneo Clausura 1996 (Argentina)", "Primera Division - Clausura", 1996,

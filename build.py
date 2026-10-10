@@ -761,6 +761,17 @@ def _sola_su_seccion(texto: str, seccion: str) -> str:
     Un encabezado de nivel 2 es `== Titulo ==` y NO `=== Subtitulo ===`, y la guarda
     importa: sin ella el recorte cortaria en el primer subtitulo y se comeria la
     tabla, que justamente cuelga de uno (`=== Tabla de posiciones final ===`).
+
+    EL RECORTE INCLUYE SU PROPIO ENCABEZADO, y la primera version no lo incluia.
+    Devolvia la seccion a partir del renglon siguiente, y eso anda mientras la tabla
+    cuelgue de un subtitulo de adentro -- el caso de la 1990-91, que es el unico que
+    habia --. Pero las tablas escritas con plantillas se reconocen POR EL TITULO de
+    la seccion que las contiene, asi que si esa seccion es justo la que se pide, el
+    recorte sin encabezado deja cero filas: el torneo se queda sin arbitro, entra
+    igual y no avisa nada. Se midio sobre la 1985-86: pidiendo
+    `Tabla de posiciones final`, 2987 caracteres y ninguna fila; ensuciando un
+    marcador a proposito, cero avisos. Escribir el nombre correcto de la seccion
+    apagaba la unica verificacion de la temporada.
     """
     if not seccion:
         return texto
@@ -771,7 +782,7 @@ def _sola_su_seccion(texto: str, seccion: str) -> str:
     for i, (n, titulo) in enumerate(titulos):
         if titulo == seccion:
             fin = titulos[i + 1][0] if i + 1 < len(titulos) else len(lineas)
-            return chr(10).join(lineas[n + 1:fin])
+            return chr(10).join(lineas[n:fin])
     return texto
 
 

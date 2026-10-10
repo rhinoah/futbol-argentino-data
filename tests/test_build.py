@@ -433,6 +433,84 @@ def test_el_recorte_no_corta_en_un_subtitulo():
     assert apertura.strip(), "recorte vacio"
 
 
+_CON_PLANTILLAS = """== Equipos ==
+los de siempre
+
+== Tabla de posiciones final ==
+{{Tabla de posiciones inicio}}
+{{Tabla de posiciones equipo|pos=1|g=1|e=0|p=0|gf=2|gc=0|eq=[[Boca Juniors]]}}
+{{Tabla de posiciones equipo|pos=2|g=0|e=0|p=1|gf=0|gc=2|eq=[[River Plate]]}}
+{{Tabla de posiciones fin}}
+
+== Goleadores ==
+nadie
+"""
+
+
+def test_el_recorte_conserva_su_propio_encabezado():
+    """EL INTERRUPTOR MUDO. Las tablas escritas con plantillas se reconocen por el
+    TITULO de la seccion que las contiene. Si esa seccion es justo la que se pide y
+    el recorte la devuelve sin su `== ... ==`, quedan cero filas: el torneo se queda
+    sin arbitro, entra igual y no avisa.
+
+    Lo encontro la medicion de la 1985-86, no un test: pidiendo `Tabla de posiciones
+    final` salian 2987 caracteres y ninguna fila, y ensuciando un marcador a
+    proposito no saltaba nada. La primera version del recorte solo se habia probado
+    con la 1990-91, donde la tabla cuelga de un subtitulo de ADENTRO de la seccion y
+    el encabezado de afuera no hacia falta."""
+    recorte = build._sola_su_seccion(_CON_PLANTILLAS, "Tabla de posiciones final")
+    assert "== Tabla de posiciones final ==" in recorte
+    assert "Goleadores" not in recorte and "los de siempre" not in recorte
+    assert set(posiciones.tabla(recorte)) == {"Boca Juniors", "River Plate"}, \
+        "sin el encabezado el lector de plantillas no reconoce la tabla"
+
+
+# --------------------------------------------------------------------------
+# la capa 1985-1990: campeonatos unicos, todos contra todos a dos ruedas
+# --------------------------------------------------------------------------
+import pytest  # noqa: E402
+
+# temporada -> (clubes, partidos que NO se pueden escribir)
+_CAPA_1985 = {1985: (19, 0)}
+
+
+@pytest.mark.parametrize("temporada", sorted(_CAPA_1985))
+def test_la_capa_1985_1990_trae_el_torneo_entero(temporada):
+    """Un todos contra todos a dos ruedas son N*(N-1) partidos, y cada club juega
+    2*(N-1). Con eso alcanza para ver si falta una fecha, que es el modo de falla de
+    esta capa: los partidos salen de un ARCHIVO de RSSSF recortado entre dos anclas,
+    y un ancla puesta un renglon mas abajo se come la primera jornada entera.
+
+    Paso de verdad en el Apertura 1990 y volvia a estar a un paso en la 1985-86:
+    anclando en `[Jul 6]`, que es unico, quedaban 333 partidos en las rondas 2 a 38
+    y NINGUN chequeo del build avisaba, porque los de tabla comparan solo a los
+    clubes cuyo PJ ya coincide.
+
+    Mira el CSV y no el lector a proposito: el lector necesita el archivo de RSSSF,
+    que no esta en el repo. Lo que el repo si tiene es el resultado."""
+    import csv
+    import pathlib
+    datos = pathlib.Path(__file__).resolve().parent.parent / "data" / f"partidos-{temporada}.csv"
+    if not datos.exists():
+        pytest.skip("hace falta el dataset")
+    clubes, fuera = _CAPA_1985[temporada]
+    with datos.open(encoding="utf-8") as fh:
+        filas = [f for f in csv.DictReader(fh)
+                 if f["tournament"] == "Primera Division" and f["season"] == str(temporada)]
+    assert len(filas) == clubes * (clubes - 1) - fuera, len(filas)
+    jugados = {}
+    for f in filas:
+        for c in (f["home_team"], f["away_team"]):
+            jugados[c] = jugados.get(c, 0) + 1
+    assert len(jugados) == clubes, sorted(jugados)
+    if not fuera:
+        assert set(jugados.values()) == {2 * (clubes - 1)}, jugados
+    jornadas = {f["matchday"] for f in filas}
+    esperadas = 2 * clubes if clubes % 2 else 2 * (clubes - 1)
+    assert len(jornadas) == esperadas, f"{len(jornadas)} jornadas, van {esperadas}"
+    assert all(f["date"] for f in filas), "un partido sin dia no se escribe"
+
+
 def test_si_la_seccion_no_esta_devuelve_la_pagina_entera():
     """Un nombre mal escrito no puede dejar al torneo mudo. Devolver vacio seria
     sacarle el arbitro sin que nada lo denuncie; devolver todo lo deja como estaba

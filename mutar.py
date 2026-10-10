@@ -2172,8 +2172,12 @@ MUTANTES = [
      '               ]'),
 
     ("build.py", "dejar al torneo sin tabla si la seccion no esta",
-     "            return chr(10).join(lineas[n + 1:fin])\n    return texto",
-     "            return chr(10).join(lineas[n + 1:fin])\n    return \"\""),
+     "            return chr(10).join(lineas[n:fin])\n    return texto",
+     "            return chr(10).join(lineas[n:fin])\n    return \"\""),
+
+    ("build.py", "recortar la seccion sin su propio encabezado",
+     "            return chr(10).join(lineas[n:fin])",
+     "            return chr(10).join(lineas[n + 1:fin])"),
 
     ("fad/wiki.py", "no seguir la redireccion y quedarse con el stub",
      '"&prop=wikitext&redirects=1&formatversion=2&format=json")',

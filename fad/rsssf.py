@@ -2552,6 +2552,22 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
     # nada lo denuncie. Corta en el `Table:` que repite la tabla final tras las 19.
     "Campeonato de Primera División 1990-91 (Argentina)": (
         "Round 1\t\t", "Table:"),
+    # La 1985-86. Aca el `Round 1` NO lleva tabuladores -- el ancla de arriba no
+    # encuentra nada -- y `Round 1` a secas aparece once veces, porque tambien
+    # engancha `Round 10` a `Round 19`. Lo que la hace unica es el salto de linea.
+    #
+    # ANCLAR EN LA FECHA ES EL AGUJERO MUDO, y aca es peor que en el Apertura 1990:
+    # `[Jul 6]` tambien es unico, pero la seccion arranca despues del encabezado y
+    # se pierden los nueve partidos de la primera fecha. Quedan 333 en las rondas 2
+    # a 38, con 18 clubes en 35 partidos jugados, y no avisa NINGUNO de los chequeos
+    # del build: los de tabla comparan solo a los clubes cuyo PJ ya coincide.
+    #
+    # El corte es el `Table:` que repite la tabla final despues de la ronda 38. Y
+    # hace falta por un segundo motivo: la tabla de RSSSF de estos anios trae trece
+    # numeros por fila --el desglose de local y de visitante-- y el lector de tablas
+    # espera siete, asi que sin el corte la foja la lee mal y denuncia a los 19.
+    "Campeonato de Primera División 1985-86 (Argentina)": (
+        "Round 1\n", "Table:"),
 }
 
 
@@ -2828,6 +2844,43 @@ PRIMERA_1995 = {
     },
 }
 
+# Primera Division 1985-86, la mas vieja que entra y la primera de CAMPEONATO UNICO:
+# 19 clubes a dos ruedas, 38 fechas de 9 partidos con uno libre por fecha, 342
+# partidos. Los cinco campeonatos de 1985-86 a 1989-90 son asi; el Apertura y el
+# Clausura como dos torneos arrancan recien en 1990-91.
+#
+# SON DIECINUEVE Y NO VEINTE, y no falta ninguno: Racing Club y Rosario Central
+# estaban en la B. El archivo trae 38 renglones `bye`, dos por club, que el lector
+# saltea sin avisar porque no tienen forma de partido.
+#
+# CADA TEMPORADA DE ESTA CAPA LLEVA SU PROPIO MAPA, y no por prolijidad: `arg86`
+# escribe `Instituto (Cba.)`, `arg87` y `arg88` escriben `Instituto (Córdoba)` y
+# `arg90` escribe `Instituto(Cba.)`, sin el espacio. Con el mapa de 1990 esta
+# temporada lee 182 partidos de 342.
+PRIMERA_1985 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Boca Juniors": "Boca Juniors",
+        "Chacarita Juniors": "Chacarita Juniors",
+        "Dep. Español": "Deportivo Español",
+        "Estudiantes (LP)": "Estudiantes (LP)",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Gimnasia y Esgrima (LP)": "Gimnasia y Esgrima (LP)",
+        "Huracán": "Huracán",
+        "Independiente": "Independiente",
+        "Instituto (Cba.)": "Instituto",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Racing (Cba.)": "Racing (C)",
+        "River Plate": "River Plate",
+        "San Lorenzo": "San Lorenzo",
+        "Talleres (Cba.)": "Talleres (C)",
+        "Temperley": "Temperley",
+        "Unión (Sta. Fe)": "Unión",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
 # Primera Division 1990-91. ES EL PRIMER TORNEO QUE ENTRA SIN GRILLA DE WIKIPEDIA:
 # la pagina del Clausura 1991 no es un stub sino una REDIRECCION a la seccion de la
 # temporada, y esa seccion publica la tabla final pero no los partidos. RSSSF si los
@@ -2890,6 +2943,7 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Anexo:Torneo Clausura 1997 (Argentina)": ("arg97", PRIMERA_1996),
     "Anexo:Torneo Clausura 1991 (Argentina)": ("arg91", PRIMERA_1990),
     "Campeonato de Primera División 1990-91 (Argentina)": ("arg91", PRIMERA_1990),
+    "Campeonato de Primera División 1985-86 (Argentina)": ("arg86", PRIMERA_1985),
     "Anexo:Torneo Apertura 1995 (Argentina)": ("arg96", PRIMERA_1995),
     "Anexo:Torneo Clausura 1996 (Argentina)": ("arg96", PRIMERA_1995),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),
