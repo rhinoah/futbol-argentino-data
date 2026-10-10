@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 47 127 | 6 | 158 | 1075 | 478 |
+| 48 228 | 6 | 161 | 1086 | 486 |
 
 Medidos el 10 de octubre de 2026.
 
@@ -17,30 +17,66 @@ Medidos el 10 de octubre de 2026.
 ninguno con dos días distintos —eran `61`—, ninguna tabla queda sin contrastar contra su
 grilla, y las `56` verificaciones a mano fijan el estado que verificaron, así que caducan
 solas —ya caducaron cuatro y se fueron—. `251` clubes de `13` temporadas tienen además el
-respaldo de una fuente independiente.** De los `173` avisos, **ninguno es grave**; cada
+respaldo de una fuente independiente.** De los `175` avisos, **ninguno es grave**; cada
 clase tiene su explicación en el archivo que la produce y no se repite acá.
 
 **Pero «adentro» no era «bien fechado».** Un barrido de todo el CSV buscando grupos de
-partidos separados del resto por meses encontró `36` filas con la fecha mal y una dudosa.
-Están publicadas así hoy; ninguna tiene mal el marcador.
+partidos separados del resto por meses encontró `36` filas con la fecha mal. La verificación
+contra fuentes de afuera —RSSSF, el feed de ESPN, Promiedos archivado, prensa del día— las
+confirmó y encontró más: son `64`, todas con su día verdadero identificado y **ninguna
+corregida todavía**. Ninguna tiene mal el marcador.
 
 - **`24` partidos de la `Copa de la Liga 2020` están un año antes.** Son los de enero de
-  2021 —entre ellos el `Boca 2-2 River` del 2 de enero— y figuran en enero de 2020. Al
-  torneo le falta decir que cruza de año (`anio_fin`).
+  2021 —entre ellos el `Boca 2-2 River` del 2 de enero— y figuran en enero de 2020.
+  Confirmados los 24 por tres fuentes; el día está bien y sólo cambia el año. Al torneo le
+  falta `anio_fin=2021`, y nada más: con ese campo se mueven esas 24 filas y ninguna otra.
 - **`8` partidos de la `Primera C 2019-20` están un año después.** La fecha 1 del Apertura
-  se jugó a fines de julio de 2019 y figura en julio de 2020, cuando no había fútbol. El
-  corte de año está en agosto y el torneo arrancó el 27 de julio; la Primera División de
-  esa misma temporada ya tiene el arreglo (`mes_inicio=7`) y a la C nunca le llegó.
-- **`4` fechas que no existen:** un `31 de noviembre` en la Primera B 2014 (`Platense 1-2
-  Deportivo Morón`, fecha 19) y tres `31 de junio` en la Primera B 2015 (fecha 21). Falta
-  encontrar el día verdadero de cada uno.
-- **Una dudosa:** `Acassuso 1-0 Argentino de Quilmes`, Primera B 2019-20, fecha 8 del
-  Clausura, fechado el 29 de noviembre de 2020 — ocho meses después de que la pandemia
-  cortara ese torneo.
-- **El chequeo que tenía que ver los años corridos tiene un punto ciego.**
-  `anios_bien_asignados` agrupa por número de jornada, así que cuando la página reusa
-  «Fecha 1» para el Apertura y para el Clausura mezcla las dos y no ve nada. Y no hay
-  ningún chequeo de que la fecha exista en el calendario.
+  se jugó a fines de julio de 2019 y figura en julio de 2020. Confirmados los 8. Le falta
+  `mes_inicio=7`, que la Primera División de esa misma temporada ya tiene.
+- **`26` partidos de la `Copa Argentina 2011-12` están un año después, y son nuevos.** Las
+  rondas de noviembre y diciembre de 2011 figuran en 2012. Acá no alcanza con un campo: el
+  año con que se fechan los partidos sale de `temporada`, que es también la columna
+  `season`, y esa copa está rotulada 2012. Rotularla 2011 corrige las fechas pero muda sus
+  `63` filas de `partidos-2012.csv` a `partidos-2011.csv`; la alternativa es separar el año
+  de arranque de la etiqueta. **Decisión pendiente.**
+- **Las `4` fechas que no existen ya tienen su día.** El `31 de noviembre` de 2014 fue el
+  31 de octubre (`Platense 1-2 Deportivo Morón`, Primera B, fecha 19) y los tres `31 de
+  junio` de 2015 fueron el 1 de julio (Primera B, fecha 21: se reprogramaron por lluvia).
+  Lo dicen RSSSF, ESPN y el sitio de la AFA archivado ese mismo día. La errata es de
+  Wikipedia.
+- **`2` sueltas con el día mal.** `River 1-3 Banfield`, Copa de la Liga 2020, fecha 1:
+  figura el `2020-11-01` y se jugó el `2020-11-03` —se postergó dos días y la página quedó
+  con el programado—. `Gimnasia (LP) 0-1 Boca`, Apertura 1995, fecha 8: figura el
+  `1995-11-11`, que es lo que dice RSSSF, y fue el jueves `1995-11-09`; el 11 es imposible
+  porque los dos clubes jugaron la fecha 14 el 12. Esta última tiene un solo testigo
+  externo.
+- **La dudosa no lo era.** `Acassuso 1-0 Argentino de Quilmes` se jugó de verdad el
+  29/11/2020: era el pendiente de la fecha 8, que definía un puesto antes del torneo
+  siguiente. Cinco fuentes lo dicen.
+- **`3` sospechosas sin zanjar**, las tres por un club jugando dos días seguidos: `Racing
+  2-1 Gimnasia (LP)` del `1999-05-24` (Gimnasia jugó el clásico el 23), y `Belgrano 2-0
+  Vélez` del `1994-05-05` con `River 4-0 Belgrano` del `1994-05-06`. El CSV copia lo que
+  dice RSSSF; falta prensa para saber cuál día está mal. Y queda en duda el día de la
+  promoción `Luján – Argentino de Quilmes` de 2012.
+- **Una `Dia` en una página sin segunda fuente rompe el build.** `correcciones.fechados`
+  mezcla tuplas de 5 campos (`Fechado`) con tuplas de 3 (`Dia`), y el aviso de «ya no
+  enganchan» desempaqueta 5. Las `22` `Dia` que existen están todas en páginas con
+  completador, que las marca como usadas antes; en una página que no lo tiene, revienta con
+  `ValueError`. Hay que arreglarlo antes de cargar las correcciones de arriba.
+- **Los chequeos que no las vieron.** `anios_bien_asignados` agrupa por número de jornada:
+  mezcla Apertura con Clausura cuando la página reusa «Fecha 1», y no mira las rondas de
+  eliminación. Agrupando por (llave, zona) y ordenando las rondas ve las tres páginas
+  —`58` filas— sin ningún falso positivo sobre el resto del dataset. No hay chequeo de que la
+  fecha exista en el calendario. Y uno de dataset entero —nadie juega dos partidos
+  distintos en días seguidos— es el que encontró las de 1994, 1995 y 1999.
+- **Otra columna con el mismo mal: la hora.** El parser saca el día de la nota «se jugó
+  el…» pero la hora la saca de la celda, así que `191` partidos reprogramados en `63`
+  páginas tienen el día real y la hora del programado. Hay además `36` horas que no tienen la forma `HH:MM`
+  (`15:00 (TV)`, `11.00`, `15::00`), y las tres definiciones de la Copa de la Liga 2020 en San Juan
+  figuran `neutral=false`.
+- **El feed de ESPN rechaza hoy las consultas por rango de fechas**, que es como lo
+  consulta `fad/espn.py`; por día suelto responde. Con la cache no se nota. En un clon sin
+  cache, las páginas que dependen de ESPN se quedarían sin fechas.
 - **Las temporadas cerradas no se enteran de las correcciones de Wikipedia.** No se
   vuelven a leer —es lo que las protege de una edición mala—, así que tampoco les llegan
   las buenas hasta que alguien corre `--rehacer`. Hoy la única divergencia entre el CSV y
@@ -143,10 +179,29 @@ partidos de RSSSF, la tabla de Wikipedia como árbitro.
 - Son `189` y no `190` porque ese partido **no se puede escribir**: una fila del CSV
   afirma un solo resultado y acá hay dos. Es el sexto `Dividido` del repo y el primero que
   no sale de Wikipedia.
-- **Las cinco temporadas que faltan tienen la puerta abierta.** `arg86` a `arg90` publican
-  encabezados de fecha igual que `arg91`. Falta medir cada una: cuántos partidos trae, si
-  el padrón reconoce los nombres y si la tabla de Wikipedia alcanza para verificarlos. No
-  comparten formato: `arg87` separa los marcadores con espacios y no trae tabla arriba.
+- **Tres de las cinco temporadas anteriores ya están adentro**, todas de campeonato
+  único —38 fechas, ida y vuelta— y todas con el día de cada partido:
+  - **`1985-86`**: `342` partidos, 19 clubes. Los 19 cierran contra la tabla.
+  - **`1986-87`**: `380` partidos. Los 20 cierran. Uno terminó en un escritorio (`River
+    Plate – Temperley`, 0-1 por doping) y otro se jugó en dos días (`Estudiantes (LP) 0-3
+    Boca`, abandonado en noviembre y terminado en marzo).
+  - **`1989-90`**: `379` partidos, y el que falta es otro `Dividido`: el clásico rosarino
+    de la última fecha, que perdieron los dos. 18 clubes cierran al dígito y los otros dos
+    desvían igual, un partido y una derrota cada uno.
+- **La tabla que las verifica puede no ser independiente.** La única referencia de las
+  páginas de 1985-86 y 1986-87 es el propio archivo de RSSSF. Que cierren dice que el
+  archivo se leyó bien, no que una segunda fuente lo confirme.
+- **Faltan dos, medidas y con lo que piden:**
+  - **`1987-88`** (`arg88`): `380` partidos. Una fecha postergada escrita `Round 12
+    (Postponed)`, que el lector no reconoce como encabezado, y un partido que no se jugó y
+    se dio por perdido en una nota en prosa.
+  - **`1988-89`** (`arg89`): `380` partidos. Ese año los empates se definían por penales y
+    la fuente escribe la tanda pegada al marcador (`[3]0-0[1]`): son `131` renglones que el
+    lector no ve, **y no avisa**. Tiene además otro partido que perdieron los dos, y la
+    tabla del campeonato en Wikipedia trae mal los goles de 14 clubes, así que el testigo
+    tiene que ser otro.
+- **Quedan afuera las liguillas y los desempates** de cada temporada —entre 14 y 34
+  partidos por año—: el camino sin grilla trae la liga y nada más.
 - **El `arg85` es la excepción:** tiene las rondas pero ni un encabezado de fecha, y una
   fila sin día no se escribe. Ése sigue dependiendo de las planillas de la AFA.
 
