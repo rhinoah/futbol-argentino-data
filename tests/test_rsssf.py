@@ -1446,6 +1446,107 @@ def test_un_at_que_no_va_seguido_de_una_cancha_no_se_corta():
     assert rsssf._sin_sede("Sportivo at large") == "Sportivo at large"
 
 
+def test_una_ronda_POSTERGADA_sigue_siendo_una_ronda():
+    """`Round 12 (Postponed)`: la fecha 12 de la 1987-88 se jugo despues de la 13 y
+    la fuente la imprime ahi, con esa aclaracion. Sin reconocerla sus diez partidos
+    se quedaban con la ronda de arriba y la fecha 13 salia con veinte."""
+    aj, _ = rsssf.leer(("Round 13@N@[Nov 8, Sun]@N@"
+                        "Aldosivi                     1-0 Banfield@N@"
+                        "Round 12 (Postponed)    @N@[Nov 11, Wed] @N@"
+                        "Banfield                     2-0 Aldosivi@N@"
+                        ).replace("@N@", "\n"), _MAPA_LIGA, 1987, 1988, 8)
+    assert [(a.jornada, a.fecha) for a in aj] == [(13, "1987-11-08"), (12, "1987-11-11")]
+
+
+def test_un_gol_no_es_un_partido_ni_un_nombre_sin_traducir():
+    """`25' 1-0 Rossi (penalty)` tiene la forma exacta de un partido. No entraba --ni
+    el minuto ni el goleador estan en el mapa-- pero dejaba para siempre un aviso de
+    nombres sin traducir, que es donde se esconde el que falte de verdad."""
+    aj, avisos = rsssf.leer(("Round 1@N@[May 21, Sat]@N@"
+                             "Aldosivi                     6-1 Banfield@N@"
+                             "Goals:@N@"
+                             "25' 1-0 Rossi (penalty)@N@"
+                             "37' 2-0 Rossi@N@"
+                             "71' 5-1 Bochini@N@"
+                             ).replace("@N@", "\n"), _MAPA_LIGA, 1987, 1988, 8)
+    assert len(aj) == 1
+    assert avisos == [], "un gol no es un nombre que falte en el mapa"
+
+
+_MAPA_CUATRO = {"": {"Aldosivi": "Aldosivi", "Banfield": "Banfield",
+                     "Cipolletti": "Cipolletti", "Unión (Santa Fe)": "Unión"}}
+
+
+def test_la_nota_en_PROSA_debajo_de_un_abd_se_lee_y_el_partido_es_NO_DISPUTADO():
+    """Instituto - San Lorenzo, ronda 35 de la 1987-88: no empezo por incidentes y
+    se lo dieron por perdido al local. La fuente lo explica en un renglon suelto, sin
+    corchetes, y `_anotacion` --que busca un corchete-- seguia de largo hasta el
+    parentesis de `Unión (Santa Fe)` y volvia con ESO como nota. El partido se caia
+    y la temporada sumaba 379.
+
+    Y el status es `no disputado`, no `escritorio`: `escritorio` afirma que se
+    jugaron los noventa minutos."""
+    aj, avisos = rsssf.leer(("Round 1@N@[May 8, Sun]@N@"
+                             "Aldosivi               abd Banfield             @N@"
+                             "Abandoned before beginning because of incidents. "
+                             "Later awarded 0-1. @N@"
+                             "Cipolletti             3-1 Unión (Santa Fe)       @N@"
+                             ).replace("@N@", "\n"), _MAPA_CUATRO, 1987, 1988, 8)
+    assert len(aj) == 2
+    no_jugado = next(a for a in aj if a.local == "Aldosivi")
+    assert (no_jugado.goles_local, no_jugado.goles_visita) == (0, 1)
+    assert no_jugado.status == "no disputado"
+    assert no_jugado.fecha == "1988-05-08", "el dia en que tenia que jugarse"
+    assert any("no disputado" in a for a in avisos), "y se dice de donde salio"
+
+
+def test_la_cola_de_una_nota_partida_NO_se_toma_por_prosa():
+    """El contraste que le pone borde al de arriba. Una nota entre corchetes que
+    sigue en el renglon de abajo deja ahi un pedazo sin corchete que lo abra --
+    `result stood]`-- y leerlo solo, como si fuera toda la explicacion, es perder
+    un partido que hoy entra. Por eso la prosa se mira unicamente cuando el renglon
+    del partido no trajo nota propia."""
+    aj, _ = rsssf.leer(("Round 1@N@[May 8, Sun]@N@"
+                        "Aldosivi               abd Banfield         [abandoned at 3-2 in 88';@N@"
+                        "                                             result stood]@N@"
+                        ).replace("@N@", "\n"), _MAPA_CUATRO, 1987, 1988, 8)
+    assert [(a.goles_local, a.goles_visita, a.status) for a in aj] == [(3, 2, "suspendido")]
+
+
+def test_una_nota_entre_corchetes_COLGADA_debajo_no_es_prosa():
+    """Si lo de abajo abre con corchete es una nota de las de siempre, y esas las
+    junta `_anotacion`, que sabe seguirlas cuando se parten en dos renglones. Tomar
+    el primero solo --`[abandoned at 3-2 in 88';`, sin el `result stood`-- lee un
+    abandono sin desenlace y tira el partido."""
+    aj, _ = rsssf.leer(("Round 1@N@[May 8, Sun]@N@"
+                        "Aldosivi               abd Banfield@N@"
+                        "                        [abandoned at 3-2 in 88';@N@"
+                        "                         result stood]@N@"
+                        ).replace("@N@", "\n"), _MAPA_CUATRO, 1987, 1988, 8)
+    assert [(a.goles_local, a.goles_visita, a.status) for a in aj] == [(3, 2, "suspendido")]
+
+
+def test_el_partido_de_abajo_tampoco_es_prosa_aunque_traiga_la_nota_en_su_cola():
+    """La forma mas vieja de este archivo: la nota de un `abd` arranca en la columna
+    libre del partido SIGUIENTE y termina en la del otro. El renglon de abajo es un
+    partido, no la explicacion; leido entero como prosa da un abandono sin
+    desenlace --le falta la mitad de la nota-- y el partido se cae."""
+    aj, _ = rsssf.leer(("Round 1@N@[May 8, Sun]@N@"
+                        "Aldosivi               abd Banfield@N@"
+                        "Cipolletti             5-2 Unión (Santa Fe)       [abandoned at 2-2 in 90',@N@"
+                        "Banfield               1-0 Cipolletti              awarded 1-0]@N@"
+                        ).replace("@N@", "\n"), _MAPA_CUATRO, 1987, 1988, 8)
+    fallado = next(a for a in aj if (a.local, a.visita) == ("Aldosivi", "Banfield"))
+    assert (fallado.goles_local, fallado.goles_visita, fallado.status) == (1, 0, "suspendido")
+
+
+def test_el_que_si_se_jugo_y_se_fallo_sigue_siendo_ESCRITORIO():
+    """`no disputado` es solo para el que no empezo. El fallo de siempre --se jugo y
+    el numero lo cambio un tribunal-- no cambia de nombre."""
+    assert rsssf._leer_anotacion("[awarded 0-1, originally 0-0]") == ((0, 1), "escritorio", "")
+    assert rsssf._leer_anotacion("[not played; awarded 0-1]") == ((0, 1), "no disputado", "")
+
+
 def test_el_guion_del_marcador_puede_venir_SEPARADO():
     """`arg96` escribe `2 - 0` y los otros veintidos archivos escriben `2-0`. Sin
     esto ese archivo lee 16 renglones de 397 -- o sea que el torneo entero se pierde

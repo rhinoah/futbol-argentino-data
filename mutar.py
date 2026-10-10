@@ -2203,6 +2203,34 @@ MUTANTES = [
      r'_SEDE_SUELTA = re.compile(r"\s+at\s+[A-Z].*$")',
      r'_SEDE_SUELTA = re.compile(r"\s+at\s+.*$")'),
 
+    ("fad/rsssf.py", "no reconocer la ronda postergada",
+     r'                    r"(?:\s*\(Postponed\))?"',
+     r'                    r""'),
+
+    ("fad/rsssf.py", "tomar un gol por un partido",
+     "        if _MINUTO.fullmatch(local):",
+     "        if False:"),
+
+    ("fad/rsssf.py", "no leer la nota en prosa de un partido sin marcador",
+     "                    if not cola and (abajo := _prosa_de_abajo(lineas, idx)):",
+     "                    if False:"),
+
+    ("fad/rsssf.py", "tomar por prosa la cola de una nota partida en dos renglones",
+     "                    if not cola and (abajo := _prosa_de_abajo(lineas, idx)):",
+     "                    if (abajo := _prosa_de_abajo(lineas, idx)):"),
+
+    ("fad/rsssf.py", "tomar por prosa una nota entre corchetes colgada debajo",
+     '    if not pelada or pelada[0] in "[(" or _PARTIDO.match(cruda):',
+     '    if not pelada or _PARTIDO.match(cruda):'),
+
+    ("fad/rsssf.py", "tomar por prosa el partido de abajo",
+     '    if not pelada or pelada[0] in "[(" or _PARTIDO.match(cruda):',
+     '    if not pelada or pelada[0] in "[(":'),
+
+    ("fad/rsssf.py", "llamar escritorio al partido que no se jugo nunca",
+     "        if _NO_EMPEZO.search(n):",
+     "        if False:"),
+
     ("build.py", "recortar la seccion sin su propio encabezado",
      "            return chr(10).join(lineas[n:fin])",
      "            return chr(10).join(lineas[n + 1:fin])"),

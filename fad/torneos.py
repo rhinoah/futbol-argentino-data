@@ -540,6 +540,10 @@ VIEJO = [
     Torneo("Campeonato de Primera División 1986-87 (Argentina)",
            "Primera Division", 1986, anio_fin=1987, mes_inicio=7,
            rsssf="arg87", sin_grilla=True),
+    # La 1987-88 va del 30 de agosto al 5 de junio: el corte de anio por defecto.
+    Torneo("Campeonato de Primera División 1987-88 (Argentina)",
+           "Primera Division", 1987, anio_fin=1988,
+           rsssf="arg88", sin_grilla=True),
     # La 1989-90 va `sin_grilla` AUNQUE LA PAGINA TIENE UNA GRILLA, y hay que
     # decirlo porque el proximo que la abra la va a ver: publica `== Resultados ==`
     # con 79 partidos, las fechas 1 a 8, y ahi se termina. Leyendola entran 79 de

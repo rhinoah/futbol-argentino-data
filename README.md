@@ -190,7 +190,7 @@ que ya lee aquel dataset lee este casi sin tocar nada.
 | `venue` | el estadio, tal como figura |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de la que salió esa fila |
-| `status` | de dónde salió el marcador: vacío, `suspendido` o `escritorio` — ver abajo |
+| `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
 
 Sobre **`neutral`**: sale del **reglamento de la competencia**, no de comparar el
 estadio contra el de cada club. La Copa Argentina se juega a partido único en
@@ -211,6 +211,7 @@ un marcador **indistinguible de uno jugado en cancha**.
 | vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 39 189 |
 | `suspendido` | la fuente dice que el partido **no llegó al final** | 56 |
 | `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 7 |
+| `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Es el `Instituto 0-1 San Lorenzo` de la 1987-88 — los otros seis no tienen día y viven en `sin-fecha/` | 1 |
 
 **El eje no es el que parece.** Lo natural sería distinguir "el tribunal ratificó
 el marcador de la cancha" de "el tribunal lo cambió", y no se puede: la fuente no

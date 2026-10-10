@@ -125,7 +125,18 @@ _DIA = r"[\[(]([A-Z][a-z]{2})\s+(\d+)[\])]"
 # fallar el patron entero, y el efecto era el peor posible: la linea dejaba de
 # ser una ronda, sus partidos heredaban la ronda ANTERIOR y entraban dos veces,
 # una por zona, porque tampoco se los reconocia como interzonales.
+#
+# Y UNA TERCERA COLA, que no es un interzonal ni una fecha: `Round 12 (Postponed)`,
+# en `arg88`. La fecha 12 de la 1987-88 se postergo y la fuente la imprime DESPUES de
+# la 13, con esa aclaracion. Sin reconocerla, sus diez partidos se quedaban con la
+# ronda anterior y la fecha 13 salia con veinte. Ese era ruidoso --lo frenaba
+# `una_vez_por_jornada`--, pero la salida natural de un aviso asi es "arreglar" la 13.
+# Va LA PALABRA y no "cualquier parentesis": es la unica que aparecio. Medido sobre
+# los 29 archivos de la cache, de 327 renglones `Round N...` que hoy no son ronda
+# entra este y nada mas -- los otros 326 son los `Round N:` de `arg2024`, que es
+# otro formato y otro lector.
 _RONDA = re.compile(r"^Round\s+(\d+)(?:\s*" + _DIA + r")?"
+                    r"(?:\s*\(Postponed\))?"
                     r"((?:\s*\[[^\]]*\])*"
                     r"(?:\s*-\s*[Ii]nterzonal[^\[]*)?)\s*$")
 # "Apertura 2006" / "Clausura 2007": la llave sin la palabra "Torneo" adelante.
@@ -180,6 +191,11 @@ _SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)([,.][^\])]*)?[\])]\s*$"
 # traducen por el mapa de la zona no entra.
 _PARTIDO = re.compile(
     r"^([^\[\]]{3,34}?)\s+(\d+)\s*-\s*(\d+)\s+([^\[\]\s](?:[^\[\]]*?[^\[\]\s])?)(?:\s{2,}.*)?$")
+
+
+# El "local" de un gol: el minuto. Son 9 renglones en los 29 archivos de la cache,
+# 2 en `arg87` y 7 en `arg88`, y ninguno es otra cosa.
+_MINUTO = re.compile(r"\d+'")
 
 
 # Un partido cuyo marcador NO ES UN MARCADOR. RSSSF escribe una palabra en la
@@ -360,6 +376,39 @@ _SIN_DESENLACE = ("se abandono y la nota no dice que el resultado quedara "
                   "partido completo")
 
 
+def _prosa_de_abajo(lineas: list[str], i: int) -> str:
+    """La explicacion de un marcador que no es marcador, cuando viene SIN corchetes.
+
+    Una sola vez en los 29 archivos de la cache, y es un partido entero:
+
+        Instituto (Córdoba)    abd San Lorenzo
+        Abandoned before beginning because of incidents. Later awarded 0-1.
+
+    Ronda 35 de la 1987-88. `_anotacion` busca un corchete o un parentesis y aca no
+    hay ninguno, asi que el partido se caia y la temporada sumaba 379.
+
+    Es prosa lo que no es de otro: ni el arranque de una nota entre corchetes --esa
+    la junta `_anotacion`, que sabe seguirla si se parte en dos renglones-- ni un
+    partido, que puede traer en su cola la nota de este. Y quien llama la mira solo
+    si el renglon del partido no trajo nota propia, porque la cola de una nota
+    partida (`... in 88';` / `result stood]`) tambien es un renglon sin corchete
+    que lo abra, y leerla sola seria perder un partido que hoy entra.
+    """
+    if i + 1 >= len(lineas):
+        return ""
+    cruda = lineas[i + 1].rstrip()
+    pelada = cruda.strip()
+    if not pelada or pelada[0] in "[(" or _PARTIDO.match(cruda):
+        return ""
+    return pelada
+
+
+# El partido que NO EMPEZO. La fuente lo dice de dos maneras para el mismo caso:
+# `Abandoned before beginning` al lado del partido y `suspended and not played` en
+# las notas del pie.
+_NO_EMPEZO = re.compile(r"before beginning|not played")
+
+
 def _leer_anotacion(nota: str) -> tuple[tuple[int, int] | None, str, str]:
     """(marcador, status, motivo). Marcador None = esta fila NO entra.
 
@@ -379,6 +428,13 @@ def _leer_anotacion(nota: str) -> tuple[tuple[int, int] | None, str, str]:
     if m_ab and "result stood" not in n and not m_fa:
         return None, "", _SIN_DESENLACE
     if m_fa:
+        # NO SE JUGO NUNCA y el numero lo puso un tribunal. Es el cuarto valor de
+        # `parser.status_de_la_fila` --"los tres primeros hablan de como termino un
+        # partido que empezo; el cuarto dice que no empezo"-- y se pregunta antes
+        # por la misma razon que alla. `escritorio` afirmaria que se jugaron los
+        # noventa, y `suspendido`, que hubo un partido que cortar.
+        if _NO_EMPEZO.search(n):
+            return (int(m_fa.group(1)), int(m_fa.group(2))), "no disputado", ""
         return ((int(m_fa.group(1)), int(m_fa.group(2))),
                 "suspendido" if m_ab else "escritorio", "")
     if m_ab:
@@ -654,6 +710,13 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                 cola = (m2.group(4) or "").lstrip()
                 if cl2 and cv2 and (not cola or cola[0] in "[("):
                     nota = _anotacion(lineas, idx, m2.end(3))
+                    # LA NOTA EN PROSA MANDA cuando el renglon no trae ninguna: si
+                    # no, `_anotacion` sigue bajando hasta el primer parentesis que
+                    # encuentre, que suele ser el de un club --`Unión (Santa Fe)`,
+                    # tres renglones mas abajo-- y vuelve con eso como si fuera la
+                    # explicacion. Ver `_prosa_de_abajo`.
+                    if not cola and (abajo := _prosa_de_abajo(lineas, idx)):
+                        nota = abajo
                     marcador, estado, motivo = _leer_anotacion(nota)
                     donde = f"{llave} {zona} ronda {ronda}: {cl2} {m2.group(2)} {cv2}"
                     if marcador is None:
@@ -673,6 +736,15 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                             llave=llave, zona=zona, status=estado))
             continue
         local, gl, gv = m.group(1).strip(), int(m.group(2)), int(m.group(3))
+        # UN GOL TIENE LA FORMA DE UN PARTIDO: `25' 1-0 Rossi (penalty)` es un nombre,
+        # un marcador y otro nombre. `arg87` y `arg88` pegan la formacion y los goles
+        # del partido que definio el titulo en el medio de las rondas, y esos
+        # renglones no entraban --ni `25'` ni `Rossi` estan en ningun mapa-- pero
+        # dejaban un aviso permanente de trece "nombres que el mapa no traduce". Un
+        # aviso que esta siempre es donde se esconde el nombre que falte de verdad:
+        # la lista muestra los primeros seis, y los minutos ordenan primero.
+        if _MINUTO.fullmatch(local):
+            continue
         visita = _sin_sede(m.group(4).strip())
         cl, cv = mapa[zona].get(local), mapa[zona].get(visita)
         for nombre, c in ((local, cl), (visita, cv)):
@@ -2637,8 +2709,21 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
     # de mas, porque ni `43'` ni `Dabrowsky` estan en el mapa, pero queda para
     # siempre un aviso de cuatro nombres sin traducir que no son nombres. Y un aviso
     # que esta siempre es el lugar donde se esconde el dia que falte uno de verdad.
+    # (Desde la 1987-88 el lector sabe que un gol no es un partido --ver `_MINUTO`--
+    # y ese aviso ya no saldria ni cortando en `Table:`. El corte se queda igual:
+    # sigue siendo el que deja afuera todo lo que no es una ronda.)
     "Campeonato de Primera División 1986-87 (Argentina)": (
         "Round 1 ", "Rosario Central won the championship in this round"),
+    # La 1987-88. ESTE ARCHIVO NO TIENE `Table:`: la tabla arranca sola, despues de
+    # la ronda 38, y lo unico que la anuncia es su primer renglon, con el campeon en
+    # mayusculas. Va con el salto de linea y los espacios de adelante, que es lo que
+    # separa ese renglon de la frase `Newell's Old Boys won the Championship`, mas
+    # arriba y en minusculas.
+    #
+    # Aca la formacion del partido del titulo NO se puede dejar afuera con el corte
+    # como en la 1986-87: esta en el MEDIO, entre la ronda 36 y la 37.
+    "Campeonato de Primera División 1987-88 (Argentina)": (
+        "Round 1\n[Aug 30, Sun]", "\n 1. NEWELL'S OLD BOYS"),
     # La 1989-90. EL CORTE ES LA TRAMPA DE ESTA TEMPORADA, y es la peor de la capa:
     # `arg90` mete una tabla de media temporada ENTRE la ronda 19 y la 20, rotulada
     # `Table:` igual que la final. Cortando en `Table:` a secas --lo que usan las
@@ -3010,6 +3095,39 @@ PRIMERA_1986 = {
     },
 }
 
+# Primera Division 1987-88. Veinte clubes y 380 partidos, uno de ellos sin jugar.
+#
+# El vocabulario es el de `arg87` --las ciudades enteras-- y aca no hay ni un
+# renglon roto: los veinte nombres salen limpios las 38 veces. Cambian dos clubes
+# respecto de la temporada anterior, Banfield y Deportivo Armenio por Deportivo
+# Italiano y Temperley, y por eso el mapa es otro y no aquel estirado: un mapa trae
+# los clubes de SU torneo y nada mas, que es lo que le permite denunciar a un
+# renglon de otra seccion cuando un ancla queda mal puesta.
+PRIMERA_1987 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Banfield": "Banfield",
+        "Boca Juniors": "Boca Juniors",
+        "Deportivo Armenio": "Deportivo Armenio",
+        "Deportivo Español": "Deportivo Español",
+        "Estudiantes (La Plata)": "Estudiantes (LP)",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Gimnasia (La Plata)": "Gimnasia y Esgrima (LP)",
+        "Independiente": "Independiente",
+        "Instituto (Córdoba)": "Instituto",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Racing (Córdoba)": "Racing (C)",
+        "Racing Club": "Racing Club",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "San Lorenzo": "San Lorenzo",
+        "Talleres (Córdoba)": "Talleres (C)",
+        "Unión (Santa Fe)": "Unión",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
 # Primera Division 1989-90. Veinte clubes, 38 fechas de diez, 380 partidos.
 #
 # `arg90` ESCRIBE LOS PARENTESIS PEGADOS AL NOMBRE --`Estudiantes(LP)`,
@@ -3105,6 +3223,7 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Campeonato de Primera División 1990-91 (Argentina)": ("arg91", PRIMERA_1990),
     "Campeonato de Primera División 1985-86 (Argentina)": ("arg86", PRIMERA_1985),
     "Campeonato de Primera División 1986-87 (Argentina)": ("arg87", PRIMERA_1986),
+    "Campeonato de Primera División 1987-88 (Argentina)": ("arg88", PRIMERA_1987),
     "Campeonato de Primera División 1989-90 (Argentina)": ("arg90", PRIMERA_1989),
     "Anexo:Torneo Apertura 1995 (Argentina)": ("arg96", PRIMERA_1995),
     "Anexo:Torneo Clausura 1996 (Argentina)": ("arg96", PRIMERA_1995),
