@@ -25,6 +25,22 @@ class Torneo:
     neutral: bool = False    # si TODA la competencia se juega en cancha neutral
     anio_fin: int | None = None   # si la temporada cruza el calendario (2016-17)
     mes_inicio: int = 8           # mes en que arranca; solo importa si cruza
+    # EL ANIO EN QUE ARRANCA, cuando no es el de la etiqueta. `None` = es el mismo,
+    # que es lo que pasa en todos los torneos menos uno.
+    #
+    # `temporada` hacia dos trabajos: rotular la fila (`season`) y decir con que
+    # anio se fechan los partidos que la pagina escribe sin anio. Casi siempre
+    # coinciden. No en una copa que se rotula por el anio en que se DEFINIO: la
+    # Copa Argentina 2011-12 es `season=2012` --ver el comentario de `COPAS`-- y
+    # sus primeras rondas se jugaron en noviembre y diciembre de 2011. Con un solo
+    # campo habia que elegir entre fechar bien y rotular como el resto, y se
+    # fechaba mal: 26 partidos de 2011 figuraban a fines de 2012, despues de la
+    # final de agosto.
+    #
+    # Asi que la etiqueta sigue siendo `temporada` y esto, cuando esta, es el anio
+    # que se le pasa al que fecha. Va con `anio_fin` y `mes_inicio`, como en
+    # cualquier torneo que cruza el calendario.
+    anio_inicio: int | None = None
     # Un torneo TERMINADO no se vuelve a bajar: sus filas se toman del CSV que ya
     # esta commiteado. No es solo ahorrar pedidos -- que son 90 de 96 --, es sacar
     # riesgo: si manana alguien reestructura la pagina del Clausura 2007, no hay
@@ -32,6 +48,11 @@ class Torneo:
     # partido ya se jugo; el dato es duro. `build.py --rehacer` los vuelve a
     # parsear cuando de verdad haga falta.
     cerrado: bool = True
+
+    @property
+    def primer_anio(self) -> int:
+        """El anio con que se fechan los partidos anteriores al corte."""
+        return self.anio_inicio or self.temporada
     # LA SECCION DE NIVEL 2 EN QUE VIVE ESTE TORNEO, cuando la pagina es la de una
     # TEMPORADA ENTERA y no la de un torneo. Vacio = la pagina es toda suya.
     #
@@ -171,7 +192,15 @@ HISTORICO = [
 # 2019-20 se estiro hasta diciembre de 2020 por la pandemia y la siguiente
 # arranco en febrero de 2022.
 COPAS = [
+    # La unica edicion que cruza el anio SIN que la pagina lo escriba. Sus
+    # treintaidosavos se jugaron del 22 de noviembre de 2011 al 29 de febrero de
+    # 2012 y la final fue el 8 de agosto de 2012; con `season=2012` a secas, los 26
+    # partidos de noviembre y diciembre quedaban fechados DESPUES de la final.
+    # RSSSF los publica antes de su primer encabezado con anio, `[Feb 2, 2012]`.
+    # `mes_inicio=9` y no 8: con 8, la final de agosto se iria a 2011.
+    # Ver `Torneo.anio_inicio`.
     Torneo("Copa Argentina 2011-12", "Copa Argentina", 2012,
+           anio_inicio=2011, anio_fin=2012, mes_inicio=9,
            formato="copa", neutral=True),
     Torneo("Copa Argentina 2012-13", "Copa Argentina", 2013,
            formato="copa", neutral=True),

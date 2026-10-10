@@ -2239,6 +2239,14 @@ MUTANTES = [
      '"&prop=wikitext&redirects=1&formatversion=2&format=json")',
      '"&prop=wikitext&formatversion=2&format=json")'),
 
+    ("build.py", "fechar con el anio de la etiqueta y no con el de arranque",
+     "        ps = parser.partidos(texto, t.primer_anio, t.torneo, formato=t.formato,",
+     "        ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato,"),
+
+    ("fad/torneos.py", "ignorar el anio de arranque declarado",
+     "        return self.anio_inicio or self.temporada",
+     "        return self.temporada"),
+
     ("build.py", "tratar a una `Dia` como a un `Fechado` huerfano",
      "                    if len(f) == 5)",
      "                    )"),

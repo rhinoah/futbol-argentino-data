@@ -66,7 +66,7 @@ def _completar_fechas_rsssf(ps, t, usadas: set | None = None) -> list:
                               f"{archivo}: {e}; los partidos quedan sin fecha",
                               grave=False)]
     desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))
-    ajenos, avisos = rsssf.leer(crudo, mapa, t.temporada, t.anio_fin or t.temporada,
+    ajenos, avisos = rsssf.leer(crudo, mapa, t.primer_anio, t.anio_fin or t.temporada,
                                 t.mes_inicio, desde=desde, hasta=hasta)
     # `arbitrados` va aca por la misma razon que en la rama de worldfootball, y
     # faltaba: un partido que termino en un escritorio tiene DOS marcadores ciertos
@@ -240,7 +240,7 @@ def _completar_fechas(ps, t, usadas: set | None = None) -> list:
     # cada jornada, asi que un partido suelto tres anios afuera lo absorbe sin
     # una queja. Aca esta el Torneo a mano, que es lo que hace falta para saber
     # cual seria el rango.
-    validos = {t.temporada, t.anio_fin or t.temporada}
+    validos = {t.primer_anio, t.temporada, t.anio_fin or t.temporada}
     fuera = [p for p in ps if p.fuente_fecha and int(p.fecha[:4]) not in validos]
     for p in fuera[:3]:
         p.fecha, p.fuente_fecha = "", ""
@@ -838,7 +838,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
         # LOS MISMOS VEINTE CLUBES, con lo que el mapa no puede desempatarlos. Sin
         # cortar entran los 381 partidos de los dos torneos bajo el rotulo de uno.
         desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))
-        ajenos, mas = rsssf.leer(crudo, mapa, t.temporada,
+        ajenos, mas = rsssf.leer(crudo, mapa, t.primer_anio,
                                  t.anio_fin or t.temporada, t.mes_inicio,
                                  desde=desde, hasta=hasta)
         importados = [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False) for d in mas]
@@ -851,7 +851,9 @@ def procesar(texto: str, t) -> tuple[list, list]:
         foja = (crudo, mapa)
     else:
         importados = []
-        ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato,
+        # `primer_anio` y no `temporada`: el anio con que se fecha no es siempre el
+        # que rotula. Ver `Torneo.anio_inicio`.
+        ps = parser.partidos(texto, t.primer_anio, t.torneo, formato=t.formato,
                              anio_fin=t.anio_fin, mes_inicio=t.mes_inicio)
         # La grilla de la pagina cubre los grupos pero no la fase final, que ahi
         # es un dibujo. Las llaves vienen de RSSSF, que si dice quien fue local.
@@ -866,7 +868,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     f"queda sin partidos", repr(e), grave=False))
             else:
                 llaves, mas = rsssf.leer_llaves(
-                    crudo, mapa, t.temporada, t.anio_fin or t.temporada,
+                    crudo, mapa, t.primer_anio, t.anio_fin or t.temporada,
                     t.mes_inicio, *rsssf.SECCION.get(t.pagina, ("", "")))
                 for p_ in llaves:
                     p_.torneo = t.torneo

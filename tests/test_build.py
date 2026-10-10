@@ -599,6 +599,52 @@ def test_un_Fechado_que_ya_no_engancha_se_sigue_avisando(monkeypatch):
     assert not huerfanos[0].grave
 
 
+def test_el_anio_en_que_arranca_un_torneo_NO_es_siempre_el_de_su_etiqueta():
+    """`temporada` rotula la fila; `anio_inicio`, cuando esta, es el anio con que se
+    fechan los partidos anteriores al corte. Eran el mismo campo, y la Copa
+    Argentina 2011-12 --rotulada 2012, arrancada en 2011-- tenia que elegir entre
+    fechar bien y rotular como las demas: sus 26 partidos de noviembre y diciembre
+    de 2011 figuraban a fines de 2012, despues de la final."""
+    pagina = (tabla(("Racing Club", "Boca Juniors"), ("River Plate", "Independiente"))
+              .replace("23 de enero", "22 de noviembre").replace("24 de enero", "2 de febrero"))
+    cruza = Torneo("Anexo:Prueba", "Prueba", 2012, anio_inicio=2011, anio_fin=2012,
+                   mes_inicio=9, cerrado=False)
+    ps, _ = build.procesar(pagina, cruza)
+    assert sorted(p.fecha for p in ps) == ["2011-11-22", "2012-02-02"]
+    assert cruza.temporada == 2012, "la etiqueta no se toca"
+
+    # Y sin el campo todo sigue como siempre: el primer anio es el de la etiqueta.
+    comun = Torneo("Anexo:Prueba", "Prueba", 2012, cerrado=False)
+    ps, _ = build.procesar(pagina, comun)
+    assert sorted(p.fecha for p in ps) == ["2012-02-02", "2012-11-22"]
+
+
+def test_en_una_copa_ninguna_ronda_se_juega_despues_de_la_final():
+    """La regla que habria frenado ese error el primer dia. No hace falta saber nada
+    del calendario: en una eliminacion directa la final es lo ultimo, asi que una
+    ronda fechada despues tiene el anio mal. Mira el CSV entero, que es donde viven
+    las temporadas cerradas -- el build de todos los dias no las vuelve a leer."""
+    import csv
+    import pathlib
+    import pytest
+    datos = pathlib.Path(__file__).resolve().parent.parent / "data"
+    if not list(datos.glob("partidos-*.csv")):
+        pytest.skip("hace falta el dataset")
+    rondas = {}
+    for archivo in datos.glob("partidos-*.csv"):
+        with archivo.open(encoding="utf-8") as fh:
+            for f in csv.DictReader(fh):
+                if f["tournament"] == "Copa Argentina" and f["date"]:
+                    rondas.setdefault(f["season"], {}).setdefault(f["matchday"], []).append(f["date"])
+    assert len(rondas) >= 13, sorted(rondas)
+    for temporada, por_ronda in rondas.items():
+        if "Final" not in por_ronda:
+            continue                       # la edicion en curso
+        final = max(por_ronda["Final"])
+        tarde = {r: max(fs) for r, fs in por_ronda.items() if max(fs) > final}
+        assert not tarde, f"Copa Argentina {temporada}: la final fue el {final} y {tarde}"
+
+
 def test_un_torneo_con_segunda_fuente_no_se_le_pide_dos_veces(monkeypatch, tmp_path):
     """El test que faltaba, y el que habria agarrado el bug.
 
