@@ -1370,6 +1370,82 @@ def test_el_fallo_COLGADO_del_renglon_de_abajo_tambien_manda():
     assert aj[0].status == "suspendido", "NO LLEGAR AL FINAL MANDA SOBRE EL FALLO"
 
 
+def test_el_fallo_escrito_Awd_y_sin_corchetes_manda_igual():
+    """La cuarta forma, y la unica que viene suelta: `River Plate 3-1 Temperley
+    Centurión (RP) Doping Awd 0-1`, ronda 7 de la 1986-87. River lo gano en la
+    cancha y lo perdio por un control antidoping. Sin leerla entraba el 3-1 y dos
+    clubes dejaban de cerrar contra la tabla de la temporada."""
+    aj, _ = rsssf.leer(("Round 1@N@[Oct 16]@N@"
+                        "Aldosivi                     3-1 Banfield              "
+                        "Centurión (RP) Doping Awd 0-1 @N@"
+                        ).replace("@N@", "\n"), _MAPA_LIGA, 1993, 1993, 8)
+    assert (aj[0].goles_local, aj[0].goles_visita) == (0, 1)
+    assert aj[0].status == "escritorio", "termino y el numero lo puso un fallo"
+
+
+def _abandono_y_resto(arriba="Abandoned at 39'", abajo="Remaining 51'"):
+    """El partido que se abandono y se termino tres meses despues, como lo escribe
+    `arg87`: el renglon de arriba NO promete continuacion y es el de abajo el que
+    dice que es lo que faltaba. Al reves que todos los demas archivos."""
+    return ("Round 1@N@"
+            "[Nov 30, Sun]@N@"
+            f"Aldosivi                     0-1 Banfield           {arriba}@N@"
+            "[Mar 5, Thu 1987]@N@"
+            f"Aldosivi                     0-3 Banfield           {abajo}@N@"
+            ).replace("@N@", "\n")
+
+
+def test_la_continuacion_que_se_anuncia_ELLA_SOLA_reemplaza_al_abandono():
+    """Estudiantes - Boca, ronda 21 de la 1986-87: abandonado 0-1 a los 39' el 30 de
+    noviembre, terminado 0-3 el 5 de marzo. Es UN partido, con el marcador del final
+    y el dia en que empezo, que es la convencion del repo.
+
+    `_CONTINUA` no lo ve porque mira el renglon de arriba, y ese no dice que siga.
+    Entraban los dos, chocaban en la misma ronda y la temporada sumaba 381."""
+    aj, _ = rsssf.leer(_abandono_y_resto(), _MAPA_LIGA, 1986, 1987, 7)
+    assert len(aj) == 1, "un partido, no dos"
+    assert (aj[0].goles_local, aj[0].goles_visita) == (0, 3), "el marcador del final"
+    assert aj[0].fecha == "1986-11-30", "el dia en que EMPEZO, no el de marzo"
+    assert aj[0].status == "", "llego al final, en dos dias"
+
+
+def test_sin_la_palabra_el_abandono_y_su_final_son_DOS_filas():
+    """El contraste: lo unico que los une es que el de abajo diga `Remaining`."""
+    aj, _ = rsssf.leer(_abandono_y_resto(abajo=""), _MAPA_LIGA, 1986, 1987, 7)
+    assert len(aj) == 2
+    assert {a.fecha for a in aj} == {"1986-11-30", "1987-03-05"}
+
+
+def test_la_continuacion_NO_PISA_a_un_partido_que_si_termino():
+    """Si el renglon de arriba no dice que el partido quedo sin terminar, el de abajo
+    no es su continuacion aunque lo diga. Pisarlo seria borrar una fila en silencio;
+    dejando los dos, chocan en la ronda y `validar` lo grita."""
+    aj, _ = rsssf.leer(_abandono_y_resto(arriba=""), _MAPA_LIGA, 1986, 1987, 7)
+    assert len(aj) == 2
+    assert {(a.goles_local, a.goles_visita) for a in aj} == {(0, 1), (0, 3)}
+
+
+def test_la_sede_pegada_SIN_parentesis_no_le_cambia_el_nombre_al_visitante():
+    """`arg87` escribe la cancha sin parentesis --`at Atlanta`-- y casi siempre le
+    queda lejos, detras de la corrida de espacios. Pero la columna mide 22 y
+    `Estudiantes (La Plata)` mide 22: le queda un espacio y el visitante pasa a
+    llamarse `Estudiantes (La Plata) at Atlanta`. Eran 4 partidos de la 1986-87,
+    los 4 del mismo club, que se caian sin que el torneo dejara de parecer entero."""
+    mapa = {"": {"Aldosivi": "Aldosivi", "Estudiantes (La Plata)": "Estudiantes (LP)"}}
+    aj, avisos = rsssf.leer(("Round 1@N@[Oct 16]@N@"
+                             "Aldosivi               1-1 Estudiantes (La Plata) at Atlanta @N@"
+                             ).replace("@N@", "\n"), mapa, 1986, 1987, 7)
+    assert avisos == [], "ni un nombre sin traducir"
+    assert [a.visita for a in aj] == ["Estudiantes (LP)"]
+
+
+def test_un_at_que_no_va_seguido_de_una_cancha_no_se_corta():
+    """La mayuscula despues del `at` es lo que separa una cancha de dos letras que
+    un nombre tuviera adentro. Sin ella el recorte se llevaria la mitad del club."""
+    assert rsssf._sin_sede("Estudiantes (La Plata) at Atlanta") == "Estudiantes (La Plata)"
+    assert rsssf._sin_sede("Sportivo at large") == "Sportivo at large"
+
+
 def test_el_guion_del_marcador_puede_venir_SEPARADO():
     """`arg96` escribe `2 - 0` y los otros veintidos archivos escriben `2-0`. Sin
     esto ese archivo lee 16 renglones de 397 -- o sea que el torneo entero se pierde

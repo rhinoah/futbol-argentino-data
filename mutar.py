@@ -1518,8 +1518,8 @@ MUTANTES = [
 
     # La fuente lo escribe de dos maneras y las dos tienen que valer.
     ("fad/rsssf.py", "olvidar las formas `won`/`lost the points` del fallo",
-     'r"(?:awarded\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)"',
-     'r"(?:awarded\s+)(\d+)\s*-\s*(\d+)"'),
+     r'r"(?:awarded\s+|\bAwd\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)"',
+     r'r"(?:awarded\s+|\bAwd\s+)(\d+)\s*-\s*(\d+)"'),
 
     # `lost` sola: sin ella se pierden los dos partidos que Talleres gano en la
     # cancha y perdio en el escritorio, y tres clubes dejan de cerrar con la tabla.
@@ -1537,8 +1537,8 @@ MUTANTES = [
      'r"(?i)se le dio por (ganado|perdido)|se lo dio (por )?ganado|le dio por ganado"'),
 
     ("fad/rsssf.py", "olvidar la forma `lost the points` del fallo",
-     'r"(?:awarded\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)"',
-     'r"(?:awarded\s+|won the points\s*\()(\d+)\s*-\s*(\d+)"'),
+     r'r"(?:awarded\s+|\bAwd\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)"',
+     r'r"(?:awarded\s+|\bAwd\s+|won the points\s*\()(\d+)\s*-\s*(\d+)"'),
 
     # No llegar al final manda sobre el fallo: un partido suspendido a los 72' cuyo
     # resultado despues puso un tribunal es `suspendido`, no `escritorio`.
@@ -2178,6 +2178,30 @@ MUTANTES = [
     ("fad/rsssf.py", "no reconocer el encabezado de fecha escrito con punto",
      r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)([,.][^\])]*)?[\])]\s*$")',
      r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(,[^\])]*)?[\])]\s*$")'),
+
+    ("fad/rsssf.py", "no leer el fallo escrito `Awd`",
+     r'r"(?:awarded\s+|\bAwd\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)")',
+     r'r"(?:awarded\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)")'),
+
+    ("fad/rsssf.py", "no reemplazar el abandono por la continuacion que se anuncia sola",
+     "        if _RESTO.search(nota):",
+     "        if False:"),
+
+    ("fad/rsssf.py", "pisar con la continuacion a un partido que si termino",
+     '== (ronda, cl, cv, llave, zona) and a.status == "suspendido"]',
+     '== (ronda, cl, cv, llave, zona)]'),
+
+    ("fad/rsssf.py", "fechar el partido continuado con el dia en que se termino",
+     "                empezados[(ronda, cl, cv)] = abrio[0].fecha",
+     "                pass"),
+
+    ("fad/rsssf.py", "dejarle la sede sin parentesis pegada al visitante",
+     'return _SEDE_SUELTA.sub("", _SEDE.sub("", nombre)).strip()',
+     'return _SEDE.sub("", nombre).strip()'),
+
+    ("fad/rsssf.py", "tomar por sede cualquier `at` que un nombre tenga adentro",
+     r'_SEDE_SUELTA = re.compile(r"\s+at\s+[A-Z].*$")',
+     r'_SEDE_SUELTA = re.compile(r"\s+at\s+.*$")'),
 
     ("build.py", "recortar la seccion sin su propio encabezado",
      "            return chr(10).join(lineas[n:fin])",

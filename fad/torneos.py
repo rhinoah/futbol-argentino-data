@@ -513,6 +513,13 @@ VIEJO = [
     Torneo("Campeonato de Primera División 1985-86 (Argentina)",
            "Primera Division", 1985, anio_fin=1986, mes_inicio=7,
            rsssf="arg86", sin_grilla=True),
+    # La 1986-87 arranco el 13 de julio: `mes_inicio=7`, igual que la anterior y por
+    # lo mismo. Va de julio de 1986 a mayo de 1987, y un partido de la ronda 21 se
+    # termino el 5 de marzo, tres meses despues de empezado; conserva el dia en que
+    # empezo, que es la convencion del repo para el que se juega en dos dias.
+    Torneo("Campeonato de Primera División 1986-87 (Argentina)",
+           "Primera Division", 1986, anio_fin=1987, mes_inicio=7,
+           rsssf="arg87", sin_grilla=True),
     # La 1989-90 va `sin_grilla` AUNQUE LA PAGINA TIENE UNA GRILLA, y hay que
     # decirlo porque el proximo que la abra la va a ver: publica `== Resultados ==`
     # con 79 partidos, las fechas 1 a 8, y ahi se termina. Leyendola entran 79 de

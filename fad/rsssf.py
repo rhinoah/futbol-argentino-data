@@ -270,11 +270,40 @@ def _anotacion(lineas: list[str], i: int, desde: int = 0) -> str:
 # No llego al final. Mismo eje y mismas palabras que `parser.status_de_la_fila`
 # del lado de Wikipedia, en el idioma de esta fuente.
 _NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspend|abandon")
-_FALLADO = re.compile(r"(?:awarded\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)")
+#
+# Y UNA CUARTA, que aparece una sola vez y sin corchetes: `River Plate 3-1 Temperley
+# Centurión (RP) Doping Awd 0-1`, ronda 7 de la 1986-87. River gano 3-1 en la cancha,
+# a un jugador suyo le dio positivo el control y el partido se le dio por perdido.
+# Sin leerla entraba el 3-1 y dos clubes de esa temporada no cerraban contra la
+# tabla. Va con la mayuscula con que la fuente la escribe, que es la unica forma
+# que aparecio: `awd` en minuscula ya significa OTRA cosa en estos archivos --es la
+# palabra que ocupa la columna del marcador cuando no hay marcador, ver
+# `_SIN_MARCADOR`--, y aflojar una regla sin un caso que lo pida es como se cuelan
+# los que nadie midio. Medido sobre los 29 archivos de la cache, 19 352 renglones de
+# partido: con esta regla el fallo se lee en 10 donde se leia en 9, y el que entra
+# es ese.
+_FALLADO = re.compile(
+    r"(?:awarded\s+|\bAwd\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)")
 _ABANDONADO = re.compile(r"abandoned at\s+(\d+)\s*-\s*(\d+)")
 # El partido que se suspendio y sigue otro dia. La fuente lo dice en la cola del
 # renglon del PRIMER dia; el segundo renglon viene pelado, con el marcador final.
 _CONTINUA = re.compile(r"(?i)continued\s")
+# ...O LO DICE EL SEGUNDO. `arg87` lo escribe al reves que todos los demas:
+#
+#     Estudiantes (La Plata) 0-1 Boca Juniors           Abandoned at 39'
+#     [Mar 5, Thu 1987]
+#     Estudiantes (La Plata) 0-3 Boca Juniors           Remaining 51'
+#
+# El renglon que abre no promete nada --dice que se abandono y listo-- y es el de
+# abajo el que avisa que es lo que faltaba jugar. `_CONTINUA` mira el de arriba, asi
+# que no lo ve: entraban los dos, el partido quedaba duplicado en la ronda 21 y la
+# temporada sumaba 381.
+#
+# La palabra aparece en 15 renglones de la cache y en 14 no cambia nada: o el de
+# arriba ya decia `continued` y se habia salteado, o el de arriba no tiene marcador
+# y no es una fila. Se midio con el arnes sobre los 30 torneos que salen de esta
+# fuente, 8740 filas: ni una se mueve.
+_RESTO = re.compile(r"(?i)\bremaining\s+\d+'")
 
 # La nota puede venir PEGADA al partido o COLGADA sola en el renglon de abajo, y
 # las dos formas conviven en la misma fuente: el Clausura 1992 escribe
@@ -394,6 +423,16 @@ _INTERZONAL = re.compile(r"interzonal\s+(?:group\s+)?([A-Za-z0-9]+\s*-\s*[A-Za-z
 
 
 _SEDE = re.compile(r"\s*\(at\s[^)]*\)\s*$", re.I)
+# La misma sede, pero SIN PARENTESIS, que es como la escribe `arg87`: `Deportivo
+# Italiano 1-1 Racing Club            at Atlanta`. Casi siempre queda lejos, detras
+# de la corrida de espacios que corta al visitante. Pero la columna mide 22 y
+# `Estudiantes (La Plata)` mide 22: le queda UN espacio, y el visitante pasa a
+# llamarse `Estudiantes (La Plata) at Atlanta`. Son 4 partidos de la 1986-87, todos
+# de ese club y todos de visitante --o sea que no se pierden al azar sino de a un
+# club, que es como menos se nota--. La mayuscula despues del `at` no es adorno: es
+# lo que separa una cancha de un nombre que tuviera esas dos letras adentro. Medido
+# sobre los 29 archivos de la cache: 4 visitantes cambian y son esos 4.
+_SEDE_SUELTA = re.compile(r"\s+at\s+[A-Z].*$")
 
 
 def _sin_sede(nombre: str) -> str:
@@ -408,7 +447,7 @@ def _sin_sede(nombre: str) -> str:
     hay 16 -- y ninguno de los tres esta en el padron, asi que sus partidos se
     caen del cruce sin ruido.
     """
-    return _SEDE.sub("", nombre).strip()
+    return _SEDE_SUELTA.sub("", _SEDE.sub("", nombre)).strip()
 
 
 def _par_interzonal(anotacion: str) -> str:
@@ -682,6 +721,18 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         if _CONTINUA.search(_con_lo_colgado(lineas, idx)):
             empezados[(ronda, cl, cv)] = dia
             continue
+        # LA CONTINUACION QUE SE ANUNCIA ELLA SOLA --ver `_RESTO`-- saca de la lista
+        # al renglon que la abrio y se queda con su dia. Tiene que ser UNO y tiene
+        # que haber dicho que no llego al final: si arriba hay un partido del mismo
+        # par que termino normalmente, esto no es su continuacion y pisarlo seria
+        # borrar una fila en silencio. Ahi se dejan los dos, que chocan y hacen ruido.
+        if _RESTO.search(nota):
+            abrio = [a for a in fuera
+                     if (a.jornada, a.local, a.visita, a.llave, a.zona)
+                     == (ronda, cl, cv, llave, zona) and a.status == "suspendido"]
+            if len(abrio) == 1:
+                fuera.remove(abrio[0])
+                empezados[(ronda, cl, cv)] = abrio[0].fecha
         dia = empezados.pop((ronda, cl, cv), dia)
         fuera.append(Ajeno(fecha=dia,
                            jornada=ronda, local=cl, visita=cv,
@@ -2575,6 +2626,19 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
     # espera siete, asi que sin el corte la foja la lee mal y denuncia a los 19.
     "Campeonato de Primera División 1985-86 (Argentina)": (
         "Round 1\n", "Table:"),
+    # La 1986-87. Arranca en `Round 1 ` CON EL ESPACIO de atras, que es como lo
+    # escribe este archivo y lo que lo hace unico.
+    #
+    # Y NO TERMINA EN `Table:` como las otras, sino un renglon antes: en la frase que
+    # abre la formacion del partido que definio el titulo. `arg87` la pega al final
+    # de la ronda 38, con los goles debajo --`43' 1-0 Dabrowsky`, `62' 1-1 Palma
+    # (penalty)`--, y un gol escrito asi tiene la forma exacta de un partido: dos
+    # nombres y un marcador en el medio. Cortando en `Table:` no entra ninguna fila
+    # de mas, porque ni `43'` ni `Dabrowsky` estan en el mapa, pero queda para
+    # siempre un aviso de cuatro nombres sin traducir que no son nombres. Y un aviso
+    # que esta siempre es el lugar donde se esconde el dia que falte uno de verdad.
+    "Campeonato de Primera División 1986-87 (Argentina)": (
+        "Round 1 ", "Rosario Central won the championship in this round"),
     # La 1989-90. EL CORTE ES LA TRAMPA DE ESTA TEMPORADA, y es la peor de la capa:
     # `arg90` mete una tabla de media temporada ENTRE la ronda 19 y la 20, rotulada
     # `Table:` igual que la final. Cortando en `Table:` a secas --lo que usan las
@@ -2903,6 +2967,49 @@ PRIMERA_1985 = {
     },
 }
 
+# Primera Division 1986-87. Veinte clubes y 380 partidos, los 380.
+#
+# `arg87` ESCRIBE LAS CIUDADES ENTERAS --`Estudiantes (La Plata)`, `Unión (Santa
+# Fe)`-- donde `arg86` las abrevia y `arg90` las pega, asi que ningun mapa vecino
+# sirve: es el tercer vocabulario en cinco temporadas del mismo autor.
+#
+# TRES ENTRADAS NO SON NOMBRES SINO RENGLONES ROTOS, una vez cada uno, y van aca
+# porque son erratas de este archivo y de ningun otro:
+#   `Instituto`          <- `Instituto  (Córdoba)`, con dos espacios: el lector corta
+#                           al visitante en la corrida y se queda con la mitad
+#   `Vélez`              <- `Vélez  Sarsfield`, lo mismo
+#   `Racing Avellaneda`  <- Racing Club, escrito distinto en la ronda 9
+# No hay otro Instituto ni otro Vélez en el torneo, y el otro Racing es `Racing
+# (Córdoba)`. Sin las tres se caian tres partidos y, con ellos, seis clubes dejaban
+# de cerrar contra la tabla.
+PRIMERA_1986 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Boca Juniors": "Boca Juniors",
+        "Deportivo Español": "Deportivo Español",
+        "Deportivo Italiano": "Deportivo Italiano",
+        "Estudiantes (La Plata)": "Estudiantes (LP)",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Gimnasia (La Plata)": "Gimnasia y Esgrima (LP)",
+        "Independiente": "Independiente",
+        "Instituto (Córdoba)": "Instituto",
+        "Instituto": "Instituto",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Racing (Córdoba)": "Racing (C)",
+        "Racing Avellaneda": "Racing Club",
+        "Racing Club": "Racing Club",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "San Lorenzo": "San Lorenzo",
+        "Talleres (Córdoba)": "Talleres (C)",
+        "Temperley": "Temperley",
+        "Unión (Santa Fe)": "Unión",
+        "Vélez": "Vélez Sarsfield",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
 # Primera Division 1989-90. Veinte clubes, 38 fechas de diez, 380 partidos.
 #
 # `arg90` ESCRIBE LOS PARENTESIS PEGADOS AL NOMBRE --`Estudiantes(LP)`,
@@ -2997,6 +3104,7 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Anexo:Torneo Clausura 1991 (Argentina)": ("arg91", PRIMERA_1990),
     "Campeonato de Primera División 1990-91 (Argentina)": ("arg91", PRIMERA_1990),
     "Campeonato de Primera División 1985-86 (Argentina)": ("arg86", PRIMERA_1985),
+    "Campeonato de Primera División 1986-87 (Argentina)": ("arg87", PRIMERA_1986),
     "Campeonato de Primera División 1989-90 (Argentina)": ("arg90", PRIMERA_1989),
     "Anexo:Torneo Apertura 1995 (Argentina)": ("arg96", PRIMERA_1995),
     "Anexo:Torneo Clausura 1996 (Argentina)": ("arg96", PRIMERA_1995),
