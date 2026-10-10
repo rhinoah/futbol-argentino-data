@@ -7,11 +7,11 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 48 228 | 6 | 161 | 1086 | 486 |
+| 48 236 | 6 | 161 | 1088 | 488 |
 
 Medidos el 10 de octubre de 2026.
 
-## 2004–2026 — Cerrado, con fechas por corregir
+## 2004–2026 — Cerrado, con 26 fechas por corregir
 
 `41 999` partidos y no falta ninguno. **Ningún partido queda con dos marcadores en disputa,
 ninguno con dos días distintos —eran `61`—, ninguna tabla queda sin contrastar contra su
@@ -21,66 +21,47 @@ respaldo de una fuente independiente.** De los `175` avisos, **ninguno es grave*
 clase tiene su explicación en el archivo que la produce y no se repite acá.
 
 **Pero «adentro» no era «bien fechado».** Un barrido de todo el CSV buscando grupos de
-partidos separados del resto por meses encontró `36` filas con la fecha mal. La verificación
-contra fuentes de afuera —RSSSF, el feed de ESPN, Promiedos archivado, prensa del día— las
-confirmó y encontró más: son `64`, todas con su día verdadero identificado y **ninguna
-corregida todavía**. Ninguna tiene mal el marcador.
+partidos separados del resto por meses encontró `36` filas con la fecha mal, y la
+verificación contra fuentes de afuera —RSSSF, el feed de ESPN, Promiedos archivado, prensa
+del día— las llevó a `64`. **`38` ya están corregidas** y la que figuraba como dudosa
+resultó estar bien. Ninguna tenía mal el marcador. Queda esto:
 
-- **`24` partidos de la `Copa de la Liga 2020` están un año antes.** Son los de enero de
-  2021 —entre ellos el `Boca 2-2 River` del 2 de enero— y figuran en enero de 2020.
-  Confirmados los 24 por tres fuentes; el día está bien y sólo cambia el año. Al torneo le
-  falta `anio_fin=2021`, y nada más: con ese campo se mueven esas 24 filas y ninguna otra.
-- **`8` partidos de la `Primera C 2019-20` están un año después.** La fecha 1 del Apertura
-  se jugó a fines de julio de 2019 y figura en julio de 2020. Confirmados los 8. Le falta
-  `mes_inicio=7`, que la Primera División de esa misma temporada ya tiene.
-- **`26` partidos de la `Copa Argentina 2011-12` están un año después, y son nuevos.** Las
-  rondas de noviembre y diciembre de 2011 figuran en 2012. Acá no alcanza con un campo: el
-  año con que se fechan los partidos sale de `temporada`, que es también la columna
-  `season`, y esa copa está rotulada 2012. Rotularla 2011 corrige las fechas pero muda sus
-  `63` filas de `partidos-2012.csv` a `partidos-2011.csv`; la alternativa es separar el año
-  de arranque de la etiqueta. **Decisión pendiente.**
-- **Las `4` fechas que no existen ya tienen su día.** El `31 de noviembre` de 2014 fue el
-  31 de octubre (`Platense 1-2 Deportivo Morón`, Primera B, fecha 19) y los tres `31 de
-  junio` de 2015 fueron el 1 de julio (Primera B, fecha 21: se reprogramaron por lluvia).
-  Lo dicen RSSSF, ESPN y el sitio de la AFA archivado ese mismo día. La errata es de
-  Wikipedia.
-- **`2` sueltas con el día mal.** `River 1-3 Banfield`, Copa de la Liga 2020, fecha 1:
-  figura el `2020-11-01` y se jugó el `2020-11-03` —se postergó dos días y la página quedó
-  con el programado—. `Gimnasia (LP) 0-1 Boca`, Apertura 1995, fecha 8: figura el
-  `1995-11-11`, que es lo que dice RSSSF, y fue el jueves `1995-11-09`; el 11 es imposible
-  porque los dos clubes jugaron la fecha 14 el 12. Esta última tiene un solo testigo
-  externo.
-- **La dudosa no lo era.** `Acassuso 1-0 Argentino de Quilmes` se jugó de verdad el
-  29/11/2020: era el pendiente de la fecha 8, que definía un puesto antes del torneo
-  siguiente. Cinco fuentes lo dicen.
+- **`26` partidos de la `Copa Argentina 2011-12` están un año después.** Las rondas de
+  noviembre y diciembre de 2011 figuran en 2012, después de la final de agosto. Acá no
+  alcanza con un campo: el año con que se fechan los partidos sale de `temporada`, que es
+  también la columna `season`, y esa copa está rotulada 2012. Rotularla 2011 corrige las
+  fechas pero muda sus `63` filas de `partidos-2012.csv` a `partidos-2011.csv` y contradice
+  el criterio de las copas («la temporada es el año en que se jugaron»); la alternativa es
+  un campo que separe el año de arranque de la etiqueta. **Decisión pendiente.**
 - **`3` sospechosas sin zanjar**, las tres por un club jugando dos días seguidos: `Racing
   2-1 Gimnasia (LP)` del `1999-05-24` (Gimnasia jugó el clásico el 23), y `Belgrano 2-0
   Vélez` del `1994-05-05` con `River 4-0 Belgrano` del `1994-05-06`. El CSV copia lo que
   dice RSSSF; falta prensa para saber cuál día está mal. Y queda en duda el día de la
   promoción `Luján – Argentino de Quilmes` de 2012.
-- **Una `Dia` en una página sin segunda fuente rompe el build.** `correcciones.fechados`
-  mezcla tuplas de 5 campos (`Fechado`) con tuplas de 3 (`Dia`), y el aviso de «ya no
-  enganchan» desempaqueta 5. Las `22` `Dia` que existen están todas en páginas con
-  completador, que las marca como usadas antes; en una página que no lo tiene, revienta con
-  `ValueError`. Hay que arreglarlo antes de cargar las correcciones de arriba.
-- **Los chequeos que no las vieron.** `anios_bien_asignados` agrupa por número de jornada:
-  mezcla Apertura con Clausura cuando la página reusa «Fecha 1», y no mira las rondas de
-  eliminación. Agrupando por (llave, zona) y ordenando las rondas ve las tres páginas
-  —`58` filas— sin ningún falso positivo sobre el resto del dataset. No hay chequeo de que la
-  fecha exista en el calendario. Y uno de dataset entero —nadie juega dos partidos
-  distintos en días seguidos— es el que encontró las de 1994, 1995 y 1999.
+- **Los chequeos que no las vieron siguen sin verlas.** `anios_bien_asignados` agrupa por
+  número de jornada: mezcla Apertura con Clausura cuando la página reusa «Fecha 1», y no
+  mira las rondas de eliminación. Agrupando por (llave, zona) y ordenando las rondas ve
+  las tres páginas que estaban mal sin ningún falso positivo sobre el resto del dataset
+  —pero mientras la Copa Argentina 2011-12 siga así, frenaría un `--rehacer`, así que va
+  junto con esa decisión—. Y uno de dataset entero —nadie juega dos partidos distintos en
+  días seguidos— es el que encontró las de 1994, 1995 y 1999.
+- **No hay chequeo de que una fecha exista en el calendario**, y hay que decidir cómo
+  falla. Las cuatro que había (`31 de noviembre`, `31 de junio`) eran erratas de Wikipedia
+  que el parser pasaba de largo. Si es grave, un día mal tipeado en una página en curso
+  frena la actualización de todas hasta que alguien cargue la corrección; si no lo es, la
+  fila sale publicada con una fecha que no existe.
 - **Otra columna con el mismo mal: la hora.** El parser saca el día de la nota «se jugó
   el…» pero la hora la saca de la celda, así que `191` partidos reprogramados en `63`
-  páginas tienen el día real y la hora del programado. Hay además `36` horas que no tienen la forma `HH:MM`
-  (`15:00 (TV)`, `11.00`, `15::00`), y las tres definiciones de la Copa de la Liga 2020 en San Juan
-  figuran `neutral=false`.
+  páginas tienen el día real y la hora del programado. Hay además `36` horas que no tienen
+  la forma `HH:MM` (`15:00 (TV)`, `11.00`, `15::00`), y las tres definiciones de la Copa de
+  la Liga 2020 en San Juan figuran `neutral=false`.
 - **El feed de ESPN rechaza hoy las consultas por rango de fechas**, que es como lo
   consulta `fad/espn.py`; por día suelto responde. Con la cache no se nota. En un clon sin
   cache, las páginas que dependen de ESPN se quedarían sin fechas.
 - **Las temporadas cerradas no se enteran de las correcciones de Wikipedia.** No se
   vuelven a leer —es lo que las protege de una edición mala—, así que tampoco les llegan
-  las buenas hasta que alguien corre `--rehacer`. Hoy la única divergencia entre el CSV y
-  un reprocesado completo era la del Apertura 2007, que ya se aplicó.
+  las buenas hasta que alguien corre `--rehacer`. Al 10/10/2026 un reprocesado completo
+  reproduce el CSV fila por fila.
 
 **El `Apertura 2007`, y una corrección a este mismo archivo.** Sus fechas 18 y 19 estaban
 cruzadas en el CSV: veinte filas, sólo la jornada. Este archivo lo tuvo anotado desde
