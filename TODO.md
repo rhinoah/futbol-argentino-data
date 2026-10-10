@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 48 236 | 6 | 161 | 1088 | 488 |
+| 48 616 | 6 | 162 | 1096 | 495 |
 
 Medidos el 10 de octubre de 2026.
 
@@ -17,7 +17,7 @@ Medidos el 10 de octubre de 2026.
 ninguno con dos días distintos —eran `61`—, ninguna tabla queda sin contrastar contra su
 grilla, y las `56` verificaciones a mano fijan el estado que verificaron, así que caducan
 solas —ya caducaron cuatro y se fueron—. `251` clubes de `13` temporadas tienen además el
-respaldo de una fuente independiente.** De los `175` avisos, **ninguno es grave**; cada
+respaldo de una fuente independiente.** De los `177` avisos, **ninguno es grave**; cada
 clase tiene su explicación en el archivo que la produce y no se repite acá.
 
 **Pero «adentro» no era «bien fechado».** Un barrido de todo el CSV buscando grupos de
@@ -160,27 +160,31 @@ partidos de RSSSF, la tabla de Wikipedia como árbitro.
 - Son `189` y no `190` porque ese partido **no se puede escribir**: una fila del CSV
   afirma un solo resultado y acá hay dos. Es el sexto `Dividido` del repo y el primero que
   no sale de Wikipedia.
-- **Tres de las cinco temporadas anteriores ya están adentro**, todas de campeonato
+- **Cuatro de las cinco temporadas anteriores ya están adentro**, todas de campeonato
   único —38 fechas, ida y vuelta— y todas con el día de cada partido:
   - **`1985-86`**: `342` partidos, 19 clubes. Los 19 cierran contra la tabla.
   - **`1986-87`**: `380` partidos. Los 20 cierran. Uno terminó en un escritorio (`River
     Plate – Temperley`, 0-1 por doping) y otro se jugó en dos días (`Estudiantes (LP) 0-3
     Boca`, abandonado en noviembre y terminado en marzo).
+  - **`1987-88`**: `380` partidos. Los 20 cierran contra la tabla de RSSSF; la de
+    Wikipedia cruza 19 porque la fila de Racing Club trae mal la diferencia de gol. Trae
+    el primer partido del dataset que **no se jugó nunca** y tiene día: `Instituto 0-1 San
+    Lorenzo`, que no empezó por incidentes y se falló (`status = no disputado`).
   - **`1989-90`**: `379` partidos, y el que falta es otro `Dividido`: el clásico rosarino
     de la última fecha, que perdieron los dos. 18 clubes cierran al dígito y los otros dos
     desvían igual, un partido y una derrota cada uno.
 - **La tabla que las verifica puede no ser independiente.** La única referencia de las
   páginas de 1985-86 y 1986-87 es el propio archivo de RSSSF. Que cierren dice que el
   archivo se leyó bien, no que una segunda fuente lo confirme.
-- **Faltan dos, medidas y con lo que piden:**
-  - **`1987-88`** (`arg88`): `380` partidos. Una fecha postergada escrita `Round 12
-    (Postponed)`, que el lector no reconoce como encabezado, y un partido que no se jugó y
-    se dio por perdido en una nota en prosa.
-  - **`1988-89`** (`arg89`): `380` partidos. Ese año los empates se definían por penales y
-    la fuente escribe la tanda pegada al marcador (`[3]0-0[1]`): son `131` renglones que el
-    lector no ve, **y no avisa**. Tiene además otro partido que perdieron los dos, y la
-    tabla del campeonato en Wikipedia trae mal los goles de 14 clubes, así que el testigo
-    tiene que ser otro.
+- **Falta una, medida y con lo que pide:** la **`1988-89`** (`arg89`), de `380` partidos.
+  Ese año los empates se definían por penales y la fuente escribe la tanda pegada al
+  marcador (`[3]0-0[1]`): son `131` renglones que el lector no ve, **y no avisa** —hoy
+  salen `249` partidos con forma de torneo incompleto y un solo aviso que habla de otra
+  cosa—. Tiene además otro partido que perdieron los dos (`Newell's – Rosario Central`,
+  fecha 13), y la tabla del campeonato en Wikipedia trae columnas propias de ese año
+  (empates ganados y perdidos por penales), así que el testigo tiene que ser otro: la
+  tabla del Apertura que publica RSSSF cierra 19 de 20 sobre las rondas 1 a 19, y el
+  que no cierra es justo Rosario Central.
 - **Quedan afuera las liguillas y los desempates** de cada temporada —entre 14 y 34
   partidos por año—: el camino sin grilla trae la liga y nada más.
 - **El `arg85` es la excepción:** tiene las rondas pero ni un encabezado de fecha, y una
