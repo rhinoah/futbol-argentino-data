@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 48 995 | 6 | 163 | 1109 | 506 |
+| 48 995 | 6 | 163 | 1196 | 562 |
 
 Medidos el 10 de octubre de 2026.
 
@@ -32,13 +32,88 @@ la que figuraba como dudosa resultó estar bien. Queda esto:
   dice RSSSF; se buscó prensa y no apareció, y worldfootball —que las fecha por jornada—
   rechaza la consulta. Y queda en duda el día de la promoción `Luján – Argentino de
   Quilmes` de 2012.
-- **Los chequeos que no las vieron siguen sin verlas.** `anios_bien_asignados` agrupa por
-  número de jornada: mezcla Apertura con Clausura cuando la página reusa «Fecha 1», y no
-  mira las rondas de eliminación. Agrupando por (llave, zona) y ordenando las rondas ve
-  las tres páginas que estaban mal sin ningún falso positivo sobre el resto del dataset.
-  Hoy lo único que cubre ese hueco es un test sobre el CSV, y sólo para las copas: ninguna
-  ronda se juega después de la final. Otro de dataset entero —nadie juega dos partidos
-  distintos en días seguidos— es el que encontró las de 1994, 1995 y 1999.
+- **El chequeo de años se rehízo; esto es lo que sigue sin ver.** `anios_bien_asignados`
+  juntaba por número de jornada todo lo de la página y no miraba la eliminación; ahora
+  mira por separado cada grupo, cada cuadro y cada sección, y ve las tres páginas que
+  habían pasado. Lo que queda afuera, medido rompiendo a propósito la configuración de los
+  168 torneos y pasándolo por el historial de revisiones de 72 páginas:
+  - **El torneo entero corrido un año** no se ve desde adentro de la página. Lo frena
+    `tests/test_torneos.py`, que corre antes que el build: el año con que se fecha y la
+    etiqueta de temporada tienen que salir del título, y un torneo cuyo título nombra un
+    solo año no lleva `anio_fin` salvo que esté declarado. No ve a una copa corrida
+    adentro de los dos años que su título nombra —son `7`—, y si el título es una
+    redirección lo que mira es el alias.
+  - **Un salto hacia adelante.** El chequeo mira sólo lo que cae *antes*. Un `anio_fin`
+    mal puesto que sólo aleja lo frena el test del catálogo; un bloque que se aleja por
+    otra causa, nadie. Está medida la comparación simétrica (más de 300 días después del
+    tramo anterior): 0 avisos sobre el dataset sano. No está puesta.
+  - **Una fase final antes del arranque sólo avisa si el torneo está en curso.** Es la
+    comparación que ve un corte de mes que se lleva nada más que la fase final. En un
+    torneo cerrado frena. En uno en curso no, porque existen formatos con una eliminatoria
+    previa de verdad y ahí un grave pararía la actualización de todas las páginas: ese
+    error, en un torneo en curso, se publica con un aviso. Cuando el torneo se cierra no
+    se vuelve a leer, así que la misma comparación corre en la suite sobre las filas
+    publicadas de cada torneo cerrado.
+  - **Un grupo entero corrido respecto de los otros grupos de su sección.** Es lo que el
+    chequeo anterior veía y éste no: el `Interzonal` de una sola fecha de la Copa de la
+    Liga 2022, 2023 y 2024 (`42` partidos) y, con el corte de mes mal puesto, `7`
+    revisiones de mayo de 2017 de la Primera C 2016-17. Ninguna configuración equivocada
+    llega ahí en el estado final de las páginas (`540` probadas). La comparación entre
+    grupos hermanos está medida —0 avisos de más en el catálogo, en `659` páginas de
+    afuera y en `52 997` revisiones— y no está puesta: en el peor caso medido queda a
+    `13` días del umbral (`147` contra `160`), y sería un grave también en un torneo en
+    curso.
+  - **Al lado de una jornada de uno o dos partidos el umbral sube a 240 días** para las
+    dos comparaciones, la que llega a ella y la que sale: un salto de 181 a 240 ahí no se
+    ve. Sobre `1192` configuraciones rotas no se pierde ninguna.
+  - **Cuadros de una sola ronda**: `55` llaves, `125` partidos. Corridos un año para
+    atrás los ve la comparación contra el arranque; para adelante, nadie.
+  - **Un partido suelto**, por diseño: se compara la fecha del medio de cada jornada.
+  - **La ficha de la página trae la fecha de inicio** en todas, con el año escrito en 67.
+    «Ninguna fila más de 30 días antes» dio 0 avisos sobre el dataset sano y vería parte
+    de lo anterior. No está puesta.
+- **Lo que la revisión del chequeo encontró en páginas que todavía no entraron.**
+  - El `Torneo Argentino B 2000-01` tiene rondas regionales con «Fecha 1, Fecha 2» bajo
+    secciones llamadas `Primera ronda`, `Segunda ronda`: el parser las lee como
+    eliminación (84 partidos). Hay que resolverlo en el parser cuando le toque esa capa.
+  - La `Copa Entre Ríos 2021-22` escribe «2 de enero de 2021» en 16 celdas de una fecha
+    que se jugó en 2022. El chequeo la frena con 8 graves; hay que corregir esas fechas al
+    cargarla.
+  - La `Primera División B 1978` tiene la Fecha 4 en «26 de agosto», entre una de febrero
+    y una de marzo: 9 partidos seis meses corridos. El chequeo no la ve —son 175 días y es
+    un mes mal, no un año—.
+  - La `Primera División D 1978` tiene un error de fecha de verdad, y lo encontró este
+    chequeo.
+  - La `Primera División B 1969` ordena sus secciones por rama y no por fecha. Entra con
+    el umbral de hoy; con el de 90 días que la comparación de secciones tuvo un día, no.
+  - **El orden en que el parser entrega los partidos no es siempre el de la página**:
+    primero las tablas que cuelgan de un `Resultados`, después las sueltas y al final las
+    plantillas. En el catálogo, el orden de las secciones y el de las rondas de cada
+    cuadro coinciden con el de la página en las 143 ligas; en dos ligas regionales de
+    afuera, no. Si la comparación de secciones frena en falso algún día, es por esto.
+- **`build.py` le pasa a RSSSF la etiqueta de temporada como año de cierre**
+  (`t.anio_fin or t.temporada`, en tres lugares). Con `anio_inicio` puesto debería ser el
+  año con que se fecha. Hoy no produce nada mal porque el test del catálogo ata la
+  etiqueta al título.
+- **Siete chequeos del validador se pueden desenchufar sin que falle un test.** `revisar`
+  recorre una lista, y sacando de ella a `campos_completos`, `penales_solo_en_empates`,
+  `sin_duplicados`, `nadie_juega_contra_si_mismo`, `todos_tienen_zona`,
+  `jornadas_sin_huecos` o `cadena_de_llaves` la suite pasa igual: sus tests los llaman a
+  mano. El de los años ya tiene el suyo.
+- **Dos mutantes de `mutar.py` no mutan lo que dicen.** Tienen el mismo texto que otros
+  dos, en `fad/correcciones.py` y en `fad/parser.py`, y como se reemplaza la primera
+  aparición, los cuatro caen en dos lugares: el segundo sitio de cada par queda sin
+  mutar. Hay `15` mutantes con un ancla que aparece más de una vez en su archivo; falta
+  revisarlos.
+- **`mutar.py` deja en CRLF, en Windows, los fuentes que muta**: los lee y los vuelve a
+  escribir en modo texto. En CI no pasa. Y un import roto en `tests/conftest.py` sale por
+  un camino que su detector de «no se pudo importar» no ve; hoy no se alcanza, porque no
+  muta `tests/`.
+- **Un aviso que dice más de lo que hace.** Cuando una segunda fuente trae fechas fuera de
+  la temporada, `build` avisa que «se descartan», y vacía sólo las tres primeras. Como el
+  aviso es grave el build frena igual, pero el texto no es cierto.
+- **Otro chequeo de dataset entero, sin escribir:** nadie juega dos partidos distintos en
+  días seguidos. Es el que encontró las tres sospechosas de arriba.
 - **No hay chequeo de que una fecha exista en el calendario**, y hay que decidir cómo
   falla. Las cuatro que había (`31 de noviembre`, `31 de junio`) eran erratas de Wikipedia
   que el parser pasaba de largo. Si es grave, un día mal tipeado en una página en curso

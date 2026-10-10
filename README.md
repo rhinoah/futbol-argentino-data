@@ -1413,7 +1413,8 @@ automático no es tirar una excepción, es escribir un CSV plausible y equivocad
 |---|---|
 | campos completos, marcador verosímil | filas a medias, columnas corridas |
 | no faltan jornadas en el medio | huecos, propios o de la fuente |
-| ninguna jornada cae medio año antes que la anterior | el año mal asignado en temporadas que cruzan |
+| ninguna jornada, ronda ni sección cae medio año antes que la anterior | el año mal asignado en temporadas que cruzan |
+| ninguna ronda de eliminación antes de que arranque la fase de zonas (error en un torneo cerrado, aviso en uno en curso) | una fase final corrida un año para atrás — o una eliminatoria previa de verdad |
 | todos los clubes están en el padrón | un ascenso, un torneo nuevo, un alias sin cargar |
 | penales sólo en empates (salvo serie ida y vuelta igualada) | haber leído el entretiempo como si fuera la tanda |
 | sin duplicados, nadie contra sí mismo | filas leídas dos veces, columnas corridas |
@@ -3698,11 +3699,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1054 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1196 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 466 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 562 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
