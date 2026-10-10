@@ -560,6 +560,45 @@ def test_un_arbitraje_que_la_fuente_alcanzo_NO_frena_el_build(monkeypatch):
     assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
 
 
+def test_una_Dia_en_una_pagina_SIN_segunda_fuente_se_aplica_y_no_revienta(monkeypatch):
+    """Corregir un dia a mano en una pagina que no tiene con quien cruzarse tiraba un
+    `ValueError` y se llevaba el build entero.
+
+    Las `Dia` entran a `correcciones.fechados` con tres campos y los `Fechado` con
+    cinco. A las primeras las saca de la lista el completador que discrepa con ellas;
+    sin completador se quedaban, y el aviso de los `Fechado` huerfanos desempaqueta
+    cinco. Las 22 que habia vivian todas en paginas con segunda fuente, asi que el
+    camino roto nunca se habia pisado."""
+    from fad import correcciones
+    from fad.correcciones import Dia
+    monkeypatch.setattr(correcciones, "DIAS", (
+        Dia(pagina=T.pagina, jornada="Fecha 1", local="Racing Club",
+            visita="Boca Juniors", dice="2026-01-23", debe="2026-01-25",
+            fuente="https://ejemplo.invalid/cronica", porque="x" * 90),))
+    ps, avisos = build.procesar(tabla(("Racing Club", "Boca Juniors")), T)
+    assert [p.fecha for p in ps] == ["2026-01-25"], "la correccion se aplica"
+    assert not [a for a in avisos if "ya no enganchan" in a.que], \
+        "una `Dia` no es un `Fechado` huerfano"
+    assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
+
+
+def test_un_Fechado_que_ya_no_engancha_se_sigue_avisando(monkeypatch):
+    """La otra mitad, que no tenia test: el aviso para el que SI fue escrito. Un
+    `Fechado` declara verificado un desacuerdo de dia entre dos fuentes; si ninguna
+    de las dos lo sigue teniendo, la verificacion quedo vieja y hay que decirlo."""
+    from fad import correcciones
+    from fad.correcciones import Fechado
+    monkeypatch.setattr(correcciones, "FECHADOS", (
+        Fechado(pagina=T.pagina, jornada="Fecha 1", local="Racing Club",
+                visita="Boca Juniors", nuestra="2026-01-23", otra="2026-01-24",
+                porque="x" * 90),))
+    _, avisos = build.procesar(tabla(("Racing Club", "Boca Juniors")), T)
+    huerfanos = [a for a in avisos if "ya no enganchan" in a.que]
+    assert len(huerfanos) == 1, [a.que for a in avisos]
+    assert "Racing Club vs Boca Juniors" in huerfanos[0].detalle
+    assert not huerfanos[0].grave
+
+
 def test_un_torneo_con_segunda_fuente_no_se_le_pide_dos_veces(monkeypatch, tmp_path):
     """El test que faltaba, y el que habria agarrado el bug.
 

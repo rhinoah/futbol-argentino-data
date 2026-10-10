@@ -1027,7 +1027,17 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # huerfano quiere decir que alguna de las dos fuentes cambio de fecha y que
     # la verificacion que lo sostiene quedo vieja: si se lo deja, silencia un
     # desacuerdo que nadie miro. Misma guarda que `revisados_huerfanos`.
-    sobran = sorted(correcciones.fechados(t.pagina) - usadas)
+    #
+    # SOLO LOS `Fechado`, que son los de cinco campos. Una `Dia` entra a `fechados`
+    # con TRES --ver ese docstring-- y quien la marca como usada es el completador
+    # que discrepa con ella. En una pagina SIN completador no la marca nadie: caia
+    # aca, y el desempaquetado de cinco de mas abajo reventaba con un `ValueError`.
+    # No se habia visto porque las 22 `Dia` que existian estaban todas en paginas con
+    # segunda fuente; aparecio al querer corregir un dia en una que no la tiene. Y no
+    # hace falta que pasen por aca: la guarda de una `Dia` que dejo de enganchar es la
+    # de `corregir_fechas`, que mira la fila y no esta lista.
+    sobran = sorted(f for f in correcciones.fechados(t.pagina) - usadas
+                    if len(f) == 5)
     if sobran:
         avisos.append(validar.Aviso(
             f"{t.pagina}: {len(sobran)} desacuerdos de dia declarados como"

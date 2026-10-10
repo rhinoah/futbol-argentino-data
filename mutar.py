@@ -2211,6 +2211,16 @@ MUTANTES = [
      '"&prop=wikitext&redirects=1&formatversion=2&format=json")',
      '"&prop=wikitext&formatversion=2&format=json")'),
 
+    ("build.py", "tratar a una `Dia` como a un `Fechado` huerfano",
+     "                    if len(f) == 5)",
+     "                    )"),
+
+    ("build.py", "callar al `Fechado` que ya no engancha con nada",
+     "    if sobran:\n        avisos.append(validar.Aviso(\n"
+     "            f\"{t.pagina}: {len(sobran)} desacuerdos de dia declarados como\"",
+     "    if False:\n        avisos.append(validar.Aviso(\n"
+     "            f\"{t.pagina}: {len(sobran)} desacuerdos de dia declarados como\""),
+
     ("build.py", "hacer grave el arbitraje que la fuente alcanzo",
      'validar.Aviso("un arbitraje que la fuente alcanzo", d, grave=False)',
      'validar.Aviso("un arbitraje que la fuente alcanzo", d)'),
