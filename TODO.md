@@ -7,11 +7,11 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 48 616 | 6 | 162 | 1096 | 495 |
+| 48 616 | 6 | 162 | 1098 | 497 |
 
 Medidos el 10 de octubre de 2026.
 
-## 2004–2026 — Cerrado, con 26 fechas por corregir
+## 2004–2026 — Cerrado
 
 `41 999` partidos y no falta ninguno. **Ningún partido queda con dos marcadores en disputa,
 ninguno con dos días distintos —eran `61`—, ninguna tabla queda sin contrastar contra su
@@ -20,31 +20,25 @@ solas —ya caducaron cuatro y se fueron—. `251` clubes de `13` temporadas tie
 respaldo de una fuente independiente.** De los `177` avisos, **ninguno es grave**; cada
 clase tiene su explicación en el archivo que la produce y no se repite acá.
 
-**Pero «adentro» no era «bien fechado».** Un barrido de todo el CSV buscando grupos de
+**«Adentro» no era «bien fechado».** Un barrido de todo el CSV buscando grupos de
 partidos separados del resto por meses encontró `36` filas con la fecha mal, y la
 verificación contra fuentes de afuera —RSSSF, el feed de ESPN, Promiedos archivado, prensa
-del día— las llevó a `64`. **`38` ya están corregidas** y la que figuraba como dudosa
-resultó estar bien. Ninguna tenía mal el marcador. Queda esto:
+del día— las llevó a `64`. **Las `64` están corregidas**; ninguna tenía mal el marcador, y
+la que figuraba como dudosa resultó estar bien. Queda esto:
 
-- **`26` partidos de la `Copa Argentina 2011-12` están un año después.** Las rondas de
-  noviembre y diciembre de 2011 figuran en 2012, después de la final de agosto. Acá no
-  alcanza con un campo: el año con que se fechan los partidos sale de `temporada`, que es
-  también la columna `season`, y esa copa está rotulada 2012. Rotularla 2011 corrige las
-  fechas pero muda sus `63` filas de `partidos-2012.csv` a `partidos-2011.csv` y contradice
-  el criterio de las copas («la temporada es el año en que se jugaron»); la alternativa es
-  un campo que separe el año de arranque de la etiqueta. **Decisión pendiente.**
 - **`3` sospechosas sin zanjar**, las tres por un club jugando dos días seguidos: `Racing
   2-1 Gimnasia (LP)` del `1999-05-24` (Gimnasia jugó el clásico el 23), y `Belgrano 2-0
   Vélez` del `1994-05-05` con `River 4-0 Belgrano` del `1994-05-06`. El CSV copia lo que
-  dice RSSSF; falta prensa para saber cuál día está mal. Y queda en duda el día de la
-  promoción `Luján – Argentino de Quilmes` de 2012.
+  dice RSSSF; se buscó prensa y no apareció, y worldfootball —que las fecha por jornada—
+  rechaza la consulta. Y queda en duda el día de la promoción `Luján – Argentino de
+  Quilmes` de 2012.
 - **Los chequeos que no las vieron siguen sin verlas.** `anios_bien_asignados` agrupa por
   número de jornada: mezcla Apertura con Clausura cuando la página reusa «Fecha 1», y no
   mira las rondas de eliminación. Agrupando por (llave, zona) y ordenando las rondas ve
-  las tres páginas que estaban mal sin ningún falso positivo sobre el resto del dataset
-  —pero mientras la Copa Argentina 2011-12 siga así, frenaría un `--rehacer`, así que va
-  junto con esa decisión—. Y uno de dataset entero —nadie juega dos partidos distintos en
-  días seguidos— es el que encontró las de 1994, 1995 y 1999.
+  las tres páginas que estaban mal sin ningún falso positivo sobre el resto del dataset.
+  Hoy lo único que cubre ese hueco es un test sobre el CSV, y sólo para las copas: ninguna
+  ronda se juega después de la final. Otro de dataset entero —nadie juega dos partidos
+  distintos en días seguidos— es el que encontró las de 1994, 1995 y 1999.
 - **No hay chequeo de que una fecha exista en el calendario**, y hay que decidir cómo
   falla. Las cuatro que había (`31 de noviembre`, `31 de junio`) eran erratas de Wikipedia
   que el parser pasaba de largo. Si es grave, un día mal tipeado en una página en curso
