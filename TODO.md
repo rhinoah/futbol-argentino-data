@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 48 616 | 6 | 162 | 1098 | 497 |
+| 48 995 | 6 | 163 | 1109 | 506 |
 
 Medidos el 10 de octubre de 2026.
 
@@ -17,7 +17,7 @@ Medidos el 10 de octubre de 2026.
 ninguno con dos días distintos —eran `61`—, ninguna tabla queda sin contrastar contra su
 grilla, y las `56` verificaciones a mano fijan el estado que verificaron, así que caducan
 solas —ya caducaron cuatro y se fueron—. `251` clubes de `13` temporadas tienen además el
-respaldo de una fuente independiente.** De los `177` avisos, **ninguno es grave**; cada
+respaldo de una fuente independiente.** De los `180` avisos, **ninguno es grave**; cada
 clase tiene su explicación en el archivo que la produce y no se repite acá.
 
 **«Adentro» no era «bien fechado».** Un barrido de todo el CSV buscando grupos de
@@ -139,7 +139,7 @@ El muro se corrió y después se cayó: era «no hay datos», pasó a ser «no h
 y lo último que quedaba —el Clausura 1991— resultó que tampoco era un muro. Estaba
 publicado y nadie lo había mirado.
 
-## 1985–1990 — Abierta
+## 1985–1990 — Cerrada
 
 **Dejó de ser un muro: RSSSF también fecha estos años**
 
@@ -154,7 +154,7 @@ partidos de RSSSF, la tabla de Wikipedia como árbitro.
 - Son `189` y no `190` porque ese partido **no se puede escribir**: una fila del CSV
   afirma un solo resultado y acá hay dos. Es el sexto `Dividido` del repo y el primero que
   no sale de Wikipedia.
-- **Cuatro de las cinco temporadas anteriores ya están adentro**, todas de campeonato
+- **Las cinco temporadas anteriores están adentro**, todas de campeonato
   único —38 fechas, ida y vuelta— y todas con el día de cada partido:
   - **`1985-86`**: `342` partidos, 19 clubes. Los 19 cierran contra la tabla.
   - **`1986-87`**: `380` partidos. Los 20 cierran. Uno terminó en un escritorio (`River
@@ -164,21 +164,26 @@ partidos de RSSSF, la tabla de Wikipedia como árbitro.
     Wikipedia cruza 19 porque la fila de Racing Club trae mal la diferencia de gol. Trae
     el primer partido del dataset que **no se jugó nunca** y tiene día: `Instituto 0-1 San
     Lorenzo`, que no empezó por incidentes y se falló (`status = no disputado`).
+  - **`1988-89`**: `379` partidos. Ese año cada empate se definía por penales: `131`
+    llevan su tanda en `home_pens`/`away_pens`, y cierran club por club contra la tabla de
+    penales de la fuente. El que falta es un `Dividido`, el `Newell's – Rosario Central`
+    de la fecha 13.
   - **`1989-90`**: `379` partidos, y el que falta es otro `Dividido`: el clásico rosarino
     de la última fecha, que perdieron los dos. 18 clubes cierran al dígito y los otros dos
     desvían igual, un partido y una derrota cada uno.
 - **La tabla que las verifica puede no ser independiente.** La única referencia de las
   páginas de 1985-86 y 1986-87 es el propio archivo de RSSSF. Que cierren dice que el
   archivo se leyó bien, no que una segunda fuente lo confirme.
-- **Falta una, medida y con lo que pide:** la **`1988-89`** (`arg89`), de `380` partidos.
-  Ese año los empates se definían por penales y la fuente escribe la tanda pegada al
-  marcador (`[3]0-0[1]`): son `131` renglones que el lector no ve, **y no avisa** —hoy
-  salen `249` partidos con forma de torneo incompleto y un solo aviso que habla de otra
-  cosa—. Tiene además otro partido que perdieron los dos (`Newell's – Rosario Central`,
-  fecha 13), y la tabla del campeonato en Wikipedia trae columnas propias de ese año
-  (empates ganados y perdidos por penales), así que el testigo tiene que ser otro: la
-  tabla del Apertura que publica RSSSF cierra 19 de 20 sobre las rondas 1 a 19, y el
-  que no cierra es justo Rosario Central.
+- **A un empate de la 1988-89 le falta la tanda:** `Rosario Central 1-1 Instituto`, fecha
+  12. RSSSF no la publica junto al partido; su tabla de penales dice que la ganó Central,
+  pero no por cuánto, así que la fila tiene los penales vacíos. Falta una fuente que dé el
+  resultado de esa tanda.
+- **La tabla del campeonato 1988-89 de Wikipedia tiene mal los goles de 14 clubes.** Se
+  contradice con la tabla del Apertura de la misma página —restándolas, Argentinos
+  Juniors habría ganado 6 partidos de la segunda rueda con 3 goles a favor—. No se usa:
+  arbitra la del Apertura, que cubre las fechas 1 a 19. Las fechas 20 a 38 de esa
+  temporada no tienen testigo de Wikipedia; las sostiene la tabla final de RSSSF, que
+  sale del mismo archivo que los partidos.
 - **Quedan afuera las liguillas y los desempates** de cada temporada —entre 14 y 34
   partidos por año—: el camino sin grilla trae la liga y nada más.
 - **El `arg85` es la excepción:** tiene las rondas pero ni un encabezado de fecha, y una
