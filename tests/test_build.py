@@ -471,7 +471,7 @@ def test_el_recorte_conserva_su_propio_encabezado():
 import pytest  # noqa: E402
 
 # temporada -> (clubes, partidos que NO se pueden escribir)
-_CAPA_1985 = {1985: (19, 0)}
+_CAPA_1985 = {1985: (19, 0), 1989: (20, 1)}
 
 
 @pytest.mark.parametrize("temporada", sorted(_CAPA_1985))

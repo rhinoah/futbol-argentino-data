@@ -1996,6 +1996,40 @@ class Dividido:
 
 DIVIDIDOS: tuple[Dividido, ...] = (
     # ------------------------------------------------------------------
+    # EL CLASICO ROSARINO DE LA ULTIMA FECHA DE LA 1989-90, y es el gemelo del
+    # Boca - San Lorenzo de abajo: otro partido que perdieron los dos.
+    #
+    # `arg90` lo publica en dos renglones --`Rosario Central 1-0 Newell's Old Boys
+    # [Suspended in 31'; not continued]` y, colgado abajo, `[Later, both teams lost
+    # the points (0-1)]`-- y lo repite en las notas al pie. Central ganaba 1-0 a los
+    # 31 minutos; el tribunal se lo dio por perdido 0-1 a cada uno y encima les
+    # descontó dos puntos a los dos.
+    #
+    # EL LECTOR LO LEIA COMO VICTORIA DE NEWELL'S, y eso es lo que importa: aplica
+    # el `(0-1)` de la nota y escribe `Rosario Central 0-1 Newell's`. A Central lo
+    # deja bien --perdio 0-1, que es su fallo-- y a Newell's le regala un triunfo.
+    # La tabla lo delata: con esa fila, Newell's suma 13-14-11 con 42:42 y Wikipedia
+    # le publica 12-14-12 con 41:43. Los otros 19 clubes cierran en las seis cifras.
+    #
+    # Y la huella es la misma que en el Apertura 1990: la tabla suma GF797 contra
+    # GC799. Un desbalance de dos, que es lo que da un partido en el que los dos
+    # reciben un gol y ninguno lo convierte.
+    # ------------------------------------------------------------------
+    Dividido(
+        pagina="Campeonato de Primera División 1989-90 (Argentina)",
+        local="Rosario Central", visita="Newell's Old Boys", dice=(0, 1),
+        porque=(
+            "RSSSF publica `Rosario Central 1-0 Newell's Old Boys [Suspended in 31'; "
+            "not continued]` y abajo `[Later, both teams lost the points (0-1)]`: lo "
+            "perdieron los dos, 0-1 cada uno. El lector aplica ese 0-1 y escribe una "
+            "victoria de Newell's que no existio. La tabla de posiciones de la pagina "
+            "lo confirma: con esa fila Newell's suma 13-14-11 con 42:42 y la tabla le "
+            "publica 12-14-12 con 41:43 --una derrota y no un triunfo--, mientras "
+            "Rosario Central cierra exacto porque el 0-1 es justo su fallo, y los "
+            "otros 18 clubes cierran al digito. La propia tabla suma GF797 contra "
+            "GC799: el desbalance de dos es el gol de castigo contado dos veces."),
+    ),
+    # ------------------------------------------------------------------
     # EL PRIMERO QUE NO VIENE DE WIKIPEDIA SINO DE RSSSF, y el mas claro de los
     # seis: no hay que deducir que cada club quedo distinto, lo dice la fuente.
     #

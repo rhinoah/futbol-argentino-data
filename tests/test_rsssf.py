@@ -45,6 +45,29 @@ def test_la_fecha_va_en_el_encabezado_de_la_ronda():
     assert (a.goles_local, a.goles_visita) == (0, 1)
 
 
+def test_un_encabezado_de_fecha_con_punto_en_vez_de_coma_tambien_fecha():
+    """`[Mar 23. Fri]`: la fuente tipeo un punto donde va la coma, una vez, en la
+    ronda 28 de la 1989-90.
+
+    Lo que hace peligroso al caso es COMO falla. El renglon no se reconocia como
+    encabezado, asi que el partido de abajo no quedaba sin fecha: se quedaba con la
+    del encabezado ANTERIOR. Un dia mal puesto, no un dia ausente, y por eso no lo
+    contaba ningun chequeo de "partidos sin fecha".
+
+    Se midio antes de aflojar la regla, sobre los 24 archivos de RSSSF del repo:
+    3914 encabezados con la coma sola y 3915 con el punto tambien. Entra uno."""
+    ajenos, avisos = leer("Torneo Apertura\n"
+                          "Zona A - Sur\n"
+                          "Round 2\n"
+                          "[Mar 21, Wed]\n"
+                          "La Plata FC                  2-0 Cipolletti\n"
+                          "[Mar 23. Fri]\n"
+                          "Guillermo Brown              2-0 Sportivo Desamparados\n")
+    assert avisos == []
+    assert [a.fecha for a in ajenos] == ["2006-03-21", "2006-03-23"], \
+        "el segundo partido no puede heredar el dia del primero"
+
+
 def test_una_jornada_partida_en_dos_dias_fecha_cada_partido_por_separado():
     """Es el motivo entero por el que sirve esta fuente. En el ascenso argentino
     solo el 19% de las jornadas se juega en un solo dia, asi que una fecha por

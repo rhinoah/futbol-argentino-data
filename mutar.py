@@ -2175,6 +2175,10 @@ MUTANTES = [
      "            return chr(10).join(lineas[n:fin])\n    return texto",
      "            return chr(10).join(lineas[n:fin])\n    return \"\""),
 
+    ("fad/rsssf.py", "no reconocer el encabezado de fecha escrito con punto",
+     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)([,.][^\])]*)?[\])]\s*$")',
+     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(,[^\])]*)?[\])]\s*$")'),
+
     ("build.py", "recortar la seccion sin su propio encabezado",
      "            return chr(10).join(lineas[n:fin])",
      "            return chr(10).join(lineas[n + 1:fin])"),

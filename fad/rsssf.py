@@ -143,7 +143,14 @@ _RONDA = re.compile(r"^Round\s+(\d+)(?:\s*" + _DIA + r")?"
 _LLAVE_PELADA = re.compile(r"^(Apertura|Clausura)(?:\s+\d{4})?$")
 
 # La fecha tambien la trae adentro: `[Sep 27, interzonal 1-2]`.
-_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(,[^\])]*)?[\])]\s*$")
+# El separador despues del dia es una coma... o un PUNTO, que es lo que tipeo la
+# fuente una vez: `[Mar 23. Fri]` en `arg90`. Con la coma sola ese renglon no era
+# encabezado de nada y el partido que cuelga de el --`Newell's 4-2 Instituto`, ronda
+# 28 de la 1989-90-- se quedaba con la fecha del encabezado ANTERIOR: un dia mal
+# puesto, no un dia ausente, asi que no aparecia en ningun contador de "sin fecha".
+# Se midio sobre los 24 archivos de RSSSF que usa el repo: 3914 encabezados con la
+# regla vieja y 3915 con esta. El unico que entra es ese.
+_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)([,.][^\])]*)?[\])]\s*$")
 # Dos espacios o mas separan las columnas. El nombre del local no puede tener
 # corchetes: si los tiene es una anotacion encabalgada, no un partido.
 #
@@ -2568,6 +2575,21 @@ SECCION_LIGA: dict[str, tuple[str, str]] = {
     # espera siete, asi que sin el corte la foja la lee mal y denuncia a los 19.
     "Campeonato de Primera División 1985-86 (Argentina)": (
         "Round 1\n", "Table:"),
+    # La 1989-90. EL CORTE ES LA TRAMPA DE ESTA TEMPORADA, y es la peor de la capa:
+    # `arg90` mete una tabla de media temporada ENTRE la ronda 19 y la 20, rotulada
+    # `Table:` igual que la final. Cortando en `Table:` a secas --lo que usan las
+    # otras-- salen 190 partidos en 19 jornadas de diez, con cero avisos: media
+    # temporada perdida con la forma exacta de una temporada sana, y encima con la
+    # forma exacta del Apertura 1990 que esta al lado. Lo que distingue a la tabla
+    # final es la linea de guiones que la sigue; la del medio lleva tabuladores.
+    #
+    # Esa tabla del medio queda ADENTRO del recorte y no hay ancla que la saque. La
+    # lee la foja, que la encuentra con 19 partidos por club contra nuestros 38. No
+    # denuncia nada porque esta temporada tiene un partido dividido y ante eso la
+    # foja se abstiene --ver `build.la_fuente_se_respalda`--, pero vale saber que se
+    # calla por ese motivo y no porque la tabla le cierre.
+    "Campeonato de Primera División 1989-90 (Argentina)": (
+        "Round 1\n[Aug 13, Sun]", "Table:\n---"),
 }
 
 
@@ -2881,6 +2903,37 @@ PRIMERA_1985 = {
     },
 }
 
+# Primera Division 1989-90. Veinte clubes, 38 fechas de diez, 380 partidos.
+#
+# `arg90` ESCRIBE LOS PARENTESIS PEGADOS AL NOMBRE --`Estudiantes(LP)`,
+# `Unión(Sta.Fe)`-- y `arg91` los separa, asi que el mapa de 1990 traduce 11 de los
+# 20 y deja pasar 110 partidos de 380. Tampoco pone las tildes de mas que pone
+# aquel: aca es `Racing Club` y `Vélez Sarsfield`, bien escritos.
+PRIMERA_1989 = {
+    "": {
+        "Argentinos Juniors": "Argentinos Juniors",
+        "Boca Juniors": "Boca Juniors",
+        "Chaco For Ever": "Chaco For Ever",
+        "Dep. Español": "Deportivo Español",
+        "Estudiantes(LP)": "Estudiantes (LP)",
+        "Ferro Carril Oeste": "Ferro Carril Oeste",
+        "Gimnasia y Esgrima(LP)": "Gimnasia y Esgrima (LP)",
+        "Independiente": "Independiente",
+        "Instituto(Cba.)": "Instituto",
+        "Mandiyú(Ctes.)": "Deportivo Mandiyú",
+        "Newell's Old Boys": "Newell's Old Boys",
+        "Platense": "Platense",
+        "Racing Club": "Racing Club",
+        "Racing(Cba.)": "Racing (C)",
+        "River Plate": "River Plate",
+        "Rosario Central": "Rosario Central",
+        "San Lorenzo": "San Lorenzo",
+        "Talleres(Cba.)": "Talleres (C)",
+        "Unión(Sta.Fe)": "Unión",
+        "Vélez Sarsfield": "Vélez Sarsfield",
+    },
+}
+
 # Primera Division 1990-91. ES EL PRIMER TORNEO QUE ENTRA SIN GRILLA DE WIKIPEDIA:
 # la pagina del Clausura 1991 no es un stub sino una REDIRECCION a la seccion de la
 # temporada, y esa seccion publica la tabla final pero no los partidos. RSSSF si los
@@ -2944,6 +2997,7 @@ FUENTES: dict[str, tuple[str, dict]] = {
     "Anexo:Torneo Clausura 1991 (Argentina)": ("arg91", PRIMERA_1990),
     "Campeonato de Primera División 1990-91 (Argentina)": ("arg91", PRIMERA_1990),
     "Campeonato de Primera División 1985-86 (Argentina)": ("arg86", PRIMERA_1985),
+    "Campeonato de Primera División 1989-90 (Argentina)": ("arg90", PRIMERA_1989),
     "Anexo:Torneo Apertura 1995 (Argentina)": ("arg96", PRIMERA_1995),
     "Anexo:Torneo Clausura 1996 (Argentina)": ("arg96", PRIMERA_1995),
     "Campeonato de Primera C 2008-09 (Argentina)": ("arg4-09", PRIMERA_C_2008),

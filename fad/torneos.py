@@ -513,6 +513,13 @@ VIEJO = [
     Torneo("Campeonato de Primera División 1985-86 (Argentina)",
            "Primera Division", 1985, anio_fin=1986, mes_inicio=7,
            rsssf="arg86", sin_grilla=True),
+    # La 1989-90 va `sin_grilla` AUNQUE LA PAGINA TIENE UNA GRILLA, y hay que
+    # decirlo porque el proximo que la abra la va a ver: publica `== Resultados ==`
+    # con 79 partidos, las fechas 1 a 8, y ahi se termina. Leyendola entran 79 de
+    # 380. Los partidos salen enteros de RSSSF, como en el resto de la capa.
+    Torneo("Campeonato de Primera División 1989-90 (Argentina)",
+           "Primera Division", 1989, anio_fin=1990,
+           rsssf="arg90", sin_grilla=True),
     Torneo("Anexo:Torneo Apertura 1995 (Argentina)", "Primera Division - Apertura", 1995,
            rsssf="arg96"),
     Torneo("Anexo:Torneo Clausura 1996 (Argentina)", "Primera Division - Clausura", 1996,
