@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 48 995 | 6 | 163 | 1196 | 562 |
+| 48 995 | 6 | 168 | 1196 | 562 |
 
 Medidos el 11 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
 al código a propósito para comprobar que algún test los detecta.
@@ -18,19 +18,37 @@ la fuente lo publica y hoy no se lee.
 
 ## 2004–2026 — Cerrado
 
-`42 007` partidos, y no falta ninguno de los que Wikipedia publica. De los `180` avisos
+`42 007` partidos de los torneos que están en el catálogo. De los `180` avisos
 del build, ninguno es grave. Hay `56` verificaciones a mano, y `251` clubes de `13`
 temporadas tienen el respaldo de una fuente independiente. Ningún partido espera una
 fecha: los `6` que están sin fecha no se jugaron.
 
+- **Faltan el Torneo Federal A 2014 y el 2015: `961` partidos** (`309` y `652`) que el
+  parser ya lee, todos con fecha. Son el tercer nivel entre el Argentino A 2013-14 y el
+  Federal A 2016, y no están en el catálogo. Los frena el padrón —unos siete clubes— y, en
+  2014, un partido perdido para los dos y un fallo que el lector no clasifica. Antes de
+  donde arranca cada división del ascenso Wikipedia casi no publica partidos: medida la
+  temporada anterior de cada una, la B Nacional 2006-07 da 7 sin fecha, la Primera B
+  2009-10 y la Primera C 2007-08 dan 4, y el Argentino A 2003-04 da 195, 8 con fecha.
+- **`37` filas no nombran a RSSSF en `source`** y el partido sale de ahí: las llaves del
+  Argentino A 2004-05 nacen del archivo compacto de RSSSF y, cuando el blog les pone el
+  día, `fechas.completar` pisa el crédito. El README lo avisa; falta arreglar el dato.
+- **Cómo se declaran las `3 812` filas que salen enteras de RSSSF.** Son once torneos. El
+  pie de cada archivo de RSSSF autoriza a copiarlo reconociendo al autor y dice «All
+  rights reserved»; el repo publica todo como CC BY-SA heredada de Wikipedia, y la
+  atribución que sugiere `LICENSE-DATOS.md` nombra sólo a Wikipedia. Falta decidirlo. Ese
+  archivo además nombra `data/partidos.csv`, que no existe, y dice que hay «una segunda
+  fuente, para un solo campo».
 - **No hay chequeo de que una fecha exista en el calendario**, y falta decidir cómo
   falla. `a_iso` arma `2014-11-31` sin validarlo. Si es grave, un día mal tipeado en una
   página en curso frena la actualización de todas hasta que alguien cargue la corrección;
   si no lo es, la fila sale publicada con una fecha que no existe.
 - **`15` partidos están escritos dos veces**, una por cada torneo: las promociones entre
   divisiones de 2010-11 y 2011-12 y el tercer ascenso de 2020, 2023 y 2024. Las `48 995`
-  filas son `48 980` partidos distintos. `sin_duplicados` mira torneo por torneo y el
-  README dice «sin duplicados»: falta decidir si es a propósito y escribirlo.
+  filas son `48 980` partidos distintos. `sin_duplicados` mira torneo por torneo: falta
+  decidir si es a propósito. Y las dos copias no siempre dicen lo mismo: `San Telmo –
+  Deportivo Madryn` del `2021-02-04` es `neutral=false` en su fila de Primera B y `true` en
+  la del Federal A.
 - **La hora.** El parser saca el día de la nota «se jugó el…» pero la hora la saca de la
   celda, así que unos `190` partidos reprogramados en `63` páginas tienen el día real y la
   hora del programado. Hay además `36` horas que no tienen la forma `HH:MM` (`15:00
@@ -63,19 +81,16 @@ fecha: los `6` que están sin fecha no se jugaron.
   fechas, que es como los arma `fad/espn.py`. El build diario no lo nota, porque los
   torneos cerrados salen del CSV; un `--rehacer` sin cache dejaría sin fecha las páginas
   que dependen de ESPN.
-- **Documentación que quedó vieja:**
-  - El primer bloque del `README.md` dice `partidos-2004.csv … 2026`, `39 255` partidos
-    desde febrero de 2004, `208` clubes, `131` torneos y `72` sin fecha; son archivos
-    desde 1985, `48 995` partidos desde julio de 1985, `212` clubes, `163` torneos y `6`.
-    El ejemplo de encabezado no trae la columna `status`.
-  - El ítem 8 del plan del README tiene en un solo renglón sin tildar «1991-2003», que ya
-    está, y «la era Metropolitano/Nacional», que falta.
-  - La sección del README sobre el Argentino A 2004-05 dice que RSSSF no publica ninguna
-    tabla de esa temporada.
-  - `data/sin-fecha/LEEME.md` dice 9 filas en tres torneos; son 6, todas del Federal A
-    2024. Su tabla de fuentes también es vieja.
-  - Tres comentarios de `fad/torneos.py`, en el bloque de 1997–2003, dan por afuera la
-    capa 1991–1996 y al Clausura 1991 por un stub.
+- **Comentarios que quedaron viejos en el código:**
+  - Tres de `fad/torneos.py`, en el bloque de 1997–2003, dan por afuera la capa 1991–1996
+    y al Clausura 1991 por un stub.
+  - `fad/citadas.py` dice que quedan 2 filas en `data/sin-fecha/`; el docstring de
+    `fad/rsssf.py`, que de ahí sale «nada más que la fecha»; y `build.py`, que hay un
+    único camino por el que una fila no viene de Wikipedia.
+  - El docstring de `build.py` —lo que muestra `--help`— dice que `--sin-cache` «vuelve a
+    pedirle todo a Wikipedia»: pide sólo las páginas que parsea.
+  - `.gitignore` nombra `data/partidos.csv`, y un docstring de `tests/test_equipos.py`
+    cuenta seis Gimnasia y Esgrima donde hay cinco.
 - **`anios_bien_asignados` tiene tres comparaciones medidas y sin poner.** Es el chequeo
   que frena el build cuando una jornada cae medio año antes que la anterior. Falta
   decidir si se agregan:
@@ -136,6 +151,10 @@ cero graves. Los partidos son de Wikipedia y las fechas de RSSSF; el Clausura 19
 entero de RSSSF. La capa no tiene hora y casi no tiene cancha (`2 462` filas sin ella):
 esas fuentes no las publican.
 
+- **Falta la Liguilla Pre-Libertadores de la 1991-92: `11` partidos**, del 10 de julio al
+  2 de agosto de 1992. `arg92` los trae con día y la página de Wikipedia tiene la sección.
+  Tampoco están dos desempates sueltos por la Libertadores, de 1996 y 1997, que traen
+  `arg96` y `arg97`.
 - **Dos fechas sospechosas:** `Belgrano 2-0 Vélez` del `1994-05-05` y `River 4-0 Belgrano`
   del `1994-05-06`. El CSV copia lo que dice RSSSF. Falta prensa del día, o las planillas
   de la AFA (*Torneos y Certámenes Oficiales 1990-91 … 1994-95*), que además darían la
@@ -319,10 +338,11 @@ biblioteca responde con un error de certificado.
 | 1997–2003 | 2 469 | Wikipedia | cerrado |
 | 1991–1996 | 2 470 | Wikipedia (partidos) + RSSSF (fechas) | cerrado |
 | 1985–1990 | 2 049 | RSSSF (partidos) + Wikipedia (tabla) | cerrado |
+| 2014–2015, Torneo Federal A | 961 | Wikipedia | al alcance, falta padrón |
 | 1985–1990, Nacional 1985 y liguillas | 318 | Wikipedia + RSSSF | al alcance 288; 30 sin lector |
 | 1967–1984 | 5 570 | Wikipedia | al alcance, falta padrón |
 | 1933–1966 | 8 903 | RSSSF, con Wikipedia de testigo | falta el lector |
 
-Las cinco primeras filas suman los `48 995` del dataset. Las tres últimas suman `14 791`
+Las cinco primeras filas suman los `48 995` del dataset. Las cuatro últimas suman `15 752`
 y son un piso de lo que falta: la fila 1967–1984 cuenta sólo lo que el parser ya lee con
 fecha, sin los 342 del Metropolitano 1982 ni los 1 215 resultados en lista.
