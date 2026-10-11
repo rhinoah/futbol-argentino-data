@@ -1,11 +1,12 @@
 # futbol-argentino-data
 
-Un dataset abierto de partidos del fútbol argentino, armado a partir de
-Wikipedia en español y actualizable solo.
+Un dataset abierto de partidos del fútbol argentino desde 1985, armado a partir de
+Wikipedia en español —y de RSSSF donde Wikipedia no publica los partidos— y que se
+actualiza solo.
 
-`data/partidos-2004.csv` … `data/partidos-2026.csv` — **un archivo por
-temporada**. Los de temporadas terminadas no se tocan nunca más; sólo cambia el
-del año en curso.
+`data/partidos-1985.csv` … `data/partidos-2026.csv` — **un archivo por
+temporada**. La actualización diaria sólo toca el del año en curso; los de
+temporadas terminadas cambian únicamente cuando se les corrige un error.
 
 ```python
 import pandas as pd, glob
@@ -13,38 +14,57 @@ df = pd.concat(map(pd.read_csv, sorted(glob.glob("data/partidos-*.csv"))))
 ```
 
 ```
-date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source
-2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/...
+date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tournament,season,phase,group,matchday,venue,neutral,source,status
+2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina),
 ```
 
-**Estado:** **39 255 partidos entre febrero de 2004 y hoy** — veintitrés años de
-Primera División, quince de Primera Nacional, once de Primera B, Primera C y
-Torneo Federal A, y diez ediciones de la Copa Argentina. **208 clubes**, 131
-torneos, cero partidos sin fecha, sin marcador ni duplicados. Se actualiza solo,
-todos los días.
+**Estado:** **48 995 partidos entre julio de 1985 y hoy**, de ocho competencias.
+**212 clubes**, 168 torneos, cero partidos sin fecha o sin marcador. Se actualiza
+solo, todos los días.
 
-Aparte, en [`data/sin-fecha/`](data/sin-fecha/) quedan **72 partidos que están
-completos salvo por el día en que se jugaron**. Eran 2 345 y eran seis temporadas
-enteras; hoy son un resto suelto, y ninguno está ahí porque a su torneo le falte
-fuente de fechas: están uno por uno, por su propio motivo. Van separados
-justamente para que el dataset principal pueda seguir prometiendo una fecha en
-cada fila.
+| competencia | `tournament` | temporadas | filas |
+|---|---|---|---:|
+| Primera División | `Primera Division`, y `Primera Division - Apertura` / `Clausura` / `Inicial` / `Final` | 41, de 1985-86 a 2026 | 15 688 |
+| Copa de la Liga | `Copa de la Liga` | 5, de 2020 a 2024 | 921 |
+| Primera Nacional (ex B Nacional) | `Primera Nacional` | 20, de 2007-08 a 2026 | 9 187 |
+| Primera B | `Primera B` | 17, de 2010-11 a 2026 | 6 172 |
+| Primera C | `Primera C` | 19, de 2008-09 a 2026 | 7 072 |
+| Torneo Argentino A | `Torneo Argentino A` | 10, de 2004-05 a 2013-14 | 3 721 |
+| Torneo Federal A | `Torneo Federal A` | 11, de 2016 a 2026 | 5 366 |
+| Copa Argentina | `Copa Argentina` | 14 ediciones, de 2011-12 a 2026 | 868 |
+
+Lo que no está: de 1985-86 a 1991-92 la Primera División es sólo la liga —faltan el
+Nacional 1985 y las liguillas, desempates y finales—, el tercer nivel del interior
+no tiene 2014 ni 2015, y no hay Primera D. Lo que falta, medido era por era, está
+en [`TODO.md`](TODO.md).
+
+Ojo si contás partidos: quince de promoción y de definición de ascenso entre clubes
+de dos categorías están una vez en cada torneo.
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 48 980 partidos
+distintos.
+
+Aparte, en [`data/sin-fecha/`](data/sin-fecha/) quedan **6 filas, y ninguna espera
+una fecha**: son los partidos que el Torneo Federal A 2024 le dio por perdidos a
+Sansinena cuando desertó, y llevan `status = no disputado`. Eran 2 345 partidos sin
+día y eran seis temporadas enteras; hoy no queda ninguno esperando el suyo. Van
+separados justamente para que el dataset principal pueda seguir prometiendo una
+fecha en cada fila.
 
 ## Por qué
 
 Para selecciones existe
 [martj42/international_results](https://github.com/martj42/international_results),
-que es excelente y tiene 50 años de partidos. Para el fútbol argentino de clubes
+que es excelente y tiene partidos desde 1872. Para el fútbol argentino de clubes
 no encontré nada equivalente que siga vivo:
 
 | fuente | estado |
 |---|---|
-| [openfootball/argentina](https://github.com/openfootball/argentina) | último dato real 05/2025, mientras el feed de Brasil sigue al día |
+| [openfootball/south-america](https://github.com/openfootball/south-america) (carpeta `argentina/`) | último dato real 05/2025, mientras la carpeta de Brasil sigue al día |
 | [footballcsv](https://github.com/footballcsv) | frenado en 2024 |
 | APIs comerciales | los datos están, pero los términos de uso **prohíben redistribuirlos** |
 | **la AFA** | tiene resultados oficiales, pero **sin histórico** y sin licencia para republicar — ver abajo |
 
-Esa última columna es la que decide todo. Se puede *consultar* una API; no se
+Lo que decide todo es la redistribución. Se puede *consultar* una API; no se
 puede publicar un dataset con lo que devuelve. Wikipedia es la única fuente con
 cobertura del ascenso argentino cuya licencia (CC BY-SA) permite exactamente lo
 que hace falta: tomar, transformar y volver a publicar.
@@ -64,16 +84,17 @@ no tiene: **árbitro de cada partido**, horario y estado.
 Tres cosas lo descartan como base del dataset:
 
 1. **No hay histórico.** Es un archivo por competencia que se pisa. Hoy
-   `primeraa` va del 23/07 al 12/12/2026: sólo el Clausura. El Apertura, que
+   `primeraa` arranca el 23/07/2026: sólo el Clausura. El Apertura, que
    terminó en mayo, ya no está.
 2. **Licencia.** El pie dice "Todos los derechos reservados" y no hay términos de
-   uso publicados. El `robots.txt` sólo bloquea `/cache/`, así que bajarlo no
+   uso publicados. El `robots.txt` de `afa.com.ar` sólo bloquea `/cache/` y el host del feed no publica ninguno, así que bajarlo no
    está prohibido — pero eso regula el crawleo, no la redistribución. Mismo
    callejón que las APIs comerciales.
 3. **Ya tiene un canal abandonado**: Primera D quedó congelada en 2023.
 
-Donde sí sirve es como **testigo**. Los 60 partidos jugados del Clausura 2026,
-bajados del feed oficial y cruzados contra lo que este repo sacó de Wikipedia:
+Donde sí sirve es como **testigo**. El 12/08/2026, los 60 partidos que llevaba
+jugados el Clausura 2026, bajados del feed oficial y cruzados contra lo que este
+repo sacó de Wikipedia:
 
 ```
 equipos: AFA 30, Wikipedia 30
@@ -81,35 +102,51 @@ equipos: AFA 30, Wikipedia 30
 marcador distinto : 0
 ```
 
+Rehecho el 11/10/2026 con los 168 que el repo tenía ese día: 168 de 168.
+
 ## Fuentes y atribución
 
-**Wikipedia en español** es la fuente de todo: equipos, marcadores, jornadas,
-estadios. Los datos están bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna
-`source` de cada fila lleva la URL exacta de la página de la que salió, así que
-la atribución viaja con el dato.
+**Wikipedia en español** es la fuente de casi todo: equipos, marcadores, jornadas,
+estadios. **39 292 filas de 48 995** (80,2 %) no nombran ninguna otra fuente. Los datos están
+bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna `source` de cada fila lleva la
+URL exacta de la página de Wikipedia de su torneo, así que la atribución viaja con
+el dato.
 
-**Tres fuentes más aportan un solo campo**, y sólo en **3 330 filas de 39 255**
-(8,5 %): la **fecha del calendario** de partidos que Wikipedia publica sin fecha.
-Una decena de temporadas del ascenso entre 2005 y 2011 usan tablas de tres
-columnas (`Local | Resultado | Visitante`) y nada más. El partido, los equipos, el
-marcador y la jornada siguen saliendo de Wikipedia.
+Las otras **9 703 filas** (19,8 %) nombran además una segunda fuente, y la usan para
+una de dos cosas:
 
-Son tres y no una porque ninguna cubre todo: **[worldfootball](https://www.worldfootball.net/)**
-tiene la Primera B Nacional 2007-2011 (1 520 filas) pero su Primera B
-Metropolitana arranca en 2018/19 y no lista Primera C ni el Argentino A; el feed
-de **[ESPN](https://www.espn.com.ar/)** cubre Primera B y C de esos años (1 547);
-y **[RSSSF](https://www.rsssf.org/)** tiene el Argentino A viejo (263), que no
-está en ninguna de las otras dos.
+- **La fecha del calendario**, en 5 744. Wikipedia publica esos partidos sin día: la
+  Primera División del Apertura 1991 al Clausura 1997 y una decena de temporadas
+  del ascenso entre 2004 y 2011 usan tablas de tres columnas
+  (`Local | Resultado | Visitante`) y nada más. El partido, los equipos, el marcador
+  y la jornada siguen saliendo de Wikipedia.
+- **El partido entero**, en 3 959. Once torneos tienen en Wikipedia la tabla de
+  posiciones y no los resultados —la Primera División de 1985-86 al Clausura 1991
+  (2 239 filas) y el Torneo Argentino A de 2006-07 a 2009-10 (1 573)—, y 147
+  partidos de fases finales del ascenso están sólo como cuadro. Ahí el partido sale
+  de la otra fuente; en los once torneos, la tabla de Wikipedia hace de árbitro.
 
-Sin ese campo esas cuatro temporadas no entrarían: el esquema promete una fecha en
-cada fila, así que los 1 520 partidos se descartaban enteros. La diferencia no es
-"peor calidad", es que el torneo no existe.
+Son varias y no una porque ninguna cubre todo. **[RSSSF](https://www.rsssf.org/)**
+es la principal (8 082 filas): la Primera División de 1985 a 1997, el Argentino A
+viejo, la Primera C 2008-2011 y la Primera B 2010-11.
+**[worldfootball](https://www.worldfootball.net/)** tiene la Primera B Nacional
+2007-2011 (1 519) pero su Primera B Metropolitana arranca en 2018/19 y no lista
+Primera C ni el Argentino A. El [blog de José Carluccio](http://josecarluccio.blogspot.com/)
+fecha 76 partidos; el feed de **[ESPN](https://www.espn.com.ar/)** quedó en 21,
+porque lo que fechaba hoy lo fecha RSSSF; y cinco filas sueltas llevan cada una su
+propia cita.
 
-El cruce no empareja por nombre. Dentro de una jornada, **un marcador que aparece
+Sin esa segunda fuente esos torneos no entrarían: el esquema promete una fecha en
+cada fila, y un torneo que Wikipedia publica sin día —o sin partidos— queda afuera
+entero. La diferencia no es "peor calidad", es que el torneo no existe.
+
+Con worldfootball el cruce no empareja por nombre. Dentro de una jornada, **un marcador que aparece
 una sola vez de cada lado identifica el partido sin ambigüedad**, y de paso dice
 quién es cada equipo: así se deduce el padrón de ids de la otra fuente sin
-depender de cómo escriba los nombres. Después la fecha se copia sólo si las dos
-fuentes coinciden en equipos, jornada **y marcador**. Los 9 partidos donde no
+depender de cómo escriba los nombres. Con RSSSF y ESPN el mapa de nombres va
+escrito a mano, página por página: RSSSF escribe «Racing» o «Talleres» a secas, y
+resolverlos por el padrón da el club equivocado. Después la fecha se copia sólo si las dos
+fuentes coinciden en equipos, jornada **y marcador**. Los 9 partidos de worldfootball donde no
 coincidían se resolvieron con un árbitro que no es ninguna de las dos (ver abajo) — un partido que dos fuentes cuentan
 distinto es información sobre los datos, no algo para tapar.
 
@@ -120,11 +157,13 @@ https://es.wikipedia.org/wiki/... + https://www.worldfootball.net/
 ```
 
 Fila por fila, y sólo en las que de verdad la usaron. Nombrarla donde no se usó
-sería tan incorrecto como omitirla donde sí.
+sería tan incorrecto como omitirla donde sí — y hoy se omite en 37 filas: las llaves
+del Argentino A 2004-05 salen del archivo compacto de RSSSF y su `source` nombra
+sólo al blog que les puso el día.
 
 #### Un instante y una fecha disfrazada de instante
 
-Cada partido de esa fuente trae un `data-datetime` en UTC. Parece un campo y son
+Cada partido de worldfootball trae un `data-datetime` en UTC. Parece un campo y son
 dos cosas distintas, y confundirlas corrió **760 fechas un día entero**.
 
 Cuando el sitio conoce la hora del partido, el instante es real y lo que vale es
@@ -161,20 +200,25 @@ repositorio.
 ```bash
 python build.py              # baja, parsea, valida y escribe data/partidos-AAAA.csv
 python build.py --dry-run    # parsea y valida, sin escribir
-python build.py --sin-cache  # vuelve a pedirle todo a Wikipedia
+python build.py --sin-cache  # vuelve a pedirle a Wikipedia las páginas que parsea (los torneos en curso)
+python build.py --rehacer    # vuelve a parsear todo, incluso los torneos terminados
 python build.py --forzar     # escribe aunque el dataset se achique
 pytest                       # la suite
 python mutar.py              # rompe el código a propósito y exige que la suite lo note
 ```
 
-Sin dependencias: Python 3.11+ y la biblioteca estándar. `pandas` no hace falta
+Sin dependencias: Python 3.11+ y la biblioteca estándar. La salvedad es Windows, que
+no trae la base de husos horarios: ahí hace falta `pip install tzdata` (si tenés
+`pandas`, ya lo tenés). La suite pide `pytest`. `pandas` no hace falta
 para *armar* el dataset — si lo vas a *usar*, el `glob` de arriba
 y listo.
 
 ## El esquema
 
-Las seis primeras columnas son iguales a las de martj42, a propósito: el código
-que ya lee aquel dataset lee este casi sin tocar nada.
+Siete columnas se llaman igual que en martj42 —`date`, `home_team`, `away_team`,
+`home_score`, `away_score`, `tournament` y `neutral`—, a propósito: el código que ya
+lee aquel dataset por nombre de columna lee este casi sin tocar nada. El orden no es
+el mismo: acá `time` va segunda.
 
 | columna | qué trae |
 |---|---|
@@ -183,34 +227,43 @@ que ya lee aquel dataset lee este casi sin tocar nada.
 | `home_score` `away_score` | el marcador de los 90 (más alargue si hubo) |
 | `home_pens` `away_pens` | la tanda de penales, vacío si no hubo. En la Primera División 1988-89 la llevan también los partidos de **liga**: ese campeonato definía cada empate por penales, con un punto más para el que ganaba la tanda. Son 131; al empate que falta (`Rosario Central 1-1 Instituto`) la fuente no le publica la tanda |
 | `tournament` `season` | `Primera Division - Apertura`, `Copa Argentina`, `2026` |
-| | ojo: `season` es la **temporada**, no el año del partido. La 2016-17 lleva `season=2016` y sus partidos van de agosto de 2016 a junio de 2017. La fecha real está en `date`. |
+| | ojo: `season` es la **temporada**, no el año del partido. La 2016-17 lleva `season=2016` y sus partidos van de agosto de 2016 a junio de 2017. La fecha real está en `date`. Dos salvedades: la Copa Argentina lleva el año en que se definió (la 2016-17 es `season=2017`), y `season=2016` junta dos campeonatos en cinco categorías —el corto de 2016 y el 2016-17—. Para separar un torneo de otro usá la URL de Wikipedia de `source` (lo que va antes del ` + `), no `tournament` + `season`. |
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
 | `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales` |
 | `venue` | el estadio, tal como figura |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
-| `source` | la URL de la página de la que salió esa fila |
+| `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + ` |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
+
+Pueden venir vacías, además de los penales: `time` (11 555 filas) y `venue`
+(10 131), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
+cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 149); y `matchday` en 15
+partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en inglés:
+`Zone 1` o `Group A` en `group` (1 239 filas del Argentino A) y
+`Semifinals - First leg` en `matchday` (127).
 
 Sobre **`neutral`**: sale del **reglamento de la competencia**, no de comparar el
 estadio contra el de cada club. La Copa Argentina se juega a partido único en
 cancha neutral y su propia página lo dice ronda por ronda, así que ahí el dato se
-puede afirmar. En las ligas es `false`, con este alcance exacto: *el partido se
-jugó donde dice el fixture*. **No detecta mudanzas puntuales** — un partido de
+puede afirmar. En las ligas es `false` salvo en 41 partidos —finales, desempates,
+definiciones de ascenso y descenso— cuya tabla la página rotula «Equipo 1 / Equipo 2»
+en vez de «Local / Visitante» (ver [más abajo](#neutral-dejó-de-ser-del-torneo)).
+El `false` tiene este alcance exacto: *el partido se jugó donde dice el fixture*. **No detecta mudanzas puntuales** — un partido de
 liga que se muda de cancha sigue figurando `false`. Prefiero decir eso y
 documentarlo antes que deducir la localía con un padrón de estadios que todavía
 no existe.
 
 Sobre **`status`**: un partido puede terminar de otra forma que jugándose
 completo. Se suspende por incidentes, o se juega entero y después un tribunal
-cambia el resultado por una inclusión indebida. Hasta ahora esas filas salían con
+cambia el resultado por una inclusión indebida. Hasta que existió esta columna, esas filas salían con
 un marcador **indistinguible de uno jugado en cancha**.
 
 | valor | qué afirma | filas |
 |---|---|---:|
-| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 39 189 |
-| `suspendido` | la fuente dice que el partido **no llegó al final** | 56 |
-| `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 7 |
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 48 893 |
+| `suspendido` | la fuente dice que el partido **no llegó al final** | 89 |
+| `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 12 |
 | `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Es el `Instituto 0-1 San Lorenzo` de la 1987-88 — los otros seis no tienen día y viven en `sin-fecha/` | 1 |
 
 **El eje no es el que parece.** Lo natural sería distinguir "el tribunal ratificó
@@ -223,19 +276,19 @@ lo dice de forma decidible. La misma fórmula sostiene los tres casos —
 
 Se clasificaron 53 casos a mano, con la página entera a la vista y sin apuro, y
 **dos de las tres correcciones que hizo la verificación cruzaron justamente esa
-frontera**. Un parser que corre todos los días a las 10:00 la decidiría por
+frontera**. Un parser que corre solo todos los días la decidiría por
 keyword. Así que el eje es el único que la fuente marca siempre y sin ambigüedad:
 **¿el partido llegó al final?**
 
 **El default es la parte peligrosa.** Vacío significa "la página no dijo nada", y
 nunca puede pasar a significar "dijo algo que no supe leer" — si eso ocurriera,
-las 39 mil filas vacías dejarían de ser una ausencia y pasarían a ser una
+las casi 49 mil filas vacías dejarían de ser una ausencia y pasarían a ser una
 afirmación sin verificar. Por eso una fila que menciona un fallo y no se puede
 clasificar **no queda callada**: emite un aviso. Hoy son cero.
 
 ### Los que la columna no arregla
 
-Cinco partidos terminaron con **un resultado distinto para cada club**. El
+Trece partidos terminaron con **un resultado distinto para cada club**. El
 Clausura 2005 es el más claro: Almagro–Boca se suspendió a los 64' con Almagro
 ganando 3-2, y el Tribunal se lo dio por perdido **a los dos** —0-2 para Almagro,
 2-3 para Boca—. La celda del wikitexto trae los dos marcadores (`0 - 2<br>3 - 2`)
@@ -244,8 +297,11 @@ partido que Boca también perdió.**
 
 Una fila tiene un `home_score` y un `away_score`: cualquier par de números afirma
 un solo resultado. No es una limitación del parser sino del esquema, así que esos
-cinco **no entran**, y el build los nombra uno por uno con su cita. Cuatro de los
-cinco estaban entrando mal hasta ahora.
+trece **no entran**, y el build los nombra uno por uno con su cita cada vez que
+reparsea su página (`python build.py --rehacer`). Nueve de los trece entraban, o
+iban a entrar, con un marcador que no valía para los dos: ocho con el resultado de uno
+solo de los clubes y uno —La Florida–Sportivo Patria— con el 2-2 de la cancha, que no fue
+el de ninguno. Los otros cuatro ni siquiera tienen un marcador que leer.
 
 ### Leer un CSV de antes
 
@@ -321,9 +377,9 @@ falle.
 partido de eliminación, y el parser la buscaba pidiendo `Partido` seguido de
 `\s*\n`. Resulta que **`{{Partidos}}`, en plural, es una redirección a la misma
 plantilla**: se renderiza igual y trae los mismos parámetros. Pero la `s` no es
-whitespace, así que el regex no la veía. **27 páginas del catálogo la usan**, y en
-24 de ellas el singular no aparece ni una vez: tenían la fase eliminatoria
-completa afuera del dataset, sin un solo aviso.
+whitespace, así que el regex no la veía. **27 páginas del catálogo la usaban**, y en
+24 de esas 27 el singular no aparecía ni una vez: tenían la fase eliminatoria
+completa afuera del dataset, sin un solo aviso. (Hoy la usan 31, y 28 sin un solo singular.)
 
 El cierre tenía el mismo problema de fondo. Pidiendo `\n\s*\}\}` se exige que el
 `}}` esté solo en su renglón, cuando lo más común es cerrarla pegada al último
@@ -342,8 +398,8 @@ las rondas terminaban en la columna `group` —que promete una zona y decía
 
 Eso dejó a la **Primera B 2017-18 entera afuera**, con un cartel en el catálogo
 que culpaba a la numeración de fechas y era falso. Lo que la frenaba era **un**
-partido: el desempate que definió el campeonato, contra 306 sin zona. Son 317
-filas reetiquetadas y 317 partidos que entran.
+partido: el desempate que definió el campeonato, contra 306 sin zona. Fueron 317
+filas reetiquetadas y 317 partidos que entraron (hoy son 316: uno salió después, por tener dos resultados).
 
 **5d. Los partidos que no cuelgan de «Resultados».** Los reducidos, las
 promociones y las finales de ascenso viven bajo títulos propios, y la búsqueda por
@@ -385,7 +441,7 @@ donde es hermana de «Semifinales» y «Final» bajo `== Etapa eliminatoria ==`.
 nombre no distingue; **el lugar sí**. Una sección bajo una etapa eliminatoria es
 una ronda, se llame como se llame.
 
-Quedan 46 filas, y están bien: `Nonagonal final` son **9 equipos, 36 partidos, 9
+De esas 98 quedaron 46, y están bien: `Nonagonal final` son **9 equipos, 36 partidos, 9
 fechas de 4** —un todos contra todos de nueve, que es lo que significa la
 palabra— y `Tercera fase` son **5 equipos, 10 partidos, 5 fechas de 2**.
 
@@ -396,7 +452,7 @@ No la hay. El ascenso pone `== Zona A ==` y `== Zona B ==` de primer nivel, cada
 una con la suya; Primera B y C meten `== Torneo Apertura ==` y
 `== Torneo Clausura ==`, o sea dos torneos completos en la misma página. Leyendo
 una sola sección se perdía **exactamente la mitad**: la Primera Nacional 2025 daba
-26 equipos donde hay 38. Y la mitad que quedaba estaba perfecta, que es lo que lo
+18 equipos donde hay 36. Y la mitad que quedaba estaba perfecta, que es lo que lo
 hace difícil de ver.
 
 Arreglarlo destapó tres más:
@@ -445,7 +501,7 @@ otros sin —, no el vacío.
 
 ### Lo que encontró en la fuente
 
-Dos cosas que no son bugs míos y quedan documentadas porque afectan al dataset:
+Tres cosas que no son bugs míos y quedan documentadas porque afectan al dataset:
 
 - **A la temporada 2019-20 le falta la Fecha 4.** No es que no la parsee: el
   texto "Fecha 4" no aparece en ninguna parte de esa página. Faltan 12 partidos.
@@ -488,19 +544,25 @@ El cruce quedó como chequeo permanente en
 [`fad/posiciones.py`](fad/posiciones.py), y **se calla cuando no puede opinar**: una
 fila que no cierra consigo misma (`GF − GC ≠ DIF`) no desmiente a nadie, y si la
 cantidad de partidos jugados no coincide, las dos partes no están hablando del
-mismo conjunto.
+mismo conjunto. (Esos dos silencios después pasaron a avisarse: `filas_que_no_cierran` y
+`pj_que_no_coincide`, más abajo.)
 
 **Y la tabla se escribe de dos formas.** Además de la `wikitable` habitual, muchas
 páginas la arman con plantillas —`{{Tabla de posiciones equipo|g=23|e=12|p=3|gf=59|gc=15|eq=…}}`—
 y buscando sólo `{|` se perdían enteras. Leyendo las dos, el árbitro pasó de
 **19 torneos a 113**.
 
-De esos 113, **94** llegan a comparar algún club: en los otros la cantidad de
-partidos jugados no coincide —páginas de varias fases, donde la tabla es de una
-sola— y el módulo se calla, que es lo correcto. De los 94, **73 cierran al gol** y
-21 tienen algo que no.
+De esos 113, **94** llegaban a comparar algún club: en los otros la cantidad de
+partidos jugados no coincidía —páginas de varias fases, donde la tabla es de una
+sola— y el módulo se callaba, que es lo correcto. De los 94, **73 cerraban al gol** y
+21 tenían algo que no.
 
-Que 73 temporadas cierren contra una tabla que escribió otra mano es la
+Hoy, con las capas que se sumaron después, tienen tabla **154** de las 168 entradas
+del catálogo —las 14 que no son las Copa Argentina—, **152** comparan algún club y
+**133 cierran al gol** en todas sus tablas. En las otras 19 hay 46 clubes que no, y 45 de esos desvíos
+están mirados y declarados en `fad/correcciones.py`.
+
+Que 133 torneos cierren contra una tabla que escribió otra mano es la
 corroboración más fuerte que tiene el dataset.
 
 #### Media página sin árbitro
@@ -510,7 +572,7 @@ ningún contador: **leía una sola tabla por página**.
 
 Un torneo por zonas publica una tabla por zona, y el título no las distingue — las
 dos se llaman «Tabla de posiciones final» y lo que cambia es el `== Zona A ==` de
-arriba. Son **91 de las 279 páginas**. En el Federal A 2019-20 los quince clubes de
+arriba. Eran **91 de las 279 páginas** bajadas hasta entonces; hoy, 62 de las 168 del catálogo. En el Federal A 2019-20 los quince clubes de
 la Zona B volvían sin tabla; en la Primera C 2026, la Zona B escondía cuatro
 contradicciones que el aviso nunca denunció.
 
@@ -646,8 +708,8 @@ qué* la página de hoy cierra consigo misma.
 
 Y el mismo delta fecha el partido: la tabla no lo tenía a las 00:30 del 30 y sí a las 02:29
 del 31, así que se jugó el lunes 30 —el día que da ESPN, no el 31 de RSSSF, que es el que
-quedó escrito—. Ese sigue abierto: corregir un día pediría un noveno tipo de corrección, y
-no se agrega uno por una fila.
+estaba escrito—. En ese momento quedó abierto: corregir un día pedía un tipo de corrección nuevo, y
+no se agrega uno por una fila. Se cerró después, con `Dia` (más abajo): la fila hoy dice 2010-08-30.
 
 #### Diez de esas 61 no eran un desacuerdo: eran una fecha inventada
 
@@ -672,7 +734,7 @@ rango, `y` enumera. Y el corte no es una intuición, está medido sobre el corpu
 | `X y Y`, `X - Y` — dos días | 7 | del Argentino A 2004-05, **sin un solo desacuerdo** |
 
 Separa exactamente al grupo que discute del que no. El repo ya tenía la regla escrita en
-otro lado —`citadas` dice *«un rango no es una fecha, así que no se reparte»*— y acá la
+otro lado —`citadas` dice *«Un rango no es una fecha»*— y acá la
 rompía. Sacándolo, las ocho filas de esa fase quedan **8 de 8** contra el blog, y los
 desacuerdos de día del dataset bajan de **61 a 51** sin que ninguna fila pierda su día:
 la fuente que publica partido por partido las rellena, que es lo que corresponde.
@@ -710,15 +772,15 @@ exactamente el día al que se movieron** — verificado fila por fila contra el 
 porque la mayoría de esas filas no las mira ninguna segunda fuente y un error ahí sería
 silencioso. Los desacuerdos de día bajaron de **46 a 34**.
 
-De paso quedó medido de dónde sale nuestra fecha en los que quedan: **20 de los 34 son
-Primera C 2008-2011, donde la página no publica el día** y nuestra fecha ya viene de RSSSF.
-Ahí la disputa es RSSSF contra ESPN y Wikipedia no puede desempatar: haría falta una cuarta
+De paso quedó medido de dónde sale nuestra fecha en los que quedaban: **20 de los 34 eran
+Primera C 2008-2011, donde la página no publica el día** y nuestra fecha ya venía de RSSSF.
+Ahí la disputa era RSSSF contra ESPN y Wikipedia no podía desempatar: hacía falta una cuarta
 fuente, no una tercera.
 
 #### Y cuánto rinde ese testigo: 3 de 61
 
 El historial arbitró un marcador. La pregunta obvia era si sirve para las **61
-discrepancias de día** que el dataset arrastra —dos fuentes que dan el mismo partido en
+discrepancias de día** que el dataset arrastraba —dos fuentes que dan el mismo partido en
 días distintos—, porque si sirviera valdría la pena construir el mecanismo para escribir la
 corrección. Se midió antes de construir nada, y la respuesta es **no**:
 
@@ -805,8 +867,8 @@ clara que hay:
 
 Ninguna de las dos fechas está mal: el repo usa la del día en que empezó y la otra fuente
 usa la del día en que se completó. Y eso **ya estaba decidido**, por escrito, desde antes
-—`_SE_JUGO` deja `completó`, `reanudó` y `terminó` afuera a propósito, y son **105**
-partidos—. Lo que faltaba era reconocer el caso al verlo.
+—`_SE_JUGO` deja `completó`, `reanudó` y `terminó` afuera a propósito, y eran **105**
+partidos cuando se contó—. Lo que faltaba era reconocer el caso al verlo.
 
 **La trampa, que casi se lleva puesto uno de los tres.** El de Jujuy estuvo a punto de
 entrar como *corrección de fecha*: Transfermarkt publica la ficha con `Sat, 18/03/23` y
@@ -1015,12 +1077,16 @@ otro. Comparar goles acumulados entre dos cortes distintos del calendario da una
 que no es error de nadie. Sólo se compararon los clubes con el **mismo PJ en las tres
 partes**.
 
-**Lo que este trabajo deja abierto.** Éstas son las primeras `Revisado` sobre páginas
-**vivas**: las 56 anteriores son de temporadas cerradas, donde la tabla ya no se mueve. Y
-`Revisado` se identifica por (página, club) y nada más: si la tabla se arregla, la guarda de
-huérfanos avisa, pero si aparece un desvío *distinto* en el mismo club, la declaración vieja
-lo tapa en silencio. Es el hueco que `Fechado` y `Dia` ya cierran guardando el estado que
-verificaron, y que `Revisado` todavía no.
+**Lo que este trabajo dejó abierto.** Éstas fueron las primeras `Revisado` sobre páginas
+**vivas** —las 56 anteriores son de temporadas cerradas, donde la tabla ya no se mueve— y
+también las últimas. Sirvieron entre 4 y 12 días: una página viva tiene un editor que recalcula
+la tabla después de cada fecha y repara la errata de paso. Después quedaron avisando por algo
+ya resuelto, y a los 23 días se sacaron las cuatro. Hoy esas filas coinciden al dígito con la grilla. Quedan 56, todas de temporadas
+cerradas, y un test impide declarar una sobre un torneo abierto: ahí no se declara, se espera.
+Y en ese momento `Revisado` se identificaba por (página, club) y nada más: si la tabla se
+arreglaba, la guarda de huérfanos avisaba, pero si aparecía un desvío *distinto* en el mismo
+club, la declaración vieja lo tapaba en silencio. Era el hueco que `Fechado` y `Dia` ya
+cerraban guardando el estado que verificaron, y que `Revisado` todavía no.
 
 #### Una verificación que no dice de qué habla puede tapar otra cosa
 
@@ -1045,7 +1111,7 @@ siendo `GF-2` la fecha que viene.
 
 Las **58** declaraciones de tabla que ya existían se midieron, no se tipearon: 58 diferencias
 de seis campos escritas a mano son 58 oportunidades de una errata que después no encuentra
-nadie. Salen agrupadas así —`GF-1` siete veces, `GC-1` seis, `PJ+1 GC+1 P+1` cinco— y las
+nadie. Salieron agrupadas así —`GF-1` siete veces, `GC-1` seis, `PJ+1 GC+1 P+1` cinco— y las
 dos de llave quedan afuera, porque verifican un cruce del cuadro y ahí no hay columnas que
 firmar. Un test exige que ninguna de tabla se escriba sin su firma.
 
@@ -1071,14 +1137,18 @@ consecuencia al Apertura **y** al Clausura. Pero el anulado es el del Clausura, 
 Apertura esos mismos dos clubes juegan **otro** partido, que está escrito y cierra perfecto.
 Así que en el Apertura el chequeo esperaba un hueco que no existe.
 
-Se arregla declarando la sección. Los avisos quedan en los mismos `166` de antes: el
-mecanismo es neutro sobre el estado de hoy, que es lo que tiene que ser.
+Se arregla declarando la sección. Los avisos quedaron en los mismos `166` de antes: el
+mecanismo es neutro sobre el estado que encuentra, que es lo que tiene que ser.
 
 #### Los 16 que no cierran, ordenados
 
-Vale separarlos, porque no son un problema sino tres, con costos muy distintos.
+Vale separarlos, porque no son un problema sino tres, con costos muy distintos. (Es la foto
+de cuando eran 16. De esos 16 hoy no queda ninguno: se corrigieron, quedaron declarados club
+por club y con su evidencia en `fad/correcciones.py`, o —las dos páginas en curso— los arregló
+quien edita la tabla. El único que el build deja sin cerrar entró después, con otra capa: Unión
+en el Clausura 1999, que no es el Unión del Final 2013 de acá abajo.)
 
-**Cinco tienen un solo club desviado.** Ahí no hay nada que corregir: un marcador mal
+**Cinco tenían un solo club desviado.** Ahí parecía no haber nada que corregir: un marcador mal
 leído toca siempre a **dos** clubes, así que un club solo y sin pareja no puede venir
 de un partido. La equivocada es su fila de la tabla. Son Platense en la B Nacional
 2009-10 —el caso que enseñó el patrón—, más Boca Juniors en el Clausura 2005, Unión en
@@ -1132,12 +1202,26 @@ Aun si uno quisiera corregir la grilla, no podría: para Boca hay **siete** part
 encajan con el desvío y para Deportivo Español **once**. *Localizar no es arbitrar*, y
 acá ni siquiera localiza.
 
+> **Dos de estos cinco se cayeron después, y la que tenía razón era la tabla.** Los tres
+> goles de Boca sí los hizo alguien: Almagro–Boca se suspendió a los 64' con Almagro ganando
+> 3-2 y el Tribunal se lo dio por perdido a los dos —0-2 para Almagro, 2-3 para Boca—. La
+> grilla publicaba el 0-2 como victoria de Boca; la tabla contaba la derrota. El gol de
+> Deportivo Español es lo mismo en chico: un 0-0 con Sacachispas que el Tribunal le dio por
+> perdido a él solo. En esas dos páginas el desbalance no es una errata: *es* el fallo. Hoy
+> los dos partidos están en `DIVIDIDOS`, afuera del dataset, y se cuentan en
+> [Los que la columna no arregla](#los-que-la-columna-no-arregla). De los cinco, la fila mal
+> tipeada era la de los otros tres.
+
 El chequeo quedó permanente en `posiciones.desbalance`, al lado del cruce. Sólo opina
 si la tabla reclama exactamente el mismo conjunto de partidos que la grilla —mismos
 clubes de los dos lados y mismo PJ—, porque sin esa guarda sería un generador de ruido:
 una fila descartada por no cerrar sola, o una zona con partidos interzonales como la
 Copa de la Liga 2023, descuadran el total sin que nadie esté equivocado. Con la guarda
-puesta, sobre los 131 torneos denuncia esos cuatro y **ningún falso positivo**.
+puesta, sobre los 131 torneos denunciaba esos cuatro. Hoy, sobre las 168 páginas del catálogo, también son cuatro, pero no los mismos: el
+Final 2013 y la Copa de la Liga 2023 siguen, se sumaron el Clausura 1999 y el Clausura de la
+Primera C 2024, y el Clausura 2005 y la Primera B 2017-18 salieron —al sacar el partido
+dividido el PJ ya no coincide y el chequeo se calla—. El build muestra uno solo, el de 1999:
+los otros tres repiten una conclusión que ya está escrita y no se avisan dos veces.
 
 **Ocho tienen todos sus desvíos apareados.** Cada par localiza un partido: los dos
 clubes se cruzan, y a uno le sobran los goles que al otro le faltan. Pero *localizar
@@ -1154,16 +1238,19 @@ Las Parejas tienen los dos `+1 GF −1 GC`, y Independiente (C) y Unión (S) los
 Con sólo dos clubes desviados el par está forzado aunque compartan delta, porque no
 hay con quién más.
 
-Contando así hay **tres torneos genuinamente degenerados** —la B Nacional 2011-12, la
-Primera Nacional 2021 y el Federal A 2023— y el resto son pares forzados. Vale decirlo
+Contando así había **tres torneos genuinamente degenerados** —la B Nacional 2011-12, la
+Primera Nacional 2021 y el Federal A 2023— y el resto eran pares forzados. Vale decirlo
 porque la primera versión de este párrafo contaba los cuatro emparejamientos posibles
-del Federal A como cuatro hallazgos, y son uno solo sin resolver.
+del Federal A como cuatro hallazgos, y eran uno solo sin resolver. (Hoy ninguno de los tres
+lo es: los partidos aparecieron con crónicas, uno por uno. Lo único que queda es Deportivo
+Maipú, solo, en la Primera Nacional 2021, y está declarado.)
 
 Los seis pares forzados que había se probaron contra la prensa, y el reparto es el que
 ya venía saliendo: **dos correcciones, tres veces la tabla equivocada, una sin
-decidir.** Los dos corregidos salieron de la lista; los otros cuatro siguen adentro
+decidir.** Los dos corregidos salieron de la lista; los otros cuatro siguieron adentro
 como avisos abiertos, que es lo que corresponde cuando el error es de la fuente y no
-nuestro.
+nuestro. (Hoy ya no avisan: los tres de tabla equivocada están declarados como `Revisado`,
+con su evidencia, y el de Laferrere salió del dataset por tener dos resultados.)
 
 | | |
 |---|---|
@@ -1182,7 +1269,10 @@ el partido no terminó**. Se abandonó a los 73 minutos, 1-1, por incidentes de 
 con la policía —catorce policías heridos, el plantel de Dock Sud atrincherado en el
 vestuario—. Wikipedia publica 2-2 y la página tiene una nota al pie del Tribunal de
 Disciplina. Ninguna de las cuatro crónicas nombra goleadores: son todas policiales. Sin
-eso no se toca, pero queda dicho que el 2-2 no es un marcador de cancha.
+eso no se tocó, pero quedó dicho que el 2-2 no es un marcador de cancha. (Después se leyó la
+nota entera: el Tribunal le dio el partido por perdido a Laferrere y le mantuvo el resultado
+a Dock Sud. Un partido con dos resultados no entra en una fila, así que hoy está afuera del
+dataset, como `Dividido`.)
 
 Van **veinte** casos probados contra la prensa: la tabla acertó en catorce, se
 equivocó en cinco, y uno quedó abierto. Los cinco últimos —los dos del Clausura 2008 y
@@ -1254,9 +1344,10 @@ hay siete arreglos de dos partidos que reproducen las mismas columnas. La correc
 apoya enteramente en las crónicas, que es como tiene que ser.
 
 Aplicadas las nueve correcciones, cuatro de esos siete torneos salieron del grupo y
-quedan **tres**: la Primera C 2011-12 —que cerró su par pero conserva un trío sin
+quedaban **tres**: la Primera C 2011-12 —que cerró su par pero conservaba un trío sin
 resolver— y las dos temporadas en curso, Primera Nacional 2026 y Primera C 2026, que
-son otra cosa y están abajo.
+son otra cosa y están abajo. Hoy no queda ninguno: el trío resultó ser la tabla —el compendio
+de Carluccio da nuestras cifras en los tres clubes— y las dos en curso cerraron solas.
 
 ##### El Federal A 2022, o la trampa del Clausura 2005 dada vuelta
 
@@ -1279,14 +1370,16 @@ O sea que para esa corrección la crónica, la tabla publicada, la tabla en vivo
 aritmética **son un solo testigo contado cuatro veces**. Es la misma trampa que RSSSF en
 el Clausura 2005, invertida: allá una fuente externa replicaba el error de Wikipedia;
 acá Wikipedia replica la tabla de la fuente externa. Sin un relato del 03/04/2022 ajeno
-a ADI, ese partido **no se toca**.
+a ADI, ese partido **no se tocaba**. (El relato apareció: El Tribuno de Salta publicó la
+crónica esa misma noche —«igualó 0 a 0 con San Martín», con los dos tiempos narrados sin
+goles— y con eso sí entró.)
 
 La otra corrección sí entró, sola: Misiones Online publicó su crónica del Crucero 3-1
 San Martín a las 17:37 del 24/08/2022, con los cuatro goles, y la celda de Wikipedia se
-tipeó **nueve horas después**. No puede ser su ancestro. Eso deja la página sin cerrar a
+tipeó **nueve horas después**. No puede ser su ancestro. Eso dejó la página sin cerrar a
 propósito, y con un residuo más informativo que el que tenía: donde había tres clubes
-desviados y ningún par, ahora hay **un par limpio y forzado** que apunta justo al partido
-que queda abierto.
+desviados y ningún par, quedó **un par limpio y forzado** que apuntaba justo al partido
+que seguía abierto. Con el 0-0 adentro, hoy la página cierra en sus 34 filas.
 
 ##### Las dos en curso son otro problema
 
@@ -1294,9 +1387,9 @@ La **Primera Nacional 2026** y la **Primera C 2026** están jugándose, y ahí h
 tener cuidado con una tentación: dar por errónea una tabla que sólo está
 desactualizada. Se separan los dos fenómenos.
 
-En la Primera Nacional 2026 la tabla tiene **dos filas atrasadas** —Nueva Chicago 23
-partidos contra 24, San Martín (SJ) 22 contra 23—, y ésos son exactamente los clubes
-que el árbitro saltea. Eso abre el agujero de siempre: el socio del desviado podría
+En la Primera Nacional 2026 la tabla tenía, a esa altura, **dos filas atrasadas** —Nueva Chicago 23
+partidos contra 24, San Martín (SJ) 22 contra 23—, y ésos eran exactamente los clubes
+que el árbitro salteaba. Eso abre el agujero de siempre: el socio del desviado podría
 estar afuera de la comparación. Se comprobó y no está: **Los Andes no juega contra
 ninguna de las dos filas atrasadas**, y el único cruce de Racing (C) con San Martín
 (SJ) fue un 0-0, donde no hay gol que esconder. Los dos son casos genuinos de club
@@ -1309,21 +1402,23 @@ grilla, así que el balance podría descuadrar por el atraso y no por un dato ma
 eso `posiciones.desbalance` **se calla** en esta página, y está bien que se calle. Lo
 que decide es el club solo, no la suma.
 
-En la Primera C 2026 no hay filas atrasadas y el detector sí habla: la tabla suma
-`GF606` contra `GC605`, o sea que hay un gol convertido que ningún club declara haber
+En la Primera C 2026 no había filas atrasadas y el detector sí hablaba: la tabla sumaba
+`GF606` contra `GC605`, o sea que había un gol convertido que ningún club declaraba haber
 recibido. El faltante es un gol *en contra*, y el único club con delta sólo de GC es
 Cañuelas. Eso es parsimonia, no demostración —el balance prueba que falta un gol, no
 en qué celda—, y así queda anotado. Los otros dos desviados de esa página, Centro
 Español y Juventud Unida, aparean entre sí y ya estaban resueltos: Wikipedia tenía
 razón y la tabla no.
 
-En ninguna de las dos hay nada que corregir en los datos. Cuando el torneo termine y
-la página se estabilice, vuelven a mirarse.
+En ninguna de las dos había nada que corregir en los datos, y no hizo falta esperar al
+final: quien edita la página recalculó las tablas y hoy las dos cierran al gol con la grilla
+—al 10/10/2026, 1116 y 1116 en la Primera Nacional y 830 y 830 en la Primera C—.
 
-La conclusión práctica sigue siendo incómoda: **sólo un puñado se puede cerrar sin
-salir a buscar fuente por partido.** Los cinco del primer grupo ya están explicados
-por su propio aviso; los del segundo necesitan una crónica que diga cuál de las dos
-fechas; los del tercero, varias.
+La conclusión práctica seguía siendo incómoda: **sólo un puñado se podía cerrar sin
+salir a buscar fuente por partido.** Los cinco del primer grupo ya estaban explicados
+por su propio aviso; los del segundo necesitaban una crónica que dijera cuál de las dos
+fechas; los del tercero, varias. Se salió a buscarlas, y de esos 16 hoy
+no queda abierto ninguno.
 
 Un caso salió distinto a todos. En el **Clausura 2007**, Newell's 1-2 River no era
 un error de nadie: el partido se **suspendió a los 90'** por incidentes, con River
@@ -1354,11 +1449,12 @@ Por eso el aviso ahora dice **de qué lado** está el problema: si el club desvi
 está solo, acusa a la tabla; si hay más de uno, deja abierta la posibilidad de un
 partido mal leído.
 
-### Las siete correcciones a mano
+### Las primeras correcciones a mano
 
-Hay **siete** filas del dataset que no dicen lo que dice Wikipedia, y viven en
+Las primeras fueron **cinco** filas del dataset que no decían lo que dice Wikipedia, y viven en
 [`fad/correcciones.py`](fad/correcciones.py) con su evidencia escrita. Las cinco
-salen de que **la fuente se contradice sola**.
+salen de que **la fuente se contradice sola**. (Hoy el módulo es mucho más grande: corrige
+**170** filas, saca **9** y agrega **2**, en 46 páginas, y pisa **28** fechas.)
 
 **Un club escrito con un nombre ambiguo.** La Primera Nacional 2022 dice
 «San Martín» a secas, sin enlace, y ese torneo lo juegan el de San Juan y el de
@@ -1397,7 +1493,9 @@ módulo es más estricto que el resto:
 - si engancha con **más de un** partido, no se aplica con ninguno;
 - si **deja de enganchar** — porque alguien arregló la página — el build para y
   avisa que hay que sacarla. Una corrección vieja que nadie borró es una mentira
-  dormida;
+  dormida. Los tipos que vinieron después lo matizan: un marcador arbitrado que la
+  página alcanzó sola, una fecha corregida que ya no encuentra la que esperaba y un
+  homónimo sin uso avisan y no frenan, porque ahí el dato sale bien igual;
 - y sin evidencia escrita no entra: hay un test que lo exige.
 
 La alternativa era dejar afuera los 380 partidos de la temporada por una celda.
@@ -1412,28 +1510,30 @@ automático no es tirar una excepción, es escribir un CSV plausible y equivocad
 | chequeo | qué agarra |
 |---|---|
 | campos completos, marcador verosímil | filas a medias, columnas corridas |
-| no faltan jornadas en el medio | huecos, propios o de la fuente |
+| cada partido tiene fecha | una fecha que la fuente no trae, o un formato que el parser no leyó (aviso, no error: la fila va a `data/sin-fecha/`) |
+| no faltan jornadas en el medio | huecos, propios o de la fuente (aviso, no error) |
 | ninguna jornada, ronda ni sección cae medio año antes que la anterior | el año mal asignado en temporadas que cruzan |
 | ninguna ronda de eliminación antes de que arranque la fase de zonas (error en un torneo cerrado, aviso en uno en curso) | una fase final corrida un año para atrás — o una eliminatoria previa de verdad |
 | todos los clubes están en el padrón | un ascenso, un torneo nuevo, un alias sin cargar |
 | penales sólo en empates (salvo serie ida y vuelta igualada) | haber leído el entretiempo como si fuera la tanda |
 | sin duplicados, nadie contra sí mismo | filas leídas dos veces, columnas corridas |
-| todos los partidos de zona tienen zona | un encabezado que no se reconoció |
+| en una fase con zonas, ningún partido queda sin zona | un encabezado que no se reconoció |
 | **cada equipo juega una vez por fecha** | etiquetas corridas |
-| **el que juega una ronda ganó la anterior** | cualquier cosa, en la eliminación |
-| zona = todos contra todos completo | partidos faltantes (aviso, no error) |
-| **la localía se reparte entre los dos cruces** | una localía al revés, o un club escrito de dos formas |
+| **el que juega una ronda ganó la anterior** | cualquier cosa, en la eliminación (aviso, no error) |
+| zona = todos contra todos completo | partidos faltantes (aviso, no error; sólo en torneos terminados) |
+| **la localía se reparte entre los dos cruces** | una localía al revés, o un club escrito de dos formas (aviso, no error) |
 | **cada club juega en una sola zona** | un club escrito con el nombre de OTRO club que existe |
 | **los goles suman lo que dice la tabla de posiciones** | un marcador mal leído, o mal publicado (aviso, no error) |
 
-Los dos en negrita son los fuertes, y los dos son **autocontenidos**: no
-consultan ninguna fuente externa, salen de cómo está armado un torneo.
+Los que van en negrita son los fuertes. Los cuatro primeros son **autocontenidos**: no
+consultan ninguna fuente externa, salen de cómo está armado un torneo. El quinto usa
+un testigo que está en la misma página: su tabla de posiciones.
 
 ### La dirección del chequeo de llaves
 
 Al principio preguntaba lo simétrico — *cada ganador, ¿reaparece después?* — y
 sobre un torneo terminado da lo mismo. Sobre uno en curso, no: los 16 ganadores
-de dieciseisavos de la Copa 2026 todavía no jugaron sus octavos, así que tiraba
+de dieciseisavos de la Copa 2026 todavía no habían jugado sus octavos, así que tiraba
 **14 avisos por día hasta noviembre**. Un chequeo que grita todos los días deja
 de leerse, y ahí ya no sirve para nada.
 
@@ -1444,7 +1544,7 @@ Tucumán, el aviso salta; con los datos reales, cero.
 
 Las rondas se agrupan por **nombre**, nunca por fecha. Agrupar por fecha parece
 razonable y está mal por los dos lados: la Copa solapa rondas (los treintaidosavos
-2026 van de enero a abril y los dieciseisavos de abril a julio, compartiendo días)
+2024 van de enero a mayo y los dieciseisavos de mayo a julio, y el 15 de mayo se jugó uno de cada ronda)
 y una misma ronda se juega en varios días, con lo cual el segundo día parece una
 ronda nueva cuyos participantes "no ganaron la anterior". Si algún partido de
 eliminación no trae ronda reconocida, el chequeo **avisa que se salteó** en vez de
@@ -1488,11 +1588,16 @@ casos que lo rompen:
 Con el padrón escrito a mano, 60 de 60.
 
 La Copa Argentina lo llevó de 30 clubes a 64, y el histórico a **69** — Arsenal,
-Colón, Patronato, Quilmes y Chacarita jugaron Primera en estos años y ya no
-están; solos son ~670 partidos. De paso mostró para qué sirve el padrón:
-entran **cuatro** Gimnasia y Esgrima (LP, M, C, J) más un Gimnasia y Tiro que es
+Colón, Patronato, Quilmes y Chacarita jugaron Primera en esos años y ya no
+están; solos eran ~670 partidos. De paso mostró para qué sirve el padrón:
+entraban **cuatro** Gimnasia y Esgrima (LP, M, C, J) más un Gimnasia y Tiro que es
 otro club, **tres** San Martín (F, SJ, T), **tres** Estudiantes (LP, RC, BA) y
 **dos** Sarmiento (J, LB).
+
+Hoy, con el ascenso y las capas viejas adentro, el padrón tiene **212 clubes y 172
+alias**, y las familias crecieron: **cinco** Gimnasia y Esgrima (se sumó el de
+Concepción del Uruguay), **cinco** San Martín (B, F, SJ, SM, T), tres Estudiantes y
+**tres** Sarmiento (J, LB, R).
 
 El riesgo propio de un padrón no es que falte un club: es que **un alias se le
 asigne al club equivocado**. Eso no rompe nada — reparte los partidos de un
@@ -1534,6 +1639,7 @@ explotando: falla escribiendo algo plausible y equivocado, y nadie lo mira.
 
 | se frena por | y entonces |
 |---|---|
+| un test que falla | no llega a reconstruir; el workflow falla y avisa |
 | un aviso **grave** del validador | no escribe; queda el dataset de ayer |
 | **el dataset se achicó** | no escribe; hay que revisarlo a mano |
 | una página que no se puede bajar | no escribe; el workflow falla y avisa |
@@ -1583,11 +1689,13 @@ los nombres visibles que apuntan a **un único** artículo en todo el corpus. Si
 dentro de una página un nombre apunta a dos, no se devuelve ninguno: ahí no hay
 testigo, y adivinar es justo lo que no hay que hacer.
 
-Tres torneos quedaron **afuera**, comentados en el catálogo con su motivo: Primera
+Tres torneos quedaron **afuera** en ese momento, comentados en el catálogo con su motivo: Primera
 B 2017-18 (lista dos veces las fechas de la primera rueda), Primera B 2021 (una
 plantilla que mezcla dos resultados) y Primera Nacional 2022 (un partido dice "San
-Martín" a secas y sin enlace, con el (SJ) y el (T) en el mismo torneo). Prefiero
-tres torneos afuera y dicho, que adentro y mal atribuidos.
+Martín" a secas y sin enlace, con el (SJ) y el (T) en el mismo torneo). Prefería
+tres torneos afuera y dicho, que adentro y mal atribuidos. Hoy los tres están
+adentro —316, 295 y 680 partidos—: entraron cuando se encontró qué frenaba de
+verdad a cada uno, y está contado más arriba.
 
 ### Y una entrada del índice estaba mal
 
@@ -1633,7 +1741,7 @@ correcto y la guarda del mapa se abstiene, que es justo para lo que está.
 
 **Un club en dos categorías incompatibles.** Sin mirar nombres: si un club aparece
 la misma temporada en dos divisiones, o asciende —y entonces el salto es de un
-nivel y ocurre una vez— o hay un error. De 46 casos, 45 son ascensos y descensos
+nivel y ocurre una vez— o hay un error. De 46 casos, 45 eran ascensos y descensos
 legítimos (la temporada argentina cruza dos años calendario, así que un club
 promovido figura en las dos). **Uno saltaba dos divisiones**: Estudiantes de La
 Plata en la Primera B 2015.
@@ -1765,8 +1873,8 @@ y no había forma de que un partido dijera lo suyo.
 Lo interesante es que **la fuente sí lo dice, y de una forma que se puede leer**.
 Cuando no hay local, la tabla rotula sus columnas «Equipo 1 / Equipo 2» en vez de
 «Local / Visitante». No es una interpretación: es la única manera que tiene una tabla
-de decir que los dos son visitantes, y la usa siempre para lo mismo. Son **232 tablas
-en 51 páginas**.
+de decir que los dos son visitantes, y la usa siempre para lo mismo. Eran **232 tablas
+en 51 páginas** al medirlo.
 
 Así que `neutral` pasó a resolverse en dos niveles: el torneo lo dice para todos sus
 partidos, el partido puede decirlo por sí mismo, y **gana el partido cuando opina**.
@@ -1834,7 +1942,7 @@ secas, que el padrón no resuelve porque hay tres, pero enlaza
 `Rivadavia de Lincoln`, y el artículo sí desambigua.
 
 **Dos quedaron afuera a propósito, y ésa es la parte que importa.** «Gimnasia y
-Esgrima» a secas tiene **seis** candidatos. Y «Central Norte (SE)» no es un typo de
+Esgrima» a secas tiene **cinco** candidatos. Y «Central Norte (SE)» no es un typo de
 escritura sino un desambiguador equivocado: en esa misma página `(SE)` significa
 Santiago del Estero —ahí está «Central Córdoba (SE)», que resuelve bien—, así que
 dárselo al de **Salta** sería escribir en el padrón algo que la fuente no dice.
@@ -1872,9 +1980,11 @@ de que verificar una hipótesis no sirve si se la verifica mirando el mismo sín
 que la generó.
 
 De paso se cayó un test que decía «exactamente tres torneos sin fecha, todos de
-Primera C». Eso no era un invariante sino el estado de ese día. Lo reemplazan dos que
-sí lo son: que cada `sin_fecha` esté **explicado** en el catálogo, y que ninguno
-termine escribiendo en `data/`.
+Primera C». Eso no era un invariante sino el estado de ese día. Lo reemplazaron dos que
+sí lo eran: que cada `sin_fecha` estuviera **explicado** en el catálogo, y que ninguno
+terminara escribiendo en `data/`. El flag `sin_fecha` ya no existe: se sacó cuando no
+quedó ningún torneo marcado, y está contado más abajo, en [Las cinco temporadas que no
+tenían fecha](#las-cinco-temporadas-que-no-tenían-fecha).
 
 ### Y casi se lleva puesto el chequeo que lo motivó
 
@@ -1906,8 +2016,8 @@ que no comparte nada con los otros dos.
 **Dónde juega** — [`dataset.categorias_incompatibles`](fad/dataset.py). Un club en
 dos divisiones el mismo año es normal y pasa todo el tiempo: la temporada argentina
 cruza dos años calendario, así que el que desciende en junio juega el Clausura en
-Primera y desde agosto la Primera Nacional, con el mismo año en las dos filas. Son
-45 de los 46 casos del dataset.
+Primera y desde agosto la Primera Nacional, con el mismo año en las dos filas. Eran
+45 de los 46 casos del dataset al escribir el chequeo; hoy son 52 de 52.
 
 Lo que no existe es un **salto de dos**. Para ir de Primera a Primera B en un año
 calendario habría que descender dos veces, y no hay calendario donde eso entre. Eso
@@ -1922,16 +2032,16 @@ Lo que sí es un error es cuando el nombre visible **ya viene desambiguado** y a
 así difiere. `[[Club Atlético Racing|Racing (C)]]`: ese `(C)` lo escribió alguien a
 propósito, así que no hay ambigüedad que resolver. Hacen falta las tres condiciones
 juntas —el nombre trae paréntesis, el artículo está en el índice, y el nombre solo
-también resuelve a un club conocido—; sin la tercera entran ocho casos donde el
+también resuelve a un club conocido—; sin la tercera entraban ocho casos donde el
 artículo no contradice nada, sólo traduce.
 
 Los tres, corridos contra el dataset **tal como estaba antes** de los dos arreglos:
 
 | chequeo | antes | ahora |
 |---|---|---|
-| `casas_compartidas` (la cancha) | Estudiantes **y** Racing | 4 avisos, ninguno resuelto |
+| `casas_compartidas` (la cancha) | Estudiantes **y** Racing | 0 |
 | `categorias_incompatibles` (la división) | Estudiantes **y** Racing, en 6 temporadas | 0 |
-| `articulos_que_contradicen` (el enlace) | 1 | 1, y es real |
+| `articulos_que_contradicen` (el enlace) | 1 | 2, el mismo enlace en dos páginas, y es real |
 
 Que se solapen no es redundancia: **la cancha se le escapaba a Racing** en las
 temporadas donde las dos grafías no convivían bajo el mismo estadio, y la división
@@ -1945,7 +2055,7 @@ propiedad que tiene el cruce contra la tabla de posiciones.
 
 ## El corrimiento que escondía 373 fechas
 
-Salió buscando otra cosa. Yendo a ver si se podían reponer las fechas que faltan
+Salió buscando otra cosa. Yendo a ver si se podían reponer las fechas que faltaban
 —2 345 partidos en seis temporadas— apareció que **una de esas seis no estaba sin
 fecha: las tenía y no las leíamos**.
 
@@ -2021,11 +2131,11 @@ por partido**.
 Aparecieron dos, y ninguna es la prensa:
 
 - **RSSSF** tiene el Argentino A 2005-06 entero en una página de texto plano.
-- **El feed de ESPN** devuelve cada temporada de Primera B y C en una sola llamada.
+- **El feed de ESPN** devuelve cada temporada de Primera B y C en una o dos llamadas.
 
 ### Usar RSSSF justo después de haberla desenmascarado
 
-Vale detenerse acá, porque a cuatro secciones de distancia este README cuenta que
+Vale detenerse acá, porque más arriba —en [Los 16 que no cierran, ordenados](#los-16-que-no-cierran-ordenados)— este README cuenta que
 RSSSF resultó ser **el ancestro del error** en el Clausura 2005: publicaba la
 tabla de Wikipedia con el mismo desbalance de 3 goles, así que no era un testigo
 sino un eco.
@@ -2035,7 +2145,10 @@ existe cuando las dos fuentes pueden haberse copiado el dato en disputa.** Acá 
 dato en disputa es la fecha, y Wikipedia no publica ninguna —es exactamente la
 razón por la que esos partidos estaban en `sin-fecha/`—. La fecha de RSSSF no
 puede ser un eco de Wikipedia ni al revés: es información nueva. Y el marcador,
-que sí podría ser un eco, **no se importa**: se usa para verificar.
+que sí podría ser un eco, **no se importa** al fechar: se usa para verificar.
+(Hoy RSSSF aporta además partidos enteros —las llaves que les faltaban a seis
+torneos, éste entre ellos, y las once páginas `sin_grilla`—, y ahí el marcador sí
+viene de ella.)
 
 ### Sin número de jornada
 
@@ -2048,8 +2161,8 @@ distintos sobre 384 partidos en la Primera C 2008-09.
 
 Lo que sostiene el cambio no es esa aritmética sino que la regla de colisión sigue
 puesta: los playoffs vuelven a cruzar a los mismos, y ahí el par deja de
-identificar, así que **se caen los dos**. Es la mayor parte de las 72 filas que
-todavía no tienen fecha.
+identificar, así que **se caen los dos**. Era la mayor parte de las 72 filas que
+quedaron sin fecha en ese momento; hoy quedan 6, y ninguna es de éstas.
 
 ### La guarda que el marcador no da
 
@@ -2073,7 +2186,7 @@ en la 2009-10 UAI no jugó, así que ahí no se traduce.
 
 ### El resultado
 
-| | antes | ahora |
+| | antes | después |
 |---|---|---|
 | con fecha | 36 966 | **39 255** |
 | sin fecha | 2 345 | **72** |
@@ -2143,8 +2256,10 @@ desaparecen, y el torneo pasa de **15 partidos sin fecha a 1**.
 La Florida vs Sportivo Patria, Clausura Fecha 10. Se abandonó y el fallo fue
 **«0-1 en contra de los dos»** — los dos equipos pierden 0-1, que no es un
 marcador y nuestro esquema no puede expresarlo. Es el mismo caso que
-Laferrere–Dock Sud en la Primera C 2015. Queda sin fecha y anotado, que es lo
-único honesto que se puede hacer con él.
+Laferrere–Dock Sud en la Primera C 2015. Quedó sin fecha y anotado, que era lo
+único honesto que se podía hacer con él entonces. Hoy ya no está ni en `sin-fecha/`:
+salió del dataset como `Dividido`, igual que Laferrere–Dock Sud, y el build lo
+nombra cada vez que reparsea su página (`python build.py --rehacer`).
 
 ## Ocho páginas que tenían árbitro y no lo sabían
 
@@ -2188,8 +2303,8 @@ vacío y todo sigue como estaba.
 
 ### El resultado
 
-**Ocho páginas pasaron de no tener árbitro a tenerlo**, y traen 27 discrepancias
-que antes no se veían:
+**Ocho páginas pasaron de no tener árbitro a tenerlo**, y trajeron 27 discrepancias
+que antes no se veían (hoy el build no deja ninguna abierta en esas ocho):
 
 | página | filas de tabla | avisos |
 |---|---|---|
@@ -2254,8 +2369,9 @@ Estas páginas ponen su fase regular bajo `== Primera fase ==` → `=== Zona Nor
 
 Ahora no se fuerza: **se le pregunta a la tabla**. Si rotula sus bloques `Fecha N`
 es fase regular, salvo que la sección que la contiene diga lo contrario — y esa
-salvedad conserva el caso que motivó el flag, un `Resultados` colgado de
-`== Ronda de desempate ==`.
+salvedad conservaba el caso que motivó el flag, un `Resultados` colgado de
+`== Ronda de desempate ==`, que después resultó ser una mini-liga y hoy va a fase
+de zonas: ver [El triangular que estaba como llave](#el-triangular-que-estaba-como-llave).
 
 Con una trampa que vale la pena decir: **`Fecha` es también el nombre de una
 columna**, la del día. Contarla haría pasar por fase regular a cualquier tabla que
@@ -2266,9 +2382,10 @@ publique cuándo se jugó cada partido, así que sólo se miran los encabezados 
 ninguna página cambia de cantidad. Las dos pasan a tener árbitro: 39 y 26 clubes
 comparables, con diez desvíos que antes eran invisibles.
 
-Quedan tres partidos del Federal A 2018-19 con la misma firma que **no** cambian:
-su tabla no rotula `Fecha N` con `colspan`. Se dejan anotados en vez de aflojar el
-criterio para que entren.
+Quedaron tres partidos del Federal A 2018-19 con la misma firma que **no** cambiaron,
+con una nota —«su tabla no rotula `Fecha N` con `colspan`»— que resultó falsa. Se
+dejaron anotados en vez de aflojar el criterio para que entraran. Hoy están en fase de
+zonas: ver [El triangular que estaba como llave](#el-triangular-que-estaba-como-llave).
 
 ## 34 nombres que apagaban al árbitro, y uno que le daba los partidos a otro club
 
@@ -2341,7 +2458,7 @@ abstiene a propósito.
 
 ## El error que no falla nunca: el nombre pelado de la grilla
 
-Los tres chequeos del cruce miraban la **tabla**. `fuera_del_padrón` pide que el
+Los tres chequeos del cruce miraban la **tabla**. `fuera_del_padron` pide que el
 nombre sea ilegible; `sin_partidos`, que la fila no tenga contra qué cruzarse;
 `contrastar`, que los goles no cierren. Ninguno ve el error que entra por la
 **grilla**, y es el único que no falla nunca: un nombre pelado —`Juventud Unida`,
@@ -2372,7 +2489,7 @@ es eliminación directa y no publica tabla. Con las correcciones puestas **no di
 nada**; sacándolas prende seis veces y las seis tiene razón.
 
 Una reserva medida, que vale más que el titular: de los ocho casos, **cinco ya
-los agarraba `validar.nombres_en_el_padrón`**, que además es grave y frena el
+los agarraba `validar.nombres_en_el_padron`**, que además es grave y frena el
 build — son nombres que el padrón no resuelve *en absoluto*. Los verdaderamente
 silenciosos, donde el padrón contesta y contesta mal, son **tres**: `Juventud
 Unida` del Argentino A 2010-11 (36 partidos), `Unión` de la misma página, y
@@ -2385,8 +2502,9 @@ Una fila de wikitabla tiene que cerrar consigo misma (`GF − GC == DIF` y
 `PG + PE + PP == PJ`). La guarda es correcta —una fila mal tipeada no puede
 desmentir a nadie— pero descartaba **sin decirlo**, y eso deja al club sin
 árbitro. Ningún otro chequeo puede suplirlo: no se opina sobre una fila que no se
-parseó. Son tres en 131 páginas, y las tres son erratas de la fuente que la
-grilla desmiente sola:
+parseó. Eran tres en las 131 páginas de entonces, y las tres son erratas de la fuente que la
+grilla desmiente sola (hoy son seis en 168: se sumaron una de la Primera División
+1987-88, una de la 1988-89 y una del Clausura 1991):
 
 | página | fila | qué no cierra |
 |---|---|---|
@@ -2422,7 +2540,8 @@ clubes corridos lo mismo y para el mismo lado son *un partido entre ellos*. Los
   del 4 de mayo, después de la fase regular y sin número de fecha: un partido de
   reducido clasificado como fase de zonas.
 
-Los dos quedan como aviso abierto. Localizar no es arbitrar.
+Los dos quedaron como aviso abierto —localizar no es arbitrar— y se cerraron
+después: son las dos secciones que siguen. Hoy este chequeo no deja ninguno abierto.
 
 ## El partido que faltaba en la Primera C 2016
 
@@ -2474,8 +2593,11 @@ hubiera sido cualquier otro, los goles de esos dos clubes no cerrarían.
 Es el único que **agrega** una fila en vez de arreglar una, así que la vara es
 más alta: el marcador tiene que salir de la página misma y con dos testigos
 independientes. Si hay que ir a buscarlo afuera, no entra y queda el aviso
-abierto — que es lo que sigue pasando con Laferrere–Dock Sud y con La
-Florida–Sportivo Patria.
+abierto — que al escribir esto era lo que pasaba con Laferrere–Dock Sud y con La
+Florida–Sportivo Patria. Hoy esos dos están declarados como `Dividido`: no les
+falta un marcador, tienen dos. Y la vara se corrió una vez: el segundo
+`Faltante`, el Godoy Cruz–Deportivo Armenio de la Copa Argentina 2018-19, saca
+su 2-1 de otra página de Wikipedia y de RSSSF.
 
 Dos detalles que el mecanismo cuida:
 
@@ -2566,12 +2688,17 @@ dio por perdido a ambos por arreglar el resultado.
 `away_score`; cualquier par de números que se ponga ahí afirma que alguien ganó.
 No es una limitación del parser sino del esquema, y por eso este partido **no
 entra** — igual que La Florida–Sportivo Patria del Argentino A 2005-06, que es el
-mismo caso desde 2006.
+mismo caso desde 2006. Hoy son 13 los que quedan afuera así: están uno por uno en
+`correcciones.DIVIDIDOS` y el build los nombra. La columna `status`, que llegó
+después, no los resuelve.
 
 La tabla lo confirma y de paso explica otra cosa: le pone `GF+0 GC+1` **a cada
 uno**, o sea 0-1 en contra de los dos. Por eso la tabla de esa Reválida suma 184
-goles a favor y 186 en contra: es la única del corpus que no cierra por un motivo
-legítimo. El desbalance *es* el fallo.
+goles a favor y 186 en contra: no cierra, y por un motivo
+legítimo. El desbalance *es* el fallo. Al escribir esto era la única del corpus.
+Hoy hay más con los mismos dos goles de más y por lo mismo: Primera División
+1989-90 y 1990-91, el Clausura del Argentino A 2005-06 y las zonas B y C del
+Clausura del Argentino A 2006-07.
 
 ### Lo que sí se arregla: que lo diga
 
@@ -2580,15 +2707,19 @@ aparece como un partido que falta —el chequeo de PJ lo denuncia, porque la tab
 sí lo cuenta— y manda a buscar un error de lectura que no existe. Es «vacío no es
 lo mismo que ilegible» otra vez, la tercera en este repo.
 
-`parser.partidos_anulados` lo nombra. Dos casos en las 131 páginas: éste y la
+`parser.partidos_anulados` lo nombra. Eran dos casos en las 131 páginas —hoy son
+tres en 168, con el San Lorenzo–Huracán del Apertura 1997—: éste y la
 Copa Argentina 2013-14, donde Estudiantes Unidos y Belgrano de Esquel
 abandonaron el torneo por problemas económicos. El segundo obligó a que el
 detector no mire una posición fija: la liga ordena Local-Resultado-Visitante y la
 copa Fecha-Estadio-Equipo 1-Partido-Equipo 2, así que se busca la celda anulada
 donde caiga y los clubes se toman de sus dos vecinas.
 
-Ahora la página lleva los dos avisos, y juntos cuentan la historia entera: uno
-dice que la tabla cuenta un partido más, el otro dice por qué.
+Con eso la página pasó a llevar los dos avisos, y juntos contaban la historia
+entera: uno decía que la tabla cuenta un partido más, el otro decía por qué. Hoy
+el primero ya no sale —el partido está declarado como `Dividido` y el chequeo de
+PJ lo suma—, y los dos avisos que quedan dicen lo mismo: que el partido existe y
+por qué no entra.
 
 ## Doce tandas de penales que no estaban
 
@@ -2601,9 +2732,12 @@ Wikipedia la escribe de otra forma más, y esa no la leía nadie:
 |Villa Mitre
 ```
 
-Son **doce partidos**, y no cualquiera: la final del Argentino A 2005-06, la del
+Con el arreglo aparecieron **doce tandas**, y no cualquiera: la final del Argentino A 2005-06, la del
 Federal A 2022, la del 2023, el desempate por el tercer ascenso de 2023. Es
-justo donde la tanda no es un detalle sino **quién ascendió**.
+justo donde la tanda no es un detalle sino **quién ascendió**. No todas estaban
+escritas así: con la palabra hay tres celdas en las 168 páginas de hoy, todas del
+Argentino A. Las demás usaban la notación de siempre, pero en una tabla de liga,
+donde la tanda no se leía.
 
 La segunda notación pide la **palabra escrita** y no sólo dos números, y eso no
 es cosmético: `0:1 (0:0)` es el **entretiempo**, y leerlo como penales es el
@@ -2620,8 +2754,8 @@ leería de la columna de al lado.
 `1 – 0` con raya media (U+2013) se ve igual que `1 - 0` y no lo es. `_marcador`
 aceptaba `-` y `:`, así que esa fila **no tenía marcador y el partido se
 descartaba entero**: el desempate por el descenso del Argentino A 2005-06,
-General Paz Juniors–Cipolletti, no existía en el dataset. Es uno solo en las 131
-páginas, y esa es exactamente la razón por la que no se veía.
+General Paz Juniors–Cipolletti, no existía en el dataset. Era uno solo en las 131
+páginas —hoy son dos en 168—, y esa es exactamente la razón por la que no se veía.
 
 ## El triangular que estaba como llave
 
@@ -2653,10 +2787,10 @@ otro. La página se verifica sola.
 
 ## La región ciega, y el testigo que sí tiene una copa
 
-Los cuatro chequeos del cruce comparan la grilla contra **la tabla de
+Los chequeos del cruce comparan la grilla contra **la tabla de
 posiciones**. Eso deja una región donde ninguno puede opinar: **una copa no
-publica tabla.** Sus catorce páginas son casi todo el punto ciego —1 299 lados de
-partido, el 1,7 % del dataset—, y ahí una grilla equivocada no tiene contra qué
+publica tabla.** Sus catorce páginas —1 736 lados de partido, el 1,8 % del
+dataset— son casi todo el punto ciego, y ahí una grilla equivocada no tiene contra qué
 contrastarse. Se probó por inyección: falsificando la tabla del Argentino A
 2010-11 para que coincida con la grilla, los nueve chequeos quedan mudos.
 
@@ -2680,27 +2814,35 @@ Tres cosas rompen la lectura ingenua, y las tres estaban:
 
 ### Qué encuentra
 
-23 avisos, en dos niveles porque son dos cosas distintas:
+Al estrenarlo, 23 avisos, en dos niveles porque son dos cosas distintas:
 
-- **Uno por club** cuando el que falta tiene un **homónimo que sí juega**. Son 14,
+- **Uno por club** cuando el que falta tiene un **homónimo que sí juega**. Eran 14,
   y es la firma que este chequeo vino a buscar: la Primera B 2014, 2015 y 2017-18
   escriben `Estudiantes` a secas en el cuadro —que el padrón resuelve al de La
   Plata, un club de Primera— mientras la grilla juega Estudiantes (BA). El
   Argentino A 2005-06 nombra `Talleres (C)` donde la grilla juega Talleres (P).
 - **Uno por página** cuando no hay homónimo: ahí lo que falta no es un nombre sino
   **los partidos**. La Copa Argentina 2019-20 tiene un cuadro de 64 y la grilla
-  trae 42. Es un hueco de completitud conocido, y se dice en una línea y no en
-  noventa y seis.
+  traía 42. Era un hueco de completitud conocido, y se dice en una línea y no en
+  noventa y seis. El capítulo que sigue lo cierra: hoy trae 63.
+
+De esos 23 hoy queda uno, y no es de homónimo: Los Andes en la Copa Argentina
+2022, que no se presentó y no tiene marcador que escribir. El otro aviso que hoy
+deja el chequeo es de una clase que entonces no existía —el nombre que el padrón no
+reconoce—: el `Perdedor Final` que el cuadro de la Primera C 2026 escribe donde
+todavía no hay club.
 
 ### Lo que se resigna, dicho
 
-Los nombres que el padrón no reconoce se saltean. Un cuadro trae, mezcladas con
+Al estrenarlo, los nombres que el padrón no reconocía se salteaban. Un cuadro trae, mezcladas con
 los clubes, marcas que no lo son —`w/o`, `p.` por penales, `t. s.` por tiempo
-suplementario, el `1:` de la siembra— y no se distinguen por su forma de un club
-que al padrón le falte. El costo es no ver las grafías que **sólo** aparecen en el
+suplementario, el `1:` de la siembra— y no se distinguían por su forma de un club
+que al padrón le falte. El costo era no ver las grafías que **sólo** aparecen en el
 cuadro: `Sarmiento (Junín)` y `San Martin (F)` sin tilde son clubes de verdad
-escritos de una forma que el padrón no tiene, y como no entran por ningún partido,
-`nombres_en_el_padrón` tampoco los ve. Es una elección, no una propiedad.
+escritos de una forma que el padrón no tenía, y como no entran por ningún partido,
+`nombres_en_el_padron` tampoco los veía. Era una elección, no una propiedad, y se
+dio vuelta: hoy `clubes_del_cuadro` saca la siembra y las marcas, el nombre que el
+padrón no reconoce se avisa, y de los 1 434 que traen los cuadros de 76 páginas queda uno solo.
 
 ## 240 partidos que las copas no entregaban
 
@@ -2740,18 +2882,22 @@ de **0 avisos graves a 5** —dos duplicados y tres clubes fuera del padrón— 
 build corta. Los tres clubes que hubo que dar de alta son reales y entran por
 estas rondas nuevas: Alianza de Moldes, Jorge Gibson Brown y Villa Cubas.
 
-Una decisión que vale anotar: `Preclasificatorio` y `Ronda previa` van **sólo** en
+Una decisión que valió anotar: `Preclasificatorio` y `Ronda previa` iban **sólo** en
 el regex de títulos y **no** en la cadena de llaves. A la Ronda previa entran
 cuarenta equipos frescos que no ganaron el Preclasificatorio, así que pedirle a
-cada uno que venga de la ronda anterior da cuarenta y ocho avisos falsos. Se
-saltea con uno solo, que es más barato y no miente.
+cada uno que venga de la ronda anterior daba cuarenta y ocho avisos falsos. Se
+salteaba con uno solo, que era más barato y no mentía. Ya no hace falta: la
+cadena aprendió a decir «entran sin venir de la ronda anterior» en vez de
+acusarlos, las dos rondas están en `parser.RONDAS` y la Copa Argentina 2012-13
+se revisa entera.
 
 **Resultado: 240 filas nuevas, cero perdidas.** Trece de las catorce ediciones
 quedan en su total exacto —2013-14 son 53 y no 63, porque su cuadro arranca en
-dieciseisavos— y la 2026 está en curso. La única que sigue incompleta es la
-2018-19, a la que le falta un partido cuya fila está rota en la fuente
+dieciseisavos— y la 2026 está en curso. La única que quedó incompleta fue la
+2018-19, a la que le faltaba un partido cuya fila está rota en la fuente
 (`|-bgcolor=#F5FAFF}|align=center|...`, sin salto de línea) y que ningún arreglo
-de parser recupera.
+de parser recupera. Entró después a mano, como `Faltante` —Godoy Cruz 2-1
+Deportivo Armenio—, y hoy la 2018-19 tiene sus 63.
 
 ## 1991-1996: trece temporadas, y la última sin grilla
 
@@ -2830,7 +2976,7 @@ lo dice en la cola del renglón —y el Apertura 1993 lo cuelga en el renglón d
 porque la cola ya la ocupa `[at Córdoba]`. `_anotacion` no servía: corta apenas la
 nota de la derecha cierra, con lo que nunca baja. Van por caminos distintos a
 propósito —aquella junta una nota partida en varias líneas, la nueva mira si hay
-*otra* nota abajo—. De las nueve notas colgadas de estos seis archivos, siete son
+*otra* nota abajo—. De las nueve notas colgadas de los cuatro archivos cableados hasta ahí, siete son
 listas de goleadores y una dice que un partido se falló: sólo una es continuación.
 
 **`[Abr 18]`.** Una vez en seis archivos, rodeada de meses en inglés, en una ronda
@@ -2947,7 +3093,7 @@ precedencia —**no llegar al final manda sobre el fallo**— las agarra antes.
 **Y del lado de RSSSF se tiraba la suspensión cuando no había fallo.** El lector recién
 aprendió a leer quién se quedó con los puntos, pero una nota como
 `[Suspended in 46'; not continued]` no dice eso y sí dice lo otro: que el partido no
-llegó al final, que es el eje entero de la columna. Son seis filas, todas de torneos **sin
+llegó al final, que es el eje entero de la columna. Eran seis filas, todas de torneos **sin
 grilla** —los únicos donde este status llega al dataset, porque en los demás la fila la
 pone Wikipedia—.
 
@@ -2974,7 +3120,7 @@ número cambió después— y **uno es `suspendido`**, el `Talleres–River`, qu
 cortó a los 27 del segundo tiempo. Deducirlo habría dado mal en uno de tres.
 
 Y es una excepción, no la regla: de los `66` marcadores que cambian un resultado, sólo
-esos tres son fallos. El resto arregla un dígito mal transcripto sobre un partido que se
+esos tres traen un fallo que su fila no anota. El resto, casi todo, arregla un dígito mal transcripto sobre un partido que se
 jugó normalmente, y escribirles `escritorio` sería mentir. Un test lo sostiene —exige
 que el valor sea uno de los del esquema y **que no sean más de seis**—, porque si alguna
 vez la mitad de los marcadores lo usa, lo que hay que arreglar es el lector.
@@ -3141,8 +3287,29 @@ torneos bajo el rótulo de uno, y encima fechados, que es la peor forma de estar
 El recorte tampoco puede estirarse hasta incluir la tabla de RSSSF para que la foja la
 lea: se probó, y la tabla de esta época trae **once columnas numéricas** donde el
 lector espera siete, así que devuelve números que no son. Es el mismo motivo por el
-que el recorte del `Apertura 1992` termina en su tabla. Acá el testigo automático no
-aplica y el que vale es el manual, que está medido arriba.
+que el recorte del `Apertura 1992` termina en su tabla. Acá la foja no
+aplica. El testigo que vale es la tabla de Wikipedia: al escribir esto estaba medida a
+mano, arriba, y hoy la cruza el build cada vez que reprocesa la página. No mira lo
+mismo que aquella cuenta: compara PJ, goles y G-E-P y no los puntos, así que lo de
+Huracán no lo ve; y deja afuera la fila de San Lorenzo, que publica DIF +13 con 29-18.
+De las 19 que usa, cierran 19.
+
+### Y por el mismo camino, 1985-1990
+
+El camino que abrió el Clausura 1991 —los partidos de RSSSF, la tabla de Wikipedia de
+árbitro— siguió hacia atrás, y hoy la capa de abajo también está: la otra mitad de
+`arg91`, que es el Apertura 1990, y los cinco campeonatos de 1985-86 a 1989-90, que
+Wikipedia publica con su tabla y, salvo ocho fechas de la 1989-90, sin sus partidos. Son
+**2 049 partidos, del 6 de julio de 1985 al 22 de diciembre de 1990, todos con fecha y
+con cero graves**. Cada archivo trajo lo suyo —en `arg90` el corte habitual dejaba media
+temporada afuera sin un aviso, y `arg89` escribe pegadas al marcador 131 de las 132 tandas de
+penales de la 1988-89, que el lector se salteaba— y está contado en los comentarios de
+`fad/rsssf.py`. Tres partidos no tienen fila porque el fallo fue contra los dos clubes, y
+la capa no trae hora ni cancha. Lo que falta de esos años, el Nacional 1985 y las
+liguillas, está en [`TODO.md`](TODO.md).
+
+*Las tres secciones que siguen son de antes: cuentan la búsqueda cuando todavía quedaban
+tres partidos sin fecha. Hoy no queda ninguno.*
 
 ### Buscar en prensa: dos se cerraron, uno no
 
@@ -3162,7 +3329,7 @@ Los dos tienen la misma forma: **RSSSF publica el marcador de la cancha y la pá
 homologó el tribunal**. No es un desacuerdo, es que cada fuente contesta una pregunta
 distinta. Y RSSSF lo dice — cuelga `[River won the points (0-1)]` y
 `[Later Vélez Sarsfield won the points (1-0)]` al lado del marcador—, sólo que el lector
-todavía no lee esa nota.
+todavía no leía esa nota. Hoy la lee: es `_FALLADO`, contado más arriba.
 
 **Lo que faltaba no era la evidencia sino el cable.** El mecanismo para esto ya existía:
 `correcciones.MARCADORES` con `debe == dice`, que quiere decir «la página ya tenía razón y
@@ -3180,11 +3347,13 @@ local en los dos. Es la fuente contradiciéndose a sí misma en esa línea.
 Pero el DÍA no se pudo cerrar: dos fuentes independientes dicen sábado 19/03/1994 y RSSSF
 dice viernes 18, y la jornada estuvo efectivamente partida entre los dos días —hay otros
 partidos de la fecha 19 el 18—. Que RSSSF se equivoque en la localía no prueba que se
-equivoque en el día. Queda sin fechar, que es lo que corresponde.
+equivoque en el día. Quedó sin fechar, que era lo que correspondía, hasta que lo zanjó el diario del día
+siguiente: está contado más arriba, y hoy la fila lleva el `1994-03-19`.
 
-### Lo que no hay: prensa de época
+### Lo que no había: prensa de época
 
-De los tres partidos, **cero fuentes contemporáneas**. Todo lo que se consiguió son
+De los tres partidos, **cero fuentes contemporáneas** en esa búsqueda —la del tercero
+apareció después, en la hemeroteca del párrafo de abajo—. Todo lo que se consiguió son
 reconstrucciones de 2012-2025: bases de estadística, blogs y notas retrospectivas. Los
 archivos digitales de Clarín y La Nación no llegan a 1991-1994, y El Gráfico no tiene sus
 ediciones digitalizadas.
@@ -3195,26 +3364,26 @@ Nacional** tiene Página/12 de 1987 a 2009 en acceso libre, con los PDF servidos
 que reconstruir una fecha implica abrir el PDF del lunes correspondiente. Es un camino
 real pero caro, y conviene guardarlo para lo que no se pueda de otro modo.
 
-### Los tres que se quedaron sin fecha *(quedó uno)*
+### Los tres que se quedaron sin fecha *(hoy, ninguno)*
 
 De 1 330, tres. Son **dos clases distintas de desacuerdo**, y conviene no meterlas
 en la misma bolsa: la primera versión de este párrafo decía que las tres eran lo
-mismo y era falso —salió de suponer, no de mirar—. Los dos primeros ya se cerraron;
+mismo y era falso —salió de suponer, no de mirar—. Hoy los tres están cerrados;
 el detalle está arriba.
 
 **Dos terminaron en un escritorio y no en la cancha**, que es donde dos fuentes
 honestas se separan sin contradecirse. `Racing 0-1 River`, Fecha 3 del Apertura 1991:
 RSSSF publica `0-0` y aclara al lado `[Suspended at 73' for the agression to River's
 goalkeeper]` `[River won the points (0-1)]`. O sea que dice *las dos cosas* —el
-marcador de la cancha y el del fallo— y nosotros leemos sólo la primera. `Vélez–Boca`
+marcador de la cancha y el del fallo— y nosotros leíamos sólo la primera. `Vélez–Boca`
 de la Fecha 4 del Clausura 1993 es el mismo caso al revés: la página trae el `1-0`
 del fallo, RSSSF el `1-1` de la cancha, y la propia página cuelga una nota sobre el
 fallo que el parser tampoco supo leer.
 
 **El tercero no es un marcador sino una localía.** `Gimnasia (LP)–Boca`, Fecha 19 del
 Apertura 1993: las dos fuentes coinciden en la ronda y en el `1-1`, y difieren en
-quién jugó de local. Ahí no alcanza con mirar el resultado —hay que averiguar en qué
-cancha se jugó—, y hasta entonces no se fecha.
+quién jugó de local. Ahí no alcanzaba con mirar el resultado —había que averiguar en qué
+cancha se jugó—, y hasta averiguarlo no se fechó.
 
 En los tres el motivo de fondo es el mismo y es deliberado: `completar` usa el
 marcador para **verificar** y los equipos para **identificar**. Prefiere no fechar
@@ -3267,7 +3436,7 @@ lectores, no dentro de uno.
 
 **Ningún partido del dataset espera una fecha.** Quedan 6 sin fecha y ninguno la
 espera: son los que el Federal A 2024 le dio por perdidos a Sansinena, que no se
-jugaron. Los avisos bajan de `166` a `164`.
+jugaron. Con esto los avisos bajaron de `166` a `164`.
 
 ## Fechar un desacuerdo: la tabla, pero la del día del partido
 
@@ -3440,7 +3609,7 @@ cierra la tabla. Una tabla corta no se distingue de una zona chica, así que no 
 decía nadie. Pasaba en tres tablas de dos archivos.
 
 Se acepta espacio **o** que el nombre venga terminado en paréntesis. Aflojarlo a
-un `\s*` a secas mide igual sobre los doce archivos —diez filas nuevas, ninguna
+un `\s*` a secas mide igual sobre los archivos que leemos —diez filas nuevas, ninguna
 que se lea distinto— pero deja que la parte perezosa frene *en medio* de un
 nombre y lea como PJ un pedazo del nombre. El ancla no cuesta una fila y saca la
 clase entera de error.
@@ -3452,10 +3621,10 @@ Con las zonas leídas, más las fases declaradas y el mapa de nombres de 2011-12
 | | páginas | clubes respaldados |
 |---|---:|---:|
 | antes | 10 | 201 |
-| ahora | **12** | **239** |
+| con este paso | **12** | **239** |
 
-Los cuatro `sin grilla` siguen en 8 / 17 / 25 / 25, el dataset no gana ni pierde
-una fila y los avisos siguen en 166.
+Los cuatro `sin grilla` del Argentino A siguen en 8 / 17 / 25 / 25; con este paso
+el dataset no ganó ni perdió una fila y los avisos quedaron en 166.
 
 ### Y una corroboración que no se buscaba
 
@@ -3523,7 +3692,7 @@ ninguno: son cinco páginas y **tres causas distintas**, otra vez.
 
 ### La fuente tiene dos formatos de tabla
 
-Desde 2011-12 RSSSF publica los goles a favor y en contra en **columnas
+En el ascenso, desde 2011-12 RSSSF publica los goles a favor y en contra en **columnas
 separadas** (`42  23`) en vez de pegados con un guion (`42-23`). Nuestro lector
 sólo conocía el segundo, así que `arg2012` y `arg3-int2013` figuraban como *«no
 publican ninguna tabla»* — una afirmación sobre nuestro lector, no sobre la
@@ -3542,8 +3711,10 @@ el encabezado separa **dos cosas que se escriben igual** — los archivos viejos
 rotulan `Table:` a secas las tablas de *media* temporada, y el Argentino A 2006-07
 tiene seis. Abrirlas como si fueran la acumulada le mete a cada zona una segunda
 tabla distinta, y los ocho clubes que esa página respalda se van a cero. El
-encabezado no aparece en ninguna: medido, está en `arg2012` y `arg3-int2013` y en
-ningún otro archivo de los que leemos.
+encabezado no aparece en ninguna: medido entonces, estaba en `arg2012` y
+`arg3-int2013` y en ningún otro de los doce archivos que se leían. Hoy se leen
+veinticuatro y lo traen once: los nueve que se sumaron son de la Primera de 1985
+a 1996, casi todos con otras columnas, y ahí la foja todavía no cruza nada.
 
 ### El mapa de zonas, que no existía
 
@@ -3571,22 +3742,29 @@ zonas de la fase regular, y el dataset no se mueve ni una fila.
 | | páginas | clubes respaldados |
 |---|---:|---:|
 | antes | 9 | 177 |
-| ahora | 10 | **201** |
+| con este paso | 10 | **201** |
 
 ### Y las tres que faltan, ahora sí con su motivo
 
-- **2004-05** — RSSSF no publica **ninguna** tabla de esa temporada: `arg3-int05`
-  son 306 renglones de índice. No hay nada que leer mejor.
+- **2004-05** — RSSSF **sí** publica tablas de esa temporada: `arg3-int05` trae
+  doce, una por zona del Apertura, del Clausura y de la general, 60 filas. Lo que
+  falta es de los dos lados. `leer_tabla` no abre ninguna —las filas van sin punto
+  tras el puesto, ningún rótulo las anuncia y el mapa de ese archivo no tiene
+  claves de zona—, y aunque las abriera no habría contra qué sumarlas: de los 200
+  partidos de zonas de esa temporada el dataset tiene 20. Este renglón decía «no
+  publica ninguna», y era otra afirmación sobre nuestro lector.
 - **2005-06, 2011-12 y 2012-13** — las tres tienen tablas legibles y clubes que
-  calzan, y lo que falta es **nuestro** lado: las páginas publican
-  `=== Zona Norte` / `===== Zona Sur` y el parser no las mira. Los partidos entran
-  por el camino de respaldo, que pasa la llave pero **no** la zona, así que sus
-  filas salen con la columna `group` vacía.
+  calzan, y lo que faltaba era **nuestro** lado: las páginas publican
+  `=== Zona Norte` / `===== Zona Sur` y el parser no las miraba. Los partidos
+  entraban por el camino de respaldo, que pasaba la llave pero **no** la zona, así
+  que sus filas salían sin su zona en la columna `group`.
 
-Ese último es el hallazgo que vale más que el cruce: no es una limitación de la
-fuente sino un agujero nuestro, y taparlo llena una columna que hoy se publica
-vacía en unas 1 150 filas. Va con su propio arnés de equivalencia, porque cambia
-el dataset y no sólo un chequeo.
+Ese último es el hallazgo que vale más que el cruce: no era una limitación de la
+fuente sino un agujero nuestro. Al escribir esto se estimaban unas 1 150 filas
+sin su zona; se tapó en el paso siguiente —el capítulo de arriba, «La zona estaba
+en la página y no la pedíamos»— y al medirlo fueron 936: 673 que estaban vacías y
+263 con una zona equivocada. Fue con su propio arnés de equivalencia, porque
+cambia el dataset y no sólo un chequeo.
 
 ## El testigo que estaba escrito y miraba el archivo equivocado
 
@@ -3639,17 +3817,18 @@ tests que ya no miran nada—, esta vez aplicada en el mismo commit.
 
 ### Y la tercera no se arregló
 
-Los cinco Argentino A publican **una tabla por zona**, y para cruzarlas hace falta
-el mapa de nombres de cada temporada, que no está escrito. Siguen en cero. Pero
-ahora están en cero por abstención declarada y no por leer el archivo equivocado,
-que no es lo mismo aunque el número sea igual.
+Los cinco Argentino A publican **una tabla por zona**, y para cruzarlas hacía falta
+el mapa de nombres de cada temporada, que no estaba escrito. En este paso siguieron
+en cero —hoy cruzan cuatro de los cinco, y es lo que cuentan los dos capítulos de
+arriba—. Pero ya estaban en cero por abstención declarada y no por leer el archivo
+equivocado, que no es lo mismo aunque el número sea igual.
 
 ### Lo que rinde
 
 | | páginas | clubes respaldados |
 |---|---:|---:|
 | antes | 4 | 75 |
-| ahora | 9 | **177** |
+| con este paso | 9 | **177** |
 
 Cinco temporadas enteras nuevas —B Nacional 2007-08, Primera C 2008-09, 2009-10 y
 2010-11, y Primera B 2010-11— en las que RSSSF le da la razón a nuestra grilla en
@@ -3709,7 +3888,9 @@ propósito de 562 maneras y exige que la suite se dé cuenta de cada una.
 python mutar.py
 ```
 
-Encontró once agujeros reales. Uno resultó ser un **mutante equivalente** —
+Con los primeros 55 mutantes encontró once agujeros reales, y después siguió
+encontrando: los capítulos de arriba cuentan los suyos. Uno de aquellos once resultó
+ser un **mutante equivalente** —
 escribir `None` en vez de cadena vacía no cambiaba nada, porque el módulo `csv`
 ya convierte `None` en campo vacío — y ahí lo que sobraba era el código, no el
 test.
@@ -3736,9 +3917,23 @@ falla si hay un nombre repetido.
 
 ## De dónde salen los datos
 
-Wikipedia en español, vía la API de MediaWiki, pidiendo el **wikitexto** y no el
+La base es Wikipedia en español, vía la API de MediaWiki, pidiendo el **wikitexto** y no el
 HTML: es lo que editan las personas, y las plantillas vienen con sus parámetros
 nombrados en vez de aplastadas en un `<table>`.
+
+No es la única fuente. Hoy 9 703 filas nombran en `source` una segunda:
+[RSSSF](https://www.rsssf.org/) (8 082), [worldfootball](https://www.worldfootball.net/)
+(1 519), el blog de José Carluccio (76), el feed de ESPN (21) y cinco filas con una cita
+propia. En la mayoría esa segunda fuente pone la fecha y nada más. La excepción es
+RSSSF en los once torneos cuya página no publica los partidos —la Primera División de
+1985-86 a 1989-90, el Apertura 1990, el Clausura 1991 y los Argentino A de 2006-07 a
+2009-10—: ahí las 3 812 filas salen enteras de RSSSF, y lo que pone Wikipedia es la
+tabla de posiciones que las verifica. Menos en 190: las fechas 20 a 38 de la 1988-89,
+donde la tabla final de la página tiene mal los goles de 14 clubes y el build cruza
+sólo la del Apertura. A esas las sostiene la tabla de la propia RSSSF, en un test. En otros ocho torneos el build pide afuera las
+llaves de la fase final y agrega las que la página no tenga como partidos —a RSSSF en
+siete y a ESPN en uno—. Hoy son 147 filas de siete torneos: en la B Nacional 2007-08
+la página ya las trae todas.
 
 Las páginas están listadas a mano en [`fad/torneos.py`](fad/torneos.py). Se
 podría adivinar el título por patrón, pero el fútbol argentino le cambió el
@@ -3754,17 +3949,21 @@ Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos
 - [x] **1.** Primera División 2026 (Apertura + Clausura)
 - [x] **2.** Padrón de clubes con normalización, validado contra el feed de la AFA
 - [x] **3.** Histórico 2016-2025 — diez temporadas, siete nombres distintos para el mismo campeonato
-- [x] **4.** Copa Argentina — 2016-2026, tercer formato de página; es el único torneo donde se cruzan las divisiones
+- [x] **4.** Copa Argentina — 2016-2026, tercer formato de página; es el torneo donde se cruzan las divisiones
 - [x] **5.** Primera Nacional, Primera B, Primera C y Federal A — 2016-2026, las cuatro divisiones que juegan la Copa Argentina
 - [x] **6.** Actualización automática — dos workflows, con guarda contra achicarse
 - [x] **7.** Publicado y actualizándose solo
-- [ ] **8.** Seguir hacia atrás: 1991-2003, y después la era Metropolitano/Nacional
+- [x] **8.** Hacia atrás hasta 1985 — Primera División desde la 1985-86, el Argentino A de 2004-05 a 2013-14, Primera Nacional desde 2007-08, Primera C desde 2008-09, Primera B desde 2010-11 y la Copa Argentina desde 2011-12
+- [ ] **9.** Seguir hacia atrás: el Nacional 1985 y las liguillas, la era Metropolitano/Nacional (1967-1984) y después 1933-1966 — lo que falta, medido era por era, está en [`TODO.md`](TODO.md)
 
 ## Licencia
 
 Código **MIT**. Datos **CC BY-SA 4.0**, heredada de Wikipedia — ver
 [`LICENSE-DATOS.md`](LICENSE-DATOS.md). La columna `source` lleva la atribución
-fila por fila, así que viaja con el dato.
+fila por fila, así que viaja con el dato. Las 9 703 filas que usan una segunda
+fuente —RSSSF, worldfootball, ESPN o una cita— la nombran ahí mismo, después de un
+` + `. Falta en 37: las llaves del Argentino A 2004-05 salen de RSSSF y su `source`
+nombra sólo al blog que les puso el día.
 
 ---
 
