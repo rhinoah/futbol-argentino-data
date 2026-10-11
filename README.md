@@ -18,29 +18,28 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina),
 ```
 
-**Estado:** **48 995 partidos entre julio de 1985 y hoy**, de ocho competencias.
-**212 clubes**, 168 torneos, cero partidos sin fecha o sin marcador. Se actualiza
+**Estado:** **49 972 partidos entre julio de 1985 y hoy**, de ocho competencias.
+**217 clubes**, 170 torneos, cero partidos sin fecha o sin marcador. Se actualiza
 solo, todos los días.
 
 | competencia | `tournament` | temporadas | filas |
 |---|---|---|---:|
-| Primera División | `Primera Division`, y `Primera Division - Apertura` / `Clausura` / `Inicial` / `Final` | 41, de 1985-86 a 2026 | 15 688 |
+| Primera División | `Primera Division`, y `Primera Division - Apertura` / `Clausura` / `Inicial` / `Final` | 41, de 1985-86 a 2026 | 15 692 |
 | Copa de la Liga | `Copa de la Liga` | 5, de 2020 a 2024 | 921 |
-| Primera Nacional (ex B Nacional) | `Primera Nacional` | 20, de 2007-08 a 2026 | 9 187 |
-| Primera B | `Primera B` | 17, de 2010-11 a 2026 | 6 172 |
+| Primera Nacional (ex B Nacional) | `Primera Nacional` | 20, de 2007-08 a 2026 | 9 191 |
+| Primera B | `Primera B` | 17, de 2010-11 a 2026 | 6 178 |
 | Primera C | `Primera C` | 19, de 2008-09 a 2026 | 7 072 |
 | Torneo Argentino A | `Torneo Argentino A` | 10, de 2004-05 a 2013-14 | 3 721 |
-| Torneo Federal A | `Torneo Federal A` | 11, de 2016 a 2026 | 5 366 |
+| Torneo Federal A | `Torneo Federal A` | 13, de 2014 a 2026 | 6 329 |
 | Copa Argentina | `Copa Argentina` | 14 ediciones, de 2011-12 a 2026 | 868 |
 
 Lo que no está: de 1985-86 a 1991-92 la Primera División es sólo la liga —faltan el
-Nacional 1985 y las liguillas, desempates y finales—, el tercer nivel del interior
-no tiene 2014 ni 2015, y no hay Primera D. Lo que falta, medido era por era, está
-en [`TODO.md`](TODO.md).
+Nacional 1985 y las liguillas, desempates y finales—, y no hay Primera D. Lo que
+falta, medido era por era, está en [`TODO.md`](TODO.md).
 
 Ojo si contás partidos: quince de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
-`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 48 980 partidos
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 49 957 partidos
 distintos.
 
 Aparte, en [`data/sin-fecha/`](data/sin-fecha/) quedan **6 filas, y ninguna espera
@@ -107,12 +106,12 @@ Rehecho el 11/10/2026 con los 168 que el repo tenía ese día: 168 de 168.
 ## Fuentes y atribución
 
 **Wikipedia en español** es la fuente de casi todo: equipos, marcadores, jornadas,
-estadios. **39 292 filas de 48 995** (80,2 %) no nombran ninguna otra fuente. Los datos están
+estadios. **40 269 filas de 49 972** (80,6 %) no nombran ninguna otra fuente. Los datos están
 bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna `source` de cada fila lleva la
 URL exacta de la página de Wikipedia de su torneo, así que la atribución viaja con
 el dato.
 
-Las otras **9 703 filas** (19,8 %) nombran además una segunda fuente, y la usan para
+Las otras **9 703 filas** (19,4 %) nombran además una segunda fuente, y la usan para
 una de dos cosas:
 
 - **La fecha del calendario**, en 5 744. Wikipedia publica esos partidos sin día: la
@@ -238,7 +237,7 @@ el mismo: acá `time` va segunda.
 
 Pueden venir vacías, además de los penales: `time` (11 555 filas) y `venue`
 (10 131), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
-cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 149); y `matchday` en 15
+cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 232); y `matchday` en 15
 partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en inglés:
 `Zone 1` o `Group A` en `group` (1 239 filas del Argentino A) y
 `Semifinals - First leg` en `matchday` (127).
@@ -246,7 +245,7 @@ partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en ingl�
 Sobre **`neutral`**: sale del **reglamento de la competencia**, no de comparar el
 estadio contra el de cada club. La Copa Argentina se juega a partido único en
 cancha neutral y su propia página lo dice ronda por ronda, así que ahí el dato se
-puede afirmar. En las ligas es `false` salvo en 41 partidos —finales, desempates,
+puede afirmar. En las ligas es `false` salvo en 44 partidos —finales, desempates,
 definiciones de ascenso y descenso— cuya tabla la página rotula «Equipo 1 / Equipo 2»
 en vez de «Local / Visitante» (ver [más abajo](#neutral-dejó-de-ser-del-torneo)).
 El `false` tiene este alcance exacto: *el partido se jugó donde dice el fixture*. **No detecta mudanzas puntuales** — un partido de
@@ -261,9 +260,9 @@ un marcador **indistinguible de uno jugado en cancha**.
 
 | valor | qué afirma | filas |
 |---|---|---:|
-| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 48 893 |
-| `suspendido` | la fuente dice que el partido **no llegó al final** | 89 |
-| `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 12 |
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 49 861 |
+| `suspendido` | la fuente dice que el partido **no llegó al final** | 96 |
+| `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 14 |
 | `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Es el `Instituto 0-1 San Lorenzo` de la 1987-88 — los otros seis no tienen día y viven en `sin-fecha/` | 1 |
 
 **El eje no es el que parece.** Lo natural sería distinguir "el tribunal ratificó
@@ -282,13 +281,13 @@ keyword. Así que el eje es el único que la fuente marca siempre y sin ambigüe
 
 **El default es la parte peligrosa.** Vacío significa "la página no dijo nada", y
 nunca puede pasar a significar "dijo algo que no supe leer" — si eso ocurriera,
-las casi 49 mil filas vacías dejarían de ser una ausencia y pasarían a ser una
+las casi 50 mil filas vacías dejarían de ser una ausencia y pasarían a ser una
 afirmación sin verificar. Por eso una fila que menciona un fallo y no se puede
 clasificar **no queda callada**: emite un aviso. Hoy son cero.
 
 ### Los que la columna no arregla
 
-Trece partidos terminaron con **un resultado distinto para cada club**. El
+Catorce partidos terminaron con **un resultado distinto para cada club**. El
 Clausura 2005 es el más claro: Almagro–Boca se suspendió a los 64' con Almagro
 ganando 3-2, y el Tribunal se lo dio por perdido **a los dos** —0-2 para Almagro,
 2-3 para Boca—. La celda del wikitexto trae los dos marcadores (`0 - 2<br>3 - 2`)
@@ -297,11 +296,11 @@ partido que Boca también perdió.**
 
 Una fila tiene un `home_score` y un `away_score`: cualquier par de números afirma
 un solo resultado. No es una limitación del parser sino del esquema, así que esos
-trece **no entran**, y el build los nombra uno por uno con su cita cada vez que
-reparsea su página (`python build.py --rehacer`). Nueve de los trece entraban, o
+catorce **no entran**, y el build los nombra uno por uno con su cita cada vez que
+reparsea su página (`python build.py --rehacer`). Nueve de los catorce entraban, o
 iban a entrar, con un marcador que no valía para los dos: ocho con el resultado de uno
 solo de los clubes y uno —La Florida–Sportivo Patria— con el 2-2 de la cancha, que no fue
-el de ninguno. Los otros cuatro ni siquiera tienen un marcador que leer.
+el de ninguno. Los otros cinco ni siquiera tienen un marcador que leer.
 
 ### Leer un CSV de antes
 
@@ -557,12 +556,12 @@ partidos jugados no coincidía —páginas de varias fases, donde la tabla es de
 sola— y el módulo se callaba, que es lo correcto. De los 94, **73 cerraban al gol** y
 21 tenían algo que no.
 
-Hoy, con las capas que se sumaron después, tienen tabla **154** de las 168 entradas
-del catálogo —las 14 que no son las Copa Argentina—, **152** comparan algún club y
-**133 cierran al gol** en todas sus tablas. En las otras 19 hay 46 clubes que no, y 45 de esos desvíos
+Hoy, con las capas que se sumaron después, tienen tabla **156** de las 170 entradas
+del catálogo —las 14 que no son las Copa Argentina—, **154** comparan algún club y
+**134 cierran al gol** en todas sus tablas. En las otras 20 hay 48 clubes que no, y 47 de esos desvíos
 están mirados y declarados en `fad/correcciones.py`.
 
-Que 133 torneos cierren contra una tabla que escribió otra mano es la
+Que 134 torneos cierren contra una tabla que escribió otra mano es la
 corroboración más fuerte que tiene el dataset.
 
 #### Media página sin árbitro
@@ -572,7 +571,7 @@ ningún contador: **leía una sola tabla por página**.
 
 Un torneo por zonas publica una tabla por zona, y el título no las distingue — las
 dos se llaman «Tabla de posiciones final» y lo que cambia es el `== Zona A ==` de
-arriba. Eran **91 de las 279 páginas** bajadas hasta entonces; hoy, 62 de las 168 del catálogo. En el Federal A 2019-20 los quince clubes de
+arriba. Eran **91 de las 279 páginas** bajadas hasta entonces; hoy, 64 de las 170 del catálogo. En el Federal A 2019-20 los quince clubes de
 la Zona B volvían sin tabla; en la Primera C 2026, la Zona B escondía cuatro
 contradicciones que el aviso nunca denunció.
 
@@ -1217,7 +1216,7 @@ si la tabla reclama exactamente el mismo conjunto de partidos que la grilla —m
 clubes de los dos lados y mismo PJ—, porque sin esa guarda sería un generador de ruido:
 una fila descartada por no cerrar sola, o una zona con partidos interzonales como la
 Copa de la Liga 2023, descuadran el total sin que nadie esté equivocado. Con la guarda
-puesta, sobre los 131 torneos denunciaba esos cuatro. Hoy, sobre las 168 páginas del catálogo, también son cuatro, pero no los mismos: el
+puesta, sobre los 131 torneos denunciaba esos cuatro. Hoy, sobre las 170 páginas del catálogo, también son cuatro, pero no los mismos: el
 Final 2013 y la Copa de la Liga 2023 siguen, se sumaron el Clausura 1999 y el Clausura de la
 Primera C 2024, y el Clausura 2005 y la Primera B 2017-18 salieron —al sacar el partido
 dividido el PJ ya no coincide y el chequeo se calla—. El build muestra uno solo, el de 1999:
@@ -1594,10 +1593,13 @@ entraban **cuatro** Gimnasia y Esgrima (LP, M, C, J) más un Gimnasia y Tiro que
 otro club, **tres** San Martín (F, SJ, T), **tres** Estudiantes (LP, RC, BA) y
 **dos** Sarmiento (J, LB).
 
-Hoy, con el ascenso y las capas viejas adentro, el padrón tiene **212 clubes y 172
+Hoy, con el ascenso y las capas viejas adentro, el padrón tiene **217 clubes y 180
 alias**, y las familias crecieron: **cinco** Gimnasia y Esgrima (se sumó el de
 Concepción del Uruguay), **cinco** San Martín (B, F, SJ, SM, T), tres Estudiantes y
-**tres** Sarmiento (J, LB, R).
+**tres** Sarmiento (J, LB, R). Con el Federal A 2014 y 2015 entraron además un segundo
+9 de Julio —el de Morteros, junto al de Rafaela—, un segundo Vélez Sarsfield —el de
+San Ramón— y Textil Mandiyú, que no es Deportivo Mandiyú: los dos jugaron entre ellos
+en la Copa Argentina 2012-13.
 
 El riesgo propio de un padrón no es que falte un club: es que **un alias se le
 asigne al club equivocado**. Eso no rompe nada — reparte los partidos de un
@@ -2503,7 +2505,7 @@ Una fila de wikitabla tiene que cerrar consigo misma (`GF − GC == DIF` y
 desmentir a nadie— pero descartaba **sin decirlo**, y eso deja al club sin
 árbitro. Ningún otro chequeo puede suplirlo: no se opina sobre una fila que no se
 parseó. Eran tres en las 131 páginas de entonces, y las tres son erratas de la fuente que la
-grilla desmiente sola (hoy son seis en 168: se sumaron una de la Primera División
+grilla desmiente sola (hoy son seis en 170: se sumaron una de la Primera División
 1987-88, una de la 1988-89 y una del Clausura 1991):
 
 | página | fila | qué no cierra |
@@ -2688,7 +2690,7 @@ dio por perdido a ambos por arreglar el resultado.
 `away_score`; cualquier par de números que se ponga ahí afirma que alguien ganó.
 No es una limitación del parser sino del esquema, y por eso este partido **no
 entra** — igual que La Florida–Sportivo Patria del Argentino A 2005-06, que es el
-mismo caso desde 2006. Hoy son 13 los que quedan afuera así: están uno por uno en
+mismo caso desde 2006. Hoy son 14 los que quedan afuera así: están uno por uno en
 `correcciones.DIVIDIDOS` y el build los nombra. La columna `status`, que llegó
 después, no los resuelve.
 
@@ -2697,8 +2699,8 @@ uno**, o sea 0-1 en contra de los dos. Por eso la tabla de esa Reválida suma 18
 goles a favor y 186 en contra: no cierra, y por un motivo
 legítimo. El desbalance *es* el fallo. Al escribir esto era la única del corpus.
 Hoy hay más con los mismos dos goles de más y por lo mismo: Primera División
-1989-90 y 1990-91, el Clausura del Argentino A 2005-06 y las zonas B y C del
-Clausura del Argentino A 2006-07.
+1989-90 y 1990-91, el Clausura del Argentino A 2005-06, las zonas B y C del
+Clausura del Argentino A 2006-07 y la Zona 1 del Federal A 2014.
 
 ### Lo que sí se arregla: que lo diga
 
@@ -2708,7 +2710,8 @@ sí lo cuenta— y manda a buscar un error de lectura que no existe. Es «vacío
 lo mismo que ilegible» otra vez, la tercera en este repo.
 
 `parser.partidos_anulados` lo nombra. Eran dos casos en las 131 páginas —hoy son
-tres en 168, con el San Lorenzo–Huracán del Apertura 1997—: éste y la
+cuatro en 170, con el San Lorenzo–Huracán del Apertura 1997 y el Deportivo
+Roca–Cipolletti del Federal A 2014—: éste y la
 Copa Argentina 2013-14, donde Estudiantes Unidos y Belgrano de Esquel
 abandonaron el torneo por problemas económicos. El segundo obligó a que el
 detector no mire una posición fija: la liga ordena Local-Resultado-Visitante y la
@@ -2735,7 +2738,7 @@ Wikipedia la escribe de otra forma más, y esa no la leía nadie:
 Con el arreglo aparecieron **doce tandas**, y no cualquiera: la final del Argentino A 2005-06, la del
 Federal A 2022, la del 2023, el desempate por el tercer ascenso de 2023. Es
 justo donde la tanda no es un detalle sino **quién ascendió**. No todas estaban
-escritas así: con la palabra hay tres celdas en las 168 páginas de hoy, todas del
+escritas así: con la palabra hay tres celdas en las 170 páginas de hoy, todas del
 Argentino A. Las demás usaban la notación de siempre, pero en una tabla de liga,
 donde la tanda no se leía.
 
@@ -2755,7 +2758,7 @@ leería de la columna de al lado.
 aceptaba `-` y `:`, así que esa fila **no tenía marcador y el partido se
 descartaba entero**: el desempate por el descenso del Argentino A 2005-06,
 General Paz Juniors–Cipolletti, no existía en el dataset. Era uno solo en las 131
-páginas —hoy son dos en 168—, y esa es exactamente la razón por la que no se veía.
+páginas —hoy son dos en 170—, y esa es exactamente la razón por la que no se veía.
 
 ## El triangular que estaba como llave
 
@@ -3119,8 +3122,10 @@ partido llegó al final. De los tres, dos son `escritorio` —se jugaron los nov
 número cambió después— y **uno es `suspendido`**, el `Talleres–River`, que Castrilli
 cortó a los 27 del segundo tiempo. Deducirlo habría dado mal en uno de tres.
 
-Y es una excepción, no la regla: de los `66` marcadores que cambian un resultado, sólo
-esos tres traen un fallo que su fila no anota. El resto, casi todo, arregla un dígito mal transcripto sobre un partido que se
+Y es una excepción, no la regla: de los `67` marcadores que cambian un resultado, sólo
+cuatro traen un fallo que su fila no anota: esos tres y la vuelta de la final por el
+séptimo ascenso del Federal A 2014, que se suspendió a los 75 minutos con el 1-3 puesto
+y el Tribunal registró 0-3. El resto, casi todo, arregla un dígito mal transcripto sobre un partido que se
 jugó normalmente, y escribirles `escritorio` sería mentir. Un test lo sostiene —exige
 que el valor sea uno de los del esquema y **que no sean más de seis**—, porque si alguna
 vez la mitad de los marcadores lo usa, lo que hay que arreglar es el lector.
@@ -3878,11 +3883,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1196 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1227 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 562 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 572 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
@@ -3953,7 +3958,7 @@ Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos
 - [x] **5.** Primera Nacional, Primera B, Primera C y Federal A — 2016-2026, las cuatro divisiones que juegan la Copa Argentina
 - [x] **6.** Actualización automática — dos workflows, con guarda contra achicarse
 - [x] **7.** Publicado y actualizándose solo
-- [x] **8.** Hacia atrás hasta 1985 — Primera División desde la 1985-86, el Argentino A de 2004-05 a 2013-14, Primera Nacional desde 2007-08, Primera C desde 2008-09, Primera B desde 2010-11 y la Copa Argentina desde 2011-12
+- [x] **8.** Hacia atrás hasta 1985 — Primera División desde la 1985-86, el Argentino A de 2004-05 a 2013-14, el Federal A de 2014 y 2015, Primera Nacional desde 2007-08, Primera C desde 2008-09, Primera B desde 2010-11 y la Copa Argentina desde 2011-12
 - [ ] **9.** Seguir hacia atrás: el Nacional 1985 y las liguillas, la era Metropolitano/Nacional (1967-1984) y después 1933-1966 — lo que falta, medido era por era, está en [`TODO.md`](TODO.md)
 
 ## Licencia
