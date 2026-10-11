@@ -7,6 +7,7 @@ datos rotos y que se calle con datos sanos.
 """
 from __future__ import annotations
 
+import dataclasses
 from pathlib import Path
 
 import pytest
@@ -918,9 +919,11 @@ def test_lo_que_no_tiene_numero_de_jornada_no_es_una_Fecha_0_pero_cuenta_para_el
 DATOS = Path(__file__).resolve().parent.parent / "data"
 
 
-def _publicado() -> dict[tuple, list[Partido]]:
+@pytest.fixture(scope="module")
+def publicado() -> dict[tuple, list[Partido]]:
     """Las filas del CSV de cada torneo, como las veria la pista 4. El CSV no trae
-    la llave, que esa pista usa nada mas que para rotular."""
+    la llave, que esa pista usa nada mas que para rotular. Se leen una sola vez:
+    el que las vaya a tocar, que las copie."""
     de_cada_uno: dict[tuple, list[Partido]] = {}
     for f in dataset.leer_carpeta(DATOS):
         clave = (dataset.pagina_de(f), f["tournament"], f["season"])
@@ -934,7 +937,7 @@ def _de(t, publicado) -> list[Partido]:
     return publicado.get((t.url, t.torneo, str(t.temporada)), [])
 
 
-def test_ningun_torneo_CERRADO_del_dataset_tiene_la_fase_final_antes_del_arranque():
+def test_ningun_torneo_CERRADO_del_dataset_tiene_la_fase_final_antes_del_arranque(publicado):
     """La pista 4 sobre lo PUBLICADO. Un torneo que se sigue en vivo pasa por esa
     pista como torneo en curso, donde solo avisa; cuando se lo cierra ya tiene sus
     filas en el CSV y el build no lo vuelve a leer. Sin esto la rama que frena no
@@ -944,7 +947,6 @@ def test_ningun_torneo_CERRADO_del_dataset_tiene_la_fase_final_antes_del_arranqu
     pasa a `cerrado=True` un torneo con ese error adentro, esto falla. La corrida
     diaria no lo puede hacer fallar: mira solo torneos cerrados, que el bot no toca.
     """
-    publicado = _publicado()
     cerrados = [t for t in torneos.TODOS if t.cerrado]
     sin_filas = [t.pagina for t in cerrados if not _de(t, publicado)]
     assert len(cerrados) > 150 and not sin_filas, \
@@ -954,12 +956,12 @@ def test_ningun_torneo_CERRADO_del_dataset_tiene_la_fase_final_antes_del_arranqu
     assert not malos, malos
 
 
-def test_y_la_veria_si_la_fase_final_publicada_estuviera_un_anio_antes():
+def test_y_la_veria_si_la_fase_final_publicada_estuviera_un_anio_antes(publicado):
     """El de arriba no dice nada, y un test que no dice nada puede ser un test que
     no mira. Con las filas de verdad de la B Nacional 2017-18 y su fase final un
     anio para atras -- lo que deja un corte de mes mal puesto --, frena."""
     (t,) = [t for t in torneos.TODOS if t.pagina == "Campeonato de Primera B Nacional 2017-18"]
-    ps = _de(t, _publicado())
+    ps = [dataclasses.replace(p) for p in _de(t, publicado)]
     finales = [p for p in ps if p.fase == "eliminacion" and p.fecha]
     assert len(finales) > 5
     for p in finales:

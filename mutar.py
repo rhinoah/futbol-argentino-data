@@ -2617,9 +2617,12 @@ def correr_suite() -> str:
     colgar y fallar son dos cosas distintas y la primera vale avisarla, porque suele
     querer decir que lo que se rompio es la terminacion y no un resultado.
     """
+    # Sin los tests de este archivo: `mutar.py` no se muta a si mismo, asi que no
+    # pueden matar a nadie, y uno de ellos corre un pytest adentro de otro. Eran un
+    # segundo de cada seis, en cada mutante que llegaba hasta ahi.
     try:
         r = subprocess.run([sys.executable, "-m", "pytest", "tests/", "-q", "-x",
-                            "--no-header"],
+                            "--no-header", "--ignore=tests/test_mutar.py"],
                            cwd=RAIZ, capture_output=True, text=True, timeout=TIMEOUT)
     except subprocess.TimeoutExpired:
         print(f"      (la suite colgo mas de {TIMEOUT}s: el mutante rompe la "
