@@ -386,3 +386,111 @@ def test_la_provincia_entera_tambien_nombra_al_de_mendoza():
     (Tucumán)` --; a este le faltaba, y sin ella se perdian dos partidos de la
     promocion del Argentino A 2005-06."""
     assert equipos.canonizar("San Martín (Mendoza)") == "San Martín (SM)"
+
+
+# --------------------------------------------------------------------------
+# Los del Federal A 2014 y 2015
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("escrito, club", [
+    ("Alianza (CC)", "Alianza (CC)"),
+    ("Alianza de Cutral Có", "Alianza (CC)"),                  # la tabla
+    ("Américo Tesorieri (LR)", "Américo Tesorieri (LR)"),
+    ("Americo Tesorieri (LR)", "Américo Tesorieri (LR)"),      # sin tilde: 2014, Fecha 11
+    ("Américo Tesorieri", "Américo Tesorieri (LR)"),           # pelado: 2014, Fecha 13
+    ("Américo Tesorieri (La Rioja)", "Américo Tesorieri (LR)"),
+    ("Independiente (Ch)", "Independiente (C)"),               # la grilla de las dos
+    ("Independiente (Chivilcoy)", "Independiente (C)"),        # sus tablas
+    ("Textil Mandiyú", "Textil Mandiyú"),
+    ("9 de Julio (M)", "9 de Julio (M)"),
+    ("9 de Julio (Morteros)", "9 de Julio (M)"),
+    ("Vélez Sarsfield (SR)", "Vélez Sarsfield (SR)"),
+    ("Vélez Sarsfield (San Ramón)", "Vélez Sarsfield (SR)"),
+    ("Talleres (Córdoba)", "Talleres (C)"),
+])
+def test_las_grafias_del_federal_a_2014_y_2015_resuelven(escrito, club):
+    """Cada una aparece de verdad en la grilla o en una tabla de esas dos paginas,
+    y ninguna lleva enlace: resuelven por el nombre o no resuelven.
+
+    Con `canonical` y no con `canonizar`, a proposito: `canonizar` devuelve intacto
+    lo que no conoce, asi que para el club que se llama igual que su canonico
+    --"Alianza (CC)", "Textil Mandiyú"-- el test pasaria tambien sin el club en el
+    padron."""
+    assert equipos.canonical(escrito) == club
+
+
+@pytest.mark.parametrize("ambiguo", ["Mitre (S)", "San Jorge", "Alianza", "9 de Julio"])
+def test_los_nombres_con_dos_duenos_del_federal_a_2014_NO_son_alias(ambiguo):
+    """Los cuatro tienen otro dueno, y los dos primeros lo tienen EN EL CORPUS.
+
+    "Mitre (S)" es Mitre de SALTA en las Copa Argentina 2012-13, 2013-14, 2014-15 y
+    2016-17, que lo enlazan dieciseis veces a [[Club Atlético Mitre (Salta)]]; el
+    Federal A 2014 se lo escribe a Mitre de Santiago del Estero en diez partidos, y
+    eso se resuelve con un `Homonimo` de esa pagina. "San Jorge" es tambien el nombre
+    base del de la provincia de Santa Fe, [[Club Atlético San Jorge]], que cinco Copa
+    Argentina escriben 'Atlético San Jorge' y 'San Jorge (SF)', nunca pelado.
+    "Alianza" es tambien Alianza de Moldes y "9 de Julio" el de Rafaela.
+
+    Los cuatro quedan como club desconocido, que frena el build. Es lo correcto: un
+    alias mal puesto no falla, le da partidos al club equivocado."""
+    assert equipos.buscar(ambiguo, "") is None
+
+
+def test_los_dos_mandiyu_son_dos_clubes():
+    """Textil Mandiyu no es Deportivo Mandiyu con otro nombre. Convivieron de 2010 a
+    2016 y JUGARON ENTRE ELLOS: la Copa Argentina 2012-13 publica
+    `[[Club Deportivo Mandiyú|Deportivo Mandiyú]] (3) 0 - 0 (1)
+    [[Club Social y Deportivo Textil Mandiyú|Textil Mandiyú]]`. Si uno fuera alias
+    del otro, ese partido seria un club contra si mismo."""
+    assert equipos.canonical("Textil Mandiyú") != equipos.canonical("Deportivo Mandiyú")
+    assert equipos.canonizar("Mandiyú", "Club Social y Deportivo Textil Mandiyú") == "Textil Mandiyú"
+    assert equipos.canonizar("Mandiyú", "Club Deportivo Mandiyú") == "Deportivo Mandiyú"
+
+
+def test_el_velez_de_san_ramon_no_se_come_al_de_liniers():
+    """El riesgo de agregar un segundo Velez no es que no resuelva sino que se quede
+    con el nombre del que ya estaba: `Vélez Sarsfield` a secas, `Vélez` y el
+    articulo sin parentesis tienen que seguir siendo el de Liniers, con su id de
+    AFA. El de San Ramon entra solo por su "(SR)" o por su articulo."""
+    assert equipos.canonical("Vélez Sarsfield") == "Vélez Sarsfield"
+    assert equipos.canonical("Vélez") == "Vélez Sarsfield"
+    assert equipos.por_afa(20).nombre == "Vélez Sarsfield"
+    assert equipos.canonizar("Vélez Sarsfield",
+                             "Club Atlético Vélez Sarsfield") == "Vélez Sarsfield"
+    assert equipos.canonizar("Club Atlético Vélez Sarsfield",
+                             "Club Atlético Vélez Sarsfield (San Ramón)") == "Vélez Sarsfield (SR)"
+
+
+def test_el_9_de_julio_de_morteros_no_es_el_de_rafaela():
+    """Y resuelve por sus DOS titulos: el Federal A 2015 enlaza el largo en la
+    grilla y el corto, que es redireccion, en la tabla de participantes."""
+    assert equipos.canonical("9 de Julio (M)") != equipos.canonical("9 de Julio (R)")
+    for titulo in ("Asociación Deportiva 9 de Julio (Morteros)",
+                   "Asociación Deportiva 9 de Julio"):
+        assert equipos.canonizar("9 de Julio", titulo) == "9 de Julio (M)"
+    assert equipos.canonizar("9 de Julio",
+                             "Club Atlético 9 de Julio (Rafaela)") == "9 de Julio (R)"
+
+
+def test_el_articulo_de_alianza_resuelve_con_tilde_y_sin_tilde():
+    """Wikipedia titula `(Cutral Co)` y las paginas enlazan `(Cutral Có)`. Es una
+    sola clave porque el indice normaliza; este test es para que siga siendolo."""
+    for titulo in ("Club Social y Deportivo Alianza (Cutral Có)",
+                   "Club Social y Deportivo Alianza (Cutral Co)"):
+        assert equipos.canonizar("Club Social y Deportivo Alianza", titulo) == "Alianza (CC)"
+
+
+def test_los_dos_de_la_rioja_no_se_cruzan_por_el_articulo():
+    """Andino y Américo Tesorieri son de la misma ciudad, juegan en la misma cancha y
+    en 2015 compartieron zona, y los 30 lados de cada uno entran por el ARTICULO, que
+    manda sobre el nombre visible. Con las dos claves cruzadas el build escribia la
+    temporada entera de uno a nombre del otro sin un solo grave: se midio, y lo unico
+    que saltaba era un aviso de tabla. El testigo es RSSSF, que los lista con ciudad
+    y con fojas distintas en el Federal A 2015 --Tesorieri 9:28 en 18 partidos de la
+    zona, Andino 12:38--, y con cada articulo en su club esas fojas cierran."""
+    assert equipos.canonizar("Andino", "Andino Sport Club") == "Andino"
+    assert equipos.canonizar("Américo Tesorieri (LR)",
+                             "Club Atlético Américo Tesorieri") == "Américo Tesorieri (LR)"
+    # Manda el articulo: con el nombre visible del otro, sigue siendo el del articulo.
+    assert equipos.canonizar("Américo Tesorieri (LR)", "Andino Sport Club") == "Andino"
+    assert equipos.canonizar("Andino",
+                             "Club Atlético Américo Tesorieri") == "Américo Tesorieri (LR)"

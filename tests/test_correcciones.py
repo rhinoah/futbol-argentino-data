@@ -759,3 +759,46 @@ def test_el_arbitraje_no_toca_lo_que_no_declara():
     assert correcciones.arbitrado(
         "Otra Pagina", "Reválida - Tercera ronda",
         "Central Norte (S)", "Libertad (S)", 2, 1) == (2, 1)
+
+
+# --------------------------------------------------------------------------
+# El Federal A 2014: un desambiguador equivocado y un nombre pelado
+# --------------------------------------------------------------------------
+def _zona_3_del_federal_a_2014():
+    """Tres filas de verdad de esa pagina, con los nombres como los deja
+    `equipos.canonizar`: los dos que el padron no conoce llegan crudos."""
+    return [partido("Mitre (S)", "Unión Aconquija", jornada="Fecha 1"),
+            partido("Altos Hornos Zapla", "Mitre (S)", 0, 1, jornada="Fecha 4"),
+            partido("San Jorge", "Altos Hornos Zapla", 1, 1, jornada="Fecha 5")]
+
+
+def test_el_mitre_S_del_federal_a_2014_es_el_de_santiago_y_solo_ahi():
+    """`Mitre (S)` no es un alias del padron porque en el resto del corpus es Mitre
+    de SALTA. El homonimo lo arregla en la unica pagina que se lo escribe al de
+    Santiago del Estero, y afuera de ella el nombre queda como vino -- que es lo
+    que hace que un `Mitre (S)` de la Copa Argentina frene el build en vez de
+    caer calladito en el club equivocado."""
+    assert correcciones.homonimo("Torneo Federal A 2014", "Mitre (S)") == "Mitre (SdE)"
+    assert correcciones.homonimo("Copa Argentina 2014-15", "Mitre (S)") == "Mitre (S)"
+    ps = _zona_3_del_federal_a_2014()
+    _, avisos = correcciones.aplicar(ps, "Torneo Federal A 2014")
+    # Solo los avisos de ESTOS nombres: las otras correcciones de la pagina avisan que
+    # no enganchan con nada, porque el accesorio trae tres filas y no la pagina entera.
+    assert not [a for a in avisos if "Mitre" in a or "San Jorge" in a]
+    assert [(p.local, p.visita) for p in ps[:2]] == [
+        ("Mitre (SdE)", "Unión Aconquija"), ("Altos Hornos Zapla", "Mitre (SdE)")]
+
+
+def test_el_san_jorge_pelado_del_federal_a_2014_se_corrige_en_SU_fila():
+    """Una sola fila, asi que va `Correccion` y no homonimo ni alias: identifica el
+    partido entero. El mismo nombre con otro marcador no es ese partido, y ahi la
+    correccion se niega y lo dice."""
+    ps = _zona_3_del_federal_a_2014()
+    _, avisos = correcciones.aplicar(ps, "Torneo Federal A 2014")
+    assert not [a for a in avisos if "San Jorge" in a]
+    assert (ps[2].local, ps[2].visita) == ("San Jorge (T)", "Altos Hornos Zapla")
+
+    otra = [partido("San Jorge", "Altos Hornos Zapla", 2, 1, jornada="Fecha 5")]
+    _, avisos = correcciones.aplicar(otra, "Torneo Federal A 2014")
+    assert otra[0].local == "San Jorge", "con otro marcador no es ese partido"
+    assert any("San Jorge" in a for a in avisos)

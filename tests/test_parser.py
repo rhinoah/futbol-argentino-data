@@ -2290,3 +2290,86 @@ def test_una_suspension_le_gana_al_fallo_aunque_el_fallo_se_lea():
     fila = ("|7 de abril Suspendido a los 46' del segundo tiempo con el resultado "
             "2 a 2, por invasion del campo. Se dio por ganado a Central Cordoba")
     assert parser.status_de_la_fila(fila) == "suspendido"
+
+
+def test_el_fallo_se_lee_con_el_objeto_en_el_medio():
+    """`le dio el partido perdido a Central Córdoba`: el mismo fallo de siempre con el
+    objeto metido entre el verbo y el participio, y sin el `por`. `_HABLA_DE_FALLO` lo
+    detectaba --dice "Tribunal"-- y `_HUBO_FALLO` no lo clasificaba, asi que la fila
+    caia en `sin_clasificar`.
+
+    Es una fila: el `Central Córdoba (SdE) 0-1 San Martín (T)` del Torneo Federal A
+    2014. Se jugo entero y termino 1-1 --RSSSF: `originally 1-1, awd on Oct 16`--, asi
+    que es `escritorio`."""
+    fila = ('|Central Córdoba (SdE)\n|0 - 1<ref group="n.">El Tribunal de Disciplina le '
+            'dio el partido perdido a Central Córdoba por estar inhabilitado un jugador '
+            'del local.</ref>\n|San Martín (T)')
+    assert parser.status_de_la_fila(fila) == "escritorio"
+    assert not parser.sin_clasificar(fila), "la pagina dijo algo y se supo que"
+    # El contraste: la misma frase detras de una suspension sigue siendo `suspendido`.
+    # Es el Deportivo Laferrere - Dock Sud de la Primera C 2015.
+    suspendido = ("|Deportivo Laferrere\n|2 - 2{{refn|group=n.|Suspendido por incidentes "
+                  "fuera del estadio. El Tribunal de Disciplina le dio el partido perdido "
+                  "a Deportivo Laferrere por 1 a 0 y mantuvo el resultado para Dock "
+                  "Sud.}}\n|Dock Sud")
+    assert parser.status_de_la_fila(suspendido) == "suspendido"
+
+
+_REPROGRAMADO_2014 = (
+    '|General Belgrano (SR)\n|1 - 2\n|CAI\n|Nuevo Rancho Grande\n|6 de octubre'
+    '<ref group="n.">Suspendido debido a la lluvia. Fue reprogramado para el 6 de '
+    'octubre a partir de las 14:00.</ref>')
+
+
+def test_el_partido_reprogramado_no_lleva_status_si_la_fila_esta_fechada_ese_dia():
+    """`Fue reprogramado para el 6 de octubre` es un plan, y vale como «se jugo» porque
+    la celda de la fecha dice ese mismo dia: la fila ya esta puesta donde la nota dice
+    que se paso. Sin esto salia `suspendido`, que afirma que no llego al final. Es el
+    `General Belgrano (SR) 1-2 CAI` del Torneo Federal A 2014, que RSSSF da jugado el
+    06/10/2014 sin ninguna nota."""
+    assert parser.status_de_la_fila(_REPROGRAMADO_2014) == ""
+    assert not parser.sin_clasificar(_REPROGRAMADO_2014)
+    # La conjugacion no importa: lo que vale es que el dia sea el de la fila.
+    otra = _REPROGRAMADO_2014.replace("Fue reprogramado", "Se reprogramó")
+    assert parser.status_de_la_fila(otra) == ""
+
+
+def test_un_plan_que_no_es_el_dia_de_la_fila_no_alcanza():
+    """El `Villa Mitre 2-1 Guillermo Brown` del Federal A 2025: la celda dice 11, la
+    nota "reprogramado para el 12", y el 12 se volvio a suspender. La nota real sigue
+    con `Se jugó el 13`, y eso es lo unico que le saca el `suspendido`: cortada antes,
+    el plan solo no alcanza."""
+    cortada = ('|Villa Mitre\n|2 - 1\n|Guillermo Brown\n|El Fortín (BB)\n|11 de octubre'
+               '{{refn|group=n.|Suspendido por las condiciones climáticas. Fue reprogramado '
+               'para el 12 de octubre, a partir de las 11:00, y se volvió a suspender por el '
+               'estado del campo de juego.}}')
+    assert parser.status_de_la_fila(cortada) == "suspendido"
+    entera = cortada.replace("de juego.}}", "de juego. Se jugó el 13 de octubre, desde las 11:00.}}")
+    assert parser.status_de_la_fila(entera) == ""
+    # Y el dia tiene que ser el mismo entero: 6 no es 16.
+    el_16 = _REPROGRAMADO_2014.replace("para el 6 de octubre", "para el 16 de octubre")
+    assert parser.status_de_la_fila(el_16) == "suspendido"
+
+
+def test_un_plan_cumplido_que_termino_de_otra_manera_no_alcanza():
+    """La fila esta fechada el dia del plan, pero la nota sigue y cuenta otro final. Ahi
+    no se puede decir que llego al final: vuelve a mandar lo que la nota dice primero."""
+    con_cola = _REPROGRAMADO_2014.replace(
+        "a partir de las 14:00.",
+        "pero el equipo visitante no se presentó y el Tribunal le dio el partido por perdido.")
+    assert parser.status_de_la_fila(con_cola) == "suspendido"
+
+
+def test_la_url_de_una_cita_no_es_texto_de_la_nota():
+    """El slug de un enlace externo trae la palabra y la nota dice otra cosa: el
+    `Sportivo Estudiantes (SL) 2-0 Juventud Unida Universitario` del Torneo Federal A
+    2014 fue POSTERGADO, y el `suspendido` salia de la direccion de la cita."""
+    fila = ("|Sportivo Estudiantes (SL)\n|2 - 0\n|Juventud U. U.\n|Juan Gilberto Funes\n"
+            "|6 de octubre<ref>[http://www.ascensodelinterior.com.ar/noticias/10541/"
+            "el-clsico-puntano-fue-suspendido/ Postergado por falta de acuerdo para jugar "
+            "con ambas parcialidades.]</ref>")
+    assert parser.status_de_la_fila(fila) == ""
+    assert not parser.sin_clasificar(fila), "y tampoco es un fallo sin leer"
+    # El contraste: la misma palabra en el TEXTO de la nota si cuenta.
+    en_el_texto = fila.replace("Postergado por falta", "Suspendido a los 10' por falta")
+    assert parser.status_de_la_fila(en_el_texto) == "suspendido"

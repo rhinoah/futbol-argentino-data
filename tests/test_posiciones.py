@@ -420,6 +420,44 @@ def test_la_basura_del_eq_se_limpia_aunque_el_padron_no_conozca_al_club():
     assert list(posiciones.tabla(sin_enlace)) == ["Inexistente de Prueba"]
 
 
+def test_la_quita_de_puntos_despues_del_eq_no_se_pega_al_nombre():
+    """El Federal A 2015 escribe los dos parametros de la quita de puntos DESPUES
+    del nombre, y el nombre sin wikilink:
+
+        eq=Alianza de Cutral Có|desc=1|ref=<ref name=puntos>...</ref>
+        eq=Andino|desc=3|ref=<ref name=puntos />
+
+    El valor del `eq=` se cortaba solo en `|color=`, asi que los dos clubes pasaban
+    a llamarse "Alianza de Cutral Có|desc=1|ref=" y "Andino|desc=3|ref=" y sus
+    filas se caian del cruce. Son los dos ultimos de la Revalida: otra vez los de
+    la quita de puntos, que son los que hay que mirar.
+
+    Van las tres formas que estan en la cache -- la nota abierta, la nota que
+    reusa el nombre y `desc=` seguido de `color=`, que es la del Argentino A
+    2004-05 -- y una cuarta que NO esta en ninguna pagina de hoy: `ref=` antes que
+    `desc=`. La plantilla pega `ref` al nombre (`{{{eq}}}{{{ref|}}}`) y el orden
+    de los parametros no le importa, asi que el test fija la conducta para cuando
+    aparezca.
+
+    El wikilink no entra en este test a proposito: con wikilink la cola nunca se
+    mira, y por eso las seis filas asi de la cache -- River Plate y San Martin en
+    el Apertura 1992 entre ellas -- leyeron siempre bien."""
+    def una(cuerpo: str) -> str:
+        return ("== Tabla de posiciones ==\n"
+                "{{Tabla de posiciones equipo|pos=13|g=2 |e=3 |p=7 |gf=8 |gc=18 "
+                f"|{cuerpo}}}}}\n")
+    abierta = una("eq=Inexistente de Prueba|desc=1"
+                  "|ref=<ref name=puntos>Una quita de puntos</ref>")
+    reusada = una("eq=Andino|desc=3|ref=<ref name=puntos />")
+    con_color = una("eq=Independiente Rivadavia|desc=9|color=")
+    ref_primero = una("eq=Andino|ref=<ref name=puntos />|desc=3")
+    assert posiciones.tabla(abierta) == {"Inexistente de Prueba": (12, 8, 18)}
+    assert posiciones.tabla(reusada) == {"Andino": (12, 8, 18)}
+    assert posiciones.fuera_del_padron(reusada) == []
+    assert posiciones.tabla(con_color) == {"Independiente Rivadavia": (12, 8, 18)}
+    assert posiciones.tabla(ref_primero) == {"Andino": (12, 8, 18)}
+
+
 def test_el_articulo_sale_del_wikilink_y_no_del_nombre_visible():
     """El articulo desambigua, y en el `eq=` esta ahi mismo. Antes se resolvia por
     un mapa de nombres visibles de toda la pagina, que falla justo cuando la tabla

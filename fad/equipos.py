@@ -138,8 +138,13 @@ PADRON: tuple[Equipo, ...] = (
     # justo para esto: la alternativa era que el build se frene todos los dias
     # por una letra de mas en una fuente que no controlamos. Si algun dia lo
     # corrigen, este alias no molesta a nadie.
+    #
+    # "Talleres (Córdoba)" es el desambiguador desplegado -- ver el docstring --:
+    # asi lo escriben, sin enlace, las tablas de posiciones del Federal A 2014 (dos
+    # filas) y del 2015 (dos), mientras la grilla de las dos paginas dice
+    # "Talleres (C)" con su articulo. Es el mismo trato que "Racing (Córdoba)".
     Equipo("Talleres (C)", 135, ("Talleres", "Talleres de Córdoba", "Tallleres (C)",
-                                "Talleres (Cba)")),
+                                "Talleres (Cba)", "Talleres (Córdoba)")),
     Equipo("Tigre", 136),
     Equipo("Unión", 137, ("Unión (SF)", "Unión de Santa Fe")),
     Equipo("Vélez Sarsfield", 20, ("Vélez", "Vélez Sársfield")),
@@ -324,6 +329,49 @@ PADRON: tuple[Equipo, ...] = (
     # El cuarto Talleres del corpus, con Cordoba, Remedios de Escalada y Frias.
     Equipo("Talleres (P)"),
 
+    # --- los del Federal A 2014 y 2015 ---
+    # Cinco clubes que el padron no tenia. Mismo criterio que los del Argentino A
+    # 2005-06: cada uno sale del ARTICULO que enlaza la tabla de participantes de su
+    # pagina, que ademas da la ciudad, y el canonico es como lo escribe la GRILLA de
+    # esos torneos, no el titulo del articulo.
+    #
+    # Los alias son solo las grafias que aparecen de verdad en las dos paginas: la
+    # desplegada de las tablas de posiciones y, en un caso, el nombre pelado.
+    #
+    # Cutral Co, Neuquen. "(CC)" en los 44 lados de grilla que juega entre las dos
+    # paginas; "Alianza de Cutral Có" en sus tablas, y asi lo escriben tambien las
+    # Copa Argentina 2012-13 a 2014-15 y el Federal A 2016, siempre con el mismo
+    # articulo. "Alianza" a secas NO va: `Alianza de Moldes` es otro club de este
+    # padron.
+    Equipo("Alianza (CC)", alias=("Alianza de Cutral Có",)),
+    # Ciudad de La Rioja. La grilla lo escribe con el "(LR)" en 43 de sus 44 lados
+    # --uno de ellos "Americo", sin tilde, que no necesita alias porque `normalizar`
+    # saca los acentos-- y pelado en el otro (2014, Fecha 13). Pelado lo escriben
+    # tambien las Copa Argentina 2012-13 y 2014-15, enlazado al mismo articulo. Es el
+    # unico club del corpus con ese nombre, asi que el pelado no puede apuntar a otro.
+    Equipo("Américo Tesorieri (LR)",
+           alias=("Américo Tesorieri", "Américo Tesorieri (La Rioja)")),
+    # Corrientes. NO es `Deportivo Mandiyú` con otro nombre: es un club aparte,
+    # fundado en 1998 mientras el original estaba desaparecido, y los dos
+    # convivieron desde que aquel volvio en 2010 hasta que se fusionaron en junio de
+    # 2016. La prueba esta en una pagina del catalogo: en la Copa Argentina 2012-13
+    # JUGARON ENTRE ELLOS --`[[Club Deportivo Mandiyú|Deportivo Mandiyú]] (3) 0 - 0
+    # (1) [[Club Social y Deportivo Textil Mandiyú|Textil Mandiyú]]`, el 24 de
+    # octubre--. Como alias, ese partido seria un club contra si mismo. El
+    # `Deportivo Mandiyú` del Federal A 2017-18 es el que quedo despues de la fusion.
+    Equipo("Textil Mandiyú"),
+    # Morteros, Cordoba. Es el segundo `9 de Julio` del padron, con el de Rafaela,
+    # y por eso "9 de Julio" a secas sigue sin ser alias de nadie (ver la
+    # `Correccion` del Argentino A 2005-06, que ya lo nombraba). "(M)" es como lo
+    # escriben la grilla del Federal A 2015 y las Copa Argentina 2011-12 a 2014-15.
+    Equipo("9 de Julio (M)", alias=("9 de Julio (Morteros)",)),
+    # San Ramon, Santiago del Estero. Nada que ver con el de Liniers, que es
+    # `Vélez Sarsfield` a secas: el nombre pelado sigue resolviendo a ese, y este
+    # lleva siempre su "(SR)" o su "(San Ramón)". Ojo que "(SR)" en este padron
+    # tambien es Santa Rosa --`General Belgrano (SR)`--; no choca porque la base
+    # difiere, igual que pasa con "(P)".
+    Equipo("Vélez Sarsfield (SR)", alias=("Vélez Sarsfield (San Ramón)",)),
+
     # --- el ascenso: Primera Nacional, Primera B, Primera C y Federal A ---
     # Sin id de AFA: el feed del que salieron los ids es el de Primera y no los
     # tiene. Casi todos sin alias tampoco -- solo llevan los que hicieron falta,
@@ -426,7 +474,18 @@ PADRON: tuple[Equipo, ...] = (
     # la fuente abrevia, no para inventarle una abreviatura a una fuente que no la usa.
     Equipo('Huracán Corrientes'),
     Equipo('Huracán Las Heras'),
-    Equipo('Independiente (C)'),
+    # Chivilcoy, Buenos Aires. El canonico es como lo escriben los Federal A de 2021
+    # en adelante. El de 2014 y el de 2015 lo abrevian "(Ch)" en la grilla --44
+    # lados entre las dos paginas, ninguno enlazado-- y lo despliegan "(Chivilcoy)"
+    # en las tablas. Que es este club y no otro Independiente no sale del parecido:
+    # la tabla de participantes de las dos paginas enlaza
+    # [[Club Atlético Independiente (Chivilcoy)]] con su ciudad, y el Federal A 2016
+    # lo lista entre los descendidos del 2015 como
+    # `[[Club Atlético Independiente (Chivilcoy)|Independiente (Ch)]]`, que es el
+    # articulo que ya esta en ARTICULOS. Las cuatro veces que la cache enlaza un
+    # "Independiente (Ch)" van a ese articulo.
+    Equipo('Independiente (C)',
+           alias=('Independiente (Ch)', 'Independiente (Chivilcoy)')),
     Equipo("J. J. de Urquiza", alias=("J. J. Urquiza",)),
     Equipo('Juventud Antoniana'),
     Equipo('Juventud Unida'),
@@ -701,6 +760,22 @@ ARTICULOS: dict[str, str] = {
     'La Plata Fútbol Club': 'La Plata FC',
     'Asociación Atlética Luján de Cuyo': 'Luján de Cuyo',
     'Asociación Atlético Luján de Cuyo': 'Luján de Cuyo',
+    # Los cinco del Federal A 2014 y 2015, por el articulo que enlazan sus tablas de
+    # participantes. El de Morteros tiene dos titulos --el corto es redireccion del
+    # largo-- y la pagina de 2015 usa los dos: el largo en la grilla y el corto en la
+    # tabla de participantes. El de Cutral Co se titula en Wikipedia "(Cutral Co)",
+    # sin tilde, y las paginas lo enlazan con tilde: es la misma clave, porque el
+    # indice normaliza.
+    'Club Social y Deportivo Alianza (Cutral Có)': 'Alianza (CC)',
+    'Club Atlético Américo Tesorieri': 'Américo Tesorieri (LR)',
+    'Club Social y Deportivo Textil Mandiyú': 'Textil Mandiyú',
+    'Asociación Deportiva 9 de Julio (Morteros)': '9 de Julio (M)',
+    'Asociación Deportiva 9 de Julio': '9 de Julio (M)',
+    'Club Atlético Vélez Sarsfield (San Ramón)': 'Vélez Sarsfield (SR)',
+    # El de La Rioja, que ya estaba en el padron por la Copa Argentina 2014-15 y
+    # resolvia solo por el nombre. No cambia ningun partido: es la clave estable
+    # para los 30 lados que el Federal A 2015 le enlaza.
+    'Andino Sport Club': 'Andino',
     # El Argentino A 2010-11 lo enlaza asi y escribe "Rivadavia" a secas, que
     # el padron no resuelve -- hay tres. El articulo si.
     'Rivadavia de Lincoln': 'Rivadavia (L)',

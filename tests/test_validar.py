@@ -317,7 +317,7 @@ def test_revisar_SI_corre_el_chequeo_de_los_anios():
 
 
 def test_la_liga_comun_SIN_llave_ni_zona_tambien_se_mira():
-    """98 de las 168 paginas son esto: un todos contra todos sin zonas y sin
+    """98 de las 170 paginas son esto: un todos contra todos sin zonas y sin
     secciones, donde `llave` y `zona` vienen vacias. Un chequeo que mirara solo
     los grupos CON nombre dejaria ciegas a seis de cada diez.
 
@@ -1246,7 +1246,7 @@ def _cuadro_rotulado_por_pata():
 
 
 def test_las_rondas_se_reconstruyen_por_el_plantel():
-    """Ocho paginas rotulan la pata y nunca dicen que ronda es, asi que el dato no
+    """Diez paginas rotulan la pata y nunca dicen que ronda es, asi que el dato no
     esta en ningun campo. Pero se puede deducir: dos rotulos con el MISMO plantel
     exacto no son dos rondas, son la misma jugada dos veces."""
     avisos = validar.cadena_de_llaves(_cuadro_rotulado_por_pata())

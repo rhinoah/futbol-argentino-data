@@ -394,6 +394,43 @@ CORRECCIONES: tuple[Correccion, ...] = (
     ),
 
     Correccion(
+        pagina="Torneo Federal A 2014",
+        jornada="Fecha 5",
+        dice=("San Jorge", "Altos Hornos Zapla", 1, 1),
+        debe=("San Jorge (T)", "Altos Hornos Zapla"),
+        porque=(
+            "Es el de Tucuman, y la pagina se olvida el (T) en esta fila y solo en "
+            "esta: las otras trece veces que ese club juega la Zona 3 lo escribe "
+            "'San Jorge (T)'. "
+            "LO DICE EL FIXTURE, sin salir de la pagina: la zona tiene ocho clubes y "
+            "cuatro partidos por fecha, en la Fecha 5 'San Jorge (T)' no juega "
+            "ninguno, y los otros siete clubes juegan una vez cada uno. El octavo "
+            "nombre de esa fecha es este. "
+            "Y LO CONFIRMA LA CANCHA: se juega en el Senador Luis Cruz, que la tabla "
+            "de participantes de la propia pagina declara como estadio de "
+            "[[Club Social y Deportivo San Jorge]], de San Miguel de Tucuman. La "
+            "pagina escribe esa cancha de dos maneras: 'Senador Luis Cruz' aca y "
+            "'Central Norte' en la Fecha 7 (San Jorge (T) 0-3 Mitre). Es el mismo "
+            "estadio, el de Central Norte de Tucuman: RSSSF pone 'Senador Luis Cruz' "
+            "en los dos partidos, el blog de Jose Carluccio 'cancha de Central Norte "
+            "de Tucuman' en los dos, y el articulo [[Estadio Luis Hayward]] lo da como "
+            "su nombre anterior. Las otras cinco localias del club van al Monumental "
+            "José Fierro, asi que la cancha sola no alcanzaria; alcanza junto con la "
+            "fecha libre. "
+            "Con esta fila San Jorge (T) llega a los 14 partidos de su tabla y "
+            "cierra exacto: 2 ganados, 5 empatados, 7 perdidos, 15 goles a favor y "
+            "22 en contra. "
+            "NO VA COMO ALIAS del padron porque el nombre tiene otro dueno en el "
+            "corpus: las Copa Argentina 2011-12, 2012-13, 2013-14, 2014-15 y 2017-18 "
+            "enlazan trece veces a [[Club Atlético San Jorge]], el de la provincia de "
+            "Santa Fe, como 'Atlético San Jorge' y 'San Jorge (SF)'. Ninguna lo "
+            "escribe pelado y ese club no juega ninguna fila del dataset, asi que hoy "
+            "el alias no le sacaria un partido a nadie. No va igual: el nombre pelado "
+            "es alias solo cuando el club es el unico del corpus que lo lleva, y este "
+            "no lo es."),
+    ),
+
+    Correccion(
         pagina="Campeonato de Primera Nacional 2022",
         jornada="Fecha 5",
         dice=("Alvarado", "San Martín", 3, 1),
@@ -1888,6 +1925,36 @@ MARCADORES: tuple[Marcador, ...] = (
             "de los dos suelto. zerozero.com.ar da Gimnasia 5-9-5 con 14:15 y "
             "Talleres 2-7-10 con 13:31, que es exactamente lo que queda."),
     ),
+    # LA VUELTA DE LA FINAL POR EL SEPTIMO ASCENSO DEL FEDERAL A 2014. Es el mismo caso
+    # que el Talleres-River de arriba: la pagina publica el marcador que habia en la
+    # cancha cuando se suspendio y no anota nada, y el homologado es otro. Aca no hay
+    # tabla de posiciones que lo pida --es una llave--, asi que el arbitro es el fallo
+    # mismo, leido en una fuente de la epoca que no depende de Wikipedia.
+    Marcador(
+        pagina="Torneo Federal A 2014",
+        jornada="Partidos de vuelta", local="Sportivo Patria", visita="Atlético Paraná",
+        dice=(1, 3), debe=(0, 3),
+        status_debe="suspendido",
+        porque=(
+            "No llego al final: el arbitro lo suspendio a los 75 minutos, con el 1-3 "
+            "puesto, porque la parcialidad local entro a la cancha. La pagina publica "
+            "ese 1-3 sin ninguna nota, y su global dice 1-5. Lo homologado es 0-3: "
+            "Boletin Oficial 90/14 del Tribunal de Disciplina Deportiva del Interior, "
+            "del 23/12/2014, expediente 2763/14, `a los 75 minutos el encuentro fue "
+            "suspendido pues simpatizantes del club local ingresaron al campo de "
+            "juego` y `RESUELVE: 1) Dar por concluido el partido y perdido al Club "
+            "Sportivo Patria con el resultado de 3 goles a 0 a favor de Atletico "
+            "Parana`. Se leyo en la reproduccion que publico Ascenso del Interior el "
+            "24/12/2014, no en el documento de la AFA; el cuerpo del expediente dice "
+            "Torneo Federal B por error, y el encabezado, el dia y los dos clubes son "
+            "los de este partido. RSSSF (`arg2015`) publica lo mismo: `Club Sportivo "
+            "Patria 0-3 Club Atletico Parana [abd at 1-3 in 75m, awd on Dec 23]`. La "
+            "cronica del dia de ese mismo medio cuenta la suspension a los 31 del "
+            "segundo tiempo con los goles de la cancha.\n"
+            "https://www.ascensodelinterior.com.ar/noticias/11470/las-sanciones/\n"
+            "https://www.ascensodelinterior.com.ar/noticias/11392/"
+            "atletico-paran-ascendi-al-torneo-nacional"),
+    ),
 
     # ------------------------------------------------------------------
     # EL UNICO DEL CLAUSURA 1991, y el primero donde la fuente se contradice A SI
@@ -2289,6 +2356,53 @@ DIVIDIDOS: tuple[Dividido, ...] = (
                "parrafo de la misma pagina.\n"
                "No entra, por lo mismo que el otro.",
     ),
+    # ------------------------------------------------------------------
+    # EL CLASICO DEL ALTO VALLE QUE PERDIERON LOS DOS: Deportivo Roca - Cipolletti,
+    # fecha 10 de la Zona 1 del Federal A 2014, miercoles 15 de octubre, en el Luis
+    # Maiolino. Es el gemelo del Independiente (N) - Deportivo Roca del 2018-19: la
+    # celda dice `PP - PP` y no se puede leer como marcador, asi que la fila ya no
+    # entraba. Lo que faltaba era decirlo, para que el hueco de PJ no mande a buscar
+    # un error de lectura que no existe.
+    #
+    # NO LLEVA `llave`, Y ES A PROPOSITO. Esta pagina publica DOS tablas que cuentan
+    # este partido: la de la Zona 1, bajo `== Primera fase ==`, y la `Tabla de
+    # ordenamiento` de la segunda fase, que repite la fila de Deportivo Roca con sus
+    # 14 partidos y cuelga de otro titulo de nivel 2. Se midio de las dos maneras:
+    # con `llave="Primera fase"` la primera cierra y la segunda sigue denunciando a
+    # Roca ("la tabla de «la pagina» le cuenta 14 partidos y en la grilla tiene
+    # 13"); sin `llave` se callan los tres avisos --el de la zona despareja, el de
+    # PJ de la Primera fase y ese--. Y no hay riesgo de contarlo de mas, que es para
+    # lo que existe el campo: Roca y Cipolletti no se vuelven a cruzar en la pagina.
+    # ------------------------------------------------------------------
+    Dividido(
+        pagina="Torneo Federal A 2014",
+        local="Deportivo Roca", visita="Cipolletti", dice=None,
+        porque=(
+            "La celda dice PP - PP y la nota: \"Suspendido por incidentes a los 22' "
+            "del segundo tiempo, con el resultado 0-1. Se le da por perdido el "
+            "partido a ambos clubes por 1 a 0\". Ganaba Cipolletti y terminaron "
+            "perdiendo 0-1 los dos, asi que no hay par de numeros que lo diga.\n"
+            "LA TABLA DE LA ZONA 1 LO CONFIRMA SIN CREERLE A LA NOTA. Deportivo Roca "
+            "figura 6-1-7 con 15:21 y la grilla le suma 6-1-6 con 15:20; Cipolletti "
+            "figura 4-2-8 con 14:18 y la grilla le suma 4-2-7 con 14:17. A cada uno "
+            "le falta un PJ, un perdido y un gol en contra, y a ninguno un gol a "
+            "favor, un ganado ni un empate: es exactamente `cada uno perdio 0-1`. "
+            "Los otros 38 clubes de las cinco zonas cierran en las seis cifras. Y la "
+            "tabla de la zona suma GF135 contra GC137, con 43 ganados contra 45 "
+            "perdidos: el desbalance de dos es el gol de castigo contado dos veces.\n"
+            "Y DOS TESTIGOS DE AFUERA, que coinciden en el minuto, en el 0-1 y en el "
+            "fallo. RSSSF (`arg2015`, Torneo Federal \"A\" 2014, Group 1, Round 10) lo "
+            "escribe partido en dos renglones: `CS y Deportivo General Roca 0-1 [abd a "
+            "0-1 in 67m, awd against both` / `1-0 Club Cipolletti teams on Oct 30, at "
+            "Luis Maiolino]`, y su tabla da las mismas dos filas, 15-21 y 14-18. El "
+            "blog de Jose Carluccio: \"15/10/2014 en General Roca: Deportivo Roca de "
+            "General Roca 0, Club Cipolletti de Cipolletti 1 (Oscar Negri)\", con la "
+            "nota \"Suspendido a los 67', con el marcador 0-1, por incidentes. No "
+            "continuo y posteriormente se dio por perdido a ambos clubes por 1-0\".\n"
+            "http://josecarluccio.blogspot.com/2016/12/argentina-consejo-federal-afa-torneo_31.html\n"
+            "No entra: la fila no existe y no tiene que existir. El desvio de PJ que "
+            "sale de esto se deriva de esta declaracion en vez de anotarse aparte."),
+    ),
 )
 
 
@@ -2609,6 +2723,39 @@ HOMONIMOS: tuple[Homonimo, ...] = (
                "otro, y el unico Juventud Unida que la pagina enlaza es "
                "[[Club Atlético Juventud Unida Universitario]]",
     ),
+    Homonimo(
+        # `dice` es el nombre como viene de la pagina, y aca eso ES lo que
+        # `homonimo()` recibe: "Mitre (S)" no esta en el padron --a proposito, ver
+        # el porque--, asi que `equipos.canonizar` lo devuelve intacto.
+        pagina="Torneo Federal A 2014", dice="Mitre (S)", debe="Mitre (SdE)",
+        porque="El de Santiago del Estero, con el desambiguador equivocado en 10 de "
+               "sus 14 partidos de la Zona 3; los otros cuatro dicen `Mitre (SdE)` "
+               "tres veces y `Mitre` una.\n"
+               "LO DICE EL FIXTURE, que es el testigo de la fecha libre: la zona "
+               "tiene ocho clubes y cuatro partidos por fecha, y en cada una de las "
+               "catorce fechas juega UN solo Mitre, se escriba como se escriba, y los "
+               "otros siete clubes una vez cada uno. No hay lugar para un noveno.\n"
+               "LO DICE LA PAGINA: el unico Mitre que enlaza es "
+               "[[Club Atlético Mitre (Santiago del Estero)]], y los cinco partidos "
+               "que `Mitre (S)` juega de local son en el José y Antonio Castiglione, "
+               "que la tabla de participantes declara como su estadio y donde no hace "
+               "de local nadie mas en toda la pagina.\n"
+               "Y LO CIERRA LA FOJA: la tabla de la Zona 3 tiene una sola fila de "
+               "Mitre, `Mitre (Santiago del Estero)`, con 14 partidos, 6 ganados, 5 "
+               "empatados, 3 perdidos, 16 goles a favor y 10 en contra. Sumando los "
+               "catorce partidos bajo un solo club dan exactamente eso; sin esto, la "
+               "grilla le deja 4 partidos al de Santiago y 10 a un club que no tiene "
+               "fila.\n"
+               "POR QUE NO ES UN ALIAS, como si lo es `San Jorge (S)`: porque "
+               "`Mitre (S)` existe y es OTRO club. Las Copa Argentina 2012-13, "
+               "2013-14, 2014-15 y 2016-17 lo escriben dieciseis veces y las dieciseis "
+               "enlazan a [[Club Atlético Mitre (Salta)]], quince de ellas con la "
+               "bandera de Salta al lado. Y en esta misma pagina \"(S)\" es Salta para "
+               "su vecino de zona, `Gimnasia y Tiro (S)`. Con el alias, el dia que se "
+               "lean las rondas preliminares de esas copas el de Santiago se queda con "
+               "los partidos del de Salta sin que nada avise -- incluido el `Altos "
+               "Hornos Zapla 4 - 0 Mitre (S)` de la Copa Argentina 2014-15, contra el "
+               "mismo rival al que aca le gana dos veces."),
 )
 
 
@@ -3061,6 +3208,66 @@ _TABLA_C_2011_12 = (
     "tipeo tipeo un conjunto coherente y equivocado, y la columna Dif --que en el "
     "wikitexto esta escrita a mano, no calculada-- acompana a los goles errados en "
     "las tres filas. Por eso tampoco es \"una celda mal tipeada\".")
+
+
+# Los dos clubes del partido fallado del Federal A 2015 comparten la explicacion
+# porque comparten el partido. Es el mismo dibujo que `_AWD_2007`: un fallo, dos
+# celdas de la tabla.
+_AWD_2015 = (
+    "El desvio es de UN gol y cae sobre un solo partido: San Martin (T) vs "
+    "Concepcion FC, Fecha 1 de la Zona 4 (22/03/2015), que termino 1-1 en la "
+    "cancha y se fallo en escritorio.\n"
+    "LA PROPIA PAGINA LO DICE. La grilla publica 1-0 y le cuelga una nota: el "
+    "partido finalizo 1 a 1 y el Tribunal de Disciplina se lo dio por ganado a San "
+    "Martin por la mala inclusion de dos jugadores de Concepcion. La fila del "
+    "dataset es ese 1-0, con `status` escritorio: la grilla publica el homologado, "
+    "que es lo que corresponde.\n"
+    "LA TABLA SE APARTA EN LAS DOS CELDAS QUE SEPARAN UN 1-1 DE UN 1-0, y en "
+    "ninguna otra. Le cuenta el partido ganado a San Martin y perdido a Concepcion "
+    "--10-6-2 y 8-5-5, el mismo G-E-P que da nuestra suma-- pero a Concepcion le "
+    "pone un gol a favor de mas (GF26 contra 25) y a San Martin uno en contra de "
+    "mas (GC16 contra 15). Los 18 PJ y las otras ocho filas de la zona coinciden "
+    "exacto.\n"
+    "EL TOTAL NO DISCRIMINA, y conviene decirlo: la tabla suma GF206 GC206 y la "
+    "grilla 205 y 205. Las dos cierran, porque el gol de mas esta de los dos lados.\n"
+    "EL HISTORIAL DE LA PROPIA PAGINA DICE QUE LA QUE DERIVO ES LA TABLA. La "
+    "revision 80963899 (24/03/2015 01:22 UTC) tiene el 1-1 en la grilla y a los dos "
+    "clubes con un empate 1-1 en la tabla. La 82119886 (29/04/2015 21:52 UTC), ya "
+    "con el fallo, tiene la grilla en 1-0 --con una nota que cita el Boletin 22-15 "
+    "de la AFA y dice que se dio por ganado por 1-0-- y la tabla RECALCULADA con "
+    "ese marcador: San Martin 11-5 y Concepcion 7-3 en seis partidos, igual a la "
+    "suma de la grilla de esa revision. El gol de mas aparece despues: en la "
+    "83314963 (20/06/2015 23:10 UTC) las dos filas ya se apartan como hoy, y en la "
+    "83384219, cuatro dias mas tarde, la de San Martin vuelve a coincidir. Son "
+    "celdas que se tocaban a mano.\n"
+    "RSSSF CUENTA COMO LA GRILLA. Publica el partido 1-0 con la anotacion "
+    "`originally 1-1, awd on Apr 16`, y su tabla del grupo da 28-15 a San Martin y "
+    "25-15 a Concepcion, que son nuestras cifras. No es un eco de esta tabla: sus "
+    "652 partidos coinciden con la grilla en el marcador, los 652, y sus siete "
+    "tablas con nuestra suma en las 80 filas; de las tablas de la pagina se aparta "
+    "justo en estas dos filas y en la de Talleres (C).\n"
+    "EL 1-1 DE LA CANCHA ESTA DOCUMENTADO AFUERA. La Gaceta de Tucuman, el "
+    "28/03/2015, cuenta que San Martin reclamo los puntos ante el Consejo Federal "
+    "por dos jugadores de Concepcion con el pase en tramite --Claudio Vega y Ariel "
+    "Aragon-- y que el partido habia terminado 1-1. El compendio de Jose Carluccio "
+    "lo publica 1-1 con los dos goleadores, Brian Uribe para San Martin y Nicolas "
+    "Roldan para Concepcion, y en sus posiciones de la zona pone a San Martin con "
+    "36 puntos y a Concepcion con 29, que solo salen con el partido ganado y "
+    "perdido.\n"
+    "EL TEXTO DEL BOLETIN SE LEE, aunque no donde lo citaba la pagina --esa "
+    "direccion hoy devuelve la portada del sitio de la AFA y el Web Archive no la "
+    "guardo--: Ascenso del Interior lo reprodujo el 16/04/2015. Es la reproduccion "
+    "de un medio, no el documento. Boletin Oficial 22/15 del Tribunal de Disciplina "
+    "Deportiva del Interior, expediente 2852/15: `Dar por perdido el partido al Club "
+    "Concepcion Futbol Club y registrar el siguiente resultado: Club Atletico San "
+    "Martin 1-Club Concepcion Futbol Club 0`. El resultado REGISTRADO es 1-0, sin "
+    "el gol de Concepcion: la tabla cuenta un gol que el fallo borro.\n"
+    "No hay nada que corregir: la fila dice el marcador homologado, que es el que "
+    "la propia grilla publica. Se anota el desacuerdo de la tabla.\n"
+    "https://www.rsssf.org/tablesa/arg2015a.html\n"
+    "https://www.ascensodelinterior.com.ar/noticias/12514/las-sanciones-de-la-fecha/\n"
+    "https://www.lagaceta.com.ar/nota/631651/deportes/san-martin-reclamo-ante-consejo-federal-mala-inclusion-jugadores-cuervos.html\n"
+    "https://josecarluccio.blogspot.com/2017/04/argentina-consejo-federal-afa-torneo_19.html")
 
 
 # SE PROBO ESCRIBIR `Revisado` SOBRE UNA TEMPORADA EN CURSO Y NO FUNCIONA. Hubo
@@ -3535,6 +3742,42 @@ REVISADOS: tuple[Revisado, ...] = (
                "No hay nada que ir a buscar: del partido se sabe todo, hasta "
                "el minuto en que se interrumpio. Lo unico que no se puede es "
                "escribirlo."),
+    # --- Torneo Federal A 2015: tres filas de tabla, dos causas ---
+    Revisado(
+        pagina="Torneo Federal A 2015", club="Concepción FC", desvio="GF+1",
+        porque=_AWD_2015),
+    Revisado(
+        pagina="Torneo Federal A 2015", club="San Martín (T)", desvio="GC+1",
+        porque=_AWD_2015),
+    Revisado(
+        pagina="Torneo Federal A 2015", club="Talleres (C)", desvio="E+1 P-1",
+        porque="La prueba es interna y cierra sola, y ademas la acompanian el "
+               "historial de la pagina y dos fuentes de afuera. La tabla de la Zona 2 "
+               "dice 10-8-0 con 38 puntos y la grilla da 10-7-1 -- un empate menos y "
+               "una derrota mas --, pero los GOLES coinciden exacto, 26 y 12. Un "
+               "marcador mal leido mueve siempre los goles, asi que ningun partido "
+               "solo puede explicarlo.\n"
+               "Y LA TABLA NO CIERRA CONSIGO MISMA: sus diez filas suman 63 ganados, 55 "
+               "empatados y 62 perdidos. Los empatados tienen que ser pares y los "
+               "ganados igual a los perdidos; poniendo el 10-7-1 de la grilla da "
+               "63-54-63 y cierran las dos a la vez. Es el unico club de la zona que se "
+               "desvia en resultados.\n"
+               "LA DERROTA ESTA EN LA GRILLA DE LA PROPIA PAGINA: Fecha 14, 21/06/2015, "
+               "Talleres (C) 0-1 Deportivo Maipu en el Kempes.\n"
+               "Y LA TABLA LA TUVO: `python -m fad.historial` encierra el partido entre "
+               "las revisiones del 22/06/2015 03:01:20 y 03:03:15 UTC --los dos clubes "
+               "suman un partido y el delta es 0-1--, y la revision 83384219 "
+               "(24/06/2015 05:06 UTC) tiene la fila de Talleres en 8-4-1 con 28 puntos "
+               "en 13 partidos. La que derivo despues es la fila, que hoy lo da "
+               "invicto.\n"
+               "RSSSF publica ese mismo 0-1 y su tabla del grupo da 10-7-1 con 37 "
+               "puntos. El compendio de Jose Carluccio tambien: 0-1 con el gol de Jesus "
+               "Jofre, y 37 puntos en sus posiciones de la zona. Ninguna de las dos "
+               "trae los 38 de la tabla de la pagina.\n"
+               "No hay nada que corregir en la grilla: la equivocada es la fila de la "
+               "tabla.\n"
+               "https://www.rsssf.org/tablesa/arg2015a.html\n"
+               "https://josecarluccio.blogspot.com/2017/04/argentina-consejo-federal-afa-torneo_10.html"),
 )
 
 

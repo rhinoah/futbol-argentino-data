@@ -321,6 +321,44 @@ ASCENSO_VIEJO = [
     Torneo("Torneo Argentino A 2012-13", "Torneo Argentino A", 2012, anio_fin=2013,
            rsssf="arg3-int2013", rsssf_llaves=True),
     Torneo("Torneo Argentino A 2013-14", "Torneo Argentino A", 2013, anio_fin=2014),
+    # La primera edicion con el nombre nuevo: el torneo de transicion del segundo
+    # semestre de 2014, del 23/08 al 07/12, con siete ascensos y ningun descenso.
+    # Cinco zonas de ocho a dos ruedas (280 partidos), dos desempates por el primer
+    # puesto y tres fases de eliminacion a doble partido (28): 310, que es lo que
+    # dice su ficha. Entran 309; el que falta es el `Deportivo Roca - Cipolletti`
+    # que perdieron los dos, ver `correcciones.DIVIDIDOS`.
+    # La pagina fecha sus 309 filas y no necesita segunda fuente. Se la cruzo igual,
+    # una vez, contra RSSSF --`arg2015`, que pese al nombre es el archivo del anio
+    # 2014--: los 309 emparejan por zona, fecha y localia, y 308 coinciden en dia y
+    # marcador. El que no es la vuelta de la final por el septimo ascenso, `Sportivo
+    # Patria - Atlético Paraná`: la pagina publica el 1-3 que habia en la cancha
+    # cuando se suspendio, a los 75 minutos, y el Tribunal lo registro 0-3. Entra
+    # 0-3 y `suspendido`, arbitrado por `correcciones.MARCADORES`.
+    # De los cuatro avisos que da la pagina, uno es que el cuadro de eliminacion no
+    # se pudo revisar: rotula solo la pata --`Partidos de ida` y `Partidos de
+    # vuelta`-- en sus tres fases, y `validar.cadena_de_llaves` no las puede separar.
+    # Esa cadena se reviso a mano.
+    Torneo("Torneo Federal A 2014", "Torneo Federal A", 2014),
+
+    # El Federal A 2015: 40 clubes y 652 partidos, todos con fecha en la pagina, del
+    # 20 de marzo al 10 de diciembre -- un solo anio, sin `anio_fin`. Son 360 de la
+    # primera fase (cuatro zonas de 10, ida y vuelta), 91 del Tetradecagonal, 156 de
+    # la Revalida (dos zonas de 13, una rueda), el desempate por el descenso y 44 de
+    # la eliminatoria (22 llaves a dos partidos, de la tercera a la septima fase).
+    #
+    # Entro cruzado contra RSSSF (`arg2015a`, que NO es `arg2015`: ese es el 2014)
+    # partido por partido: los 652 coinciden en el marcador y 651 en el dia. El que
+    # no, Ferro (GP)-CAI de la Fecha 2, se suspendio a los 18 minutos el 29 de marzo
+    # y se completo el 17 de junio: la pagina da el dia en que empezo, que es la
+    # convencion del repo, y RSSSF el dia en que termino.
+    # La ficha de la pagina dice 651 partidos: es el fixture programado, 607 de las
+    # tres etapas de grupos y 44 de la eliminatoria, sin el desempate por el
+    # descenso del 30 de octubre. La grilla y RSSSF tienen los 652.
+    #
+    # Las zonas no chocan: la primera fase usa `Zona 1` a `Zona 4` y la Revalida
+    # `Zona A` y `Zona B`. La seccion del descenso repite `Zona A` y `Zona B` como
+    # titulos, pero de ahi solo sale el desempate, que entra sin zona.
+    Torneo("Torneo Federal A 2015", "Torneo Federal A", 2015),
 ]
 
 # El historico del ascenso: las mismas cuatro divisiones hacia atras.

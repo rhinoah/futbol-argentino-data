@@ -153,8 +153,16 @@ MUTANTES = [
      '            club = parser.limpiar(eq.group(1))'),
 
     ("fad/posiciones.py", 'no cortar el eq= en un |#color de mas',
-     r'_CAMPO_EQUIPO = re.compile(r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*color\s*=|$)", re.S)',
-     r'_CAMPO_EQUIPO = re.compile(r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*color\s*=|$)", re.S)'),
+     r'    r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*(?:color|desc|ref)\s*=|$)", re.S)',
+     r'    r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*(?:color|desc|ref)\s*=|$)", re.S)'),
+
+    ("fad/posiciones.py", 'no cortar el eq= en la quita de puntos (|desc= y |ref=)',
+     r'    r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*(?:color|desc|ref)\s*=|$)", re.S)',
+     r'    r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*(?:color)\s*=|$)", re.S)'),
+
+    ("fad/posiciones.py", 'cortar el eq= en |desc= pero no en |ref=',
+     r'    r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*(?:color|desc|ref)\s*=|$)", re.S)',
+     r'    r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*(?:color|desc)\s*=|$)", re.S)'),
 
     ("fad/posiciones.py", 'aceptar una plantilla a la que le faltan campos',
      '        if len(nums) < 5 or not eq:',
@@ -780,6 +788,38 @@ MUTANTES = [
     ("fad/parser.py", "no marcar el fallo que cambio el numero de un partido terminado",
      '    if _HUBO_FALLO.search(fila):' + chr(10) + '        return "escritorio"',
      '    if False:' + chr(10) + '        return "escritorio"'),
+
+    ("fad/parser.py", "no leer el fallo que se escribe con el objeto en el medio",
+     r'    r"|le dio el partido (?:por )?(?:ganado|perdido)")',
+     r'    r"|le dio el partido por ganado")'),
+
+    ("fad/parser.py", "tomar por suspendido al partido que se reprogramo y se jugo entero",
+     '    if _se_jugo_el_dia_reprogramado(fila):' + chr(10) + '        return ""',
+     '    if False:' + chr(10) + '        return ""'),
+
+    ("fad/parser.py", "denunciar como fallo sin leer al partido que se reprogramo y se jugo",
+     '    if _se_jugo_el_dia_reprogramado(fila):' + chr(10) + '        return False',
+     '    if False:' + chr(10) + '        return False'),
+
+    ("fad/parser.py", "creerle al plan de reprogramar aunque la fila este fechada otro dia",
+     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\1(?![a-záéíóúñ])")',
+     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\d{1,2}\s*de\s+[a-záéíóúñ]+")'),
+
+    ("fad/parser.py", "tomar por el mismo dia al 16 cuando la fila dice 6",
+     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\1(?![a-záéíóúñ])")',
+     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\d?\1(?![a-záéíóúñ])")'),
+
+    ("fad/parser.py", "creerle al plan de reprogramar aunque la nota cuente otro final",
+     '    return bool(plan) and not _Y_DESPUES_PASO_ALGO.search(fila, plan.end())',
+     '    return bool(plan)'),
+
+    ("fad/parser.py", "leer la direccion de una cita como si fuera el texto de la nota",
+     '    fila = _URL_DE_CITA.sub(" ", fila)' + chr(10) + '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return ""',
+     '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return ""'),
+
+    ("fad/parser.py", "denunciar como fallo sin leer la palabra que solo esta en una direccion",
+     '    fila = _URL_DE_CITA.sub(" ", fila)' + chr(10) + '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return False',
+     '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return False'),
 
     ("fad/parser.py", "dejar en vacio un fallo que no se supo leer, sin avisar",
      "    return bool(_HABLA_DE_FALLO.search(fila)) and not status_de_la_fila(fila)",

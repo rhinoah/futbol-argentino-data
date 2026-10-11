@@ -60,7 +60,35 @@ _FILA_PLANTILLA = re.compile(r"\{\{\s*Tabla de posiciones equipo\s*\|(.*?)\}\}",
 # El nombre NO se saca partiendo por `|`: el wikilink de adentro tambien lleva
 # uno, asi que "eq=[[Club Atlético San Telmo|San Telmo]]" se parte al medio y el
 # club queda llamandose "[[Club Atlético San Telmo".
-_CAMPO_EQUIPO = re.compile(r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*color\s*=|$)", re.S)
+#
+# EL VALOR TERMINA DONDE EMPIEZA EL PROXIMO PARAMETRO, y `color` no es el unico que
+# se escribe despues del nombre. La plantilla tiene otros dos que van ahi cuando hay
+# quita de puntos: `desc`, los puntos descontados, y `ref`, la nota que lo explica
+# (el fuente de la plantilla arma la celda como `{{{eq}}}{{{ref|}}}` y resta
+# `{{{desc|0}}}` de los puntos). El Federal A 2015 escribe
+#
+#   eq=Alianza de Cutral Có|desc=1|ref=<ref name=puntos>...</ref>
+#   eq=Andino|desc=3|ref=<ref name=puntos />
+#
+# y cortando solo en `|color=` los dos clubes pasaban a llamarse
+# "Alianza de Cutral Có|desc=1|ref=" y "Andino|desc=3|ref=": dos filas fuera del
+# cruce, y otra vez las de la quita de puntos, que son las que hay que mirar.
+#
+# Paso inadvertido porque el wikilink lo tapaba. Medido sobre las 307 paginas de la
+# cache el dia que se arreglo: `desc=` o `ref=` vienen despues del `eq=` en 7 filas
+# de 5500, y en 6 el nombre es un wikilink --`eq=[[Club Atlético River
+# Plate|River Plate]]|desc=2|ref=<ref>...`, Apertura 1992--, que se resuelve por el
+# articulo sin mirar la cola. La septima, `eq=Independiente Rivadavia|desc=9|color=`
+# del Argentino A 2004-05, no se lee por otro motivo: su tabla no cuelga de un
+# titulo "Tabla de posiciones". Ninguna fila de la cache cambia con esto.
+#
+# SOLO ESOS DOS, que son los que aparecen. La plantilla tiene mas parametros
+# (`asig`, `col1`, `col2`, `pv`) y ninguno viene despues de un `eq=` en la cache.
+# Cortar en los catorce, o en cualquier `|nombre=`, se midio y hoy da exactamente lo
+# mismo; no se hace porque lo segundo cortaria tambien en el `|group=` de un
+# `{{refn|group=n.|...}}` pegado al nombre, que no es un parametro de esta plantilla.
+_CAMPO_EQUIPO = re.compile(
+    r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*(?:color|desc|ref)\s*=|$)", re.S)
 # Adentro del `eq=` casi siempre hay un wikilink, y ese wikilink trae el ARTICULO,
 # que es lo que desambigua de verdad. Sacandolo de ahi se arreglan de una tres
 # cosas a la vez, todas medidas:

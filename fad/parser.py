@@ -520,15 +520,75 @@ _NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspendid|abandon[oó]|no se present[oó]|
 # Las otras tres filas del dataset que dicen `dio por ganado/perdido` sin `le` NO
 # cambian, y no por suerte: las tres mencionan una suspension, asi que
 # `_NO_LLEGO_AL_FINAL` las agarra antes. La precedencia las protege sola.
+#
+# Y `le dio el partido (ganado|perdido)`, con el objeto EN EL MEDIO: es como lo
+# escribe el Torneo Federal A 2014 sobre el `Central Córdoba (SdE) 0-1 San Martín (T)`
+# de la Fecha 7 de la Zona 3 --"El Tribunal de Disciplina le dio el partido perdido a
+# Central Córdoba por estar inhabilitado un jugador del local"--. La nota no dice si
+# el partido se jugo, y se fue a buscar: se jugaron los noventa y termino 1-1. RSSSF
+# lo anota `[originally 1-1, awd on Oct 16, at Alfredo Terrera]`; el blog de Jose
+# Carluccio da el 1-1 con sus goleadores y "posteriormente, se dio por ganado a San
+# Martín de Tucumán por 1-0, debido a mala inclusión de Franco Ledesma"; y La Gaceta
+# publico la cronica del empate el mismo 28/09/2014. Llego al final y el numero es de
+# oficina: `escritorio`. La tabla de la zona cuenta el 0-1 y no el 1-1 --Central
+# Córdoba 9-1-4 con 20:14--, asi que el marcador publicado es el que vale.
+#
+# Medido sobre las 168 paginas del catalogo mas el Federal A 2014 y el 2015: cambia UNA
+# fila, esa, y la lista de fallos sin leer vuelve a cero. La otra fila que usa la frase
+# --Deportivo Laferrere - Dock Sud, Primera C 2015-- arranca con "Suspendido por
+# incidentes", asi que `_NO_LLEGO_AL_FINAL` la agarra antes, igual que a las de arriba.
 _HUBO_FALLO = re.compile(
     r"(?i)se (?:le )?dio por (ganado|perdido)|se lo dio (por )?ganado|le dio por ganado"
-    r"|otorg[aá]ndole|le gan[oó] los puntos|(mala|indebida) inclusi[oó]n|inclusi[oó]n indebida")
+    r"|otorg[aá]ndole|le gan[oó] los puntos|(mala|indebida) inclusi[oó]n|inclusi[oó]n indebida"
+    r"|le dio el partido (?:por )?(?:ganado|perdido)")
 # El partido se suspendio y DESPUES se jugo o se completo: llego al final igual,
 # aunque en dos dias. Son 356 de las 409 filas que mencionan una suspension, y
 # meterlas en "suspendido" seria decir que su marcador no es de la cancha.
 _SE_COMPLETO = re.compile(
     r"(?i)se\s+(?:jug[oó]|jugaron|jugar[aá]n?|disput[oó]|disputaron|complet[oó]|"
     r"reanud[oó]|finaliz[oó])\s+(?:el\s+)?\d{1,2}\s*de\s+[a-záéíóúñ]+")
+# `REPROGRAMADO PARA EL 6 DE OCTUBRE` NO ES LO MISMO: es un plan, no un hecho. De las
+# siete filas del corpus que lo dicen, en seis el partido NO se jugo ese dia --se volvio
+# a suspender o a postergar-- y la nota lo cuenta despues. Vale como «se jugo» en un
+# solo caso: cuando LA FILA ESTA FECHADA ESE MISMO DIA, o sea cuando la celda de la
+# fecha ya trae el dia al que la nota dice que se paso, y la nota no cuenta nada mas.
+# Es el `General Belgrano (SR) 1-2 CAI` de la Fecha 8 de la Zona 1 del Torneo Federal A
+# 2014: la celda dice `6 de octubre` y la nota "Suspendido debido a la lluvia. Fue
+# reprogramado para el 6 de octubre a partir de las 14:00". Sin esto la fila salia
+# `suspendido`, o sea afirmando que NO llego al final un partido que RSSSF y el blog de
+# Jose Carluccio dan jugado el 06/10/2014, 1-2, sin ninguna nota.
+#
+# El contraejemplo es el `Villa Mitre 2-1 Guillermo Brown` del Federal A 2025: la celda
+# dice 11 de octubre, la nota "Fue reprogramado para el 12 de octubre [...] y se volvio
+# a suspender", y se jugo el 13. Ahi el plan no coincide con la fila y no vale; lo que
+# la salva es el `Se jugó el 13` que sigue. Medido el 11/10/2026 sobre las 170 paginas
+# del catalogo: la regla engancha UNA fila, la de General Belgrano.
+_FECHADO_EL_DIA_REPROGRAMADO = re.compile(
+    r"(?i)\|\s*(\d{1,2}\s*de\s+[a-záéíóúñ]+)\b[^\n]*?"
+    r"reprogram\w+\s+para\s+(?:el\s+)?\1(?![a-záéíóúñ])")
+# Lo que la nota puede contar DESPUES del plan y que lo desmiente.
+_Y_DESPUES_PASO_ALGO = re.compile(
+    r"(?i)suspend|posterg|abandon|no se present|interrumpi|tribunal|\bdi[oó]\b")
+
+
+def _se_jugo_el_dia_reprogramado(fila: str) -> bool:
+    """La nota dice que el partido se paso a un dia, y la fila esta fechada ese dia."""
+    plan = _FECHADO_EL_DIA_REPROGRAMADO.search(fila)
+    return bool(plan) and not _Y_DESPUES_PASO_ALGO.search(fila, plan.end())
+
+
+# LA DIRECCION DE UNA CITA NO ES TEXTO DE LA NOTA. Una celda puede llevar un enlace
+# externo cuya URL trae la palabra en el slug, y los regex de arriba la leian como si
+# la hubiera escrito la pagina. Es el `Sportivo Estudiantes (SL) 2-0 Juventud Unida
+# Universitario` de la Fecha 8 de la Zona 2 del Federal A 2014, cuya celda de fecha
+# dice `6 de octubre<ref>[http://www.ascensodelinterior.com.ar/noticias/10541/el-clsico-
+# puntano-fue-suspendido/ Postergado por falta de acuerdo para jugar con ambas
+# parcialidades.]</ref>`: el texto dice POSTERGADO --se jugo otro dia, entero-- y el
+# `suspendido` salia del slug. Se saca la URL antes de preguntar, en los dos lugares
+# que preguntan: si se sacara solo en `status_de_la_fila`, `sin_clasificar` seguiria
+# viendo el slug y denunciaria la fila como un fallo sin leer (se midio: pasa).
+# Medido sobre las mismas 170 paginas: cambia UNA fila, esa.
+_URL_DE_CITA = re.compile(r"https?://[^\s\]|}<]+")
 
 
 def status_de_la_fila(fila: str, estadio: str = "") -> str:
@@ -582,8 +642,11 @@ def status_de_la_fila(fila: str, estadio: str = "") -> str:
     """
     if _NO_SE_JUGO.search(estadio.strip()):
         return "no disputado"
+    fila = _URL_DE_CITA.sub(" ", fila)
     if _SE_COMPLETO.search(fila):
         return ""                      # se suspendio y se termino de jugar
+    if _se_jugo_el_dia_reprogramado(fila):
+        return ""                      # se paso a otro dia, y es el de esta fila
     if _NO_LLEGO_AL_FINAL.search(fila):
         return "suspendido"            # no llego al final: manda eso
     if _HUBO_FALLO.search(fila):
@@ -598,8 +661,11 @@ def sin_clasificar(fila: str) -> bool:
     algo que no supe leer": esa es la unica forma de que el default no se vuelva
     una afirmacion inventada sobre 39 mil filas. Cuando pasa, se avisa.
     """
+    fila = _URL_DE_CITA.sub(" ", fila)
     if _SE_COMPLETO.search(fila):
         return False           # se suspendio y se termino de jugar: eso SI se leyo
+    if _se_jugo_el_dia_reprogramado(fila):
+        return False           # idem: se paso al dia de esta fila
     return bool(_HABLA_DE_FALLO.search(fila)) and not status_de_la_fila(fila)
 
 
