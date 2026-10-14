@@ -109,11 +109,6 @@ fecha: los `6` que están sin fecha no se jugaron.
 - **ESPN sigue nombrada como testigo en `31` renglones de `fad/correcciones.py`.**
   Ninguna fila sale de ahí ni la nombra en `source`, pero varios marcadores corregidos a
   mano citan su ficha entre otros testigos.
-- **`source` nombra a RSSSF por el sitio y no por el archivo.** `8 116` filas llevan
-  `https://www.rsssf.org/` y `6` la URL de un archivo. El pie de cada archivo pide
-  reconocer a su autor y la fila no dice de cuál salió: hoy lo resuelve la tabla de
-  `LICENSE-DATOS.md`, porque cada torneo usa un solo archivo. Falta decidir si
-  `rsssf.CREDITO` pasa a ser la URL del archivo; reescribe esas filas, de `22` CSV.
 - **`fuente_fecha` guarda dos créditos distintos en un campo:** de dónde sale la fila y
   quién le puso el día. Tres lugares lo escriben y sólo uno los distingue.
   `corregir_fechas` —una `Dia`— lo reemplaza entero, y el completador de worldfootball
@@ -134,11 +129,20 @@ fecha: los `6` que están sin fecha no se jugaron.
   página en curso frena la actualización de todas hasta que alguien cargue la corrección;
   si no lo es, la fila sale publicada con una fecha que no existe.
 - **`15` partidos están escritos dos veces**, una por cada torneo: las promociones entre
-  divisiones de 2010-11 y 2011-12 y el tercer ascenso de 2020, 2023 y 2024. Las `50 020`
-  filas son `50 005` partidos distintos. `sin_duplicados` mira torneo por torneo: falta
-  decidir si es a propósito. Y las dos copias no siempre dicen lo mismo: `San Telmo –
-  Deportivo Madryn` del `2021-02-04` es `neutral=false` en su fila de Primera B y `true` en
-  la del Federal A.
+  divisiones de 2010-11 y 2011-12 —tres series de ida y vuelta por temporada: Primera B
+  contra Primera C, B Nacional contra Primera B y B Nacional contra Argentino A— y la
+  definición del tercer ascenso de 2020, 2023 y 2024, a partido único, entre la Primera B
+  y el Federal A. Ninguno es un fallo: los publican las páginas de las dos divisiones, con
+  el mismo marcador. Las `50 020` filas son `50 005` partidos distintos. `sin_duplicados`
+  mira torneo por torneo: falta decidir si es a propósito. Y las dos copias no siempre
+  dicen lo mismo: `San Telmo – Deportivo Madryn` del `2021-02-04` es `neutral=false` en su
+  fila de Primera B y `true` en la del Federal A, y sólo la segunda tiene hora;
+  `Los Andes – Central Córdoba (R)` del `2011-06-25` tiene `15:00` en una y `15:30` en la
+  otra; en otras cuatro la hora difiere sólo por un `(TV)` pegado.
+- **`Sarmiento (LB) – Los Andes` del `2024-12-21` figura `neutral=false` en sus dos
+  filas**, y las dos páginas dicen que se jugó en cancha neutral, en Córdoba. En las ligas
+  el parser pone `neutral=true` sólo cuando la tabla rotula «Equipo 1 / Equipo 2», y este
+  partido las dos páginas lo escriben con `{{Partidos}}`.
 - **La hora.** El parser saca el día de la nota «se jugó el…» pero la hora la saca de la
   celda, así que unos `190` partidos reprogramados en `64` páginas tienen el día real y la
   hora del programado. Hay además `37` horas que no tienen la forma `HH:MM` (`15:00
@@ -239,9 +243,14 @@ fecha: los `6` que están sin fecha no se jugaron.
 con cero graves. Falta uno a propósito: el `San Lorenzo – Huracán` del Apertura 1997, que
 perdieron los dos y una fila no puede escribir.
 
-- **Una fecha sospechosa:** `Racing 2-1 Gimnasia (LP)` del `1999-05-24`, con Gimnasia
-  jugando el clásico el 23. La página lo anota postergado y RSSSF lo fecha igual. Falta
-  prensa del día: Página/12 de esos años está en la Hemeroteca Digital.
+- **Dos fechas sospechosas:**
+  - `Racing 2-1 Gimnasia (LP)` del `1999-05-24`, con Gimnasia jugando el clásico el 23.
+    La página lo anota postergado y RSSSF lo fecha igual. Falta prensa del día: Página/12
+    de esos años está en la Hemeroteca Digital.
+  - `River Plate 3-1 Racing Club`, Fecha 16 del Apertura 2003, figura el `2004-06-03`:
+    casi seis meses después de terminado el torneo y cinco días después del River–Racing
+    del Clausura 2004. La celda dice «3 de junio de 2004», postergado por la Copa
+    Sudamericana. Puede ser cierto, pero falta una fuente del día.
 
 ## 1991–1996 — Cerrada
 
