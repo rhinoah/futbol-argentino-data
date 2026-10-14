@@ -7,9 +7,9 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 49 972 | 6 | 170 | 1227 | 572 |
+| 50 020 | 6 | 170 | 1262 | 588 |
 
-Medidos el 11 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
+Medidos el 13 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
 al código a propósito para comprobar que algún test los detecta.
 
 Las marcas de cada era: **cerrado** = está en el CSV, aunque le queden cosas por
@@ -18,7 +18,7 @@ la fuente lo publica y hoy no se lee.
 
 ## 2004–2026 — Cerrado
 
-`42 984` partidos de los torneos que están en el catálogo. De los `184` avisos
+`43 032` partidos de los torneos que están en el catálogo. De los `174` avisos
 del build, ninguno es grave. Hay `59` verificaciones a mano, y `251` clubes de `13`
 temporadas tienen el respaldo de una fuente independiente. Ningún partido espera una
 fecha: los `6` que están sin fecha no se jugaron.
@@ -89,22 +89,53 @@ fecha: los `6` que están sin fecha no se jugaron.
   que es redirección** (`Club Social y Deportivo Juventud Unida`). Hoy resuelve por el
   nombre. Agregar la clave a `ARTICULOS` puede dejar huérfano el `Homonimo` de la Copa
   Argentina 2015-16: falta medirlo.
-- **`37` filas no nombran a RSSSF en `source`** y el partido sale de ahí: las llaves del
-  Argentino A 2004-05 nacen del archivo compacto de RSSSF y, cuando el blog les pone el
-  día, `fechas.completar` pisa el crédito. El README lo avisa; falta arreglar el dato.
-- **Cómo se declaran las `3 812` filas que salen enteras de RSSSF.** Son once torneos. El
-  pie de cada archivo de RSSSF autoriza a copiarlo reconociendo al autor y dice «All
-  rights reserved»; el repo publica todo como CC BY-SA heredada de Wikipedia, y la
-  atribución que sugiere `LICENSE-DATOS.md` nombra sólo a Wikipedia. Falta decidirlo. Ese
-  archivo además nombra `data/partidos.csv`, que no existe, y dice que hay «una segunda
-  fuente, para un solo campo».
+- **Dos localías del Reducido de la Primera C 2011-12 no tienen testigo fuera del
+  blog:** las de la semifinal `Ferrocarril Midland – Dock Sud`. Las otras doce patas
+  tienen una programación o una previa de esos días que nombra al local; a estas dos
+  las sostiene la regla del torneo —el mejor ubicado juega la vuelta en su cancha— y el
+  build lo avisa en cada `--rehacer`. Falta una crónica.
+- **El cruce de la grilla contra el cuadro calla cuando las dos patas de una llave
+  tienen el mismo par de números.** `posiciones.marcadores_del_cuadro` pregunta si la
+  grilla tiene algún partido entre los dos clubes con el marcador que el cuadro publica,
+  sin mirar cuál pata es: en una llave que sale 1-0 y 0-1, romper una no lo hace hablar.
+  Medido en el Reducido de la Primera C 2011-12: avisa en `7` de sus `14` partidos. Las
+  llaves citadas a mano ya se comparan pata por pata; falta en las que salen de RSSSF y
+  en las de la página.
+- **El blog de José Carluccio no publica condiciones de uso.** `90` filas lo nombran: en
+  `76` puso el día y en las `14` del Reducido de la Primera C 2011-12, el día y la
+  localía. No prohíbe nada, pero tampoco autoriza por escrito.
+- **`arg2011` tiene otro encabezado de fecha sin cerrar**, `[Apr 9`, en la sección del
+  Argentino B, que hoy no lee ningún torneo.
+- **ESPN sigue nombrada como testigo en `31` renglones de `fad/correcciones.py`.**
+  Ninguna fila sale de ahí ni la nombra en `source`, pero varios marcadores corregidos a
+  mano citan su ficha entre otros testigos.
+- **`source` nombra a RSSSF por el sitio y no por el archivo.** `8 116` filas llevan
+  `https://www.rsssf.org/` y `6` la URL de un archivo. El pie de cada archivo pide
+  reconocer a su autor y la fila no dice de cuál salió: hoy lo resuelve la tabla de
+  `LICENSE-DATOS.md`, porque cada torneo usa un solo archivo. Falta decidir si
+  `rsssf.CREDITO` pasa a ser la URL del archivo; reescribe esas filas, de `22` CSV.
+- **`fuente_fecha` guarda dos créditos distintos en un campo:** de dónde sale la fila y
+  quién le puso el día. Tres lugares lo escriben y sólo uno los distingue.
+  `corregir_fechas` —una `Dia`— lo reemplaza entero, y el completador de worldfootball
+  lo borra junto con la fecha cuando cae fuera de la temporada: en las `3 945` filas que
+  salen de RSSSF se llevarían el crédito del partido. Hoy no pasa en ninguna. Y
+  `fechas.completar` suma el que la fila ya traía aunque no haya puesto nada, si un
+  lector devuelve un partido sin día: hoy son `0`. Arreglarlo pide un campo aparte.
+- **Los nombres de los autores de RSSSF se cotejan a mano.** `tests/test_licencia.py`
+  exige que cada archivo que se usa tenga su renglón en `LICENSE-DATOS.md`, pero no
+  puede mirar que el nombre sea el del pie: los archivos no se versionan, y tres
+  —`arg2015`, `arg2015a` y `arg2020`— ni siquiera están en la caché.
+- **El lector de RSSSF no espera entre un pedido y el siguiente.** Con la caché no se
+  nota; un `--rehacer` sin caché le pide 24 archivos seguidos a RSSSF.
+- **La descripción del repositorio en GitHub quedó vieja:** dice 22.270 partidos desde
+  2016 y nombra sólo a Wikipedia.
 - **No hay chequeo de que una fecha exista en el calendario**, y falta decidir cómo
   falla. `a_iso` arma `2014-11-31` sin validarlo. Si es grave, un día mal tipeado en una
   página en curso frena la actualización de todas hasta que alguien cargue la corrección;
   si no lo es, la fila sale publicada con una fecha que no existe.
 - **`15` partidos están escritos dos veces**, una por cada torneo: las promociones entre
-  divisiones de 2010-11 y 2011-12 y el tercer ascenso de 2020, 2023 y 2024. Las `49 972`
-  filas son `49 957` partidos distintos. `sin_duplicados` mira torneo por torneo: falta
+  divisiones de 2010-11 y 2011-12 y el tercer ascenso de 2020, 2023 y 2024. Las `50 020`
+  filas son `50 005` partidos distintos. `sin_duplicados` mira torneo por torneo: falta
   decidir si es a propósito. Y las dos copias no siempre dicen lo mismo: `San Telmo –
   Deportivo Madryn` del `2021-02-04` es `neutral=false` en su fila de Primera B y `true` en
   la del Federal A.
@@ -116,7 +147,7 @@ fecha: los `6` que están sin fecha no se jugaron.
 - **La promoción `Luján – Argentino de Quilmes` de 2012 tiene los dos días en duda.** El
   CSV pone la ida el `2012-06-26` y la vuelta el `2012-07-01`; la previa de Infobae del
   sábado 30 de junio dice que la ida fue «el miércoles último» (27) y que la vuelta se
-  jugaba ese sábado. RSSSF y ESPN no la traen. Falta una segunda fuente.
+  jugaba ese sábado. RSSSF no la trae. Falta una segunda fuente.
 - **Una corrección a mano que hay que sacar a tiempo:** Wikipedia sigue mostrando
   `Claypole 0-0 Central Córdoba (R)` (Primera C 2026) y el dataset publica el `2-2`.
   Cuando la página lo corrija el build va a avisar, y ahí se saca la entrada de
@@ -136,20 +167,19 @@ fecha: los `6` que están sin fecha no se jugaron.
 - **Renovar la cache y correr `--rehacer`.** Las temporadas cerradas no se vuelven a
   leer, así que no les llegan las correcciones buenas de Wikipedia, y la cache de hoy es
   de agosto y septiembre.
-- **Arreglar la consulta a ESPN.** El feed rechaza con un 400 los pedidos por rango de
-  fechas, que es como los arma `fad/espn.py`. El build diario no lo nota, porque los
-  torneos cerrados salen del CSV; un `--rehacer` sin cache dejaría sin fecha las páginas
-  que dependen de ESPN.
 - **Comentarios que quedaron viejos en el código:**
   - Tres de `fad/torneos.py`, en el bloque de 1997–2003, dan por afuera la capa 1991–1996
     y al Clausura 1991 por un stub.
-  - `fad/citadas.py` dice que quedan 2 filas en `data/sin-fecha/`; el docstring de
-    `fad/rsssf.py`, que de ahí sale «nada más que la fecha»; y `build.py`, que hay un
-    único camino por el que una fila no viene de Wikipedia.
+  - `fad/citadas.py` dice que quedan 2 filas en `data/sin-fecha/`, y `build.py`, que
+    hay un único camino por el que una fila no viene de Wikipedia.
+  - Dicen que de la segunda fuente sale sólo la fecha, o que hay un único lugar por el
+    que una fila no viene de Wikipedia: `fad/fechas.py` (`Ajeno`),
+    `fad/torneos.py` (dos bloques), `fad/rsssf.py` (`a_partidos`),
+    `fad/correcciones.py`, `fad/equipos.py` y un docstring de `tests/test_build.py`.
   - El docstring de `build.py` —lo que muestra `--help`— dice que `--sin-cache` «vuelve a
     pedirle todo a Wikipedia»: pide sólo las páginas que parsea.
-  - `.gitignore` nombra `data/partidos.csv`, y un docstring de `tests/test_equipos.py`
-    cuenta seis Gimnasia y Esgrima donde hay cinco.
+  - Un docstring de `tests/test_equipos.py` cuenta seis Gimnasia y Esgrima donde hay
+    cinco.
   - `fad/equipos.py` dice que los alias con el desambiguador desplegado «son 34
     nombres»: el Federal A 2014 y el 2015 sumaron cinco.
 - **`anios_bien_asignados` tiene tres comparaciones medidas y sin poner.** Es el chequeo
@@ -402,7 +432,7 @@ biblioteca responde con un error de certificado.
 
 | era | partidos | fuente | estado |
 |---|---:|---|---|
-| 2004–2026 | 37 790 | Wikipedia sola | cerrado |
+| 2004–2026 | 37 838 | Wikipedia sola | cerrado |
 | 2004–2026, con segunda fuente | 5 194 | Wikipedia + RSSSF / worldfootball / otras | cerrado |
 | 1997–2003 | 2 469 | Wikipedia | cerrado |
 | 1991–1996 | 2 470 | Wikipedia (partidos) + RSSSF (fechas) | cerrado |
@@ -411,6 +441,6 @@ biblioteca responde con un error de certificado.
 | 1967–1984 | 5 570 | Wikipedia | al alcance, falta padrón |
 | 1933–1966 | 8 903 | RSSSF, con Wikipedia de testigo | falta el lector |
 
-Las cinco primeras filas suman los `49 972` del dataset. Las tres últimas suman `14 791`
+Las cinco primeras filas suman los `50 020` del dataset. Las tres últimas suman `14 791`
 y son un piso de lo que falta: la fila 1967–1984 cuenta sólo lo que el parser ya lee con
 fecha, sin los 342 del Metropolitano 1982 ni los 1 215 resultados en lista.

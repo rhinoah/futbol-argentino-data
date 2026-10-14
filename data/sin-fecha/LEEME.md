@@ -27,13 +27,13 @@ cuenta cómo.
 
 | qué segunda fuente nombra `source` en el resto del dataset | filas |
 |---|---|
-| [RSSSF](https://www.rsssf.org/) | 8 082 |
+| [RSSSF](https://www.rsssf.org/) | 8 122 |
 | [worldfootball](https://www.worldfootball.net/) | 1 519 |
-| [el blog de José Carluccio](http://josecarluccio.blogspot.com/) | 76 |
-| [ESPN](https://www.espn.com.ar/) | 21 |
+| [el blog de José Carluccio](http://josecarluccio.blogspot.com/) | 90 |
 | otras cuatro, citadas fila por fila | 5 |
 
-Medido el 11 de octubre de 2026.
+Medido el 13 de octubre de 2026. La columna suma 9 736 y las filas son 9 699: 37
+nombran dos, RSSSF y la que les puso el día.
 
 RSSSF pasó de aportar 263 fechas a 3 545 al arreglar tres cosas que le impedían
 leer, ninguna de ellas en los datos: la fase regular de sus archivos **no lleva
@@ -42,11 +42,12 @@ partidos sin un aviso; desde 2010-11 las divisiones **comparten archivo** y hay
 que acotar la sección o los partidos de siete torneos caen en la misma bolsa; y un
 título como `Third Phase Reválida` no era título de nada.
 
-Ese mismo movimiento le sacó filas a ESPN, que las fechaba antes. **Cuando dos
+Ese mismo movimiento le sacó filas al feed de ESPN, que las fechaba antes y que en
+octubre de 2026 se sacó del repo. **Cuando dos
 fuentes dan días distintos se conserva la primera y se avisa** — eran 82 partidos
 en diez páginas, y hasta que ese aviso existió el árbitro era el orden en que
 corrían los completadores. Hoy el build no avisa ninguno: se cerraron uno por uno, y
-los que hubo que declarar a mano están en `fad/correcciones.py` (13 donde nuestra
+los que hubo que declarar a mano están en `fad/correcciones.py` (7 donde nuestra
 fecha estaba bien y 22 donde no; ahí hay otras 6 fechas corregidas a mano que no
 salieron de este aviso).
 
@@ -56,19 +57,24 @@ El crédito viaja **fila por fila** en la columna `source`, que queda compuesta:
 https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2009-10_(Argentina) + https://www.rsssf.org/
 ```
 
+A RSSSF `source` la nombra casi siempre por el sitio. El reconocimiento a los
+autores de cada archivo, que es lo que pide su pie, está en
+[`LICENSE-DATOS.md`](../../LICENSE-DATOS.md).
+
 En la mayoría de esas filas la otra fuente aporta la fecha y nada más. Equipos,
 marcador y jornada siguen saliendo de Wikipedia, y el marcador de la otra fuente se
 usa **para verificar** que las dos partes hablan del mismo partido: si no coinciden,
 no se completa nada y se avisa.
 
-La excepción son 3 959 filas, y es la razón de que RSSSF figure con 8 082. En once
+La excepción son 3 945 filas, y es la razón de que RSSSF figure con 8 122. En once
 torneos la página de Wikipedia publica la tabla y no los partidos —la Primera División
 de 1985-86 a 1989-90, el Apertura 1990, el Clausura 1991 y los Argentino A de 2006-07 a
 2009-10—, y ahí las 3 812 filas salen enteras de RSSSF: Wikipedia pone la tabla de
 posiciones que las verifica, salvo en las 190 de las fechas 20 a 38 de la 1988-89, que
-sólo cierran contra la tabla de la propia RSSSF. Las otras 147 son llaves de fase final
-que la página trae sólo como cuadro: 133 salen de RSSSF y 14, las de la Primera C
-2011-12, de ESPN.
+sólo cierran contra la tabla de la propia RSSSF. Las otras 133 son llaves de fase final
+que la página trae sólo como cuadro. Hay 14 más en la misma situación, las del Reducido
+de la Primera C 2011-12, que RSSSF no trae: ahí los clubes y el marcador salen del
+cuadro de Wikipedia, y el día y la localía, del blog de José Carluccio.
 
 ## Las del Argentino A 2004-05 eran otra cosa
 
@@ -125,8 +131,9 @@ Eran 13 el 24 de agosto de 2026, y las once que salieron ese día no necesitaron
   paréntesis (`(Jun 21)` suelto, `Second Legs (Jun 28)`) donde los demás usan
   corchetes.
 - **Cinco** —cuatro de la fecha 35 de la Primera Nacional 2023 y una de la fecha
-  19 de la Primera C 2024— estaban en ESPN, que el repo ya lee para otras
-  temporadas y no estaba enchufado para éstas.
+  19 de la Primera C 2024— estaban en ESPN, que el repo leía entonces. Hoy no salen
+  de ahí: las cuatro de la Primera Nacional tenían el día en la página, escrito
+  `24 septiembre` sin el «de», y la de la Primera C sale de RSSSF.
 - **Dos** —las patas de la Tercera Fase del Argentino A 2010-11— resultaron ser un
   error de la página: tenía los dos partidos con la localía al revés, y al
   corregirla se emparejaron con RSSSF y quedaron fechadas.

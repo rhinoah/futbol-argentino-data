@@ -1,8 +1,8 @@
 # futbol-argentino-data
 
 Un dataset abierto de partidos del fútbol argentino desde 1985, armado a partir de
-Wikipedia en español —y de RSSSF donde Wikipedia no publica los partidos— y que se
-actualiza solo.
+Wikipedia en español —y de RSSSF donde Wikipedia no publica los partidos o no les
+pone día— y que se actualiza solo.
 
 `data/partidos-1985.csv` … `data/partidos-2026.csv` — **un archivo por
 temporada**. La actualización diaria sólo toca el del año en curso; los de
@@ -18,19 +18,19 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina),
 ```
 
-**Estado:** **49 972 partidos entre julio de 1985 y hoy**, de ocho competencias.
+**Estado:** **50 020 partidos entre julio de 1985 y hoy**, de ocho competencias.
 **217 clubes**, 170 torneos, cero partidos sin fecha o sin marcador. Se actualiza
 solo, todos los días.
 
 | competencia | `tournament` | temporadas | filas |
 |---|---|---|---:|
-| Primera División | `Primera Division`, y `Primera Division - Apertura` / `Clausura` / `Inicial` / `Final` | 41, de 1985-86 a 2026 | 15 692 |
+| Primera División | `Primera Division`, y `Primera Division - Apertura` / `Clausura` / `Inicial` / `Final` | 41, de 1985-86 a 2026 | 15 699 |
 | Copa de la Liga | `Copa de la Liga` | 5, de 2020 a 2024 | 921 |
-| Primera Nacional (ex B Nacional) | `Primera Nacional` | 20, de 2007-08 a 2026 | 9 191 |
-| Primera B | `Primera B` | 17, de 2010-11 a 2026 | 6 178 |
-| Primera C | `Primera C` | 19, de 2008-09 a 2026 | 7 072 |
+| Primera Nacional (ex B Nacional) | `Primera Nacional` | 20, de 2007-08 a 2026 | 9 205 |
+| Primera B | `Primera B` | 17, de 2010-11 a 2026 | 6 181 |
+| Primera C | `Primera C` | 19, de 2008-09 a 2026 | 7 086 |
 | Torneo Argentino A | `Torneo Argentino A` | 10, de 2004-05 a 2013-14 | 3 721 |
-| Torneo Federal A | `Torneo Federal A` | 13, de 2014 a 2026 | 6 329 |
+| Torneo Federal A | `Torneo Federal A` | 13, de 2014 a 2026 | 6 339 |
 | Copa Argentina | `Copa Argentina` | 14 ediciones, de 2011-12 a 2026 | 868 |
 
 Lo que no está: de 1985-86 a 1991-92 la Primera División es sólo la liga —faltan el
@@ -39,7 +39,7 @@ falta, medido era por era, está en [`TODO.md`](TODO.md).
 
 Ojo si contás partidos: quince de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
-`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 49 957 partidos
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 005 partidos
 distintos.
 
 Aparte, en [`data/sin-fecha/`](data/sin-fecha/) quedan **6 filas, y ninguna espera
@@ -65,8 +65,11 @@ no encontré nada equivalente que siga vivo:
 
 Lo que decide todo es la redistribución. Se puede *consultar* una API; no se
 puede publicar un dataset con lo que devuelve. Wikipedia es la única fuente con
-cobertura del ascenso argentino cuya licencia (CC BY-SA) permite exactamente lo
-que hace falta: tomar, transformar y volver a publicar.
+cobertura del ascenso argentino y una licencia abierta (CC BY-SA), que permite
+exactamente lo que hace falta: tomar, transformar y volver a publicar. Donde
+Wikipedia no publica los partidos entra [RSSSF](https://www.rsssf.org/), que no
+tiene una licencia así pero autoriza a copiar sus archivos reconociendo al autor
+— ver [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
 
 De ahí que exista un parser de wikitexto en vez de un `requests.get`. Ese laburo
 es el precio de poder compartir el resultado.
@@ -88,7 +91,9 @@ Tres cosas lo descartan como base del dataset:
 2. **Licencia.** El pie dice "Todos los derechos reservados" y no hay términos de
    uso publicados. El `robots.txt` de `afa.com.ar` sólo bloquea `/cache/` y el host del feed no publica ninguno, así que bajarlo no
    está prohibido — pero eso regula el crawleo, no la redistribución. Mismo
-   callejón que las APIs comerciales.
+   callejón que las APIs comerciales. RSSSF, que sí es fuente de este dataset,
+   también reserva todos los derechos; la diferencia es que en el mismo pie
+   autoriza a copiar reconociendo al autor, y la AFA no autoriza nada.
 3. **Ya tiene un canal abandonado**: Primera D quedó congelada en 2023.
 
 Donde sí sirve es como **testigo**. El 12/08/2026, los 60 partidos que llevaba
@@ -105,35 +110,56 @@ Rehecho el 11/10/2026 con los 168 que el repo tenía ese día: 168 de 168.
 
 ## Fuentes y atribución
 
+Las fuentes son dos, y van nombradas: **Wikipedia en español** y
+**[RSSSF](https://www.rsssf.org/)**. Después hay unas pocas, menores, que casi
+siempre ponen sólo una fecha. Qué se toma de cada una, con qué condición y a quién
+se reconoce está en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
+
 **Wikipedia en español** es la fuente de casi todo: equipos, marcadores, jornadas,
-estadios. **40 269 filas de 49 972** (80,6 %) no nombran ninguna otra fuente. Los datos están
-bajo [CC BY-SA 4.0](LICENSE-DATOS.md) y la columna `source` de cada fila lleva la
-URL exacta de la página de Wikipedia de su torneo, así que la atribución viaja con
-el dato.
+estadios. **40 321 filas de 50 020** (80,6 %) no nombran ninguna otra fuente. El
+dataset se publica bajo [CC BY-SA 4.0](LICENSE-DATOS.md), que es la licencia que
+esas filas heredan, y la columna `source` de cada fila lleva la URL exacta de la
+página de Wikipedia de su torneo, así que la atribución viaja con el dato.
 
-Las otras **9 703 filas** (19,4 %) nombran además una segunda fuente, y la usan para
-una de dos cosas:
+Las otras **9 699 filas** (19,4 %) nombran además una segunda fuente, y la usan para
+una de tres cosas:
 
-- **La fecha del calendario**, en 5 744. Wikipedia publica esos partidos sin día: la
-  Primera División del Apertura 1991 al Clausura 1997 y una decena de temporadas
-  del ascenso entre 2004 y 2011 usan tablas de tres columnas
-  (`Local | Resultado | Visitante`) y nada más. El partido, los equipos, el marcador
-  y la jornada siguen saliendo de Wikipedia.
-- **El partido entero**, en 3 959. Once torneos tienen en Wikipedia la tabla de
+- **La fecha del calendario**, en 5 740. Wikipedia publica casi todos esos partidos
+  sin día: la Primera División del Apertura 1991 al Clausura 1997 y trece temporadas
+  del ascenso entre 2004-05 y 2012-13 usan tablas de tres columnas
+  (`Local | Resultado | Visitante`) o dejan el día vacío. Seis son fechas sueltas de
+  2014 a 2024: en cinco la página trae un día equivocado y en una deja la celda
+  vacía. El partido, los equipos, el marcador y la jornada siguen saliendo de
+  Wikipedia.
+- **El partido entero**, en 3 945. Once torneos tienen en Wikipedia la tabla de
   posiciones y no los resultados —la Primera División de 1985-86 al Clausura 1991
-  (2 239 filas) y el Torneo Argentino A de 2006-07 a 2009-10 (1 573)—, y 147
+  (2 239 filas) y el Torneo Argentino A de 2006-07 a 2009-10 (1 573)—, y 133
   partidos de fases finales del ascenso están sólo como cuadro. Ahí el partido sale
-  de la otra fuente; en los once torneos, la tabla de Wikipedia hace de árbitro.
+  de RSSSF; en los once torneos, la tabla de Wikipedia hace de árbitro.
+- **El día y la localía**, en 14: el Reducido de la Primera C 2011-12, que también
+  está sólo como cuadro y que RSSSF no trae. Los clubes y el marcador salen del
+  cuadro de Wikipedia; el día y quién fue local, del blog de José Carluccio, y una
+  llave entra sólo si el cuadro publica ese cruce con esos marcadores.
 
 Son varias y no una porque ninguna cubre todo. **[RSSSF](https://www.rsssf.org/)**
-es la principal (8 082 filas): la Primera División de 1985 a 1997, el Argentino A
-viejo, la Primera C 2008-2011 y la Primera B 2010-11.
+es la principal (8 122 filas: el partido entero en 3 945 y el día en 4 177): la
+Primera División de 1985 a 1997, el Argentino A viejo, la Primera C 2008-2011 y la
+Primera B 2010-11. Sus archivos no son Creative Commons: el pie de cada uno
+autoriza a copiarlo reconociendo a quien lo hizo, y ese reconocimiento, archivo
+por archivo y con nombre, está en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
 **[worldfootball](https://www.worldfootball.net/)** tiene la Primera B Nacional
 2007-2011 (1 519) pero su Primera B Metropolitana arranca en 2018/19 y no lista
 Primera C ni el Argentino A. El [blog de José Carluccio](http://josecarluccio.blogspot.com/)
-fecha 76 partidos; el feed de **[ESPN](https://www.espn.com.ar/)** quedó en 21,
-porque lo que fechaba hoy lo fecha RSSSF; y cinco filas sueltas llevan cada una su
-propia cita.
+fecha 76 partidos y pone el día y la localía de otros 14, los del Reducido de la
+Primera C 2011-12; y cinco filas sueltas llevan cada una su propia cita. Sumados
+dan 37 más que las 9 699 filas, porque 37 nombran dos.
+
+El feed de ESPN, que llegó a poner 21 filas, se sacó en octubre de 2026: sus
+condiciones de uso no autorizan a extraer contenido para armar una base de datos.
+Las 21 siguen, con los mismos partidos y los mismos días. Cuatro tenían el día en
+la propia página, escrito `24 septiembre` sin el «de»; tres salen de RSSSF, dos de
+ellas detrás de un corchete sin cerrar; y las 14 del Reducido, del cuadro de
+Wikipedia y del blog.
 
 Sin esa segunda fuente esos torneos no entrarían: el esquema promete una fecha en
 cada fila, y un torneo que Wikipedia publica sin día —o sin partidos— queda afuera
@@ -142,7 +168,7 @@ entero. La diferencia no es "peor calidad", es que el torneo no existe.
 Con worldfootball el cruce no empareja por nombre. Dentro de una jornada, **un marcador que aparece
 una sola vez de cada lado identifica el partido sin ambigüedad**, y de paso dice
 quién es cada equipo: así se deduce el padrón de ids de la otra fuente sin
-depender de cómo escriba los nombres. Con RSSSF y ESPN el mapa de nombres va
+depender de cómo escriba los nombres. Con RSSSF el mapa de nombres va
 escrito a mano, página por página: RSSSF escribe «Racing» o «Talleres» a secas, y
 resolverlos por el padrón da el club equivocado. Después la fecha se copia sólo si las dos
 fuentes coinciden en equipos, jornada **y marcador**. Los 9 partidos de worldfootball donde no
@@ -156,9 +182,20 @@ https://es.wikipedia.org/wiki/... + https://www.worldfootball.net/
 ```
 
 Fila por fila, y sólo en las que de verdad la usaron. Nombrarla donde no se usó
-sería tan incorrecto como omitirla donde sí — y hoy se omite en 37 filas: las llaves
-del Argentino A 2004-05 salen del archivo compacto de RSSSF y su `source` nombra
-sólo al blog que les puso el día.
+sería tan incorrecto como omitirla donde sí.
+
+Y la que usa dos nombra las tres. Son 37 filas: las llaves del Argentino A 2004-05
+salen del archivo compacto de RSSSF, que publica las dos patas en un renglón con un
+rango de fechas, y el día se lo puso un blog —el de José Carluccio a 36 y otro a la
+que queda—. Primero va la fuente de la que sale el partido y después la que lo fechó:
+
+```
+https://es.wikipedia.org/wiki/Torneo_Argentino_A_2004-05 + https://www.rsssf.org/ + http://josecarluccio.blogspot.com/
+```
+
+La página de Wikipedia es siempre lo que va antes del primer ` + `. Hasta el 13 de
+octubre de 2026 esas 37 nombraban sólo al blog: al fecharlas se pisaba el crédito de
+quien había dado el partido.
 
 #### Un instante y una fecha disfrazada de instante
 
@@ -190,9 +227,15 @@ no tiene ninguno: es un dataset abierto hecho por gusto. **Si worldfootball pide
 que se retire ese aporte, se retira** — los partidos seguirían estando, sin la
 fecha, como estaban antes.
 
+Lo mismo vale para RSSSF y para los autores de sus archivos: **si piden que se
+retire lo suyo, o que el reconocimiento se escriba de otra manera, se hace**. Ahí
+el costo es otro —en 3 945 filas RSSSF no pone la fecha sino el partido, y once
+torneos saldrían enteros—, y está dicho en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
+
 El acceso es respetuoso por diseño: caché en disco para no volver a pedir lo
-mismo, pausa mínima entre pedidos, y User-Agent identificado con el link a este
-repositorio.
+mismo —un archivo de RSSSF se baja una vez y no se vuelve a pedir—, pausa mínima
+entre pedidos a Wikipedia y a worldfootball, y User-Agent identificado con el link
+a este repositorio.
 
 ## Cómo se usa
 
@@ -226,18 +269,18 @@ el mismo: acá `time` va segunda.
 | `home_score` `away_score` | el marcador de los 90 (más alargue si hubo) |
 | `home_pens` `away_pens` | la tanda de penales, vacío si no hubo. En la Primera División 1988-89 la llevan también los partidos de **liga**: ese campeonato definía cada empate por penales, con un punto más para el que ganaba la tanda. Son 131; al empate que falta (`Rosario Central 1-1 Instituto`) la fuente no le publica la tanda |
 | `tournament` `season` | `Primera Division - Apertura`, `Copa Argentina`, `2026` |
-| | ojo: `season` es la **temporada**, no el año del partido. La 2016-17 lleva `season=2016` y sus partidos van de agosto de 2016 a junio de 2017. La fecha real está en `date`. Dos salvedades: la Copa Argentina lleva el año en que se definió (la 2016-17 es `season=2017`), y `season=2016` junta dos campeonatos en cinco categorías —el corto de 2016 y el 2016-17—. Para separar un torneo de otro usá la URL de Wikipedia de `source` (lo que va antes del ` + `), no `tournament` + `season`. |
+| | ojo: `season` es la **temporada**, no el año del partido. La 2016-17 lleva `season=2016` y sus partidos van de agosto de 2016 a junio de 2017. La fecha real está en `date`. Dos salvedades: la Copa Argentina lleva el año en que se definió (la 2016-17 es `season=2017`), y `season=2016` junta dos campeonatos en cinco categorías —el corto de 2016 y el 2016-17—. Para separar un torneo de otro usá la URL de Wikipedia de `source` (lo que va antes del primer ` + `), no `tournament` + `season`. |
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
 | `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales` |
 | `venue` | el estadio, tal como figura |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
-| `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + ` |
+| `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
 
-Pueden venir vacías, además de los penales: `time` (11 555 filas) y `venue`
+Pueden venir vacías, además de los penales: `time` (11 557 filas) y `venue`
 (10 131), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
-cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 232); y `matchday` en 15
+cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 245); y `matchday` en 15
 partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en inglés:
 `Zone 1` o `Group A` en `group` (1 239 filas del Argentino A) y
 `Semifinals - First leg` en `matchday` (127).
@@ -260,7 +303,7 @@ un marcador **indistinguible de uno jugado en cancha**.
 
 | valor | qué afirma | filas |
 |---|---|---:|
-| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 49 861 |
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 49 909 |
 | `suspendido` | la fuente dice que el partido **no llegó al final** | 96 |
 | `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 14 |
 | `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Es el `Instituto 0-1 San Lorenzo` de la 1987-88 — los otros seis no tienen día y viven en `sin-fecha/` | 1 |
@@ -919,7 +962,7 @@ número:
 | RSSSF da una fecha por jornada y la repartimos | falso: parte el **91%** de las jornadas en 2 a 4 días |
 | los 20 caen donde RSSSF *no* partió | falso: **50%** vienen de tandas grandes contra un **61%** de base |
 | las jornadas de un solo día son poco fiables | falso: ESPN confirma **8 de las 10** exactas |
-| leemos mal la hora de ESPN, que viene en UTC | ya estaba resuelto, y documentado, en `fad/espn.py` |
+| leemos mal la hora de ESPN, que viene en UTC | ya estaba resuelto en el lector del feed, que hoy no está en el repo |
 | ESPN duplica pares y elegimos el equivocado | falso: los 39 pares repetidos son revanchas del reducido, y **ninguno** es de los 20 |
 
 Y se calibraron las dos fuentes contra las páginas que **sí** publican el día: RSSSF acierta
@@ -2133,7 +2176,8 @@ por partido**.
 Aparecieron dos, y ninguna es la prensa:
 
 - **RSSSF** tiene el Argentino A 2005-06 entero en una página de texto plano.
-- **El feed de ESPN** devuelve cada temporada de Primera B y C en una o dos llamadas.
+- **El feed de ESPN** devuelve cada temporada de Primera B y C en una o dos llamadas
+  (se sacó en octubre de 2026; esas temporadas ya se fechaban desde RSSSF).
 
 ### Usar RSSSF justo después de haberla desenmascarado
 
@@ -2154,7 +2198,8 @@ viene de ella.)
 
 ### Sin número de jornada
 
-El feed de ESPN no lo publica, y la regla del proyecto es *«los equipos y la
+El feed de ESPN no lo publicaba —las citas a mano de `fad/citadas.py`, que hoy son
+las que entran sin jornada, tampoco lo traen—, y la regla del proyecto es *«los equipos y la
 jornada identifican el partido, el marcador lo verifica»*. Lo que se hizo no fue
 aflojarla sino cambiarle el identificador, y se midió antes de decidirlo: en una
 liga de ida y vuelta cada par se cruza **una vez en cada cancha**, así que
@@ -2170,9 +2215,9 @@ quedaron sin fecha en ese momento; hoy quedan 6, y ninguna es de éstas.
 
 Un nombre mal traducido en el mapa manda el partido al club equivocado, y el
 marcador **no lo agarra**: dos partidos de la misma temporada pueden coincidir en
-resultado por casualidad. Por eso `espn.contrastar_plantel` exige que los clubes
-que la fuente pone en esa temporada sean los mismos que los nuestros. Un club que
-no jugó no puede aparecer.
+resultado por casualidad. Por eso el lector del feed exigía que los clubes que la
+fuente ponía en esa temporada fueran los mismos que los nuestros. Un club que no
+jugó no puede aparecer.
 
 Los nombres cortos son el peligro concreto, y es el mismo que el README ya cuenta
 con «Estudiantes»: resolverlos por el padrón devuelve un club que existe y que no
@@ -3435,6 +3480,9 @@ ahora su propia fuente y `completar` usa la de la fila cuando la hay:
   https://es.wikipedia.org/wiki/Torneo_Argentino_A_2004-05 + http://soybh.blogspot.com/…
 ```
 
+(Así quedó entonces. Hoy esa fila nombra además a RSSSF, de donde sale el partido,
+entre la página y el blog.)
+
 Es lo que el README ya prometía —*«la columna `source` lleva la atribución fila
 por fila, así que viaja con el dato»*— y que hasta acá era cierto sólo entre
 lectores, no dentro de uno.
@@ -3883,11 +3931,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1227 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1262 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 572 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 588 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
@@ -3926,10 +3974,10 @@ La base es Wikipedia en español, vía la API de MediaWiki, pidiendo el **wikite
 HTML: es lo que editan las personas, y las plantillas vienen con sus parámetros
 nombrados en vez de aplastadas en un `<table>`.
 
-No es la única fuente. Hoy 9 703 filas nombran en `source` una segunda:
-[RSSSF](https://www.rsssf.org/) (8 082), [worldfootball](https://www.worldfootball.net/)
-(1 519), el blog de José Carluccio (76), el feed de ESPN (21) y cinco filas con una cita
-propia. En la mayoría esa segunda fuente pone la fecha y nada más. La excepción es
+No es la única fuente. Hoy 9 699 filas nombran en `source` una segunda:
+[RSSSF](https://www.rsssf.org/) (8 122), [worldfootball](https://www.worldfootball.net/)
+(1 519), el blog de José Carluccio (90) y cinco filas con una cita
+propia; 37 de las 9 699 nombran dos. En la mayoría esa segunda fuente pone la fecha y nada más. La excepción es
 RSSSF en los once torneos cuya página no publica los partidos —la Primera División de
 1985-86 a 1989-90, el Apertura 1990, el Clausura 1991 y los Argentino A de 2006-07 a
 2009-10—: ahí las 3 812 filas salen enteras de RSSSF, y lo que pone Wikipedia es la
@@ -3937,7 +3985,8 @@ tabla de posiciones que las verifica. Menos en 190: las fechas 20 a 38 de la 198
 donde la tabla final de la página tiene mal los goles de 14 clubes y el build cruza
 sólo la del Apertura. A esas las sostiene la tabla de la propia RSSSF, en un test. En otros ocho torneos el build pide afuera las
 llaves de la fase final y agrega las que la página no tenga como partidos —a RSSSF en
-siete y a ESPN en uno—. Hoy son 147 filas de siete torneos: en la B Nacional 2007-08
+siete; en el octavo, el Reducido de la Primera C 2011-12, están citadas a mano: clubes y
+marcador del cuadro de la página, día y localía del blog de José Carluccio—. Hoy son 147 filas de siete torneos: en la B Nacional 2007-08
 la página ya las trae todas.
 
 Las páginas están listadas a mano en [`fad/torneos.py`](fad/torneos.py). Se
@@ -3947,7 +3996,8 @@ Transición, Superliga, Copa de la Liga, Apertura/Clausura otra vez — y no hay
 patrón que sobreviva a eso. Una lista escrita a mano falla al agregar una
 temporada, que es cuando conviene que falle.
 
-Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos.
+Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos a
+Wikipedia y a worldfootball.
 
 ## El plan
 
@@ -3963,12 +4013,14 @@ Hay caché en disco (`.cache/`, no versionada) y una pausa mínima entre pedidos
 
 ## Licencia
 
-Código **MIT**. Datos **CC BY-SA 4.0**, heredada de Wikipedia — ver
-[`LICENSE-DATOS.md`](LICENSE-DATOS.md). La columna `source` lleva la atribución
-fila por fila, así que viaja con el dato. Las 9 703 filas que usan una segunda
-fuente —RSSSF, worldfootball, ESPN o una cita— la nombran ahí mismo, después de un
-` + `. Falta en 37: las llaves del Argentino A 2004-05 salen de RSSSF y su `source`
-nombra sólo al blog que les puso el día.
+Código **MIT**. Datos **CC BY-SA 4.0**, que es la licencia que hereda lo que sale
+de Wikipedia en español. Lo que sale de [RSSSF](https://www.rsssf.org/) se toma con
+el permiso de su pie y con su condición, que es reconocer al autor de cada archivo:
+qué se toma de cada fuente, el reconocimiento y la atribución sugerida están en
+[`LICENSE-DATOS.md`](LICENSE-DATOS.md). La columna `source` lleva la procedencia
+fila por fila, así que viaja con el dato. Las 9 699 filas que usan otra fuente
+—RSSSF, worldfootball, el blog de José Carluccio o una cita— la nombran ahí
+mismo, después de un ` + `.
 
 ---
 
