@@ -309,6 +309,21 @@ def test_la_pagina_se_recupera_de_un_source_compuesto():
     assert dataset.pagina_de(fila) == url
 
 
+def test_la_pagina_se_recupera_tambien_cuando_el_source_nombra_tres():
+    """UN `source` PUEDE TRAER DOS ` + `, y la pagina sigue siendo lo que va antes
+    del PRIMERO. Son las llaves del Argentino A 2004-05: el partido sale de RSSSF y
+    el dia se lo puso un blog, asi que nombran las tres cosas.
+
+    Cortando por el ultimo separador la clave de reuso de esas 37 filas pasa a ser
+    `pagina + RSSSF`, que no es la URL de ningun torneo: `build.main` reusa el
+    torneo con las otras 80, lo ve achicarse y no escribe nada mas, ningun dia.
+    Con dos partes los dos cortes dan lo mismo, y por eso no lo veia ningun test."""
+    from fad import dataset
+    url = "https://es.wikipedia.org/wiki/Torneo_Argentino_A_2004-05"
+    fila = {"source": url + " + https://www.rsssf.org/ + http://josecarluccio.blogspot.com/"}
+    assert dataset.pagina_de(fila) == url
+
+
 def test_una_fila_de_una_sola_fuente_no_cambia():
     from fad import dataset
     from fad.parser import Partido

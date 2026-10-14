@@ -104,6 +104,10 @@ class Partido:
     # De donde salio la FECHA, cuando no salio de la pagina de Wikipedia. El
     # credito viaja con el dato: si una fila usa una segunda fuente, su `source`
     # lo dice. Un dataset que atribuye mal es un dataset que miente sobre si mismo.
+    #
+    # La fila que nace entera de otra fuente lleva aca el credito de esa fuente
+    # desde que nace, tenga fecha o no. Si despues el dia se lo pone una tercera,
+    # quedan las dos, separadas como en `source`: ver `fechas.completar`.
     fuente_fecha: str = field(default="", repr=False)
     # Si el partido se jugo en cancha NEUTRAL. `None` quiere decir "la pagina no
     # dijo", y entonces manda lo que diga el torneo -- la Copa Argentina es toda
@@ -429,6 +433,28 @@ def _con_notas(texto: str, notas: dict[str, str] | None) -> str:
     return _REFN.sub(reponer, texto)
 
 
+# `24 septiembre`, SIN EL «DE». Lo escribe una sola celda del corpus --la del
+# domingo de la Fecha 35 de la Zona A de la Primera Nacional 2023, con `rowspan=4`--
+# y con la regla de siempre sus cuatro partidos salian sin fecha teniendo el dia
+# escrito en la pagina.
+#
+# Es una SEGUNDA regla y no un «de» opcional en la primera, y se prueba solo cuando
+# la primera no encontro nada: asi ningun texto que hoy se lee puede leerse distinto.
+# Y es mas estrecha que la primera en las dos puntas, porque sin el «de» lo unico que
+# separa una fecha de dos palabras cualesquiera es lo que tengan alrededor:
+#
+#   * el mes sale de la lista cerrada de `MESES` y termina ahi (`\b`), no es
+#     cualquier palabra que venga despues de un numero;
+#   * el dia no puede venir pegado a otro digito ni a dos puntos. Sin eso
+#     `2023 septiembre` se lee como el 23 de septiembre y `15:30 marzo` como el 30
+#     de marzo: los dos ultimos digitos de un anio o los minutos de una hora.
+#
+# Medido sobre las 170 paginas del catalogo: una sola lectura nueva, esa celda, y
+# cambian cuatro filas.
+_DIA_Y_MES_SIN_DE = re.compile(
+    r"(?<![\d:])(\d{1,2})\s+(" + "|".join(MESES) + r")\b(?:\s*de\s+(\d{4}))?", re.I)
+
+
 def a_iso(texto: str, anio: int, anio_fin: int | None = None,
           mes_inicio: int = MES_INICIO_HABITUAL) -> str:
     """'22 de enero' -> '2026-01-22'. Cadena vacia si no se entiende.
@@ -450,6 +476,8 @@ def a_iso(texto: str, anio: int, anio_fin: int | None = None,
     ellos de la Copa Argentina 2019-20, que la pandemia estiro hasta 2021.
     """
     m = re.search(r"(\d{1,2})\s*de\s+([a-záéíóúñ]+)(?:\s*de\s+(\d{4}))?", texto, re.I)
+    if not m:
+        m = _DIA_Y_MES_SIN_DE.search(texto)
     if not m:
         return ""
     mes_txt = unicodedata.normalize("NFKD", m.group(2).lower()).encode("ascii", "ignore").decode()

@@ -48,11 +48,15 @@ COLUMNAS = [
 # constante y no un literal suelto porque hay que ESCRIBIRLO y despues volver a
 # LEERLO: `build.py` agrupa las filas guardadas por su pagina para reusar los
 # torneos ya terminados, y si lee la cadena entera no encuentra ninguna.
+#
+# Y PUEDEN SER TRES: cuando el partido sale de una fuente y el dia se lo pone
+# otra, `fechas.completar` nombra a las dos y el `source` trae dos separadores.
+# La pagina es siempre lo que va antes del PRIMERO.
 SEPARADOR = " + "
 
 
 def pagina_de(fila) -> str:
-    """La URL de Wikipedia de una fila, sin el credito de la segunda fuente.
+    """La URL de Wikipedia de una fila, sin el credito de las otras fuentes.
 
     Existe por un bug que no rompia nada visible: los cuatro torneos cuya fecha
     viene de una segunda fuente llevan un `source` compuesto, y el reuso los
@@ -82,7 +86,9 @@ def a_fila(p: Partido, torneo: str, temporada: int, fuente: str,
         "venue": p.estadio,
         "neutral": str(neutral if p.neutral is None else p.neutral).lower(),
         # Si la fecha vino de otra fuente, las DOS quedan nombradas. La fila es
-        # de Wikipedia salvo ese campo, y asi se lee.
+        # de Wikipedia salvo ese campo, y asi se lee. Cuando el partido tambien
+        # vino de afuera el credito ya llega con las que haga falta: ver
+        # `fechas.completar`.
         "source": fuente + SEPARADOR + p.fuente_fecha if p.fuente_fecha else fuente,
         # De donde salio el marcador. Vacio NO certifica nada: dice que la pagina
         # no dijo otra cosa. Ver `parser.status_de_la_fila`.

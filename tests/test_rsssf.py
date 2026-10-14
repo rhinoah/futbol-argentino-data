@@ -68,6 +68,58 @@ def test_un_encabezado_de_fecha_con_punto_en_vez_de_coma_tambien_fecha():
         "el segundo partido no puede heredar el dia del primero"
 
 
+def test_un_encabezado_de_fecha_sin_el_corchete_de_cierre_tambien_fecha():
+    """`[Oct 9`, sin cerrar: la otra errata de tipeo de la fuente, en la ronda 9 de
+    `arg4-2010` (Primera C 2009-10). Los tres renglones de abajo son los del archivo,
+    con sus columnas:
+
+        Round 9
+        [Oct 9
+        Sacachispas             0-2 Excursionistas
+        Talleres                0-0 Barracas Central    [at Argentino-M]
+        [Oct 11]
+
+    Aca la falla es la contraria a la del punto. `Round 9` deja la fecha en `None`,
+    el renglon sin cerrar no se reconocia como encabezado, y los dos partidos se
+    salteaban callados: ni un dia mal puesto ni un aviso. La pagina de Wikipedia los
+    publica sin fecha, asi que esas dos filas no tenian de donde sacarla.
+
+    El viernes 9 de octubre de 2009 lo da tambien el compendio de Jose Carluccio
+    --`09/10/2009 en Villa Soldati: Sacachispas FC 0, Excursionistas 2`--, que es un
+    tercero."""
+    mapa = {"": {"Sacachispas": "Sacachispas", "Excursionistas": "Excursionistas",
+                 "Talleres": "Talleres (RdE)", "Barracas Central": "Barracas Central",
+                 "San Miguel": "San Miguel", "Def. Unidos": "Defensores Unidos"}}
+    ajenos, avisos = rsssf.leer(
+        "Round 9\n"
+        "[Oct 9\n"
+        "Sacachispas             0-2 Excursionistas\n"
+        "Talleres                0-0 Barracas Central    [at Argentino-M]\n"
+        "[Oct 11]\n"
+        "San Miguel              0-2 Def. Unidos\n", mapa, 2009, 2010, 8)
+    assert avisos == []
+    assert [(a.fecha, a.jornada, a.local, a.visita, a.goles_local, a.goles_visita)
+            for a in ajenos] == [
+        ("2009-10-09", 9, "Sacachispas", "Excursionistas", 0, 2),
+        ("2009-10-09", 9, "Talleres (RdE)", "Barracas Central", 0, 0),
+        ("2009-10-11", 9, "San Miguel", "Defensores Unidos", 0, 2)]
+
+
+def test_un_corchete_que_anota_y_no_cierra_no_es_una_fecha():
+    """El limite del de arriba. Se perdona el encabezado PELADO; con anotacion el
+    cierre se sigue exigiendo, porque un corchete que abre, anota y no cierra es el
+    arranque de una nota que sigue en el renglon de abajo. Leido como fecha, le
+    cambiaria el dia a todo lo que cuelga hasta el proximo encabezado."""
+    ajenos, _ = leer("Torneo Apertura\n"
+                     "Zona A - Sur\n"
+                     "Round 2\n"
+                     "[Aug 27]\n"
+                     "La Plata FC                  2-0 Cipolletti\n"
+                     "[Aug 28, postponed to a later date and\n"
+                     "Guillermo Brown              2-0 Sportivo Desamparados\n")
+    assert [a.fecha for a in ajenos] == ["2005-08-27", "2005-08-27"]
+
+
 def test_una_jornada_partida_en_dos_dias_fecha_cada_partido_por_separado():
     """Es el motivo entero por el que sirve esta fuente. En el ascenso argentino
     solo el 19% de las jornadas se juega en un solo dia, asi que una fecha por

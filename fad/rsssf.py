@@ -2,9 +2,17 @@
 """
 fad/rsssf.py
 ============
-Sacar de RSSSF la FECHA de partidos que ya tenemos, igual que `fad/fechas.py`
-hace con worldfootball. Nada mas que la fecha: equipos, marcador y jornada siguen
-saliendo de Wikipedia, y `source` lo dice fila por fila.
+Leer RSSSF, para dos cosas que conviene no confundir: la FECHA de partidos que ya
+tenemos, igual que `fad/fechas.py` hace con worldfootball, y el PARTIDO ENTERO
+donde la pagina de Wikipedia no lo publica -- los torneos `sin_grilla` y las llaves
+que la pagina trae solo como cuadro --. `source` lo dice fila por fila.
+
+EL PERMISO
+----------
+El pie de cada archivo autoriza a copiarlo reconociendo a quien lo hizo, y reserva
+todos los derechos. El reconocimiento, archivo por archivo y con nombre, esta en
+LICENSE-DATOS.md, y `tests/test_licencia.py` exige que cada archivo de `FUENTES`
+tenga ahi su renglon. Los archivos no se versionan (`.cache/`).
 
 POR QUE HACE FALTA OTRA FUENTE
 ------------------------------
@@ -27,6 +35,11 @@ puede ser un eco de Wikipedia ni al reves. Es informacion nueva.
 
 Y el marcador, que si podria ser un eco, no se importa: se usa como VERIFICACION.
 Si RSSSF y nosotros no coincidimos en el resultado, no se toma la fecha.
+(Vale para las filas que solo toman la fecha. En las `sin_grilla` el marcador SI
+viene de RSSSF, y el testigo pasa a ser la tabla de posiciones de Wikipedia: ver
+`a_partidos`. En las llaves tambien viene de RSSSF, pero esa tabla no las cuenta
+-- solo habla de las zonas --: ahi lo unico que puede opinar es el cuadro de la
+pagina, donde lo publica. Ver `leer_llaves` y `leer_llaves_compacto`.)
 
 EL FORMATO
 ----------
@@ -161,7 +174,20 @@ _LLAVE_PELADA = re.compile(r"^(Apertura|Clausura)(?:\s+\d{4})?$")
 # puesto, no un dia ausente, asi que no aparecia en ningun contador de "sin fecha".
 # Se midio sobre los 24 archivos de RSSSF que usa el repo: 3914 encabezados con la
 # regla vieja y 3915 con esta. El unico que entra es ese.
-_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)([,.][^\])]*)?[\])]\s*$")
+#
+# Y EL CORCHETE DE CIERRE PUEDE FALTAR, que es la otra errata de tipeo de la fuente:
+# `[Oct 9`, sin cerrar, en la ronda 9 de `arg4-2010`. Ahi la falla era la contraria a
+# la del punto: `Round 9` acababa de dejar la fecha en `None`, asi que los dos partidos
+# que cuelgan de ese renglon --`Sacachispas 0-2 Excursionistas` y `Talleres 0-0
+# Barracas Central`-- no heredaban un dia ajeno: se salteaban callados, y la Primera C
+# 2009-10 se quedaba con dos filas sin fecha teniendo la fecha en el archivo.
+#
+# Se perdona SOLO el encabezado pelado. Con anotacion --`[Oct 9, Sat`-- el cierre se
+# sigue exigiendo: un corchete que abre, anota y no cierra es el arranque de una nota
+# que sigue en el renglon de abajo, no una fecha. Medido sobre los 29 archivos de la
+# cache: 4566 encabezados con la regla vieja y 4568 con esta. Entran ese y `[Apr 9`
+# de `arg2011`, que esta en la seccion del Argentino B y hoy no lo lee ningun torneo.
+_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(?:([,.][^\])]*)?[\])])?\s*$")
 # Dos espacios o mas separan las columnas. El nombre del local no puede tener
 # corchetes: si los tiene es una anotacion encabalgada, no un partido.
 #
@@ -2465,10 +2491,10 @@ ARGENTINO_A_2004 = {
 #                        Metropolitana) 2008/09". Trae el Reducido entero con
 #                        localia y fecha. OJO: `arg4-int09` es OTRA competencia
 #                        (el Argentino B), y confundirlas es el error facil.
-#   Primera C 2011-12    RSSSF NO la cubre. La tiene el feed de ESPN (`arg.4`),
-#                        que el repo ya usa: la localia sale de `homeAway` y NO
-#                        del `venue`, que en dos partidos nombra una cancha que no
-#                        es de ninguno de los dos.
+#   Primera C 2011-12    RSSSF NO la cubre: `arg2012` llega hasta la Primera B
+#                        Metropolitana, y el indice del cuarto nivel
+#                        (`arg4champ`) deja 2011/12 sin enlace. Su Reducido
+#                        esta citado a mano; ver `citadas.LLAVES`.
 #
 # Dos trampas del formato que valen para todos: RSSSF NO escribe el ano en los
 # corchetes -- `[May 26]`, no `[May 26, 2012]` --, asi que hay que deducirlo del

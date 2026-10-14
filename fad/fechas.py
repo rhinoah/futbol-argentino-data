@@ -57,6 +57,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from fad import wiki
+from fad.dataset import SEPARADOR
 
 # Dos husos, y hace falta distinguirlos.
 #
@@ -423,7 +424,8 @@ def completar(nuestros: list, ajenos: list[Ajeno],
 
     # Si la fuente distingue llaves, la clave las incluye de los dos lados.
     con_llave = any(a.llave for a in ajenos)
-    # Y si NO trae numero de jornada -- el feed de ESPN no lo publica --, el
+    # Y si NO trae numero de jornada -- las citas a mano de `fad/citadas.py` no lo
+    # traen, y el feed de ESPN, para el que se escribio esto, tampoco --, el
     # identificador pasa a ser el par (local, visita) solo. No es aflojar la
     # regla, es cambiarle el identificador: en una liga de ida y vuelta cada par
     # se cruza UNA VEZ EN CADA CANCHA, asi que el par ya identifica el partido.
@@ -573,7 +575,25 @@ def completar(nuestros: list, ajenos: list[Ajeno],
         # una fila puede traer el suyo: las fechas citadas a mano de una temporada
         # salen de dos blogs distintos, y atribuirle las dos al primero seria
         # escribir algo falso en una columna que existe para no hacer eso.
+        ya_traia = p.fuente_fecha
         p.fuente_fecha = a.fuente or credito
+        # Y EL CREDITO QUE LA FILA YA TRAIA NO SE PISA: SE SUMA. Hoy una fila
+        # llega hasta aca sin fecha y CON credito por un solo camino: nacio de otra
+        # fuente, que publica el partido y no el dia. Son las llaves del Argentino
+        # A 2004-05, que salen del archivo compacto de RSSSF --su corchete es un
+        # rango que cubre las dos patas-- y a las que el dia se lo pone despues un
+        # blog. Quedandose con el ultimo, 37 filas nombraban al que les puso UN
+        # campo y callaban al que les dio todos los demas.
+        #
+        # Es cierto por los datos y no por construccion: si alguna vez un lector
+        # devuelve un ajeno SIN dia, la fila que lo empareje queda con un credito
+        # que no puso nada y aca se sumaria. Medido el 13/10/2026: 0 ajenos sin
+        # dia en las 38 llamadas del build.
+        #
+        # El que ya estaba va primero, porque de el es la fila; el que la fecho,
+        # despues. Y si es el mismo no se lo nombra dos veces.
+        if ya_traia and ya_traia != p.fuente_fecha:
+            p.fuente_fecha = ya_traia + SEPARADOR + p.fuente_fecha
         puestos += 1
 
     if chocados:

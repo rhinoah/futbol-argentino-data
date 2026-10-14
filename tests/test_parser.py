@@ -76,6 +76,120 @@ def test_a_iso_no_inventa(basura):
     assert parser.a_iso(basura, 2026) == ""
 
 
+# La celda que escribe el dia y el mes sin el «de». Es una sola en todo el corpus
+# y esta en la Fecha 35 de la Zona A de la Primera Nacional 2023; el recorte es el
+# de la pagina (revision 175069047), con la fila de arriba y la de abajo para que
+# se vea que el `rowspan=4` cubre a las cuatro y a ninguna mas.
+_FECHA_35_DE_LA_PN_2023 = """
+== Resultados ==
+{|class="wikitable collapsible collapsed" style="font-size: 95%; margin: 5px auto; text-align: center; width:100%;"
+!colspan=6|Fecha 35
+|-
+! width="20%" |Local
+! width="10%" |Resultado
+! width="20%" |Visitante
+! width="28%" |Estadio
+! width="14%" |Fecha
+! width="8%" |Hora
+|-
+|San Martín (T)
+|bgcolor=#D0E7FF|'''1 - 1
+|Güemes (SdE)
+|La Ciudadela
+|23 de septiembre
+|18:00
+|-
+|bgcolor=#D0E7FF|'''Guillermo Brown
+|1 - 0
+|San Martín (SJ)
+|Raúl Conti
+|rowspan=4|24 septiembre
+|rowspan=2|15:30
+|-
+|Almagro
+|bgcolor=#D0E7FF|'''1 - 1
+|Alvarado
+|Tres de Febrero
+|-
+|Nueva Chicago
+|bgcolor=#D0E7FF|'''0 - 0
+|Deportivo Morón
+|Nueva Chicago
+|15:50
+|-
+|bgcolor=#D0E7FF|'''Estudiantes (RC)
+|1 - 0
+|Defensores de Belgrano
+|Antonio Candini
+|18:00
+|-
+|bgcolor=#D0E7FF|'''All Boys
+|2 - 1
+|Almirante Brown
+|Islas Malvinas
+|25 de septiembre
+|21:10
+|}
+
+== Otra cosa ==
+"""
+
+
+def test_el_dia_y_el_mes_sin_el_de_tambien_son_una_fecha():
+    """`|rowspan=4|24 septiembre`: la pagina tiene el dia y `a_iso` devolvia vacio
+    porque pide «de». Los cuatro partidos salian sin fecha y se la ponia otra fuente.
+
+    El testigo de afuera es RSSSF, que no lee este test y lo puede contradecir:
+    `arg2023`, Round 35 de la Zona A, pone los cuatro bajo `[Sep 24, Sun]` --
+    `CSyA Guillermo Brown 1- 0 CA San Martín (San Juan)`, `Club Almagro 1- 1 CA
+    Alvarado`, `CA Nueva Chicago 0- 0 CD Morón` y `AA Estudiantes 1- 0 CA Defensores
+    de Belgrano`--. El 24 de septiembre de 2023 fue domingo.
+
+    Las HORAS son de la pagina y siempre lo fueron: lo que faltaba era el dia."""
+    ps = parser.partidos(_FECHA_35_DE_LA_PN_2023, 2023, "Primera Nacional")
+    assert [(p.fecha, p.hora, p.local, p.goles_local, p.goles_visita, p.visita)
+            for p in ps] == [
+        ("2023-09-23", "18:00", "San Martín (T)", 1, 1, "Güemes (SdE)"),
+        ("2023-09-24", "15:30", "Guillermo Brown", 1, 0, "San Martín (SJ)"),
+        ("2023-09-24", "15:30", "Almagro", 1, 1, "Alvarado"),
+        ("2023-09-24", "15:50", "Nueva Chicago", 0, 0, "Deportivo Morón"),
+        ("2023-09-24", "18:00", "Estudiantes (RC)", 1, 0, "Defensores de Belgrano"),
+        ("2023-09-25", "21:10", "All Boys", 2, 1, "Almirante Brown")]
+    import datetime
+    assert datetime.date(2023, 9, 24).weekday() == 6, "domingo, como dice RSSSF"
+
+
+@pytest.mark.parametrize("texto, iso", [
+    ("24 septiembre", "2026-09-24"),
+    ("24 Septiembre", "2026-09-24"),
+    ("3 marzo de 2027", "2027-03-03"),
+])
+def test_a_iso_sin_el_de(texto, iso):
+    assert parser.a_iso(texto, 2026) == iso
+
+
+@pytest.mark.parametrize("texto", [
+    "2023 septiembre",          # los dos ultimos digitos de un anio
+    "Temporada 2024 marzo",
+    "15:30 marzo",              # los minutos de una hora
+    "24 septiembres",           # el mes termina ahi
+    "3 mayores",
+    "24 tarzo",                 # el mes es de la lista, no cualquier palabra
+])
+def test_a_iso_sin_el_de_no_inventa(texto):
+    """Sin el «de», lo unico que separa una fecha de un numero y una palabra es lo
+    que tienen alrededor. Cada uno de estos devolvia vacio antes de la segunda regla
+    y tiene que seguir devolviendolo."""
+    assert parser.a_iso(texto, 2026) == ""
+
+
+def test_la_regla_sin_el_de_no_le_gana_a_la_de_siempre():
+    """Se prueba SOLO cuando la primera no encontro nada. En una nota que trae las
+    dos formas manda la que el corpus ya leia: sin ese orden, agregar la segunda
+    regla podria cambiarle el dia a una fila que hoy esta bien."""
+    assert parser.a_iso("previsto 3 marzo, se jugo el 17 de abril", 2026) == "2026-04-17"
+
+
 # --------------------------------------------------------------------------
 # temporadas que cruzan el anio
 # --------------------------------------------------------------------------

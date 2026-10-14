@@ -355,6 +355,43 @@ def test_el_credito_no_se_pone_si_no_se_completo():
     assert p.fuente_fecha == ""
 
 
+def test_el_credito_que_la_fila_ya_traia_se_suma_y_no_se_pisa():
+    """UNA FILA PUEDE NACER DE UNA FUENTE Y FECHARSE CON OTRA, y entonces su
+    `source` nombra tres cosas: la pagina, de donde salio el partido y quien le
+    puso el dia. En ese orden.
+
+    Llega asi --sin fecha y ya con credito-- la fila que nace de una fuente que
+    publica el partido y no el dia. `completar` se quedaba con el ultimo credito:
+    37 filas del Argentino A 2004-05 nombraban al blog que les puso un campo y
+    callaban a RSSSF, de donde sale el partido entero. Nombrar de menos es lo
+    mismo que nombrar de mas, visto desde el otro lado."""
+    from fad import dataset
+    p = nuestro("Aldosivi", "Almagro", 3, 1, 1)
+    p.fuente_fecha = "http://de.donde.nacio/"
+    fechas.completar([p], [ajeno("A", "B", 3, 1, 1, fecha="2007-08-09")],
+                     {"teA": "Aldosivi", "teB": "Almagro"}, credito="http://quien.la.fecho/")
+    fila = dataset.a_fila(p, "Primera Nacional", 2007, "https://es.wikipedia.org/wiki/X")
+    assert fila["date"] == "2007-08-09"
+    assert fila["source"] == ("https://es.wikipedia.org/wiki/X"
+                              " + http://de.donde.nacio/ + http://quien.la.fecho/")
+
+
+def test_si_la_fecha_la_pone_la_misma_fuente_no_se_la_nombra_dos_veces():
+    """La otra mitad: sumar no es repetir. Si a la fila que nacio de una fuente
+    el dia se lo pone ESA MISMA fuente, el credito es uno solo.
+
+    Hoy no pasa en ninguna fila, y puede pasar: sobre las llaves que nacen de
+    RSSSF sin dia corre tambien el completador de RSSSF, antes que las citas."""
+    from fad import dataset
+    p = nuestro("Aldosivi", "Almagro", 3, 1, 1)
+    p.fuente_fecha = "http://la.misma/"
+    fechas.completar([p], [ajeno("A", "B", 3, 1, 1, fecha="2007-08-09")],
+                     {"teA": "Aldosivi", "teB": "Almagro"}, credito="http://la.misma/")
+    fila = dataset.a_fila(p, "Primera Nacional", 2007, "https://es.wikipedia.org/wiki/X")
+    assert fila["date"] == "2007-08-09"
+    assert fila["source"] == "https://es.wikipedia.org/wiki/X + http://la.misma/"
+
+
 # --------------------------------------------------------------------------
 # el marcador y el horario tienen la misma forma
 # --------------------------------------------------------------------------
@@ -615,13 +652,14 @@ def test_sin_llave_dos_ajenos_iguales_siguen_chocando():
 # cuando la fuente no publica el numero de jornada
 # --------------------------------------------------------------------------
 def sin_jornada(local, visita, gl, gv, fecha):
-    """Como los emite `fad/espn.py`: el feed no trae la jornada."""
+    """Como los emite `citadas.ajenos`: la fuente citada no trae la jornada."""
     return fechas.Ajeno(fecha=fecha, jornada=0, local=local, visita=visita,
                         goles_local=gl, goles_visita=gv)
 
 
 def test_una_fuente_sin_jornada_empareja_por_el_par_de_clubes():
-    """El feed de ESPN no publica la jornada. No se afloja la regla, se le cambia
+    """Hay fuentes que no publican la jornada: las citas a mano, y antes el feed de
+    ESPN, para el que se escribio esto. No se afloja la regla, se le cambia
     el identificador: en una liga de ida y vuelta cada par se cruza UNA VEZ EN
     CADA CANCHA, asi que (local, visita) ya identifica el partido.
 

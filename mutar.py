@@ -298,19 +298,6 @@ MUTANTES = [
      "        if False:\n"
      "            avisos.append(f\"el reemplazo de {r.llave} {r.jornada} ({local} vs \""),
 
-    ("fad/espn.py", "tomar la fecha de ESPN en UTC sin pasarla a hora argentina",
-     "    return (datetime.fromisoformat(iso.replace(\"Z\", \"+00:00\"))\n"
-     "            .astimezone(_ARGENTINA).date().isoformat())",
-     "    return iso[:10]"),
-
-    ("fad/espn.py", "no chequear que los planteles coincidan",
-     "    sobran = sorted(suyos - mios)",
-     "    sobran = []"),
-
-    ("fad/espn.py", "importar un partido de ESPN sin marcador",
-     "        if goles[\"home\"] is None or goles[\"away\"] is None:\n            continue",
-     "        goles = {k: (v if v is not None else 0) for k, v in goles.items()}"),
-
     ("fad/fechas.py", "exigir jornada aunque la fuente no la publique",
      "    con_jornada = any(a.jornada for a in ajenos)",
      "    con_jornada = True"),
@@ -607,16 +594,6 @@ MUTANTES = [
     ("fad/fechas.py", "darle numero de fecha a una ronda de eliminacion",
      '        numerada = con_jornada and getattr(p, "fase", "") != "eliminacion"',
      "        numerada = con_jornada"),
-
-    # Enchufar ESPN en un lado y olvidarse del otro: la entrada queda muerta.
-    ("fad/torneos.py", "sacarle la marca de ESPN a un torneo que si la declara",
-     '    Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024,'
-     + chr(10) + "           espn=True),",
-     '    Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024),'),
-
-    ("fad/espn.py", "apuntar el mapa a un club que no existe",
-     '"JJ Urquiza": "J. J. de Urquiza"',
-     '"JJ Urquiza": "J.J. de Urquiza"'),
 
     # El cuadro que se desata con los enlaces de su propia pagina.
     ("fad/posiciones.py", "no usar los enlaces de la pagina para el cuadro",
@@ -1340,7 +1317,6 @@ MUTANTES = [
      "        l, v = uno(x.local, x.local_art), uno(x.visita, x.visita_art)",
      "        l, v = x.local, x.visita"),
 
-    # El lector de llaves de ESPN, y el hueco que destapo en el cedazo.
     # El formato compacto, por donde puede mentir: el marcador de la vuelta y la
     # localia de la vuelta son lo que hay que dar vuelta, y la casilla sin fecha es
     # lo unico que evita duplicar media temporada.
@@ -1522,6 +1498,32 @@ MUTANTES = [
      "        p.fuente_fecha = a.fuente or credito",
      "        p.fuente_fecha = a.fuente"),
 
+    # Y el credito que la fila YA TRAIA cuando llega a fecharse: nacio de una
+    # fuente y el dia se lo pone otra. Pisandolo, las 37 llaves del Argentino A
+    # 2004-05 nombraban al blog que les puso un campo y callaban a RSSSF, de donde
+    # sale el partido.
+    ("fad/fechas.py", "pisar el credito de la fuente que dio el partido al fecharlo con otra",
+     "        if ya_traia and ya_traia != p.fuente_fecha:",
+     "        if False:"),
+
+    ("fad/fechas.py", "nombrar dos veces a la fuente que dio el partido y ademas el dia",
+     "        if ya_traia and ya_traia != p.fuente_fecha:",
+     "        if ya_traia:"),
+
+    ("fad/fechas.py", "sumarle un credito vacio a la fila que no traia ninguno",
+     "        if ya_traia and ya_traia != p.fuente_fecha:",
+     "        if ya_traia != p.fuente_fecha:"),
+
+    ("fad/fechas.py", "nombrar primero al que puso el dia y despues al que dio el partido",
+     "            p.fuente_fecha = ya_traia + SEPARADOR + p.fuente_fecha",
+     "            p.fuente_fecha = p.fuente_fecha + SEPARADOR + ya_traia"),
+
+    # Con dos creditos el `source` trae dos separadores, y la pagina es lo que va
+    # antes del PRIMERO. Con uno solo los dos cortes dan lo mismo.
+    ("fad/dataset.py", "cortar la pagina del source por el ultimo credito y no por el primero",
+     '    return fila["source"].split(SEPARADOR, 1)[0]',
+     '    return fila["source"].rsplit(SEPARADOR, 1)[0]'),
+
     ("fad/citadas.py", "perder la fuente de la cita al armar el Ajeno",
      "    return [Ajeno(fecha=c.fecha, jornada=0, llave=c.llave, fuente=c.fuente,",
      "    return [Ajeno(fecha=c.fecha, jornada=0, llave=c.llave,"),
@@ -1553,15 +1555,6 @@ MUTANTES = [
     ("fad/rsssf.py", "preguntarle su continuacion a un partido dividido",
      "        if not texto.endswith(_SIN_DESENLACE):",
      "        if False:"),
-
-    # Un partido programado con marcador cero no es un 0-0.
-    ("fad/espn.py", "leer como resultado un partido que no se jugo",
-     '        if ((comp.get("status") or {}).get("type") or {}).get("completed") is False:',
-     "        if False:"),
-
-    ("fad/espn.py", "descartar tambien los 0-0 de verdad",
-     '        if ((comp.get("status") or {}).get("type") or {}).get("completed") is False:',
-     '        if not ((comp.get("status") or {}).get("type") or {}).get("completed"):'),
 
     # La tanda vive en la pata donde se pateo, si la serie la explica. Los tres
     # lados: emparejar patas rotuladas distinto, exigir la serie antes de
@@ -1947,26 +1940,6 @@ MUTANTES = [
     ("build.py", "sin fecha, duplicar lo que la pagina ya trae",
      "        if mio in suyos:",
      "        if False:"),
-
-    ("fad/espn.py", "leer la fase regular como si fuera una llave",
-     '        if not ronda:\n            continue',
-     '        ronda = ronda or "Fecha"\n        if False:\n            continue'),
-
-    ("fad/espn.py", "usar la fecha cruda del feed, en UTC",
-     'fecha=_fecha_argentina(e["date"]),',
-     'fecha=e["date"][:10],'),
-
-    # OJO CON EL ANCLA. `espn.leer` y `espn.leer_llaves` tienen el mismo bloque casi
-    # palabra por palabra, y `leer` viene PRIMERO en el archivo: un snippet que sirva
-    # para los dos muta el otro. Lo que los distingue es como llegan a `comp` --
-    # `(e.get(...) or [{}])[0]` contra `e.get(..., [{}])[0]` --, asi que el ancla se
-    # toma de ahi. Se descubrio porque el mutante sobrevivia: estaba mutando el
-    # lector de fechas, donde este test no mira.
-    ("fad/espn.py", "tomar la localia del orden y no de homeAway",
-     '        comp = (e.get("competitions") or [{}])[0]\n'
-     '        lados = {c.get("homeAway"): c for c in comp.get("competitors", [])}',
-     '        comp = (e.get("competitions") or [{}])[0]\n'
-     '        lados = dict(zip(("home", "away"), comp.get("competitors", [])))'),
 
     ("build.py", "no ver la localia al reves cuando la fecha coincide",
      "            if uno(otro.local, otro.local_art) != p_.local:",
@@ -2451,8 +2424,19 @@ MUTANTES = [
      "            return chr(10).join(lineas[n:fin])\n    return \"\""),
 
     ("fad/rsssf.py", "no reconocer el encabezado de fecha escrito con punto",
-     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)([,.][^\])]*)?[\])]\s*$")',
-     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(,[^\])]*)?[\])]\s*$")'),
+     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(?:([,.][^\])]*)?[\])])?\s*$")',
+     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(?:(,[^\])]*)?[\])])?\s*$")'),
+
+    # `[Oct 9`, sin cerrar: los dos lados. Exigir el cierre deja dos partidos de la
+    # Primera C 2009-10 sin fecha, callados; perdonarlo tambien cuando el corchete
+    # anota toma por fecha el arranque de una nota de dos renglones.
+    ("fad/rsssf.py", "exigir el corchete de cierre en el encabezado de fecha",
+     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(?:([,.][^\])]*)?[\])])?\s*$")',
+     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)([,.][^\])]*)?[\])]\s*$")'),
+
+    ("fad/rsssf.py", "perdonar el cierre que falta tambien cuando el corchete anota",
+     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)(?:([,.][^\])]*)?[\])])?\s*$")',
+     r'_SOLO_FECHA = re.compile(r"^[\[(]([A-Z][a-z]{2})\s+(\d+)([,.][^\])]*)?[\])]?\s*$")'),
 
     ("fad/rsssf.py", "no leer el fallo escrito `Awd`",
      r'r"(?:awarded\s+|\bAwd\s+|(?:won|lost) the points\s*\()(\d+)\s*-\s*(\d+)")',
@@ -2618,6 +2602,114 @@ MUTANTES = [
     ("fad/posiciones.py", "que `clubes_desviados` devuelva el club sin su firma",
      "                fuera[club] = correcciones.firma_del_desvio(datos, propios[club])",
      "                fuera[club] = str(club)"),
+
+    # `24 septiembre`, sin el `de`. La segunda regla de `a_iso` por sus cuatro lados:
+    # que exista, que no le gane a la de siempre, y las dos puntas que la separan de
+    # un numero seguido de una palabra.
+    ("fad/parser.py", "no leer el dia y el mes escritos sin el `de`",
+     "        m = _DIA_Y_MES_SIN_DE.search(texto)",
+     "        m = None"),
+
+    ("fad/parser.py", "probar la regla sin el `de` antes que la de siempre",
+     '    m = re.search(r"(\\d{1,2})\\s*de\\s+([a-záéíóúñ]+)(?:\\s*de\\s+(\\d{4}))?", texto, re.I)\n'
+     "    if not m:\n"
+     "        m = _DIA_Y_MES_SIN_DE.search(texto)",
+     "    m = _DIA_Y_MES_SIN_DE.search(texto)\n"
+     "    if not m:\n"
+     '        m = re.search(r"(\\d{1,2})\\s*de\\s+([a-záéíóúñ]+)(?:\\s*de\\s+(\\d{4}))?", texto, re.I)'),
+
+    ("fad/parser.py", "tomar por dia el final de un anio o los minutos de una hora",
+     r'    r"(?<![\d:])(\d{1,2})\s+(" + "|".join(MESES)',
+     r'    r"(\d{1,2})\s+(" + "|".join(MESES)'),
+
+    ("fad/parser.py", "aceptar por mes una palabra que solo empieza como un mes",
+     r'+ r")\b(?:\s*de\s+(\d{4}))?", re.I)',
+     r'+ r")(?:\s*de\s+(\d{4}))?", re.I)'),
+
+    # La fecha de la Primera C 2024 que sale de `arg2024`: el dia copiado a mano y a
+    # quien se le reconoce. Sin `fuente`, la cita cae en el credito del modulo --el
+    # blog-- y `LICENSE-DATOS.md` le reconoce un dato de RSSSF al autor equivocado.
+    ("fad/citadas.py", "copiar con un dia de mas la cita de la Primera C 2024",
+     'Cita("2024-10-26", "Luján", "Victoriano Arenas", 3, 1, "Torneo Clausura",',
+     'Cita("2024-10-27", "Luján", "Victoriano Arenas", 3, 1, "Torneo Clausura",'),
+
+    ("fad/citadas.py", "acreditarle al blog una fecha que salio de RSSSF",
+     "             fuente=CREDITO_RSSSF_2024),",
+     "             ),"),
+
+    # Las llaves citadas a mano. De la fuente salen el dia y la localia; los clubes
+    # y el marcador los tiene que decir el cuadro de la pagina, y eso es
+    # `segun_el_cuadro` por sus cinco lados: comparar, comparar en orden, mirar
+    # quien es el local, y dejar afuera tanto a la que el cuadro desmiente como a
+    # la que el cuadro no publica.
+    ("fad/citadas.py", "no comparar la llave citada contra el cuadro de la pagina",
+     "        if citadas != [tuple(m) for m in marcadores]:",
+     "        if False:"),
+
+    ("fad/citadas.py", "comparar las patas citadas sin ordenarlas por fecha",
+     "                   for p in sorted(suyas, key=lambda p: p.fecha)]",
+     "                   for p in sorted(suyas, key=lambda p: 0)]"),
+
+    ("fad/citadas.py", "leer el marcador de la pata citada sin mirar quien fue local",
+     "        citadas = [(p.goles_local, p.goles_visita) if p.local == a",
+     "        citadas = [(p.goles_local, p.goles_visita) if True"),
+
+    ("fad/citadas.py", "avisar que el cuadro desmiente la cita y dejarla entrar igual",
+     "            afuera.add(cruce)\n"
+     "            avisos.append(\n"
+     '                f"{a} vs {b}: el cuadro de la pagina publica "',
+     "            avisos.append(\n"
+     '                f"{a} vs {b}: el cuadro de la pagina publica "'),
+
+    ("fad/citadas.py", "avisar que el cuadro no publica el cruce y dejarlo entrar igual",
+     "            afuera.add(cruce)\n"
+     "            avisos.append(\n"
+     '                f"{nombres}: el cuadro de la pagina "',
+     "            avisos.append(\n"
+     '                f"{nombres}: el cuadro de la pagina "'),
+
+    ("fad/citadas.py", "importar la llave citada sin decir de donde se copio",
+     "                    llave=p.llave, fuente_fecha=p.fuente)",
+     "                    llave=p.llave)"),
+
+    ("fad/citadas.py", "importar la llave citada como una fecha de liga",
+     '                    torneo=torneo, fase="eliminacion", jornada=p.ronda,',
+     '                    torneo=torneo, fase="zonas", jornada=p.ronda,'),
+
+    # Y la tabla, que es donde entra el error humano. El dia que se aparta de la
+    # programacion --el martes 29 y no el lunes 28--, y la localia de la serie que
+    # menos testigos tiene.
+    ("fad/citadas.py", "fechar Berazategui-UAI Urquiza el dia para el que estaba programado",
+     '        _c2011("2012-05-29", "Berazategui", 1, 1, "UAI Urquiza", "Cuartos de final"),',
+     '        _c2011("2012-05-28", "Berazategui", 1, 1, "UAI Urquiza", "Cuartos de final"),'),
+
+    ("fad/citadas.py", "dar vuelta la localia de la ida de Midland-Dock Sud",
+     '        _c2011("2012-06-06", "Ferrocarril Midland", 1, 0, "Dock Sud", "Semifinal"),',
+     '        _c2011("2012-06-06", "Dock Sud", 0, 1, "Ferrocarril Midland", "Semifinal"),'),
+
+    ("fad/posiciones.py", "darle a la llave citada el cuadro con los nombres sin canonizar",
+     "    return [(_canonico(na, aa, pagina), _canonico(nb, ab, pagina), list(patas))",
+     "    return [(na, nb, list(patas))"),
+
+    ("build.py", "importar las llaves citadas sin preguntarle al cuadro",
+     "            llaves, mas = citadas.segun_el_cuadro(\n"
+     "                citadas.llaves(t.pagina, t.torneo),\n"
+     "                posiciones.llaves_del_cuadro(texto, t.pagina))",
+     "            llaves, mas = citadas.llaves(t.pagina, t.torneo), []"),
+
+    ("build.py", "leer las llaves citadas y no importarlas",
+     "            if not frenar:\n"
+     "                ps += nuevas\n"
+     "            if repetidas:\n"
+     '                mas.append(f"{repetidas} llaves citadas ya estaban',
+     "            if False:\n"
+     "                ps += nuevas\n"
+     "            if repetidas:\n"
+     '                mas.append(f"{repetidas} llaves citadas ya estaban'),
+
+    ("build.py", "preguntarle por llaves citadas al cuadro de todas las paginas",
+     "        if citadas.LLAVES.get(t.pagina):",
+     "        if True:"),
 
 ]
 

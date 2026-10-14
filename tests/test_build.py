@@ -1126,21 +1126,23 @@ def test_cada_marca_de_fuente_de_fecha_apunta_a_algo():
     catalogo, y traia escrita su propia condicion de muerte: "si no queda
     ninguno, sobra la carpeta y sobra el flag". Eso paso. Las cinco temporadas
     que no tenian fecha consiguieron fuente -- RSSSF para el Argentino A 2005-06
-    y el feed de ESPN para las tres de Primera C y la Primera B 2010-11 -- y el
-    flag quedo sin un solo usuario, asi que se saco.
+    y, en aquel momento, el feed de ESPN para las tres de Primera C y la Primera B
+    2010-11 -- y el flag quedo sin un solo usuario, asi que se saco.
+
+    Despues las cuatro pasaron a fecharse desde RSSSF y el feed de ESPN se saco
+    del repo, con sus dos marcas. Las cinco siguen marcadas, todas con `rsssf`.
 
     Lo que queda por sostener es la otra mitad: una marca de fuente que apunte a
     una entrada que no existe revienta el build a mitad de camino, con el CSV
     anterior ya leido."""
-    from fad import espn, rsssf, torneos
+    from fad import rsssf, torneos
     assert "sin_fecha" not in Torneo.__dataclass_fields__, "el flag volvio sin querer"
+    assert not {"espn", "espn_llaves"} & set(Torneo.__dataclass_fields__), (
+        "ESPN se saco: sus condiciones no autorizan a armar una base con su contenido")
     con_fuente = 0
     for t in torneos.TODOS:
         if t.rsssf:
             assert t.pagina in rsssf.FUENTES, f"{t.pagina}: `rsssf` sin entrada en FUENTES"
-            con_fuente += 1
-        if t.espn:
-            assert t.pagina in espn.FUENTES, f"{t.pagina}: `espn` sin entrada en FUENTES"
             con_fuente += 1
     assert con_fuente >= 5, "las cinco temporadas rescatadas tienen que seguir marcadas"
 
@@ -1254,8 +1256,9 @@ def test_la_comparacion_va_canonizada():
 def test_la_localia_al_reves_no_pasa_por_repetido():
     """Que el par y el dia coincidan hace que sea el MISMO partido, no que las dos
     fuentes digan lo mismo. En la Primera C 2011-12 la pagina pone "Deportivo
-    Español 1-0 Luján" y ESPN "Luján 0-1 Deportivo Español", el mismo 30 de mayo.
-    Contarlo como repetido y callarse tapa un desacuerdo real."""
+    Español 1-0 Luján" y el feed del que entonces salia su Reducido ponia "Luján
+    0-1 Deportivo Español", el mismo 30 de mayo. Contarlo como repetido y callarse
+    tapa un desacuerdo real."""
     pagina = [_p("Deportivo Español", "Luján", "2012-05-30", 1, 0)]
     otra = [_p("Luján", "Deportivo Español", "2012-05-30", 0, 1)]
 
@@ -2092,3 +2095,111 @@ def test_procesar_le_dice_a_los_chequeos_si_el_torneo_esta_en_curso(monkeypatch)
     build.procesar(pagina, T)
     build.procesar(pagina, replace(T, cerrado=True))
     assert visto == [True, False]
+
+
+# --------------------------------------------------------------------------
+# El credito de la fila que nace de RSSSF y a la que el dia se lo pone otro
+# --------------------------------------------------------------------------
+# Los renglones de `arg3-int05` tal cual los publica RSSSF, con su relleno:
+# https://www.rsssf.org/tablesa/arg3-int05.html
+_ARG3_INT05 = ("Torneo Apertura\n"
+               "\n"
+               "Zona Campeonato\n"
+               "\n"
+               "Quarterfinals\n"
+               "[Nov 20-28]\n"
+               "Aldosivi                 0-1 1-3 Luján de Cuyo \n"
+               "\n"
+               "Semifinals [Dec 1-5]\n"
+               "Ben Hur                  2-1 2-2 Atlético Tucumán\n")
+
+# Y las filas de `data/partidos-2004.csv` que salen de esos dos renglones. La ida
+# de la primera llave es la que el blog escribe «20/11/2004 en Mar del Plata:
+# Aldosivi de Mar del Plata 0, Luján de Cuyo de Mendoza 1»; la ida de la segunda es
+# la unica que fecha la otra pagina citada, porque el blog le pone un dia de febrero.
+_PAGINA_04 = "https://es.wikipedia.org/wiki/Torneo_Argentino_A_2004-05"
+_FILAS_DE_ARG3_INT05 = [
+    "2004-11-20,,Aldosivi,Luján de Cuyo,0,1,,,Torneo Argentino A,2004,eliminacion,,"
+    "Zona Campeonato - Quarterfinals,,false,"
+    + _PAGINA_04 + " + https://www.rsssf.org/ + http://josecarluccio.blogspot.com/,",
+    "2004-11-28,,Luján de Cuyo,Aldosivi,3,1,,,Torneo Argentino A,2004,eliminacion,,"
+    "Zona Campeonato - Quarterfinals,,false,"
+    + _PAGINA_04 + " + https://www.rsssf.org/ + http://josecarluccio.blogspot.com/,",
+    "2004-12-01,,Ben Hur,Atlético Tucumán,2,1,,,Torneo Argentino A,2004,eliminacion,,"
+    "Zona Campeonato - Semifinals,,false,"
+    + _PAGINA_04 + " + https://www.rsssf.org/ + http://soybh.blogspot.com/p/argentino-200405.html,",
+    "2004-12-05,,Atlético Tucumán,Ben Hur,2,2,,,Torneo Argentino A,2004,eliminacion,,"
+    "Zona Campeonato - Semifinals,,false,"
+    + _PAGINA_04 + " + https://www.rsssf.org/ + http://josecarluccio.blogspot.com/,",
+]
+
+
+def _publicado_2004():
+    import pathlib
+    datos = pathlib.Path(__file__).resolve().parent.parent / "data" / "partidos-2004.csv"
+    if not datos.exists():
+        pytest.skip("hace falta el dataset")
+    return datos
+
+
+def _como_en_el_csv(filas: list[dict]) -> list[str]:
+    """Las filas con el texto que tendrian en el archivo, sin el encabezado."""
+    from fad import dataset
+    return dataset._serializar(sorted(filas, key=dataset._orden)).decode("utf-8").splitlines()[1:]
+
+
+def test_la_llave_que_sale_de_rsssf_la_nombra_aunque_el_dia_se_lo_ponga_un_blog(monkeypatch):
+    """EL PARTIDO SALE DE RSSSF, EL DIA DE UN BLOG, Y LA FILA NOMBRA A LOS DOS.
+
+    Las llaves del Argentino A 2004-05 la pagina las trae solo como cuadro. Las
+    filas nacen del archivo compacto de RSSSF, sin dia --su corchete es un rango
+    que cubre las dos patas--, y despues las fechan las citas. `fechas.completar`
+    se quedaba con el ultimo credito: 37 filas publicadas nombraban al blog, que
+    les puso un campo, y no a la fuente de la que salen los clubes, el marcador, la
+    localia y la ronda.
+
+    Por `procesar` y con el torneo, el mapa y las citas de verdad, porque el
+    credito se perdia ENTRE dos pasos que cada uno por su lado estaba bien. Y
+    contra el texto de las filas publicadas, que es lo que un tercero puede ir a
+    contradecir: de un lado los renglones de RSSSF, del otro el CSV."""
+    from fad import dataset, rsssf, torneos
+
+    t = next(x for x in torneos.TODOS if x.pagina == "Torneo Argentino A 2004-05")
+    assert t.rsssf_compacto, "si deja de serlo, este test mira otro camino"
+    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: _ARG3_INT05)
+
+    # La pagina va vacia: lo que se mira son las filas que la pagina NO trae.
+    ps, _ = build.procesar("", t)
+    filas = [dataset.a_fila(p, t.torneo, t.temporada, t.url, t.neutral) for p in ps]
+    assert _como_en_el_csv(filas) == _FILAS_DE_ARG3_INT05
+
+    publicadas = _publicado_2004().read_text(encoding="utf-8").splitlines()
+    for fila in _FILAS_DE_ARG3_INT05:
+        assert fila in publicadas, f"el CSV publicado no trae esta fila tal cual:\n{fila}"
+
+
+def test_las_37_llaves_del_argentino_a_2004_05_nombran_a_rsssf():
+    """Lo mismo sobre lo PUBLICADO, que es donde vive: el torneo esta cerrado y el
+    build de todos los dias reusa sus filas del CSV sin volver a armarlas, asi que
+    arreglar el codigo no arregla el dato.
+
+    Las que nacen de RSSSF se reconocen sin mirar `source`: son las unicas de esa
+    pagina cuyo `matchday` lleva el cuadro y la ronda como los escribe el archivo
+    --`Zona Campeonato - Quarterfinals`--. Las otras 80 son de la pagina, y esas
+    NO la nombran: 60 llaves que Wikipedia publica con su dia y 20 partidos de zona
+    que publica sin el, a los que el blog les pone la fecha y nada mas."""
+    from fad import citadas, dataset, rsssf
+
+    suyas = [f for f in dataset.leer(_publicado_2004())
+             if dataset.pagina_de(f) == _PAGINA_04]
+    assert len(suyas) == 117
+    de_rsssf = [f for f in suyas if f["matchday"].startswith("Zona ")]
+    assert len(de_rsssf) == 37 and {f["phase"] for f in de_rsssf} == {"eliminacion"}
+    for f in de_rsssf:
+        pagina, de_donde, quien_fecho = f["source"].split(dataset.SEPARADOR)
+        assert (pagina, de_donde) == (_PAGINA_04, rsssf.CREDITO), f["source"]
+        assert quien_fecho in (citadas.CREDITO, citadas.CREDITO_SOYBH), f["source"]
+    assert sum(f["source"].endswith(citadas.CREDITO_SOYBH) for f in de_rsssf) == 1
+    los_de_la_pagina = [f for f in suyas if not f["matchday"].startswith("Zona ")]
+    assert len(los_de_la_pagina) == 80
+    assert not [f["source"] for f in los_de_la_pagina if "rsssf" in f["source"]]

@@ -70,11 +70,19 @@ class Torneo:
     # ------------------------------------------------------------------
     # De donde sale la FECHA cuando la pagina de Wikipedia no la trae.
     #
-    # Son tres fuentes y ninguna cubre todo, que es la razon de que sean tres:
-    # worldfootball no tiene Primera C ni el Argentino A, RSSSF tiene el
-    # Argentino A viejo, y el feed de ESPN cubre Primera B y C de esos anios.
+    # Son dos fuentes y ninguna cubre todo, que es la razon de que sean dos:
+    # worldfootball no tiene Primera C ni el Argentino A, y RSSSF tiene el
+    # Argentino A viejo y la Primera B y C de esos anios. Lo que ninguna de las dos
+    # puede fechar se copia a mano de una fuente citada, partido por partido, y eso
+    # no se marca aca: vive en `fad/citadas.py`, indexado por pagina.
     # Todo lo demas -- equipos, marcador, jornada -- sigue saliendo de Wikipedia,
     # y `source` dice fila por fila quien puso la fecha.
+    #
+    # HUBO UNA TERCERA, el feed de ESPN, y se saco entera: sus condiciones de uso
+    # no autorizan a extraer contenido para armar una base de datos. Ponia 21
+    # filas, y las 21 se consiguieron de otro lado: cuatro dias estaban en la
+    # pagina y no se leian, tres salieron de RSSSF, y los catorce partidos del
+    # Reducido de la Primera C 2011-12 estan citados en `fad/citadas.py`.
     # ------------------------------------------------------------------
     # Ids de competencia y temporada en worldfootball. Salen del selector del
     # propio sitio, no de adivinar.
@@ -99,19 +107,11 @@ class Torneo:
     # dispare solo, "si el cuadro no cierra", convertiria una regresion del parser
     # en una importacion silenciosa.
     rsssf_llaves: bool = False
-    # Lo mismo pero desde el feed de ESPN, para las temporadas que RSSSF no
-    # cubre. Va aparte de `espn` -- que solo completa fechas -- porque esto
-    # ESCRIBE filas, y la diferencia merece estar en el nombre del flag y no en
-    # un comentario que despues nadie lee.
-    espn_llaves: bool = False
     # El archivo de RSSSF esta en el formato COMPACTO -- las dos patas en un
     # renglon y la fecha como RANGO --, asi que sus filas entran sin fecha y
     # terminan en `data/sin-fecha`. Va aparte de `rsssf_llaves` porque la
     # diferencia no es de formato sino de lo que se puede afirmar.
     rsssf_compacto: bool = False
-    # El feed de ESPN. La liga, los rangos de fecha y el mapa de nombres viven en
-    # `fad/espn.py`, indexados por pagina.
-    espn: bool = False
 
     @property
     def url(self) -> str:
@@ -248,8 +248,7 @@ ASCENSO = [
     Torneo("Campeonato de Primera B 2025 (Argentina)", "Primera B", 2025),
     Torneo("Campeonato de Primera B 2026 (Argentina)", "Primera B", 2026, cerrado=False),
 
-    Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024,
-           espn=True),
+    Torneo("Campeonato de Primera C 2024 (Argentina)", "Primera C", 2024),
     Torneo("Campeonato de Primera C 2025 (Argentina)", "Primera C", 2025),
     Torneo("Campeonato de Primera C 2026 (Argentina)", "Primera C", 2026, cerrado=False),
 
@@ -297,10 +296,10 @@ ASCENSO_VIEJO = [
 
     # Su Reducido -- cuartos, semis y final -- esta en Wikipedia SOLO como cuadro,
     # y es la unica de las cinco que RSSSF no cubre: su archivo de 2012 llega
-    # hasta la Primera B Metropolitana y no baja a la C. La tiene el feed de
-    # ESPN, que distingue las rondas en `season.slug`.
+    # hasta la Primera B Metropolitana y no baja a la C. Sus catorce partidos
+    # estan citados a mano en `citadas.LLAVES`, que dice de donde sale cada cosa.
     Torneo("Campeonato de Primera C 2011-12 (Argentina)", "Primera C", 2011,
-           anio_fin=2012, espn_llaves=True),
+           anio_fin=2012),
     Torneo("Campeonato de Primera C 2012-13 (Argentina)", "Primera C", 2012, anio_fin=2013),
     Torneo("Campeonato de Primera C 2013-14 (Argentina)", "Primera C", 2013, anio_fin=2014),
     Torneo("Campeonato de Primera C 2014 (Argentina)", "Primera C", 2014),
@@ -374,8 +373,7 @@ ASCENSO_HISTORICO = [
     # donde juegan el (SJ) y el (T). Se resolvio sin fuentes externas: en esa
     # fecha el (SJ) ya juega y el (T) no. Ver `fad/correcciones.py`.
     Torneo('Campeonato de Primera Nacional 2022', 'Primera Nacional', 2022),
-    Torneo('Campeonato de Primera Nacional 2023', 'Primera Nacional', 2023,
-           espn=True),
+    Torneo('Campeonato de Primera Nacional 2023', 'Primera Nacional', 2023),
 
     Torneo('Campeonato de Primera B 2016 (Argentina)', 'Primera B', 2016),
     Torneo('Campeonato de Primera B 2016-17 (Argentina)', 'Primera B', 2016, anio_fin=2017),
@@ -406,13 +404,13 @@ ASCENSO_HISTORICO = [
     # nivel metropolitano. Cuidado con `arg4-int09`, que es el cuarto nivel del
     # INTERIOR (el Argentino B) y es el error facil.
     Torneo('Campeonato de Primera C 2008-09 (Argentina)', 'Primera C', 2008,
-           anio_fin=2009, espn=True, rsssf='arg4-09', rsssf_llaves=True),
+           anio_fin=2009, rsssf='arg4-09', rsssf_llaves=True),
     Torneo('Campeonato de Primera C 2009-10 (Argentina)', 'Primera C', 2009,
-           anio_fin=2010, espn=True, rsssf='arg4-2010'),
+           anio_fin=2010, rsssf='arg4-2010'),
     # Arranco en JULIO de 2010 -- la fecha 1 fue el 24/07 en la B y el 31/07 en
     # la C --, asi que sin `mes_inicio=7` esos partidos se fechan un anio tarde.
     Torneo('Campeonato de Primera C 2010-11 (Argentina)', 'Primera C', 2010,
-           anio_fin=2011, mes_inicio=7, espn=True, rsssf='arg2011'),
+           anio_fin=2011, mes_inicio=7, rsssf='arg2011'),
     # Este ESTUVO en `sin-fecha/` por un diagnostico equivocado, y conviene dejar
     # escrito cual. El comentario que habia aca decia: "sus tablas SI tienen
     # columna de fecha, pero la pagina la deja vacia en casi todas las filas...
@@ -437,7 +435,7 @@ ASCENSO_HISTORICO = [
     # Arranco en JULIO de 2010 -- la fecha 1 fue el 24/07 en la B y el 31/07 en
     # la C --, asi que sin `mes_inicio=7` esos partidos se fechan un anio tarde.
     Torneo('Campeonato de Primera B 2010-11 (Argentina)', 'Primera B', 2010,
-           anio_fin=2011, mes_inicio=7, espn=True, rsssf='arg2011'),
+           anio_fin=2011, mes_inicio=7, rsssf='arg2011'),
     # Y esta: 12 fechadas de 279. Trajo diez clubes del interior que el padron
     # no tenia -- Lujan de Cuyo, Nunorco, La Plata FC, Atletico Candelaria... --
     # todos sacados del articulo que enlaza su propia tabla de participantes.

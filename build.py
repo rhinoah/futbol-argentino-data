@@ -82,36 +82,6 @@ def _completar_fechas_rsssf(ps, t, usadas: set | None = None) -> list:
             for d in avisos + mas]
 
 
-def _completar_fechas_espn(ps, t, usadas: set | None = None) -> list:
-    """Tercera fuente de fechas, para las tres temporadas de Primera C.
-
-    Sus paginas traen los resultados en tablas de tres columnas y no hay columna
-    de fecha; worldfootball no tiene la categoria tan atras y RSSSF tampoco. El
-    feed de ESPN devuelve la temporada entera en una llamada.
-
-    Misma tolerancia que las otras dos: si el sitio no responde se avisa y se
-    sigue, y los partidos quedan sin fecha en `sin-fecha/`.
-    """
-    from fad import espn, fechas
-
-    liga, rangos, mapa = espn.FUENTES[t.pagina]
-    try:
-        eventos = espn.descargar(liga, rangos)
-    except OSError as e:
-        return [validar.Aviso("no se pudo consultar ESPN",
-                              f"{t.pagina}: {e}; los partidos quedan sin fecha",
-                              grave=False)]
-    ajenos, avisos = espn.leer(eventos, mapa)
-    # Antes de completar nada: que las dos partes hablen de los mismos clubes. Un
-    # nombre mal traducido manda el partido al club equivocado y el marcador no
-    # lo agarra.
-    avisos += espn.contrastar_plantel(ajenos, ps)
-    _, mas = fechas.completar(ps, ajenos, credito=espn.CREDITO,
-                              verificadas=correcciones.fechados(t.pagina),
-                              usadas=usadas)
-    return [validar.Aviso(f"{t.pagina}: ESPN", d, grave=False) for d in avisos + mas]
-
-
 def _repartir(listas: list[dict], filas: list, sin_fecha: list) -> None:
     """Cada fila va donde le corresponde SEGUN SU FECHA, no segun su torneo.
 
@@ -363,9 +333,10 @@ def sin_repetir(llaves: list, ps: list, pagina: str) -> tuple[list, int, list[st
             # MISMO PARTIDO, LOCALIA AL REVES. Que el par y el dia coincidan hace
             # que sea el mismo partido, no que las dos fuentes digan lo mismo: en
             # la Primera C 2011-12 la pagina pone "Deportivo Español 1-0 Luján" y
-            # ESPN "Luján 0-1 Deportivo Español", el mismo 30 de mayo. Contarlo
-            # como repetido y callarse tapa un desacuerdo real -- el aviso solo
-            # miraba la fecha, y con la fecha igual no decia nada.
+            # el feed del que entonces salia su Reducido ponia "Luján 0-1 Deportivo
+            # Español", el mismo 30 de mayo. Contarlo como repetido y callarse tapa
+            # un desacuerdo real -- el aviso solo miraba la fecha, y con la fecha
+            # igual no decia nada.
             otro = ya[(suyo, p_.fecha)][0]
             if uno(otro.local, otro.local_art) != p_.local:
                 alreves += 1
@@ -924,37 +895,32 @@ def procesar(texto: str, t) -> tuple[list, list]:
                 importados += [validar.Aviso(f"{t.pagina}: RSSSF compacto", d,
                                              grave=False) for d in mas]
 
-        # Y lo mismo desde ESPN, para las temporadas que RSSSF no cubre. Mismo
-        # criterio: solo entra lo que la pagina no tiene, y por el mismo cedazo.
-        if t.espn_llaves:
-            from fad import espn
-            liga, rangos, mapa = espn.FUENTES[t.pagina]
-            try:
-                eventos = espn.descargar(liga, rangos)
-            except OSError as e:
-                importados.append(validar.Aviso(
-                    f"{t.pagina}: ESPN no respondio, asi que la fase final se "
-                    f"queda sin partidos", repr(e), grave=False))
-            else:
-                llaves, mas = espn.leer_llaves(eventos, mapa, t.torneo)
-                nuevas, repetidas, discuten, alreves = sin_repetir(
-                    llaves, ps, t.pagina)
-                que_decir, frenar = le_creemos_la_localia(
-                    repetidas, alreves,
-                    correcciones.LOCALIA_RESUELTA.get(t.pagina, ""))
-                if que_decir:
-                    mas.append(f"ESPN: {que_decir}")
-                if not frenar:
-                    ps += nuevas
-                if repetidas:
-                    mas.append(f"{repetidas} llaves de ESPN ya estaban en la grilla "
-                               f"de la pagina y no se duplicaron")
-                if discuten:
-                    mas.append(f"{len(discuten)} partidos donde la pagina y ESPN no "
-                               f"coinciden; se conserva el de la pagina: "
-                               + " | ".join(discuten[:3]))
-                importados += [validar.Aviso(f"{t.pagina}: ESPN llaves", d,
-                                             grave=False) for d in mas]
+        # Y las llaves CITADAS A MANO, para el cuadro que ninguna fuente que el repo
+        # lee cubre. Mismo criterio que las de RSSSF --solo entra lo que la pagina
+        # no tiene, y por el mismo cedazo-- y una condicion mas, que va primero: el
+        # cuadro de la pagina tiene que publicar ese cruce con esos marcadores. De
+        # la fuente citada salen el dia y la localia, nada mas; ver `citadas.Pata`.
+        if citadas.LLAVES.get(t.pagina):
+            llaves, mas = citadas.segun_el_cuadro(
+                citadas.llaves(t.pagina, t.torneo),
+                posiciones.llaves_del_cuadro(texto, t.pagina))
+            nuevas, repetidas, discuten, alreves = sin_repetir(llaves, ps, t.pagina)
+            que_decir, frenar = le_creemos_la_localia(
+                repetidas, alreves, correcciones.LOCALIA_RESUELTA.get(t.pagina, ""))
+            if que_decir:
+                mas.append(que_decir)
+            if not frenar:
+                ps += nuevas
+            if repetidas:
+                mas.append(f"{repetidas} llaves citadas ya estaban en la grilla de "
+                           f"la pagina y no se duplicaron: si la pagina paso a "
+                           f"publicarlas, la cita sobra")
+            if discuten:
+                mas.append(f"{len(discuten)} partidos donde la pagina y la fuente "
+                           f"citada no coinciden; se conserva el de la pagina: "
+                           + " | ".join(discuten[:3]))
+            importados += [validar.Aviso(f"{t.pagina}: llaves citadas a mano", d,
+                                         grave=False) for d in mas]
     for p in ps:
         p.local = equipos.canonizar(p.local, p.local_art)
         p.visita = equipos.canonizar(p.visita, p.visita_art)
@@ -1021,10 +987,9 @@ def procesar(texto: str, t) -> tuple[list, list]:
         avisos += [validar.Aviso(f"{t.pagina}: fechas citadas a mano", d, grave=False)
                    for d in fechas.completar(ps, citadas.ajenos(t.pagina),
                                              credito=citadas.CREDITO)[1]]
-    avisos += _completar_fechas_espn(ps, t, usadas) if t.espn else []
     # LAS FECHAS CORREGIDAS A MANO VAN AL FINAL, cuando ya paso todo el que
     # sabe fechar. La que hay que pisar muchas veces todavia no existe cuando
-    # corren las otras correcciones --la escribe RSSSF o ESPN un rato despues--,
+    # corren las otras correcciones --la escribe RSSSF un rato despues--,
     # asi que declararlas alla no engancharia nada. Ver `correcciones.Dia`.
     avisos += [validar.Aviso(f"{t.pagina}: fecha corregida a mano", d, grave=False)
                for d in correcciones.corregir_fechas(ps, t.pagina)]

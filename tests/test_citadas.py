@@ -43,7 +43,7 @@ def test_ninguna_cita_esta_repetida():
 
 
 def test_las_citas_van_como_ajeno_sin_jornada():
-    """`jornada=0` a proposito, igual que el feed de ESPN: la fuente rotula sus
+    """`jornada=0` a proposito: la fuente rotula sus
     fechas de otra manera que la pagina -- "1ra. Fase" contra "Fecha 1" -- asi que
     el identificador es el par de clubes."""
     a = citadas.ajenos("Torneo Argentino A 2004-05")
@@ -76,8 +76,8 @@ def test_el_marcador_verifica_la_fecha():
 
 
 def test_de_la_cita_sale_la_fecha_y_nada_mas():
-    """SOLO LA FECHA. La fuente es un blog, de otra categoria que RSSSF o ESPN, y
-    lo que la hace aceptable para este uso puntual es justamente que de aca no
+    """SOLO LA FECHA. La fuente es un blog, de otra categoria que RSSSF, y
+    lo que la hace aceptable para este uso puntual es justamente que de `FECHAS` no
     sale ni un marcador, ni una localia, ni un club. Y queda el credito puesto en
     la fila, que es como el dataset dice de donde salio cada fecha."""
     nuestro = Partido(local="Aldosivi", visita="Luján de Cuyo", goles_local=0,
@@ -158,6 +158,79 @@ def test_la_cita_que_sale_de_prensa_del_dia_le_gana_a_la_base_de_datos():
     assert c.fecha == "1994-03-19"
     assert c.fuente == citadas.CREDITO_P12, "el credito va por cita, no por modulo"
     assert datetime.date.fromisoformat(c.fecha).weekday() == 5, "sabado"
+
+
+# La fila de la pagina de la Primera C 2024 (revision 168386300), con el encabezado
+# de su tabla: las dos ultimas celdas --fecha y hora-- estan vacias, y lo estuvieron
+# siempre.
+_FECHA_19_DEL_CLAUSURA_2024 = """
+== Torneo Clausura ==
+=== Resultados ===
+{|class="wikitable collapsible collapsed" style="font-size: 95%; margin: 5px auto; text-align: center; width:100%;"
+!colspan=6|Fecha 19
+|-
+!width="19%"|Local
+!width="10%"|Resultado
+!width="19%"|Visitante
+!width="28%"|Estadio
+!width="14%"|Fecha
+!width="10%"|Hora
+|-
+|bgcolor=#D0E7FF|'''Luján
+|3 - 1
+|Victoriano Arenas
+|1.º de Abril
+|
+|
+|}
+
+== Final ==
+"""
+
+
+def test_la_fecha_que_la_pagina_nunca_escribio_sale_de_rsssf():
+    """`Luján 3-1 Victoriano Arenas`, Fecha 19 del Clausura de la Primera C 2024.
+
+    El testigo de afuera es el renglon del archivo, que este test no lee y que lo
+    puede contradecir. `arg2024`, Primera C, Torneo Clausura:
+
+        <U>Round 19</U>:
+        [Oct 26, Sat]
+        Club Luján     3- 1      CA Victoriano Arenas      Primero de Abril, Luján, B
+
+    Se exige que caiga en SABADO, que es lo que dice el corchete y lo que ataja el
+    error mas facil de cometer al copiar una fecha a mano: un digito.
+
+    Y que el credito sea el del ARCHIVO. El default del modulo es el blog de Jose
+    Carluccio, que esta fecha no la publico: una cita sin `fuente` le atribuiria a
+    el un dato de RSSSF, y `LICENSE-DATOS.md` le reconoceria al autor equivocado."""
+    import datetime
+
+    from fad import parser
+
+    pagina = "Campeonato de Primera C 2024 (Argentina)"
+    citas = citadas.FECHAS[pagina]
+    assert len(citas) == 1, "esta pagina tiene una sola cita y es esta"
+    assert datetime.date.fromisoformat(citas[0].fecha).weekday() == 5, "sabado"
+    assert citas[0].fuente == "https://www.rsssf.org/tablesa/arg2024.html"
+
+    ps = parser.partidos(_FECHA_19_DEL_CLAUSURA_2024, 2024, "Primera C")
+    assert [(p.fecha, p.local, p.visita, p.estadio) for p in ps] == [
+        ("", "Luján", "Victoriano Arenas", "1.º de Abril")], "la pagina no trae el dia"
+    # El otro cruce del anio, el del Apertura: mismos clubes, la localia al reves.
+    # No es el partido de la cita y no tiene que llevarse su fecha.
+    apertura = Partido(local="Victoriano Arenas", visita="Luján", goles_local=0,
+                       goles_visita=1, fase="zonas", jornada="Fecha 19",
+                       zona="Torneo Apertura", llave="Torneo Apertura")
+    puestas, avisos = fechas.completar(ps + [apertura], citadas.ajenos(pagina),
+                                       credito=citadas.CREDITO)
+    assert puestas == 1
+    assert avisos == ["1 partidos sin pareja en la otra fuente"], "el del Apertura"
+    assert (ps[0].fecha, ps[0].fuente_fecha) == (
+        "2024-10-26", "https://www.rsssf.org/tablesa/arg2024.html")
+    assert (ps[0].local, ps[0].goles_local, ps[0].goles_visita, ps[0].visita) == (
+        "Luján", 3, 1, "Victoriano Arenas"), "de la cita sale la fecha y nada mas"
+    assert apertura.fecha == ""
 
 
 def test_las_demas_citas_no_inventan_una_fuente():

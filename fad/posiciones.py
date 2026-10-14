@@ -1017,6 +1017,27 @@ def marcadores_del_cuadro(ps: list, texto: str, pagina: str = "",
     return set(fuera) if crudo else fuera
 
 
+def llaves_del_cuadro(texto: str, pagina: str = "") -> list[tuple[str, str, list]]:
+    """Los cruces del cuadro con los clubes ya canonicos: (clubA, clubB, patas).
+
+    `patas` va en el orden del cuadro --ida, vuelta-- y cada una es (goles de A,
+    goles de B). Es lo que `marcadores_del_cuadro` arma por dentro para comparar
+    contra la grilla, expuesto para quien necesita la pregunta al reves: no "que
+    marcador del cuadro le falta a la grilla" sino "que dice el cuadro de ESTE
+    cruce". La usan las llaves citadas a mano, que no entran si el cuadro no
+    publica su cruce con sus mismos marcadores; ver `citadas.segun_el_cuadro`.
+
+    Sigue sin decir quien fue local, por lo mismo que `parser.cruces_del_cuadro`:
+    el cuadro no lo sabe.
+    """
+    # Un club que el padron no conoce deja al cruce afuera: de ese nombre ya habla
+    # `fuera_del_cuadro`, y una llave citada que lo necesite no va a encontrar su
+    # cruce, que es lo que tiene que pasar.
+    return [(_canonico(na, aa, pagina), _canonico(nb, ab, pagina), list(patas))
+            for na, aa, nb, ab, patas in parser.cruces_del_cuadro(texto)
+            if equipos.buscar(na, aa) and equipos.buscar(nb, ab)]
+
+
 def _por_wikitabla(bloque: str, arts: dict[str, str],
                    descartadas: list | None = None) -> list[tuple[str, str, tuple[int, int, int]]]:
     """Las filas de una tabla escrita como wikitabla (`{| ... |}`).

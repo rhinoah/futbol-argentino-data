@@ -4032,22 +4032,6 @@ def renombrado(pagina: str, jornada: str, local: str, visita: str,
     return local, visita
 
 
-# La regla que zanja los tres desacuerdos de abajo. Va aparte porque es UNA
-# regla y no tres hallazgos: repetirla entera en cada entrada invita a leerla por
-# arriba, que es exactamente como se cuela una entrada que no la cumple.
-#
-# Y ojo con lo contrario, que ya paso: compartir el `porque` COMPLETO entre varias
-# entradas esconde a la que no describe. Cada una guarda su evidencia propia --que
-# partido fue, a que minuto se suspendio, quien lo publica-- y comparte solo esto.
-_CONVENCION = (
-    "NUESTRA FECHA ES LA BUENA POR LA REGLA QUE YA TIENE EL REPO: un partido que "
-    "empezo un dia y se completo otro lleva el PRIMERO, y por eso `_SE_JUGO` deja "
-    "`completo`, `reanudo` y `termino` afuera a proposito -- son 105 partidos. La "
-    "otra fuente fecha por el dia en que se completo; no es un error suyo, es otra "
-    "convencion. Y CONTAR CUANTAS FUENTES DICEN CADA COSA NO SIRVE cuando no estan "
-    "midiendo lo mismo.")
-
-
 @dataclass(frozen=True)
 class Fechado:
     """Un desacuerdo de DIA que se fue a verificar, y la fecha nuestra estaba bien.
@@ -4132,18 +4116,13 @@ FECHADOS: tuple[Fechado, ...] = (
     Fechado(pagina="Torneo Argentino A 2012-13", jornada="Cuarta fase",
             local="San Jorge (T)", visita="San Martín (T)",
             nuestra="2013-06-09", otra="2013-06-08", porque=_BLOG_2012_13_CUARTA),
-    # LOS CUATRO DE ABAJO SON EL MISMO CHOQUE, no cuatro hallazgos sueltos:
-    # partidos que empezaron un dia y se completaron otro. Los tres primeros
-    # aparecieron juntos al preguntarle al corpus cuantos desacuerdos de dia
-    # tenian una nota de completado que nombrara justo la fecha de la otra
-    # fuente; eran 3 de 34. El cuarto aparecio por otro camino y eso vale la
-    # pena: su pagina NO trae la nota, asi que ese chequeo no lo veia. Lo
-    # delato el TAMANIO del desacuerdo -- 16 dias, demasiado para una
-    # postergacion de fin de semana -- y lo confirmo la prensa de la epoca.
-    # EL UNICO DE LOS VEINTE QUE CAE PARA ESTE LADO, y por eso vale escribirlo:
-    # si el compendio le diera la razon a ESPN en los veinte seria
-    # indistinguible de una copia suya. Le da la razon a ESPN en dieciocho y a
-    # RSSSF --que es de donde sale la nuestra-- en este.
+    # HUBO SEIS MAS ACA ABAJO, y se fueron con la fuente que discutia. Eran los
+    # desacuerdos de dia contra el feed de ESPN que ya estaban verificados: cuatro
+    # partidos suspendidos que el feed fechaba por el dia en que se completaron
+    # --y este repo los fecha por el dia en que empezaron, ver `parser._SE_JUGO`--
+    # y dos donde un tercero le daba la razon a nuestra fecha. Al sacar el feed
+    # dejaron de enganchar con ningun desacuerdo, que es la condicion de salida que
+    # este tipo trae escrita: una verificacion que ya no calla nada no se guarda.
     Fechado(pagina="Campeonato de Primera B Nacional 2007-08", jornada="Fecha 19",
             local="Ferro Carril Oeste", visita="Independiente Rivadavia",
             nuestra="2008-02-28", otra="2008-02-29",
@@ -4160,95 +4139,6 @@ FECHADOS: tuple[Fechado, ...] = (
                    "un error de calendario. Vale decirlo porque es lo primero que uno "
                    "sospecha al ver un 29/02.\n"
                    + _CARL_BN_0708),
-    Fechado(pagina="Campeonato de Primera C 2010-11 (Argentina)", jornada="Fecha 20",
-            local="Defensores de Cambaceres", visita="Argentino de Merlo",
-            nuestra="2010-12-07", otra="2010-12-08",
-            porque="El compendio de Jose Carluccio, que arbitra los otros dieciocho "
-                   "desacuerdos de estas tres temporadas, en este dice lo mismo que "
-                   "nosotros: `07/12/2010 en Caniuelas: Defensores de Cambaceres 0, "
-                   "Argentino de Merlo 0`, con la nota `Se jugo en cancha de Caniuelas "
-                   "FC a puertas cerradas`. El 0-0 es el marcador de nuestra fila.\n"
-                   "No hay nada que corregir. Se anota igual porque el aviso volvia en "
-                   "cada corrida y el proximo que pasara lo investigaba de cero.\n"
-                   "http://josecarluccio.blogspot.com/2015/04/argentina-1ra-c-afa-201011.html"),
-    Fechado(pagina="Campeonato de Primera C 2008-09 (Argentina)", jornada="Fecha 3",
-            local="Excursionistas", visita="Argentino de Merlo",
-            nuestra="2008-08-18", otra="2008-09-03",
-            porque="Empezo el lunes 18 de agosto de 2008, se suspendio a los 25 "
-                   "minutos y se completo el miercoles 3 de septiembre, 0-0. La "
-                   "pagina no lo dice --de esta temporada no publica ni el dia--, "
-                   "asi que aca no hubo nota que leer: lo delato el TAMANIO del "
-                   "desacuerdo. Dieciseis dias no es una postergacion de fin de "
-                   "semana, que es lo que son los otros diecinueve de estas tres "
-                   "temporadas.\n"
-                   "LO CONFIRMA EL BLOG DE EXCURSIONISTAS, escrito EN EL MOMENTO y "
-                   "por lo tanto anterior a cualquier compilacion posterior. En "
-                   "agosto de 2008: `El miercoles 3/9 se continuara el partido "
-                   "suspendio con Argentino de Merlo, a partir de las 15:30 hs, los "
-                   "no socios tendran que tener la entrada de los 25 minutos jugados "
-                   "el 18/8`. Y en septiembre, la cronica: `Excursio 0 - Arg. de "
-                   "Merlo 0 / En la continuacion del partido suspendido el 18/8 "
-                   "Excursionistas no pudo con Argentino de Merlo`. El 0-0 es el "
-                   "marcador que tiene nuestra fila, que es lo que verifica que "
-                   "hablan del mismo partido.\n" + _CONVENCION + "\n"
-                   "https://excursio.blogspot.com/2008/09/"),
-    Fechado(pagina="Campeonato de Primera C 2024 (Argentina)", jornada="Fecha 14",
-            local="Claypole", visita="Berazategui",
-            nuestra="2024-09-24", otra="2024-11-06",
-            porque="Suspendido a los 36 minutos del primer tiempo, 0-0, por "
-                   "incidentes de la barra local, y completado seis semanas "
-                   "despues. La celda lo dice entera: `24 de septiembre{{refn|"
-                   "group=n.|Suspendido por incidentes provocados por "
-                   "simpatizantes locales, a los 36' del primer tiempo, con el "
-                   "resultado 0-0. Se completo el 6 de noviembre, desde las "
-                   "14:15.}}`, con cita a Perfil.\n"
-                   "RSSSF lo publica en DOS renglones, que es la lectura mas "
-                   "clara que hay: `[Sep 24, Tue] CA Claypole - AD Berazategui "
-                   "abandoned at 0-0 in 35m` y `[Nov 6, Wed] CA Claypole 0-2 AD "
-                   "Berazategui remaining 55m`.\n" + _CONVENCION + "\n"
-                   "https://www.rsssf.org/tablesa/arg2024.html"),
-    Fechado(pagina="Campeonato de Primera Nacional 2023", jornada="Fecha 6",
-            local="Gimnasia y Esgrima (J)", visita="Atl\u00e9tico de Rafaela",
-            nuestra="2023-03-17", otra="2023-03-18",
-            porque="Suspendido a los 15 minutos del primer tiempo por un corte "
-                   "del suministro electrico. La celda lo dice: `17 de marzo"
-                   "{{refn|group=n.|Suspendido a los 15 minutos del primer "
-                   "tiempo, por corte del suministro electrico. Se completo el "
-                   "18 de marzo, a partir de las 15:00.}}`, con cita a Rafaela "
-                   "Noticias.\n"
-                   "ESTA ENTRADA ESTUVO A PUNTO DE IRSE PARA EL OTRO LADO, como "
-                   "una correccion de fecha: Transfermarkt publica la ficha con "
-                   "`Sat, 18/03/23` y betexplorer da lo mismo, asi que parecian "
-                   "tres fuentes contra una. Las tres fechan por el dia en que "
-                   "se completo.\n" + _CONVENCION + "\n"
-                   "https://es.wikipedia.org/wiki/"
-                   "Campeonato_de_Primera_Nacional_2023"),
-    Fechado(pagina="Campeonato de Primera Nacional 2023", jornada="Primera fase",
-            local="Quilmes", visita="Gimnasia y Esgrima (M)",
-            nuestra="2023-10-28", otra="2023-11-04",
-            porque="Suspendido en el entretiempo, 0-0, por una agresion al "
-                   "arquero visitante desde la parcialidad local, y completado a "
-                   "puertas cerradas en cancha de Platense. La ficha lo dice en "
-                   "su campo `suceso`, con citas a TyC Sports y a Diario "
-                   "Popular: `Se completo el 4 de noviembre, a partir de las "
-                   "13:00, en el estadio Ciudad de Vicente Lopez, a puertas "
-                   "cerradas`.\n" + _CONVENCION + "\n"
-                   "https://es.wikipedia.org/wiki/"
-                   "Campeonato_de_Primera_Nacional_2023"),
-    Fechado(pagina="Campeonato de Primera Nacional 2023", jornada="Fecha 11",
-            local="Deportivo Madryn", visita="Atlético de Rafaela",
-            nuestra="2023-04-23", otra="2023-04-22",
-            porque="La previa de La Nacion, publicada el sabado 22 de abril de "
-                   "2023, dice `este domingo a las 15:30` en el Coliseo del Golfo. "
-                   "El domingo era el 23, asi que ESPN esta dando el dia en que se "
-                   "anuncio y no en el que se jugo.\n"
-                   "Ambito lo confirma del otro lado: publica la cronica el 23 a "
-                   "las 13:40 con el partido ya terminado --`At. Rafaela se lleva "
-                   "un triunfo`, gol de Mauro Osores a los 8 minutos--. Las dos "
-                   "son independientes de ESPN.\n"
-                   "https://www.lanacion.com.ar/deportes/futbol/deportivo-madryn-"
-                   "atletico-rafaela-primera-nacional-el-partido-de-la-jornada-11-"
-                   "nid22042023/"),
 )
 
 
@@ -4297,7 +4187,7 @@ class Dia:
 
     SE APLICA AL FINAL, despues de los completadores, y no en `aplicar` como las
     otras correcciones. No es un capricho: la fecha que hay que pisar muchas veces
-    todavia no existe cuando `aplicar` corre -- la escribe RSSSF o ESPN un rato
+    todavia no existe cuando `aplicar` corre -- la escribe RSSSF un rato
     despues --, asi que declarar `dice` contra una fila vacia no engancharia nada.
 
     Y `dice` se exige: es la verificacion de que la declaracion sigue hablando del
