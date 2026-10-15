@@ -2275,3 +2275,44 @@ def test_dos_paginas_que_no_coinciden_avisan_y_no_frenan(monkeypatch, tmp_path, 
     assert sorted(f["time"] for f in build.dataset.leer_carpeta(tmp_path / "data")) == [
         "15:00", "15:30"]
     assert "15:00 / 15:30" in capsys.readouterr().err
+
+
+# --------------------------------------------------------------------------
+# un partido en cancha neutral declarado a mano
+# --------------------------------------------------------------------------
+def _neutral(monkeypatch, dice=("Boca Juniors", "River Plate", 2, 1)):
+    from fad import correcciones
+    from fad.correcciones import Neutral
+    monkeypatch.setattr(correcciones, "NEUTRALES", (
+        Neutral(pagina=T.pagina, fecha="2026-01-23", dice=dice, porque="x" * 90),))
+
+
+def test_un_partido_declarado_neutral_sale_neutral(monkeypatch):
+    _neutral(monkeypatch)
+    ps, avisos = build.procesar(tabla(("Boca Juniors", "River Plate")), T)
+    assert [p.neutral for p in ps] == [True]
+    assert any("corregidos a mano" in a.que for a in avisos)
+    assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
+
+
+def test_un_neutral_que_ya_no_engancha_frena_el_build(monkeypatch):
+    """Como cualquier correccion: o la fuente cambio y hay que sacarlo, o esta
+    apuntando a otro partido."""
+    _neutral(monkeypatch, dice=("Boca Juniors", "River Plate", 9, 9))
+    ps, avisos = build.procesar(tabla(("Boca Juniors", "River Plate")), T)
+    assert [p.neutral for p in ps] == [None]
+    assert any(a.grave and "correccion que no aplica" in a.que and "neutral" in a.detalle
+               for a in avisos)
+
+
+def test_un_neutral_que_la_pagina_ya_marca_avisa_sin_frenar(monkeypatch):
+    """La pagina paso a rotular la tabla "Equipo 1 / Equipo 2": el dato sale bien con
+    la entrada o sin ella, asi que no se frena nada, pero se pide sacarla."""
+    _neutral(monkeypatch)
+    sin_local = (tabla(("Boca Juniors", "River Plate"))
+                 .replace("!Local", "!Equipo 1").replace("!Visitante", "!Equipo 2"))
+    ps, avisos = build.procesar(sin_local, T)
+    assert [p.neutral for p in ps] == [True]
+    sobra = [a for a in avisos if "neutral que la pagina ya marca" in a.que]
+    assert len(sobra) == 1 and not sobra[0].grave
+    assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]

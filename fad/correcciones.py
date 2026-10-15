@@ -2866,6 +2866,308 @@ COPIAS: tuple[Copia, ...] = (
 
 
 @dataclass(frozen=True)
+class Neutral:
+    """Un partido en cancha NEUTRAL que la pagina no marca donde el parser lo lee.
+
+    El parser marca `neutral` con lo que la pagina dice DEL PARTIDO: el encabezado
+    "Equipo 1 / Equipo 2" de una tabla, o la prosa de la seccion de una `{{Partido}}`
+    (ver `parser._la_seccion_dice_neutral`). Lo que no puede leer por regla es la
+    frase que habla de VARIAS rondas a la vez -- "Se jugo en cinco rondas (...) a un
+    solo partido en cancha neutral", en la entradilla de la fase o en la seccion de
+    formato --, porque esa misma clase de frase, leida por regla, marca mal: el
+    Apertura y el Clausura 2025 y el Apertura 2026 abren sus octavos, cuartos y semis
+    con "El partido final se jugo en campo neutral", y esos 42 -- 14 de cada torneo --
+    se jugaron en la cancha del local. Aca esa frase se lee a mano, partido por
+    partido.
+
+    NO CUMPLE LA CONDICION 1 DEL MODULO, y no la puede cumplir: la fuente no se
+    contradice, lo dice en otra seccion o -- en cinco -- no lo dice en ninguna. Lo
+    que la reemplaza es la vara de `Cancha` y `Copia`: la frase de la propia pagina,
+    citada, y la prensa que nombra la cancha, con su direccion. En 59 de los 60 la
+    cancha de la plantilla no es la de ninguno de los dos clubes; la otra es el
+    Kempes del River-Belgrano de 2023, neutral por reglamento en la ciudad de
+    Belgrano. Los 60 tienen un testigo de afuera: la cronica de ESE partido, o una
+    nota que habla de toda su ronda.
+
+    Se identifica por FECHA y no por jornada, porque varias de estas filas no tienen
+    `matchday`; con los dos clubes y el marcador, como `Correccion`. Si deja de
+    enganchar es grave, como cualquier correccion. Si la fila ya viene `neutral` --
+    la pagina paso a decirlo donde el parser lo lee --, la entrada sobra y se avisa
+    sin frenar nada: ver `neutrales_cumplidos`. Y solo MARCA, igual que el parser.
+    """
+    pagina: str
+    fecha: str                          # ISO
+    dice: tuple[str, str, int, int]     # local, visitante y goles, ya canonicos
+    porque: str
+
+
+def _neutrales_de(pagina: str, porque: str):
+    """Las entradas de una pagina comparten el testigo: es la misma frase para todas.
+
+    La cronica de un partido que la prensa de toda la ronda no cubre va en `prensa`,
+    y se suma al final del `porque` de ese partido solo.
+    """
+    def una(fecha: str, local: str, visita: str, gl: int, gv: int,
+            prensa: str = "") -> Neutral:
+        return Neutral(pagina=pagina, fecha=fecha, dice=(local, visita, gl, gv),
+                       porque=porque + ("\n" + prensa if prensa else ""))
+    return una
+
+
+_PN_2020 = "Campeonato Transición de Primera Nacional 2020"
+_REDUCIDO_PN_2020 = _neutrales_de(_PN_2020, (
+    "EL REDUCIDO ENTERO, Y LO DICE LA PAGINA PARA LAS CINCO RONDAS: `=== Etapa "
+    "eliminatoria ===` abre con 'Se jugo en cinco rondas (Primera instancia, Segunda "
+    "instancia, Tercera instancia, Semifinales y Final) por eliminacion directa, a un "
+    "solo partido en cancha neutral', y la seccion de formato repite 'a un solo "
+    "partido, en cancha neutral'. Las plantillas cuelgan de un titulo por ronda, asi "
+    "que la regla del parser no llega hasta esa frase. La cancha de las 18 no es de "
+    "ninguno de los dos clubes.\n"
+    "Goal, 'Reducido por el segundo ascenso de la Primera Nacional': 'la Primera "
+    "Instancia Eliminatoria, en cancha neutral y a partido unico' y 'la Segunda "
+    "Instancia Eliminatoria, tambien en escenario neutral y a un solo partido'. "
+    "https://www.goal.com/es-ar/noticias/reducido-segundo-ascenso-primera-nacional-"
+    "partidos-como-ver/c3j154tc4avr1k7iw4zkvgxrm\n"
+    "La final, Diario de Cuyo: 'Platense consumo anoche en el estadio Marcelo Bielsa, "
+    "de Rosario, el regreso a Primera Division'. "
+    "https://www.diariodecuyo.com.ar/noticias/platense-se-dio-el-gusto-80049.html"))
+_FINAL_PN_2020 = _neutrales_de(_PN_2020, (
+    "La final por el primer ascenso. La seccion de formato, `==== Final ====`: 'Se "
+    "disputo a un solo partido en cancha neutral'. Se jugo en el 15 de Abril, la "
+    "cancha de Union de Santa Fe. Goal: Sarmiento 'le gano por penales a Estudiantes de "
+    "Rio Cuarto en Santa Fe'. https://www.goal.com/es-ar/noticias/reducido-segundo-"
+    "ascenso-primera-nacional-partidos-como-ver/c3j154tc4avr1k7iw4zkvgxrm"))
+_REDUCIDO_PB_2020 = _neutrales_de("Campeonato Transición de Primera B 2020 (Argentina)", (
+    "LO DICE LA PAGINA PARA LAS TRES RONDAS: `=== Etapa eliminatoria ===` abre con 'Se "
+    "jugara en tres rondas (Primera ronda, Semifinales y Final) por eliminacion "
+    "directa, a un solo partido en cancha neutral', y la seccion de formato 'A partir "
+    "de esta fase se produjeron cruces por eliminacion directa, a un solo partido en "
+    "cancha neutral'. La cancha de las seis no es de ninguno de los dos clubes.\n"
+    "Infobae, de Tristan Suarez-Argentino de Quilmes: 'en el estadio Alfredo "
+    "Beranger', que es el de Temperley. https://www.infobae.com/america/agencias/2021/"
+    "01/10/por-la-cuartos-de-final-1-se-enfrentaran-tristan-suarez-y-arg-de-quilmes/\n"
+    "La final, La Nacion: 'El partido final se disputo en la cancha de Independiente'. "
+    "https://lanacion.com.ar/deportes/futbol/ascenso-tristan-suarez-jugara-primera-"
+    "nacional-ganarle-nid2582128"))
+_REDUCIDO_PC_2020 = _neutrales_de("Campeonato Transición de Primera C 2020 (Argentina)", (
+    "LO DICE LA PAGINA PARA LAS TRES RONDAS: `=== Etapa eliminatoria ===` abre con 'Se "
+    "jugo en tres rondas (Cuartos de final, Semifinales y Final) por eliminacion "
+    "directa, a un solo partido en cancha neutral', y la seccion de formato 'A partir "
+    "de esta instancia se produjeron cruces por eliminacion directa, a un solo partido "
+    "en cancha neutral'. La cancha de las siete no es de ninguno de los dos clubes.\n"
+    "Mundo Ascenso, de Real Pilar-Ituzaingo: 'sin poder hacer pie en el estadio "
+    "Arquitecto Ricardo Etcheverri', el de Ferro. "
+    "https://www.mundoascenso.com.ar/noticia/122807-fin-del-sueno\n"
+    "Solo Ascenso, 27/01/2021: 'Dock Sud le gano 1-0 a Ituzaingo en cancha de Quilmes', "
+    "y de la final, 'sera a partido unico en estadio neutral'. "
+    "https://www.soloascenso.com.ar/notas/dock-sud/gano-y-jugara-el-partido-decisivo-"
+    "por-el-ascenso/156581\n"
+    "La final, El Grafico: 'en cancha de Independiente de Avellaneda, Deportivo Merlo "
+    "le dio vuelta el partido a Dock Sud'. https://www.elgrafico.com.ar/articulo/"
+    "primera-division/37558/deportivo-maipu-y-deportivo-merlo-ascendieron-de-categoria"))
+_CLP_2020 = _neutrales_de("Copa de la Liga Profesional 2020", (
+    "`=== Finales ===`: la final de la Fase Campeon se jugo 'a un solo partido, en el "
+    "estadio San Juan del Bicentenario', y la de la Fase Complementacion 'tambien a un "
+    "solo partido y en cancha neutral'; `=== Copa Sudamericana 2022 ===`: el "
+    "clasificatorio fue 'a un solo partido en cancha neutral'. Las tres en San Juan, "
+    "que no es la cancha de ninguno de los seis.\n"
+    "Diario de Cuyo, 10/01/2021: 'En el Estadio del Bicentenario, el Xeneize y el "
+    "Taladro jugaran por el titulo'. https://www.diariodecuyo.com.ar/pasiondeportiva/"
+    "En-San-Juan-Boca-y-Banfield-definiran-al-campeon-de-la-Copa-Diego-Maradona-"
+    "20210110-0074.html\n"
+    "14/01/2021: 'Velez y Rosario Central, la otra final que se disputara en San Juan'. "
+    "https://diariodecuyo.com.ar/pasiondeportiva/Velez-y-Rosario-Central-la-otra-final-"
+    "que-se-disputara-en-San-Juan-20210114-0069.html\n"
+    "25/03/2021: 'Velez y Banfield jugaran en San Juan por un lugar en la Copa "
+    "Sudamericana'. https://diariodecuyo.com.ar/pasiondeportiva/Velez-y-Banfield-"
+    "jugaran-en-San-Juan-por-un-lugar-en-la-Copa-Sudamericana-20210325-0042.html"))
+_CLP_2021 = _neutrales_de("Copa de la Liga Profesional 2021", (
+    "`=== Fase final ===`: 'Los cruces fueron a un solo partido, en los cuartos de "
+    "final en el estadio del mejor ubicado en la competencia, en las semifinales y la "
+    "final, en cancha neutral'. Por eso van las semifinales y la final y NO los "
+    "cuartos.\n"
+    "Diario de Cuyo: 'Ambos partidos se disputaran en el estadio San Juan del "
+    "Bicentenario', y la final, reprogramada al viernes 4, 'en el mismo escenario'. "
+    "https://www.diariodecuyo.com.ar/noticias/sorteo-de-semis-y-cambio-para-la-final-"
+    "146904.html"))
+_CLP_2022 = _neutrales_de("Copa de la Liga Profesional 2022", (
+    "`=== Fase final ===`: 'En los cuartos de final, se jugo en el estadio del equipo "
+    "mejor clasificado, mientras que las semifinales y la final se disputaron en cancha "
+    "neutral'. Por eso van las semifinales y la final y NO los cuartos.\n"
+    "Buenos Aires Times: 'Both semi-finals on neutral ground', y la final 'in "
+    "Cordoba's Estadio Mario Kempes'. https://batimes.com.ar/news/sports/boca-end-"
+    "racings-hopes-of-copa-glory-but-will-fear-tigre.phtml"))
+_CLP_2023 = _neutrales_de("Copa de la Liga Profesional 2023", (
+    "`=== Fase final ===`: 'Se desarrollo en tres rondas de eliminacion directa, a "
+    "partido unico, que se jugaron en cancha neutral', y `=== Sedes ===`: 'En esta "
+    "etapa, los partidos se desarrollaron en sedes neutrales'.\n"
+    "Goal: 'esta vez la totalidad de los partidos de los Playoffs se juegan en estadio "
+    "neutral'. La misma nota explica el River-Belgrano del Kempes, que se jugo en la "
+    "ciudad de Belgrano: 'River es \"local\" en la ciudad de su rival'. "
+    "https://www.goal.com/es-ar/"
+    "noticias/por-que-river-belgrano-estadio-mario-kempes-cordoba-sede-neutral-copa-"
+    "liga-profesional/blt4a8c761b0308f089"))
+_CLP_2024 = _neutrales_de("Copa de la Liga Profesional 2024", (
+    "`=== Fase final ===`: 'Se desarrollo en tres rondas de eliminacion directa, a "
+    "partido unico, que se jugaron en cancha neutral', y `=== Sedes ===`: 'En esta "
+    "etapa, los partidos se desarrollaron en sedes neutrales'.\n"
+    "El Economista, de los cuartos: 'en el estadio Florencio Sola de Banfield', 'en el "
+    "Ciudad de Vicente Lopez', 'en el estadio Unico de Villa Mercedes' y 'en el estadio "
+    "Mario Alberto Kempes de Cordoba'. https://eleconomista.com.ar/deportes/cuando-"
+    "donde-juegan-cuartos-final-copa-liga-2024-n72805\n"
+    "La Capital, de las semifinales y la final: 'Boca y Estudiantes de La Plata se "
+    "enfrentaran el martes, a las 20, en Cordoba y, por el otro lado, Velez y "
+    "Argentinos Juniors lo haran en San Nicolas', y 'la final se disputara el domingo "
+    "5 de mayo a las 15.30 en el estadio Unico de Santiago del Estero'.https://www.lacapital.com.ar/ovacion/copa-la-liga-"
+    "confirmadas-las-semifinales-boca-y-estudiantes-cordoba-n10130139.html/amp"))
+_TRIANGULAR_2008 = _neutrales_de("Anexo:Torneo Apertura 2008 (Argentina)", (
+    "EL TRIANGULAR QUE DEFINIO EL TITULO, y la pagina no dice nada de la cancha: lo "
+    "dicen las plantillas, que ponen los tres partidos en el Amalfitani y en el "
+    "Cilindro, de Velez y de Racing. Pagina/12, 17/12/2008: 'Esta tarde, en Liniers, "
+    "comienza el triangular'. https://www.pagina12.com.ar/diario/deportes/"
+    "8-116861-2008-12-17.html\n"
+    "20/12/2008: 'El partido, que se jugara desde las 18.30 en el estadio de Racing'. "
+    "https://www.pagina12.com.ar/imprimir/diario/deportes/8-117067-2008-12-20.html\n"
+    "23/12/2008, de Boca-Tigre: 'Estadio: Racing'. "
+    "https://www.pagina12.com.ar/diario/deportes/8-117215-2008-12-23.html"))
+
+
+NEUTRALES: tuple[Neutral, ...] = (
+    _REDUCIDO_PN_2020("2021-01-17", "Defensores de Belgrano", "Instituto", 2, 0),
+    _REDUCIDO_PN_2020("2021-01-17", "Atlanta", "San Martín (T)", 2, 2),
+    _REDUCIDO_PN_2020("2021-01-17", "Gimnasia y Esgrima (M)", "Ferro Carril Oeste", 1, 4),
+    _REDUCIDO_PN_2020("2021-01-17", "Deportivo Morón", "Villa Dálmine", 2, 1),
+    _REDUCIDO_PN_2020("2021-01-17", "Estudiantes (BA)", "Barracas Central", 2, 2),
+    _REDUCIDO_PN_2020("2021-01-17", "Tigre", "San Martín (SJ)", 1, 1),
+    _REDUCIDO_PN_2020("2021-01-17", "Deportivo Riestra", "Temperley", 1, 0),
+    _REDUCIDO_PN_2020("2021-01-17", "Agropecuario", "Quilmes", 0, 1),
+    _REDUCIDO_PN_2020("2021-01-21", "Estudiantes (BA)", "San Martín (SJ)", 3, 1),
+    _REDUCIDO_PN_2020("2021-01-21", "Deportivo Morón", "Deportivo Riestra", 0, 1),
+    _REDUCIDO_PN_2020("2021-01-21", "Atlanta", "Ferro Carril Oeste", 2, 1),
+    _REDUCIDO_PN_2020("2021-01-21", "Defensores de Belgrano", "Quilmes", 0, 1),
+    _REDUCIDO_PN_2020("2021-01-24", "Atlético de Rafaela", "Quilmes", 2, 2, (
+        "Este partido, El Grafico, 24/01/2021: 'Partidazo disputado entre Atletico de "
+        "Rafaela y Quilmes en el Marcelo Bielsa de Rosario'. https://www.elgrafico.com.ar/"
+        "articulo/primera-division/37420/despues-de-22-penales-rafaela-elimino-a-quilmes")),
+    _REDUCIDO_PN_2020("2021-01-24", "Estudiantes (BA)", "Atlanta", 1, 0, (
+        "Este partido, La Arena, 25/01/2021: 'En cancha de Tigre, el equipo de Caseros se "
+        "llevo el triunfo y la clasificacion'; la plantilla lo pone en el Jose "
+        "Dellagiovanna, la cancha de Tigre. https://www.laarena.com.ar/deportes/"
+        "2021-1-25-0-56-54-estudiantes-gano-y-clasifico")),
+    _REDUCIDO_PN_2020("2021-01-24", "Platense", "Deportivo Riestra", 0, 0, (
+        "Este partido, Diario Hoy, 25/01/2021: 'luego de que el partido finalizara igualado "
+        "sin goles, en cancha de Estudiantes de Buenos Aires'. https://diariohoy.net/"
+        "el-clasico/platense-vencio-por-penales-a-deportivo-riestra-y-definio-los-cruces-"
+        "de-las-semifinales-153253")),
+    _REDUCIDO_PN_2020("2021-01-27", "Estudiantes (RC)", "Estudiantes (BA)", 1, 0, (
+        "Este partido, La Nacion, 27/01/2021: 'en un encuentro jugado el miercoles en el "
+        "estadio de Rosario Central'. https://www.lanacion.com.ar/deportes/futbol/"
+        "estudiantes-rio-cuarto-estudiantes-caseros-primera-nacional-nid2584162/")),
+    _REDUCIDO_PN_2020("2021-01-27", "Atlético de Rafaela", "Platense", 0, 2, (
+        "Este partido, La Capital, 27/01/2021: 'En cancha de Newell's, el equipo de Vicente "
+        "Lopez quedo a 90 minutos de regresar a la maxima categoria'. "
+        "https://www.lacapital.com.ar/ovacion/el-otro-finalista-platense-vencio-atletico-"
+        "rafaela-y-suena-volver-primera-n2638535.html")),
+    _REDUCIDO_PN_2020("2021-01-31", "Estudiantes (RC)", "Platense", 1, 1),
+    _FINAL_PN_2020("2021-01-16", "Sarmiento (J)", "Estudiantes (RC)", 1, 1),
+
+    _REDUCIDO_PB_2020("2021-01-11", "Tristán Suárez", "Argentino de Quilmes", 1, 1),
+    _REDUCIDO_PB_2020("2021-01-11", "Villa San Carlos", "San Telmo", 2, 4, (
+        "Este partido, El Dia, 13/01/2021: 'se termino ayer, en Sarandi, tras perder por 4-2 "
+        "con San Telmo'; la cancha de Sarandi es el Julio Humberto Grondona, la de Arsenal. "
+        "https://www.eldia.com/nota/2021-1-13-5-15-35-la-ilusion-de-san-carlos-se-termino-"
+        "en-sarandi-deportes")),
+    _REDUCIDO_PB_2020("2021-01-11", "Comunicaciones", "Acassuso", 2, 0, (
+        "Este partido, Mundo Ascenso, 12/01/2021: 'en un encuentro disputado en el estadio "
+        "Cuidad de Caseros' (sic), el de Estudiantes (BA). https://www.mundoascenso.com.ar/"
+        "noticia/122471-el-cartero-paso-a-semifinales")),
+    _REDUCIDO_PB_2020("2021-01-18", "Tristán Suárez", "Comunicaciones", 1, 0, (
+        "Este partido, Solo Ascenso, 19/01/2021: 'Fue una tarde de tension y nervios en el "
+        "Estadio de Ferro'. https://www.soloascenso.com.ar/notas/tristan-suarez/"
+        "tristan-suarez-barrio-a-comunicaciones-y-es-finalista/156219")),
+    _REDUCIDO_PB_2020("2021-01-18", "J. J. de Urquiza", "San Telmo", 0, 4, (
+        "Este partido, Doble Amarilla, 18/01/2021: 'El Candombero le gano por 4-0 a JJ "
+        "Urquiza en un partido accidentado en Sarandi', en la cancha de Arsenal. "
+        "https://www.dobleamarilla.com.ar/ascenso-e-interior/tristan-suarez-y-san-telmo-"
+        "jugaran-la-final-por-el-segundo-ascenso-en-la-b-metropolitana_"
+        "a600642e5d0960b0442d283fc")),
+    _REDUCIDO_PB_2020("2021-01-25", "Tristán Suárez", "San Telmo", 1, 0),
+
+    _REDUCIDO_PC_2020("2021-01-23", "Real Pilar", "Ituzaingó", 0, 0),
+    _REDUCIDO_PC_2020("2021-01-23", "Dock Sud", "Luján", 1, 1, (
+        "Este partido, Mundo Ascenso, 27/01/2021, en la previa de la semifinal: 'Igualdad "
+        "ante Lujan por 1 a 1, en cancha de Moron', el Nuevo Francisco Urbano. "
+        "https://www.mundoascenso.com.ar/noticia/122918-el-docke-y-el-verde-van-por-todo")),
+    _REDUCIDO_PC_2020("2021-01-23", "General Lamadrid", "Deportivo Laferrere", 2, 2, (
+        "Este partido, Diario Hoy, 24/01/2021: 'luego de empatar 2-2 en el choque disputado "
+        "en Munro', donde esta el Libertarios Unidos, la cancha de Colegiales. "
+        "https://diariohoy.net/el-clasico/estan-los-cuatro-mejores-de-la-primera-c-153161")),
+    _REDUCIDO_PC_2020("2021-01-23", "Argentino de Merlo", "Deportivo Merlo", 1, 3, (
+        "Este partido, la sintesis de Solo Ascenso: 'Estadio: Tres de Febrero (Almagro)'. "
+        "https://www.soloascenso.com.ar/sintesis/argentino-de-merlo-deportivo-merlo/27186")),
+    _REDUCIDO_PC_2020("2021-01-27", "Dock Sud", "Ituzaingó", 1, 0),
+    _REDUCIDO_PC_2020("2021-01-27", "General Lamadrid", "Deportivo Merlo", 2, 2, (
+        "Este partido, Solo Ascenso, 28/01/2021: 'En cancha de Temperley, el Charro igualo "
+        "2-2 ante Lama en los 90 minutos'. https://www.soloascenso.com.ar/notas/"
+        "deportivo-merlo/merlo-vencio-por-penales-a-lamadrid-y-paso-a-la-final/156604")),
+    _REDUCIDO_PC_2020("2021-01-31", "Dock Sud", "Deportivo Merlo", 1, 2),
+
+    _CLP_2020("2021-01-17", "Boca Juniors", "Banfield", 1, 1),
+    _CLP_2020("2021-01-16", "Rosario Central", "Vélez Sarsfield", 1, 3),
+    _CLP_2020("2021-03-31", "Banfield", "Vélez Sarsfield", 3, 2),
+
+    _CLP_2021("2021-05-31", "Racing Club", "Boca Juniors", 0, 0),
+    _CLP_2021("2021-05-31", "Colón", "Independiente", 2, 0),
+    _CLP_2021("2021-06-04", "Colón", "Racing Club", 3, 0),
+
+    _CLP_2022("2022-05-14", "Racing Club", "Boca Juniors", 0, 0),
+    _CLP_2022("2022-05-15", "Tigre", "Argentinos Juniors", 1, 1),
+    _CLP_2022("2022-05-22", "Boca Juniors", "Tigre", 3, 0),
+
+    _CLP_2023("2023-12-02", "Huracán", "Platense", 1, 1),
+    _CLP_2023("2023-12-02", "Godoy Cruz", "Banfield", 0, 0),
+    _CLP_2023("2023-12-03", "River Plate", "Belgrano", 2, 1),
+    _CLP_2023("2023-12-03", "Racing Club", "Rosario Central", 2, 2),
+    _CLP_2023("2023-12-09", "Platense", "Godoy Cruz", 1, 1),
+    _CLP_2023("2023-12-09", "Rosario Central", "River Plate", 0, 0),
+    _CLP_2023("2023-12-16", "Platense", "Rosario Central", 0, 1),
+
+    _CLP_2024("2024-04-20", "Argentinos Juniors", "Defensa y Justicia", 1, 1),
+    _CLP_2024("2024-04-20", "Estudiantes (LP)", "Barracas Central", 3, 0),
+    _CLP_2024("2024-04-20", "Godoy Cruz", "Vélez Sarsfield", 1, 2),
+    _CLP_2024("2024-04-21", "River Plate", "Boca Juniors", 2, 3),
+    _CLP_2024("2024-04-28", "Argentinos Juniors", "Vélez Sarsfield", 0, 0),
+    _CLP_2024("2024-04-30", "Estudiantes (LP)", "Boca Juniors", 1, 1),
+    _CLP_2024("2024-05-05", "Estudiantes (LP)", "Vélez Sarsfield", 1, 1),
+
+    _TRIANGULAR_2008("2008-12-17", "Tigre", "San Lorenzo", 1, 2),
+    _TRIANGULAR_2008("2008-12-20", "San Lorenzo", "Boca Juniors", 1, 3),
+    _TRIANGULAR_2008("2008-12-23", "Boca Juniors", "Tigre", 0, 1),
+
+    Neutral(
+        pagina="Campeonato de Primera C 2023 (Argentina)", fecha="2023-10-14",
+        dice=("Excursionistas", "San Martín (B)", 1, 0),
+        porque=(
+            "El desempate del primer puesto. La pagina no dice nada de la cancha; la "
+            "plantilla lo pone en el Estadio Unico Diego Armando Maradona, en La Plata, "
+            "que no es de ninguno de los dos. El Grafico, 14/10/2023: 'El Verde derroto "
+            "1-0 a San Martin de Burzaco en el Estadio Diego Armando Maradona de La "
+            "Plata'. https://www.elgrafico.com.ar/articulo/futbol-de-ascenso/70215/"
+            "%C2%A1excursionistas-se-consagro-campeon-de-la-primera-c!")),
+    Neutral(
+        pagina="Torneo Federal A 2026", fecha="2026-09-27",
+        dice=("Círculo Deportivo", "Sol de Mayo (V)", 1, 1),
+        porque=(
+            "El desempate del octavo puesto de la Zona B, por la permanencia. La pagina "
+            "no dice nada de la cancha; la plantilla lo pone en El Fortin, en Bahia "
+            "Blanca, que es la cancha de Villa Mitre. Diario Jornada, 27/09/2026: 'Sol "
+            "de Mayo vivio una jornada dolorosa en el Fortin de Villa Mitre'. "
+            "https://diariojornada.com.ar/424256/deportes/"
+            "sol_de_mayo_descendio_al_argentino_del_interior")),
+)
+
+
+@dataclass(frozen=True)
 class Reemplazo:
     """Una fila que no es una version equivocada de un partido: es OTRO partido.
 
@@ -4016,6 +4318,29 @@ def marcadores_cumplidos(pagina: str, ps: list) -> list[str]:
             and _la_pagina_ya_lo_dice(m, ps)]
 
 
+def _los_de(n: Neutral, ps: list) -> list:
+    """Las filas que `n` identifica: misma fecha, mismos clubes, mismo marcador."""
+    local, visita, gl, gv = n.dice
+    return [p for p in ps if p.fecha == n.fecha and p.local == local
+            and p.visita == visita and (p.goles_local, p.goles_visita) == (gl, gv)]
+
+
+def neutrales_cumplidos(pagina: str, ps: list) -> list[str]:
+    """Los `Neutral` de esta pagina cuya fila YA viene marcada.
+
+    Es el `marcadores_cumplidos` de esta familia, y por lo mismo corre ANTES que
+    `aplicar`, que es quien marca: despues, una declaracion que se aplico y una que
+    sobraba se ven igual. Sobra cuando la pagina paso a decirlo donde el parser lo
+    lee -- un "Equipo 1 / Equipo 2", o la frase en la seccion de la plantilla --, y
+    eso NO es grave: el dato sale bien con la entrada o sin ella. Pero una entrada
+    que no hace nada es un permiso abierto, asi que se pide sacarla.
+    """
+    return [f"el partido neutral del {n.fecha} ({n.dice[0]} vs {n.dice[1]}) YA NO HACE "
+            f"FALTA: la pagina lo marca sola. Sacalo de fad/correcciones.py"
+            for n in NEUTRALES
+            if n.pagina == pagina and any(p.neutral is True for p in _los_de(n, ps))]
+
+
 def revisados_huerfanos(pagina: str, desviados, llaves: set | None = None) -> list[str]:
     """Los `Revisado` de esta pagina que ya no enganchan con el desvio que dicen.
 
@@ -4937,6 +5262,21 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
             continue
         candidatos[0].estadio = c.debe
         aplicadas += 1
+
+    for n in NEUTRALES:
+        if n.pagina != pagina:
+            continue
+        cuales = _los_de(n, ps)
+        if len(cuales) != 1:
+            avisos.append(f"el partido neutral del {n.fecha} ({n.dice[0]} vs {n.dice[1]}) "
+                          f"engancha con {len(cuales)} partidos y no se aplica: si la "
+                          f"fuente se corrigio, sacalo de fad/correcciones.py")
+            continue
+        # Si ya viene marcado no hay nada que hacer aca: lo denuncia, sin frenar,
+        # `neutrales_cumplidos`.
+        if cuales[0].neutral is not True:
+            cuales[0].neutral = True
+            aplicadas += 1
 
     for r in REEMPLAZOS:
         if r.pagina != pagina:

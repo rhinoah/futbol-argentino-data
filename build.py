@@ -945,6 +945,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # filas, asi que despues un arbitraje aplicado y uno que la pagina alcanzo sola
     # se ven igual. Ver `correcciones.marcadores_cumplidos`.
     cumplidos = correcciones.marcadores_cumplidos(t.pagina, ps)
+    # Y por lo mismo, los `Neutral` que la pagina ya marca sola.
+    neutrales_de_mas = correcciones.neutrales_cumplidos(t.pagina, ps)
     arregladas, dudas = correcciones.aplicar(ps, t.pagina)
     # Lo que ven los chequeos de tabla. Igual al texto salvo para un torneo que
     # comparte la pagina de la temporada con otro; ver `Torneo.seccion`.
@@ -1166,6 +1168,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # sin ella. Lo unico que hay que hacer es sacarla, y eso no corre apuro.
     avisos += [validar.Aviso("un arbitraje que la fuente alcanzo", d, grave=False)
                for d in cumplidos]
+    avisos += [validar.Aviso("un partido neutral que la pagina ya marca", d, grave=False)
+               for d in neutrales_de_mas]
     return ps, avisos
 
 

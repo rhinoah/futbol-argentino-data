@@ -816,3 +816,102 @@ def test_las_copias_declaradas_estan_justificadas():
             assert equipos.buscar(n) is not None, f"{n!r} no esta en el padron"
         if c.campo == "time":
             assert "http" in c.porque, f"{c.fecha} {c.local}: una hora pide testigo citado"
+
+
+# --------------------------------------------------------------------------
+# Neutral: la frase que habla de varias rondas, leida a mano
+# --------------------------------------------------------------------------
+from fad.correcciones import Neutral  # noqa: E402
+
+UN_NEUTRAL = Neutral(pagina="Una Pagina", fecha="2009-10-29",
+                     dice=("All Boys", "Belgrano", 2, 1), porque="de prueba")
+
+
+def _con_neutral(monkeypatch, *ns):
+    monkeypatch.setattr(correcciones, "NEUTRALES", ns)
+
+
+def test_un_partido_declarado_neutral_se_marca(monkeypatch):
+    _con_neutral(monkeypatch, UN_NEUTRAL)
+    ps = [partido("All Boys", "Belgrano", 2, 1)]
+    assert correcciones.aplicar(ps, "Una Pagina") == (1, [])
+    assert ps[0].neutral is True
+
+
+def test_el_neutral_se_identifica_por_fecha_clubes_y_marcador(monkeypatch):
+    """Con los cuatro campos no cae sobre otro partido: la ida y la vuelta de una
+    llave tienen los mismos clubes, y el mismo par puede cruzarse otro dia. Y el
+    mismo dia hay otros partidos de la ronda con el mismo marcador, de un club de los
+    dos con otro rival."""
+    _con_neutral(monkeypatch, UN_NEUTRAL)
+    otros = [partido("All Boys", "Belgrano", 1, 1),                     # otro marcador
+             partido("Belgrano", "All Boys", 2, 1),                     # al reves
+             replace(partido("All Boys", "Belgrano", 2, 1), fecha="2009-11-05"),
+             partido("Atlanta", "Belgrano", 2, 1),                      # otro local
+             partido("All Boys", "Atlanta", 2, 1)]                      # otro visitante
+    for p in otros:
+        n, avisos = correcciones.aplicar([p], "Una Pagina")
+        assert n == 0 and p.neutral is None
+        assert len(avisos) == 1 and "engancha con 0" in avisos[0]
+
+
+def test_el_neutral_no_pide_la_jornada(monkeypatch):
+    """Varias de las filas declaradas no tienen `matchday`: el desempate de la
+    Primera C 2023, el triangular de 2008."""
+    _con_neutral(monkeypatch, UN_NEUTRAL)
+    ps = [partido("All Boys", "Belgrano", 2, 1, jornada="")]
+    assert correcciones.aplicar(ps, "Una Pagina") == (1, [])
+    assert ps[0].neutral is True
+
+
+def test_un_neutral_que_engancha_con_dos_no_marca_ninguno(monkeypatch):
+    _con_neutral(monkeypatch, UN_NEUTRAL)
+    ps = [partido("All Boys", "Belgrano", 2, 1), partido("All Boys", "Belgrano", 2, 1)]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 0 and [p.neutral for p in ps] == [None, None]
+    assert len(avisos) == 1 and "engancha con 2" in avisos[0]
+
+
+def test_un_neutral_no_sale_de_su_pagina(monkeypatch):
+    _con_neutral(monkeypatch, UN_NEUTRAL)
+    ps = [partido("All Boys", "Belgrano", 2, 1)]
+    assert correcciones.aplicar(ps, "Otra Pagina") == (0, [])
+    assert ps[0].neutral is None
+
+
+def test_el_neutral_que_la_pagina_ya_marca_sobra_sin_ser_grave(monkeypatch):
+    """Si la pagina pasa a decirlo donde el parser lo lee, la entrada no hace nada:
+    no se cuenta ni se denuncia como grave, y se pide sacarla."""
+    _con_neutral(monkeypatch, UN_NEUTRAL)
+    p = partido("All Boys", "Belgrano", 2, 1)
+    p.neutral = True
+    dichos = correcciones.neutrales_cumplidos("Una Pagina", [p])
+    assert len(dichos) == 1 and "YA NO HACE FALTA" in dichos[0]
+    assert correcciones.aplicar([p], "Una Pagina") == (0, [])
+    assert correcciones.neutrales_cumplidos("Otra Pagina", [p]) == []
+
+
+def test_los_neutrales_cumplidos_se_preguntan_ANTES_de_aplicar(monkeypatch):
+    """Despues de `aplicar` una declaracion aplicada y una que sobraba se ven igual."""
+    _con_neutral(monkeypatch, UN_NEUTRAL)
+    ps = [partido("All Boys", "Belgrano", 2, 1)]
+    assert correcciones.neutrales_cumplidos("Una Pagina", ps) == []
+    correcciones.aplicar(ps, "Una Pagina")
+    assert correcciones.neutrales_cumplidos("Una Pagina", ps)
+
+
+def test_los_neutrales_declarados_citan_su_testigo():
+    """La frase de la pagina o la prensa, citadas y con su direccion; una pagina del
+    catalogo, nombres del padron, y ninguno declarado dos veces."""
+    from fad import equipos, torneos
+    paginas = {t.pagina for t in torneos.TODOS}
+    vistos = set()
+    for n in correcciones.NEUTRALES:
+        assert n.pagina in paginas, n.pagina
+        assert len(n.porque) > 150, f"{n.fecha} {n.dice}: la evidencia es muy flaca"
+        assert "http" in n.porque and "'" in n.porque, f"{n.fecha} {n.dice}: falta la cita"
+        for club in n.dice[:2]:
+            assert equipos.buscar(club) is not None, f"{club!r} no esta en el padron"
+        clave = (n.pagina, n.fecha) + n.dice[:2]
+        assert clave not in vistos, f"declarado dos veces: {clave}"
+        vistos.add(clave)

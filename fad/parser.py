@@ -337,10 +337,21 @@ MES_INICIO_HABITUAL = 8
 _SE_JUGO = re.compile(
     r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron)\s+(?:el\s+)?"
     r"(\d{1,2}\s*de\s+[a-záéíóúñ]+(?:\s*de\s+\d{4})?)")
+# La misma frase EN FUTURO, que es como la escribe una pagina en curso antes de que
+# el partido se juegue, y a veces la deja: "Suspendido por las condiciones
+# climaticas. Se jugará el 2 de diciembre, a la misma hora". Es un plan y no un
+# hecho, asi que NO fecha nada (ver `_FECHADO_EL_DIA_REPROGRAMADO`, que lo midio en
+# las tablas) y `_fecha_de_la_nota` no la usa salvo que se la pidan. La pide el
+# lector de `{{Partido}}`, y solo para saber que el dia y la hora de `fecha` son los
+# de un partido que ese dia no se jugo.
+_SE_JUGARA = re.compile(
+    r"(?i)se\s+(?:jugar[aá]n?|disputar[aá]n?)\s+(?:el\s+)?"
+    r"(\d{1,2}\s*de\s+[a-záéíóúñ]+(?:\s*de\s+\d{4})?)")
 
 
 def _fecha_de_la_nota(fila: str, anio: int, anio_fin: int | None,
-                      mes_inicio: int, programada: str = "") -> str:
+                      mes_inicio: int, programada: str = "",
+                      regla: re.Pattern = _SE_JUGO) -> str:
     """La fecha en que se jugo de verdad, cuando la nota al pie la dice.
 
     Se lee de la FILA cruda y no de la celda, por dos motivos. Uno, que para
@@ -349,8 +360,10 @@ def _fecha_de_la_nota(fila: str, anio: int, anio_fin: int | None,
     fecha, de la del resultado o de la del estadio, y en las tres esta hablando
     del mismo partido. Sacarla de la fila las agarra a las tres sin que el texto
     de la nota se meta en la columna de la que colgaba.
+
+    `regla` es la frase que se busca: "se jugo el", salvo que se pida otra.
     """
-    m = _SE_JUGO.search(fila)
+    m = regla.search(fila)
     if not m:
         return ""
     jugada = a_iso(m.group(1), anio, anio_fin, mes_inicio)
@@ -769,16 +782,25 @@ def _cuerpos_de_cuadro(texto: str):
             i += 1
 
 
-def _parametros(cuerpo: str) -> list[list[str]]:
+def _parametros(cuerpo: str, nivel: int = 1, renglones: bool = False) -> list[list[str]]:
     """(nombre, valor) de cada parametro, partiendo por `|` A NIVEL CERO.
 
     Partir por cualquier `|` rompe los wikilinks: `[[Arsenal Fútbol Club|Arsenal]]`
     queda en dos, y el club pasa a llamarse "[[Arsenal Fútbol Club". Y cortar en el
     fin de linea tampoco sirve, porque la mitad de los cuadros escriben varios
     parametros en el mismo renglon.
+
+    `nivel` es a que profundidad de llaves viven los parametros: 1 si `cuerpo`
+    trae la apertura de la plantilla (el cuadro), 0 si ya viene sin ella (la
+    `{{Partido}}`, que `_plantillas_partido` entrega pelada).
+
+    `renglones` es el respaldo de la `{{Partido}}` contra un `[[` que no cierra:
+    ver `_RENGLON_DE_PARAMETRO`.
     """
     partes, buf, hondo_l, hondo_p, i = [], [], 0, 0, 0
     while i < len(cuerpo):
+        if renglones and _RENGLON_DE_PARAMETRO.match(cuerpo, i):
+            hondo_l = 0
         for abre, cierra, cual in (("[[", "]]", "l"), ("{{", "}}", "p")):
             if cuerpo.startswith(abre, i):
                 if cual == "l":
@@ -798,8 +820,9 @@ def _parametros(cuerpo: str) -> list[list[str]]:
                 break
         else:
             # El cuadro entero es UNA plantilla, asi que sus propios parametros
-            # viven a profundidad 1, no 0.
-            if cuerpo[i] == "|" and hondo_l <= 0 and hondo_p <= 1:
+            # viven a profundidad 1, no 0. La `{{Partido}}` llega sin su apertura
+            # y los suyos viven en 0: eso es `nivel`.
+            if cuerpo[i] == "|" and hondo_l <= 0 and hondo_p <= nivel:
                 partes.append("".join(buf))
                 buf = []
             else:
@@ -1588,6 +1611,23 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
 # paginas del catalogo y 284 partidos de eliminacion que se caian en silencio,
 # la mayoria de ellas con la fase eliminatoria ENTERA afuera.
 _ARRANQUE_PARTIDO = re.compile(r"\{\{\s*Partidos?\s*\n", re.I)
+# Un comentario de wikitexto. No se renderiza, asi que lo que tenga adentro --un
+# parametro comentado, por ejemplo-- no es parte de la plantilla.
+_COMENTARIO = re.compile(r"<!--.*?-->", re.S)
+# EL RESPALDO DEL CORTE A NIVEL CERO. Contar `[[` tiene un costo que partir por
+# renglon no tenia: un enlace que no cierra -- `|árbitro = [[Fulano` -- deja la
+# profundidad arriba de cero hasta el final del cuerpo, ningun `|` corta, y lo que
+# sigue queda pegado a ese parametro. Si `resultado` viene despues, el partido se
+# descarta sin aviso, y partiendo por renglon se leia. Por eso cada renglon que
+# arranca con `|` cierra los enlaces que quedaron abiertos: un wikilink no cruza un
+# renglon de parametro, y el `[[` roto se lleva a lo sumo el resto de SU renglon.
+#
+# Las llaves `{{` NO se reinician, porque esas si cruzan renglones: una `{{Cita web`
+# escrita en varias lineas adentro de una nota trae su propio `|fecha=`, y si cortara
+# ahi, la fecha de la cita pisaria a la del partido. Medido sobre las 752 plantillas
+# de la cache, con las paginas en curso de hoy: no cambia ningun campo. Ninguna tiene
+# hoy un enlace sin cerrar; es un respaldo.
+_RENGLON_DE_PARAMETRO = re.compile(r"\n\s*\|")
 
 
 def _plantillas_partido(texto: str):
@@ -1625,29 +1665,144 @@ def _plantillas_partido(texto: str):
             yield m.start(), texto[m.end():i - 2]
 
 
+# LA HORA DE UNA `{{Partido}}`. La plantilla tiene un campo `hora` y casi nadie lo
+# usa: de las 514 con resultado del catalogo, 511 escriben la hora ADENTRO de `fecha`,
+# pegada al dia -- `21 de diciembre, 17:00`, `9 de junio de 2013 - 15:00 hs.`,
+# `{{fecha|17|1|2021}}, 22:10 ([[UTC-3]])` -- y solo tres, las del Apertura 2008, usan
+# el campo. Sin leerla, la fase final de 46 paginas salia sin hora con la hora a la
+# vista: 504 filas. Medido el 15/10/2026, con las paginas en curso de ese dia.
+#
+# El campo `hora`, cuando esta, es una celda de hora como la de las tablas, y se lee
+# igual: con `_hora`, que deja como figura lo que no empieza con una hora valida.
+#
+# Adentro de `fecha` NO se puede hacer eso. Lo que sobra al sacar el dia no es una
+# celda de hora mal escrita: es un pedazo de la fecha (`de 2013 -`, `hs.`,
+# `(UTC-3)`) o el `--:--` que la pagina pone mientras el partido no tiene horario.
+# Publicarlo en `time` seria decir que eso es la hora. Asi que se toma UNA hora
+# valida y nada mas: sin ninguna, o con dos -- no se sabe cual es la del partido --,
+# queda vacia, que en el dataset quiere decir "la pagina no la dijo".
+#
+# Se lee del texto LIMPIO: las notas al pie se van antes de buscar, y una nota que
+# cuente "estaba programado a las 15:00" no es la hora del partido.
+#
+# Y "una hora" quiere decir HH:MM suelta, por los dos lados. Adelante no puede seguir
+# otro digito ni otros dos puntos: `17:00:00` no es una hora de la forma que se lee,
+# y sin esa guarda daba `17:00`. Atras no puede haber un digito, dos puntos o un
+# punto (de `17:00:00` saldria `00:00`), ni un signo: `UTC-03:00` es un huso, no
+# una hora, y sin el signo `17:00 (UTC-03:00)` daba dos horas y quedaba vacia. Hoy
+# ninguna plantilla del catalogo escribe el huso asi -- todas ponen `UTC-3` --, y
+# ninguna cambia.
+_HORA_EN_LA_FECHA = re.compile(r"(?<![\d:.+\-−])(\d{1,2}:\d{2})(?![\d:])")
+
+
+def _hora_de_la_plantilla(campos: dict[str, str]) -> str:
+    if campos.get("hora", "").strip():
+        return _hora(limpiar(campos["hora"]))
+    horas = _HORA_EN_LA_FECHA.findall(limpiar(campos.get("fecha", "")))
+    return horas[0] if len(horas) == 1 else ""
+
+
+# Como dice una plantilla que el partido fue en cancha NEUTRAL. La tabla tiene
+# su encabezado -- "Equipo 1 / Equipo 2" --, la plantilla no tiene ninguno: lo
+# unico que lo dice es la PROSA de su seccion, y la pagina la escribe siempre
+# igual, "La disputaron ... a un solo partido, en sede neutral". Era el
+# `Sarmiento (LB) - Los Andes` del tercer ascenso 2024, que salia `false` en las
+# dos paginas que lo publican con la frase escrita arriba de la plantilla.
+#
+# EL ALCANCE ES LA SECCION DEL PARTIDO, Y NADA MAS. Se mira la prosa que va del
+# titulo mas cercano hasta la plantilla y, si ese titulo es uno de relleno
+# (`==== Partido ====`, `=== Partidos de ida ===`), la entradilla de la seccion
+# que lo contiene, que es donde la pagina pone la frase cuando cuelga la
+# plantilla de un subtitulo. No se sube mas: la entradilla de una fase entera
+# habla de varias rondas a la vez. El Apertura y el Clausura 2025 y el Apertura
+# 2026 abren `== Octavos y cuartos de final, semifinales y final ==` con "en la
+# sede del mejor ubicado... El partido final se jugo en campo neutral", y subiendo
+# hasta ahi se marcaban sus 42 partidos que no son la final -- 14 de cada torneo --,
+# jugados todos en la cancha del local. Medido sobre las 514 plantillas con
+# resultado: asi marca 14, las 14 en cancha neutral, y deja afuera 60 que tambien
+# lo fueron pero cuya frase vive en la seccion de formato o en ninguna parte. Esas
+# van declaradas, una por una: ver `correcciones.Neutral`.
+#
+# Los comentarios HTML se sacan antes de leer, titulos incluidos: las paginas en
+# curso dejan comentada la seccion de la final que todavia no se jugo, con la
+# frase de la cancha adentro.
+_DICE_NEUTRAL = re.compile(r"(?i)\bneutral(es)?\b")
+_TITULO_DE_RELLENO = re.compile(r"(?i)^partidos?(\s+de\s+(ida|vuelta))?$")
+_REFERENCIA = re.compile(r"<ref[^>/]*/>|<ref[^>]*>.*?</ref>", re.S | re.I)
+_PLANTILLA_SIN_ANIDAR = re.compile(r"\{\{[^{}]*\}\}")
+
+
+def _prosa(trozo: str) -> str:
+    """El texto sin comentarios, sin referencias y sin plantillas.
+
+    Las plantillas se sacan de adentro hacia afuera, asi que tambien se van los
+    cuerpos de las otras `{{Partido}}` de la seccion: lo que queda es lo que la
+    pagina dice con palabras.
+    """
+    trozo = _REFERENCIA.sub(" ", _COMENTARIO.sub(" ", trozo))
+    while (sin := _PLANTILLA_SIN_ANIDAR.sub(" ", trozo)) != trozo:
+        trozo = sin
+    return trozo
+
+
+def _la_seccion_dice_neutral(pos: int, texto: str, visible: str) -> bool:
+    """Si la seccion de la plantilla que esta en `pos` dice que fue en cancha neutral.
+
+    `visible` es `texto` con los comentarios en blanco, del mismo largo: los
+    titulos se buscan ahi para que uno comentado no cuente.
+    """
+    arriba = list(_TITULO.finditer(visible[:pos]))
+    if not arriba:
+        return False
+    cerca = arriba[-1]
+    if _DICE_NEUTRAL.search(_prosa(texto[cerca.end():pos])):
+        return True
+    if not _TITULO_DE_RELLENO.match(limpiar(cerca.group(2))):
+        return False
+    padre = next((m for m in reversed(arriba[:-1])
+                  if len(m.group(1)) < len(cerca.group(1))), None)
+    if padre is None:
+        return False
+    hasta = next((m.start() for m in arriba if m.start() > padre.start()), pos)
+    return bool(_DICE_NEUTRAL.search(_prosa(texto[padre.end():hasta])))
+
+
 def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | None = None,
                            mes_inicio: int = MES_INICIO_HABITUAL,
                        arts: dict[str, str] | None = None) -> list[Partido]:
     titulos = _titulos_de_ronda(texto)
     arts = arts or articulos_de_la_pagina(texto)
+    visible = _COMENTARIO.sub(lambda m: " " * len(m.group(0)), texto)
     partidos: list[Partido] = []
     # Una pagina puede traer VARIOS cuadros: la final del campeonato, el torneo
     # reducido y la definicion de un ascenso son tres eliminaciones distintas que
     # no se encadenan entre si. Cual es cual lo dice la seccion de nivel 2.
     for pos, cuerpo in _plantillas_partido(texto):
-        campos = {}
-        # Se corta con `\n\s*\|` y no con `\n|`: hay paginas que INDENTAN los
-        # parametros (`\n  |local=`), y ahi el corte no cortaba nada. El cuerpo
-        # entero quedaba como UN solo campo llamado `local`, no habia
-        # `resultado`, y la plantilla se descartaba sin ruido en el `continue`
-        # de abajo. Son 15 plantillas en tres paginas -- las Copas de la Liga
-        # 2021, 2022 y 2023 -- y con ellas se caian sus fases finales enteras:
-        # cuartos, semifinales y final.
-        for linea in re.split(r"\n\s*\|", cuerpo):
-            if "=" not in linea:
-                continue
-            k, v = linea.split("=", 1)
-            campos[k.strip().lstrip("|").lower()] = v.strip()
+        # Se corta por `|` A NIVEL CERO -- el mismo `_parametros` del cuadro -- y
+        # no por renglon. Partir el renglon ya habia fallado una vez: con `\n|`
+        # no cortaba nada cuando la pagina INDENTA los parametros (`\n  |local=`),
+        # y las 15 plantillas de las Copas de la Liga 2021, 2022 y 2023 se
+        # descartaban enteras, con sus fases finales adentro. Con `\n\s*\|` eso
+        # se arreglo y quedo el otro lado: un parametro que arranca en el MISMO
+        # renglon que el anterior no se ve. La Primera B 2021 escribe
+        # `|fecha =21 de noviembre, 17:00 |estadio = Estadio Ramón Roque Martín`,
+        # y las dos llaves del reducido de ese dia salian sin `venue`, con la
+        # cancha pegada a la fecha cruda. El `|` de nivel cero corta donde sea
+        # que este, y el de un `[[destino|texto]]` o un `{{gol|43}}` no corta.
+        #
+        # Los comentarios se sacan ANTES de cortar, que es lo que hace MediaWiki:
+        # no son parte de la plantilla. La Primera C 2025 deja comentadas las
+        # patadas de dos tandas (`<!--|penaltis1 = ...-->`), y partiendo por
+        # nivel cero esos parametros comentados pasaban a existir. Se sacan del
+        # cuerpo entero y no solo para cortar, porque de ese cuerpo se lee mas
+        # abajo si el partido se jugo otro dia, y lo que esta comentado tampoco
+        # lo dice la pagina.
+        #
+        # Y con un respaldo que partir por renglon tenia gratis: un `[[` que no
+        # cierra no se traga los renglones que siguen. Ver `_RENGLON_DE_PARAMETRO`.
+        cuerpo = _COMENTARIO.sub("", cuerpo)
+        campos = {k.strip().lower(): v.strip()
+                  for k, v in _parametros(cuerpo, nivel=0, renglones=True)}
 
         goles = _marcador(limpiar(campos.get("resultado", "")))
         if not goles:
@@ -1655,9 +1810,38 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
         # OJO: los penales NO salen de los parentesis de `resultado` (eso es el
         # entretiempo). Ver el docstring del modulo.
         pen = _marcador(limpiar(campos.get("resultado penalti", "")))
+        programada = (_fecha_de_plantilla(campos.get("fecha", ""))
+                      or a_iso(limpiar(campos.get("fecha", "")), anio, anio_fin, mes_inicio))
+        # SI LA PLANTILLA DICE QUE SE JUGO OTRO DIA, lo que hay en `fecha` es el
+        # programado, hora incluida. La final de la Primera C 2018-19 trae `fecha =
+        # 15 de junio, 15:00` y `suceso = Suspendido por las condiciones climaticas.
+        # Se jugo el 22 de junio, a partir de las 14:30`: las 15:00 son la hora de un
+        # partido que no se jugo. La nota se busca en el cuerpo entero y con la regla
+        # de las tablas: "se completo" no cuenta, porque ese partido SI empezo el dia
+        # y a la hora de `fecha`. Y si la nota repite el dia de `fecha`, la pagina ya
+        # lo corrigio.
+        #
+        # TAMBIEN EN FUTURO. `Acassuso 1-0 Villa San Carlos`, cuartos de la Primera B
+        # 2025, trae `fecha = 29 de noviembre, 17:00` y "Se jugará el 2 de diciembre,
+        # a la misma hora": la pagina escribio la nota antes del partido y la dejo
+        # asi. El 29 se suspendio antes de empezar, con la cancha anegada, y se jugo el
+        # martes 2. Sin la forma en futuro la fila publicaba las 17:00 de un dia en
+        # que no hubo partido, mientras `Deportivo Armenio - Sportivo Italiano`, del
+        # mismo dia y con la nota en pasado, quedaba vacia.
+        #
+        # Son 9 plantillas del catalogo y las 9 quedan sin hora: 8 en pasado y esa en
+        # futuro. En 3 la del programado no es la del jugado; en las otras 6 la nota
+        # dice "a la misma hora" o la repite, pero eso ya es leer la nota y no `fecha`.
+        #
+        # El DIA no se toca, y en esas 9 sigue siendo el programado. Leerlo de la
+        # nota es lo que ya hacen las tablas, pero aca mueve la clave (fecha, local,
+        # visitante) de filas de torneos cerrados, y eso pide su propia medicion.
+        jugada = (_fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada)
+                  or _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada,
+                                       regla=_SE_JUGARA))
         partidos.append(Partido(
-            fecha=(_fecha_de_plantilla(campos.get("fecha", ""))
-                   or a_iso(limpiar(campos.get("fecha", "")), anio, anio_fin, mes_inicio)),
+            fecha=programada,
+            hora="" if jugada not in ("", programada) else _hora_de_la_plantilla(campos),
             local=limpiar(campos.get("local", "")),
             visita=limpiar(campos.get("visita", "")),
             goles_local=goles[0], goles_visita=goles[1],
@@ -1669,7 +1853,10 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
             visita_art=arts.get(limpiar(campos.get("visita", "")), ""),
             llave=_contexto(pos, 3, texto),
             estadio=limpiar(campos.get("estadio", "")),
-            fecha_cruda=limpiar(campos.get("fecha", ""))))
+            fecha_cruda=limpiar(campos.get("fecha", "")),
+            # Igual que en las tablas, solo se MARCA: una seccion que no dice
+            # nada no afirma que el partido fue en la cancha del local.
+            neutral=True if _la_seccion_dice_neutral(pos, texto, visible) else None))
     return partidos
 
 

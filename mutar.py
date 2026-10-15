@@ -967,9 +967,9 @@ MUTANTES = [
      "    y = int(m.group(3)) if m.group(3) else (anio if (anio_fin is None or mes >= 8) else anio_fin)"),
 
     ("fad/parser.py", "no leer la fecha que viene en {{fecha|D|M|Y}}",
-     '            fecha=(_fecha_de_plantilla(campos.get("fecha", ""))\n'
-     '                   or a_iso(limpiar(campos.get("fecha", "")), anio, anio_fin, mes_inicio)),',
-     '            fecha=a_iso(limpiar(campos.get("fecha", "")), anio, anio_fin, mes_inicio),'),
+     '        programada = (_fecha_de_plantilla(campos.get("fecha", ""))\n'
+     '                      or a_iso(limpiar(campos.get("fecha", "")), anio, anio_fin, mes_inicio))',
+     '        programada = a_iso(limpiar(campos.get("fecha", "")), anio, anio_fin, mes_inicio)'),
 
     ("fad/parser.py", "tratar un enlace a archivo como si fuera texto",
      '    s = re.sub(r"\\[\\[\\s*(?:Archivo|File|Imagen|Image)\\s*:[^\\]]*\\]\\]", "", s, flags=re.I)',
@@ -2179,8 +2179,30 @@ MUTANTES = [
      "                    yield texto[m.start():i]"),
 
     ("fad/parser.py", "partir los parametros del cuadro por cualquier pipe",
-     '            if cuerpo[i] == "|" and hondo_l <= 0 and hondo_p <= 1:',
+     '            if cuerpo[i] == "|" and hondo_l <= 0 and hondo_p <= nivel:',
      '            if cuerpo[i] == "|":'),
+
+    ("fad/parser.py", "partir los parametros de {{Partido}} por renglon",
+     '                  for k, v in _parametros(cuerpo, nivel=0, renglones=True)}',
+     '                  for k, v in (x.split("=", 1) for x in '
+     're.split(r"\\n\\s*\\|", "\\n" + cuerpo) if "=" in x)}'),
+
+    ("fad/parser.py", "leer los parametros comentados de {{Partido}}",
+     '        cuerpo = _COMENTARIO.sub("", cuerpo)',
+     "        cuerpo = cuerpo"),
+
+    ("fad/parser.py", "partir la {{Partido}} adentro de sus plantillas anidadas",
+     '                  for k, v in _parametros(cuerpo, nivel=0, renglones=True)}',
+     '                  for k, v in _parametros(cuerpo, nivel=1, renglones=True)}'),
+
+    ("fad/parser.py", "dejar que un `[[` sin cerrar se trague los renglones que siguen",
+     "        if renglones and _RENGLON_DE_PARAMETRO.match(cuerpo, i):",
+     "        if False:"),
+
+    ("fad/parser.py", "reiniciar tambien las llaves en cada renglon de parametro",
+     "        if renglones and _RENGLON_DE_PARAMETRO.match(cuerpo, i):\n            hondo_l = 0",
+     "        if renglones and _RENGLON_DE_PARAMETRO.match(cuerpo, i):\n"
+     "            hondo_l = hondo_p = 0"),
 
     ("fad/parser.py", "tomar por club las marcas del cuadro (w/o, penales)",
      '            if not club or _NO_ES_CLUB.match(club) or re.fullmatch(r\"[\\d\\s.:-]*\", club):',
@@ -2802,6 +2824,173 @@ MUTANTES = [
      '        print(f"  aviso: {a}", file=sys.stderr)',
      "    if dataset.reconciliar_copias(filas, correcciones.COPIAS, frozenset(leidas)):\n"
      "        return 1"),
+
+    # La hora de las {{Partido}}: la que viene pegada a la fecha, la del campo `hora`,
+    # y la del programado cuando la plantilla dice que se jugo otro dia.
+    ("fad/parser.py", "no leer la hora que la plantilla escribe en `fecha`",
+     '    horas = _HORA_EN_LA_FECHA.findall(limpiar(campos.get("fecha", "")))',
+     "    horas = []"),
+
+    ("fad/parser.py", "buscar la hora de la plantilla con las notas al pie adentro",
+     '    horas = _HORA_EN_LA_FECHA.findall(limpiar(campos.get("fecha", "")))',
+     '    horas = _HORA_EN_LA_FECHA.findall(campos.get("fecha", ""))'),
+
+    ("fad/parser.py", "quedarse con la primera de dos horas en `fecha`",
+     '    return horas[0] if len(horas) == 1 else ""',
+     '    return horas[0] if horas else ""'),
+
+    ("fad/parser.py", "no leer el campo `hora` de la plantilla",
+     '    if campos.get("hora", "").strip():',
+     "    if False:"),
+
+    ("fad/parser.py", "publicar la hora del programado de un partido que se jugo otro dia",
+     '            hora="" if jugada not in ("", programada) else _hora_de_la_plantilla(campos),',
+     "            hora=_hora_de_la_plantilla(campos),"),
+
+    ("fad/parser.py", "vaciar la hora aunque la nota repita el dia de `fecha`",
+     '            hora="" if jugada not in ("", programada) else _hora_de_la_plantilla(campos),',
+     '            hora="" if jugada else _hora_de_la_plantilla(campos),'),
+
+    ("fad/parser.py", "no ver la nota que dice que el partido se jugara otro dia",
+     "        jugada = (_fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada)\n"
+     "                  or _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada,\n"
+     "                                       regla=_SE_JUGARA))",
+     "        jugada = _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada)"),
+
+    ("fad/parser.py", "buscar la nota en futuro sin el dia programado",
+     "                  or _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada,\n",
+     '                  or _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, "",\n'),
+
+    ("fad/parser.py", "no ver el plural de la nota en futuro",
+     r'''    r"(?i)se\s+(?:jugar[aá]n?|disputar[aá]n?)\s+(?:el\s+)?"''',
+     r'''    r"(?i)se\s+(?:jugar[aá]|disputar[aá]n?)\s+(?:el\s+)?"'''),
+
+    ("fad/parser.py", "no ver la nota en futuro con disputara",
+     r'''    r"(?i)se\s+(?:jugar[aá]n?|disputar[aá]n?)\s+(?:el\s+)?"''',
+     r'''    r"(?i)se\s+(?:jugar[aá]n?)\s+(?:el\s+)?"'''),
+
+    ("fad/parser.py", "pedirle la tilde a la nota en futuro",
+     r'''    r"(?i)se\s+(?:jugar[aá]n?|disputar[aá]n?)\s+(?:el\s+)?"''',
+     r'''    r"(?i)se\s+(?:jugarán?|disputar[aá]n?)\s+(?:el\s+)?"'''),
+
+    ("fad/parser.py", "no reconocer el renglon de parametro indentado",
+     r'''_RENGLON_DE_PARAMETRO = re.compile(r"\n\s*\|")''',
+     r'''_RENGLON_DE_PARAMETRO = re.compile(r"\n\|")'''),
+
+    ("fad/parser.py", "buscar la nota de la plantilla sin el dia programado",
+     "        jugada = (_fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada)\n",
+     "        jugada = (_fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio)\n"),
+
+    ("fad/parser.py", "leer la hora de `fecha` sin guardas",
+     r'_HORA_EN_LA_FECHA = re.compile(r"(?<![\d:.+\-−])(\d{1,2}:\d{2})(?![\d:])")',
+     r'_HORA_EN_LA_FECHA = re.compile(r"(\d{1,2}:\d{2})")'),
+
+    ("fad/parser.py", "leer la hora de `fecha` sin la guarda de atras",
+     r'_HORA_EN_LA_FECHA = re.compile(r"(?<![\d:.+\-−])(\d{1,2}:\d{2})(?![\d:])")',
+     r'_HORA_EN_LA_FECHA = re.compile(r"(\d{1,2}:\d{2})(?![\d:])")'),
+
+    ("fad/parser.py", "leer la hora de `fecha` sin la guarda de adelante",
+     r'_HORA_EN_LA_FECHA = re.compile(r"(?<![\d:.+\-−])(\d{1,2}:\d{2})(?![\d:])")',
+     r'_HORA_EN_LA_FECHA = re.compile(r"(?<![\d:.+\-−])(\d{1,2}:\d{2})")'),
+
+    ("fad/parser.py", "tomar el huso de `fecha` por una hora",
+     r'_HORA_EN_LA_FECHA = re.compile(r"(?<![\d:.+\-−])(\d{1,2}:\d{2})(?![\d:])")',
+     r'_HORA_EN_LA_FECHA = re.compile(r"(?<![\d:.])(\d{1,2}:\d{2})(?![\d:])")'),
+
+    ("fad/parser.py", "leer el campo `hora` sin `_hora`",
+     '        return _hora(limpiar(campos["hora"]))',
+     '        return limpiar(campos["hora"])'),
+
+    # La cancha neutral de las {{Partido}}: la frase de su seccion, sin subir a la
+    # entradilla de una fase entera y sin leer lo comentado.
+    ("fad/parser.py", "no marcar neutral la plantilla cuya seccion lo dice",
+     "            neutral=True if _la_seccion_dice_neutral(pos, texto, visible) else None))",
+     "            neutral=None))"),
+
+    ("fad/parser.py", "no subir de un titulo de relleno a la entradilla de su seccion",
+     "    if not _TITULO_DE_RELLENO.match(limpiar(cerca.group(2))):\n        return False",
+     "    if True:\n        return False"),
+
+    ("fad/parser.py", "tomar de padre el titulo anterior aunque no sea de nivel menor",
+     "                  if len(m.group(1)) < len(cerca.group(1))), None)",
+     "                  if True), None)"),
+
+    ("fad/parser.py", "estirar la entradilla del padre hasta la plantilla",
+     "    hasta = next((m.start() for m in arriba if m.start() > padre.start()), pos)",
+     "    hasta = pos"),
+
+    ("fad/parser.py", "contar los titulos comentados",
+     '    visible = _COMENTARIO.sub(lambda m: " " * len(m.group(0)), texto)',
+     "    visible = texto"),
+
+    ("fad/parser.py", "leer la prosa comentada",
+     '    trozo = _REFERENCIA.sub(" ", _COMENTARIO.sub(" ", trozo))',
+     '    trozo = _REFERENCIA.sub(" ", trozo)'),
+
+    ("fad/parser.py", "leer la prosa de las notas al pie",
+     '    trozo = _REFERENCIA.sub(" ", _COMENTARIO.sub(" ", trozo))',
+     '    trozo = _COMENTARIO.sub(" ", trozo)'),
+
+    ("fad/parser.py", "leer la prosa de adentro de las plantillas",
+     '    while (sin := _PLANTILLA_SIN_ANIDAR.sub(" ", trozo)) != trozo:',
+     "    while (sin := trozo) != trozo:"),
+
+    ("fad/parser.py", "leer `neutral` adentro de otra palabra",
+     r'_DICE_NEUTRAL = re.compile(r"(?i)\bneutral(es)?\b")',
+     r'_DICE_NEUTRAL = re.compile(r"(?i)neutral")'),
+
+    ("fad/parser.py", "no tomar `Partido de ida` ni `de vuelta` por titulos de relleno",
+     r'_TITULO_DE_RELLENO = re.compile(r"(?i)^partidos?(\s+de\s+(ida|vuelta))?$")',
+     r'_TITULO_DE_RELLENO = re.compile(r"(?i)^partidos?$")'),
+
+    ("fad/parser.py", "tomar por relleno cualquier titulo que empiece con `Partido`",
+     r'_TITULO_DE_RELLENO = re.compile(r"(?i)^partidos?(\s+de\s+(ida|vuelta))?$")',
+     r'_TITULO_DE_RELLENO = re.compile(r"(?i)^partidos?")'),
+
+    ("fad/parser.py", "sacar los comentarios del primer `<!--` al ultimo `-->`",
+     r'_COMENTARIO = re.compile(r"<!--.*?-->", re.S)',
+     r'_COMENTARIO = re.compile(r"<!--.*-->", re.S)'),
+
+    ("fad/parser.py", "leer una nota autocerrada como si abriera otra",
+     r'_REFERENCIA = re.compile(r"<ref[^>/]*/>|<ref[^>]*>.*?</ref>", re.S | re.I)',
+     r'_REFERENCIA = re.compile(r"<ref[^>]*>.*?</ref>", re.S | re.I)'),
+
+    ("fad/parser.py", "dar por neutral la plantilla que no tiene titulo arriba",
+     "    if not arriba:\n        return False\n    cerca = arriba[-1]",
+     "    if not arriba:\n        return True\n    cerca = arriba[-1]"),
+
+    # Y la que no se puede leer por regla, declarada a mano.
+    ("fad/correcciones.py", "no marcar los partidos declarados neutrales",
+     "            cuales[0].neutral = True",
+     "            pass"),
+
+    ("fad/correcciones.py", "identificar el partido neutral sin la fecha",
+     "    return [p for p in ps if p.fecha == n.fecha and p.local == local",
+     "    return [p for p in ps if p.local == local"),
+
+    ("fad/correcciones.py", "identificar el partido neutral sin el marcador",
+     "            and p.visita == visita and (p.goles_local, p.goles_visita) == (gl, gv)]",
+     "            and p.visita == visita]"),
+
+    ("fad/correcciones.py", "identificar el partido neutral sin el local",
+     "    return [p for p in ps if p.fecha == n.fecha and p.local == local",
+     "    return [p for p in ps if p.fecha == n.fecha"),
+
+    ("fad/correcciones.py", "identificar el partido neutral sin el visitante",
+     "            and p.visita == visita and (p.goles_local, p.goles_visita) == (gl, gv)]",
+     "            and (p.goles_local, p.goles_visita) == (gl, gv)]"),
+
+    ("fad/correcciones.py", "no avisar el neutral declarado que la pagina ya marca",
+     "            if n.pagina == pagina and any(p.neutral is True for p in _los_de(n, ps))]",
+     "            if False]"),
+
+    ("build.py", "no preguntar por los neutrales declarados que sobran",
+     "    neutrales_de_mas = correcciones.neutrales_cumplidos(t.pagina, ps)",
+     "    neutrales_de_mas = []"),
+
+    ("build.py", "hacer grave el neutral declarado que sobra",
+     'validar.Aviso("un partido neutral que la pagina ya marca", d, grave=False)',
+     'validar.Aviso("un partido neutral que la pagina ya marca", d)'),
 
 ]
 

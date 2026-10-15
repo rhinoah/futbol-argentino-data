@@ -844,6 +844,12 @@ def test_y_lo_veria_si_una_copia_cerrada_dijera_otra_hora(publicadas):
     (("2021-02-04", "San Telmo", "Deportivo Madryn"), "time", "21:30"),
     (("2021-02-04", "San Telmo", "Deportivo Madryn"), "venue", "Marcelo Bielsa"),
     (("2021-02-04", "San Telmo", "Deportivo Madryn"), "neutral", "true"),
+    # Cadena 3, 18/12/2024: «Se enfrentarán este sábado a las 17 en el estadio Julio
+    # César Villagra». Las dos paginas lo escriben con `{{Partidos}}`, en `fecha`.
+    (("2024-12-21", "Sarmiento (LB)", "Los Andes"), "time", "17:00"),
+    # Sitio Andino: «una final que se desarrolló en el estadio de Belgrano de Córdoba».
+    # Las dos paginas lo dicen en la seccion del partido: «en estadio neutral».
+    (("2024-12-21", "Sarmiento (LB)", "Los Andes"), "neutral", "true"),
 ])
 def test_lo_que_dicen_las_dos_copias_lo_dice_un_testigo_de_afuera(publicadas, clave, campo,
                                                                    valor):
@@ -851,3 +857,29 @@ def test_lo_que_dicen_las_dos_copias_lo_dice_un_testigo_de_afuera(publicadas, cl
     valores los decide un testigo que no es ninguna de las dos paginas, y se los
     escribe aca para que una fuente de afuera los pueda contradecir."""
     assert [f[campo] for f in publicadas[clave]] == [valor, valor]
+
+
+def test_los_partidos_declarados_neutrales_salen_neutrales():
+    """Lo mismo que `test_lo_declarado_es_lo_que_se_publica`, para
+    `correcciones.NEUTRALES`: se aplican al rehacer, y el CSV es lo que queda. Mira
+    solo los torneos cerrados; los de uno en curso los aplica el bot despues de la
+    suite."""
+    from fad import correcciones, torneos
+    filas = dataset.leer_carpeta(DATOS)
+    if not filas:
+        pytest.skip("hace falta el dataset")
+    cerradas = {t.pagina: t.url for t in torneos.TODOS if t.cerrado}
+    por_partido: dict[tuple, list] = {}
+    for f in filas:
+        k = (dataset.pagina_de(f), f["date"], f["home_team"], f["away_team"],
+             f["home_score"], f["away_score"])
+        por_partido.setdefault(k, []).append(f["neutral"])
+    vistas = 0
+    for n in correcciones.NEUTRALES:
+        if n.pagina not in cerradas:
+            continue
+        local, visita, gl, gv = n.dice
+        k = (cerradas[n.pagina], n.fecha, local, visita, str(gl), str(gv))
+        assert por_partido.get(k) == ["true"], (n.pagina, n.fecha, local, visita)
+        vistas += 1
+    assert vistas >= 59, f"son 59 de torneos cerrados y vio {vistas}: no esta mirando"

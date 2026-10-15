@@ -2016,6 +2016,98 @@ def test_una_plantilla_con_los_parametros_indentados_no_se_pierde():
         "y la forma sin indentar tiene que seguir andando"
 
 
+def test_un_parametro_en_el_mismo_renglon_que_otro_se_lee():
+    """Asi escribe la Primera B 2021 dos llaves del reducido: el `estadio` arranca
+    en el renglon de la `fecha`. Cortando por renglon no se veia -- el partido
+    salia sin `venue` y con la cancha pegada a la fecha cruda --, y el `|` de un
+    enlace en el mismo renglon tampoco puede cortar."""
+    texto = ("{{Partido\n"
+             "|local = '''J. J. de Urquiza\n"
+             "|resultado = 2:0''' (2:0)\n"
+             "|visita = [[Club Defensores Unidos|Defensores Unidos]] |ciudad = [[Zárate]]\n"
+             "|fecha =21 de noviembre, 17:00 |estadio = Estadio Ramón Roque Martín \n"
+             "|árbitro=[[Mariano Negrete]]}}")
+    (p,) = parser.partidos_de_plantillas(texto, 2021, "x")
+    assert p.estadio == "Estadio Ramón Roque Martín"
+    assert (p.fecha, p.fecha_cruda, p.hora) == ("2021-11-21", "21 de noviembre, 17:00",
+                                                "17:00")
+    assert p.visita == "Defensores Unidos", "el `|` del enlace no es un parametro"
+
+
+def test_un_parametro_comentado_no_existe():
+    """La Primera C 2025 deja comentadas las patadas de dos tandas, con el `|` de
+    cada parametro adentro del comentario. MediaWiki no lo renderiza, asi que un
+    parametro comentado no puede pisar al de verdad."""
+    texto = ("{{Partido\n|local = Boca Juniors\n|resultado = 0:0\n|visita = River Plate\n"
+             "|fecha = 12 de diciembre, 17:00\n|estadio = La Bombonera\n"
+             "|resultado penalti = 4:5\n"
+             "<!--|estadio = Estadio Monumental\n|resultado penalti = 9:8-->\n"
+             "|árbitro=[[Alguien]]}}")
+    (p,) = parser.partidos_de_plantillas(texto, 2021, "x")
+    assert p.estadio == "La Bombonera"
+    assert (p.penales_local, p.penales_visita) == (4, 5)
+
+
+def test_una_nota_comentada_no_dice_que_se_jugo_otro_dia():
+    """Lo comentado no lo dice la pagina, tampoco para la nota: un `suceso` que un
+    editor dejo comentado no puede vaciar la hora de `fecha`."""
+    texto = ("{{Partido\n|local = Boca Juniors\n|resultado = 1:0\n|visita = River Plate\n"
+             "|fecha = 15 de junio, 15:00\n"
+             "<!--|suceso = Suspendido. Se jugó el 22 de junio.-->\n"
+             "|árbitro=[[Alguien]]}}")
+    (p,) = parser.partidos_de_plantillas(texto, 2019, "x")
+    assert (p.fecha, p.hora) == ("2019-06-15", "15:00")
+
+
+def test_dos_comentarios_no_se_llevan_lo_que_hay_entre_ellos():
+    """Un comentario termina en el PRIMER `-->`. De un `<!--` al ultimo `-->` se iban
+    `resultado` y la plantilla entera con el."""
+    texto = ("{{Partido\n|local = Boca Juniors <!-- el local -->\n|resultado = 2:1\n"
+             "|visita = River Plate <!-- la visita -->\n|fecha = 21 de diciembre, 17:00\n}}")
+    (p,) = parser.partidos_de_plantillas(texto, 2021, "x")
+    assert (p.local, p.goles_local, p.goles_visita, p.visita) == (
+        "Boca Juniors", 2, 1, "River Plate")
+
+
+def test_un_enlace_sin_cerrar_no_se_traga_los_parametros_que_siguen():
+    """Partir por `|` a nivel cero cuenta los `[[`, y uno que no cierra dejaba todo lo
+    que venia despues pegado a su parametro. Antes de `resultado`, el partido se
+    descartaba sin aviso; despues, se perdian la fecha y la cancha. Partiendo por
+    renglon los dos se leian, y un wikilink no cruza un renglon de parametro."""
+    antes = ("{{Partido\n|local = Boca Juniors\n|árbitro = [[Fulano\n|resultado = 2:1\n"
+             "|visita = River Plate\n|fecha = 21 de diciembre, 17:00\n|estadio = La Bombonera\n}}")
+    (p,) = parser.partidos_de_plantillas(antes, 2021, "x")
+    assert (p.local, p.goles_local, p.goles_visita, p.visita) == (
+        "Boca Juniors", 2, 1, "River Plate")
+    assert (p.fecha, p.hora, p.estadio) == ("2021-12-21", "17:00", "La Bombonera")
+    despues = ("{{Partido\n|local = Boca Juniors\n|resultado = 2:1\n|visita = River Plate\n"
+               "|goleslocal = [[Fulano {{gol|3}}\n|fecha = 21 de diciembre, 17:00\n"
+               "|estadio = La Bombonera\n}}")
+    (p,) = parser.partidos_de_plantillas(despues, 2021, "x")
+    assert (p.fecha, p.hora, p.estadio) == ("2021-12-21", "17:00", "La Bombonera")
+
+
+def test_el_respaldo_tambien_vale_con_los_parametros_indentados():
+    """Las Copas de la Liga 2021 a 2023 indentan los parametros (`\\n  |local=`): el
+    renglon de parametro se reconoce igual con espacios antes del `|`."""
+    texto = ("{{Partido\n  |local = Boca Juniors\n  |árbitro = [[Fulano\n  |resultado = 2:1\n"
+             "  |visita = River Plate\n  |fecha = 21 de diciembre, 17:00\n}}")
+    (p,) = parser.partidos_de_plantillas(texto, 2021, "x")
+    assert (p.local, p.goles_local, p.goles_visita, p.visita, p.hora) == (
+        "Boca Juniors", 2, 1, "River Plate", "17:00")
+
+
+def test_una_cita_en_varios_renglones_no_parte_la_plantilla():
+    """El respaldo de arriba reinicia los `[[` y NO las llaves: una `{{Cita web}}` en
+    varias lineas trae su propio `|fecha=`, y cortando ahi pisaba la del partido."""
+    texto = ("{{Partido\n|local = Boca Juniors\n|resultado = 2:1\n|visita = River Plate\n"
+             "|fecha = 21 de diciembre, 17:00\n"
+             "|suceso = Postergado.<ref>{{Cita web\n|url=http://x.com/nota\n"
+             "|fecha=1 de enero de 2020\n|título=La nota}}</ref>\n}}")
+    (p,) = parser.partidos_de_plantillas(texto, 2021, "x")
+    assert (p.fecha, p.hora) == ("2021-12-21", "17:00")
+
+
 def test_una_seccion_que_no_es_del_torneo_no_puede_ser_la_llave():
     """El Campeonato Transicion de Primera Nacional 2020 abre `== Entrenadores ==`
     y cuelga de ahi su `=== Etapa eliminatoria ===`, asi que sus 18 partidos de
@@ -2515,3 +2607,260 @@ def test_la_hora_con_el_canal_pegado_queda_en_la_hora(celda, hora):
 def test_la_hora_que_no_empieza_bien_queda_como_figura(celda):
     """Lo que no empieza con una hora valida no se adivina, y tampoco se borra."""
     assert parser.partidos_de_tabla(_con_hora(celda), 2026, "Apertura")[0].hora == celda
+
+
+# --------------------------------------------------------------------------
+# la hora de una {{Partido}}
+# --------------------------------------------------------------------------
+def _con_fecha(fecha: str, mas: str = "") -> str:
+    return (f"{{{{Partido\n|local = Boca Juniors\n|resultado = 2:1\n|visita = River Plate"
+            f"\n|fecha = {fecha}{mas}\n|árbitro=[[Alguien]]}}}}")
+
+
+@pytest.mark.parametrize("fecha, hora", [
+    ("21 de diciembre, 17:00", "17:00"),                     # 484 de las 514
+    ("9 de junio de 2013 - 15:00 hs.", "15:00"),             # Primera B y C 2012-13
+    ("28 de mayo 15:10 hs.", "15:10"),                       # Primera B 2013-14
+    ("27 de mayo 15:30", "15:30"),                           # Primera C 2013-14
+    ("{{fecha|17|1|2021}}, 22:10 ([[UTC-3]])", "22:10"),     # final de la Copa de la Liga 2020
+    ("31 de marzo de 2021, 20:15 ([[UTC-3]])", "20:15"),     # y el clasificatorio, misma pagina
+])
+def test_la_plantilla_trae_la_hora_pegada_a_la_fecha(fecha, hora):
+    """511 de las 514 plantillas con resultado escriben la hora adentro de `fecha`, y el
+    lector solo sacaba el dia: la fase final de 46 paginas salia sin hora."""
+    assert parser.partidos_de_plantillas(_con_fecha(fecha), 2021, "x")[0].hora == hora
+
+
+@pytest.mark.parametrize("fecha, hora", [
+    ("21 de diciembre, 17:00:00", ""),                # con segundos no es la forma que se lee
+    ("21 de diciembre, 17:00 (UTC-03:00)", "17:00"),  # el huso no es una hora
+    ("21 de diciembre ([[UTC−03:00]])", ""),          # ni aunque este solo
+])
+def test_la_hora_de_la_fecha_es_un_hh_mm_suelto(fecha, hora):
+    """Sin la guarda de adelante, `17:00:00` daba `17:00`; sin la de atras, `00:00`. Y
+    con el signo del huso como una hora mas, `17:00 (UTC-03:00)` traia dos y quedaba
+    vacia, y un huso solo se publicaba como si fuera la hora."""
+    assert parser.partidos_de_plantillas(_con_fecha(fecha), 2021, "x")[0].hora == hora
+
+
+def test_la_plantilla_con_campo_hora_lo_usa():
+    """Las tres del triangular del Apertura 2008: `fecha = {{fecha|23|12|2008}}` y la
+    hora aparte."""
+    p, = parser.partidos_de_plantillas(
+        _con_fecha("{{fecha|23|12|2008}}", "\n|hora = 20:30"), 2008, "x")
+    assert (p.fecha, p.hora) == ("2008-12-23", "20:30")
+
+
+def test_el_campo_hora_se_lee_como_la_celda_de_las_tablas():
+    """Con `_hora`: la hora valida y no lo que venga pegado, como el canal."""
+    p, = parser.partidos_de_plantillas(
+        _con_fecha("{{fecha|23|12|2008}}", "\n|hora = 20:30 ([[TyC Sports]])"), 2008, "x")
+    assert p.hora == "20:30"
+
+
+@pytest.mark.parametrize("fecha", [
+    "21 de diciembre",                  # sin hora
+    "21 de diciembre, --:--",           # el relleno de un partido que no tiene horario
+    "21 de diciembre, 15.30",           # con punto no es una hora valida
+    "21 de diciembre, 15:00 o 17:00",   # con dos no se sabe cual es
+])
+def test_lo_que_no_es_una_hora_en_la_fecha_queda_vacio(fecha):
+    """Adentro de `fecha` lo que sobra no es una celda de hora mal escrita: es un
+    pedazo de la fecha. Publicarlo en `time` seria decir que esa es la hora."""
+    assert parser.partidos_de_plantillas(_con_fecha(fecha), 2021, "x")[0].hora == ""
+
+
+def test_la_hora_de_una_nota_al_pie_no_es_la_del_partido():
+    fecha = "31 de mayo, 15:00<ref>Estaba programado para el 23 de mayo a las 19:00.</ref>"
+    assert parser.partidos_de_plantillas(_con_fecha(fecha), 2021, "x")[0].hora == "15:00"
+
+
+def test_si_se_jugo_otro_dia_la_hora_de_fecha_es_la_del_programado():
+    """La final de la Primera C 2018-19: `fecha = 15 de junio, 15:00` y la nota dice
+    que se jugo el 22 a las 14:30. Revista Ascenso: «Jugado el sábado 22 de junio»."""
+    suceso = ("\n|suceso = Suspendido por las condiciones climáticas. Se jugó el 22 de "
+              "junio, a partir de las 14:30.")
+    p, = parser.partidos_de_plantillas(_con_fecha("15 de junio, 15:00", suceso), 2019, "x")
+    assert p.hora == ""
+
+
+def test_si_la_nota_repite_el_dia_de_la_fecha_la_hora_queda():
+    """San Telmo-All Boys, Primera B 2018-19: la pagina ya paso `fecha` al dia en que
+    se jugo, y la nota dice ese mismo dia."""
+    suceso = ("\n|suceso = Suspendido por las condiciones climáticas. Se jugó el 20 de "
+              "junio, a partir de las 14:10.")
+    p, = parser.partidos_de_plantillas(_con_fecha("20 de junio, 14:10", suceso), 2019, "x")
+    assert (p.fecha, p.hora) == ("2019-06-20", "14:10")
+
+
+def test_si_la_nota_dice_que_se_jugara_otro_dia_la_hora_tambien_es_del_programado():
+    """Acassuso-Villa San Carlos, cuartos de la Primera B 2025: la pagina escribio la
+    nota antes del partido y la dejo en futuro. El 29 de noviembre se suspendio antes
+    de empezar y se jugo el martes 2, asi que las 17:00 de `fecha` son las de un dia
+    sin partido. Solo Ascenso, 29/11/2025: «el encuentro fue reprogramado para el
+    próximo martes 2 de diciembre». El dia no se mueve: un plan no fecha nada."""
+    suceso = ("\n|suceso = Suspendido por las condiciones climáticas. Se jugará el 2 de "
+              "diciembre, a la misma hora.")
+    p, = parser.partidos_de_plantillas(_con_fecha("29 de noviembre, 17:00", suceso), 2025, "x")
+    assert (p.fecha, p.hora) == ("2025-11-29", "")
+
+
+@pytest.mark.parametrize("frase", [
+    "Se jugarán el 2 de diciembre",      # el plural, cuando la nota habla de la llave
+    "Se disputará el 2 de diciembre",
+    "Se jugara el 2 de diciembre",       # sin la tilde
+])
+def test_la_nota_en_futuro_se_reconoce_en_sus_formas(frase):
+    suceso = f"\n|suceso = Suspendido por lluvia. {frase}, a la misma hora."
+    p, = parser.partidos_de_plantillas(_con_fecha("29 de noviembre, 17:00", suceso), 2025, "x")
+    assert p.hora == "", frase
+
+
+def test_la_nota_en_futuro_que_repite_el_dia_en_el_anio_que_sigue_no_vacia_la_hora():
+    """El gemelo en futuro del test de abajo: la nota que repite el dia de `fecha` no
+    habla de otro dia, aunque la regla del mes la ponga en el otro anio."""
+    suceso = "\n|suceso = Postergado. Se jugará el 29 de noviembre, a las 15:00."
+    p, = parser.partidos_de_plantillas(_con_fecha("{{fecha|29|11|2020}}, 15:00", suceso),
+                                       2019, "x", 2020)
+    assert (p.fecha, p.hora) == ("2020-11-29", "15:00")
+
+
+def test_la_nota_que_repite_el_dia_de_fecha_en_el_anio_que_sigue_no_vacia_la_hora():
+    """En una temporada que cruza el anio la regla del mes pone el "29 de noviembre" de
+    la nota en el primero, y `fecha` lo escribe con el segundo: es el mismo dia, y
+    `_fecha_de_la_nota` lo corrige con el dia programado. Sin el, la hora se vaciaba
+    como si la nota hablara de otro dia."""
+    suceso = "\n|suceso = Suspendido por lluvia. Se jugó el 29 de noviembre, a las 15:00."
+    p, = parser.partidos_de_plantillas(_con_fecha("{{fecha|29|11|2020}}, 15:00", suceso),
+                                       2019, "x", 2020)
+    assert (p.fecha, p.hora) == ("2020-11-29", "15:00")
+
+
+def test_un_partido_completado_otro_dia_conserva_la_hora_en_que_empezo():
+    """Quilmes-Gimnasia (M), Primera Nacional 2023: empezo el 28 de octubre a las 21:30
+    y se completo el 4 de noviembre. "Se completo" no mueve el dia, y tampoco la hora."""
+    suceso = ("\n|suceso = Suspendido en el entretiempo. Se completó el 4 de noviembre, a "
+              "partir de las 13:00.")
+    p, = parser.partidos_de_plantillas(_con_fecha("28 de octubre, 21:30", suceso), 2023, "x")
+    assert (p.fecha, p.hora) == ("2023-10-28", "21:30")
+
+
+# --------------------------------------------------------------------------
+# cancha neutral en una {{Partido}}: lo dice la prosa de su seccion
+# --------------------------------------------------------------------------
+def _un_partido(local: str = "Sarmiento (LB)", visita: str = "Los Andes") -> str:
+    return (f"{{{{Partidos\n|local = {local}\n|resultado = 0:1\n|visita = {visita}\n"
+            f"|fecha = 21 de diciembre, 17:00\n|estadio = [[Estadio Julio César Villagra]]\n}}}}")
+
+
+def _neutrales(texto: str) -> list:
+    return [p.neutral for p in parser.partidos_de_plantillas(texto, 2024, "x")]
+
+
+def test_la_frase_de_la_seccion_marca_la_plantilla_neutral():
+    """El tercer ascenso 2024, como lo escriben la Primera B y el Federal A: la frase va
+    en la entradilla de `== Definicion ==` y la plantilla cuelga de `==== Partido ====`,
+    un titulo de relleno. Salia `false` en las dos copias."""
+    texto = ("== Definición del tercer ascenso a la Primera Nacional ==\n"
+             "La disputaron Los Andes y Sarmiento, en estadio neutral, a un solo partido."
+             "{{refn|{{Cita web|título=Reglamento}}}}\n\n==== Partido ====\n" + _un_partido())
+    assert _neutrales(texto) == [True]
+
+
+def test_la_frase_justo_arriba_de_la_plantilla_tambien():
+    texto = ("== Final ==\nLa disputaron los dos ganadores, a un solo partido, en sede "
+             "neutral.\n" + _un_partido())
+    assert _neutrales(texto) == [True]
+
+
+def test_sin_frase_la_plantilla_no_dice_nada():
+    """`None` y no `False`: una seccion que no dice nada no afirma que el partido fue
+    en la cancha del local. Decide el torneo, como en las tablas."""
+    assert _neutrales("== Final ==\nLa disputaron los dos ganadores.\n" + _un_partido()) == [None]
+
+
+def test_no_se_sube_a_la_entradilla_de_una_fase_entera():
+    """El Apertura y el Clausura 2025 y el Apertura 2026: la entradilla de la fase
+    habla de cuatro rondas y dice que la FINAL fue neutral. Subiendo hasta ahi se
+    marcaban los octavos, los cuartos y las semis, jugados en la cancha del local."""
+    texto = ("== Octavos y cuartos de final, semifinales y final ==\n"
+             "Se jugaron en la sede del mejor ubicado. El partido final se jugó en campo "
+             "neutral.\n=== Octavos de final ===\n" + _un_partido("Boca Juniors", "Tigre"))
+    assert _neutrales(texto) == [None]
+
+
+def test_de_un_titulo_de_relleno_se_sube_solo_a_la_seccion_que_lo_contiene():
+    """El padre es el titulo de nivel MENOR, no el anterior. La vuelta cuelga de
+    `==== Partido de vuelta ====`, y lo que dice la seccion de la ida no es de ella."""
+    texto = ("=== Final ===\nSe jugó a dos partidos.\n"
+             "==== Partido de ida ====\nLa ida se jugó en cancha neutral.\n"
+             + _un_partido("Boca Juniors", "Tigre") +
+             "\n==== Partido de vuelta ====\n" + _un_partido("Tigre", "Boca Juniors"))
+    assert _neutrales(texto) == [True, None]
+
+
+def test_la_entradilla_del_padre_termina_en_el_proximo_titulo():
+    """Lo que hay debajo de OTRO titulo hijo del mismo padre no es la entradilla."""
+    texto = ("== Fase final ==\nSe jugó por eliminación directa.\n"
+             "=== Formato de la final ===\nLa final se jugó en cancha neutral.\n"
+             "=== Partidos ===\n" + _un_partido())
+    assert _neutrales(texto) == [None]
+
+
+def test_una_seccion_comentada_no_dice_nada():
+    """Las paginas en curso dejan comentada la seccion de la final que todavia no se
+    jugo, con la frase y sus subtitulos adentro: asi la escribe hoy el Federal A 2026,
+    `<!--== Quinta fase ==` ... `==== Partido ====`. Ni el subtitulo comentado es un
+    titulo ni la frase comentada la dice la pagina."""
+    seccion = ("== Cuarta fase ==\nA partido único, en la cancha del mejor ubicado.\n"
+               "<!--== Quinta fase ==\nLa disputarán los dos ganadores, en sede neutral.\n"
+               "==== Partido ====\n-->\n")
+    assert _neutrales(seccion + _un_partido()) == [None]
+    prosa = "== Cuarta fase ==\nA partido único.<!-- la final, en sede neutral -->\n"
+    assert _neutrales(prosa + _un_partido()) == [None]
+
+
+def test_la_frase_adentro_de_una_nota_no_cuenta():
+    for nota in ("{{refn|Estaba previsto en cancha neutral.}}",
+                 "<ref>Estaba previsto en cancha neutral.</ref>"):
+        texto = "== Cuarta fase ==\nA partido único." + nota + "\n" + _un_partido()
+        assert _neutrales(texto) == [None], nota
+
+
+def test_una_nota_autocerrada_no_se_lleva_la_prosa_que_sigue():
+    """`<ref name=a />` es una nota entera. Leida como apertura, la prosa hasta el
+    proximo `</ref>` -- la frase de la cancha -- se iba con ella."""
+    texto = ("== Final ==\nLa disputaron los dos ganadores<ref name=a />, a un solo partido, "
+             "en sede neutral.<ref>Reglamento.</ref>\n" + _un_partido())
+    assert _neutrales(texto) == [True]
+
+
+def test_neutral_es_una_palabra_entera():
+    """"El arquero neutralizó dos penales" no habla de la cancha. El plural si."""
+    texto = "== Final ==\nEl arquero neutralizó dos penales.\n" + _un_partido()
+    assert _neutrales(texto) == [None]
+    plural = "== Final ==\nSe jugaron en sedes neutrales.\n" + _un_partido()
+    assert _neutrales(plural) == [True]
+
+
+def test_de_partido_de_ida_y_de_vuelta_tambien_se_sube():
+    """`Partido de ida` y `Partido de vuelta` son de relleno como `Partido`: la frase de
+    la llave esta en la entradilla de la seccion que los contiene, y vale para las dos."""
+    texto = ("=== Final ===\nSe jugó a dos partidos, los dos en cancha neutral.\n"
+             "==== Partido de ida ====\n" + _un_partido("Boca Juniors", "Tigre") +
+             "\n==== Partido de vuelta ====\n" + _un_partido("Tigre", "Boca Juniors"))
+    assert _neutrales(texto) == [True, True]
+
+
+def test_un_titulo_que_solo_empieza_con_partido_no_es_de_relleno():
+    """`Partido por la permanencia` nombra OTRO partido: la entradilla de la seccion que
+    lo contiene habla del de la final."""
+    texto = ("== Definiciones ==\nLa final por el ascenso se jugó en cancha neutral.\n"
+             "=== Partido por la permanencia ===\n" + _un_partido("Boca Juniors", "Tigre"))
+    assert _neutrales(texto) == [None]
+
+
+def test_sin_titulo_arriba_no_hay_seccion_que_lo_diga():
+    """Lo que esta antes del primer titulo es la entradilla del articulo, que habla del
+    torneo entero."""
+    assert _neutrales("Se jugó en cancha neutral.\n" + _un_partido()) == [None]
