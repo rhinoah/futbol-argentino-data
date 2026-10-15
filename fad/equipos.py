@@ -776,8 +776,11 @@ ARTICULOS: dict[str, str] = {
     # resolvia solo por el nombre. No cambia ningun partido: es la clave estable
     # para los 30 lados que el Federal A 2015 le enlaza.
     'Andino Sport Club': 'Andino',
-    # El Argentino A 2010-11 lo enlaza asi y escribe "Rivadavia" a secas, que
-    # el padron no resuelve -- hay tres. El articulo si.
+    # Entro por el Argentino A 2010-11, que escribe "Rivadavia" a secas --el
+    # padron no lo resuelve: hay tres-- y lo enlazaba asi, pero adentro de una
+    # seccion comentada: desde que la pagina se lee sin comentarios, ese partido va
+    # por `correcciones`. A la vista lo enlaza el Argentino A 2006-07, cuyos
+    # partidos salen de RSSSF; hoy no cambia ninguna fila.
     'Rivadavia de Lincoln': 'Rivadavia (L)',
     # Y el Argentino A 2007-08 lo enlaza con el "Club" adelante, que es un tercer
     # titulo del mismo club.

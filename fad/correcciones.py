@@ -214,7 +214,7 @@ CORRECCIONES: tuple[Correccion, ...] = (
                "hizo Collantes, que es jugador de Union de Mar del Plata."),
 
     # ------------------------------------------------------------------
-    # Torneo Argentino A 2010-11: nueve nombres, todos arbitrados por la GRILLA
+    # Torneo Argentino A 2010-11: diez nombres, todos arbitrados por la GRILLA
     # DE LA ZONA y no por parecido de cadenas. En la fecha donde aparece el
     # nombre raro, el club que falta de esa zona es exactamente ese.
     #
@@ -324,6 +324,27 @@ CORRECCIONES: tuple[Correccion, ...] = (
             "bien --, asi que darselo al de Salta seria escribir en el padron algo "
             "que la fuente no dice. En esa fecha el que falta de la Zona 3 es el "
             "de SALTA, que juega las otras 26."),
+    ),
+    # Y UN DECIMO, que se resolvia solo mientras la pagina se leia con sus
+    # comentarios: el unico `[[Rivadavia de Lincoln|Rivadavia]]` de la pagina esta
+    # adentro de la seccion de cambios de entrenadores que dejo COMENTADA un
+    # editor. Lo comentado no lo dice la pagina, y sin ese enlace "Rivadavia" a
+    # secas tiene tres candidatos en el padron.
+    Correccion(
+        pagina="Torneo Argentino A 2010-11",
+        jornada="Fecha 13",
+        dice=("Douglas Haig", "Rivadavia", 1, 0),
+        debe=("Douglas Haig", "Rivadavia (L)"),
+        porque=(
+            "Zona 1 de la Primera fase, y lo dice la fila misma: sus dos citas se "
+            "titulan `Douglas Haig vs. Rivadavia (Lincoln) 1 - 0` (Soccerway) y "
+            "`Douglas Haig le gano a Rivadavia de Lincoln` (La Voz de Tandil, "
+            "23/11/2010; la copia del Wayback cuenta el 1-0 de Bruno Bianchi en "
+            "Pergamino por la fecha 13). En la Fecha 13 de esa zona los otros seis "
+            "clubes juegan entre ellos y el unico que falta es Rivadavia (L), que con "
+            "este partido llega a los 28 que le cuenta la tabla. Afuera, RSSSF "
+            "(`arg2011`, Zone 1, Round 13, [Nov 22]) da `Douglas Haig 1-0 Rivadavia`, "
+            "y el unico Rivadavia de la tabla de su Zone 1 es `Rivadavia (Lincoln)`."),
     ),
 
     # ------------------------------------------------------------------
@@ -3040,7 +3061,9 @@ NEUTRALES: tuple[Neutral, ...] = (
     _REDUCIDO_PN_2020("2021-01-17", "Estudiantes (BA)", "Barracas Central", 2, 2),
     _REDUCIDO_PN_2020("2021-01-17", "Tigre", "San Martín (SJ)", 1, 1),
     _REDUCIDO_PN_2020("2021-01-17", "Deportivo Riestra", "Temperley", 1, 0),
-    _REDUCIDO_PN_2020("2021-01-17", "Agropecuario", "Quilmes", 0, 1),
+    # Suspendido el 17 por un corte de luz, se jugo el 18: la fecha es la de la nota
+    # de su plantilla. Ver `parser.partidos_de_plantillas`.
+    _REDUCIDO_PN_2020("2021-01-18", "Agropecuario", "Quilmes", 0, 1),
     _REDUCIDO_PN_2020("2021-01-21", "Estudiantes (BA)", "San Martín (SJ)", 3, 1),
     _REDUCIDO_PN_2020("2021-01-21", "Deportivo Morón", "Deportivo Riestra", 0, 1),
     _REDUCIDO_PN_2020("2021-01-21", "Atlanta", "Ferro Carril Oeste", 2, 1),
@@ -3071,13 +3094,15 @@ NEUTRALES: tuple[Neutral, ...] = (
     _REDUCIDO_PN_2020("2021-01-31", "Estudiantes (RC)", "Platense", 1, 1),
     _FINAL_PN_2020("2021-01-16", "Sarmiento (J)", "Estudiantes (RC)", 1, 1),
 
-    _REDUCIDO_PB_2020("2021-01-11", "Tristán Suárez", "Argentino de Quilmes", 1, 1),
-    _REDUCIDO_PB_2020("2021-01-11", "Villa San Carlos", "San Telmo", 2, 4, (
+    # Las tres primeras se suspendieron el 11 por la lluvia y se jugaron el 12: la
+    # fecha es la de la nota de cada plantilla. Ver `parser.partidos_de_plantillas`.
+    _REDUCIDO_PB_2020("2021-01-12", "Tristán Suárez", "Argentino de Quilmes", 1, 1),
+    _REDUCIDO_PB_2020("2021-01-12", "Villa San Carlos", "San Telmo", 2, 4, (
         "Este partido, El Dia, 13/01/2021: 'se termino ayer, en Sarandi, tras perder por 4-2 "
         "con San Telmo'; la cancha de Sarandi es el Julio Humberto Grondona, la de Arsenal. "
         "https://www.eldia.com/nota/2021-1-13-5-15-35-la-ilusion-de-san-carlos-se-termino-"
         "en-sarandi-deportes")),
-    _REDUCIDO_PB_2020("2021-01-11", "Comunicaciones", "Acassuso", 2, 0, (
+    _REDUCIDO_PB_2020("2021-01-12", "Comunicaciones", "Acassuso", 2, 0, (
         "Este partido, Mundo Ascenso, 12/01/2021: 'en un encuentro disputado en el estadio "
         "Cuidad de Caseros' (sic), el de Estudiantes (BA). https://www.mundoascenso.com.ar/"
         "noticia/122471-el-cartero-paso-a-semifinales")),
@@ -4604,6 +4629,12 @@ class Dia:
     debe: str             # ISO, la verificada
     fuente: str           # la URL de quien lo verifico; va al credito de la fila
     porque: str
+    # LA HORA DEL DIA BUENO, cuando el partido se paso de dia y la fila trae la del
+    # programado. Es la regla de la hora de un reprogramado: la que se jugo ese dia,
+    # tomada de la nota y con el mismo testigo que el dia; nunca la del dia en que no
+    # se jugo. `None` no la toca, que es lo que corresponde cuando la pagina solo
+    # corrio el dia y la hora ya era la buena.
+    hora: str | None = None
 
 
 DIAS: tuple[Dia, ...] = (
@@ -4884,7 +4915,7 @@ DIAS: tuple[Dia, ...] = (
     # Se postergo dos dias y la pagina se quedo con el programado.
     Dia(pagina="Copa de la Liga Profesional 2020", jornada="Fecha 1",
         local="River Plate", visita="Banfield",
-        dice="2020-11-01", debe="2020-11-03",
+        dice="2020-11-01", debe="2020-11-03", hora="21:00",
         fuente="https://www.rsssf.org/tablesa/arg2020.html",
         porque="La pagina lo fecha el domingo 1 de noviembre de 2020, que es cuando "
                "estaba programado, y se jugo el martes 3.\n"
@@ -4899,6 +4930,15 @@ DIAS: tuple[Dia, ...] = (
                "domingo 1 no lo tiene. El feed de ESPN lo da el 3 a las 21:00.\n"
                "Es el unico dia en que la pagina discrepa con RSSSF en los 135 "
                "partidos del torneo.\n"
+               "LA HORA TAMPOCO ERA LA DEL 3: las 21:15 de la celda son las del "
+               "domingo. La Liga lo paso 'para el día martes 03.11.2020 a las 21', y "
+               "La Capital publico el comunicado el 01/11/2020 bajo 'El partido "
+               "River-Banfield se pospuso para el martes a las 21'. La República "
+               "(Lima) lo anunciaba ese martes para las '9.00 p. m.' de la Argentina "
+               "y publico el 1-3 terminado a las 23:18 de aca. Ninguno es la pagina, "
+               "que no trae nota.\n"
+               "https://www.lacapital.com.ar/ovacion/el-partido-river-banfield-se-"
+               "pospuso-el-martes-las-21-n2620482.html\n"
                "https://www.rsssf.org/tablesa/arg2020.html\n"
                "https://web.archive.org/web/20201104024920/https://www.promiedos.com.ar/"),
 
@@ -4986,6 +5026,111 @@ DIAS: tuple[Dia, ...] = (
                "hay una fecha posible sino una que la propia fuente desmiente.\n"
                "https://historiadeboca.com.ar/partido/"
                "gimnasia-lp-0-boca-1-torneo-apertura-1995/2569/1995/41/13.html"),
+
+    # LA VUELTA DE UNA FINAL QUE LA PAGINA CORRE UN DIA. La plantilla no trae nota: el
+    # dia lo desmienten la programacion de la AFA y la prensa de ese dia.
+    Dia(pagina="Campeonato de Primera B 2012-13 (Argentina)", jornada="Final",
+        local="Almagro", visita="Brown de Adrogué",
+        dice="2013-06-23", debe="2013-06-22",
+        fuente="https://www.lanueva.com/nota/2013-6-22-14-44-0-brown-de-adrogue-"
+               "consiguio-por-penales-el-ascenso-a-la-b-nacional",
+        porque="La vuelta de la final por el segundo ascenso. La plantilla dice `23 de "
+               "junio de 2013 - 12:05 hs.` y no trae ninguna nota. DOS TESTIGOS, y "
+               "ninguno es la pagina:\n"
+               "La programacion de la AFA del 17 de junio, que es un plan: 'Final - "
+               "Partido de vuelta Sábado 22 de junio 12.05-- Almagro-Brown de "
+               "Adrogué', con Nicolás Lamolina de arbitro, el mismo de la plantilla. "
+               "https://web.archive.org/web/20130620155412/http://www.afa.org.ar:80/"
+               "index.php?option=com_content&view=article&id=18713:arbitros-para-los-"
+               "encuentros-de-este-fin-de-semana&catid=110:torneos-superiores&Itemid=78\n"
+               "Y el hecho: La Nueva, el sabado 22/06/2013 a las 14:44, 'Brown de "
+               "Adrogué consiguió hoy el segundo ascenso', por penales contra Almagro "
+               "despues de perder 2-0, que es el marcador y la tanda de la fila.\n"
+               "La hora, 12:05, es la que la AFA programaba para el 22, y queda.\n"
+               "https://www.lanueva.com/nota/2013-6-22-14-44-0-brown-de-adrogue-"
+               "consiguio-por-penales-el-ascenso-a-la-b-nacional"),
+
+    # «SE JUGARA EL...»: UN PLAN QUE SE CUMPLIO, Y LO DICE LA PRENSA. La nota en
+    # futuro no fecha nada por regla (ver `parser._SE_JUGARA`): la pagina la escribe
+    # antes del partido, y nada en ella distingue un plan cumplido de uno que se
+    # volvio a postergar y quedo escrito. En el catalogo hay tres cuyo plan no es el
+    # dia de la fila, y las tres se cumplieron; cada una va con su testigo, y con la
+    # hora a la que se jugo, que es la que da la nota.
+    Dia(pagina="Campeonato de Primera B 2025 (Argentina)", jornada="Primera fase",
+        local="Acassuso", visita="Villa San Carlos",
+        dice="2025-11-29", debe="2025-12-02", hora="17:00",
+        fuente="https://www.soloascenso.com.ar/sintesis/acassuso-villa-san-carlos/43840",
+        porque="La vuelta de los cuartos del Reducido. La plantilla dice `29 de "
+               "noviembre, 17:00` y la nota 'Suspendido por las condiciones "
+               "climáticas. Se jugará el 2 de diciembre, a la misma hora'.\n"
+               "Se suspendio antes de empezar, con la cancha anegada, y se paso al "
+               "martes 2 a las 17: Solo Ascenso, 29/11/2025 16:56. "
+               "https://www.soloascenso.com.ar/notas/acassuso-villa-san-carlos/la-"
+               "vuelta-entre-acassuso-y-san-carlos-quedo-suspendida/222503\n"
+               "Y se jugo ese dia: la sintesis de Solo Ascenso da '02.12.25 | 17:03', y "
+               "su cronica del 02/12/2025 abre con 'Este martes, luego de la "
+               "postergación por la lluvia del sábado'. https://www.soloascenso.com.ar/"
+               "notas/liniers/san-carlos-cayo-por-la-minima-y-se-despidio-del-"
+               "reducido/222598\n"
+               "https://www.soloascenso.com.ar/sintesis/acassuso-villa-san-carlos/43840"),
+    Dia(pagina="Campeonato de Primera B 2024 (Argentina)", jornada="Fecha 12",
+        local="Cañuelas", visita="Colegiales",
+        dice="2024-08-31", debe="2024-09-02", hora="15:00",
+        fuente="https://www.soloascenso.com.ar/sintesis/canuelas-fc-colegiales/40098",
+        porque="La celda dice `31 de agosto`, a las 12:05, y la nota 'Suspendido por "
+               "las condiciones climáticas. Se jugará el 2 de septiembre, a partir de "
+               "las 15:00'.\n"
+               "Se postergo antes de empezar: Vermouth Deportivo, 31/08/2024, "
+               "'Colegiales tenía que visitar a Cañuelas pero todo se pasó para el "
+               "lunes'. https://www.vermouth-deportivo.com.ar/la-primera-b-"
+               "metropolitana-postergo-tres-partidos-por-las-inclemencias-climaticas/\n"
+               "Y se jugo ese lunes a las 15: la sintesis de Solo Ascenso da '02.09.24 "
+               "| 15:00', Cañuelas 0 - Colegiales 2, y la ficha de La Nacion "
+               "(canchallena) es la del 'partido del Lunes 2 de septiembre 2024', con "
+               "el 'Comienzo del partido 15:00 hs.' https://canchallena.lanacion.com.ar/"
+               "futbol/primera-b-metropolitana-2024/canuelas-colegiales-"
+               "57gds2nvrrzjirnbcqo2kb47o/\n"
+               "https://www.soloascenso.com.ar/sintesis/canuelas-fc-colegiales/40098"),
+    Dia(pagina="Campeonato de Primera B 2024 (Argentina)", jornada="Fecha 12",
+        local="Ferrocarril Midland", visita="Flandria",
+        dice="2024-08-31", debe="2024-09-02", hora="20:00",
+        fuente="https://www.soloascenso.com.ar/sintesis/ferrocarril-midland-flandria/40100",
+        porque="La celda dice `31 de agosto`, a las 15:00, y la nota 'Suspendido por "
+               "las condiciones climáticas. Se jugará el 2 de septiembre, a partir de "
+               "las 20:00'.\n"
+               "Se postergo antes de empezar: Vermouth Deportivo, 31/08/2024, Midland "
+               "'decidió reprogramar para el lunes frente a Flandria'. "
+               "https://www.vermouth-deportivo.com.ar/la-primera-b-metropolitana-"
+               "postergo-tres-partidos-por-las-inclemencias-climaticas/\n"
+               "Y se jugo ese lunes a las 20: la sintesis de Solo Ascenso da '02.09.24 "
+               "| 20:03', Ferrocarril Midland 0 - Flandria 1, y la ficha de La Nacion "
+               "(canchallena) es la del 'partido del Lunes 2 de septiembre 2024', con "
+               "el 'Comienzo del partido 20:00 hs.' https://canchallena.lanacion.com.ar/"
+               "futbol/primera-b-metropolitana-2024/midland-flandria-"
+               "56nky90idcr5wr9jq58sqxc7o/\n"
+               "https://www.soloascenso.com.ar/sintesis/ferrocarril-midland-flandria/40100"),
+
+    # «SE JUEGA EL...», EL MISMO PLAN EN PRESENTE (ver `parser._SE_JUGARA`). La fila
+    # quedaba el dia y a la hora de un partido que no se jugo.
+    Dia(pagina="Torneo Argentino A 2012-13", jornada="Fecha 5",
+        local="Central Norte (S)", visita="Juventud Antoniana",
+        dice="2012-09-16", debe="2012-10-03", hora="21:35",
+        fuente="http://ascensodelinterior.com.ar/noticias/1689/"
+               "central-norte-3-0-juventud-antoniana",
+        porque="La celda dice `16 de septiembre`, a las 16:45, y la nota 'Suspendido "
+               "por incidentes entre la tribuna visitante.Se juega el miércoles 3 de "
+               "octubre a las 21:35 horas.'\n"
+               "Se jugo ese miercoles, entero: Ascenso del Interior publico la cronica "
+               "del 3-0 bajo 'Postergado de la 5ª fecha', con los goles a los 10 y a "
+               "los 30 minutos del primer tiempo y a los 15 segundos del segundo, el "
+               "jueves 04/10/2012 a las 00:10. RSSSF da el 3-0 sin nota, bajo el "
+               "encabezado de la ronda, `[Sep 16]`, y no arbitra el dia.\n"
+               "La hora es la de la nota, que es la regla de la hora de un "
+               "reprogramado. El articulo 'Clásico salteño' de la misma Wikipedia "
+               "dice 21:30 y que el 16 'se suspendio sin haberse jugado un solo "
+               "minuto'; no es un testigo de afuera, y no se usa.\n"
+               "http://ascensodelinterior.com.ar/noticias/1689/"
+               "central-norte-3-0-juventud-antoniana"),
 )
 
 
@@ -5016,6 +5161,8 @@ def corregir_fechas(ps: list, pagina: str) -> list[str]:
                           f"fad/correcciones.py")
             continue
         p.fecha, p.fuente_fecha = d.debe, d.fuente
+        if d.hora is not None:
+            p.hora = d.hora
     return avisos
 
 

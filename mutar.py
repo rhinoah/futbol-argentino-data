@@ -700,8 +700,8 @@ MUTANTES = [
      "                if resuelto(iguales[0], p_):"),
 
     ("fad/parser.py", "no marcar el partido que no se jugo",
-     '        return "no disputado"',
-     '        return ""'),
+     '    if _NO_SE_JUGO.search(estadio.strip()):' + chr(10) + '        return "no disputado"',
+     '    if _NO_SE_JUGO.search(estadio.strip()):' + chr(10) + '        return ""'),
 
     ("fad/parser.py", "publicar 'Sin disputar' como si fuera una cancha",
      '            estadio="" if _NO_SE_JUGO.search(valores["estadio"].strip())'
@@ -755,15 +755,15 @@ MUTANTES = [
 
     # --- status: de donde salio el marcador ---
     ("fad/parser.py", "no mirar si el partido se termino de jugar despues",
-     '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return ""',
+     '    if _llego_al_final_otro_dia(texto):' + chr(10) + '        return ""',
      '    if False:' + chr(10) + '        return ""'),
 
     ("fad/parser.py", "mirar el fallo ANTES que la suspension",
-     '    if _NO_LLEGO_AL_FINAL.search(fila):' + chr(10) + '        return "suspendido"',
-     '    if _HUBO_FALLO.search(fila):' + chr(10) + '        return "escritorio"'),
+     '    if _NO_LLEGO_AL_FINAL.search(texto):' + chr(10) + '        return "suspendido"',
+     '    if _HUBO_FALLO.search(texto):' + chr(10) + '        return "escritorio"'),
 
     ("fad/parser.py", "no marcar el fallo que cambio el numero de un partido terminado",
-     '    if _HUBO_FALLO.search(fila):' + chr(10) + '        return "escritorio"',
+     '    if _HUBO_FALLO.search(texto):' + chr(10) + '        return "escritorio"',
      '    if False:' + chr(10) + '        return "escritorio"'),
 
     ("fad/parser.py", "no leer el fallo que se escribe con el objeto en el medio",
@@ -771,36 +771,104 @@ MUTANTES = [
      r'    r"|le dio el partido por ganado")'),
 
     ("fad/parser.py", "tomar por suspendido al partido que se reprogramo y se jugo entero",
-     '    if _se_jugo_el_dia_reprogramado(fila):' + chr(10) + '        return ""',
-     '    if False:' + chr(10) + '        return ""'),
+     '                or _se_jugo_el_dia_reprogramado(texto))',
+     '                or False)'),
 
-    ("fad/parser.py", "denunciar como fallo sin leer al partido que se reprogramo y se jugo",
-     '    if _se_jugo_el_dia_reprogramado(fila):' + chr(10) + '        return False',
+    ("fad/parser.py", "denunciar como fallo sin leer al partido que se termino de jugar otro dia",
+     '    if _llego_al_final_otro_dia(texto):' + chr(10) + '        return False',
      '    if False:' + chr(10) + '        return False'),
 
     ("fad/parser.py", "creerle al plan de reprogramar aunque la fila este fechada otro dia",
-     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\1(?![a-záéíóúñ])")',
-     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\d{1,2}\s*de\s+[a-záéíóúñ]+")'),
+     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\1(?![a-z])")',
+     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\d{1,2}\s*de\s+[a-z]+")'),
 
     ("fad/parser.py", "tomar por el mismo dia al 16 cuando la fila dice 6",
-     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\1(?![a-záéíóúñ])")',
-     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\d?\1(?![a-záéíóúñ])")'),
+     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\1(?![a-z])")',
+     r'    r"reprogram\w+\s+para\s+(?:el\s+)?\d?\1(?![a-z])")'),
 
     ("fad/parser.py", "creerle al plan de reprogramar aunque la nota cuente otro final",
      '    return bool(plan) and not _Y_DESPUES_PASO_ALGO.search(fila, plan.end())',
      '    return bool(plan)'),
 
     ("fad/parser.py", "leer la direccion de una cita como si fuera el texto de la nota",
-     '    fila = _URL_DE_CITA.sub(" ", fila)' + chr(10) + '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return ""',
-     '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return ""'),
+     '    fila = _NOMBRE_DE_LA_NOTA.sub(" ", _URL_DE_CITA.sub(" ", fila))',
+     '    fila = _NOMBRE_DE_LA_NOTA.sub(" ", fila)'),
 
-    ("fad/parser.py", "denunciar como fallo sin leer la palabra que solo esta en una direccion",
-     '    fila = _URL_DE_CITA.sub(" ", fila)' + chr(10) + '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return False',
-     '    if _SE_COMPLETO.search(fila):' + chr(10) + '        return False'),
+    ("fad/parser.py", "que el detector lea la fila cruda y no el texto de la nota",
+     '    texto = _texto_de_la_nota(fila)' + chr(10) + '    if _llego_al_final_otro_dia(texto):'
+     + chr(10) + '        return False',
+     '    texto = fila' + chr(10) + '    if _llego_al_final_otro_dia(texto):'
+     + chr(10) + '        return False'),
 
     ("fad/parser.py", "dejar en vacio un fallo que no se supo leer, sin avisar",
-     "    return bool(_HABLA_DE_FALLO.search(fila)) and not status_de_la_fila(fila)",
+     "    return bool(_HABLA_DE_FALLO.search(texto)) and not _status_de_la_nota(texto)",
      "    return False"),
+
+    # el texto que leen los regex del status
+    ("fad/parser.py", "leer el nombre de una nota como si fuera su texto",
+     '    fila = _NOMBRE_DE_LA_NOTA.sub(" ", _URL_DE_CITA.sub(" ", fila))',
+     '    fila = _URL_DE_CITA.sub(" ", fila)'),
+
+    ("fad/parser.py", "preguntar sobre el texto con sus tildes",
+     '    return "".join(c for c in unicodedata.normalize("NFD", fila)' + chr(10)
+     + '                   if not unicodedata.combining(c))',
+     '    return fila'),
+
+    ("fad/parser.py", "no sacar nunca las citas, aunque la nota tenga texto propio",
+     '    if _tiene_texto_propio(sin_citas):' + chr(10) + '        fila = sin_citas',
+     '    if False:' + chr(10) + '        fila = sin_citas'),
+
+    ("fad/parser.py", "sacar siempre las citas, aunque sean toda la nota",
+     '    if _tiene_texto_propio(sin_citas):' + chr(10) + '        fila = sin_citas',
+     '    if True:' + chr(10) + '        fila = sin_citas'),
+
+    ("fad/parser.py", "buscar el texto propio de la nota solo en las {{refn}}",
+     '               + _CUERPO_DE_REF.findall(fila))',
+     '               + [])'),
+
+    ("fad/parser.py", "buscar el texto propio de la nota solo en los <ref>",
+     '    cuerpos = ([_cuerpo_de_la_nota(m.group("args")) for m in _REFN.finditer(fila)]',
+     '    cuerpos = ([]'),
+
+    # las formas nuevas de "se termino de jugar otro dia"
+    ("fad/parser.py", "no aceptar el dia de la semana entre el verbo y el dia",
+     r'    + _EL_DIA_DE_LA_SEMANA + r"\d{1,2}\s*de\s+[a-z]+")',
+     r'    + r"\d{1,2}\s*de\s+[a-z]+")'),
+
+    ("fad/parser.py", "no aceptar donde se jugo entre el verbo y el dia",
+     r'    r"reanudo|finalizo)\s+" + _EN_LA_CANCHA + _LOS_MINUTOS',
+     r'    r"reanudo|finalizo)\s+" + _LOS_MINUTOS'),
+
+    ("fad/parser.py", "pegar donde se jugo con la fecha de la frase siguiente",
+     r'_EN_LA_CANCHA = r"(?:en\s+[^.|]{1,60}?,?\s+)?"',
+     r'_EN_LA_CANCHA = r"(?:en\s+[^|]{1,60}?,?\s+)?"'),
+
+    ("fad/parser.py", "no leer el resto jugado despues cuando la nota no da el dia",
+     '    return bool(_SE_COMPLETO.search(texto) or _SE_COMPLETO_DESPUES.search(texto)',
+     '    return bool(_SE_COMPLETO.search(texto)'),
+
+    # el partido que no empezo
+    ("fad/parser.py", "no marcar el partido que la nota dice que no empezo",
+     '    if _no_empezo(texto):' + chr(10) + '        return "no disputado"',
+     '    if False:' + chr(10) + '        return "no disputado"'),
+
+    ("fad/parser.py", "preguntar si no empezo ANTES que si se jugo otro dia",
+     '    if _llego_al_final_otro_dia(texto):' + chr(10)
+     + '        return ""                      # se suspendio y se termino de jugar' + chr(10)
+     + '    if _no_empezo(texto):' + chr(10)
+     + '        return "no disputado"          # se suspendio antes de empezar',
+     '    if _no_empezo(texto):' + chr(10)
+     + '        return "no disputado"          # se suspendio antes de empezar' + chr(10)
+     + '    if _llego_al_final_otro_dia(texto):' + chr(10)
+     + '        return ""                      # se suspendio y se termino de jugar'),
+
+    ("fad/parser.py", "mirar toda la nota y no la frase de la primera suspension",
+     '    return bool(_NO_EMPEZO.search(frase)) and not _YA_SE_JUGABA.search(frase)',
+     '    return bool(_NO_EMPEZO.search(texto)) and not _YA_SE_JUGABA.search(frase)'),
+
+    ("fad/parser.py", "dar por no empezado un partido que ya se jugaba",
+     '    return bool(_NO_EMPEZO.search(frase)) and not _YA_SE_JUGABA.search(frase)',
+     '    return bool(_NO_EMPEZO.search(frase))'),
 
     ("fad/dataset.py", "no escribir el status en el CSV",
      '        "status": p.status,',
@@ -865,11 +933,8 @@ MUTANTES = [
      '    y = anio if (anio_fin is None or mes >= mes_inicio) else anio_fin'),
 
     ("fad/parser.py", "no leer la nota que dice cuando se jugo de verdad",
-     '            fecha=(_fecha_de_la_nota(\n'
-     '                       _con_notas(fila + " " + " ".join(crudos.values()), notas),\n'
-     '                       anio, anio_fin, mes_inicio, programada)\n'
-     '                   or programada),',
-     "            fecha=programada,"),
+     "            fecha=fecha, hora=hora,",
+     "            fecha=programada, hora=hora,"),
 
     ("fad/parser.py", "tomar tambien `se completo` como si fuera otra fecha",
      r'r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron)\s+(?:el\s+)?"',
@@ -2400,8 +2465,8 @@ MUTANTES = [
      "                       if {x.goles_local, x.goles_visita} == {p_.goles_local, p_.goles_visita}]"),
 
     ("fad/parser.py", "buscar la nota solo en el texto de la fila",
-     '                       _con_notas(fila + " " + " ".join(crudos.values()), notas),',
-     "                       _con_notas(fila, notas),"),
+     '            _con_notas(fila + " " + " ".join(crudos.values()), notas),',
+     "            _con_notas(fila, notas),"),
 
     ("fad/parser.py", "no resolver las notas con nombre",
      "    if not notas:\n        return texto",
@@ -2412,8 +2477,20 @@ MUTANTES = [
      "        if nombre:"),
 
     ("fad/parser.py", "quedarse con la ultima definicion de una nota repetida",
-     '            notas.setdefault(nombre.group("n"), cuerpo)',
-     '            notas[nombre.group("n")] = cuerpo'),
+     '        notas.setdefault(nombre, cuerpo)',
+     '        notas[nombre] = cuerpo'),
+
+    ("fad/parser.py", "no resolver la nota escrita con la etiqueta <ref name/>",
+     '    return _REF_ETIQUETA.sub(reponer_etiqueta, _REFN.sub(reponer, texto))',
+     '    return _REFN.sub(reponer, texto)'),
+
+    ("fad/parser.py", "tomar la referencia pelada <ref name/> por una definicion",
+     '        if nombre and (m.group("cuerpo") or "").strip():',
+     '        if nombre:'),
+
+    ("fad/parser.py", "juntar las dos formas de nota sin ordenarlas por posicion",
+     '    for _, nombre, cuerpo in sorted(definidas, key=lambda d: d[0]):',
+     '    for _, nombre, cuerpo in definidas:'),
 
     ("fad/parser.py", "inventarle cuerpo a una nota que la pagina no define",
      '        return m.group(0) if cuerpo is None else "{{refn|" + cuerpo + "}}"',
@@ -2736,8 +2813,8 @@ MUTANTES = [
     # Los partidos escritos dos veces: la hora con el canal pegado y la regla que
     # hace que las dos copias digan lo mismo.
     ("fad/parser.py", "no limpiarle a la hora el canal pegado",
-     '            hora=_hora(valores["hora"]),',
-     '            hora=valores["hora"],'),
+     '            anio, anio_fin, mes_inicio, programada, _hora(valores["hora"]))',
+     '            anio, anio_fin, mes_inicio, programada, valores["hora"])'),
 
     ("fad/parser.py", "pedirle dos digitos a la hora con el canal pegado",
      r'_HORA_CON_COLA = re.compile(r"^\s*(\d{1,2}:\d{2})(?!\d)\s*\S")',
@@ -2844,42 +2921,176 @@ MUTANTES = [
      "    if False:"),
 
     ("fad/parser.py", "publicar la hora del programado de un partido que se jugo otro dia",
-     '            hora="" if jugada not in ("", programada) else _hora_de_la_plantilla(campos),',
-     "            hora=_hora_de_la_plantilla(campos),"),
-
-    ("fad/parser.py", "vaciar la hora aunque la nota repita el dia de `fecha`",
-     '            hora="" if jugada not in ("", programada) else _hora_de_la_plantilla(campos),',
-     '            hora="" if jugada else _hora_de_la_plantilla(campos),'),
+     '            fecha=dia, hora=hora,',
+     "            fecha=dia, hora=_hora_de_la_plantilla(campos),"),
 
     ("fad/parser.py", "no ver la nota que dice que el partido se jugara otro dia",
-     "        jugada = (_fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada)\n"
-     "                  or _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada,\n"
-     "                                       regla=_SE_JUGARA))",
-     "        jugada = _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada)"),
+     "    if not jugada and _fecha_de_la_nota(",
+     "    if False and _fecha_de_la_nota("),
+
+    ("fad/correcciones.py", "correr un dia la Dia de Almagro-Brown 2013",
+     '        dice="2013-06-23", debe="2013-06-22",',
+     '        dice="2013-06-23", debe="2013-06-24",'),
+
+    ("fad/parser.py", "con la nota que repite el dia, quedarse con la hora de la celda",
+     "        return programada, de_la_nota or hora",
+     "        return programada, hora"),
+
+    ("fad/parser.py", "con la nota que repite el dia y no da hora, vaciarla",
+     "        return programada, de_la_nota or hora",
+     "        return programada, de_la_nota"),
+
+    ("fad/parser.py", "aceptar una hora 24 en la nota",
+     "             if int(h) < 24 and int(m or 0) < 60}",
+     "             if int(h) < 25 and int(m or 0) < 60}"),
+
+    ("fad/parser.py", "contar como texto propio una o dos letras sueltas",
+     r'''    return any(re.search(r"[^\W\d_]{3}", re.sub(r"<[^>]*>", " ", c)) for c in cuerpos)''',
+     r'''    return any(re.search(r"[^\W\d_]{1}", re.sub(r"<[^>]*>", " ", c)) for c in cuerpos)'''),
+
+    ("fad/parser.py", "contar el marcado como texto propio de la nota",
+     r'''    return any(re.search(r"[^\W\d_]{3}", re.sub(r"<[^>]*>", " ", c)) for c in cuerpos)''',
+     r'''    return any(re.search(r"[^\W\d_]{3}", c) for c in cuerpos)'''),
+
+    ("fad/parser.py", "buscar si no empezo en la nota entera y no en la frase",
+     '''    frase = texto[texto.rfind(".", 0, m.start()) + 1:fin if fin >= 0 else len(texto)]''',
+     '''    frase = texto[:fin if fin >= 0 else len(texto)]'''),
+
+    ("fad/parser.py", "dejar que la cancha de la frase del dia sea larga",
+     r'''_EN_LA_CANCHA = r"(?:en\s+[^.|]{1,60}?,?\s+)?"''',
+     r'''_EN_LA_CANCHA = r"(?:en\s+[^.|]{1,600}?,?\s+)?"'''),
 
     ("fad/parser.py", "buscar la nota en futuro sin el dia programado",
-     "                  or _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada,\n",
-     '                  or _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, "",\n'),
+     "    if not jugada and _fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada,\n",
+     '    if not jugada and _fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, "",\n'),
+
+    ("fad/parser.py", "vaciar la hora si la nota en futuro repite el dia programado",
+     '                                        regla=_SE_JUGARA) not in ("", programada):',
+     '                                        regla=_SE_JUGARA) != "":'),
 
     ("fad/parser.py", "no ver el plural de la nota en futuro",
-     r'''    r"(?i)se\s+(?:jugar[aá]n?|disputar[aá]n?)\s+(?:el\s+)?"''',
-     r'''    r"(?i)se\s+(?:jugar[aá]|disputar[aá]n?)\s+(?:el\s+)?"'''),
+     r'''    r"(?i)se\s+(?:jugar[aá]n?|juegan?|disputar[aá]n?)\s+(?:el\s+)?"''',
+     r'''    r"(?i)se\s+(?:jugar[aá]|juegan?|disputar[aá]n?)\s+(?:el\s+)?"'''),
 
     ("fad/parser.py", "no ver la nota en futuro con disputara",
-     r'''    r"(?i)se\s+(?:jugar[aá]n?|disputar[aá]n?)\s+(?:el\s+)?"''',
-     r'''    r"(?i)se\s+(?:jugar[aá]n?)\s+(?:el\s+)?"'''),
+     r'''    r"(?i)se\s+(?:jugar[aá]n?|juegan?|disputar[aá]n?)\s+(?:el\s+)?"''',
+     r'''    r"(?i)se\s+(?:jugar[aá]n?|juegan?)\s+(?:el\s+)?"'''),
 
     ("fad/parser.py", "pedirle la tilde a la nota en futuro",
-     r'''    r"(?i)se\s+(?:jugar[aá]n?|disputar[aá]n?)\s+(?:el\s+)?"''',
-     r'''    r"(?i)se\s+(?:jugarán?|disputar[aá]n?)\s+(?:el\s+)?"'''),
+     r'''    r"(?i)se\s+(?:jugar[aá]n?|juegan?|disputar[aá]n?)\s+(?:el\s+)?"''',
+     r'''    r"(?i)se\s+(?:jugarán?|juegan?|disputar[aá]n?)\s+(?:el\s+)?"'''),
+
+    # El mismo plan en presente, y las dos piezas que la frase del dia comparte con el
+    # status: donde se jugo y el dia de la semana, en pasado y en futuro.
+    ("fad/parser.py", "no ver el plan escrito en presente",
+     r'''    r"(?i)se\s+(?:jugar[aá]n?|juegan?|disputar[aá]n?)\s+(?:el\s+)?"''',
+     r'''    r"(?i)se\s+(?:jugar[aá]n?|disputar[aá]n?)\s+(?:el\s+)?"'''),
+
+    ("fad/parser.py", "no leer donde se jugo antes del dia de la nota en pasado",
+     r'disputaron)\s+(?:el\s+)?"' + chr(10) + '    + _EN_LA_CANCHA + _EL_DIA_DE_LA_SEMANA',
+     r'disputaron)\s+(?:el\s+)?"' + chr(10) + '    + _EL_DIA_DE_LA_SEMANA'),
+
+    ("fad/parser.py", "no leer el dia de la semana de la nota en pasado",
+     r'disputaron)\s+(?:el\s+)?"' + chr(10) + '    + _EN_LA_CANCHA + _EL_DIA_DE_LA_SEMANA',
+     r'disputaron)\s+(?:el\s+)?"' + chr(10) + '    + _EN_LA_CANCHA'),
+
+    ("fad/parser.py", "no leer donde se jugara antes del dia del plan",
+     r'disputar[aá]n?)\s+(?:el\s+)?"' + chr(10) + '    + _EN_LA_CANCHA + _EL_DIA_DE_LA_SEMANA',
+     r'disputar[aá]n?)\s+(?:el\s+)?"' + chr(10) + '    + _EL_DIA_DE_LA_SEMANA'),
+
+    ("fad/parser.py", "no leer el dia de la semana del plan",
+     r'disputar[aá]n?)\s+(?:el\s+)?"' + chr(10) + '    + _EN_LA_CANCHA + _EL_DIA_DE_LA_SEMANA',
+     r'disputar[aá]n?)\s+(?:el\s+)?"' + chr(10) + '    + _EN_LA_CANCHA'),
 
     ("fad/parser.py", "no reconocer el renglon de parametro indentado",
      r'''_RENGLON_DE_PARAMETRO = re.compile(r"\n\s*\|")''',
      r'''_RENGLON_DE_PARAMETRO = re.compile(r"\n\|")'''),
 
     ("fad/parser.py", "buscar la nota de la plantilla sin el dia programado",
-     "        jugada = (_fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada)\n",
-     "        jugada = (_fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio)\n"),
+     "    jugada = _fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada)\n",
+     "    jugada = _fecha_de_la_nota(fila, anio, anio_fin, mes_inicio)\n"),
+
+    # La hora del dia en que se jugo, de la misma oracion de la nota que da el dia:
+    # sus formas, la oracion y lo que no es una hora.
+    ("fad/parser.py", "publicar la hora de la celda aunque la nota diga otro dia",
+     "            fecha=fecha, hora=hora,",
+     '            fecha=fecha, hora=_hora(valores["hora"]),'),
+
+    ("fad/parser.py", "no leer la hora que da la nota con `desde las`",
+     r'    r"(?i)\b(?:a\s+partir\s+de\s+las|desde\s+las|a\s+las)\s+(\d{1,2})"',
+     r'    r"(?i)\b(?:a\s+partir\s+de\s+las|a\s+las)\s+(\d{1,2})"'),
+
+    ("fad/parser.py", "no leer la hora que da la nota con `a las`",
+     r'    r"(?i)\b(?:a\s+partir\s+de\s+las|desde\s+las|a\s+las)\s+(\d{1,2})"',
+     r'    r"(?i)\b(?:a\s+partir\s+de\s+las|desde\s+las)\s+(\d{1,2})"'),
+
+    ("fad/parser.py", "no leer la hora de la nota escrita con punto",
+     r'    r"(?:[:.](\d{2})|(?=\s*(?:hs|horas)\b|\s*[.,;)<}]|\s*$))(?![\d:])")',
+     r'    r"(?:[:](\d{2})|(?=\s*(?:hs|horas)\b|\s*[.,;)<}]|\s*$))(?![\d:])")'),
+
+    ("fad/parser.py", "leer como hora cualquier numero despues de `a las`",
+     r'    r"(?:[:.](\d{2})|(?=\s*(?:hs|horas)\b|\s*[.,;)<}]|\s*$))(?![\d:])")',
+     r'    r"(?:[:.](\d{2}))?(?![\d:])")'),
+
+    ("fad/parser.py", "no leer la hora de la nota sin los minutos",
+     r'    r"(?:[:.](\d{2})|(?=\s*(?:hs|horas)\b|\s*[.,;)<}]|\s*$))(?![\d:])")',
+     r'    r"(?:[:.](\d{2}))(?![\d:])")'),
+
+    ("fad/parser.py", "tomar de la nota el principio de una hora con segundos",
+     r'    r"(?:[:.](\d{2})|(?=\s*(?:hs|horas)\b|\s*[.,;)<}]|\s*$))(?![\d:])")',
+     r'    r"(?:[:.](\d{2})|(?=\s*(?:hs|horas)\b|\s*[.,;)<}]|\s*$))")'),
+
+    ("fad/parser.py", "aceptar de la nota una hora que no existe",
+     "             if int(h) < 24 and int(m or 0) < 60}",
+     "             if int(m or 0) < 60}"),
+
+    ("fad/parser.py", "aceptar de la nota unos minutos que no existen",
+     "             if int(h) < 24 and int(m or 0) < 60}",
+     "             if int(h) < 24}"),
+
+    ("fad/parser.py", "no completar con cero la hora de un digito de la nota",
+     "    horas = {f\"{int(h):02d}:{m or '00'}\" for h, m in _HORA_DE_LA_NOTA.findall(oracion)",
+     "    horas = {f\"{h}:{m or '00'}\" for h, m in _HORA_DE_LA_NOTA.findall(oracion)"),
+
+    ("fad/parser.py", "no ponerle minutos a la hora sola de la nota",
+     "    horas = {f\"{int(h):02d}:{m or '00'}\" for h, m in _HORA_DE_LA_NOTA.findall(oracion)",
+     "    horas = {f\"{int(h):02d}:{m}\" for h, m in _HORA_DE_LA_NOTA.findall(oracion)"),
+
+    ("fad/parser.py", "quedarse con una de dos horas de la nota",
+     '        return horas.pop() if len(horas) == 1 else ""',
+     "        return horas.pop()"),
+
+    ("fad/parser.py", "no reconocer `en el mismo horario`",
+     r'_MISMA_HORA = re.compile(r"(?i)\b(?:a\s+la\s+misma\s+hora|en\s+el\s+mismo\s+horario)\b")',
+     r'_MISMA_HORA = re.compile(r"(?i)\b(?:a\s+la\s+misma\s+hora)\b")'),
+
+    ("fad/parser.py", "dejar la hora de la celda aunque la nota no la de",
+     '    return hora if _MISMA_HORA.search(oracion) else ""',
+     "    return hora"),
+
+    ("fad/parser.py", "vaciar la hora aunque la nota diga `a la misma hora`",
+     '    return hora if _MISMA_HORA.search(oracion) else ""',
+     '    return ""'),
+
+    ("fad/parser.py", "cortar la oracion en el punto de una hora como `15.30`",
+     r'_FIN_DE_LA_ORACION = re.compile(r"\.(?!\d)|<|\}\}|\n")',
+     r'_FIN_DE_LA_ORACION = re.compile(r"\.|<|\}\}|\n")'),
+
+    ("fad/parser.py", "seguir la oracion adentro de la referencia que la cierra",
+     r'_FIN_DE_LA_ORACION = re.compile(r"\.(?!\d)|<|\}\}|\n")',
+     r'_FIN_DE_LA_ORACION = re.compile(r"\.(?!\d)|\}\}|\n")'),
+
+    ("fad/parser.py", "seguir la oracion en la nota que viene despues",
+     r'_FIN_DE_LA_ORACION = re.compile(r"\.(?!\d)|<|\}\}|\n")',
+     r'_FIN_DE_LA_ORACION = re.compile(r"\.(?!\d)|<|\n")'),
+
+    ("fad/parser.py", "seguir la oracion en el parametro que viene despues",
+     r'_FIN_DE_LA_ORACION = re.compile(r"\.(?!\d)|<|\}\}|\n")',
+     r'_FIN_DE_LA_ORACION = re.compile(r"\.(?!\d)|<|\}\}")'),
+
+    ("fad/parser.py", "leer la hora en toda la nota y no en la oracion del dia",
+     "        de_la_nota = _hora_de_la_oracion(fila[frase.end():fin.start() if fin else None], hora)",
+     "        de_la_nota = _hora_de_la_oracion(fila[:fin.start() if fin else None], hora)"),
 
     ("fad/parser.py", "leer la hora de `fecha` sin guardas",
      r'_HORA_EN_LA_FECHA = re.compile(r"(?<![\d:.+\-−])(\d{1,2}:\d{2})(?![\d:])")',
@@ -2992,7 +3203,161 @@ MUTANTES = [
      'validar.Aviso("un partido neutral que la pagina ya marca", d, grave=False)',
      'validar.Aviso("un partido neutral que la pagina ya marca", d)'),
 
+    ("fad/parser.py", "dejar la plantilla en el dia programado aunque se jugo otro",
+     '            fecha=dia, hora=hora,',
+     '            fecha=programada, hora=hora,'),
+
+    ("fad/parser.py", "no resolver las notas con nombre para el dia de la plantilla",
+     '        dia, hora = _dia_y_hora_de_la_nota(_con_notas(cuerpo, notas), anio, anio_fin,',
+     '        dia, hora = _dia_y_hora_de_la_nota(cuerpo, anio, anio_fin,'),
+
+    ("fad/parser.py", "no escribir el status de la plantilla",
+     '            status=status_de_la_fila(cuerpo),',
+     '            status="",'),
+
+    ("fad/parser.py", "no reconocer los minutos entre se completaron y el dia",
+     r'_LOS_MINUTOS = r"(?:los\s+\d+\s+minutos\s+(?:[a-z]+\s+)?)?"',
+     r'_LOS_MINUTOS = r""'),
+
+    ("fad/parser.py", "no mirar las plantillas al buscar fallos sin leer",
+     '    for _, crudo in _plantillas_partido(texto):',
+     '    for _, crudo in ():'),
+
+    ("fad/correcciones.py", "no ponerle la hora declarada al partido que se paso de dia",
+     '        if d.hora is not None:\n            p.hora = d.hora',
+     '        if False:\n            p.hora = d.hora'),
+
+    ("fad/correcciones.py", "pisar la hora aunque la correccion de dia no la declare",
+     '        if d.hora is not None:\n',
+     '        if True:\n'),
+
+    # La pagina sin comentarios, con las reglas del preprocesador de MediaWiki.
+    ("build.py", "leer la pagina con sus comentarios",
+     "    texto = parser.sin_comentarios(texto)",
+     "    texto = texto"),
+
+    ("build.py", "no avisar el comentario sin cerrar",
+     "    if sin_cerrar >= 0:",
+     "    if False:"),
+
+    ("build.py", "avisar un comentario sin cerrar aunque cierren todos",
+     "    if sin_cerrar >= 0:",
+     "    if sin_cerrar >= -1:"),
+
+    ("build.py", "hacer grave el comentario sin cerrar",
+     'f"{tapado!r}", grave=False))',
+     'f"{tapado!r}"))'),
+
+    ("build.py", "no mostrar como arranca el comentario sin cerrar",
+     '    tapado = texto[sin_cerrar:sin_cerrar + 80] if sin_cerrar >= 0 else ""',
+     '    tapado = ""'),
+
+    ("fad/parser.py", "sacar de un comentario hasta el ultimo `-->`",
+     '        cierra = texto.find("-->", m.end())',
+     '        cierra = texto.rfind("-->", m.end())'),
+
+    ("fad/parser.py", "leer lo que sigue a un comentario sin cerrar",
+     '            return "".join(partes), m.start()',
+     '            return "".join(partes) + texto[m.start():], m.start()'),
+
+    ("fad/parser.py", "no saltear el contenido de <nowiki> ni de <pre>",
+     r'_COMENTARIO_O_LITERAL = re.compile(r"<!--|<(nowiki|pre)(?=\s|/>|>)[^>]*>", re.I)',
+     r'_COMENTARIO_O_LITERAL = re.compile(r"<!--()", re.I)'),
+
+    ("fad/parser.py", "saltear <nowiki> y no <pre>",
+     r'_COMENTARIO_O_LITERAL = re.compile(r"<!--|<(nowiki|pre)(?=\s|/>|>)[^>]*>", re.I)',
+     r'_COMENTARIO_O_LITERAL = re.compile(r"<!--|<(nowiki)(?=\s|/>|>)[^>]*>", re.I)'),
+
+    ("fad/parser.py", "tomar por <pre> una etiqueta que empieza igual",
+     r'_COMENTARIO_O_LITERAL = re.compile(r"<!--|<(nowiki|pre)(?=\s|/>|>)[^>]*>", re.I)',
+     r'_COMENTARIO_O_LITERAL = re.compile(r"<!--|<(nowiki|pre)[^>]*>", re.I)'),
+
+    ("fad/parser.py", "reconocer <nowiki> y <pre> solo en minusculas",
+     r'_COMENTARIO_O_LITERAL = re.compile(r"<!--|<(nowiki|pre)(?=\s|/>|>)[^>]*>", re.I)',
+     r'_COMENTARIO_O_LITERAL = re.compile(r"<!--|<(nowiki|pre)(?=\s|/>|>)[^>]*>")'),
+
+    ("fad/parser.py", "buscarle cierre a una <nowiki /> autocerrada",
+     '            cierre = (None if m.group(0).endswith("/>") else',
+     "            cierre = (None if False else"),
+
+    ("fad/parser.py", "que una <nowiki> sin cerrar tape el resto",
+     "            fin = cierre.end() if cierre else m.end()",
+     "            fin = cierre.end() if cierre else len(texto)"),
+
+    ("fad/parser.py", "buscar el cierre de <nowiki> distinguiendo mayusculas",
+     r'                      re.compile(rf"</{m.group(1)}\s*>", re.I).search(texto, m.end()))',
+     r'                      re.compile(rf"</{m.group(1)}\s*>").search(texto, m.end()))'),
+
+    ("fad/parser.py", "pedir el cierre de <nowiki> sin blancos",
+     r'                      re.compile(rf"</{m.group(1)}\s*>", re.I).search(texto, m.end()))',
+     r'                      re.compile(rf"</{m.group(1)}>", re.I).search(texto, m.end()))'),
+
 ]
+
+
+# LAS FORMAS DE LOS REGEX DEL STATUS, una alternativa por vez. Sacarle una a un regex y
+# que la suite no se entere quiere decir que esa forma se acepta sin que nadie la haya
+# pedido: antes de que existieran los tests que las fijan, de 38 mutantes asi sobre los
+# cuatro regex de entonces sobrevivian 32. Van como (regex, renglon del fuente,
+# alternativas) y no uno por uno porque son 60 y los 60 son la misma operacion.
+#
+# Faltan cuatro a proposito, las de `_HABLA_DE_FALLO` que el clasificador tambien lee:
+# `suspendid`, `otorgandole`, `inclusion indebida` y `mala inclusion`. Una nota que las
+# dice ya sale con status, asi que el detector no decide nada con ellas y sacarlas no
+# cambia ninguna salida: son mutantes que no pueden morir.
+_FORMAS_DEL_STATUS = [
+    ("_HABLA_DE_FALLO", r'''    r"(?i)suspendid|abandon|no se present|tribunal|se le dio por|dio por (ganado|perdido|"''',
+     ("abandon", "no se present", "tribunal", "se le dio por", "ganado", "perdido")),
+    ("_HABLA_DE_FALLO", r'''    r"terminado|finalizado)|dandolo por|otorgandole|inclusion indebida|mala inclusion"''',
+     ("terminado", "finalizado", "dandolo por")),
+    ("_HABLA_DE_FALLO", r'''    r"|darle por perdido")''',
+     ("darle por perdido",)),
+    ("_NO_LLEGO_AL_FINAL", r'''_NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspendid|abandono|no se presento|interrumpi")''',
+     ("suspendid", "abandono", "no se presento", "interrumpi")),
+    ("_HUBO_FALLO", r'''    r"(?i)se (?:le )?dio por (ganado|perdido)|se lo dio (por )?ganado|le dio por ganado"''',
+     ("se (?:le )?dio por (ganado|perdido)", "ganado", "perdido", "se lo dio (por )?ganado",
+      "le dio por ganado")),
+    ("_HUBO_FALLO", r'''    r"|otorgandole|le gano los puntos|(mala|indebida) inclusion|inclusion indebida"''',
+     ("otorgandole", "le gano los puntos", "(mala|indebida) inclusion", "mala", "indebida",
+      "inclusion indebida")),
+    ("_HUBO_FALLO` con el objeto en el medio, `le dio el partido", r'''    r"|le dio el partido (?:por )?(?:ganado|perdido)")''',
+     ("ganado", "perdido")),
+    ("_SE_COMPLETO",
+     r'''    r"(?i)se\s+(?:jugo|jugaron|juegan?|jugaran?|disputo|disputaron|completo|completaron|"''',
+     ("jugo", "jugaron", "juegan?", "jugaran?", "disputo", "disputaron", "completo",
+      "completaron")),
+    ("_SE_COMPLETO",
+     r'''    r"reanudo|finalizo)\s+" + _EN_LA_CANCHA + _LOS_MINUTOS + r"(?:el\s+)?"''',
+     ("reanudo", "finalizo")),
+    # Esta pieza la comparten el status y la frase del dia (`_SE_JUGO`, `_SE_JUGARA`).
+    ("_EL_DIA_DE_LA_SEMANA",
+     r'''_EL_DIA_DE_LA_SEMANA = r"(?:(?:lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado|domingo)\s+)?"''',
+     ("lunes", "martes", "mi[eé]rcoles", "jueves", "viernes", "s[aá]bado", "domingo")),
+    ("_SE_COMPLETO_DESPUES", r'''    r"(?i)(?:completado|jugados\s+los\s+\d+\S*)\s+(?:al\s+dia\s+siguiente|\S+\s+dias\s+despues)")''',
+     ("completado", r"jugados\s+los\s+\d+\S*", r"al\s+dia\s+siguiente",
+      r"\S+\s+dias\s+despues")),
+    ("_NO_EMPEZO", r'''_NO_EMPEZO = re.compile(r"(?i)no se presento|falta de (?:cuerpo|personal) medico")''',
+     ("no se presento", "falta de (?:cuerpo|personal) medico", "cuerpo", "personal")),
+    ("_YA_SE_JUGABA", r'''_YA_SE_JUGABA = re.compile(r"(?i)a\s+los\s+\d|minuto|tiempo")''',
+     (r"a\s+los\s+\d", "minuto", "tiempo")),
+    ("_CITA", r'''_CITA = re.compile(r"(?i)\{\{\s*cita\b[^{}]*\}\}|\[https?://[^\]]*\]")''',
+     (r"\{\{\s*cita\b[^{}]*\}\}", r"\[https?://[^\]]*\]")),
+    ("_NOMBRE_DE_LA_NOTA", r'''_NOMBRE_DE_LA_NOTA = re.compile(r"""(?i)\bname\s*=\s*(?:"[^"]*"|'[^']*'|[^\s|/>}"']+)""")''',
+     ('"[^"]*"', "'[^']*'", r'''[^\s|/>}"']+''')),
+]
+
+
+def _sin(renglon: str, alternativa: str) -> str:
+    """El renglon sin esa alternativa ni la barra que la separa de la vecina."""
+    for viejo in (alternativa + "|", "|" + alternativa):
+        if viejo in renglon:
+            return renglon.replace(viejo, "", 1)
+    raise ValueError(f"{alternativa!r} no esta en {renglon!r}")
+
+
+MUTANTES += [("fad/parser.py", f"no leer la forma `{alt}` de `{regex}`", renglon,
+              _sin(renglon, alt))
+             for regex, renglon, alternativas in _FORMAS_DEL_STATUS for alt in alternativas]
 
 
 # La suite entera tarda unos segundos. Este numero no es para apurar a nadie: es

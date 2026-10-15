@@ -893,7 +893,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2013-10-23,18:30,Atlético de Rafaela,River Plate,0,0,,,Primera Division - Inicial,2013,zonas,,Fecha 13,Nuevo Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2013_(Argentina),
 2013-10-23,19:00,Temperley,Flandria,2,3,,,Primera B,2013,zonas,,Fecha 13,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
 2013-10-23,21:30,Lanús,San Lorenzo,3,2,,,Primera Division - Inicial,2013,zonas,,Fecha 13,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2013_(Argentina),
-2013-10-24,21:15,Independiente,Unión,1,1,,,Primera Nacional,2013,zonas,,Fecha 11,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14,
+2013-10-24,16:15,Independiente,Unión,1,1,,,Primera Nacional,2013,zonas,,Fecha 11,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14,
 2013-10-25,14:00,Belgrano,Rosario Central,0,1,,,Primera Division - Inicial,2013,zonas,,Fecha 13,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2013_(Argentina),
 2013-10-25,15:30,Argentino de Quilmes,San Telmo,0,1,,,Primera C,2013,zonas,,Fecha 9,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),
 2013-10-25,15:30,Los Andes,Nueva Chicago,0,1,,,Primera B,2013,zonas,,Fecha 8,Eduardo Gallardón,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
@@ -1095,7 +1095,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2013-11-17,21:15,Arsenal,Boca Juniors,3,2,,,Primera Division - Inicial,2013,zonas,,Fecha 16,El Viaducto,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2013_(Argentina),
 2013-11-18,17:00,Central Córdoba (R),Defensores de Cambaceres,0,0,,,Primera C,2013,zonas,,Fecha 15,Gabino Sosa,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),
 2013-11-18,17:00,Ferro Carril Oeste,Defensa y Justicia,1,0,,,Primera Nacional,2013,zonas,,Fecha 18,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14,
-2013-11-18,18:00,Colón,Atlético de Rafaela,0,1,,,Primera Division - Inicial,2013,zonas,,Fecha 16,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2013_(Argentina),suspendido
+2013-11-18,18:00,Colón,Atlético de Rafaela,0,1,,,Primera Division - Inicial,2013,zonas,,Fecha 16,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2013_(Argentina),no disputado
 2013-11-18,19:10,Independiente,Douglas Haig,2,0,,,Primera Nacional,2013,zonas,,Fecha 18,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14,
 2013-11-18,20:00,San Martín (SJ),Instituto,2,1,,,Primera Nacional,2013,zonas,,Fecha 18,Ingeniero Hilario Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14,
 2013-11-18,20:15,Tigre,Newell's Old Boys,2,1,,,Primera Division - Inicial,2013,zonas,,Fecha 16,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Inicial_2013_(Argentina),
@@ -1415,7 +1415,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-02-25,17:00,San Telmo,Luján,3,0,,,Primera C,2013,zonas,,Fecha 23,Dr. Osvaldo Baletto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),
 2014-02-25,20:30,Talleres (RdE),Deportivo Español,2,0,,,Primera C,2013,zonas,,Fecha 23,Talleres de Remedios de Escalada,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),
 2014-02-25,21:05,Temperley,Tristán Suárez,1,2,,,Primera B,2013,zonas,,Fecha 25,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
-2014-02-25,21:15,Deportivo Maipú,Rivadavia (L),1,2,,,Torneo Argentino A,2013,zonas,Zona Sur,Fecha 20,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14,
+2014-02-25,21:25,Deportivo Maipú,Rivadavia (L),1,2,,,Torneo Argentino A,2013,zonas,Zona Sur,Fecha 20,Omar Higinio Sperdutti,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14,
 2014-02-26,17:00,Defensores Unidos,Central Córdoba (R),0,0,,,Primera C,2013,zonas,,Fecha 23,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),
 2014-02-26,17:00,Ferro Carril Oeste,Independiente Rivadavia,3,0,,,Primera Nacional,2013,zonas,,Fecha 25,Arquitecto Ricardo Etcheverri,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14,
 2014-02-26,17:00,Ituzaingó,Argentino de Merlo,0,0,,,Primera C,2013,zonas,,Fecha 23,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),
@@ -1475,7 +1475,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-03-04,17:00,Colegiales,Almagro,2,0,,,Primera B,2013,zonas,,Fecha 22,Colegiales,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
 2014-03-04,17:00,Deportivo Merlo,Tristán Suárez,3,0,,,Primera B,2013,zonas,,Fecha 23,José Manuel Moreno,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
 2014-03-04,21:05,Defensores de Belgrano,Barracas Central,0,1,,,Primera B,2013,zonas,,Fecha 26,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
-2014-03-05,17:00,Unión (MdP),Alvarado,0,0,,,Torneo Argentino A,2013,zonas,Zona Sur,Fecha 15,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14,suspendido
+2014-03-05,17:00,Unión (MdP),Alvarado,0,0,,,Torneo Argentino A,2013,zonas,Zona Sur,Fecha 15,José María Minella,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14,
 2014-03-05,21:00,Villa Dálmine,Atlanta,0,2,,,Primera B,2013,zonas,,Fecha 23,Jorge Rubén Varela,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
 2014-03-06,17:00,Estudiantes (BA),Platense,0,1,,,Primera B,2013,zonas,,Fecha 22,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
 2014-03-07,17:00,Dock Sud,Argentino de Merlo,4,0,,,Primera C,2013,zonas,,Fecha 25,De los Inmigrantes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),
@@ -2065,7 +2065,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-05-26,15:30,Almagro,Tristán Suárez,1,1,,,Primera B,2013,zonas,,Fecha 42,Tres de Febrero,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
 2014-05-26,15:30,Villa San Carlos,Douglas Haig,0,2,,,Primera Nacional,2013,zonas,,Fecha 40,Genacio Sálice,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14,
 2014-05-26,16:10,Talleres (C),Huracán,0,0,,,Primera Nacional,2013,zonas,,Fecha 40,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2013-14,
-2014-05-27,15:30,Argentino de Quilmes,Defensores de Cambaceres,0,1,,,Primera C,2013,eliminacion,,Semifinales,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),
+2014-05-27,15:30,Argentino de Quilmes,Defensores de Cambaceres,0,1,,,Primera C,2013,eliminacion,,Semifinales,Argentino de Quilmes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),escritorio
 2014-05-27,20:00,Deportivo Laferrere,Deportivo Español,3,3,,,Primera C,2013,eliminacion,,Semifinales,José Luis Sánchez,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2013-14_(Argentina),
 2014-05-28,15:10,Fénix,Temperley,0,0,,,Primera B,2013,eliminacion,,Semifinales,Estadio Carlos Barraza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2013-14_(Argentina),
 2014-05-28,21:00,Guaraní Antonio Franco,Tiro Federal,1,2,,,Torneo Argentino A,2013,eliminacion,,Partidos de vuelta,Clemente A. F. de Oliveira,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2013-14,

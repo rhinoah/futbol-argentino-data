@@ -883,3 +883,51 @@ def test_los_partidos_declarados_neutrales_salen_neutrales():
         assert por_partido.get(k) == ["true"], (n.pagina, n.fecha, local, visita)
         vistas += 1
     assert vistas >= 59, f"son 59 de torneos cerrados y vio {vistas}: no esta mirando"
+
+
+@pytest.fixture(scope="module")
+def todas():
+    filas = dataset.leer_carpeta(DATOS)
+    if not filas:
+        pytest.skip("hace falta el dataset")
+    return {(f["date"], f["home_team"], f["away_team"]): f for f in filas}
+
+
+@pytest.mark.parametrize("clave, campo, valor", [
+    # La nota de la fila: «se disputó el 21 de noviembre, a partir de las 18:30». La
+    # celda ya decia el 21, con las 11:00 del domingo de la lluvia (La Nueva,
+    # 28/10/2012: «debía iniciarse a las 11»).
+    (("2012-11-21", "Crucero del Norte", "Rosario Central"), "time", "18:30"),
+    # Una `Dia`: «Se juega el miércoles 3 de octubre a las 21:35 horas», y la cronica
+    # de Ascenso del Interior del 04/10/2012 lo cuenta jugado «esta noche».
+    (("2012-10-03", "Central Norte (S)", "Juventud Antoniana"), "time", "21:35"),
+    # Una `Dia`: el comunicado de la Liga, La Capital 01/11/2020, «martes 03.11.2020
+    # a las 21»; las 21:15 eran las del domingo programado.
+    (("2020-11-03", "River Plate", "Banfield"), "time", "21:00"),
+    # Una `Dia`: la programacion de la AFA y La Nueva del 22/06/2013, «consiguió hoy
+    # el segundo ascenso». La pagina dice el 23.
+    (("2013-06-22", "Almagro", "Brown de Adrogué"), "time", "12:05"),
+])
+def test_lo_que_fija_un_testigo_de_afuera_esta_publicado(todas, clave, campo, valor):
+    """Una correccion a mano que se cae, o una regla que cambia, mueven estas filas
+    sin que ningun otro test lo note: el dato correcto lo dice una fuente de afuera."""
+    assert clave in todas, f"no esta {clave}: ¿se movio el dia?"
+    assert todas[clave][campo] == valor, (clave, campo)
+
+
+def test_cada_dia_declarado_es_el_que_se_publica(todas):
+    """Una `Dia` de un torneo cerrado se aplica al rehacer, y lo publicado es lo que
+    queda de eso: la fila esta en el dia que la declaracion dice que es el bueno, y
+    con su hora si la declara. Si alguien cambia una sin rehacer, se nota aca."""
+    from fad import correcciones, torneos
+    cerradas = {t.pagina: t.url for t in torneos.TODOS if t.cerrado}
+    vistas = 0
+    for d in correcciones.DIAS:
+        if d.pagina not in cerradas:
+            continue
+        f = todas.get((d.debe, d.local, d.visita))
+        assert f is not None, f"{d.pagina}: no esta {d.local} - {d.visita} del {d.debe}"
+        if d.hora is not None:
+            assert f["time"] == d.hora, (d.pagina, d.debe, d.local)
+        vistas += 1
+    assert vistas >= 20, f"vio {vistas} Dia de torneos cerrados: no esta mirando"

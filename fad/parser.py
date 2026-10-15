@@ -121,6 +121,83 @@ class Partido:
 
 
 # --------------------------------------------------------------------------
+# la pagina sin comentarios
+# --------------------------------------------------------------------------
+# Lo que el preprocesador de MediaWiki mira antes que nada: un comentario, o una
+# etiqueta cuyo contenido se muestra tal cual. Adentro de <nowiki> y de <pre> un
+# `<!--` es texto que se ve, asi que no abre ningun comentario. La etiqueta se
+# reconoce como la reconoce MediaWiki: el nombre y despues un blanco, `/>` o `>`,
+# para que `<prefacio>` no sea una <pre>.
+_COMENTARIO_O_LITERAL = re.compile(r"<!--|<(nowiki|pre)(?=\s|/>|>)[^>]*>", re.I)
+
+
+def _sin_comentarios(texto: str) -> tuple[str, int]:
+    """(texto sin comentarios, donde arranca el que no cierra o -1)."""
+    partes, i = [], 0
+    while (m := _COMENTARIO_O_LITERAL.search(texto, i)):
+        if m.group(1):
+            # Autocerrada no tiene adentro. Y una que no cierra es la etiqueta
+            # sola, como texto: lo que sigue se lee.
+            cierre = (None if m.group(0).endswith("/>") else
+                      re.compile(rf"</{m.group(1)}\s*>", re.I).search(texto, m.end()))
+            fin = cierre.end() if cierre else m.end()
+            partes.append(texto[i:fin])
+            i = fin
+            continue
+        partes.append(texto[i:m.start()])
+        cierra = texto.find("-->", m.end())
+        if cierra < 0:
+            return "".join(partes), m.start()
+        i = cierra + 3
+    partes.append(texto[i:])
+    return "".join(partes), -1
+
+
+def sin_comentarios(texto: str) -> str:
+    """La pagina como la lee MediaWiki: sin los comentarios HTML.
+
+    Lo comentado no lo dice la pagina. El preprocesador lo borra ANTES de buscar
+    titulos, tablas, plantillas o enlaces, asi que un `== Final ==` comentado no es
+    una seccion, una `{{Partido}}` comentada no es un partido y un enlace comentado
+    no desambigua a nadie. Hasta aca solo el lector de `{{Partido}}` lo sabia, y el
+    resto del parser leia lo comentado como si estuviera a la vista.
+
+    Medido el 15/10/2026 sobre el catalogo, con las paginas en curso de ese dia: 270
+    comentarios en 87 paginas, con 49 titulos y 50 `{{Partido}}` adentro --las
+    plantillas, todas de las cuatro paginas de 2026 en curso, que dejan comentadas
+    las fases que faltan--, 89 tablas y 162 enlaces. El parser saca los mismos
+    partidos con y sin ellos. Lo unico que se movia era el ARTICULO de 335 lados de partido del
+    Argentino A 2010-11 y del Federal A 2016, que venia de enlaces de una seccion y
+    de una tabla comentadas, y en un solo lado eso cambiaba el club: el `Douglas
+    Haig - Rivadavia` de la Fecha 13 del 2010-11, que va en `correcciones`.
+
+    Las reglas son las del preprocesador:
+      - un comentario termina en el PRIMER `-->`, sin anidarse, y uno que no cierra
+        tapa todo lo que sigue: la pagina no muestra nada despues. Hoy no hay
+        ninguno, y si aparece lo avisa `build.procesar`;
+      - adentro de <nowiki> y <pre> un `<!--` es texto. Hoy hay dos <nowiki> en el
+        catalogo, ninguna <pre> y ningun `<!--` adentro de una.
+
+    Lo que NO se copia, medido sobre las mismas paginas:
+      - MediaWiki tambien saltea el contenido de una <ref> y lo limpia aparte, asi
+        que a un comentario que abre adentro lo corta el `</ref>`. Hay uno solo
+        adentro de una <ref>, y cierra antes: el texto da igual en las 170 paginas;
+      - si el renglon queda vacio --solo comentarios y blancos--, MediaWiki se lo
+        come entero. Cambia el texto de 82 paginas y ninguna fila ni aviso.
+
+    El lector de `{{Partido}}` los sigue sacando por su cuenta, del cuerpo de la
+    plantilla, de la prosa de su seccion y de sus titulos. Desde `build` ya le llega
+    la pagina limpia; lo sostienen los que lo llaman directo.
+    """
+    return _sin_comentarios(texto)[0]
+
+
+def comentario_sin_cerrar(texto: str) -> int:
+    """Donde arranca el `<!--` que no cierra, o -1 si cierran todos."""
+    return _sin_comentarios(texto)[1]
+
+
+# --------------------------------------------------------------------------
 # limpieza de wikitexto
 # --------------------------------------------------------------------------
 _ATRIBUTO = re.compile(r"=|bgcolor|style|align|width|span|scope", re.I)
@@ -334,19 +411,40 @@ MES_INICIO_HABITUAL = 8
 # ahi el partido EMPEZO el dia de la celda y se termino despues -- son los 105
 # casos de "se completó el 5 de marzo" --, asi que la fecha buena sigue siendo la
 # primera. Meterlos en el mismo saco moveria 105 partidos al dia equivocado.
+#
+# Entre el verbo y el dia pueden ir DONDE se jugo, sin pasar de la frase, y el DIA
+# DE LA SEMANA, que son las dos cosas que ya acepta `_SE_COMPLETO` para el status:
+# «Se jugó en el estadio Enrique Sexto, el 19 de agosto a partir de las 13:30» es el
+# `Deportivo Español 1-0 Excursionistas` de la Primera C 2021, que figuraba el 18 --
+# el dia que le clausuraron la cancha -- con las 15:00 de ese dia. Solo Ascenso, el
+# 19/08/2021 a las 23:52: «el Gallego enfrentó a Excursionistas este jueves en el
+# estadio de Lamadrid». Medido el 15/10/2026 sobre las 170 paginas del catalogo: las
+# dos piezas mueven UNA fila, esa. Se escriben con tildes porque esta frase se busca
+# en la fila cruda y no en el texto sin tildes del status.
+_EN_LA_CANCHA = r"(?:en\s+[^.|]{1,60}?,?\s+)?"
+_EL_DIA_DE_LA_SEMANA = r"(?:(?:lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado|domingo)\s+)?"
 _SE_JUGO = re.compile(
     r"(?i)se\s+(?:jug[oó]|jugaron|disput[oó]|disputaron)\s+(?:el\s+)?"
-    r"(\d{1,2}\s*de\s+[a-záéíóúñ]+(?:\s*de\s+\d{4})?)")
+    + _EN_LA_CANCHA + _EL_DIA_DE_LA_SEMANA
+    + r"(\d{1,2}\s*de\s+[a-záéíóúñ]+(?:\s*de\s+\d{4})?)")
 # La misma frase EN FUTURO, que es como la escribe una pagina en curso antes de que
 # el partido se juegue, y a veces la deja: "Suspendido por las condiciones
 # climaticas. Se jugará el 2 de diciembre, a la misma hora". Es un plan y no un
 # hecho, asi que NO fecha nada (ver `_FECHADO_EL_DIA_REPROGRAMADO`, que lo midio en
-# las tablas) y `_fecha_de_la_nota` no la usa salvo que se la pidan. La pide el
-# lector de `{{Partido}}`, y solo para saber que el dia y la hora de `fecha` son los
-# de un partido que ese dia no se jugo.
+# las tablas) y `_fecha_de_la_nota` no la usa salvo que se la pidan. La pide
+# `_dia_y_hora_de_la_nota`, y solo para saber que la hora de la celda -- o la de
+# `fecha` en una `{{Partido}}` -- es la de un dia en que el partido no se jugo.
+#
+# Y EN PRESENTE, que es el mismo plan: «Se juega el miércoles 3 de octubre a las 21:35
+# horas» es el `Central Norte (S) 3-0 Juventud Antoniana` del Argentino A 2012-13, que
+# figuraba el 16 de septiembre a las 16:45, el dia en que se suspendio sin jugarse un
+# minuto. Para el status ya contaba como «se jugo otro dia» (ver `_SE_COMPLETO`); aca
+# dice que la hora de la celda es la de un partido que no existio, y queda vacia. El
+# dia y la hora buenos los pone una `Dia`, con testigo, en `fad/correcciones.py`.
 _SE_JUGARA = re.compile(
-    r"(?i)se\s+(?:jugar[aá]n?|disputar[aá]n?)\s+(?:el\s+)?"
-    r"(\d{1,2}\s*de\s+[a-záéíóúñ]+(?:\s*de\s+\d{4})?)")
+    r"(?i)se\s+(?:jugar[aá]n?|juegan?|disputar[aá]n?)\s+(?:el\s+)?"
+    + _EN_LA_CANCHA + _EL_DIA_DE_LA_SEMANA
+    + r"(\d{1,2}\s*de\s+[a-záéíóúñ]+(?:\s*de\s+\d{4})?)")
 
 
 def _fecha_de_la_nota(fila: str, anio: int, anio_fin: int | None,
@@ -379,6 +477,90 @@ def _fecha_de_la_nota(fila: str, anio: int, anio_fin: int | None,
     return jugada
 
 
+# LA HORA DEL DIA EN QUE SE JUGO. La celda de la hora es la del programado, igual
+# que la de la fecha: "28 de junio" y "21:30", con la nota "Suspendido por lluvia.
+# Se jugó el 29 de julio, a partir de las 15:00". Si el dia sale de la nota y la
+# hora de la celda, la fila publica un instante que no existio: el 29 a las 21:30.
+#
+# La regla es del dueño del dataset: si el partido se jugo otro dia, `time` es la
+# hora a la que se jugo ESE dia. Si la nota la da, se toma de ahi; "a la misma
+# hora" es la del programado, que es la de la celda; y si la nota no la da, queda
+# vacia. Nunca la del programado sin que la nota lo diga.
+#
+# Se lee SOLO la oracion de la frase del dia: desde la fecha hasta el punto que la
+# cierra o hasta que se termina la nota. Antes de la frase la nota cuenta lo que no
+# fue -- "Se reprogramó para el 2 de septiembre, a partir de las 15:00, y se volvió
+# a suspender" --, y despues de la nota viene otra cosa: el titulo de una cita
+# ("jugarán mañana a las 17"), la celda de la hora o el `fecha` de la plantilla.
+# Un punto seguido de un digito no cierra nada: es el de `15.00`.
+#
+# Las formas son las que escribe la pagina, medidas el 15/10/2026 sobre las 170
+# paginas del catalogo: de las 367 filas de tabla cuyo dia sale de la nota, 317
+# dan la hora con "a partir de las" (288), "desde las" (25) o "a las" (4) --en 2
+# sin los minutos, `a partir de las 14.`, y en 2 con punto, `15.00`--; 45 dicen "a
+# la misma hora" (43) o "en el mismo horario" (2), y 5 no dicen ninguna. Una hora
+# sola, sin los minutos, se lee si la sigue el final de la oracion o "hs"/"horas":
+# `a las 2 semanas` no es una hora. Y una que no existe (`a las 48 horas`) tampoco.
+_HORA_DE_LA_NOTA = re.compile(
+    r"(?i)\b(?:a\s+partir\s+de\s+las|desde\s+las|a\s+las)\s+(\d{1,2})"
+    r"(?:[:.](\d{2})|(?=\s*(?:hs|horas)\b|\s*[.,;)<}]|\s*$))(?![\d:])")
+_MISMA_HORA = re.compile(r"(?i)\b(?:a\s+la\s+misma\s+hora|en\s+el\s+mismo\s+horario)\b")
+_FIN_DE_LA_ORACION = re.compile(r"\.(?!\d)|<|\}\}|\n")
+
+
+def _hora_de_la_oracion(oracion: str, hora: str) -> str:
+    """La hora que da la oracion de la frase del dia. `hora` es la del programado.
+
+    Con dos horas distintas no se sabe cual es la del partido, y queda vacia: es
+    lo mismo que hace `_hora_de_la_plantilla` con dos horas en `fecha`.
+    """
+    horas = {f"{int(h):02d}:{m or '00'}" for h, m in _HORA_DE_LA_NOTA.findall(oracion)
+             if int(h) < 24 and int(m or 0) < 60}
+    if horas:
+        return horas.pop() if len(horas) == 1 else ""
+    return hora if _MISMA_HORA.search(oracion) else ""
+
+
+def _dia_y_hora_de_la_nota(fila: str, anio: int, anio_fin: int | None,
+                           mes_inicio: int, programada: str = "",
+                           hora: str = "") -> tuple[str, str]:
+    """(dia, hora) del partido: los de la nota si dice que se jugo OTRO dia.
+
+    Salen juntos y de la misma frase, porque son un solo dato: el instante en que
+    empezo el partido. `programada` y `hora` son los de la celda, y vuelven tal
+    cual cuando la nota no dice otro dia -- no dice ninguno, o repite el
+    programado, que es la pagina que ya paso la fila al dia en que se jugo --.
+    "Se completó" no cuenta, como para `_fecha_de_la_nota`: ese partido EMPEZO el
+    dia y a la hora de la celda.
+
+    LA NOTA EN FUTURO no fecha nada (ver `_SE_JUGARA`), asi que el dia sigue siendo
+    el programado; pero dice que ese dia no se jugo, y la hora de la celda es la de
+    un partido que no existio. Queda vacia. Son las dos de la Fecha 12 de la Primera
+    B 2024 que terminan en "Se jugará el 2 de septiembre, a partir de las ...", que
+    publicaban la hora del 31 de agosto, y el `Central Norte (S) - Juventud
+    Antoniana` del Argentino A 2012-13, en presente. A las tres las pasa al dia en
+    que se jugaron una `Dia`, con su testigo y la hora de la nota.
+    """
+    jugada = _fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada)
+    if jugada:
+        frase = _SE_JUGO.search(fila)
+        fin = _FIN_DE_LA_ORACION.search(fila, frase.end())
+        de_la_nota = _hora_de_la_oracion(fila[frase.end():fin.start() if fin else None], hora)
+        if jugada != programada:
+            return jugada, de_la_nota
+        # LA NOTA REPITE EL DIA DE LA CELDA: la pagina ya paso la fila al dia en que
+        # se jugo, pero no siempre la hora. `Crucero del Norte 0-1 Rosario Central`, B
+        # Nacional 2012-13: la celda dice `21 de noviembre` y `11:00` --la hora del
+        # domingo de la lluvia, el 28 de octubre-- y la nota "se disputó el 21 de
+        # noviembre, a partir de las 18:30". La hora de la nota es la del partido. Si
+        # no da ninguna, queda la de la celda, que ya es la del dia en que se jugo.
+        return programada, de_la_nota or hora
+    if not jugada and _fecha_de_la_nota(fila, anio, anio_fin, mes_inicio, programada,
+                                        regla=_SE_JUGARA) not in ("", programada):
+        return programada, ""
+    return programada, hora
+
+
 # UNA NOTA SE DEFINE UNA VEZ Y DESPUES SE REFERENCIA POR NOMBRE. MediaWiki lo
 # resuelve al renderizar; el wikitexto crudo no: la fila que la referencia trae
 # `{{refn|group=n.|name=tres}}` pelado y no dice nada.
@@ -397,6 +579,29 @@ _REFN = re.compile(r"\{\{\s*refn\s*\|(?P<args>[^{}]*(?:\{\{[^{}]*\}\}[^{}]*)*)\}
                    re.I)
 _NOMBRE_DE_NOTA = re.compile(r"(?:^|\|)\s*name\s*=\s*\"?(?P<n>[^|\"]+?)\"?\s*(?=\||$)",
                              re.I)
+# Y LA MISMA NOTA ESCRITA CON LA ETIQUETA, que es la otra forma que tiene MediaWiki:
+# `<ref name="suspendido">Suspendido debido a la lluvia. Se jugó el 24 de
+# septiembre.</ref>` en una fila y `<ref name="suspendido" />` en otra. Es la Fecha 8
+# de la Primera B 2014: la nota se define en `Colegiales - Deportivo Merlo`, que ya
+# salia el 24, y `Villa San Carlos 2-0 UAI Urquiza` la referencia y quedaba el 6, el
+# dia de la lluvia.
+#
+# Los atributos van en cualquier orden y con comillas dobles, simples o sin ninguna
+# (`<ref group="n." name=x />`). El nombre es uno solo para las dos formas, como ya
+# pasaba con `{{refn}}`, que tampoco mira el `group=`: sobre la cache, ningun nombre
+# esta definido de las dos maneras ni en dos grupos. Son 1 206 definiciones y 767
+# referencias peladas, y resolverlas mueve el dia de UNA fila, esa. 72 nombres se
+# definen dos veces con cuerpos distintos, casi todos en las tablas de evolucion de
+# posiciones, y ahi manda el primero, como en MediaWiki.
+_REF_ETIQUETA = re.compile(r"<ref\b(?P<atr>[^>]*?)(?:/>|>(?P<cuerpo>.*?)</ref\s*>)",
+                           re.S | re.I)
+_NOMBRE_EN_LA_ETIQUETA = re.compile(
+    r"""\bname\s*=\s*(?:"(?P<a>[^"]*)"|'(?P<b>[^']*)'|(?P<c>[^\s"'/>]+))""", re.I)
+
+
+def _nombre_de_la_etiqueta(atr: str) -> str:
+    m = _NOMBRE_EN_LA_ETIQUETA.search(atr)
+    return (m.group("a") or m.group("b") or m.group("c") or "").strip() if m else ""
 
 
 def _cuerpo_de_la_nota(args: str) -> str:
@@ -415,14 +620,22 @@ def notas_con_nombre(texto: str) -> dict[str, str]:
     razon por la que `_zonas_ambiguas` tambien se calcula una vez.
 
     Con `setdefault`: si la pagina define el mismo nombre dos veces manda la
-    primera, que es lo que hace MediaWiki.
+    primera, que es lo que hace MediaWiki. La primera DE LA PAGINA, asi que las
+    dos formas -- `{{refn}}` y `<ref>` -- se ordenan por donde estan antes de elegir.
     """
-    notas: dict[str, str] = {}
+    definidas = []
     for m in _REFN.finditer(texto):
         nombre = _NOMBRE_DE_NOTA.search(m.group("args"))
         cuerpo = _cuerpo_de_la_nota(m.group("args"))
         if nombre and cuerpo:
-            notas.setdefault(nombre.group("n"), cuerpo)
+            definidas.append((m.start(), nombre.group("n"), cuerpo))
+    for m in _REF_ETIQUETA.finditer(texto):
+        nombre = _nombre_de_la_etiqueta(m.group("atr"))
+        if nombre and (m.group("cuerpo") or "").strip():
+            definidas.append((m.start(), nombre, m.group("cuerpo")))
+    notas: dict[str, str] = {}
+    for _, nombre, cuerpo in sorted(definidas, key=lambda d: d[0]):
+        notas.setdefault(nombre, cuerpo)
     return notas
 
 
@@ -443,7 +656,14 @@ def _con_notas(texto: str, notas: dict[str, str] | None) -> str:
         cuerpo = notas.get(nombre.group("n")) if nombre else None
         return m.group(0) if cuerpo is None else "{{refn|" + cuerpo + "}}"
 
-    return _REFN.sub(reponer, texto)
+    # La etiqueta pelada, `<ref name=x />`. La que trae cuerpo ya dice lo suyo.
+    def reponer_etiqueta(m):
+        if m.group("cuerpo") is not None:
+            return m.group(0)
+        cuerpo = notas.get(_nombre_de_la_etiqueta(m.group("atr")))
+        return m.group(0) if cuerpo is None else "<ref>" + cuerpo + "</ref>"
+
+    return _REF_ETIQUETA.sub(reponer_etiqueta, _REFN.sub(reponer, texto))
 
 
 # `24 septiembre`, SIN EL «DE». Lo escribe una sola celda del corpus --la del
@@ -529,9 +749,25 @@ _ANULADO = re.compile(r"(?i)^\s*PP\s*-\s*PP\s*$")
 
 # El idioma con que la fuente habla de un partido que no salio normal. Es ANCHO
 # a proposito: sirve para preguntar "¿aca paso algo?", no para decidir que paso.
+#
+# ESTE REGEX Y LOS QUE SIGUEN SE PREGUNTAN SOBRE EL TEXTO SIN TILDES, y por eso estan
+# escritos sin tildes: ver `_texto_de_la_nota`. Una tilde opcional en cada palabra no
+# alcanzaba, porque la pagina no se equivoca solo sacandolas: tambien las pone de mas o
+# donde no van. «Se le dió por ganado» (Argentino A 2004-05) salia sin status y sin
+# aviso, y «Se compĺetó el 28 de noviembre», con una `ĺ`, salia `suspendido`.
+#
+# `darle por perdido` va SOLO ACA y no en `_HUBO_FALLO`: es el titulo de la unica cita
+# del `San Martín (T) 0-2 Alumni (VM)` del Argentino A 2011-12, «AFA decide darle por
+# perdido 0-2 a San Martín de Tucuman frente a Alumni», que es toda la nota de la fila.
+# Dice que hubo un fallo y no dice si el partido llego al final, y no llego: el blog de
+# Jose Carluccio lo da «Suspendido a los 40', con el marcador 0-2, por agresión a
+# Silvestre de Alumni. No continuó ni se modificó el resultado». Leido como fallo
+# saldria `escritorio`, que afirma que se jugaron los noventa; leido solo como aviso,
+# la fila queda vacia y el build dice que la pagina hablo y no se supo que.
 _HABLA_DE_FALLO = re.compile(
     r"(?i)suspendid|abandon|no se present|tribunal|se le dio por|dio por (ganado|perdido|"
-    r"terminado|finalizado)|d[aá]ndolo por|otorg[aá]ndole|inclusi[oó]n indebida|mala inclusi[oó]n")
+    r"terminado|finalizado)|dandolo por|otorgandole|inclusion indebida|mala inclusion"
+    r"|darle por perdido")
 # NUNCA SE JUGO. La pagina no lo cuenta en una nota al pie sino en la ESTRUCTURA
 # de la fila: donde van Estadio, Fecha y Hora pone una sola celda con
 # `colspan=3`, porque no hay ninguna de las tres cosas que poner. Son los seis
@@ -545,7 +781,30 @@ _HABLA_DE_FALLO = re.compile(
 _NO_SE_JUGO = re.compile(r"(?i)^sin disputar$")
 
 # No llego al final. Es lo unico que la fuente dice SIEMPRE y sin ambiguedad.
-_NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspendid|abandon[oó]|no se present[oó]|interrumpi")
+_NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspendid|abandono|no se presento|interrumpi")
+# NO EMPEZO: el partido se suspendio antes de jugarse, porque no hubo con quien. Es
+# `no disputado` y no `suspendido`, que afirmaria que hubo un partido que cortar. La
+# pagina lo dice de dos maneras, y son cinco filas del catalogo:
+#
+#   * un club que no se presento: el `Colón 0-1 Atlético de Rafaela` del Inicial 2013
+#     («Suspendido porque Colón no se presentó»; RSSSF: `awarded on Dec 11; Colón
+#     dns`), y del Federal A 2015 `Independiente (Ch) 1-0 Alianza (CC)` y `Altos Hornos
+#     Zapla 1-0 Andino` («El equipo visitante no se presentó a disputar el partido»;
+#     RSSSF: `not played, awd on Oct 29`);
+#   * que no habia medico: el `San Jorge (T) 0-1 Unión Aconquija` del Federal A 2015
+#     («Suspendido por falta de cuerpo médico»; RSSSF: `not played, awd on Jul 16`) y el
+#     `Central Ballester 0-3 Juventud Unida` de la Primera C 2025 («Suspendido por falta
+#     de personal médico»; Solo Ascenso, 05/06/2025: el partido «quedó aplazado» y el
+#     tribunal lo dio por perdido despues).
+#
+# Se mira SOLO LA FRASE DE LA PRIMERA SUSPENSION que cuenta la nota, y que en esa frase
+# no se hable de minutos: ver `_no_empezo`. Otra fila dice lo mismo y sigue vacia,
+# porque despues cuenta que se jugo otro dia, y eso se pregunta antes: el `Juventud
+# Unida 0-1 Central Córdoba (R)` de la Primera C 2015.
+_NO_EMPEZO = re.compile(r"(?i)no se presento|falta de (?:cuerpo|personal) medico")
+# Lo que dice que la pelota ya habia empezado a rodar: «a los 20'», «faltando 7
+# minutos», «en el entretiempo», «del segundo tiempo». Si esta, el partido empezo.
+_YA_SE_JUGABA = re.compile(r"(?i)a\s+los\s+\d|minuto|tiempo")
 # Llego al final y despues un fallo cambio el numero.
 # Un fallo que cambio el numero. Se pregunta DESPUES de descartar que el partido
 # no haya llegado al final, y ese orden es la regla entera: si hubo suspension,
@@ -580,14 +839,46 @@ _NO_LLEGO_AL_FINAL = re.compile(r"(?i)suspendid|abandon[oó]|no se present[oó]|
 # incidentes", asi que `_NO_LLEGO_AL_FINAL` la agarra antes, igual que a las de arriba.
 _HUBO_FALLO = re.compile(
     r"(?i)se (?:le )?dio por (ganado|perdido)|se lo dio (por )?ganado|le dio por ganado"
-    r"|otorg[aá]ndole|le gan[oó] los puntos|(mala|indebida) inclusi[oó]n|inclusi[oó]n indebida"
+    r"|otorgandole|le gano los puntos|(mala|indebida) inclusion|inclusion indebida"
     r"|le dio el partido (?:por )?(?:ganado|perdido)")
 # El partido se suspendio y DESPUES se jugo o se completo: llego al final igual,
 # aunque en dos dias. Son 356 de las 409 filas que mencionan una suspension, y
 # meterlas en "suspendido" seria decir que su marcador no es de la cancha.
+#
+# Entre el verbo y el dia puede ir el DIA DE LA SEMANA --«Se completo el miércoles 27 de
+# marzo» (`Acassuso 1-0 Estudiantes (BA)`, Primera B 2012-13) y «Se completo el lunes 11
+# de febrero» (`Guillermo Brown 4-2 Juventud Unida Universitario`, Argentino A
+# 2012-13)-- o DONDE se jugo, sin pasar de la frase: «Se jugó en el estadio Enrique
+# Sexto, el 19 de agosto» (`Deportivo Español 1-0 Excursionistas`, Primera C 2021,
+# programado el 18, el dia que le clausuraron la cancha). Las tres salian
+# `suspendido`. Son las dos piezas de `_SE_JUGO`, que llevan la tilde opcional porque
+# aquella frase se busca en la fila cruda; sobre este texto, sin tildes, da lo mismo.
+#
+# Y `juega` en presente, que es el plan escrito como hoy: «Se juega el miércoles 3 de
+# octubre a las 21:35 horas» es el `Central Norte (S) 3-0 Juventud Antoniana` del
+# Argentino A 2012-13, que se suspendio sin jugarse un minuto y se jugo entero despues:
+# Ascenso del Interior publico la cronica, con los goles a los 10' y a los 30' del
+# primero y a los 15 segundos del segundo, bajo «Postergado de la 5ª fecha». Vale lo
+# mismo que `jugara`, que ya estaba. El dia y la hora de esa fila los pone una `Dia`.
+#
+# Y EN PLURAL, CON LO QUE FALTABA EN EL MEDIO: "Se completaron los 5 minutos
+# adicionales el 3 de agosto". Es la vuelta de la final de la Primera B 2016-17,
+# `Deportivo Riestra 2-0 Comunicaciones`, una `{{Partido}}`: mientras su lector no
+# escribia `status` no hacia falta, y al escribirlo la fila salia `suspendido` con el
+# partido terminado. Sobre la cache, el plural y los minutos estan en esa sola nota.
+_LOS_MINUTOS = r"(?:los\s+\d+\s+minutos\s+(?:[a-z]+\s+)?)?"
 _SE_COMPLETO = re.compile(
-    r"(?i)se\s+(?:jug[oó]|jugaron|jugar[aá]n?|disput[oó]|disputaron|complet[oó]|"
-    r"reanud[oó]|finaliz[oó])\s+(?:el\s+)?\d{1,2}\s*de\s+[a-záéíóúñ]+")
+    r"(?i)se\s+(?:jugo|jugaron|juegan?|jugaran?|disputo|disputaron|completo|completaron|"
+    r"reanudo|finalizo)\s+" + _EN_LA_CANCHA + _LOS_MINUTOS + r"(?:el\s+)?"
+    + _EL_DIA_DE_LA_SEMANA + r"\d{1,2}\s*de\s+[a-z]+")
+# Y sin fecha: el resto se jugo «al dia siguiente» o «dos dias despues». Es el `Alumni
+# 0-0 Juventud Unida Universitario` del Argentino A 2010-11 («completado al día
+# siguiente»; RSSSF: `abandoned at 0-0 in 33' due to rain` el 7 de noviembre y
+# `remaining 57'` el 8) y el `Villa Dálmine 0-0 Ferrocarril Midland` de la Primera C
+# 2009-10 («jugados los 21´ dos días después»; RSSSF: `abandoned at 0-0 in 69'` el 19
+# de febrero y `remaining 21'` el 31 de marzo).
+_SE_COMPLETO_DESPUES = re.compile(
+    r"(?i)(?:completado|jugados\s+los\s+\d+\S*)\s+(?:al\s+dia\s+siguiente|\S+\s+dias\s+despues)")
 # `REPROGRAMADO PARA EL 6 DE OCTUBRE` NO ES LO MISMO: es un plan, no un hecho. De las
 # siete filas del corpus que lo dicen, en seis el partido NO se jugo ese dia --se volvio
 # a suspender o a postergar-- y la nota lo cuenta despues. Vale como «se jugo» en un
@@ -605,11 +896,11 @@ _SE_COMPLETO = re.compile(
 # la salva es el `Se jugó el 13` que sigue. Medido el 11/10/2026 sobre las 170 paginas
 # del catalogo: la regla engancha UNA fila, la de General Belgrano.
 _FECHADO_EL_DIA_REPROGRAMADO = re.compile(
-    r"(?i)\|\s*(\d{1,2}\s*de\s+[a-záéíóúñ]+)\b[^\n]*?"
-    r"reprogram\w+\s+para\s+(?:el\s+)?\1(?![a-záéíóúñ])")
+    r"(?i)\|\s*(\d{1,2}\s*de\s+[a-z]+)\b[^\n]*?"
+    r"reprogram\w+\s+para\s+(?:el\s+)?\1(?![a-z])")
 # Lo que la nota puede contar DESPUES del plan y que lo desmiente.
 _Y_DESPUES_PASO_ALGO = re.compile(
-    r"(?i)suspend|posterg|abandon|no se present|interrumpi|tribunal|\bdi[oó]\b")
+    r"(?i)suspend|posterg|abandon|no se present|interrumpi|tribunal|\bdio\b")
 
 
 def _se_jugo_el_dia_reprogramado(fila: str) -> bool:
@@ -625,11 +916,85 @@ def _se_jugo_el_dia_reprogramado(fila: str) -> bool:
 # dice `6 de octubre<ref>[http://www.ascensodelinterior.com.ar/noticias/10541/el-clsico-
 # puntano-fue-suspendido/ Postergado por falta de acuerdo para jugar con ambas
 # parcialidades.]</ref>`: el texto dice POSTERGADO --se jugo otro dia, entero-- y el
-# `suspendido` salia del slug. Se saca la URL antes de preguntar, en los dos lugares
-# que preguntan: si se sacara solo en `status_de_la_fila`, `sin_clasificar` seguiria
-# viendo el slug y denunciaria la fila como un fallo sin leer (se midio: pasa).
+# `suspendido` salia del slug. Se saca la URL antes de preguntar, en el texto que leen
+# las dos preguntas --ver `_texto_de_la_nota`--: si se sacara solo para el status,
+# `sin_clasificar` seguiria viendo el slug y denunciaria la fila como un fallo sin leer
+# (se midio: pasa).
 # Medido sobre las mismas 170 paginas: cambia UNA fila, esa.
 _URL_DE_CITA = re.compile(r"https?://[^\s\]|}<]+")
+
+# EL NOMBRE DE UNA NOTA TAMPOCO ES TEXTO: es una etiqueta para referenciarla. La
+# Primera B 2014 define `<ref name="suspendido">Suspendido debido a la lluvia. Se jugó
+# el 24 de septiembre.</ref>` en una fila y la referencia pelada en el `Villa San
+# Carlos 2-0 UAI Urquiza`, y la Primera C 2018-19 hace lo mismo con
+# `{{refn|group="n."|name="suspendido"}}` en el `Deportivo Armenio 1-1 Cañuelas`: las
+# dos salian `suspendido` por el nombre, de dos partidos que la nota que nombran da
+# jugados enteros otro dia. Y el `San Martín (B) 1-0 Ferrocarril Midland` de la Primera
+# C 2015 salia `suspendido` por `name=suspendidos` con un texto que dice «Los partidos
+# fueron postergados». RSSSF da el primero y el ultimo jugados sin nota, el 24/09/2014
+# y el 10/06/2015.
+_NOMBRE_DE_LA_NOTA = re.compile(r"""(?i)\bname\s*=\s*(?:"[^"]*"|'[^']*'|[^\s|/>}"']+)""")
+
+# UNA CITA ES LA FUENTE DE LA NOTA, NO LA NOTA: su titulo, su rotulo o su `cita=` son
+# las palabras de un diario, y un diario escribe «se suspendió» por un partido que se
+# postergo antes de empezar. El `Racing Club 1-0 Rosario Central` del Clausura 2002 dice
+# «Postergado por motivos de seguridad» y el `suspendido` salia del `cita=` de su
+# fuente; el `Unión (MdP) 0-0 Alvarado` del Argentino A 2013-14 dice «Postergado por
+# disposición del ApreViDe, fue sucesivamente reprogramado» y salia de los rotulos de
+# dos enlaces de Ascenso del Interior, que cuentan que la policia no dio el operativo.
+# RSSSF da los dos jugados sin nota, el 6 de marzo de 2002 y el 5 de marzo de 2014.
+#
+# PERO SOLO CUANDO LA NOTA TIENE TEXTO PROPIO. Si la cita es todo lo que hay, la cita
+# es la nota, y sacarla dejaria a la fila sin nada que leer. Son dos filas: el
+# `Defensores de Pronunciamiento 0-2 Sol de América` del Federal A 2016-17, cuya nota
+# entera es un enlace rotulado «Fallo del Tribunal: Sol de América le ganó los puntos»,
+# y el `San Martín (T) 0-2 Alumni (VM)` de `_HABLA_DE_FALLO`. El precio es una tercera,
+# el `Excursionistas 0-0 Juventud Unida` de la Primera C 2014, cuya nota entera es un
+# enlace rotulado «Suspendido» a una nota de Mundo Ascenso del 15/08/2014 que dice que
+# se suspendio «por falta de escenario» --la vispera, sin jugarse-- y que RSSSF da
+# jugado el 18 de septiembre, que es el dia de la fila: sigue saliendo `suspendido`.
+_CITA = re.compile(r"(?i)\{\{\s*cita\b[^{}]*\}\}|\[https?://[^\]]*\]")
+_CUERPO_DE_REF = re.compile(r"(?is)<ref(?:\s[^>]*?)?(?<!/)>(.*?)</ref>")
+
+
+def _tiene_texto_propio(fila: str) -> bool:
+    """Alguna nota de la fila dice algo con palabras suyas: tres letras seguidas que
+    no son ni marcado ni el `group=`/`name=` de la nota."""
+    cuerpos = ([_cuerpo_de_la_nota(m.group("args")) for m in _REFN.finditer(fila)]
+               + _CUERPO_DE_REF.findall(fila))
+    return any(re.search(r"[^\W\d_]{3}", re.sub(r"<[^>]*>", " ", c)) for c in cuerpos)
+
+
+def _texto_de_la_nota(fila: str) -> str:
+    """La fila tal como la leen los regex del `status`: sin las citas cuando la nota
+    tiene texto propio, sin direcciones, sin el nombre de la nota y sin tildes."""
+    sin_citas = _CITA.sub(" ", fila)
+    if _tiene_texto_propio(sin_citas):
+        fila = sin_citas
+    fila = _NOMBRE_DE_LA_NOTA.sub(" ", _URL_DE_CITA.sub(" ", fila))
+    return "".join(c for c in unicodedata.normalize("NFD", fila)
+                   if not unicodedata.combining(c))
+
+
+def _llego_al_final_otro_dia(texto: str) -> bool:
+    """Se suspendio y se termino de jugar, o se paso al dia de esta fila."""
+    return bool(_SE_COMPLETO.search(texto) or _SE_COMPLETO_DESPUES.search(texto)
+                or _se_jugo_el_dia_reprogramado(texto))
+
+
+def _no_empezo(texto: str) -> bool:
+    """La PRIMERA suspension que cuenta la nota es que no hubo con quien empezar.
+
+    Se mira la frase de esa suspension y no la nota entera, porque una nota puede
+    contar dos cosas: «Suspendido debido a la lluvia. Fue reprogramado para el 6 de
+    octubre, pero el equipo visitante no se presentó» no dice si la lluvia corto un
+    partido empezado, y ahi lo que se sabe es que no llego al final."""
+    m = _NO_LLEGO_AL_FINAL.search(texto)
+    if not m:
+        return False
+    fin = texto.find(".", m.end())
+    frase = texto[texto.rfind(".", 0, m.start()) + 1:fin if fin >= 0 else len(texto)]
+    return bool(_NO_EMPEZO.search(frase)) and not _YA_SE_JUGABA.search(frase)
 
 
 def status_de_la_fila(fila: str, estadio: str = "") -> str:
@@ -674,6 +1039,12 @@ def status_de_la_fila(fila: str, estadio: str = "") -> str:
 
     Los tres primeros hablan de COMO TERMINO un partido que empezo; el cuarto
     dice que no empezo. Por eso se pregunta primero y no compite con los otros.
+    La pagina lo dice de dos maneras: con la celda «Sin disputar», que manda sobre
+    todo y deja la fila sin dia, o con una nota que cuenta que no hubo con quien
+    empezar --ver `_NO_EMPEZO`--, que se pregunta despues de «se jugo otro dia» y
+    antes que la suspension, porque esa nota tambien dice «suspendido». En ese caso
+    la fila conserva el dia para el que estaba programado, como el `Instituto 0-1
+    San Lorenzo` de la 1987-88 que trae RSSSF.
 
     `estadio` viene YA PARSEADO y no se saca de `fila`, por dos razones: la celda
     trae pegado su `colspan=3|`, que pela `_celda` y no `limpiar`, y con un
@@ -683,14 +1054,18 @@ def status_de_la_fila(fila: str, estadio: str = "") -> str:
     """
     if _NO_SE_JUGO.search(estadio.strip()):
         return "no disputado"
-    fila = _URL_DE_CITA.sub(" ", fila)
-    if _SE_COMPLETO.search(fila):
+    return _status_de_la_nota(_texto_de_la_nota(fila))
+
+
+def _status_de_la_nota(texto: str) -> str:
+    """El orden de las preguntas es la regla: ver `status_de_la_fila`."""
+    if _llego_al_final_otro_dia(texto):
         return ""                      # se suspendio y se termino de jugar
-    if _se_jugo_el_dia_reprogramado(fila):
-        return ""                      # se paso a otro dia, y es el de esta fila
-    if _NO_LLEGO_AL_FINAL.search(fila):
+    if _no_empezo(texto):
+        return "no disputado"          # se suspendio antes de empezar
+    if _NO_LLEGO_AL_FINAL.search(texto):
         return "suspendido"            # no llego al final: manda eso
-    if _HUBO_FALLO.search(fila):
+    if _HUBO_FALLO.search(texto):
         return "escritorio"            # llego al final y el numero es de oficina
     return ""
 
@@ -702,12 +1077,10 @@ def sin_clasificar(fila: str) -> bool:
     algo que no supe leer": esa es la unica forma de que el default no se vuelva
     una afirmacion inventada sobre 39 mil filas. Cuando pasa, se avisa.
     """
-    fila = _URL_DE_CITA.sub(" ", fila)
-    if _SE_COMPLETO.search(fila):
+    texto = _texto_de_la_nota(fila)
+    if _llego_al_final_otro_dia(texto):
         return False           # se suspendio y se termino de jugar: eso SI se leyo
-    if _se_jugo_el_dia_reprogramado(fila):
-        return False           # idem: se paso al dia de esta fila
-    return bool(_HABLA_DE_FALLO.search(fila)) and not status_de_la_fila(fila)
+    return bool(_HABLA_DE_FALLO.search(texto)) and not _status_de_la_nota(texto)
 
 
 def fallos_sin_leer(texto: str) -> list[str]:
@@ -725,12 +1098,23 @@ def fallos_sin_leer(texto: str) -> list[str]:
             celdas = [_celda(c)[1] for c in _partir(fila)]
             if len(celdas) < 3 or not _marcador(celdas[1]) or not sin_clasificar(fila):
                 continue
-            fuera.append(
-                f"{celdas[0]} vs {celdas[2]} ({celdas[1]}): la pagina dice algo sobre "
-                f"un fallo y no se supo si el partido llego al final. Queda con "
-                f"status vacio, que significa \"la pagina no dijo nada\" -- y aca si "
-                f"dijo. Mira la nota y ajusta `parser.status_de_la_fila`")
+            fuera.append(_FALLO_SIN_LEER.format(celdas[0], celdas[2], celdas[1]))
+    # Y las `{{Partido}}`, desde que su lector tambien escribe `status`: la guarda
+    # tiene que cubrir a todo el que lo escribe. Con el mismo cuerpo que lee el
+    # lector, sin los comentarios. Hoy no salta en ninguna.
+    for _, crudo in _plantillas_partido(texto):
+        visible = _COMENTARIO.sub("", crudo)
+        dice = {k.strip().lower(): limpiar(v) for k, v in _parametros(visible, 0, True)}
+        if _marcador(dice.get("resultado", "")) and sin_clasificar(visible):
+            fuera.append(_FALLO_SIN_LEER.format(dice.get("local", ""), dice.get("visita", ""),
+                                                dice.get("resultado", "")))
     return list(dict.fromkeys(fuera))
+
+
+_FALLO_SIN_LEER = (
+    "{} vs {} ({}): la pagina dice algo sobre un fallo y no se supo si el partido "
+    "llego al final. Queda con status vacio, que significa \"la pagina no dijo nada\" "
+    "-- y aca si dijo. Mira la nota y ajusta `parser.status_de_la_fila`")
 
 
 _ARRANQUE_CUADRO = re.compile(r"\{\{\s*(?:Copa|Cuadro|Llave)[^\n|}]*", re.I)
@@ -1554,6 +1938,11 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
         if not goles or not valores["local"] or not valores["visita"]:
             continue
         programada = a_iso(valores["fecha"], anio, anio_fin, mes_inicio)
+        # El dia y la hora en que se jugo, que salen JUNTOS de la nota: ver
+        # `_dia_y_hora_de_la_nota`, y abajo, en `fecha`, de donde sale el texto.
+        fecha, hora = _dia_y_hora_de_la_nota(
+            _con_notas(fila + " " + " ".join(crudos.values()), notas),
+            anio, anio_fin, mes_inicio, programada, _hora(valores["hora"]))
         pen = _penales(crudos["resultado"])
         partidos.append(Partido(
             status=status_de_la_fila(fila, valores["estadio"]),
@@ -1570,11 +1959,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             # --`pendientes[col][2]`, que se guarda justamente sin limpiar-- asi
             # que alcanza con mirarla. Se midieron 15 partidos asi en el corpus, y
             # los quince coinciden con lo que dicen ESPN y RSSSF por su lado.
-            fecha=(_fecha_de_la_nota(
-                       _con_notas(fila + " " + " ".join(crudos.values()), notas),
-                       anio, anio_fin, mes_inicio, programada)
-                   or programada),
-            hora=_hora(valores["hora"]),
+            fecha=fecha, hora=hora,
             local=valores["local"], visita=valores["visita"],
             goles_local=goles[0], goles_visita=goles[1],
             # La tanda, cuando la celda del resultado la trae pegada al marcador.
@@ -1769,9 +2154,11 @@ def _la_seccion_dice_neutral(pos: int, texto: str, visible: str) -> bool:
 
 def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | None = None,
                            mes_inicio: int = MES_INICIO_HABITUAL,
-                       arts: dict[str, str] | None = None) -> list[Partido]:
+                       arts: dict[str, str] | None = None,
+                       notas: dict[str, str] | None = None) -> list[Partido]:
     titulos = _titulos_de_ronda(texto)
     arts = arts or articulos_de_la_pagina(texto)
+    notas = notas_con_nombre(texto) if notas is None else notas
     visible = _COMENTARIO.sub(lambda m: " " * len(m.group(0)), texto)
     partidos: list[Partido] = []
     # Una pagina puede traer VARIOS cuadros: la final del campeonato, el torneo
@@ -1829,19 +2216,38 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
         # que no hubo partido, mientras `Deportivo Armenio - Sportivo Italiano`, del
         # mismo dia y con la nota en pasado, quedaba vacia.
         #
-        # Son 9 plantillas del catalogo y las 9 quedan sin hora: 8 en pasado y esa en
-        # futuro. En 3 la del programado no es la del jugado; en las otras 6 la nota
-        # dice "a la misma hora" o la repite, pero eso ya es leer la nota y no `fecha`.
+        # Son 9 plantillas del catalogo: 8 en pasado y esa en futuro. Las 8 en pasado
+        # dan la hora -- 4 la escriben, 3 de ellas distinta de la de `fecha`, y 4 dicen
+        # "a la misma hora" --; la en futuro tambien, pero es un plan, y queda vacia
+        # como la de las tablas (ver `_dia_y_hora_de_la_nota`).
         #
-        # El DIA no se toca, y en esas 9 sigue siendo el programado. Leerlo de la
-        # nota es lo que ya hacen las tablas, pero aca mueve la clave (fecha, local,
-        # visitante) de filas de torneos cerrados, y eso pide su propia medicion.
-        jugada = (_fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada)
-                  or _fecha_de_la_nota(cuerpo, anio, anio_fin, mes_inicio, programada,
-                                       regla=_SE_JUGARA))
+        # EL DIA SALE DE LA NOTA EN PASADO, como en las tablas, y junto con la hora de
+        # ese dia; de la nota en futuro no: un plan no fecha nada. Las 8 en pasado pasan
+        # al dia en que se jugaron, y a las 8 las confirma la prensa de esos dias.
+        # `Acassuso - Villa San Carlos` se jugo el dia del plan, pero eso lo dice Solo
+        # Ascenso y no la pagina: va como `Dia`, con su testigo y su hora, en
+        # `fad/correcciones.py`.
+        #
+        # Mover el dia mueve la clave (fecha, local, visitante) de la fila, y con ella
+        # lo que engancha por fecha: cuatro de las ocho tenian una `Neutral` declarada
+        # con el dia programado, y pasaron al jugado.
+        #
+        # Con las notas con nombre resueltas, igual que en las tablas: una plantilla
+        # puede referenciar una nota que la pagina define en otra parte.
+        dia, hora = _dia_y_hora_de_la_nota(_con_notas(cuerpo, notas), anio, anio_fin,
+                                           mes_inicio, programada,
+                                           _hora_de_la_plantilla(campos))
         partidos.append(Partido(
-            fecha=programada,
-            hora="" if jugada not in ("", programada) else _hora_de_la_plantilla(campos),
+            # EL STATUS, con la regla de las tablas y sobre el mismo texto que ellas:
+            # el cuerpo entero, porque la nota puede colgar de `suceso`, de
+            # `resultado` o de `fecha`. Sin esto la plantilla salia siempre vacia, y
+            # cuatro dicen otra cosa: tres suspendidas (`Estudiantes (BA) - Almagro`
+            # 2015, `Comunicaciones - Estudiantes (BA)` 2016-17 y `Gimnasia y Esgrima
+            # (J) - Deportivo Madryn` 2025) y una de escritorio (`Argentino de Quilmes
+            # - Defensores de Cambaceres` 2013-14, terminado 0-0 y fallado por mala
+            # inclusion).
+            status=status_de_la_fila(cuerpo),
+            fecha=dia, hora=hora,
             local=limpiar(campos.get("local", "")),
             visita=limpiar(campos.get("visita", "")),
             goles_local=goles[0], goles_visita=goles[1],
@@ -2372,7 +2778,7 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
     # `== Final por el primer ascenso ==`, `== Permanencia ==` --, asi que la
     # busqueda por seccion nunca se las pasaba y se perdian enteras aunque
     # tuvieran fecha y estadio.
-    llaves = partidos_de_plantillas(texto, anio, torneo, anio_fin, mes_inicio)
+    llaves = partidos_de_plantillas(texto, anio, torneo, anio_fin, mes_inicio, notas=notas)
 
     # Una final suele estar DOS o TRES veces en la misma pagina: en la ultima
     # fecha de la seccion de resultados, en su seccion propia, y ademas como

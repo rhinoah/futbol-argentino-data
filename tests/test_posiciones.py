@@ -1927,6 +1927,29 @@ def test_una_dia_corrige_la_fecha_Y_EL_CREDITO():
     assert fila.fuente_fecha == "https://ejemplo/1", "el credito sigue al dato"
 
 
+def test_una_dia_con_hora_pone_la_hora_del_dia_bueno():
+    """La regla de la hora de un reprogramado: si el partido se paso de dia, la hora es
+    la de ese dia y no la del programado. `Cañuelas 0-2 Colegiales`, Primera B 2024: la
+    celda dice 12:05 del 31 de agosto y se jugo el lunes 2 a las 15."""
+    from fad import correcciones
+    fila = _fila()
+    fila.hora = "12:05"
+    with mock.patch.object(correcciones, "DIAS", (_dia(hora="15:00"),)):
+        assert correcciones.corregir_fechas([fila], "Una Pagina") == []
+    assert (fila.fecha, fila.hora) == ("2010-03-02", "15:00")
+
+
+def test_una_dia_sin_hora_no_toca_la_hora():
+    """La pagina que solo corrio el dia tiene la hora buena: `Almagro - Brown de
+    Adrogué` dice 12:05 y la AFA lo programo el 22 a las 12.05."""
+    from fad import correcciones
+    fila = _fila()
+    fila.hora = "12:05"
+    with mock.patch.object(correcciones, "DIAS", (_dia(),)):
+        correcciones.corregir_fechas([fila], "Una Pagina")
+    assert (fila.fecha, fila.hora) == ("2010-03-02", "12:05")
+
+
 def test_una_dia_de_otra_pagina_no_toca_nada():
     from fad import correcciones
     fila = _fila()

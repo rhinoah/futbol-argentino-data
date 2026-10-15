@@ -75,6 +75,49 @@ def test_un_alias_no_frena_el_build():
 
 
 # --------------------------------------------------------------------------
+# la pagina se lee sin comentarios
+# --------------------------------------------------------------------------
+def test_una_fecha_comentada_no_es_un_partido():
+    """Las paginas en curso dejan comentado lo que todavia no se jugo. El control
+    es la misma pagina sin los `<!--`: ahi el partido si esta."""
+    visible = tabla(("Boca Juniors", "River Plate"))
+    comentada = tabla(("Racing Club", "Independiente"))
+    ps, avisos = build.procesar(visible + "<!--" + comentada + "-->", T)
+    assert [(p.local, p.visita) for p in ps] == [("Boca Juniors", "River Plate")]
+    assert not any("sin cerrar" in a.que for a in avisos)
+    ps, _ = build.procesar(visible + comentada, T)
+    assert len(ps) == 2
+
+
+def test_un_enlace_comentado_no_desambigua():
+    """El Argentino A 2010-11 escribe "Rivadavia" a secas, y el unico enlace que lo
+    desambigua esta adentro de una seccion que un editor dejo comentada. Lo
+    comentado no lo dice la pagina: el nombre queda sin resolver, y eso es grave."""
+    enlace = "Ante [[Rivadavia de Lincoln|Rivadavia]] de Lincoln.\n"
+    pagina = tabla(("Douglas Haig", "Rivadavia"))
+    ps, avisos = build.procesar(pagina + "<!--\n" + enlace + "-->\n", T)
+    assert ps[0].visita == "Rivadavia"
+    assert any("padron" in a.que for a in avisos if a.grave)
+    ps, avisos = build.procesar(pagina + enlace, T)
+    assert ps[0].visita == "Rivadavia (L)"
+    assert not any(a.grave for a in avisos)
+
+
+def test_un_comentario_sin_cerrar_tapa_el_resto_y_lo_avisa():
+    """MediaWiki no muestra nada despues de un `<!--` que no cierra, y el build
+    tampoco lo lee. Lo que se deja de leer no avisa solo, asi que se avisa aca, sin
+    frenar: si tapaba partidos, lo frena la guarda contra achicarse."""
+    antes = tabla(("Boca Juniors", "River Plate"))
+    ps, avisos = build.procesar(antes + "<!-- sin cerrar" + tabla(
+        ("Racing Club", "Independiente")), T)
+    assert [(p.local, p.visita) for p in ps] == [("Boca Juniors", "River Plate")]
+    (aviso,) = [a for a in avisos if "sin cerrar" in a.que]
+    assert not aviso.grave
+    assert f"caracter {len(antes)} " in aviso.detalle
+    assert "'<!-- sin cerrar\\n=== Resultados" in aviso.detalle
+
+
+# --------------------------------------------------------------------------
 # el build entero, que es lo que va a correr solo todos los dias
 # --------------------------------------------------------------------------
 def correr(monkeypatch, tmp_path, pagina: str, argv=()):

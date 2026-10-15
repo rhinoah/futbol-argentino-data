@@ -33,6 +33,60 @@ def test_limpiar(crudo, limpio):
 
 
 # --------------------------------------------------------------------------
+# la pagina sin comentarios
+# --------------------------------------------------------------------------
+def test_un_comentario_termina_en_el_primer_cierre():
+    """De un `<!--` al ultimo `-->` se iria lo que hay entre dos comentarios: aca, el
+    titulo de la seccion que si se ve."""
+    assert parser.sin_comentarios("a<!-- x -->b<!-- y -->c") == "abc"
+    assert parser.sin_comentarios("<!--== Final ==\n-->== Final ==\n<!-- -->{{Partido\n") == (
+        "== Final ==\n{{Partido\n")
+
+
+def test_los_comentarios_no_se_anidan():
+    """El primer `-->` cierra, aunque adentro haya otro `<!--`: lo que sigue se ve en
+    la pagina, `-->` incluido. Y un `-->` sin `<!--` es texto."""
+    assert parser.sin_comentarios("a<!-- b <!-- c --> d -->e") == "a d -->e"
+    assert parser.sin_comentarios("a --> b") == "a --> b"
+
+
+def test_un_comentario_sin_cerrar_tapa_todo_lo_que_sigue():
+    """Es lo que hace MediaWiki: la pagina no muestra nada despues del `<!--`."""
+    texto = "a<!-- x -->b<!-- sin cerrar\n== Final ==\n{{Partido\n"
+    assert parser.sin_comentarios(texto) == "ab"
+    assert parser.comentario_sin_cerrar(texto) == texto.index("<!-- sin")
+    assert parser.comentario_sin_cerrar("a<!-- x -->b<!-- y -->") == -1
+    assert parser.comentario_sin_cerrar("sin comentarios") == -1
+
+
+@pytest.mark.parametrize("abre, cierra", [
+    ("<nowiki>", "</nowiki>"), ("<NoWiki>", "</nowiki >"), ("<pre>", "</pre>"),
+    ('<pre style="x">', "</PRE>"), ("<pre\n>", "</pre>"),
+])
+def test_adentro_de_nowiki_y_pre_un_comentario_es_texto(abre, cierra):
+    """MediaWiki muestra el `<!--` tal cual, y lo que sigue al cierre se limpia."""
+    crudo = f"a{abre}b <!-- c{cierra} d<!-- e -->f"
+    assert parser.sin_comentarios(crudo) == f"a{abre}b <!-- c{cierra} df"
+    assert parser.comentario_sin_cerrar(crudo) == -1
+
+
+@pytest.mark.parametrize("crudo, limpio", [
+    # Autocerrada no tiene adentro: el comentario que sigue es un comentario, aunque
+    # mas abajo cierre otra.
+    ("a<nowiki/>b<!-- c -->d<nowiki>e</nowiki>", "a<nowiki/>bd<nowiki>e</nowiki>"),
+    ("a<nowiki />b<!-- c -->d", "a<nowiki />bd"),
+    # Una que no cierra es texto y nada mas.
+    ("a<nowiki>b<!-- c -->d", "a<nowiki>bd"),
+    # Una etiqueta que empieza como `pre` no es `pre`, aunque mas abajo cierre una.
+    ("a<prefacio>b<!-- c -->d<pre>e</pre>", "a<prefacio>bd<pre>e</pre>"),
+    # Y una <nowiki> adentro de un comentario esta comentada.
+    ("a<!-- <nowiki> -->b</nowiki><!-- c -->d", "ab</nowiki>d"),
+])
+def test_cuando_una_nowiki_no_protege_nada(crudo, limpio):
+    assert parser.sin_comentarios(crudo) == limpio
+
+
+# --------------------------------------------------------------------------
 # celdas y rowspan
 # --------------------------------------------------------------------------
 @pytest.mark.parametrize("celda, filas, valor", [
@@ -1416,11 +1470,21 @@ def test_la_fecha_del_partido_sale_de_la_nota_y_no_de_la_celda():
 def test_una_nota_de_varias_lineas_no_corre_las_columnas():
     """Los `\n|url=`, `\n|título=` y `\n|fechaacceso=` de una cita son tres
     celdas falsas. Con ellas adentro, la HORA del partido pasa a ser el titulo de
-    la nota, y la fecha, la de consulta de la cita."""
-    p = parser.partidos_de_tabla(_FILA_CON_NOTA, 2015, "X")[0]
+    la nota, y la fecha, la de consulta de la cita.
+
+    La nota dice "a la misma hora" para que la hora salga de la CELDA: si dijera
+    otra, la hora saldria de la nota y una columna corrida no se notaria aca."""
+    fila = _FILA_CON_NOTA.replace("a partir de las 15:00", "a la misma hora")
+    p = parser.partidos_de_tabla(fila, 2015, "X")[0]
     assert p.hora == "21:30"
     assert p.estadio == "El Coliseo"
     assert not p.fecha.startswith("2022")
+
+
+def test_y_si_la_nota_da_la_hora_sale_de_ahi_con_el_dia():
+    """De punta a punta, como la fecha: el 29 a las 15:00, no el 29 a las 21:30."""
+    p = parser.partidos_de_tabla(_FILA_CON_NOTA, 2015, "X")[0]
+    assert (p.fecha, p.hora) == ("2015-07-29", "15:00")
 
 
 _SIN_DISPUTAR = """{|class="wikitable"
@@ -1580,9 +1644,12 @@ def test_el_partido_que_termino_y_lo_cambio_un_fallo_lleva_escritorio():
 def test_si_hubo_suspension_manda_la_suspension():
     """El orden es la regla entera. Un partido suspendido Y fallado no llego al
     final, y eso es lo unico que la fuente dice sin ambiguedad: si se mira primero
-    el fallo, la mitad de los suspendidos pasan a `escritorio` por una palabra."""
-    fila = ("|Central Ballester\n|0 - 3\n|Juventud Unida<ref>Suspendido por falta de "
-            "personal médico. Se le dio por perdido al equipo local.</ref>")
+    el fallo, la mitad de los suspendidos pasan a `escritorio` por una palabra.
+
+    Es el `Cañuelas 0-1 San Martín (B)` de la Primera C 2019-20."""
+    fila = ("|Cañuelas\n|0 - 1\n|San Martín (B){{refn|group=\"n.\"|Suspendido a los 40 "
+            "minutos del primer tiempo por incidentes, con el resultado 0 a 0. Se le dio por "
+            "ganado a San Martín (B) por 1 a 0.}}")
     assert parser.status_de_la_fila(fila) == "suspendido"
 
 
@@ -2290,6 +2357,52 @@ def test_si_la_pagina_define_dos_veces_el_mismo_nombre_manda_la_PRIMERA():
     assert "3 de mayo" in parser.notas_con_nombre(doble)["x"]
 
 
+_COLEGIALES = ("|Colegiales\n|0 - 1\n|Deportivo Merlo\n|Colegiales\n"
+               '|6 de septiembre<ref name="suspendido">Suspendido debido a la lluvia. '
+               "Se jugó el 24 de septiembre.</ref>\n|11:00")
+_VILLA_SAN_CARLOS = ("|Villa San Carlos\n|2 - 0\n|UAI Urquiza\n|Genacio Sálice\n"
+                     '|6 de septiembre<ref name="suspendido" />\n|11:00')
+
+
+def test_la_nota_escrita_con_la_etiqueta_tambien_se_referencia_por_nombre():
+    """La otra forma de MediaWiki: `<ref name="x">...</ref>` una vez y `<ref name="x" />`
+    despues. La Fecha 8 de la Primera B 2014 la define en `Colegiales - Deportivo Merlo`
+    y `Villa San Carlos - UAI Urquiza` la referencia: quedaba el 6, el dia de la lluvia,
+    y se jugo el 24 (Diario Hoy, 25/09/2014: «el encuentro pendiente de la fecha
+    ocho»)."""
+    for orden in ((_COLEGIALES, _VILLA_SAN_CARLOS), (_VILLA_SAN_CARLOS, _COLEGIALES)):
+        ps = parser.partidos(_tabla_con_notas(*orden), 2014, "Primera B")
+        assert [p.fecha for p in ps] == ["2014-09-24"] * 2, orden
+
+
+@pytest.mark.parametrize("referencia", [
+    '<ref name="susp" />', "<ref name=susp/>", "<ref name='susp' />",
+    '<ref group="n." name="susp" />', '<ref name="susp" group="n."/>'])
+def test_la_referencia_con_etiqueta_se_lee_en_todas_sus_formas(referencia):
+    notas = {"susp": "Se jugó el 24 de septiembre."}
+    assert "Se jugó el 24 de septiembre." in parser._con_notas(referencia, notas)
+
+
+def test_la_referencia_con_etiqueta_que_la_pagina_no_define_se_deja_como_esta():
+    sola = '|6 de septiembre<ref name="otra" />'
+    assert parser._con_notas(sola, {"susp": "Se jugó el 24 de septiembre."}) == sola
+
+
+def test_la_etiqueta_pelada_no_tapa_a_la_definicion_que_viene_despues():
+    """Igual que con `{{refn}}`: la referencia no tiene cuerpo, y si entrara al
+    diccionario le ganaria a la definicion por venir antes."""
+    texto = ('<ref name="x" /> y despues <ref name="x">Se jugó el 3 de mayo.</ref>')
+    assert parser.notas_con_nombre(texto) == {"x": "Se jugó el 3 de mayo."}
+
+
+def test_entre_las_dos_formas_manda_la_primera_DE_LA_PAGINA():
+    """El mismo nombre definido con la etiqueta y con `{{refn}}`: manda el que aparece
+    antes, como en MediaWiki, y no el de la forma que se junte primero."""
+    texto = ('<ref name="x">Se jugó el 3 de mayo.</ref> '
+             '{{refn|group=n.|name=x|Se jugó el 9 de mayo.}}')
+    assert "3 de mayo" in parser.notas_con_nombre(texto)["x"]
+
+
 def test_la_nota_de_una_celda_con_rowspan_alcanza_a_todas_sus_filas():
     """Cuando se suspende una tanda entera, la nota cuelga de UNA celda que abarca
     a las tres filas -- y por eso habla en plural.
@@ -2581,6 +2694,275 @@ def test_la_url_de_una_cita_no_es_texto_de_la_nota():
     assert parser.status_de_la_fila(en_el_texto) == "suspendido"
 
 
+def test_el_detector_lee_el_mismo_texto_que_el_status():
+    """`sin_clasificar` pregunta sobre el texto de la nota, igual que `status_de_la_fila`.
+    Si leyera la fila cruda, una palabra que solo esta en una direccion --aca
+    `tribunal`, en el slug-- haria sonar el aviso de "la pagina hablo de un fallo"
+    sobre una nota que solo enlaza una cronica."""
+    fila = ("|A\n|1 - 0\n|B<ref>[http://www.ascensodelinterior.com.ar/noticias/1/"
+            "el-tribunal-de-disciplina/ Crónica del partido]</ref>")
+    assert parser.status_de_la_fila(fila) == ""
+    assert not parser.sin_clasificar(fila)
+
+
+# --------------------------------------------------------------------------
+# status: las formas que se leen
+# --------------------------------------------------------------------------
+# Una nota por cada forma que aceptan los regex del status, con el status que tiene
+# que salir. Sacarle una alternativa a cualquiera de los cuatro --`_NO_LLEGO_AL_FINAL`,
+# `_HUBO_FALLO`, `_SE_COMPLETO` y `_HABLA_DE_FALLO`-- cambia al menos una de estas
+# filas: es lo que fija sus formas. Antes no habia nada asi, y de 35 mutantes que les
+# sacaban una alternativa sobrevivian 33.
+#
+# Van con tilde donde la pagina la pone: los regex estan escritos sin tildes y se
+# preguntan sobre el texto sin tildes, asi que estas mismas notas fijan eso tambien.
+_FORMAS = [
+    # no llego al final
+    ("Suspendido a los 37' del segundo tiempo.", "suspendido"),
+    ("El visitante abandonó la cancha a los 30'.", "suspendido"),
+    ("El visitante no se presentó a jugar el segundo tiempo.", "suspendido"),
+    ("Interrumpido a los 80' por la lluvia.", "suspendido"),
+    # llego al final y el numero lo puso un fallo
+    ("Finalizó 1 a 1. Se le dio por perdido a Boca Juniors.", "escritorio"),
+    ("Finalizó 1 a 1. Se dio por ganado a Atlanta.", "escritorio"),
+    ("Finalizó 1 a 1. Se dio por perdido a Colegiales.", "escritorio"),
+    ("El resultado fue 1 a 1 pero se lo dio por ganado a Sarmiento.", "escritorio"),
+    ("El resultado fue 1 a 1 pero se lo dio ganado a Sarmiento.", "escritorio"),
+    ("Finalizó 1 a 1. El Tribunal le dio por ganado a Sarmiento.", "escritorio"),
+    ("Finalizó 1 a 1. Le dio la victoria a Huracán, otorgándole los puntos.", "escritorio"),
+    ("Independiente le ganó los puntos a Alianza.", "escritorio"),
+    ("Finalizó 1 a 1, por mala inclusión de un jugador.", "escritorio"),
+    ("Finalizó 1 a 1, por indebida inclusión de un jugador.", "escritorio"),
+    ("Finalizó 1 a 1, por inclusión indebida de un jugador.", "escritorio"),
+    ("El Tribunal le dio el partido perdido a Central Córdoba.", "escritorio"),
+    ("El Tribunal le dio el partido por ganado a San Martín.", "escritorio"),
+    # se suspendio y se termino de jugar otro dia
+    ("Suspendido por lluvia. Se jugó el 15 de noviembre.", ""),
+    ("Suspendidos por lluvia. Se jugaron el 17 de abril.", ""),
+    ("Suspendido por lluvia. Se juega el 3 de octubre.", ""),
+    ("Suspendidos por lluvia. Se juegan el 3 de octubre.", ""),
+    ("Suspendido por lluvia. Se jugará el 2 de diciembre.", ""),
+    ("Suspendidos por lluvia. Se jugarán el 2 de diciembre.", ""),
+    ("Suspendido por lluvia. Se disputó el 15 de noviembre.", ""),
+    ("Suspendidos por lluvia. Se disputaron el 15 de noviembre.", ""),
+    ("Suspendido a los 20'. Se completó el 5 de marzo.", ""),
+    ("Suspendido a los 20'. Se reanudó el 5 de marzo.", ""),
+    ("Suspendido a los 20'. Se finalizó el 5 de marzo.", ""),
+    ("Suspendido a los 20'. Se completó 5 de marzo.", ""),
+    # «Se compĺetó», con una `ĺ`: el `Brown de Adrogué 0-0 Agropecuario` de la Primera B
+    # Nacional 2018-19. InfoRegion, 27/11/2018: «disputará los 41 minutos restantes».
+    ("Suspendido por las condiciones climáticas a los 4' del segundo tiempo, con el "
+     "resultado 0-0. Se compĺetó el 28 de noviembre, a partir de las 17:00.", ""),
+    # «Se le dió», con tilde: el `Real Arroyo Seco 0-1 Gimnasia y Esgrima (CdU)` del
+    # Argentino A 2004-05. RSSSF: `originally 3-0 but Real Arroyo Seco used ineligible
+    # players`.
+    ("El partido terminó 3 a 0, pero fue anulado por la inclusión por parte de Arroyo "
+     "Seco de jugadores no elegibles. Se le dió por ganado a Gimnasia y Esgrima por 1 a 0",
+     "escritorio"),
+]
+
+
+@pytest.mark.parametrize("nota, status", _FORMAS)
+def test_cada_forma_del_status_se_lee(nota, status):
+    fila = "|A\n|1 - 0\n|B<ref>" + nota + "</ref>"
+    assert parser.status_de_la_fila(fila) == status
+    assert not parser.sin_clasificar(fila), "se leyo, asi que no se avisa"
+
+
+# Lo que el detector tiene que ver aunque el status no sepa que poner: cada una es una
+# forma de `_HABLA_DE_FALLO` que ninguna otra pregunta lee.
+@pytest.mark.parametrize("nota", [
+    "Los jugadores abandonaron la cancha.",
+    "Los dos equipos no se presentan desde la fecha 3.",
+    "El Tribunal resolvió algo raro.",
+    "Se le dio por concluido.",
+    "Lo dio por ganado a Atlanta.",
+    "Lo dio por perdido a Colón.",
+    "Se dio por terminado.",
+    "Se dio por finalizado.",
+    "Quedó así, dándolo por bueno.",
+    "AFA decide darle por perdido 0-2 a San Martín de Tucumán frente a Alumni",
+])
+def test_cada_forma_del_detector_avisa(nota):
+    fila = "|A\n|1 - 0\n|B<ref>" + nota + "</ref>"
+    assert parser.status_de_la_fila(fila) == ""
+    assert parser.sin_clasificar(fila)
+
+
+@pytest.mark.parametrize("nota", [
+    # `Acassuso 1-0 Estudiantes (BA)`, Primera B 2012-13
+    "Partido suspendido por intensas lluvias y falta de luz a los 26 minutos del ST. Se "
+    "completo el miércoles 27 de marzo a las 11:00 horas.",
+    # `Guillermo Brown 4-2 Juventud Unida Universitario`, Argentino A 2012-13
+    "Partido suspendido por intensas lluvias en el entrtiempo.Se completo el lunes 11 de "
+    "febrero a las 10 horas.",
+    # `Central Norte (S) 3-0 Juventud Antoniana`, Argentino A 2012-13
+    "Suspendido por incidentes entre la tribuna visitante.Se juega el miércoles 3 de "
+    "octubre a las 21:35 horas.",
+] + [f"Suspendido a los 20'. Se completó el {dia} 5 de marzo." for dia in
+     ("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo")])
+def test_el_dia_de_la_semana_entre_el_verbo_y_el_dia(nota):
+    """Las tres salian `suspendido`: el dia de la semana cortaba la frase entre el verbo
+    y la fecha. Del Central Norte - Juventud Antoniana, Ascenso del Interior publico la
+    cronica con los tres goles, bajo «Postergado de la 5ª fecha»."""
+    assert parser.status_de_la_fila("|A\n|1 - 0\n|B<ref>" + nota + "</ref>") == ""
+
+
+def test_donde_se_jugo_puede_ir_entre_el_verbo_y_el_dia():
+    """El `Deportivo Español 1-0 Excursionistas` de la Primera C 2021: le clausuraron la
+    cancha la vispera --Solo Ascenso, 17/08/2021-- y se jugo el 19 en otra."""
+    fila = ('|Deportivo Español\n|1 - 0\n|Excursionistas\n|Nueva España\n|18 de agosto'
+            '{{refn|group="n."|Suspendido debido a la clausura del estadio.<ref>'
+            '[https://www.soloascenso.com.ar/notas/afa/el-gobierno-de-la-ciudad-clausuro-la-'
+            'cancha-de-espanol/165777 El Gobierno de la Ciudad clausuró la cancha de '
+            'Español]</ref> Se jugó en el estadio Enrique Sexto, el 19 de agosto a partir de '
+            'las 13:30.}}')
+    assert parser.status_de_la_fila(fila) == ""
+    # Sin pasar de la frase: un lugar que termina en punto no se pega a la fecha que
+    # viene en la frase siguiente.
+    otra = ("|A\n|1 - 0\n|B<ref>Suspendido a los 30'. Se jugó en el Gigante. El 5 de mayo "
+            "el Tribunal lo dio por terminado.</ref>")
+    assert parser.status_de_la_fila(otra) == "suspendido"
+
+
+@pytest.mark.parametrize("nota", [
+    # `Alumni 0-0 Juventud Unida Universitario`, Argentino A 2010-11. RSSSF: `abandoned at
+    # 0-0 in 33' due to rain` el 7 de noviembre y `remaining 57'` el 8.
+    "Suspendido por lluvia a los 33', completado al día siguiente.",
+    # `Villa Dálmine 0-0 Ferrocarril Midland`, Primera C 2009-10. RSSSF: `abandoned at 0-0
+    # in 69'` y `remaining 21'`.
+    "Suspendido a los 69´ por incidentes y jugados los 21´ dos días después",
+])
+def test_el_resto_que_se_jugo_despues_aunque_la_nota_no_diga_el_dia(nota):
+    fila = "|A\n|0 - 0\n|B<ref>" + nota + "</ref>"
+    assert parser.status_de_la_fila(fila) == ""
+    assert not parser.sin_clasificar(fila)
+    # El contraste: «completado» solo no dice que se haya jugado lo que faltaba.
+    otra = "|A\n|0 - 0\n|B<ref>Suspendido por lluvia a los 33', completado el informe.</ref>"
+    assert parser.status_de_la_fila(otra) == "suspendido"
+
+
+def test_el_nombre_de_una_nota_no_es_su_texto():
+    """Las tres salian `suspendido` por el `name=`. Las dos primeras son referencias
+    peladas a una nota que dice «Se jugó el...»; la tercera nombra `suspendidos` a una
+    que dice «postergados». RSSSF da jugados sin nota el `Villa San Carlos 2-0 UAI
+    Urquiza` (24/09/2014) y el `San Martín (B) 1-0 Ferrocarril Midland` (10/06/2015)."""
+    vsc = ("|Villa San Carlos\n|2 - 0\n|UAI Urquiza\n|Genacio Sálice\n|6 de septiembre"
+           "<ref name=suspendido />")
+    arm = ('|Deportivo Armenio\n|1 - 1\n|Cañuelas\n|Armenia\n|11 de noviembre'
+           '{{refn|group="n."|name="suspendido"}}')
+    smb = ("|San Martín (B)\n|1 - 0\n|Ferrocarril Midland{{refn|group=n.|name=suspendidos|"
+           "Los partidos fueron postergados debido al fallecimiento del futbolista Cristian "
+           "Gómez.}}")
+    for fila in (vsc, arm, smb):
+        assert parser.status_de_la_fila(fila) == "", fila
+        assert not parser.sin_clasificar(fila), fila
+    # Las tres maneras de escribir el nombre, y el texto de la nota sigue contando.
+    for nombre in ("suspendido", '"suspendido"', "'suspendido'"):
+        assert parser.status_de_la_fila("|A\n|1 - 0\n|B<ref name=" + nombre + " />") == ""
+    con_texto = "|A\n|1 - 0\n|B<ref name=suspendido>Suspendido a los 10'.</ref>"
+    assert parser.status_de_la_fila(con_texto) == "suspendido"
+
+
+def test_una_cita_no_es_la_nota_cuando_la_nota_tiene_texto_propio():
+    """La palabra salia del `cita=` o del rotulo de la fuente, y la nota dice
+    «Postergado». RSSSF da los dos jugados sin nota: el `Racing Club 1-0 Rosario Central`
+    del Clausura 2002 el 6 de marzo, y el `Unión (MdP) 0-0 Alvarado` del Argentino A
+    2013-14 el 5 de marzo de 2014."""
+    rac = ("|Racing Club\n|1 - 0\n|Rosario Central\n|El Cilindro\n|6 de marzo{{refn|"
+           "group=n.|Postergado por motivos de seguridad.<ref>{{cita web |url=https://www."
+           "lanacion.com.ar/deportes/futbol/tirando-paredes-nid377509/ |título=Tirando "
+           "paredes |fecha=1 de marzo de 2002 |editor=[[La Nación (Argentina)|lanacion]]"
+           ".com.ar |cita= [...] El encuentro entre Racing y Central, [...] que fue "
+           "suspendido por razones de seguridad, se jugará el miércoles próximo (6 de "
+           "marzo), a las 17. [...]}}</ref> }}")
+    uni = ("|Unión (MdP)\n|0 - 0\n|Alvarado\n|José María Minella\n|5 de marzo<ref>"
+           "Postergado por disposición del ApreViDe, fue sucesivamente reprogramado.</ref>"
+           "<ref>[http://ascensodelinterior.com.ar/noticias/7668/union-vs.-alvarado-"
+           "suspendido-por-disposicion-de-aprevide/ Unión - Alvarado suspendido por "
+           "disposición del ApreViDe]</ref><ref>[http://ascensodelinterior.com.ar/noticias/"
+           "8451/otro-papeln-y-van...-se-suspendi-unin-alvarado/ Otro papelón y van... Se "
+           "suspendió Unión - Alvarado]</ref>")
+    en_la_misma = ("|A\n|1 - 0\n|B<ref>Postergado por la lluvia. [http://x.com/y Se "
+                   "suspendió el partido]</ref>")
+    for fila in (rac, uni, en_la_misma):
+        assert parser.status_de_la_fila(fila) == "", fila
+        assert not parser.sin_clasificar(fila), fila
+
+
+def test_si_la_cita_es_toda_la_nota_la_cita_es_la_nota():
+    """El contraste del de arriba. El `Defensores de Pronunciamiento 0-2 Sol de América`
+    del Federal A 2016-17 no tiene mas nota que un enlace, y el rotulo tiene razon."""
+    dpr = ("|Defensores de Pronunciamiento\n|0 - 2<ref>[https://www.ascensodelinterior.com"
+           ".ar/noticias/18628/fallo-del-tribunal-sol-de-amrica-le-gan-los-puntos-a-"
+           "defensores-de-pronunciamiento/ Fallo del Tribunal: Sol de América le ganó los "
+           "puntos a Defensores de Pronunciamiento]</ref>\n|Sol de América")
+    assert parser.status_de_la_fila(dpr) == "escritorio"
+    sola = ("|A\n|1 - 0\n|B<ref>{{cita web|url=http://x.com/y|título=Suspendido a los 20' "
+            "por incidentes}}</ref>")
+    assert parser.status_de_la_fila(sola) == "suspendido"
+
+
+def test_darle_por_perdido_avisa_y_no_clasifica():
+    """El `San Martín (T) 0-2 Alumni (VM)` del Argentino A 2011-12. La cita dice que hubo
+    un fallo y no si el partido llego al final, y no llego: el blog de Jose Carluccio lo
+    da «Suspendido a los 40', con el marcador 0-2 [...]. No continuó ni se modificó el
+    resultado». Leido como fallo saldria `escritorio`, que es falso; lo que se puede
+    decir es que la pagina hablo y no se supo que."""
+    fila = ("|San Martín (T)\n|bgcolor=#D0E7FF|0 - 2<ref>{{cita web |url= http://www."
+            "eldiario24.com/nota.php?id=246935|título= AFA decide darle por perdido 0-2 a "
+            "San Martín de Tucuman frente a Alumni|fechaacceso=23 de febrero de 2012|autor= "
+            "Eldiario24.com|idioma= español}}</ref>\n|'''Alumni (VM)'''")
+    assert parser.status_de_la_fila(fila) == ""
+    assert parser.sin_clasificar(fila)
+
+
+@pytest.mark.parametrize("nota", [
+    # `Colón 0-1 Atlético de Rafaela`, Inicial 2013. RSSSF: `Colón dns`.
+    "Suspendido porque Colón no se presentó.",
+    # `Independiente (Ch) 1-0 Alianza (CC)`, Federal A 2015. RSSSF: `not played`.
+    "El equipo visitante no se presentó a disputar el partido. Se le dio por perdido por "
+    "1-0, y se le descontaron 3 puntos.",
+    # `San Jorge (T) 0-1 Unión Aconquija`, Federal A 2015. RSSSF: `not played`.
+    "Suspendido por falta de cuerpo médico. El Tribunal se lo dio ganado al equipo "
+    "visitante.",
+    # `Central Ballester 0-3 Juventud Unida`, Primera C 2025. Solo Ascenso, 05/06/2025:
+    # el partido «quedó aplazado».
+    "Suspendido por falta de personal médico. Se le dio por perdido al equipo local.",
+])
+def test_el_partido_que_no_empezo_es_no_disputado(nota):
+    fila = "|A\n|0 - 1\n|B<ref>" + nota + "</ref>"
+    assert parser.status_de_la_fila(fila) == "no disputado"
+    assert not parser.sin_clasificar(fila)
+
+
+@pytest.mark.parametrize("nota, status", [
+    # Se jugo otro dia, y eso se pregunta antes: `Juventud Unida 0-1 Central Córdoba
+    # (R)` de la Primera C 2015.
+    ("Suspendido por falta de personal médico. Se jugó el 23 de septiembre.", ""),
+    # Si la frase dice que ya se jugaba, el partido empezo.
+    ("Suspendido a los 20' porque el visitante no se presentó.", "suspendido"),
+    ("Suspendido faltando 7 minutos porque el visitante no se presentó.", "suspendido"),
+    ("Suspendido en el entretiempo porque el visitante no se presentó.", "suspendido"),
+    # Y se mira la frase de la PRIMERA suspension: la lluvia pudo cortar un partido
+    # empezado, y lo que vino despues no lo borra.
+    ("Suspendido por lluvia. El visitante no se presentó a la reprogramación.", "suspendido"),
+])
+def test_lo_que_no_alcanza_para_decir_que_no_empezo(nota, status):
+    assert parser.status_de_la_fila("|A\n|0 - 1\n|B<ref>" + nota + "</ref>") == status
+
+
+def test_el_no_disputado_por_la_nota_llega_al_partido_con_su_dia():
+    """La fila conserva el dia para el que estaba programado, como el `Instituto 0-1 San
+    Lorenzo` de la 1987-88 que trae RSSSF: no es la celda «Sin disputar», que no trae
+    ninguno."""
+    tabla = ('{|class="wikitable"\n!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n'
+             '|-\n|Colón\n|0 - 1\n|Atlético de Rafaela\n|Brigadier López\n|18 de noviembre'
+             '{{refn|group=n.|Suspendido porque Colón no se presentó.}}\n|18:00\n|}')
+    p, = parser.partidos_de_tabla(tabla, 2013, "Primera Division")
+    assert (p.status, p.fecha) == ("no disputado", "2013-11-18")
+
+
 # --------------------------------------------------------------------------
 # la hora con el canal pegado
 # --------------------------------------------------------------------------
@@ -2675,13 +3057,18 @@ def test_la_hora_de_una_nota_al_pie_no_es_la_del_partido():
     assert parser.partidos_de_plantillas(_con_fecha(fecha), 2021, "x")[0].hora == "15:00"
 
 
-def test_si_se_jugo_otro_dia_la_hora_de_fecha_es_la_del_programado():
+def test_si_se_jugo_otro_dia_el_dia_y_la_hora_son_los_de_la_nota():
     """La final de la Primera C 2018-19: `fecha = 15 de junio, 15:00` y la nota dice
-    que se jugo el 22 a las 14:30. Revista Ascenso: «Jugado el sábado 22 de junio»."""
+    que se jugo el 22 a las 14:30. Revista Ascenso: «Jugado el sábado 22 de junio».
+    Salen juntos: el 22 a las 15:00 o el 15 a las 14:30 serian instantes que no
+    existieron."""
     suceso = ("\n|suceso = Suspendido por las condiciones climáticas. Se jugó el 22 de "
               "junio, a partir de las 14:30.")
-    p, = parser.partidos_de_plantillas(_con_fecha("15 de junio, 15:00", suceso), 2019, "x")
-    assert p.hora == ""
+    texto = _con_fecha("15 de junio, 15:00", suceso)
+    assert parser._dia_y_hora_de_la_nota(texto, 2019, None, 8, "2019-06-15",
+                                         "15:00") == ("2019-06-22", "14:30")
+    p, = parser.partidos_de_plantillas(texto, 2019, "x")
+    assert (p.fecha, p.hora) == ("2019-06-22", "14:30")
 
 
 def test_si_la_nota_repite_el_dia_de_la_fecha_la_hora_queda():
@@ -2743,6 +3130,164 @@ def test_un_partido_completado_otro_dia_conserva_la_hora_en_que_empezo():
               "partir de las 13:00.")
     p, = parser.partidos_de_plantillas(_con_fecha("28 de octubre, 21:30", suceso), 2023, "x")
     assert (p.fecha, p.hora) == ("2023-10-28", "21:30")
+
+
+# --------------------------------------------------------------------------
+# la hora del dia en que se jugo: la de la misma oracion que dice el dia
+# --------------------------------------------------------------------------
+def _reprogramado(nota: str, fecha: str = "28 de junio", hora: str = "21:30"):
+    """Una fila de tabla cuya nota dice cuando se jugo. La celda trae el programado."""
+    fila = ("|Villa Dálmine\n|1 - 3\n|Ferro Carril Oeste\n|El Coliseo\n"
+            f"|{fecha}{{{{refn|group=n.|Suspendido por lluvia. {nota}}}}}\n|{hora}")
+    (p,) = parser.partidos(_tabla_con_notas(fila), 2015, "X")
+    return p
+
+
+@pytest.mark.parametrize("nota, hora", [
+    ("Se jugó el 29 de julio, a partir de las 15:00.", "15:00"),        # 287 de las 316
+    ("Se jugó el 29 de julio, desde las 15:30.", "15:30"),              # Primera C 2024
+    ("Se jugó el 29 de julio a las 15:30.", "15:30"),                   # Primera B 2016-17
+    ("Se jugó el 29 de julio, a partir de las 15.30, a puertas cerradas.", "15:30"),
+    ("Se jugó el 29 de julio, a partir de las 14.", "14:00"),           # B Nacional 2015
+    ("Se jugó el 29 de julio, a partir de las 9:15.", "09:15"),         # Federal A 2018-19
+    ("Se jugó el 29 de julio, a partir de las 17 horas.", "17:00"),
+    ("Se jugó el 29 de julio en el estadio Ciudad Evita, a partir de las 19:00.", "19:00"),
+    ("Se jugaron el 29 de julio, a la misma hora.", "21:30"),           # la de la celda
+    ("Se jugaron el 29 de julio, en el mismo horario.", "21:30"),       # Primera C 2015
+    ("Se jugó el 29 de julio.", ""),                                     # no la dice
+])
+def test_la_hora_del_dia_jugado_sale_de_la_oracion_del_dia(nota, hora):
+    """La celda de la hora es la del programado, igual que la de la fecha: si el dia
+    sale de la nota y la hora de la celda, la fila publica un instante que no
+    existio. La regla es del dueño del dataset: la hora a la que se jugo ESE dia, de
+    la nota; "a la misma hora" es la de la celda; y si la nota no la da, vacia."""
+    p = _reprogramado(nota)
+    assert (p.fecha, p.hora) == ("2015-07-29", hora)
+
+
+@pytest.mark.parametrize("nota", [
+    "Se jugó el 29 de julio, a las 2 semanas de la suspensión.",    # no es una hora
+    "Se jugó el 29 de julio, a las 48 horas de la suspensión.",     # no existe
+    "Se jugó el 29 de julio, a las 15:75.",                         # tampoco
+    "Se jugó el 29 de julio, a las 15:30:00.",                      # no es la forma que se lee
+    "Se jugó el 29 de julio, a las 15:00 o a las 17:00.",           # dos: no se sabe cual
+])
+def test_lo_que_no_es_una_hora_del_partido_deja_la_hora_vacia(nota):
+    p = _reprogramado(nota)
+    assert (p.fecha, p.hora) == ("2015-07-29", ""), nota
+
+
+def test_la_hora_de_otra_oracion_no_es_la_del_dia_jugado():
+    """Antes de la frase la nota cuenta lo que NO fue: es la forma de la Primera B 2024
+    y del Federal A 2025, con la hora de un plan que se volvio a suspender."""
+    p = _reprogramado("Se reprogramó para el 10 de julio, a partir de las 15:00, y se "
+                      "volvió a suspender. Se jugó el 29 de julio.")
+    assert (p.fecha, p.hora) == ("2015-07-29", "")
+
+
+@pytest.mark.parametrize("nota", [
+    # el titulo de una cita: "jugarán mañana a las 17", y era el plan
+    "Se jugó el 29 de julio<ref>[http://x Juegan mañana a las 17:00]</ref>",
+    # otra nota de la misma celda
+    "Se jugó el 29 de julio}}{{refn|Estaba programado a las 17:00",
+])
+def test_lo_que_sigue_a_la_nota_no_es_la_hora_del_partido(nota):
+    assert _reprogramado(nota).hora == ""
+
+
+def test_la_nota_de_una_plantilla_termina_con_su_parametro():
+    """El `reporte` que sigue al `suceso` no es parte de la nota."""
+    texto = ("\n|fecha = 15 de junio, 15:00\n|suceso = Suspendido. Se jugó el 22 de junio"
+             "\n|reporte = [http://x Se juega el sábado a las 14:30]")
+    assert parser._dia_y_hora_de_la_nota(texto, 2019, None, 8, "2019-06-15",
+                                         "15:00") == ("2019-06-22", "")
+
+
+def test_si_la_nota_repite_el_dia_de_la_celda_la_hora_es_la_de_la_nota():
+    """La pagina ya paso la fila al dia en que se jugo, pero no siempre la hora:
+    `Crucero del Norte 0-1 Rosario Central` (B Nacional 2012-13) dice `21 de
+    noviembre` y `11:00` --la hora del dia de la lluvia-- y la nota "se disputó el 21
+    de noviembre, a partir de las 18:30"."""
+    p = _reprogramado("Se jugó el 28 de junio, a partir de las 15:00.")
+    assert (p.fecha, p.hora) == ("2015-06-28", "15:00")
+
+
+@pytest.mark.parametrize("nota", [
+    "Se jugó el 28 de junio.",                              # la nota no da la hora
+    "Se jugó el 28 de junio, a la misma hora.",
+])
+def test_si_la_nota_repite_el_dia_y_no_da_otra_hora_queda_la_de_la_celda(nota):
+    """Con el dia de la celda, la celda ya es la del dia en que se jugo."""
+    p = _reprogramado(nota)
+    assert (p.fecha, p.hora) == ("2015-06-28", "21:30")
+
+
+def test_un_partido_completado_conserva_la_hora_de_la_celda():
+    """Empezo el dia y a la hora de la celda; "se completó" no mueve ninguno de los dos."""
+    p = _reprogramado("Se completó el 4 de julio, a partir de las 13:00.")
+    assert (p.fecha, p.hora) == ("2015-06-28", "21:30")
+
+
+def test_la_nota_en_futuro_de_una_tabla_vacia_la_hora():
+    """`Cañuelas 0-2 Colegiales`, Primera B 2024: la celda dice `31 de agosto` y
+    `12:05`, y la nota "Se jugará el 2 de septiembre, a partir de las 15:00". El dia
+    no se mueve -- un plan no fecha nada --, pero el 31 no hubo partido a las 12:05."""
+    p = _reprogramado("Se jugará el 2 de julio, a partir de las 15:00.")
+    assert (p.fecha, p.hora) == ("2015-06-28", "")
+
+
+def test_la_nota_en_futuro_que_repite_el_dia_deja_la_hora_de_la_celda():
+    """`Gimnasia y Esgrima (J) 4-0 Nueva Chicago`, Primera Nacional 2026: la celda ya
+    dice el dia nuevo y la nota "se disputará el 17 de junio a las 15:00"."""
+    p = _reprogramado("Se disputará el 28 de junio a las 15:00.")
+    assert (p.fecha, p.hora) == ("2015-06-28", "21:30")
+
+
+@pytest.mark.parametrize("nota, hora", [
+    # `Deportivo Español 1-0 Excursionistas`, Primera C 2021: le clausuraron la cancha
+    ("Se jugó en el estadio Enrique Sexto, el 29 de julio a partir de las 13:30.", "13:30"),
+    ("Se jugó el miércoles 29 de julio, a partir de las 15:00.", "15:00"),
+    ("Se jugó el miercoles 29 de julio.", ""),                       # sin la tilde
+    ("Se jugaron en Sarandí el sábado 29 de julio, a la misma hora.", "21:30"),
+])
+def test_entre_el_verbo_y_el_dia_van_donde_se_jugo_y_el_dia_de_la_semana(nota, hora):
+    """Las dos piezas que `_SE_COMPLETO` ya aceptaba para el status. Sin ellas el status
+    decia que el partido se habia jugado otro dia y la fila seguia en el programado,
+    con la hora de ese dia: la del `Deportivo Español` era el 18 a las 15:00."""
+    p = _reprogramado(nota)
+    assert (p.fecha, p.hora) == ("2015-07-29", hora), nota
+
+
+def test_donde_se_jugo_no_se_pega_con_el_dia_de_la_oracion_siguiente():
+    """El lugar termina con la frase: el 29 de julio de aca es un plan, no el dia en que
+    se jugo, y la fila queda como esta."""
+    p = _reprogramado("Se jugó en Sarandí. Se reprogramó para el 29 de julio.")
+    assert (p.fecha, p.hora) == ("2015-06-28", "21:30")
+
+
+@pytest.mark.parametrize("nota", [
+    # `Central Norte (S) 3-0 Juventud Antoniana`, Argentino A 2012-13
+    "Se juega el miércoles 2 de julio a las 21:35 horas.",
+    "Se juegan el 2 de julio, a la misma hora.",
+    "Se jugará en el estadio Enrique Sexto, el 2 de julio a partir de las 13:30.",
+    "Se jugará el jueves 2 de julio, a partir de las 15:00.",
+])
+def test_el_plan_en_presente_o_con_la_cancha_o_el_dia_de_la_semana_vacia_la_hora(nota):
+    """El mismo plan que «se jugará»: no fecha nada, y dice que la hora de la celda es
+    la de un dia en que el partido no se jugo."""
+    p = _reprogramado(nota)
+    assert (p.fecha, p.hora) == ("2015-06-28", ""), nota
+
+
+def test_la_nota_de_una_tanda_vale_para_cada_fila_con_su_hora():
+    """La nota de una celda con `rowspan` cubre varias filas, cada una con la suya:
+    "a la misma hora" es la de cada fila, no la de la primera."""
+    filas = ("|Atlas\n|1 - 0\n|Berazategui\n|Atlas\n|rowspan=2|29 de mayo{{refn|group=n.|"
+             "Suspendidos. Se jugaron el 30 de mayo, a la misma hora.}}\n|14:00",
+             "|Luján\n|0 - 0\n|Leandro N. Alem\n|Luján\n|16:00")
+    ps = parser.partidos(_tabla_con_notas(*filas), 2023, "Primera C")
+    assert [(p.fecha, p.hora) for p in ps] == [("2023-05-30", "14:00"),
+                                                ("2023-05-30", "16:00")]
 
 
 # --------------------------------------------------------------------------
@@ -2864,3 +3409,108 @@ def test_sin_titulo_arriba_no_hay_seccion_que_lo_diga():
     """Lo que esta antes del primer titulo es la entradilla del articulo, que habla del
     torneo entero."""
     assert _neutrales("Se jugó en cancha neutral.\n" + _un_partido()) == [None]
+
+
+# --------------------------------------------------------------------------
+# el dia y el status de una {{Partido}}: los dice su nota, como en las tablas
+# --------------------------------------------------------------------------
+def test_la_plantilla_que_se_jugo_otro_dia_va_al_dia_en_que_se_jugo():
+    """La final de la Primera C 2018-19: `fecha = 15 de junio, 15:00` y la nota dice
+    que se jugo el 22. Doble Amarilla, sabado 22/06/2019: «Villa San Carlos venció
+    por 3-2 a Excursionistas»."""
+    suceso = ("\n|suceso = Suspendido por las condiciones climáticas. Se jugó el 22 de "
+              "junio, a partir de las 14:30.")
+    p, = parser.partidos_de_plantillas(_con_fecha("15 de junio, 15:00", suceso), 2019, "x")
+    assert p.fecha == "2019-06-22"
+
+
+def test_la_plantilla_que_se_completo_otro_dia_no_se_mueve():
+    """Empezo el dia de `fecha`: "se completo" no es "se jugo"."""
+    suceso = "\n|suceso = Suspendido en el entretiempo. Se completó el 4 de noviembre."
+    p, = parser.partidos_de_plantillas(_con_fecha("28 de octubre, 21:30", suceso), 2023, "x")
+    assert p.fecha == "2023-10-28"
+
+
+def test_la_plantilla_lee_el_dia_de_una_nota_definida_en_otra_parte():
+    """La plantilla puede referenciar una nota que la pagina define en una tabla."""
+    otra = "{{refn|group=n.|name=susp|Suspendido por lluvia. Se jugó el 22 de junio.}}\n"
+    plantilla = _con_fecha("15 de junio, 15:00", "{{refn|group=n.|name=susp}}")
+    p, = parser.partidos_de_plantillas(otra + plantilla, 2019, "x")
+    assert p.fecha == "2019-06-22"
+
+
+@pytest.mark.parametrize("nota, status", [
+    # Estudiantes (BA) - Almagro, Primera B 2015, en `suceso`
+    ("\n|suceso = Suspendido a los 32' del segundo tiempo, por disturbios provocados por "
+     "la parcialidad local. Se lo dio por finalizado.", "suspendido"),
+    # Argentino de Quilmes - Defensores de Cambaceres, Primera C 2013-14: el titulo de la
+    # cita es toda la nota
+    ("<ref>{{Cita web |url= |título=El partido terminó igualado 0:0 pero se lo dieron "
+     "como ganado a Defensores de Cambaceres por la mala inclusión de un jugador de "
+     "Argentino de Quilmes.}}</ref>", "escritorio"),
+    # Deportivo Riestra - Comunicaciones, Primera B 2016-17: se completo, y en plural
+    ("{{refn|group=n.|Suspendido a los 45' del segundo tiempo. Se completaron los 5 "
+     "minutos adicionales el 3 de agosto, a partir de las 15:00.}}", ""),
+    ("", ""),
+], ids=["suspendido", "escritorio", "completado", "sin nota"])
+def test_la_plantilla_escribe_el_status_que_dice_su_nota(nota, status):
+    p, = parser.partidos_de_plantillas(_con_fecha("24 de noviembre, 17:05", nota), 2015, "x")
+    assert p.status == status
+
+
+@pytest.mark.parametrize("nota", [
+    "Se completaron los 5 minutos adicionales el 3 de agosto",
+    "Se completaron el 3 de agosto",
+    "Se jugaron los 10 minutos restantes el 3 de agosto",
+])
+def test_se_completo_tambien_en_plural_y_con_los_minutos_en_el_medio(nota):
+    assert parser.status_de_la_fila(f"Suspendido a los 45'. {nota}.") == ""
+
+
+def test_la_guarda_de_los_fallos_sin_leer_mira_tambien_las_plantillas():
+    """Desde que la plantilla escribe `status`, la guarda tiene que cubrirla: una nota
+    que habla de un fallo y no se sabe leer no puede quedar en vacio callada."""
+    texto = _con_fecha("21 de diciembre, 17:00",
+                       "\n|suceso = El Tribunal de Disciplina resolvió el caso.")
+    avisos = parser.fallos_sin_leer(texto)
+    assert len(avisos) == 1 and "Boca Juniors vs River Plate" in avisos[0], avisos
+
+
+# --------------------------------------------------------------------------
+# los bordes de las reglas de la nota
+# --------------------------------------------------------------------------
+def _fila_con_nota(nota: str) -> str:
+    return ("|Sportivo Estudiantes (SL)\n|2 - 0\n|Juventud U. U.\n|Juan Gilberto Funes\n"
+            f"|6 de octubre<ref>{nota}</ref>")
+
+
+@pytest.mark.parametrize("nota", [
+    "En: [http://x.com/nota Suspendido por lluvia.]",             # dos letras no son texto
+    "<small>[http://x.com/nota Suspendido por lluvia.]</small>",  # ni el marcado
+])
+def test_una_nota_que_es_solo_la_cita_sigue_contando(nota):
+    """El rotulo de la cita se saca solo cuando la nota dice algo con palabras suyas:
+    tres letras seguidas que no son marcado. Si no, la cita ES la nota."""
+    assert parser.status_de_la_fila(_fila_con_nota(nota)) == "suspendido"
+
+
+def test_lo_que_dice_otra_frase_no_dice_que_el_partido_no_empezo():
+    """Se mira la frase de la suspension, no la nota entera: que el inicio se demorara
+    por falta de medico no dice que el partido no empezo, y la suspension vino
+    despues."""
+    nota = ("Se demoró el inicio por falta de personal médico. Suspendido por incidentes "
+            "en las tribunas.")
+    assert parser.status_de_la_fila(_fila_con_nota(nota)) == "suspendido"
+
+
+def test_la_cancha_de_la_frase_del_dia_es_corta():
+    """«en <lugar>» se acepta hasta 60 letras y sin cruzar un punto: mas largo, la
+    fecha es de otra cosa. Aca el 29 de julio es lo que habia fijado la AFA."""
+    p = _reprogramado("Se jugó en la cancha del local y no en la sede neutral que había "
+                      "fijado la AFA para el 29 de julio.")
+    assert p.fecha == "2015-06-28"
+
+
+def test_una_hora_que_no_existe_en_la_nota_no_es_una_hora():
+    p = _reprogramado("Se jugó el 29 de julio, a partir de las 24:30.")
+    assert (p.fecha, p.hora) == ("2015-07-29", "")

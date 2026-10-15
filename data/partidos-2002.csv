@@ -47,7 +47,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2002-03-03,16:30,Rosario Central,Huracán,0,2,,,Primera Division - Clausura,2002,zonas,,Fecha 5,Gigante de Arroyito,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2002_(Argentina),
 2002-03-03,17:10,Chacarita Juniors,Boca Juniors,1,1,,,Primera Division - Clausura,2002,zonas,,Fecha 5,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2002_(Argentina),
 2002-03-03,19:30,River Plate,Nueva Chicago,0,0,,,Primera Division - Clausura,2002,zonas,,Fecha 5,Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2002_(Argentina),
-2002-03-06,17:10,Racing Club,Rosario Central,1,0,,,Primera Division - Clausura,2002,zonas,,Fecha 3,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2002_(Argentina),suspendido
+2002-03-06,17:10,Racing Club,Rosario Central,1,0,,,Primera Division - Clausura,2002,zonas,,Fecha 3,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2002_(Argentina),
 2002-03-08,21:00,Independiente,Colón,0,1,,,Primera Division - Clausura,2002,zonas,,Fecha 6,La Doble Visera,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2002_(Argentina),
 2002-03-09,19:00,Huracán,Talleres (C),0,1,,,Primera Division - Clausura,2002,zonas,,Fecha 6,Tomás A. Ducó,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2002_(Argentina),
 2002-03-09,21:00,Vélez Sarsfield,Gimnasia y Esgrima (LP),1,2,,,Primera Division - Clausura,2002,zonas,,Fecha 6,José Amalfitani,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2002_(Argentina),
@@ -308,7 +308,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2002-10-13,15:30,Racing Club,Gimnasia y Esgrima (LP),1,1,,,Primera Division - Apertura,2002,zonas,,Fecha 12,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2002_(Argentina),
 2002-10-13,16:00,River Plate,Unión,4,2,,,Primera Division - Apertura,2002,zonas,,Fecha 12,Monumental,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2002_(Argentina),
 2002-10-13,18:10,Colón,Boca Juniors,1,0,,,Primera Division - Apertura,2002,zonas,,Fecha 12,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2002_(Argentina),
-2002-10-16,21:10,Racing Club,Nueva Chicago,3,0,,,Primera Division - Apertura,2002,zonas,,Fecha 6,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2002_(Argentina),
+2002-10-16,16:00,Racing Club,Nueva Chicago,3,0,,,Primera Division - Apertura,2002,zonas,,Fecha 6,El Cilindro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2002_(Argentina),
 2002-10-18,21:10,San Lorenzo,Colón,2,0,,,Primera Division - Apertura,2002,zonas,,Fecha 13,Nuevo Gasómetro,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2002_(Argentina),
 2002-10-19,19:00,Lanús,Vélez Sarsfield,2,0,,,Primera Division - Apertura,2002,zonas,,Fecha 13,Ciudad de Lanús,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2002_(Argentina),
 2002-10-19,19:00,Unión,Huracán,2,2,,,Primera Division - Apertura,2002,zonas,,Fecha 13,15 de abril,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2002_(Argentina),

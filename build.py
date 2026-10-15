@@ -774,6 +774,13 @@ def procesar(texto: str, t) -> tuple[list, list]:
     tratan dos grafias como dos clubes y los chequeos dejan pasar justo lo que
     tenian que agarrar.
     """
+    # LA PAGINA SE LEE SIN COMENTARIOS, y se limpia aca, una vez para todos los que
+    # la leen: la grilla, las plantillas, la tabla de posiciones, el cuadro, los
+    # fallos, los enlaces. Ver `parser.sin_comentarios`. La cache sigue guardando el
+    # wikitexto crudo, asi que cambiar la regla no pide volver a bajar nada.
+    sin_cerrar = parser.comentario_sin_cerrar(texto)
+    tapado = texto[sin_cerrar:sin_cerrar + 80] if sin_cerrar >= 0 else ""
+    texto = parser.sin_comentarios(texto)
     # LAS DECLARACIONES DE `Fechado` QUE ENGANCHEN, juntadas entre TODOS los
     # completadores. Una pagina pasa por varios --worldfootball, RSSSF, el de
     # llaves, las citas-- y cada uno ve solo los desacuerdos que a el le
@@ -1150,6 +1157,16 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # a ningun partido.
     avisos += [validar.Aviso(f"{t.pagina}: el enlace se contradice", d, grave=False)
                for d in equipos.articulos_que_contradicen(texto)]
+    # Un comentario que no cierra tapa el resto de la pagina, en Wikipedia y aca, y
+    # lo que se deja de leer no avisa solo: en una pagina en curso lo frena la
+    # guarda contra achicarse, que no dice por que. No es grave porque la pagina
+    # se ve asi; lo que hay que hacer es ir a cerrarlo.
+    if sin_cerrar >= 0:
+        avisos.append(validar.Aviso(
+            f"{t.pagina}: un comentario sin cerrar",
+            f"el `<!--` del caracter {sin_cerrar} no cierra, y de ahi en adelante no "
+            f"se lee nada, que es lo que muestra Wikipedia: "
+            f"{tapado!r}", grave=False))
     if borradas:
         avisos.append(validar.Aviso(
             f"{borradas} partidos sin numero de jornada",
