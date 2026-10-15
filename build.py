@@ -1193,6 +1193,7 @@ def main(argv=None) -> int:
         guardado.setdefault(dataset.pagina_de(f), []).append(f)
 
     filas, sin_fecha, avisos, fallo, reusados = [], [], [], False, 0
+    leidas: set[str] = set()      # las paginas que se parsean hoy; ver `reconciliar_copias`
     for t in torneos.TODOS:
         listas = guardado.get(t.url)
         if t.cerrado and not args.rehacer and listas is not None:
@@ -1207,6 +1208,7 @@ def main(argv=None) -> int:
             continue
 
         ps, propios = procesar(texto, t)
+        leidas.add(t.url)
         avisos += propios
         graves = sum(a.grave for a in propios)
         etiqueta = t.pagina.split(":", 1)[-1]      # saca el "Anexo:" si lo tiene
@@ -1239,6 +1241,13 @@ def main(argv=None) -> int:
     # Los dos van como aviso y no frenan nada: un club puede alquilar la cancha
     # de otro, y una categoria rara puede ser un torneo que el catalogo rotula
     # distinto. Dicen "mira esto", no "esto esta mal".
+    #
+    # Antes que esos dos, que miran `neutral` y `venue`, los partidos escritos dos
+    # veces se reconcilian. Tambien es solo aviso, y por la razon de cualquier
+    # chequeo de dataset entero: un desacuerdo entre dos paginas en curso no puede
+    # frenar la actualizacion de todas las demas.
+    for a in dataset.reconciliar_copias(filas, correcciones.COPIAS, frozenset(leidas)):
+        print(f"  aviso: {a}", file=sys.stderr)
     for a in dataset.casas_compartidas(filas) + dataset.categorias_incompatibles(filas):
         print(f"  aviso: {a}", file=sys.stderr)
 

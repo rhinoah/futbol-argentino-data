@@ -598,3 +598,256 @@ def test_una_baja_en_sin_fecha_se_puede_excusar():
     # Y la excusa es de esa clave nada más: otro torneo sigue denunciándose.
     otros = [fila("U", 2012)] * 5
     assert dataset.regresiones([], otros, salvo=frozenset({("T", "2012")}))
+
+
+# --------------------------------------------------------------------------
+# los partidos escritos dos veces
+# --------------------------------------------------------------------------
+from fad.correcciones import Copia  # noqa: E402
+
+PB = "https://es.wikipedia.org/wiki/Primera_B"
+FA = "https://es.wikipedia.org/wiki/Federal_A"
+
+
+def _copia(fuente, **kw):
+    f = {"date": "2021-02-04", "time": "", "home_team": "San Telmo",
+         "away_team": "Deportivo Madryn", "home_score": "0", "away_score": "0",
+         "home_pens": "3", "away_pens": "1", "tournament": "Primera B", "season": "2020",
+         "phase": "eliminacion", "group": "", "matchday": "", "venue": "",
+         "neutral": "false", "source": fuente, "status": ""}
+    f.update(kw)
+    return f
+
+
+def _declarada(campo, valor):
+    return Copia(fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",
+                 campo=campo, valor=valor, porque="test")
+
+
+def test_alcanza_con_que_una_copia_diga_que_fue_neutral():
+    fs = [_copia(PB), _copia(FA, neutral="true")]
+    assert dataset.reconciliar_copias(fs) == []
+    assert [f["neutral"] for f in fs] == ["true", "true"]
+
+
+def test_ninguna_copia_lo_dice_y_queda_como_estaba():
+    fs = [_copia(PB), _copia(FA)]
+    dataset.reconciliar_copias(fs)
+    assert [f["neutral"] for f in fs] == ["false", "false"]
+
+
+def test_lo_que_una_copia_no_trae_se_toma_de_la_otra():
+    fs = [_copia(PB), _copia(FA, time="21:30", venue="Marcelo Bielsa", status="suspendido")]
+    assert dataset.reconciliar_copias(fs) == []
+    for campo, valor in (("time", "21:30"), ("venue", "Marcelo Bielsa"),
+                         ("status", "suspendido")):
+        assert [f[campo] for f in fs] == [valor, valor], campo
+
+
+def test_la_fila_recien_armada_trae_None_y_no_es_un_valor():
+    """La copia que se acaba de parsear trae la tanda en None y el marcador en
+    enteros; la del CSV, texto. Leidos tal cual, 0 y "0" serian dos marcadores."""
+    fs = [_copia(PB, home_score=0, away_score=0, home_pens=3, away_pens=1),
+          _copia(FA, time="21:30")]
+    assert dataset.reconciliar_copias(fs) == []
+    assert [f["time"] for f in fs] == ["21:30", "21:30"]
+    sin_tanda = [_copia(PB, home_pens=None, away_pens=None),
+                 _copia(FA, home_pens="", away_pens="")]
+    assert dataset.reconciliar_copias(sin_tanda) == []
+
+
+def test_dos_valores_distintos_no_se_eligen_solos():
+    """El 2011-06-25 una pagina decia 15:00 y la otra 15:30. Elegir sin testigo es
+    inventar: se avisa y cada copia sigue diciendo lo suyo."""
+    fs = [_copia(PB, time="15:00"), _copia(FA, time="15:30")]
+    avisos = dataset.reconciliar_copias(fs)
+    assert [f["time"] for f in fs] == ["15:00", "15:30"]
+    assert any("15:00 / 15:30" in a for a in avisos)
+
+
+def test_la_declaracion_elige_entre_las_dos():
+    fs = [_copia(PB, venue="Estadio Marcelo Bielsa"), _copia(FA, venue="Marcelo Bielsa")]
+    assert dataset.reconciliar_copias(fs, (_declarada("venue", "Marcelo Bielsa"),)) == []
+    assert [f["venue"] for f in fs] == ["Marcelo Bielsa", "Marcelo Bielsa"]
+
+
+def test_la_declaracion_no_puede_inventar_un_valor():
+    """Unificar no es reescribir: el valor tiene que ser uno de los que publican."""
+    fs = [_copia(PB, venue="Estadio Marcelo Bielsa"), _copia(FA, venue="Marcelo Bielsa")]
+    avisos = dataset.reconciliar_copias(fs, (_declarada("venue", "Coloso del Parque"),))
+    assert [f["venue"] for f in fs] == ["Estadio Marcelo Bielsa", "Marcelo Bielsa"]
+    assert any("no se aplica" in a for a in avisos)
+
+
+def test_la_tanda_no_se_toca():
+    """Y no frena lo demas: con el mismo marcador es el mismo partido, y que una
+    pagina no traiga la tanda no cambia a que hora se jugo."""
+    fs = [_copia(PB, home_pens="", away_pens=""), _copia(FA, time="21:30")]
+    avisos = dataset.reconciliar_copias(fs)
+    assert [(f["home_pens"], f["away_pens"]) for f in fs] == [("", ""), ("3", "1")]
+    assert any("home_pens" in a for a in avisos)
+    assert [f["time"] for f in fs] == ["21:30", "21:30"]
+
+
+def test_con_otro_marcador_no_se_unifica_nada():
+    """La clave es lo unico que dice que las dos filas son el mismo partido, y el
+    marcador el unico control. Unificando igual, una fila con el 1-1 de la cancha
+    quedaba rotulada `escritorio` porque la otra publicaba el fallo."""
+    fs = [_copia(PB, home_score="1", away_score="1"),
+          _copia(FA, home_score="0", away_score="3", status="escritorio", time="17:00",
+                 venue="Estadio A", neutral="true")]
+    antes = [dict(f) for f in fs]
+    avisos = dataset.reconciliar_copias(fs)
+    assert fs == antes
+    assert any("home_score" in a for a in avisos)
+    assert any("No se unifica nada" in a for a in avisos)
+
+
+def test_lo_que_es_de_cada_torneo_no_se_toca():
+    fs = [_copia(PB, tournament="Primera B"),
+          _copia(FA, tournament="Torneo Federal A", matchday="Tercer ascenso")]
+    dataset.reconciliar_copias(fs)
+    assert [(f["tournament"], f["matchday"]) for f in fs] == [
+        ("Primera B", ""), ("Torneo Federal A", "Tercer ascenso")]
+
+
+def test_dos_filas_de_la_misma_pagina_no_son_copias():
+    """Eso es un partido leido dos veces, y lo frena `validar.sin_duplicados`."""
+    fs = [_copia(PB), _copia(PB, neutral="true", time="21:30")]
+    assert dataset.copias(fs) == {}
+    dataset.reconciliar_copias(fs)
+    assert [(f["neutral"], f["time"]) for f in fs] == [("false", ""), ("true", "21:30")]
+
+
+def test_la_declaracion_que_sobra_se_dice_solo_con_las_dos_paginas_releidas():
+    """Lo reusado del CSV ya viene unificado de ayer: ahi coinciden POR la
+    declaracion, y decir que sobra seria mentir."""
+    d = (_declarada("venue", "Marcelo Bielsa"),)
+
+    def iguales():
+        return [_copia(PB, venue="Marcelo Bielsa"), _copia(FA, venue="Marcelo Bielsa")]
+
+    assert any("sobra" in a for a in dataset.reconciliar_copias(iguales(), d, frozenset({PB, FA})))
+    assert dataset.reconciliar_copias(iguales(), d) == []
+
+
+def test_una_declaracion_sin_sus_dos_copias_avisa():
+    avisos = dataset.reconciliar_copias([_copia(PB)], (_declarada("venue", "X"),))
+    assert any("no encuentra" in a for a in avisos)
+
+
+def test_la_declaracion_de_otro_dia_no_es_de_este_partido():
+    """Los mismos clubes se cruzan en la ida y en la vuelta: la fecha es parte de la
+    clave, y una declaracion de otro dia no elige nada aca."""
+    fs = [_copia(PB, venue="Estadio Marcelo Bielsa"), _copia(FA, venue="Marcelo Bielsa")]
+    otro_dia = Copia(fecha="2021-02-07", local="San Telmo", visita="Deportivo Madryn",
+                     campo="venue", valor="Marcelo Bielsa", porque="test")
+    avisos = dataset.reconciliar_copias(fs, (otro_dia,))
+    assert [f["venue"] for f in fs] == ["Estadio Marcelo Bielsa", "Marcelo Bielsa"]
+    assert any("no encuentra" in a for a in avisos)
+
+
+def test_una_copia_releida_no_se_completa_con_la_del_csv():
+    """Lo de la copia reusada puede haber salido de una version vieja de la pagina
+    que hoy se relee: copiarselo de vuelta la dejaria diciendo lo que ya no publica
+    nadie. Cada una sigue a su pagina, y se avisa."""
+    fs = [_copia(PB, time="21:30", neutral="true"), _copia(FA)]
+    avisos = dataset.reconciliar_copias(fs, (), frozenset({FA}))
+    assert [(f["time"], f["neutral"]) for f in fs] == [("21:30", "true"), ("", "false")]
+    assert any("se releyo" in a and "neutral, time" in a for a in avisos)
+    # Releidas las dos, la misma pareja si se unifica.
+    assert dataset.reconciliar_copias(fs, (), frozenset({PB, FA})) == []
+    assert [(f["time"], f["neutral"]) for f in fs] == [("21:30", "true")] * 2
+
+
+def test_reconciliar_dos_veces_es_reconciliar_una():
+    """Lo que garantiza que el bot no mueva nunca lo cerrado: sobre filas ya
+    reconciliadas la regla no cambia nada."""
+    fs = [_copia(PB, venue="Estadio Marcelo Bielsa"),
+          _copia(FA, time="21:30", venue="Marcelo Bielsa", neutral="true")]
+    d = (_declarada("venue", "Marcelo Bielsa"),)
+    dataset.reconciliar_copias(fs, d)
+    antes = [dict(f) for f in fs]
+    assert dataset.reconciliar_copias(fs, d) == []
+    assert fs == antes
+
+
+# ---- sobre lo publicado ------------------------------------------------------
+from pathlib import Path  # noqa: E402
+
+DATOS = Path(__file__).resolve().parent.parent / "data"
+_DEL_PARTIDO = ("date", "time", "home_score", "away_score", "home_pens", "away_pens",
+                "venue", "neutral", "status")
+
+
+def _desacuerdos(grupos: dict) -> list[str]:
+    return [f"{k[0]} {k[1]} - {k[2]}: {c} = {sorted({f[c] for f in fs})}"
+            for k, fs in sorted(grupos.items()) for c in _DEL_PARTIDO
+            if len({f[c] for f in fs}) > 1]
+
+
+def _cerradas(filas) -> dict:
+    from fad import torneos
+    cerradas = {t.url for t in torneos.TODOS if t.cerrado}
+    return {k: fs for k, fs in dataset.copias(filas).items()
+            if all(dataset.pagina_de(f) in cerradas for f in fs)}
+
+
+@pytest.fixture(scope="module")
+def publicadas():
+    filas = dataset.leer_carpeta(DATOS)
+    if not filas:
+        pytest.skip("hace falta el dataset")
+    return _cerradas(filas)
+
+
+def test_los_partidos_escritos_dos_veces_dicen_lo_mismo_en_los_torneos_cerrados(publicadas):
+    """La regla corre todos los dias pero solo AVISA, para que una pagina en curso
+    no frene al resto. Esto es lo que frena, y mira solo torneos CERRADOS: el bot no
+    los toca --se reusan del CSV y la regla, sobre filas ya reconciliadas, no cambia
+    nada--, asi que la corrida diaria no lo puede hacer fallar. Falla el dia que
+    alguien cierra un torneo con una copia en desacuerdo, que es cuando hay que
+    mirarlo."""
+    assert len(publicadas) >= 15, f"son 15 y encontro {len(publicadas)}: no esta mirando"
+    assert not _desacuerdos(publicadas)
+
+
+def test_lo_declarado_es_lo_que_se_publica(publicadas):
+    """Una declaracion se aplica al rehacer, y el CSV publicado es lo que queda de
+    eso. Si se cambia una sin rehacer, o se rehace sin ella, se nota aca. Mira solo
+    las de torneos cerrados, por lo mismo que el test de arriba: las de un torneo en
+    curso las aplica el bot DESPUES de correr la suite."""
+    from fad import correcciones
+    vistas = 0
+    for d in correcciones.COPIAS:
+        fs = publicadas.get((d.fecha, d.local, d.visita))
+        if fs is None:
+            continue
+        vistas += 1
+        assert [f[d.campo] for f in fs] == [d.valor] * len(fs), (d.fecha, d.local, d.campo)
+    assert vistas >= 3, "las tres de hoy son de torneos cerrados: si no las ve, no mira"
+
+
+def test_y_lo_veria_si_una_copia_cerrada_dijera_otra_hora(publicadas):
+    k = ("2021-02-04", "San Telmo", "Deportivo Madryn")
+    copia = {k: [dict(f) for f in publicadas[k]]}
+    copia[k][0]["time"] = "23:59"
+    assert _desacuerdos(copia)
+
+
+@pytest.mark.parametrize("clave, campo, valor", [
+    # La AFA, nota del 24/06/2011 «Esta tarde juegan Los Andes y Central Córdoba»:
+    # «Sábado 25 de junio 15.00-- Los Andes-Central Córdoba». Ver correcciones.COPIAS.
+    (("2011-06-25", "Los Andes", "Central Córdoba (R)"), "time", "15:00"),
+    # UNO Santa Fe, 4/02/2021: «se jugará a partir de las 21.30 en el estadio de
+    # Newell's Old Boys», que no es la cancha de ninguno de los dos.
+    (("2021-02-04", "San Telmo", "Deportivo Madryn"), "time", "21:30"),
+    (("2021-02-04", "San Telmo", "Deportivo Madryn"), "venue", "Marcelo Bielsa"),
+    (("2021-02-04", "San Telmo", "Deportivo Madryn"), "neutral", "true"),
+])
+def test_lo_que_dicen_las_dos_copias_lo_dice_un_testigo_de_afuera(publicadas, clave, campo,
+                                                                   valor):
+    """Que coincidan no alcanza: dos copias pueden coincidir en lo equivocado. Estos
+    valores los decide un testigo que no es ninguna de las dos paginas, y se los
+    escribe aca para que una fuente de afuera los pueda contradecir."""
+    assert [f[campo] for f in publicadas[clave]] == [valor, valor]

@@ -2487,3 +2487,31 @@ def test_la_url_de_una_cita_no_es_texto_de_la_nota():
     # El contraste: la misma palabra en el TEXTO de la nota si cuenta.
     en_el_texto = fila.replace("Postergado por falta", "Suspendido a los 10' por falta")
     assert parser.status_de_la_fila(en_el_texto) == "suspendido"
+
+
+# --------------------------------------------------------------------------
+# la hora con el canal pegado
+# --------------------------------------------------------------------------
+def _con_hora(celda: str) -> str:
+    return (TABLA_SIN_HORA.replace("!Fecha\n", "!Fecha\n!Hora\n")
+            .replace("|23 de enero\n", f"|23 de enero\n|{celda}\n"))
+
+
+@pytest.mark.parametrize("celda, hora", [
+    ("15:30 [[TyC Sports|(TV)]]", "15:30"),     # Primera C 2010-11, la vuelta de la promocion
+    ("17:30 ([[Fútbol para todos|TV]])", "17:30"),   # Argentino A 2011-12
+    ("18:00 )", "18:00"),                        # Primera C 2011-12, lo que dejo una edicion
+    ("21:30 hs.", "21:30"),
+    ("9:30 (TV)", "9:30"),                       # la hora de un digito tambien
+])
+def test_la_hora_con_el_canal_pegado_queda_en_la_hora(celda, hora):
+    """Dos paginas publicaban el mismo partido a las `21:00` y a las `21:00 (TV)`:
+    la misma hora, y dos copias que no decian lo mismo."""
+    assert parser.partidos_de_tabla(_con_hora(celda), 2026, "Apertura")[0].hora == hora
+
+
+@pytest.mark.parametrize("celda", ["20:00", "9:00", "15::00", "18:5", "14.00", "123:45",
+                                   "15:300"])
+def test_la_hora_que_no_empieza_bien_queda_como_figura(celda):
+    """Lo que no empieza con una hora valida no se adivina, y tampoco se borra."""
+    assert parser.partidos_de_tabla(_con_hora(celda), 2026, "Apertura")[0].hora == celda

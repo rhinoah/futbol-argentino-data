@@ -337,6 +337,131 @@ def categorias_incompatibles(filas: list[dict]) -> list[str]:
     return avisos
 
 
+# --------------------------------------------------------------------------
+# los partidos escritos dos veces
+# --------------------------------------------------------------------------
+# Una promocion entre divisiones o una definicion de ascenso la publican las
+# paginas de las DOS divisiones, y entra una vez en cada torneo. Las dos filas se
+# quedan -- cada torneo tiene que tener sus partidos --, pero describen UN partido,
+# y lo que dicen de el no puede depender de por cual pagina se lo lea.
+#
+# Lo que es de cada torneo (tournament, season, phase, group, matchday, source) no
+# se toca. La fecha y los equipos son la clave, asi que coinciden por definicion.
+_SE_COMPLETAN = ("time", "venue", "status")      # vacio = "esta pagina no lo dijo"
+_MARCADOR = ("home_score", "away_score")
+_TANDA = ("home_pens", "away_pens")
+
+
+def _valor(v) -> str:
+    """Las filas reusadas del CSV traen texto; las recien armadas, enteros y None."""
+    return "" if v is None else str(v).strip()
+
+
+def copias(filas: list[dict]) -> dict[tuple, list[dict]]:
+    """{(fecha, local, visitante): filas} de los partidos que publican dos paginas.
+
+    Un club no juega dos veces el mismo dia de local contra el mismo rival, asi que
+    esa clave alcanza. Dos filas con la misma clave y de la MISMA pagina no son
+    esto: son un partido leido dos veces, y de eso se ocupa `validar.sin_duplicados`.
+    """
+    por_clave: dict[tuple, list[dict]] = {}
+    for f in filas:
+        if _valor(f.get("date")):
+            por_clave.setdefault((f["date"], f["home_team"], f["away_team"]), []).append(f)
+    return {k: fs for k, fs in por_clave.items()
+            if len(fs) > 1 and len({pagina_de(f) for f in fs}) == len(fs)}
+
+
+def reconciliar_copias(filas: list[dict], declaradas=(),
+                       leidas: frozenset = frozenset()) -> list[str]:
+    """Hace que las copias de un partido digan lo mismo. Devuelve avisos.
+
+    * `neutral`: alcanza con que una copia lo diga. Es la regla del parser -- solo
+      se MARCA, nunca se desmarca -- llevada de la tabla al partido.
+    * `time`, `venue`, `status`: vacio quiere decir que esa pagina no lo dijo, asi
+      que se completa con lo que dice la otra.
+    * Dos horas o dos canchas distintas NO se eligen solas: las resuelve una
+      `Copia` de `correcciones.COPIAS`, o quedan como estan y se avisa.
+    * El marcador y la tanda no se tocan nunca. Si la tanda difiere, se avisa. Si
+      difiere el MARCADOR no se toca nada del grupo: la clave es lo unico que dice
+      que las dos filas son el mismo partido, y el marcador es el unico control.
+      Con otro marcador puede no serlo, y una fila con el de la cancha terminaria
+      rotulada `escritorio` por la otra.
+
+    `leidas` son las paginas que se parsearon en esta corrida. Una copia releida y
+    otra reusada del CSV NO se completan una con la otra: lo de la reusada puede
+    haber salido de una version vieja de la pagina que hoy se relee, y copiarselo
+    de vuelta la dejaria diciendo algo que ya no publica nadie. Cada una sigue a
+    su pagina y se avisa. Pasa solo si uno de los dos torneos sigue en curso: los
+    dos se cierran juntos, o se corre --rehacer.
+
+    Por la misma razon, que una declaracion "ya no hace falta" solo se puede
+    afirmar con las dos paginas recien leidas: en el CSV las copias coinciden
+    justamente POR la declaracion.
+
+    NINGUN AVISO ES GRAVE, a proposito: esto corre todos los dias, y que una pagina
+    en curso cambie la hora de un partido no puede dejar sin actualizar al resto
+    del dataset. Lo que frena es el test sobre lo publicado, que mira solo los
+    torneos cerrados.
+    """
+    avisos, usadas = [], set()
+    for clave, fs in sorted(copias(filas).items()):
+        nombre = f"{clave[1]} - {clave[2]} del {clave[0]}"
+        suyas = {d.campo: d for d in declaradas if (d.fecha, d.local, d.visita) == clave}
+        usadas |= set(suyas.values())
+        for campo in _MARCADOR + _TANDA:
+            distintos = sorted({_valor(f[campo]) for f in fs})
+            if len(distintos) > 1:
+                avisos.append(f"{nombre}: las paginas publican distinto `{campo}` "
+                              f"({' / '.join(distintos)}). No se toca")
+        if any(len({_valor(f[c]) for f in fs}) > 1 for c in _MARCADOR):
+            avisos.append(f"{nombre}: con otro marcador pueden no ser el mismo partido. "
+                          f"No se unifica nada")
+            continue
+
+        releidas = [pagina_de(f) in leidas for f in fs]
+        if any(releidas) and not all(releidas):
+            difieren = [c for c in ("neutral",) + _SE_COMPLETAN
+                        if len({_valor(f[c]) for f in fs}) > 1]
+            avisos.append(
+                f"{nombre}: una copia se releyo y la otra salio del CSV, que puede "
+                f"traer lo de una version vieja de la otra pagina. No se completan una "
+                f"con la otra" + (f" y difieren en {', '.join(difieren)}" if difieren
+                                  else "") +
+                ": los dos torneos se cierran juntos, o se corre --rehacer")
+            continue
+
+        if any(_valor(f["neutral"]).lower() == "true" for f in fs):
+            for f in fs:
+                f["neutral"] = "true"
+
+        for campo in _SE_COMPLETAN:
+            valores = {_valor(f[campo]) for f in fs} - {""}
+            d = suyas.get(campo)
+            if d and d.valor not in valores:
+                avisos.append(f"{nombre}: la declaracion dice `{campo}` = {d.valor!r} y "
+                              f"las paginas publican {sorted(valores)}: no se aplica")
+                continue
+            if d:
+                if len(valores) == 1 and all(releidas):
+                    avisos.append(f"{nombre}: las paginas ya coinciden en `{campo}`, la "
+                                  f"declaracion sobra: sacala de fad/correcciones.py")
+                valores = {d.valor}
+            if len(valores) == 1:
+                (unico,) = valores
+                for f in fs:
+                    f[campo] = unico
+            elif len(valores) > 1:
+                avisos.append(f"{nombre}: las paginas publican distinto `{campo}` "
+                              f"({' / '.join(sorted(valores))}) y no hay declaracion")
+    for d in declaradas:
+        if d not in usadas:
+            avisos.append(f"la declaracion de `{d.campo}` de {d.local} - {d.visita} del "
+                          f"{d.fecha} no encuentra las dos copias: sacala de "
+                          f"fad/correcciones.py")
+    return avisos
+
+
 PATRON = "partidos-*.csv"
 
 

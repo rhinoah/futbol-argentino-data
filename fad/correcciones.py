@@ -2790,6 +2790,82 @@ CANCHAS: tuple[Cancha, ...] = (
 
 
 @dataclass(frozen=True)
+class Copia:
+    """Lo que dicen las DOS copias de un partido escrito dos veces, cuando no coinciden.
+
+    Una promocion o una definicion de ascenso la publican las paginas de las dos
+    divisiones, y el partido entra una vez en cada torneo. Las dos filas se quedan,
+    pero describen UN partido. `dataset.reconciliar_copias` las hace decir lo mismo
+    sin preguntar cuando se puede: `neutral` se marca si una lo dice, y la hora, la
+    cancha o el `status` que una no trae se toman de la otra. Lo que no puede hacer
+    sola es ELEGIR entre dos valores distintos, y eso es esto.
+
+    `valor` tiene que ser uno de los que publican las dos paginas, tal como figura:
+    unificar no es inventar una grafia. Una hora distinta no es una grafia sino un
+    dato, y ahi la vara es la de siempre: un testigo de afuera, con su URL en
+    `porque`.
+
+    No es por pagina como las demas: no hay una pagina equivocada que corregir
+    antes de validar, sino dos que dicen distinto. Se aplica sobre el dataset
+    entero, todos los dias, cuando las dos copias se releen o las dos salen del
+    CSV; con una de cada lado no se toca nada y se avisa (ver
+    `dataset.reconciliar_copias`).
+
+    Va junto con los datos rehechos, no sola: la suite corre antes que el build, y
+    `tests/test_dataset.py` exige que lo declarado sea lo que el CSV ya publica.
+    """
+    fecha: str
+    local: str
+    visita: str
+    campo: str          # "time" o "venue"
+    valor: str
+    porque: str
+
+
+COPIAS: tuple[Copia, ...] = (
+    Copia(
+        fecha="2011-06-25", local="Los Andes", visita="Central Córdoba (R)",
+        campo="time", valor="15:00",
+        porque=(
+            "La vuelta de la promocion entre la Primera B y la Primera C 2010-11. La "
+            "Primera B dice 15:00 y la Primera C '15:30 [[TyC Sports|(TV)]]'. "
+            "LO ARBITRA LA AFA, que no es ninguna de las dos paginas: su nota del 24 de "
+            "junio de 2011, 'Esta tarde juegan Los Andes y Central Cordoba', programa "
+            "'Sabado 25 de junio 15.00-- Los Andes-Central Cordoba' con Julio Barraza "
+            "de arbitro y TV, y dice que se juega 'a partir de las 15'. "
+            "https://web.archive.org/web/20110626191027id_/http://www.afa.org.ar:80/"
+            "index.php?option=com_content&view=article&id=14554:manana-juegan-los-"
+            "andes-central-cordoba&catid=110:torneos-superiores&Itemid=78\n"
+            "De donde salen las 15:30 lo cuenta el historial de las dos paginas: eran "
+            "la hora puesta cuando la vuelta figuraba el domingo 26. El sabado 25 un "
+            "editor paso la Primera B a '25 de junio' y '15:00' en la misma edicion "
+            "(rev 47457414); en la Primera C otro cambio solo el dia y dejo la hora "
+            "(rev 47459380)."),
+    ),
+    Copia(
+        fecha="2012-06-27", local="Crucero del Norte", visita="Guillermo Brown",
+        campo="venue", valor="Comandante A. Guacurarí",
+        porque=(
+            "La misma cancha escrita de dos formas, y las dos celdas enlazan al mismo "
+            "articulo, 'Estadio Comandante Andrés Guacurarí': la B Nacional 2011-12 "
+            "pone 'Comandante A. Guacurarí' y el Argentino A 2011-12 'Cte. Andrés "
+            "Guacurarí'. Se toma la primera porque es la que mas se parece a como el "
+            "dataset escribe esa cancha en otros 203 partidos ('Comandante Andrés "
+            "Guacurarí', medido el 14/10/2026), que no es ninguna de las dos."),
+    ),
+    Copia(
+        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",
+        campo="venue", valor="Marcelo Bielsa",
+        porque=(
+            "La misma cancha escrita de dos formas: la plantilla de la Primera B "
+            "Transicion 2020 dice 'Estadio Marcelo Bielsa' y la tabla del Torneo "
+            "Transicion Federal A 2020 'Marcelo Bielsa', que es como el dataset la "
+            "escribia en 311 filas antes de esta declaracion; con el prefijo, en 5."),
+    ),
+)
+
+
+@dataclass(frozen=True)
 class Reemplazo:
     """Una fila que no es una version equivocada de un partido: es OTRO partido.
 

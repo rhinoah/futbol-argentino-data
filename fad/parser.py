@@ -1387,6 +1387,22 @@ def partidos_de_llave(bloque: str, anio: int, torneo: str,
     return salida
 
 
+# Una hora VALIDA con algo pegado atras. Es el canal que lo transmitio -- la Primera
+# B, la C y el Argentino A de 2009 a 2012 escriben `15:30 [[TyC Sports|(TV)]]`, que
+# `limpiar` deja en `15:30 (TV)` -- o un parentesis suelto, `18:00 )`, que dejo una
+# edicion de 2013 al borrar el enlace al canal. Se toma la hora y se tira la cola.
+#
+# Lo que no EMPIEZA con una hora valida queda tal como figura: `15::00`, `18:5` o
+# `14.00` no se adivinan. Ni se borran: una celda que no se entiende sigue diciendo
+# algo, y vaciarla seria decir que la pagina no trae la hora.
+_HORA_CON_COLA = re.compile(r"^\s*(\d{1,2}:\d{2})(?!\d)\s*\S")
+
+
+def _hora(celda: str) -> str:
+    m = _HORA_CON_COLA.match(celda)
+    return m.group(1) if m else celda
+
+
 def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None = None,
                       mes_inicio: int = MES_INICIO_HABITUAL,
                       zona_defecto: str = "", llave: str = "",
@@ -1535,7 +1551,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
                        _con_notas(fila + " " + " ".join(crudos.values()), notas),
                        anio, anio_fin, mes_inicio, programada)
                    or programada),
-            hora=valores["hora"],
+            hora=_hora(valores["hora"]),
             local=valores["local"], visita=valores["visita"],
             goles_local=goles[0], goles_visita=goles[1],
             # La tanda, cuando la celda del resultado la trae pegada al marcador.

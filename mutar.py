@@ -2711,6 +2711,98 @@ MUTANTES = [
      "        if citadas.LLAVES.get(t.pagina):",
      "        if True:"),
 
+    # Los partidos escritos dos veces: la hora con el canal pegado y la regla que
+    # hace que las dos copias digan lo mismo.
+    ("fad/parser.py", "no limpiarle a la hora el canal pegado",
+     '            hora=_hora(valores["hora"]),',
+     '            hora=valores["hora"],'),
+
+    ("fad/parser.py", "pedirle dos digitos a la hora con el canal pegado",
+     r'_HORA_CON_COLA = re.compile(r"^\s*(\d{1,2}:\d{2})(?!\d)\s*\S")',
+     r'_HORA_CON_COLA = re.compile(r"^\s*(\d{2}:\d{2})(?!\d)\s*\S")'),
+
+    ("fad/parser.py", "tomar por hora el principio de un numero mas largo",
+     r'_HORA_CON_COLA = re.compile(r"^\s*(\d{1,2}:\d{2})(?!\d)\s*\S")',
+     r'_HORA_CON_COLA = re.compile(r"^\s*(\d{1,2}:\d{2})\s*\S")'),
+
+    ("fad/dataset.py", "aplicar la declaracion de otro dia entre los mismos clubes",
+     "        suyas = {d.campo: d for d in declaradas if (d.fecha, d.local, d.visita) == clave}",
+     "        suyas = {d.campo: d for d in declaradas if (d.local, d.visita) == clave[1:]}"),
+
+    ("fad/parser.py", "vaciar la hora que no se entiende en vez de dejarla como figura",
+     "    return m.group(1) if m else celda",
+     '    return m.group(1) if m else ""'),
+
+    ("fad/dataset.py", "no completar lo que una copia no trae",
+     "                    f[campo] = unico",
+     "                    pass"),
+
+    ("fad/dataset.py", "elegir solo entre dos valores distintos",
+     "            if len(valores) == 1:\n                (unico,) = valores",
+     "            if valores:\n                unico = sorted(valores)[0]"),
+
+    ("fad/dataset.py", "aplicar una declaracion con un valor que ninguna pagina publica",
+     "            if d and d.valor not in valores:",
+     "            if False:"),
+
+    ("fad/dataset.py", "completar la tanda que una copia no trae",
+     '_SE_COMPLETAN = ("time", "venue", "status")',
+     '_SE_COMPLETAN = ("time", "venue", "status", "home_pens", "away_pens")'),
+
+    ("fad/dataset.py", "unificar tambien lo que es de cada torneo",
+     '_SE_COMPLETAN = ("time", "venue", "status")',
+     '_SE_COMPLETAN = ("time", "venue", "status", "matchday")'),
+
+    ("fad/dataset.py", "tomar por copias dos filas de la misma pagina",
+     "            if len(fs) > 1 and len({pagina_de(f) for f in fs}) == len(fs)}",
+     "            if len(fs) > 1}"),
+
+    ("fad/dataset.py", "unificar las copias aunque publiquen otro marcador",
+     "        if any(len({_valor(f[c]) for f in fs}) > 1 for c in _MARCADOR):",
+     "        if False:"),
+
+    ("fad/dataset.py", "no unificar nada si lo que difiere es solo la tanda",
+     "        if any(len({_valor(f[c]) for f in fs}) > 1 for c in _MARCADOR):",
+     "        if any(len({_valor(f[c]) for f in fs}) > 1 for c in _MARCADOR + _TANDA):"),
+
+    ("fad/dataset.py", "completar la copia releida con lo de la reusada del CSV",
+     "        if any(releidas) and not all(releidas):",
+     "        if False:"),
+
+    ("fad/dataset.py", "decir que la declaracion sobra mirando lo reusado del CSV",
+     "                if len(valores) == 1 and all(releidas):",
+     "                if len(valores) == 1:"),
+
+    ("fad/dataset.py", "callarse la declaracion que no encuentra sus copias",
+     "        if d not in usadas:",
+     "        if False:"),
+
+    ("fad/dataset.py", "comparar None contra vacio entre la fila nueva y la del CSV",
+     '    return "" if v is None else str(v).strip()',
+     "    return str(v).strip()"),
+
+    ("fad/dataset.py", "pedir que TODAS las copias digan neutral para marcarlo",
+     '        if any(_valor(f["neutral"]).lower() == "true" for f in fs):',
+     '        if all(_valor(f["neutral"]).lower() == "true" for f in fs):'),
+
+    ("fad/correcciones.py", "declarar la hora que la AFA no programo",
+     '        campo="time", valor="15:00",',
+     '        campo="time", valor="15:30",'),
+
+    ("build.py", "no reconciliar las copias",
+     "    for a in dataset.reconciliar_copias(filas, correcciones.COPIAS, frozenset(leidas)):",
+     "    for a in []:"),
+
+    ("build.py", "no anotar que paginas se releyeron",
+     "        leidas.add(t.url)",
+     "        pass"),
+
+    ("build.py", "frenar el build por un desacuerdo entre copias",
+     "    for a in dataset.reconciliar_copias(filas, correcciones.COPIAS, frozenset(leidas)):\n"
+     '        print(f"  aviso: {a}", file=sys.stderr)',
+     "    if dataset.reconciliar_copias(filas, correcciones.COPIAS, frozenset(leidas)):\n"
+     "        return 1"),
+
 ]
 
 

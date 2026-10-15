@@ -802,3 +802,17 @@ def test_el_san_jorge_pelado_del_federal_a_2014_se_corrige_en_SU_fila():
     _, avisos = correcciones.aplicar(otra, "Torneo Federal A 2014")
     assert otra[0].local == "San Jorge", "con otro marcador no es ese partido"
     assert any("San Jorge" in a for a in avisos)
+
+
+def test_las_copias_declaradas_estan_justificadas():
+    """Lo mismo que se le pide a cualquier correccion: evidencia escrita y un campo
+    que la regla sabe unificar. Y una hora no es una grafia: elegir entre dos pide
+    un testigo de afuera, con su direccion."""
+    from fad import equipos
+    for c in correcciones.COPIAS:
+        assert len(c.porque) > 80, f"{c.fecha} {c.local}: la evidencia es muy flaca"
+        assert c.campo in ("time", "venue"), c.campo
+        for n in (c.local, c.visita):
+            assert equipos.buscar(n) is not None, f"{n!r} no esta en el padron"
+        if c.campo == "time":
+            assert "http" in c.porque, f"{c.fecha} {c.local}: una hora pide testigo citado"

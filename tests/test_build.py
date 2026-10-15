@@ -2203,3 +2203,75 @@ def test_las_37_llaves_del_argentino_a_2004_05_nombran_a_rsssf():
     los_de_la_pagina = [f for f in suyas if not f["matchday"].startswith("Zona ")]
     assert len(los_de_la_pagina) == 80
     assert not [f["source"] for f in los_de_la_pagina if "rsssf" in f["source"]]
+
+
+# --------------------------------------------------------------------------
+# un partido que publican dos paginas
+# --------------------------------------------------------------------------
+PROMO_B = Torneo("Anexo:Prueba B", "Primera B", 2026)                    # cerrado
+PROMO_C = Torneo("Anexo:Prueba C", "Primera C", 2026, cerrado=False)     # en curso
+
+
+def _promo(hora: str, sin_local: bool) -> str:
+    """La misma promocion como la escribe cada division: una con la hora y como
+    tabla sin local, la otra sin hora y con "Local / Visitante"."""
+    t = tabla(("Boca Juniors", "River Plate")).replace("|20:00\n", f"|{hora}\n")
+    return t.replace("!Local\n", "!Equipo 1\n") if sin_local else t
+
+
+def _dos_paginas(monkeypatch, tmp_path, paginas):
+    monkeypatch.setattr(build.torneos, "TODOS", [PROMO_B, PROMO_C])
+    monkeypatch.setattr(build.wiki, "wikitexto", lambda pag, *a, **k: paginas[pag])
+    monkeypatch.setattr(build, "SALIDA", tmp_path / "data")
+
+
+def _de_cada_torneo(tmp_path):
+    return sorted((f["tournament"], f["time"], f["neutral"])
+                  for f in build.dataset.leer_carpeta(tmp_path / "data"))
+
+
+def test_las_dos_copias_de_un_partido_salen_iguales(monkeypatch, tmp_path, capsys):
+    paginas = {PROMO_B.pagina: _promo("", sin_local=False),
+               PROMO_C.pagina: _promo("20:00", sin_local=True)}
+    _dos_paginas(monkeypatch, tmp_path, paginas)
+    assert build.main([]) == 0
+    assert _de_cada_torneo(tmp_path) == [
+        ("Primera B", "20:00", "true"), ("Primera C", "20:00", "true")]
+
+    # Al dia siguiente la B se reusa del CSV y la C se relee: siguen iguales, y se
+    # avisa que no se completan una con la otra.
+    capsys.readouterr()
+    assert build.main([]) == 0
+    assert _de_cada_torneo(tmp_path) == [
+        ("Primera B", "20:00", "true"), ("Primera C", "20:00", "true")]
+    err = capsys.readouterr().err
+    assert "se releyo" in err
+    assert "publican distinto" not in err, "la del CSV y la recien armada son la misma tanda"
+
+
+def test_la_copia_en_curso_sigue_a_su_pagina_y_no_a_la_del_csv(monkeypatch, tmp_path, capsys):
+    """La copia cerrada tiene la hora y el `neutral` que se completaron con la otra
+    pagina. Si esa otra pagina, todavia en curso, los saca, devolverselos desde el
+    CSV la dejaria publicando lo que ya no dice nadie: sigue a su pagina, y se avisa."""
+    paginas = {PROMO_B.pagina: _promo("", sin_local=False),
+               PROMO_C.pagina: _promo("20:00", sin_local=True)}
+    _dos_paginas(monkeypatch, tmp_path, paginas)
+    assert build.main([]) == 0
+    paginas[PROMO_C.pagina] = _promo("", sin_local=False)
+    capsys.readouterr()
+    assert build.main([]) == 0
+    assert _de_cada_torneo(tmp_path) == [
+        ("Primera B", "20:00", "true"), ("Primera C", "", "false")]
+    assert "difieren en neutral, time" in capsys.readouterr().err
+
+
+def test_dos_paginas_que_no_coinciden_avisan_y_no_frenan(monkeypatch, tmp_path, capsys):
+    """Un grave en un torneo en curso dejaria sin actualizar a todos los demas por
+    un desacuerdo que solo se resuelve con una declaracion a mano."""
+    paginas = {PROMO_B.pagina: _promo("15:00", sin_local=False),
+               PROMO_C.pagina: _promo("15:30", sin_local=False)}
+    _dos_paginas(monkeypatch, tmp_path, paginas)
+    assert build.main([]) == 0
+    assert sorted(f["time"] for f in build.dataset.leer_carpeta(tmp_path / "data")) == [
+        "15:00", "15:30"]
+    assert "15:00 / 15:30" in capsys.readouterr().err
