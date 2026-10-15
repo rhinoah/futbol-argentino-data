@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 50 020 | 6 | 170 | 1301 | 610 |
+| 50 021 | 6 | 170 | 1360 | 655 |
 
 Medidos el 15 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
 al código a propósito para comprobar que algún test los detecta.
@@ -18,66 +18,128 @@ la fuente lo publica y hoy no se lee.
 
 ## 2004–2026 — Cerrado
 
-`43 032` partidos de los torneos que están en el catálogo. De los `174` avisos
-del build, ninguno es grave. Hay `59` verificaciones a mano, y `251` clubes de `13`
-temporadas tienen el respaldo de una fuente independiente. Ningún partido espera una
-fecha: los `6` que están sin fecha no se jugaron.
+`43 033` partidos de los torneos que están en el catálogo. De los `184` avisos del
+build —`164` de esta era—, ninguno es grave. Hay `59` verificaciones a mano. `176` clubes
+de `9` temporadas tienen el respaldo de una fuente independiente: sus partidos son de
+Wikipedia y cierran con la tabla de RSSSF. Otros `75`, del Argentino A 2006-07 a
+2009-10, también cierran con la tabla de RSSSF, pero sus partidos salen de ahí mismo:
+los respalda la tabla de Wikipedia. Ningún partido espera una fecha: los `6` que están
+sin fecha no se jugaron.
 
 - **Antes de donde arranca cada división del ascenso Wikipedia casi no publica
   partidos.** Medida la temporada anterior de cada una, la B Nacional 2006-07 da 7 sin
   fecha, la Primera B 2009-10 y la Primera C 2007-08 dan 4, y el Argentino A 2003-04 da
   195, 8 con fecha. Para ir más atrás hace falta otra fuente.
-- **`status`: cinco `suspendido` publicados que la nota de su propia página desmiente.**
-  - En dos la palabra sale del titular de una cita y la nota dice «Postergado»: `Racing
+- **`status`: trece `suspendido` publicados que la nota de su propia página desmiente.**
+  `12` son de esta era y uno, `Racing Club 1-0 Rosario Central`, del Clausura 2002. Desde
+  2004 hay `67` `suspendido`.
+  - En seis el partido se completó otro día y el lector no lo ve:
+    - `Acassuso 1-0 Estudiantes (BA)` (Primera B 2012-13, «Se completo el miércoles 27 de
+      marzo»);
+    - `Guillermo Brown 4-2 Juventud Unida Universitario` (Argentino A 2012-13);
+    - `Deportivo Español 1-0 Excursionistas` (Primera C 2021), que además lleva el día, la
+      cancha y la hora del programado: se jugó el 19 en el Enrique Sexto, a las 13:30;
+    - `Brown de Adrogué 0-0 Agropecuario` (2018-19, «Se compĺetó», con `ĺ`);
+    - `Villa Dálmine 0-0 Midland` (Primera C 2009-10, «jugados los 21´ dos días después»);
+    - `Alumni 0-0 Juventud Unida Universitario` (Argentino A 2010-11, «completado al día
+      siguiente»).
+  - En tres la palabra sale del `name=` de la nota y no de su texto: `Villa San Carlos 2-0
+    UAI Urquiza` (Primera B 2014), `San Martín (B) 1-0 Ferrocarril Midland` (Primera C
+    2015) y `Deportivo Armenio 1-1 Cañuelas` (Primera C 2018-19). `Villa San Carlos – UAI
+    Urquiza` además figura el `2014-09-06` y se jugó el 24: para la fecha se resuelven las
+    `{{refn}}` pero no las `<ref name=X />`.
+  - En dos la palabra sale del titular de una cita, y la nota dice «Postergado»: `Racing
     Club 1-0 Rosario Central` (Clausura 2002) y `Unión (MdP) 0-0 Alvarado` (Argentino A
-    2013-14). RSSSF da los dos jugados, sin nota. El lector ya no lee la dirección de la
-    cita; falta el rótulo del enlace y el `cita=`, y no se puede tirar la cita entera:
-    en otras dos filas el rótulo es toda la nota y tiene razón.
-  - En tres el partido se completó y el lector no lo ve porque el día no viene pegado al
-    verbo: `Acassuso 1-0 Estudiantes (BA)` (Primera B 2012-13, «Se completó el miércoles
-    27 de marzo»), `Guillermo Brown 4-2 Juventud Unida Universitario` (Argentino A
-    2012-13) y `Deportivo Español 1-0 Excursionistas` (Primera C 2021), que además lleva
-    el día programado.
-  - Sin verificar quedan `San Martín (B) – Midland` (Primera C 2015) y `Excursionistas
-    0-0 Juventud Unida` (Primera C 2014).
+    2013-14). El lector ya no lee la dirección de la cita; falta que no lea el rótulo del
+    enlace ni el `cita=`. No se puede tirar la cita entera: en otras dos filas el rótulo es
+    toda la nota y tiene razón.
+  - `Deportivo Riestra 0-1 UAI Urquiza` (Primera B 2015) y `Arsenal 3-0 Newell's Old Boys`
+    (Primera 2015) no se arreglan con una regla: piden una corrección a mano que toque sólo
+    el `status`.
+  - Sin verificar queda `Excursionistas 0-0 Juventud Unida` (Primera C 2014): la única nota
+    es un enlace rotulado «Suspendido».
 - **`status`: dos filas con fallo salen vacías y sin aviso.** `Real Arroyo Seco 0-1
   Gimnasia y Esgrima (CdU)` (Argentino A 2004-05; la nota dice «Se le dió por ganado»,
   con tilde) y `San Martín (T) 0-2 Alumni (VM)` (Argentino A 2011-12; la única nota es
   una cita titulada «AFA decide darle por perdido 0-2»). El lector no lee ninguna de las
   dos formas, ni para clasificar ni para avisar.
-- **`status`: tres partidos del Federal A 2015 que no empezaron salen `suspendido`:**
-  `San Jorge (T) 0-1 Unión Aconquija` (falta de médico), `Independiente (C) 1-0 Alianza
-  (CC)` y `Altos Hornos Zapla 1-0 Andino` (no se presentó el visitante). El lector
-  escribe `no disputado` sólo cuando la celda del estadio dice «Sin disputar»; cambiar
-  la regla toca filas ya publicadas.
-- **`status`: al menos `11` filas que RSSSF da sin terminar salen vacías** porque su
-  página no lo dice: ocho de 1991–1997, `Quilmes 0-1 River` y `Platense 0-3 Almagro` de
-  2014, y `Alianza (CC) 1-1 General Belgrano (SR)` (`2014-11-08`), que el Boletín 79/14
-  del Tribunal del Interior da por suspendido a los 84' por un corte de luz, con el
-  resultado de la cancha. El marcador no cambia, y no hay cómo arbitrar sólo el
-  `status`: esa rama se sacó a propósito. Si se cierra, es cruzando las notas de RSSSF
-  en los torneos que tienen grilla.
+- **`status`: al menos cinco partidos que no empezaron salen `suspendido`.**
+  - Tres son del Federal A 2015: `San Jorge (T) 0-1 Unión Aconquija` (falta de médico),
+    `Independiente (C) 1-0 Alianza (CC)` y `Altos Hornos Zapla 1-0 Andino` (en los dos no
+    se presentó el visitante).
+  - `Colón 0-1 Atlético de Rafaela` (Inicial 2013): Colón no se presentó.
+  - `Central Ballester 0-3 Juventud Unida` (Primera C 2025): faltaba el personal médico.
+
+  El lector escribe `no disputado` sólo cuando la celda del estadio dice «Sin disputar».
+  Cambiar la regla toca filas ya publicadas.
+- **`status`: al menos `19` filas que RSSSF da sin terminar salen vacías**, porque su
+  página no lo dice: `10` de 1991–1997 (de `arg91` a `arg97`) y `9` de 2005–2024.
+  - `Sportivo Patria 0-3 Villa Mitre` (`2005-12-11`), `Cipolletti 1-2 Guillermo Brown`
+    (`2006-02-05`) y `Gimnasia y Esgrima (CdU) 2-1 Atlético Candelaria` (`2006-02-12`), los
+    tres de `arg3-int06`, que el build ya lee;
+  - `Deportivo Español 0-0 Sportivo Italiano` (`2011-05-09`);
+  - `River Plate 3-1 San Martín (SJ)` (`2013-06-23`, abandonado en el 90+1);
+  - `Quilmes 0-1 River` y `Platense 0-3 Almagro`, de 2014;
+  - `Alianza (CC) 1-1 General Belgrano (SR)` (`2014-11-08`), que el Boletín 79/14 del
+    Tribunal del Interior da por suspendido a los 84' por un corte de luz;
+  - `Central Norte (S) 2-0 Sarmiento (LB)` (`2024-07-21`, «abandoned at 2-0 in 90m,
+    awarded»).
+
+  El marcador no cambia. No hay cómo arbitrar sólo el `status`: esa rama se sacó a
+  propósito, y falta decidir si se vuelve a poner, con un testigo obligatorio. La otra
+  salida es cruzar las notas de RSSSF en los torneos que tienen grilla.
 - **«Se jugará el…» se lee como «se jugó».** `Cañuelas 0-2 Colegiales` y `Ferrocarril
   Midland 0-1 Flandria` (Primera B 2024) terminan su nota en «Se jugará el 2 de
-  septiembre» y figuran el `2024-08-31`, que es el día de la suspensión. Una nota que
-  termine en el plan y siga con un abandono saldría sin `status` y sin aviso.
-- **Tres tandas de penales del Federal A 2014 no están.** La página las publica sólo en
-  la tabla «Global» de cada fase y no en la fila de la vuelta: `CAI 4-3 Juventud Unida
-  Universitario`, `Unión (VK) 3-4 Gimnasia y Esgrima (M)` y `Talleres (C) 4-3 Mitre
-  (SdE)`. RSSSF las confirma. Cargadas a mano, dos de las tres disparan un grave:
-  `serie_igualada` no reconoce «Partidos de ida» y «Partidos de vuelta» como una serie.
-  Las `146` filas de eliminación del Federal A 2016, 2016-17 y 2017-18 tampoco llevan
-  penales: falta medir si es el mismo hueco.
+  septiembre» y figuran el `2024-08-31`, que es el día de la suspensión, y con la hora de
+  ese día (`12:05` y `15:00`; la nota da `15:00` y `20:00`). Una nota que termine en el
+  plan y siga con un abandono saldría sin `status` y sin aviso.
+- **Faltan `22` tandas de penales del Federal A, de 2014 a 2018-19.**
+  - Son `3` en 2014 (`CAI 4-3 Juventud Unida Universitario`, `Unión (VK) 3-4 Gimnasia y
+    Esgrima (M)` y `Talleres (C) 4-3 Mitre (SdE)`, que RSSSF confirma), `10` en 2016-17,
+    `6` en 2017-18 y `3` en 2018-19. 2015 y 2016 no tienen.
+  - La página las publica sólo en la tabla «Global» de cada fase, no en la fila de la
+    vuelta.
+  - Cargadas, chocan con `serie_igualada`, que no reconoce «Partidos de ida» y «Partidos
+    de vuelta» como una serie: dos de las tres de 2014 dan grave. Van después del ítem que
+    sigue.
 - **`matchday` no dice de qué fase es un partido cuando la página rotula sólo la pata.**
-  `358` filas de `11` páginas dicen «Partidos de ida» o «Partidos de vuelta» y nada más:
-  la ronda está en el título de la sección y el lector lo pisa con el encabezado de la
-  tabla. En el Federal A 2014 eso deja además el cuadro sin revisar —`cadena_de_llaves`
-  no puede separar tres fases con el mismo rótulo—; se revisó a mano.
+  `368` filas de `11` páginas dicen «Partido(s) de ida» o «Partido(s) de vuelta» y nada
+  más (`352` en plural y `16` en singular), y el Federal A 2026 suma más cada fecha. La
+  ronda está en el título de la sección, y el lector lo pisa con el encabezado de la
+  tabla. En el Federal A 2014 eso deja además el cuadro sin revisar: `cadena_de_llaves` no
+  puede separar tres fases con el mismo rótulo, así que se revisó a mano. Aparte, `15`
+  filas de eliminación de `9` páginas salen con `matchday` vacío, todas de una plantilla
+  `{{Partido}}`.
+- **El lector de `{{Partido}}` no lee el día de la nota de la plantilla.** `9` filas
+  llevan el día programado, y salen sin hora. Ocho dicen «Se jugó el…»: son de la Primera
+  B 2017-18 y 2025, la Primera C 2018-19 —`Villa San Carlos 3-2 Excursionistas` figura el
+  `2019-06-15` y la nota dice el `22`—, la Primera Nacional 2021, la Transición de Primera
+  Nacional 2020 y tres de la Transición de Primera B 2020, que figuran el `11` de enero y
+  la nota dice el `12`. La novena es `Acassuso 1-0 Villa San Carlos` (Primera B 2025): «Se
+  jugará el 2 de diciembre», y figura el `2025-11-29`. En tres la nota da otra hora. Leer
+  el día como en las tablas mueve la clave de filas cerradas, y cuatro de las nueve tienen
+  una `Neutral` que hay que mover con ella.
+- **El lector de `{{Partido}}` no escribe `status`.** `4` filas salen vacías y su página
+  dice otra cosa:
+  - `Gimnasia y Esgrima (J) 0-3 Deportivo Madryn` (Primera Nacional 2025, en `suceso`),
+    `suspendido`;
+  - `Estudiantes (BA) 1-3 Almagro` (Primera B 2015, en `suceso`), `suspendido`;
+  - `Comunicaciones 2-1 Estudiantes (BA)` (Primera B 2016-17, nota en `resultado`),
+    `suspendido`;
+  - `Argentino de Quilmes 0-1 Defensores de Cambaceres` (Primera C 2013-14, título de la
+    cita en `resultado`), `escritorio`.
+
+  `status_de_la_fila` leería además `Deportivo Riestra 2-0 Comunicaciones` (Primera B
+  2016-17) como `suspendido`, y no lo es: «Se completaron los 5 minutos», y `_SE_COMPLETO`
+  no conoce el plural.
 - **`venue` copia el estadio que declara la página, y al menos `18` filas del Federal A
   2014 y 2015 se jugaron en otra cancha** según el blog de José Carluccio y, donde se
   fue a buscar, la crónica del día. Catorce son localías de Unión Aconquija, que figuran
   en «Municipal de Aconquija» y fueron en Andalgalá; las otras cuatro son de 2015. RSSSF
   acompaña a la página cancha por cancha, así que para este campo no es testigo.
+  `correcciones.Cancha` acepta como testigo sólo a la misma página: falta decidir si una
+  crónica del día alcanza. En el Federal A 2016 y 2016-17 la página ya pone Andalgalá en
+  `11` de las `23` localías de Unión Aconquija; las otras `12` no se revisaron.
 - **Dos marcadores del Federal A 2015 tienen un testigo en contra:** `Deportivo Madryn
   2-1 Cipolletti` (el blog de Carluccio da 2-0) y `Sportivo Patria 2-0 Andino` (da 2-1 y
   nombra al goleador). La página y RSSSF coinciden entre sí. Falta una crónica.
@@ -98,17 +160,20 @@ fecha: los `6` que están sin fecha no se jugaron.
   tienen el mismo par de números.** `posiciones.marcadores_del_cuadro` pregunta si la
   grilla tiene algún partido entre los dos clubes con el marcador que el cuadro publica,
   sin mirar cuál pata es: en una llave que sale 1-0 y 0-1, romper una no lo hace hablar.
-  Medido en el Reducido de la Primera C 2011-12: avisa en `7` de sus `14` partidos. Las
-  llaves citadas a mano ya se comparan pata por pata; falta en las que salen de RSSSF y
-  en las de la página.
+  Las llaves cuyas dos patas dan el mismo resultado para cada club son `20` en toda la
+  caché, `16` de esta era. Las 2 del Reducido de la Primera C 2011-12 ya se comparan pata
+  por pata, porque son llaves citadas. Quedan `14` (`28` partidos), y en 3 de ellas son
+  dos empates iguales. Falta en las que salen de RSSSF y en las de la página.
 - **El blog de José Carluccio no publica condiciones de uso.** `90` filas lo nombran: en
   `76` puso el día y en las `14` del Reducido de la Primera C 2011-12, el día y la
   localía. No prohíbe nada, pero tampoco autoriza por escrito.
-- **`arg2011` tiene otro encabezado de fecha sin cerrar**, `[Apr 9`, en la sección del
-  Argentino B, que hoy no lee ningún torneo.
-- **ESPN sigue nombrada como testigo en `31` renglones de `fad/correcciones.py`.**
-  Ninguna fila sale de ahí ni la nombra en `source`, pero varios marcadores corregidos a
-  mano citan su ficha entre otros testigos.
+- **ESPN sigue nombrada como testigo en `36` correcciones a mano**, en `31` renglones de
+  `fad/correcciones.py`: `24` `Dia`, `10` `Marcador`, un `Dividido` y un `Revisado`. `18`
+  de las `Dia` lo heredan del texto compartido sobre el blog de José Carluccio, que
+  arbitra entre RSSSF y ESPN. En al menos dos marcadores es el primer testigo nombrado:
+  `Platense 1-0 Belgrano` (2019) y `Gimnasia y Esgrima (J) 0-2 Estudiantes` (2008).
+  Ninguna fila sale de ahí ni la nombra en `source`. Falta decidir si se buscan otros
+  testigos.
 - **`fuente_fecha` guarda dos créditos distintos en un campo:** de dónde sale la fila y
   quién le puso el día. Tres lugares lo escriben y sólo uno los distingue.
   `corregir_fechas` —una `Dia`— lo reemplaza entero, y el completador de worldfootball
@@ -119,7 +184,8 @@ fecha: los `6` que están sin fecha no se jugaron.
 - **Los nombres de los autores de RSSSF se cotejan a mano.** `tests/test_licencia.py`
   exige que cada archivo que se usa tenga su renglón en `LICENSE-DATOS.md`, pero no
   puede mirar que el nombre sea el del pie: los archivos no se versionan, y tres
-  —`arg2015`, `arg2015a` y `arg2020`— ni siquiera están en la caché.
+  —`arg2015`, `arg2015a` y `arg2020`— ni siquiera están en la caché. En los otros `25`,
+  el nombre coincide con el pie del archivo en la caché.
 - **El lector de RSSSF no espera entre un pedido y el siguiente.** Con la caché no se
   nota; un `--rehacer` sin caché le pide 24 archivos seguidos a RSSSF.
 - **No hay chequeo de que una fecha exista en el calendario**, y falta decidir cómo
@@ -131,17 +197,35 @@ fecha: los `6` que están sin fecha no se jugaron.
   `dataset.reconciliar_copias` no vería que es el mismo, y las dos copias podrían decir
   cosas distintas sin aviso. Hoy no pasa en ninguno de los `15`: con la localía dada
   vuelta el mismo día hay `0`, y con el mismo cruce y el mismo marcador a 1–3 días, `0`.
-- **`Sarmiento (LB) – Los Andes` del `2024-12-21` figura `neutral=false` y sin hora en
-  sus dos filas**, y las dos páginas dicen que se jugó en cancha neutral, en Córdoba, a
-  las `17:00`. Las dos lo escriben con `{{Partidos}}`: el lector de esa plantilla no lee
-  la hora del campo `fecha` —la tira en `509` de las `512` plantillas con resultado—, y
-  en las ligas el parser pone `neutral=true` sólo cuando la tabla rotula «Equipo 1 /
-  Equipo 2».
 - **La hora.** El parser saca el día de la nota «se jugó el…» pero la hora la saca de la
-  celda, así que unos `190` partidos reprogramados en `64` páginas tienen el día real y la
-  hora del programado. Hay además `20` horas que no tienen la forma `HH:MM` (`11.00`,
-  `15::00`, `9:00`), una de ellas de 2003, y las tres definiciones de la Copa de la Liga
-  2020 en San Juan figuran `neutral=false`.
+  celda, así que `179` partidos reprogramados en `64` páginas tienen el día real y la hora
+  del programado, y la nota da otra. Hay además `20` horas que no tienen la forma `HH:MM`
+  (`11.00`, `15::00`, `9:00`), una de ellas de 2003. Para los `48` cuya nota no da hora,
+  falta decidir si queda la del programado o se vacía.
+- **Dos dudas que piden una fuente de afuera, y una corrección que falta cargar,** las
+  tres de `{{Partido}}`:
+  - `Almagro 2-0 Brown de Adrogué`, vuelta de la final de la Primera B 2012-13, figura el
+    `2013-06-23` a las `12:05`, y se jugó el sábado 22. Hay dos testigos: la programación
+    de la AFA, que lo daba el 22 a las 12.05, y La Nueva, que el mismo 22 a las 14:44
+    publicó que «Brown de Adrogué consiguió hoy el segundo ascenso». Falta cargar la
+    corrección del día.
+  - la hora de `Fénix 1-1 Deportivo Español`, ida de la final de la Primera C 2012-13: la
+    plantilla dice `15:30` y la AFA, `15:00`. En esa programación otras dos horas difieren
+    en cinco minutos: la ida de `Brown de Adrogué – Almagro` y `Deportivo Español –
+    Sacachispas`.
+  - quién fue local en `Central Córdoba (R) 0-0 Cañuelas`, cuartos de la Primera C 2017-18:
+    la plantilla pone local a Central Córdoba en la cancha de Cañuelas.
+- **Falta la fase final del Argentino A 2006-07 a 2009-10: entre `55` y `65` partidos.**
+  Las cuatro páginas son `sin_grilla`: sus `1 573` filas salen de RSSSF y son todas de
+  zonas. `build.procesar` llama a `rsssf.leer_llaves` sólo en la rama con grilla, y sobre
+  `arg3-int07` a `arg3-int2010` esa función ya da `53` partidos con día. Faltan 7 a 9 por
+  nombres que el mapa no traduce, y nadie lee las rondas finales por grupos de 2008-09 y
+  2009-10. Las páginas traen además `14` plantillas que arrancan `{{Partidos|`, con el `|`
+  en el renglón del nombre: `_ARRANQUE_PARTIDO` no ve ese arranque, y las páginas sin
+  grilla no pasan por el lector de plantillas. Son `12` partidos por el ascenso; los otros
+  `2` (`Ramón Santamarina – CAI`) ya entran por la B Nacional 2009-10. La final de 2006-07
+  difiere en el día: 5 de julio en la plantilla, 8 en `arg3-int07`. Falta decidir si una
+  página `sin_grilla` puede traer también sus llaves de RSSSF, como el 2005-06.
 - **La promoción `Luján – Argentino de Quilmes` de 2012 tiene los dos días en duda.** El
   CSV pone la ida el `2012-06-26` y la vuelta el `2012-07-01`; la previa de Infobae del
   sábado 30 de junio dice que la ida fue «el miércoles último» (27) y que la vuelta se
@@ -162,14 +246,12 @@ fecha: los `6` que están sin fecha no se jugaron.
   - El cruce no va a cerrar entero: la tabla de esa zona en Wikipedia está rota —21 o 22
     PJ por club en una fase de 10—, y las de RSSSF no cierran consigo mismas (en el
     Clausura, 74 ganados contra 75 perdidos).
-- **Renovar la cache y correr `--rehacer`.** Las temporadas cerradas no se vuelven a
-  leer, así que no les llegan las correcciones buenas de Wikipedia, y la cache de hoy es
-  de agosto y septiembre.
 - **Comentarios que quedaron viejos en el código:**
   - Tres de `fad/torneos.py`, en el bloque de 1997–2003, dan por afuera la capa 1991–1996
     y al Clausura 1991 por un stub.
-  - `fad/citadas.py` dice que quedan 2 filas en `data/sin-fecha/`, y `build.py`, que
-    hay un único camino por el que una fila no viene de Wikipedia.
+  - `fad/citadas.py` dice que quedan 2 filas en `data/sin-fecha/`: hay `6`, todas de
+    Sansinena. `build.py` dice que hay un único camino por el que una fila no viene de
+    Wikipedia, y también entran las llaves citadas a mano y el RSSSF compacto.
   - Dicen que de la segunda fuente sale sólo la fecha, o que hay un único lugar por el
     que una fila no viene de Wikipedia: `fad/fechas.py` (`Ajeno`),
     `fad/torneos.py` (dos bloques), `fad/rsssf.py` (`a_partidos`),
@@ -179,7 +261,8 @@ fecha: los `6` que están sin fecha no se jugaron.
   - Un docstring de `tests/test_equipos.py` cuenta seis Gimnasia y Esgrima donde hay
     cinco.
   - `fad/equipos.py` dice que los alias con el desambiguador desplegado «son 34
-    nombres»: el Federal A 2014 y el 2015 sumaron cinco.
+    nombres». Desde ese recuento se sumaron seis: los cinco del Federal A 2014 y 2015 y
+    `San Martín (Mendoza)`.
 - **`anios_bien_asignados` tiene tres comparaciones medidas y sin poner.** Es el chequeo
   que frena el build cuando una jornada cae medio año antes que la anterior. Falta
   decidir si se agregan:
@@ -211,7 +294,8 @@ fecha: los `6` que están sin fecha no se jugaron.
   (`t.anio_fin or t.temporada`, en tres lugares), y tendría que pasarle el año con que se
   fecha. Hoy no produce nada mal porque el test del catálogo ata la etiqueta al título.
 - **Un aviso que dice más de lo que hace.** Cuando una segunda fuente trae fechas fuera de
-  la temporada, `build` avisa que «se descartan», y vacía sólo las tres primeras.
+  la temporada, `build` avisa que «se descartan», y vacía sólo las tres primeras. El
+  aviso es grave, así que el build no escribe nada: lo que está mal es el mensaje.
 - **Las correcciones a mano casi no tienen test propio.** Sacar el `Dividido` del
   Federal A 2014 o cualquiera de los tres `Revisado` del 2015, o cambiarles el club o la
   firma, deja la suite verde: lo nota el build con un aviso que no frena, y sólo con
@@ -220,13 +304,26 @@ fecha: los `6` que están sin fecha no se jugaron.
   los tests y frena al build del día siguiente por la guarda contra achicarse.
 - **Los regex del `status` aceptan formas que ningún dato recorre y ningún test fija.**
   De `35` mutantes de ese tipo sobre los cuatro regex, sobreviven `33`.
+- **El parser no saca `<!-- -->` antes de leer.** Sólo el lector de `{{Partido}}` los saca,
+  del cuerpo de la plantilla y de la prosa de su sección; `_TITULO` y `_ARRANQUE_PARTIDO`
+  ven lo comentado: `49` títulos y `50` plantillas en `7` páginas, cuatro de ellas de 2026
+  en curso. Parseadas con y sin comentarios dan lo mismo salvo una fila del Argentino A
+  2010-11, que sin ellos pierde el desambiguador: `Douglas Haig – Rivadavia (L)`
+  (`2010-11-22`) sale `Rivadavia`.
 - **`mutar.py`:**
   - Dos mutantes tienen el mismo texto que otros dos, en `fad/correcciones.py` y en
     `fad/parser.py`; como se reemplaza la primera aparición, el segundo sitio de cada par
     queda sin mutar.
-  - Hay `15` mutantes cuya ancla —el texto que `mutar.py` busca para aplicar el cambio—
-    aparece más de una vez en su archivo. Además de los dos pares de arriba, otros dos
-    caen en una función distinta de la que su descripción nombra.
+  - Hay `14` mutantes cuya ancla —el texto que `mutar.py` busca para aplicar el cambio—
+    aparece más de una vez en su archivo. Además de los dos pares de arriba, otros dos caen
+    en una función distinta de la que nombra su descripción: «aplicar un marcador
+    arbitrado que ya no engancha» cae en `corregir_fechas`, y «cerrar el cuadro en el
+    primer `}}`» cae en `_desenvolver_nowrap`. Se corrieron cuando entró código más arriba
+    en el mismo archivo. Así quedan cuatro renglones sin ningún mutante encima:
+    - en `fad/correcciones.py`, el `len(candidatos) != 1` de `aplicar` y el filtro por
+      marcador de `REEMPLAZOS`;
+    - en `fad/parser.py`, el `hondo == 0` de `_cuerpos_de_cuadro` y el
+      `m.start() < hasta` de `_secciones_con_span`.
   - En Windows deja en CRLF los fuentes que muta: los lee y los escribe en modo texto.
   - Un import roto en `tests/conftest.py` sale por un camino que el detector de «no se
     pudo importar» no ve, y lo contaría como muerto. Hoy no se alcanza: no muta `tests/`.
@@ -254,9 +351,16 @@ entero de RSSSF. La capa no tiene hora y casi no tiene cancha (`2 462` filas sin
 esas fuentes no las publican.
 
 - **Falta la Liguilla Pre-Libertadores de la 1991-92: `11` partidos**, del 10 de julio al
-  2 de agosto de 1992. `arg92` los trae con día y la página de Wikipedia tiene la sección.
-  Tampoco están dos desempates sueltos por la Libertadores, de 1996 y 1997, que traen
-  `arg96` y `arg97`.
+  2 de agosto de 1992. La página de Wikipedia los publica con día y cancha, el parser ya
+  los lee y `arg92` coincide en los 11 en día, local y marcador. Al cargarlos hay que:
+  - fecharlos con el año 1992 (con la temporada cruzada, el del 2 de agosto sale en 1991);
+  - leer la tanda de `Vélez 1-1 Deportivo Español` (4-2), escrita como las cuatro de
+    1985–1990.
+
+  Tampoco están dos desempates sueltos por la Libertadores, `Racing 1-0 Gimnasia` (1996)
+  y `Colón 1-0 Independiente` (1997). El parser los lee y `arg96` y `arg97` coinciden, pero
+  los fecha un año antes. Falta decidir si entran: es la misma pregunta que las liguillas
+  de 1985–1990.
 - **Dos fechas sospechosas:** `Belgrano 2-0 Vélez` del `1994-05-05` y `River 4-0 Belgrano`
   del `1994-05-06`. El CSV copia lo que dice RSSSF. Falta prensa del día, o las planillas
   de la AFA (*Torneos y Certámenes Oficiales 1990-91 … 1994-95*), que además darían la
@@ -271,7 +375,8 @@ tabla de Wikipedia arbitra. Tres no tienen fila porque el fallo fue contra los d
 fecha 13) y `Rosario Central – Newell's` (1989-90, fecha 38).
 
 - **Falta el Nacional 1985: `160` partidos.** La página `Campeonato Nacional 1985
-  (Argentina)` ya parsea los 160 con fecha, y para entrar le faltan dos clubes en el
+  (Argentina)` de hoy parsea los 160 con fecha; la copia de la caché, del 14 de agosto,
+  da `64`, así que hay que bajarla de nuevo. Para entrar le faltan dos clubes en el
   padrón (`Argentino (F)` y `Juventud Alianza`). El `arg85` de RSSSF trae los mismos 160
   con el día en cada encabezado de ronda (`Round 1.1.1: 17 Feb`), formato que el lector no
   reconoce. Cruzados club por club, `140` son idénticos y `20` difieren: 16 sólo en el día
@@ -287,8 +392,9 @@ fecha 13) y `Rosario Central – Newell's` (1989-90, fecha 38).
 - **Faltan las liguillas, los desempates y las finales: `158` partidos**, todos con día
   en RSSSF —`37`, `15`, `34`, `49` y `7` de 1985-86 a 1989-90 y `16` de 1990-91—. 15 de
   los 37 son el Octogonal de la Primera B 1986, que no está en la página de Primera:
-  Wikipedia publica `143`, y el parser ya lee `128`. Antes de cargarlos hay que arreglar
-  cinco cosas:
+  Wikipedia publica `143`, y el parser ya lee `128`. Falta decidir si entran, la misma
+  pregunta que los desempates de 1933–1966. Antes de cargarlos hay que arreglar siete
+  cosas:
   - la 1986-87 da 0 porque sus celdas empiezan con un espacio; la página trae los 15;
   - `a_iso` no lee `dd/mm/aaaa`: son 34 fechas, de la 1986-87 y la 1987-88;
   - el corte de año fecha mal 18: los 16 de 1990-91 salen en 1990, y la final de la
@@ -296,11 +402,18 @@ fecha 13) y `Rosario Central – Newell's` (1989-90, fecha 38).
   - se pierden 4 tandas de penales, escritas `0 - 0 <small>(4 - 3) (p)</small>`;
   - la página de la 1989-90 entrega además `37` filas rotas de su grilla parcial, sin
     fecha y con el día en el lugar del local: hay que tomar sólo la eliminación. Hoy no
-    toca el dataset porque esa temporada se lee sin grilla.
+    toca el dataset porque esa temporada se lee sin grilla;
+  - Wikipedia escribe `Concepción Fútbol Club` en 2 partidos de la 1985-86 y el padrón no
+    lo reconoce (con el artículo sí resuelve a `Concepción FC`): frenaría el build;
+  - `14` de los 34 partidos de la 1987-88 tienen vacía la celda de la fecha: el día hay
+    que tomarlo de RSSSF.
 
   Y las fuentes se contradicen en la semifinal `Boca – Platense` de la liguilla 1988-89
   (los dos partidos, 1-1): Wikipedia pone a Platense de local el 11 de junio y a Boca el
-  14, y RSSSF al revés. Falta un tercero.
+  14, y RSSSF al revés. Falta un tercero. Las fuentes difieren además en el día de
+  `Racing 3-1 Argentinos Juniors` (12 de junio de 1988 en Wikipedia, 11 en RSSSF) y de
+  `Boca 0-0 Platense`, ida de la final de la Liguilla Clasificación (2 y 3 de julio de
+  1988).
 - **Cargar la tanda de `Rosario Central 1-1 Instituto`** (1988-89, fecha 12): fue 5-3
   para Central según «Fútbol Argentino: Crónicas y Estadísticas, 1ª División 1988-89»,
   que la da pateador por pateador, y El Gráfico. La otra tanda en que El Gráfico difiere
@@ -355,19 +468,33 @@ Nacional, que sumaba equipos del interior. Nada de esto está cargado.
   Contra `arg80` —leído con un lector provisorio— difieren además unos 12 marcadores, y
   los ocho partidos de la Fecha 17 están un mes corridos: 28 de abril en la página, 28 de
   mayo en RSSSF. El chequeo de años no ve un mes; hay que arbitrarlo antes de cargar.
-- **Metropolitano 1982: sale de RSSSF.** La grilla de Wikipedia está armada y vacía, con
-  un editor trabajándola desde septiembre (`{{enuso}}`). `rsssf.leer` ya lee los `342` de
-  `arg82` con fecha, y los 19 clubes cierran contra la tabla de la propia fuente. Mirar la
-  página antes de importar: puede llenarse sola. `arg80`, `arg81` y `arg83` escriben las
-  rondas en otro formato y no sirven de árbitro sin un lector nuevo.
+  Los otros años tampoco entran limpios:
+  - en 1981, `Argentinos Juniors`, `San Lorenzo` y `Talleres (C)` no cierran con su tabla
+    (San Lorenzo tiene `58` goles en contra en la tabla y `48` en la grilla), y
+    `Argentinos – Talleres` de la Fecha 28 tiene otro ganador;
+  - en 1983, `San Lorenzo 2-0 Ferro` (Fecha 21) es 2-1 en la tabla y en `arg83`;
+  - en 1984 no cierran `Argentinos Juniors`, `Chacarita` y `Rosario Central`, y la tabla no
+    cierra consigo misma (`789` goles a favor contra `786` en contra).
+
+  En 1980 hay además unos `23` partidos que difieren de `arg80` en uno o dos días.
+- **Metropolitano 1982: sale de RSSSF.** La grilla de Wikipedia está armada y vacía,
+  marcada «en uso» por un editor (`{{enuso}}`) y sin cambios desde el 18 de septiembre.
+  `rsssf.leer` ya lee los `342` de `arg82` con fecha, y los 19 clubes cierran contra la
+  tabla de la propia fuente. Mirar la página antes de importar: puede llenarse sola.
+  `arg80`, `arg81` y `arg83` escriben las rondas en otro formato y no sirven de árbitro sin
+  un lector nuevo.
 - **Metropolitano 1967-1979: `399` con fecha.** Viven bajo `Campeonato Metropolitano AAAA
   (Argentina)`. 1973 entra entero (`272`), 1976 por la tercera parte (`121` de 353) y 1979
-  sólo con semifinales y final (`6`). Lo demás:
+  sólo con semifinales y final (`6`); 1973 tiene dos avisos que no frenan (Boca y
+  Estudiantes, un gol de diferencia con la tabla) y 1976 uno (`Quilmes 4-1 River` marcado
+  como empate). Lo demás:
   - 1967, 1970 y 1978 (en viñetas) y 1977 (en renglones sueltos, por la mitad) tienen
     `1 215` resultados en lista, con el día arriba, que el parser no lee: es el mismo
     lector que falta para 1933–1966.
   - 1969 trae `242` partidos sin fecha: la grilla no tiene esa columna.
-  - 1971, 1972 y 1975 no tienen resultados.
+  - Wikipedia no publica los partidos de la liga de 1968, 1971, 1972, 1974 y 1975, ni la
+    ronda de clasificación de 1979; de 1976 faltan `232` de `353` (la segunda rueda y la
+    serie por el descenso).
   - `14` partidos de semifinales, finales y desempates están en tablas de filas
     indentadas que el parser saltea.
 
@@ -386,13 +513,14 @@ en las 34: sirve de testigo.
   que tiene que contemplar: `arg55` trae un partido dos veces en la ronda 27 (abandonado y
   adjudicado), y `arg53` escribe una ronda postergada como texto.
 - **`22` partidos sin marcador numérico.** `21` son adjudicados sin goles (12 de 1940) y
-  no tienen marcador que escribir: falta decidir cómo van. En uno las fuentes difieren:
-  `Lanús – Banfield`, fecha 5 de 1940, es `0 - 5` en Wikipedia y adjudicado en RSSSF. El
-  otro es un `0 6` mal tipeado en `arg66`.
+  no tienen marcador que escribir: falta decidir cómo van. Wikipedia y RSSSF coinciden en
+  cuáles son: `Lanús – Banfield`, fecha 5 de 1940, que Wikipedia daba `0 - 5`, figura
+  adjudicado desde una edición del 12 de octubre de 2026. El otro es un `0 6` mal tipeado
+  en `arg66`.
 - **Los desempates van aparte.** RSSSF trae `19` fuera de la liga (`arg37`, `arg39`,
   `arg49`, `arg50`, `arg51` y `arg58`), que no están en los `8 903`; Wikipedia ya le da 14
   al parser. Falta decidir si entran, igual que las liguillas de 1985–1990.
-- **Wikipedia como testigo:** `4 100` líneas de partido en seis formatos, `3 834` con día.
+- **Wikipedia como testigo:** `4 098` líneas de partido en seis formatos, `3 834` con día.
   El parser lee `248` de ellas (las 240 de 1961 y 8 de 1944). Falta el lector de listas,
   y hay `362` filas que sí son tabla y tampoco lee (1940, 1951 y 1960). La sección de 1946
   tiene el formato de RSSSF: ese año no cuenta como testigo independiente. Y la tabla
@@ -417,8 +545,9 @@ entren.
 ## Las planillas de la AFA, de segunda fuente
 
 Lo que pueden dar que hoy no da nadie es la hora, la cancha y un testigo para las fechas
-en duda. Nada de lo que sigue se pudo verificar el 11 de octubre de 2026: el sitio de la
-biblioteca responde con un error de certificado.
+en duda. El 11 de octubre de 2026 el sitio de la biblioteca respondía con un error de
+certificado; el 15 anda de nuevo, con HTTPS válido y las páginas en JPG, así que lo que
+sigue ya se puede revisar.
 
 - **Volver a mirar qué cubren y cómo están.** Lo anotado es que cubren 1933-1963 y
   1969-1995, en los volúmenes *Torneos y Certámenes Oficiales 1990-91 … 1994-95* y
@@ -435,15 +564,15 @@ biblioteca responde con un error de certificado.
 
 | era | partidos | fuente | estado |
 |---|---:|---|---|
-| 2004–2026 | 37 838 | Wikipedia sola | cerrado |
-| 2004–2026, con segunda fuente | 5 194 | Wikipedia + RSSSF / worldfootball / otras | cerrado |
+| 2004–2026 | 37 843 | Wikipedia sola | cerrado |
+| 2004–2026, con segunda fuente | 5 190 | Wikipedia + RSSSF / worldfootball / otras | cerrado |
 | 1997–2003 | 2 469 | Wikipedia | cerrado |
 | 1991–1996 | 2 470 | Wikipedia (partidos) + RSSSF (fechas) | cerrado |
 | 1985–1990 | 2 049 | RSSSF (partidos) + Wikipedia (tabla) | cerrado |
-| 1985–1990, Nacional 1985 y liguillas | 318 | Wikipedia + RSSSF | al alcance 288; 30 sin lector |
+| 1985–1990, Nacional 1985 y liguillas | 318 | Wikipedia + RSSSF | al alcance 254; 34 sin fecha legible; 30 sin lector |
 | 1967–1984 | 5 570 | Wikipedia | al alcance, falta padrón |
 | 1933–1966 | 8 903 | RSSSF, con Wikipedia de testigo | falta el lector |
 
-Las cinco primeras filas suman los `50 020` del dataset. Las tres últimas suman `14 791`
+Las cinco primeras filas suman los `50 021` del dataset. Las tres últimas suman `14 791`
 y son un piso de lo que falta: la fila 1967–1984 cuenta sólo lo que el parser ya lee con
 fecha, sin los 342 del Metropolitano 1982 ni los 1 215 resultados en lista.

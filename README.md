@@ -18,7 +18,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina),
 ```
 
-**Estado:** **50 020 partidos entre julio de 1985 y hoy**, de ocho competencias.
+**Estado:** **50 021 partidos entre julio de 1985 y hoy**, de ocho competencias.
 **217 clubes**, 170 torneos, cero partidos sin fecha o sin marcador. Se actualiza
 solo, todos los días.
 
@@ -39,7 +39,7 @@ falta, medido era por era, está en [`TODO.md`](TODO.md).
 
 Ojo si contás partidos: quince de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
-`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 005 partidos
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 006 partidos
 distintos. Las dos copias de cada uno dicen lo mismo en todo lo que describe al
 partido —fecha, hora, marcador, penales, cancha, `neutral` y `status`— y difieren sólo
 en lo que es de cada torneo. Lo que una página no trae se toma de la otra, y donde las
@@ -120,7 +120,7 @@ siempre ponen sólo una fecha. Qué se toma de cada una, con qué condición y a
 se reconoce está en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
 
 **Wikipedia en español** es la fuente de casi todo: equipos, marcadores, jornadas,
-estadios. **40 321 filas de 50 020** (80,6 %) no nombran ninguna otra fuente. El
+estadios. **40 322 filas de 50 021** (80,6 %) no nombran ninguna otra fuente. El
 dataset se publica bajo [CC BY-SA 4.0](LICENSE-DATOS.md), que es la licencia que
 esas filas heredan, y la columna `source` de cada fila lleva la URL exacta de la
 página de Wikipedia de su torneo, así que la atribución viaja con el dato.
@@ -282,8 +282,8 @@ el mismo: acá `time` va segunda.
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
 
-Pueden venir vacías, además de los penales: `time` (11 556 filas) y `venue`
-(10 131), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
+Pueden venir vacías, además de los penales: `time` (11 052 filas) y `venue`
+(10 129), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
 cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 245); y `matchday` en 15
 partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en inglés:
 `Zone 1` o `Group A` en `group` (1 239 filas del Argentino A) y
@@ -292,12 +292,16 @@ partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en ingl�
 Sobre **`neutral`**: sale del **reglamento de la competencia**, no de comparar el
 estadio contra el de cada club. La Copa Argentina se juega a partido único en
 cancha neutral y su propia página lo dice ronda por ronda, así que ahí el dato se
-puede afirmar. En las ligas es `false` salvo en 43 partidos —45 filas, porque dos están
-escritos dos veces—: finales, desempates, definiciones de ascenso y descenso cuya tabla
-la página rotula «Equipo 1 / Equipo 2» en vez de «Local / Visitante» (ver
-[más abajo](#neutral-dejó-de-ser-del-torneo)). A uno de los 43, San Telmo – Deportivo
-Madryn de 2021, lo rotula así sólo una de sus dos páginas: alcanza con que una copia
-diga que fue en cancha neutral.
+puede afirmar. En las ligas es `false` salvo en 115 partidos —118 filas, porque tres
+están escritos dos veces—: finales, desempates, reducidos y definiciones de ascenso y
+descenso. La página lo dice de tres maneras (ver
+[más abajo](#neutral-dejó-de-ser-del-torneo)): rotulando la tabla «Equipo 1 / Equipo 2»
+en vez de «Local / Visitante» (43 partidos); con una frase en la sección del partido,
+cuando lo escribe con la plantilla `{{Partido}}` (12), o con una frase que vale para
+varias rondas a la vez, que no se puede leer por regla y va declarada partido por
+partido en `fad/correcciones.py`, citada y con un testigo de afuera (60; en cinco no
+hay frase y lo dice la prensa). Alcanza con que una de las dos copias de un partido diga
+que fue en cancha neutral.
 El `false` tiene este alcance exacto: *el partido se jugó donde dice el fixture*. **No detecta mudanzas puntuales** — un partido de
 liga que se muda de cancha sigue figurando `false`. Prefiero decir eso y
 documentarlo antes que deducir la localía con un padrón de estadios que todavía
@@ -438,6 +442,17 @@ se come las plantillas del medio** — y como los campos van a un diccionario, e
 una: los equipos y el marcador de la final, los penales de la semifinal, el rótulo
 de ronda de la primera. Un partido que nunca se jugó, con todos los campos llenos.
 Ahora el cierre se cuenta por balance de llaves.
+
+Y adentro traía más de lo que se leía. **La hora viene pegada a la fecha**
+—`|fecha = 21 de diciembre, 17:00`— en 511 de las 514 plantillas con resultado, y el
+lector sacaba sólo el día: 504 filas de eliminación salían sin hora con la hora a la
+vista. Se toma una hora válida y nada más, y si la nota de la plantilla dice que el
+partido se jugó —o que se jugará— otro día, la de `fecha` es la del programado y queda
+vacía (9 plantillas, una de ellas con la nota en futuro). Los parámetros, además, se
+cortaban por renglón, y el `|estadio =` que la Primera B 2021 escribe en el mismo
+renglón que la fecha no se veía: dos llaves sin cancha. Ahora se cortan por `|` a nivel
+cero, como los del cuadro, y cada renglón que arranca con `|` cierra los enlaces que
+quedaron abiertos: un `[[` sin cerrar no se traga el resto de la plantilla.
 
 **5c. Una ronda no es una zona.** La tabla de una fecha y la de una llave se
 escriben igual; el encabezado es lo único que las distingue: `!colspan=12|Fecha 7`
@@ -1946,6 +1961,32 @@ Ninguno es de temporada regular.
 ```
 
 Ninguno se juega en cancha de los que juegan, que es el punto.
+
+### Y la plantilla, que no tiene encabezado
+
+Las fases finales se escriben casi siempre con la plantilla `{{Partido}}`, y una
+plantilla no tiene columnas que rotular. `Sarmiento (LB) – Los Andes`, el tercer ascenso
+de 2024, salía `false` en las dos páginas que lo publican, con «en estadio neutral, a un
+solo partido» escrito arriba de la plantilla.
+
+Lo que lo dice es la **prosa de la sección**, y lo difícil es hasta dónde leerla. Con la
+sección del partido —y, si su título es de relleno («Partido», «Partidos de ida»), la
+entradilla de la sección que lo contiene— se marcan 14 de las 514 plantillas con
+resultado, y las 14 se jugaron en cancha neutral. Subiendo a todas las secciones que la
+contienen se marcan 87, y 42 están mal: el Apertura y el Clausura 2025 y el Apertura
+2026 abren sus octavos, cuartos y semifinales con «se jugó en la sede del mejor
+ubicado… El partido final se jugó en campo neutral». Sin comentarios HTML, además: las
+páginas en curso dejan comentada la sección de la final que todavía no se jugó, con la
+frase adentro.
+
+Quedan 60 que se jugaron en cancha neutral y no se leen así. En 55 la frase está en la
+sección de formato o en la entradilla de la fase y habla de varias rondas —«Se jugó en
+cinco rondas (…) a un solo partido en cancha neutral»—; en cinco —el triangular del
+Apertura 2008 y dos desempates— la página no la escribe. Van **declarados uno por uno**
+en `fad/correcciones.py` (`Neutral`), con la cita y su dirección, y los 60 con un testigo
+de afuera: la crónica del partido, que nombra la cancha, o una nota que dice que su ronda
+entera se jugó en cancha neutral. Si una página pasa a decirlo donde el parser lo lee,
+la declaración sobra y el build lo avisa sin frenar.
 
 ## Cuando «Zona 1» son dos zonas distintas
 
@@ -3938,11 +3979,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1301 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1360 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 610 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 655 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

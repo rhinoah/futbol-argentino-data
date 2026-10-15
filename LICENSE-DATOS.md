@@ -40,7 +40,10 @@ Las filas sin ` + ` en `source` no toman de otra fuente ni el partido ni el día
 medio centenar de ellas, eso sí, el marcador —o la tanda de penales— no es el que
 trae la página: se corrigió a mano, casi siempre contra testigos de afuera que la
 fila no nombra. Cada caso está declarado, con su evidencia, en
-`fad/correcciones.py`. Y en los quince partidos que publican las páginas de dos
+`fad/correcciones.py`. Ahí también están los 60 partidos de fases finales cuyo
+`neutral` dice `true` por una declaración a mano: en 55 lo dice la propia página, en una
+sección que habla de varias rondas, y en los otros cinco sólo la prensa; las 60 citan un
+testigo de afuera. Y en los quince partidos que publican las páginas de dos
 torneos, lo que una de las dos no trae —la hora, la cancha, `neutral`—, o lo que
 escribe distinto, puede venir de la otra, que también es Wikipedia, aunque `source`
 nombre sólo la suya.
