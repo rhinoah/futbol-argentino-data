@@ -40,7 +40,11 @@ falta, medido era por era, está en [`TODO.md`](TODO.md).
 Ojo si contás partidos: quince de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
 `df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 005 partidos
-distintos.
+distintos. Las dos copias de cada uno dicen lo mismo en todo lo que describe al
+partido —fecha, hora, marcador, penales, cancha, `neutral` y `status`— y difieren sólo
+en lo que es de cada torneo. Lo que una página no trae se toma de la otra, y donde las
+dos escriben distinto decide una declaración en `fad/correcciones.py`: una hora, con un
+testigo de afuera; la grafía de una cancha, eligiendo la de una de las dos páginas.
 
 Aparte, en [`data/sin-fecha/`](data/sin-fecha/) quedan **6 filas, y ninguna espera
 una fecha**: son los partidos que el Torneo Federal A 2024 le dio por perdidos a
@@ -273,12 +277,12 @@ el mismo: acá `time` va segunda.
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
 | `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales` |
-| `venue` | el estadio, tal como figura |
+| `venue` | el estadio, tal como figura; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
 
-Pueden venir vacías, además de los penales: `time` (11 557 filas) y `venue`
+Pueden venir vacías, además de los penales: `time` (11 556 filas) y `venue`
 (10 131), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
 cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 245); y `matchday` en 15
 partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en inglés:
@@ -288,9 +292,12 @@ partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en ingl�
 Sobre **`neutral`**: sale del **reglamento de la competencia**, no de comparar el
 estadio contra el de cada club. La Copa Argentina se juega a partido único en
 cancha neutral y su propia página lo dice ronda por ronda, así que ahí el dato se
-puede afirmar. En las ligas es `false` salvo en 44 partidos —finales, desempates,
-definiciones de ascenso y descenso— cuya tabla la página rotula «Equipo 1 / Equipo 2»
-en vez de «Local / Visitante» (ver [más abajo](#neutral-dejó-de-ser-del-torneo)).
+puede afirmar. En las ligas es `false` salvo en 43 partidos —45 filas, porque dos están
+escritos dos veces—: finales, desempates, definiciones de ascenso y descenso cuya tabla
+la página rotula «Equipo 1 / Equipo 2» en vez de «Local / Visitante» (ver
+[más abajo](#neutral-dejó-de-ser-del-torneo)). A uno de los 43, San Telmo – Deportivo
+Madryn de 2021, lo rotula así sólo una de sus dos páginas: alcanza con que una copia
+diga que fue en cancha neutral.
 El `false` tiene este alcance exacto: *el partido se jugó donde dice el fixture*. **No detecta mudanzas puntuales** — un partido de
 liga que se muda de cancha sigue figurando `false`. Prefiero decir eso y
 documentarlo antes que deducir la localía con un padrón de estadios que todavía
@@ -3931,11 +3938,11 @@ quedó cubierto el camino sin grilla, que no tenía un solo test.
 
 ## Tests
 
-1262 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1301 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 588 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 610 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

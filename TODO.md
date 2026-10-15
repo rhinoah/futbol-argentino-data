@@ -7,9 +7,9 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 50 020 | 6 | 170 | 1262 | 588 |
+| 50 020 | 6 | 170 | 1301 | 610 |
 
-Medidos el 13 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
+Medidos el 15 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
 al código a propósito para comprobar que algún test los detecta.
 
 Las marcas de cada era: **cerrado** = está en el CSV, aunque le queden cosas por
@@ -122,32 +122,26 @@ fecha: los `6` que están sin fecha no se jugaron.
   —`arg2015`, `arg2015a` y `arg2020`— ni siquiera están en la caché.
 - **El lector de RSSSF no espera entre un pedido y el siguiente.** Con la caché no se
   nota; un `--rehacer` sin caché le pide 24 archivos seguidos a RSSSF.
-- **La descripción del repositorio en GitHub quedó vieja:** dice 22.270 partidos desde
-  2016 y nombra sólo a Wikipedia.
 - **No hay chequeo de que una fecha exista en el calendario**, y falta decidir cómo
   falla. `a_iso` arma `2014-11-31` sin validarlo. Si es grave, un día mal tipeado en una
   página en curso frena la actualización de todas hasta que alguien cargue la corrección;
   si no lo es, la fila sale publicada con una fecha que no existe.
-- **`15` partidos están escritos dos veces**, una por cada torneo: las promociones entre
-  divisiones de 2010-11 y 2011-12 —tres series de ida y vuelta por temporada: Primera B
-  contra Primera C, B Nacional contra Primera B y B Nacional contra Argentino A— y la
-  definición del tercer ascenso de 2020, 2023 y 2024, a partido único, entre la Primera B
-  y el Federal A. Ninguno es un fallo: los publican las páginas de las dos divisiones, con
-  el mismo marcador. Las `50 020` filas son `50 005` partidos distintos. `sin_duplicados`
-  mira torneo por torneo: falta decidir si es a propósito. Y las dos copias no siempre
-  dicen lo mismo: `San Telmo – Deportivo Madryn` del `2021-02-04` es `neutral=false` en su
-  fila de Primera B y `true` en la del Federal A, y sólo la segunda tiene hora;
-  `Los Andes – Central Córdoba (R)` del `2011-06-25` tiene `15:00` en una y `15:30` en la
-  otra; en otras cuatro la hora difiere sólo por un `(TV)` pegado.
-- **`Sarmiento (LB) – Los Andes` del `2024-12-21` figura `neutral=false` en sus dos
-  filas**, y las dos páginas dicen que se jugó en cancha neutral, en Córdoba. En las ligas
-  el parser pone `neutral=true` sólo cuando la tabla rotula «Equipo 1 / Equipo 2», y este
-  partido las dos páginas lo escriben con `{{Partidos}}`.
+- **Un partido escrito dos veces se reconoce sólo por `(date, home_team, away_team)`.**
+  Si las dos páginas lo publicaran con la localía dada vuelta o en días distintos,
+  `dataset.reconciliar_copias` no vería que es el mismo, y las dos copias podrían decir
+  cosas distintas sin aviso. Hoy no pasa en ninguno de los `15`: con la localía dada
+  vuelta el mismo día hay `0`, y con el mismo cruce y el mismo marcador a 1–3 días, `0`.
+- **`Sarmiento (LB) – Los Andes` del `2024-12-21` figura `neutral=false` y sin hora en
+  sus dos filas**, y las dos páginas dicen que se jugó en cancha neutral, en Córdoba, a
+  las `17:00`. Las dos lo escriben con `{{Partidos}}`: el lector de esa plantilla no lee
+  la hora del campo `fecha` —la tira en `509` de las `512` plantillas con resultado—, y
+  en las ligas el parser pone `neutral=true` sólo cuando la tabla rotula «Equipo 1 /
+  Equipo 2».
 - **La hora.** El parser saca el día de la nota «se jugó el…» pero la hora la saca de la
   celda, así que unos `190` partidos reprogramados en `64` páginas tienen el día real y la
-  hora del programado. Hay además `37` horas que no tienen la forma `HH:MM` (`15:00
-  (TV)`, `11.00`, `15::00`), una de ellas de 2003, y las tres definiciones de la Copa de
-  la Liga 2020 en San Juan figuran `neutral=false`.
+  hora del programado. Hay además `20` horas que no tienen la forma `HH:MM` (`11.00`,
+  `15::00`, `9:00`), una de ellas de 2003, y las tres definiciones de la Copa de la Liga
+  2020 en San Juan figuran `neutral=false`.
 - **La promoción `Luján – Argentino de Quilmes` de 2012 tiene los dos días en duda.** El
   CSV pone la ida el `2012-06-26` y la vuelta el `2012-07-01`; la previa de Infobae del
   sábado 30 de junio dice que la ida fue «el miércoles último» (27) y que la vuelta se
@@ -212,7 +206,7 @@ fecha: los `6` que están sin fecha no se jugaron.
   llaman a mano. Falta un test por cada uno que pase por el recorrido completo.
 - **Falta escribir el chequeo de dataset entero «nadie juega dos partidos distintos en
   días seguidos».** Hoy daría dos casos, los de 1994 y 1999 que están más abajo. Tiene
-  que saltear los 15 partidos escritos dos veces.
+  que saltear los 15 partidos escritos dos veces, que `dataset.copias` ya junta.
 - **`build.py` le pasa a RSSSF la etiqueta de temporada como año de cierre**
   (`t.anio_fin or t.temporada`, en tres lugares), y tendría que pasarle el año con que se
   fecha. Hoy no produce nada mal porque el test del catálogo ata la etiqueta al título.

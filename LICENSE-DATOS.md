@@ -40,7 +40,10 @@ Las filas sin ` + ` en `source` no toman de otra fuente ni el partido ni el día
 medio centenar de ellas, eso sí, el marcador —o la tanda de penales— no es el que
 trae la página: se corrigió a mano, casi siempre contra testigos de afuera que la
 fila no nombra. Cada caso está declarado, con su evidencia, en
-`fad/correcciones.py`.
+`fad/correcciones.py`. Y en los quince partidos que publican las páginas de dos
+torneos, lo que una de las dos no trae —la hora, la cancha, `neutral`—, o lo que
+escribe distinto, puede venir de la otra, que también es Wikipedia, aunque `source`
+nombre sólo la suya.
 
 ## Las fuentes
 
