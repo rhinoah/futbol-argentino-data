@@ -58,11 +58,12 @@ nombre sólo la suya.
 | [worldfootball](https://www.worldfootball.net/) | sólo el día | 1 519 |
 | el [blog de José Carluccio](http://josecarluccio.blogspot.com/) | sólo el día | 76 |
 | | el día y la localía | 14 |
-| cinco citas sueltas | sólo el día | 5 |
+| diez citas sueltas | sólo el día | 6 |
+| | el día y la hora | 4 |
 
-Medido el 13 de octubre de 2026. Ninguno de esos números se mueve con la
-actualización de todos los días: son de torneos terminados. Son 9 699 filas y la
-tabla suma 9 736 porque en 37 —las llaves del Torneo Argentino A 2004-05— el
+Medido el 15 de octubre de 2026. Ninguno de esos números se mueve con la
+actualización de todos los días: son de torneos terminados. Son 9 704 filas y la
+tabla suma 9 741 porque en 37 —las llaves del Torneo Argentino A 2004-05— el
 partido sale de RSSSF y el día de un blog, y están contadas en los dos.
 
 ### Wikipedia en español
@@ -132,11 +133,18 @@ una va nombrada en el `source` de las filas a las que les puso el día o la loca
   los 14 del Reducido de la Primera C 2011-12, también a mano: cada pata entra sólo
   si el cuadro de Wikipedia publica ese cruce con ese marcador. El blog no publica
   condiciones de uso ni licencia; esas 14 filas nombran el post del que se copió.
-- **Cinco citas sueltas** — el día de 5 partidos, cada uno con su URL en `source`:
+- **Diez citas sueltas** — el día de 10 partidos, cada uno con su URL en `source`:
   Página/12 en la [Hemeroteca Digital](https://hemerotecadigital.bn.gob.ar/) de la
   Biblioteca Nacional, [historiadeboca.com.ar](https://historiadeboca.com.ar/),
   [soybh.blogspot.com](http://soybh.blogspot.com/) —la página de un hincha de Ben
-  Hur— y, en dos, una revisión vieja de la propia página de Wikipedia.
+  Hur—, en dos una revisión vieja de la propia página de Wikipedia,
+  [La Nueva](https://www.lanueva.com/) en la vuelta de la final de la Primera B
+  2012-13, la síntesis de [Solo Ascenso](https://www.soloascenso.com.ar/) en tres
+  partidos de la Primera B 2024 y 2025 que se jugaron otro día que el programado y
+  la crónica de [Ascenso del Interior](http://ascensodelinterior.com.ar/) en uno del
+  Torneo Argentino A 2012-13 que tampoco se jugó el día de la celda. Las síntesis
+  de Solo Ascenso dan también la hora; la del partido del Argentino A sale de la nota
+  de la página.
 
 Este proyecto no persigue ningún fin comercial.
 

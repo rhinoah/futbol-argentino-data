@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 50 021 | 6 | 170 | 1360 | 655 |
+| 50 021 | 6 | 170 | 1514 | 787 |
 
 Medidos el 15 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
 al código a propósito para comprobar que algún test los detecta.
@@ -18,8 +18,8 @@ la fuente lo publica y hoy no se lee.
 
 ## 2004–2026 — Cerrado
 
-`43 033` partidos de los torneos que están en el catálogo. De los `184` avisos del
-build —`164` de esta era—, ninguno es grave. Hay `59` verificaciones a mano. `176` clubes
+`43 033` partidos de los torneos que están en el catálogo. De los `185` avisos del
+build —`165` de esta era—, ninguno es grave. Hay `59` verificaciones a mano. `176` clubes
 de `9` temporadas tienen el respaldo de una fuente independiente: sus partidos son de
 Wikipedia y cierran con la tabla de RSSSF. Otros `75`, del Argentino A 2006-07 a
 2009-10, también cierran con la tabla de RSSSF, pero sus partidos salen de ahí mismo:
@@ -30,48 +30,24 @@ sin fecha no se jugaron.
   partidos.** Medida la temporada anterior de cada una, la B Nacional 2006-07 da 7 sin
   fecha, la Primera B 2009-10 y la Primera C 2007-08 dan 4, y el Argentino A 2003-04 da
   195, 8 con fecha. Para ir más atrás hace falta otra fuente.
-- **`status`: trece `suspendido` publicados que la nota de su propia página desmiente.**
-  `12` son de esta era y uno, `Racing Club 1-0 Rosario Central`, del Clausura 2002. Desde
-  2004 hay `67` `suspendido`.
-  - En seis el partido se completó otro día y el lector no lo ve:
-    - `Acassuso 1-0 Estudiantes (BA)` (Primera B 2012-13, «Se completo el miércoles 27 de
-      marzo»);
-    - `Guillermo Brown 4-2 Juventud Unida Universitario` (Argentino A 2012-13);
-    - `Deportivo Español 1-0 Excursionistas` (Primera C 2021), que además lleva el día, la
-      cancha y la hora del programado: se jugó el 19 en el Enrique Sexto, a las 13:30;
-    - `Brown de Adrogué 0-0 Agropecuario` (2018-19, «Se compĺetó», con `ĺ`);
-    - `Villa Dálmine 0-0 Midland` (Primera C 2009-10, «jugados los 21´ dos días después»);
-    - `Alumni 0-0 Juventud Unida Universitario` (Argentino A 2010-11, «completado al día
-      siguiente»).
-  - En tres la palabra sale del `name=` de la nota y no de su texto: `Villa San Carlos 2-0
-    UAI Urquiza` (Primera B 2014), `San Martín (B) 1-0 Ferrocarril Midland` (Primera C
-    2015) y `Deportivo Armenio 1-1 Cañuelas` (Primera C 2018-19). `Villa San Carlos – UAI
-    Urquiza` además figura el `2014-09-06` y se jugó el 24: para la fecha se resuelven las
-    `{{refn}}` pero no las `<ref name=X />`.
-  - En dos la palabra sale del titular de una cita, y la nota dice «Postergado»: `Racing
-    Club 1-0 Rosario Central` (Clausura 2002) y `Unión (MdP) 0-0 Alvarado` (Argentino A
-    2013-14). El lector ya no lee la dirección de la cita; falta que no lea el rótulo del
-    enlace ni el `cita=`. No se puede tirar la cita entera: en otras dos filas el rótulo es
-    toda la nota y tiene razón.
-  - `Deportivo Riestra 0-1 UAI Urquiza` (Primera B 2015) y `Arsenal 3-0 Newell's Old Boys`
-    (Primera 2015) no se arreglan con una regla: piden una corrección a mano que toque sólo
-    el `status`.
-  - Sin verificar queda `Excursionistas 0-0 Juventud Unida` (Primera C 2014): la única nota
-    es un enlace rotulado «Suspendido».
-- **`status`: dos filas con fallo salen vacías y sin aviso.** `Real Arroyo Seco 0-1
-  Gimnasia y Esgrima (CdU)` (Argentino A 2004-05; la nota dice «Se le dió por ganado»,
-  con tilde) y `San Martín (T) 0-2 Alumni (VM)` (Argentino A 2011-12; la única nota es
-  una cita titulada «AFA decide darle por perdido 0-2»). El lector no lee ninguna de las
-  dos formas, ni para clasificar ni para avisar.
-- **`status`: al menos cinco partidos que no empezaron salen `suspendido`.**
-  - Tres son del Federal A 2015: `San Jorge (T) 0-1 Unión Aconquija` (falta de médico),
-    `Independiente (C) 1-0 Alianza (CC)` y `Altos Hornos Zapla 1-0 Andino` (en los dos no
-    se presentó el visitante).
-  - `Colón 0-1 Atlético de Rafaela` (Inicial 2013): Colón no se presentó.
-  - `Central Ballester 0-3 Juventud Unida` (Primera C 2025): faltaba el personal médico.
+- **`status`: cuatro filas que ninguna regla arregla.** La página no dice lo que pasó,
+  o lo dice con una palabra que en las demás filas significa otra cosa. Desde 2004 hay
+  `54` `suspendido`.
+  - `Deportivo Riestra 0-1 UAI Urquiza` (Primera B 2015, «Partidos suspendidos debido a
+    la muerte del futbolista Cristian Gómez») y `Excursionistas 0-0 Juventud Unida`
+    (Primera C 2014, cuya única nota es un enlace rotulado «Suspendido» a una nota de
+    Mundo Ascenso del 15/08/2014: «Por falta de escenario, fue suspendido») salen
+    `suspendido` y se postergaron antes de empezar. RSSSF los da jugados sin nota el
+    10/06/2015 y el 18/09/2014, que es el día de cada fila.
+  - `Arsenal 3-0 Newell's Old Boys` (Primera 2015) sale `suspendido` porque el
+    suspendido era un jugador. RSSSF: `orgnl 3-0, awd 0-1 May 22, rvk Jul 23`.
+  - `San Martín (T) 0-2 Alumni (VM)` (Argentino A 2011-12) sale vacío, y el build lo
+    avisa: la única nota es una cita titulada «AFA decide darle por perdido 0-2». El
+    blog de José Carluccio lo da «Suspendido a los 40', con el marcador 0-2 [...]. No
+    continuó ni se modificó el resultado».
 
-  El lector escribe `no disputado` sólo cuando la celda del estadio dice «Sin disputar».
-  Cambiar la regla toca filas ya publicadas.
+  Las cuatro piden una corrección a mano que toque sólo el `status`; ver el ítem que
+  sigue.
 - **`status`: al menos `19` filas que RSSSF da sin terminar salen vacías**, porque su
   página no lo dice: `10` de 1991–1997 (de `arg91` a `arg97`) y `9` de 2005–2024.
   - `Sportivo Patria 0-3 Villa Mitre` (`2005-12-11`), `Cipolletti 1-2 Guillermo Brown`
@@ -88,11 +64,16 @@ sin fecha no se jugaron.
   El marcador no cambia. No hay cómo arbitrar sólo el `status`: esa rama se sacó a
   propósito, y falta decidir si se vuelve a poner, con un testigo obligatorio. La otra
   salida es cruzar las notas de RSSSF en los torneos que tienen grilla.
-- **«Se jugará el…» se lee como «se jugó».** `Cañuelas 0-2 Colegiales` y `Ferrocarril
-  Midland 0-1 Flandria` (Primera B 2024) terminan su nota en «Se jugará el 2 de
-  septiembre» y figuran el `2024-08-31`, que es el día de la suspensión, y con la hora de
-  ese día (`12:05` y `15:00`; la nota da `15:00` y `20:00`). Una nota que termine en el
-  plan y siga con un abandono saldría sin `status` y sin aviso.
+- **Una nota que es un plan cuenta como un partido completado.** `_SE_COMPLETO` acepta
+  «Se jugará el…» y «Se juega el…», así que una nota que termine en el plan y siga con
+  un abandono saldría sin `status` y sin aviso. Hoy hay `4` notas así en el catálogo
+  —`3` en futuro y `1` en presente— y ninguna cuenta nada después del plan.
+- **`Villa Dálmine 0-0 Ferrocarril Midland` (Primera C 2009-10) figura el día en que se
+  terminó.** Está el `2010-03-31`, el día en que RSSSF da jugados los 21 minutos que
+  faltaban; empezó el 19 de febrero (`abandoned at 0-0 in 69'`). La nota dice «jugados
+  los 21´ dos días después», y no coincide con RSSSF ni en el motivo ni en la demora.
+  Un partido completado otro día se fecha por el día en que empezó: falta una fuente del
+  día que diga cuál de los dos es.
 - **Faltan `22` tandas de penales del Federal A, de 2014 a 2018-19.**
   - Son `3` en 2014 (`CAI 4-3 Juventud Unida Universitario`, `Unión (VK) 3-4 Gimnasia y
     Esgrima (M)` y `Talleres (C) 4-3 Mitre (SdE)`, que RSSSF confirma), `10` en 2016-17,
@@ -110,28 +91,6 @@ sin fecha no se jugaron.
   puede separar tres fases con el mismo rótulo, así que se revisó a mano. Aparte, `15`
   filas de eliminación de `9` páginas salen con `matchday` vacío, todas de una plantilla
   `{{Partido}}`.
-- **El lector de `{{Partido}}` no lee el día de la nota de la plantilla.** `9` filas
-  llevan el día programado, y salen sin hora. Ocho dicen «Se jugó el…»: son de la Primera
-  B 2017-18 y 2025, la Primera C 2018-19 —`Villa San Carlos 3-2 Excursionistas` figura el
-  `2019-06-15` y la nota dice el `22`—, la Primera Nacional 2021, la Transición de Primera
-  Nacional 2020 y tres de la Transición de Primera B 2020, que figuran el `11` de enero y
-  la nota dice el `12`. La novena es `Acassuso 1-0 Villa San Carlos` (Primera B 2025): «Se
-  jugará el 2 de diciembre», y figura el `2025-11-29`. En tres la nota da otra hora. Leer
-  el día como en las tablas mueve la clave de filas cerradas, y cuatro de las nueve tienen
-  una `Neutral` que hay que mover con ella.
-- **El lector de `{{Partido}}` no escribe `status`.** `4` filas salen vacías y su página
-  dice otra cosa:
-  - `Gimnasia y Esgrima (J) 0-3 Deportivo Madryn` (Primera Nacional 2025, en `suceso`),
-    `suspendido`;
-  - `Estudiantes (BA) 1-3 Almagro` (Primera B 2015, en `suceso`), `suspendido`;
-  - `Comunicaciones 2-1 Estudiantes (BA)` (Primera B 2016-17, nota en `resultado`),
-    `suspendido`;
-  - `Argentino de Quilmes 0-1 Defensores de Cambaceres` (Primera C 2013-14, título de la
-    cita en `resultado`), `escritorio`.
-
-  `status_de_la_fila` leería además `Deportivo Riestra 2-0 Comunicaciones` (Primera B
-  2016-17) como `suspendido`, y no lo es: «Se completaron los 5 minutos», y `_SE_COMPLETO`
-  no conoce el plural.
 - **`venue` copia el estadio que declara la página, y al menos `18` filas del Federal A
   2014 y 2015 se jugaron en otra cancha** según el blog de José Carluccio y, donde se
   fue a buscar, la crónica del día. Catorce son localías de Unión Aconquija, que figuran
@@ -197,18 +156,19 @@ sin fecha no se jugaron.
   `dataset.reconciliar_copias` no vería que es el mismo, y las dos copias podrían decir
   cosas distintas sin aviso. Hoy no pasa en ninguno de los `15`: con la localía dada
   vuelta el mismo día hay `0`, y con el mismo cruce y el mismo marcador a 1–3 días, `0`.
-- **La hora.** El parser saca el día de la nota «se jugó el…» pero la hora la saca de la
-  celda, así que `179` partidos reprogramados en `64` páginas tienen el día real y la hora
-  del programado, y la nota da otra. Hay además `20` horas que no tienen la forma `HH:MM`
-  (`11.00`, `15::00`, `9:00`), una de ellas de 2003. Para los `48` cuya nota no da hora,
-  falta decidir si queda la del programado o se vacía.
-- **Dos dudas que piden una fuente de afuera, y una corrección que falta cargar,** las
-  tres de `{{Partido}}`:
-  - `Almagro 2-0 Brown de Adrogué`, vuelta de la final de la Primera B 2012-13, figura el
-    `2013-06-23` a las `12:05`, y se jugó el sábado 22. Hay dos testigos: la programación
-    de la AFA, que lo daba el 22 a las 12.05, y La Nueva, que el mismo 22 a las 14:44
-    publicó que «Brown de Adrogué consiguió hoy el segundo ascenso». Falta cargar la
-    corrección del día.
+- **`20` horas no tienen la forma `HH:MM`** (`11.00`, `15::00`, `9:00`): `14` son de
+  2024, `2` de 2020, `2` de 2015, una de 2011 y una de 2003.
+- **`venue` es la cancha del programado aunque la nota diga otra.** En `11` filas la
+  oración que da el día también nombra la cancha en que se jugó —`Racing Club 0-1 San
+  Lorenzo`, Apertura 2006: «se jugó el 21 de febrero de 2007 en el Estadio Presidente
+  Perón», y figura en `Ciudad de La Plata`; `Deportivo Español 1-0 Excursionistas`,
+  Primera C 2021: «Se jugó en el estadio Enrique Sexto», y figura en `Nueva España`—.
+  Leerla de esa oración, como el día y la hora, es otra regla y pide su propia medición.
+- **Los `5` `no disputado` que salen de una nota publican la hora y la cancha del
+  programado**, de 2013 a 2025. El día es el del programado, como el `Instituto 0-1 San
+  Lorenzo` de la 1987-88, que no tiene ni hora ni cancha; las de estos cinco son las de un
+  partido que no se jugó. Falta decidir si se vacían.
+- **Dos dudas que piden una fuente de afuera,** las dos de `{{Partido}}`:
   - la hora de `Fénix 1-1 Deportivo Español`, ida de la final de la Primera C 2012-13: la
     plantilla dice `15:30` y la AFA, `15:00`. En esa programación otras dos horas difieren
     en cinco minutos: la ida de `Brown de Adrogué – Almagro` y `Deportivo Español –
@@ -302,14 +262,10 @@ sin fecha no se jugaron.
   `--rehacer`. De los `59` `Revisado`, a lo sumo `7` tienen su página y su club nombrados
   juntos en un test. Tampoco se mira el CSV contra el catálogo: borrar una entrada pasa
   los tests y frena al build del día siguiente por la guarda contra achicarse.
-- **Los regex del `status` aceptan formas que ningún dato recorre y ningún test fija.**
-  De `35` mutantes de ese tipo sobre los cuatro regex, sobreviven `33`.
-- **El parser no saca `<!-- -->` antes de leer.** Sólo el lector de `{{Partido}}` los saca,
-  del cuerpo de la plantilla y de la prosa de su sección; `_TITULO` y `_ARRANQUE_PARTIDO`
-  ven lo comentado: `49` títulos y `50` plantillas en `7` páginas, cuatro de ellas de 2026
-  en curso. Parseadas con y sin comentarios dan lo mismo salvo una fila del Argentino A
-  2010-11, que sin ellos pierde el desambiguador: `Douglas Haig – Rivadavia (L)`
-  (`2010-11-22`) sale `Rivadavia`.
+- **Cuatro formas de `_HABLA_DE_FALLO` no tienen mutante:** `suspendid`, `otorgandole`,
+  `inclusion indebida` y `mala inclusion`. El clasificador también las lee, así que una
+  nota que las dice ya sale con `status` y el detector no decide nada con ellas: sacarlas
+  no cambia ninguna salida. Siguen ahí como red por si el clasificador deja de leerlas.
 - **`mutar.py`:**
   - Dos mutantes tienen el mismo texto que otros dos, en `fad/correcciones.py` y en
     `fad/parser.py`; como se reemplaza la primera aparición, el segundo sitio de cada par
@@ -564,8 +520,8 @@ sigue ya se puede revisar.
 
 | era | partidos | fuente | estado |
 |---|---:|---|---|
-| 2004–2026 | 37 843 | Wikipedia sola | cerrado |
-| 2004–2026, con segunda fuente | 5 190 | Wikipedia + RSSSF / worldfootball / otras | cerrado |
+| 2004–2026 | 37 838 | Wikipedia sola | cerrado |
+| 2004–2026, con segunda fuente | 5 195 | Wikipedia + RSSSF / worldfootball / otras | cerrado |
 | 1997–2003 | 2 469 | Wikipedia | cerrado |
 | 1991–1996 | 2 470 | Wikipedia (partidos) + RSSSF (fechas) | cerrado |
 | 1985–1990 | 2 049 | RSSSF (partidos) + Wikipedia (tabla) | cerrado |

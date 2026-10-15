@@ -120,20 +120,22 @@ siempre ponen sólo una fecha. Qué se toma de cada una, con qué condición y a
 se reconoce está en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
 
 **Wikipedia en español** es la fuente de casi todo: equipos, marcadores, jornadas,
-estadios. **40 322 filas de 50 021** (80,6 %) no nombran ninguna otra fuente. El
+estadios. **40 317 filas de 50 021** (80,6 %) no nombran ninguna otra fuente. El
 dataset se publica bajo [CC BY-SA 4.0](LICENSE-DATOS.md), que es la licencia que
 esas filas heredan, y la columna `source` de cada fila lleva la URL exacta de la
 página de Wikipedia de su torneo, así que la atribución viaja con el dato.
 
-Las otras **9 699 filas** (19,4 %) nombran además una segunda fuente, y la usan para
+Las otras **9 704 filas** (19,4 %) nombran además una segunda fuente, y la usan para
 una de tres cosas:
 
-- **La fecha del calendario**, en 5 740. Wikipedia publica casi todos esos partidos
+- **La fecha del calendario**, en 5 745. Wikipedia publica casi todos esos partidos
   sin día: la Primera División del Apertura 1991 al Clausura 1997 y trece temporadas
   del ascenso entre 2004-05 y 2012-13 usan tablas de tres columnas
   (`Local | Resultado | Visitante`) o dejan el día vacío. Seis son fechas sueltas de
   2014 a 2024: en cinco la página trae un día equivocado y en una deja la celda
-  vacía. El partido, los equipos, el marcador y la jornada siguen saliendo de
+  vacía. Otras cinco, de 2012-13 a 2025, son partidos que la página deja en un día en
+  que no se jugaron, y el día sale de la prensa de ese día; en cuatro, también la
+  hora: en tres la da la misma crónica, y en el otro, la nota de la página. El partido, los equipos, el marcador y la jornada siguen saliendo de
   Wikipedia.
 - **El partido entero**, en 3 945. Once torneos tienen en Wikipedia la tabla de
   posiciones y no los resultados —la Primera División de 1985-86 al Clausura 1991
@@ -155,8 +157,8 @@ por archivo y con nombre, está en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
 2007-2011 (1 519) pero su Primera B Metropolitana arranca en 2018/19 y no lista
 Primera C ni el Argentino A. El [blog de José Carluccio](http://josecarluccio.blogspot.com/)
 fecha 76 partidos y pone el día y la localía de otros 14, los del Reducido de la
-Primera C 2011-12; y cinco filas sueltas llevan cada una su propia cita. Sumados
-dan 37 más que las 9 699 filas, porque 37 nombran dos.
+Primera C 2011-12; y diez filas sueltas llevan cada una su propia cita. Sumados
+dan 37 más que las 9 704 filas, porque 37 nombran dos.
 
 El feed de ESPN, que llegó a poner 21 filas, se sacó en octubre de 2026: sus
 condiciones de uso no autorizan a extraer contenido para armar una base de datos.
@@ -282,12 +284,31 @@ el mismo: acá `time` va segunda.
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
 
-Pueden venir vacías, además de los penales: `time` (11 052 filas) y `venue`
+Pueden venir vacías, además de los penales: `time` (11 047 filas) y `venue`
 (10 129), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
 cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 245); y `matchday` en 15
 partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en inglés:
 `Zone 1` o `Group A` en `group` (1 239 filas del Argentino A) y
 `Semifinals - First leg` en `matchday` (127).
+
+Sobre **`time`**: es la hora a la que se jugó el partido **ese día**. Cuando una nota de
+la página dice que se jugó otro día que el programado —«Suspendido por lluvia. Se jugó
+el 29 de julio, a partir de las 15:00»—, el día y la hora salen de esa misma oración: «a
+la misma hora» es la del programado, y si la oración no da ninguna, `time` queda vacía.
+Nunca se publica la hora del programado para un partido que se jugó otro día. Son 367
+filas de tabla: 317 toman la hora de la nota (192 distinta de la de la celda), 45
+conservan la de la celda porque la nota dice «a la misma hora» y 5 quedan vacías; y 8
+plantillas `{{Partido}}`, que la toman de su nota. Una nota que es un plan —en futuro,
+«Se jugará el 2 de septiembre…», o en presente, «Se juega el miércoles 3 de octubre…»—
+no mueve el día, porque un plan no es un hecho, pero dice que el día de la celda no hubo
+partido, y vacía su hora. Las cuatro del catálogo cuyo plan no es el día de la fila se
+cumplieron: van como `Dia`, con la hora de la nota y un testigo de afuera del día. Una `Dia` que
+pasa de día un partido cuya página no trae nota —`River Plate 1-3 Banfield`, Copa de la
+Liga 2020, de las 21:15 del domingo a las 21 del martes— declara la hora con su testigo.
+Un partido que empezó un día y se completó otro conserva la hora en que empezó. Y si la
+nota repite el día que ya dice la celda, la hora de la nota manda: `Crucero del Norte
+0-1 Rosario Central` (B Nacional 2012-13) decía las 11:00 del domingo de la lluvia, y
+la nota, «se disputó el 21 de noviembre, a partir de las 18:30».
 
 Sobre **`neutral`**: sale del **reglamento de la competencia**, no de comparar el
 estadio contra el de cada club. La Copa Argentina se juega a partido único en
@@ -314,10 +335,10 @@ un marcador **indistinguible de uno jugado en cancha**.
 
 | valor | qué afirma | filas |
 |---|---|---:|
-| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 49 909 |
-| `suspendido` | la fuente dice que el partido **no llegó al final** | 96 |
-| `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 14 |
-| `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Es el `Instituto 0-1 San Lorenzo` de la 1987-88 — los otros seis no tienen día y viven en `sin-fecha/` | 1 |
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 49 917 |
+| `suspendido` | la fuente dice que el partido **no llegó al final** | 82 |
+| `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 16 |
+| `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Cinco lo dicen en una nota y conservan el día para el que estaban programados, como el `Instituto 0-1 San Lorenzo` de la 1987-88; los seis de `sin-fecha/` no tienen día | 6 |
 
 **El eje no es el que parece.** Lo natural sería distinguir "el tribunal ratificó
 el marcador de la cancha" de "el tribunal lo cambió", y no se puede: la fuente no
@@ -443,16 +464,28 @@ una: los equipos y el marcador de la final, los penales de la semifinal, el rót
 de ronda de la primera. Un partido que nunca se jugó, con todos los campos llenos.
 Ahora el cierre se cuenta por balance de llaves.
 
-Y adentro traía más de lo que se leía. **La hora viene pegada a la fecha**
-—`|fecha = 21 de diciembre, 17:00`— en 511 de las 514 plantillas con resultado, y el
-lector sacaba sólo el día: 504 filas de eliminación salían sin hora con la hora a la
-vista. Se toma una hora válida y nada más, y si la nota de la plantilla dice que el
-partido se jugó —o que se jugará— otro día, la de `fecha` es la del programado y queda
-vacía (9 plantillas, una de ellas con la nota en futuro). Los parámetros, además, se
+Y adentro traía más de lo que se leía. **La hora viene pegada a la fecha** —`|fecha = 21
+de diciembre, 17:00`— en 511 de las 514 plantillas con resultado, y el lector sacaba
+sólo el día: 504 filas de eliminación salían sin hora con la hora a la vista. Se toma
+una hora válida y nada más, y si la nota de la plantilla dice que el partido se jugó
+otro día, el día y la hora salen de la nota, como en las tablas; si dice que se jugará,
+la de `fecha` es la de un día sin partido y queda vacía. Los parámetros, además, se
 cortaban por renglón, y el `|estadio =` que la Primera B 2021 escribe en el mismo
 renglón que la fecha no se veía: dos llaves sin cancha. Ahora se cortan por `|` a nivel
 cero, como los del cuadro, y cada renglón que arranca con `|` cierra los enlaces que
 quedaron abiertos: un `[[` sin cerrar no se traga el resto de la plantilla.
+
+La nota de la plantilla dice más que eso. **El día** sale de ella como en las tablas:
+las 8 que dicen «Se jugó el…» pasan al día y a la hora en que se jugaron, y a las 8 las
+confirma la prensa de esos días; cuatro tenían una `Neutral` declarada con el día
+programado, que se movió con la fila. La nota en futuro no fecha nada, porque es un
+plan: las tres del catálogo cuyo plan no es el día de la fila —esa plantilla y dos
+partidos de la Primera B 2024— se cumplieron, y van como `Dia` con su testigo de afuera
+y con la hora a la que se jugaron. **El `status`** la plantilla no lo escribía: cuatro
+salían vacías y su página dice que tres no llegaron al final y que una terminó en un
+escritorio. Una quinta, la vuelta de la final de la Primera B 2016-17, se suspendió y
+«Se completaron los 5 minutos adicionales el 3 de agosto»: llegó al final, y el plural
+no lo conocía la regla.
 
 **5c. Una ronda no es una zona.** La tabla de una fecha y la de una llave se
 escriben igual; el encabezado es lo único que las distingue: `!colspan=12|Fecha 7`
@@ -912,6 +945,16 @@ denunciado: era un error silencioso que el propio artículo contradecía.
 
 Las otras tres referencias por nombre no tienen cuerpo en su página: apuntan a notas de
 otro artículo. Ésas se dejan como están.
+
+La misma nota se escribe también con la etiqueta —`<ref name="suspendido">…</ref>` una
+vez y `<ref name="suspendido" />` después—, y esa forma no se resolvía. En la caché son
+`1 206` definiciones y `767` referencias, y cambia el día de una sola fila: `Villa San
+Carlos 2-0 UAI Urquiza`, de la Fecha 8 de la Primera B 2014, que referencia la nota de
+`Colegiales - Deportivo Merlo` y quedaba el 6 de septiembre, el día de la lluvia. Se
+jugó el 24: el historial de la página no le da resultado hasta esa tarde, y Diario Hoy
+publicó «el encuentro pendiente de la fecha ocho» a la mañana siguiente. Cuando un
+nombre está definido dos veces con cuerpos distintos —`72` en la caché, casi todos en
+las tablas de evolución de posiciones— manda el primero, como en MediaWiki.
 
 #### Los que no eran un error de nadie: dos convenciones para un mismo partido
 
@@ -2032,7 +2075,9 @@ Fecha 22   faltan Central Norte (S) y Gimnasia y Esgrima (CdU)
 Cinco entraron como alias —`Cipoletti`, `Desamprados`, `Centrl Norte`,
 `Gimnasia (CdU)`, `Libertad`— y uno como artículo: la página escribe «Rivadavia» a
 secas, que el padrón no resuelve porque hay tres, pero enlaza
-`Rivadavia de Lincoln`, y el artículo sí desambigua.
+`Rivadavia de Lincoln`, y el artículo sí desambigua. *(Ese enlace estaba adentro de un
+comentario, y hoy el partido va por `correcciones.py`: ver [Lo comentado no lo dice la
+página](#lo-comentado-no-lo-dice-la-página).)*
 
 **Dos quedaron afuera a propósito, y ésa es la parte que importa.** «Gimnasia y
 Esgrima» a secas tiene **cinco** candidatos. Y «Central Norte (SE)» no es un typo de
@@ -3230,6 +3275,65 @@ rama que ningún dato recorre —un arbitraje que fije sólo el status sin tocar
 marcador—, así que la rama se sacó: el test que la prohibe explica por qué, y si alguna
 vez hace falta se agrega junto con el primer caso que la use.
 
+### Lo que la nota decía y el `status` no leía
+
+Diecisiete filas publicaban un `status` que su propia página desmiente, y una tenía un
+fallo escrito y salía vacía. Ninguna pedía otra fuente: la nota estaba en la página, y el
+lector no la leía por la forma en que estaba escrita.
+
+- **Siete se jugaron o se terminaron de jugar otro día** y salían `suspendido`. El día de la semana
+  cortaba la frase —«Se completo el miércoles 27 de marzo», «Se juega el miércoles 3 de
+  octubre»—, o dónde se jugó —«Se jugó en el estadio Enrique Sexto, el 19 de agosto»—,
+  o no había fecha —«completado al día siguiente», «jugados los 21´ dos días después»—,
+  o había una `ĺ` en «Se compĺetó». RSSSF da el resto jugado en las dos que no tienen
+  fecha.
+- **Tres por el nombre de la nota.** `name=suspendido` es la etiqueta con que la página
+  referencia una nota que dice «Se jugó el 24 de septiembre», y se leía como si fuera
+  texto.
+- **Dos por el título de una cita.** La nota dice «Postergado» y el diario de la cita,
+  «se suspendió»: un partido que no se jugó el día programado y se jugó entero otro. La
+  cita se deja de leer sólo cuando la nota tiene texto propio. Si la cita es toda la
+  nota, la cita es la nota: el `Defensores de Pronunciamiento 0-2 Sol de América` del
+  Federal A 2016-17 no tiene más que un enlace rotulado «Sol de América le ganó los
+  puntos», y tiene razón. El precio es el `Excursionistas 0-0 Juventud Unida` de la
+  Primera C 2014, cuyo único enlace dice «Suspendido» de un partido que se postergó la
+  víspera: sigue mal.
+- **Cinco no empezaron**, y ahora son `no disputado`: un club que no se presentó o que
+  no había médico, en la frase de la suspensión y sin minutos. RSSSF da los cuatro que
+  trae como `not played` o `dns`.
+- **Un fallo con tilde**, «Se le dió por ganado», salía vacío y sin aviso. Es
+  `escritorio`: RSSSF lo da `originally 3-0 but Real Arroyo Seco used ineligible players`.
+
+**Y uno que una regla habría dejado mal.** La única nota del `San Martín (T) 0-2 Alumni
+(VM)` del Argentino A 2011-12 es una cita titulada «AFA decide darle por perdido 0-2».
+Leída como fallo saldría `escritorio`, que afirma que se jugaron los noventa, y no se
+jugaron: el blog de José Carluccio lo da suspendido a los 40'. Así que esa forma se lee
+sólo para avisar, y el build dice que la página habló y no se supo qué.
+
+Medido sobre las 170 páginas: cambia el `status` de **18 filas**. Tres de ellas también
+estaban en el día del programado, y las mueve la fecha: `Deportivo Español 1-0
+Excursionistas` (Primera C 2021) pasa al 19 de agosto a las 13:30, porque la frase del
+día acepta ahora dónde se jugó y el día de la semana —las dos piezas que el `status` ya
+leía—; `Villa San Carlos 2-0 UAI Urquiza` (Primera B 2014) pasa al 24 de septiembre, sin
+hora, porque se resuelven las `<ref name>`; y `Central Norte (S) 3-0 Juventud Antoniana`
+(Argentino A 2012-13), cuya nota es un plan en presente, pasa al 3 de octubre a las 21:35
+con una `Dia` y la crónica de Ascenso del Interior del día siguiente.
+Fuera de esas 18, las preguntas del `status` contestan distinto en tres filas más, y las
+tres salen igual: dos porque la nota cuenta después que se jugó —`Juventud Unida 0-1
+Central Córdoba (R)` (Primera C 2015) y `Sportivo Peñarol (C) 1-1 Ferro Carril Oeste
+(GP)` (Federal A 2023)— y una porque la suspensión manda sobre el fallo —`Independiente
+Rivadavia 0-1 Atlanta` (Primera Nacional 2019-20)—. Cuatro siguen mal y no las arregla
+ninguna regla: están en [`TODO.md`](TODO.md).
+
+**Lo que fija las formas.** Los cuatro regex del status aceptaban alternativas que
+ningún test pedía: sacándoles una por vez, de 38 mutantes sobrevivían 32. Ahora se
+preguntan sobre el texto sin tildes y están escritos sin tildes, y hay una nota por cada
+forma con el status que tiene que salir. Los 60 mutantes de forma que quedaron en
+`mutar.py`, una alternativa por vez, mueren todos. Faltan cuatro a propósito, porque no
+pueden morir: son formas del detector que el clasificador también lee
+—`suspendid`, `otorgandole`, `inclusion indebida`, `mala inclusion`—, así que una nota
+que las dice ya sale con `status` y el detector no decide nada con ellas.
+
 ### El último sin fecha, y lo zanjó el diario del día siguiente
 
 Quedaba uno solo en la capa: el `Gimnasia (LP) 1-1 Boca` de la fecha 19 del Apertura
@@ -3977,13 +4081,39 @@ con su recorte real (con anclas inventadas se prueba el mecanismo, no el dato), 
 dos espían qué recibe `contrastar` desde los dos lados del `sin_grilla`. De paso
 quedó cubierto el camino sin grilla, que no tenía un solo test.
 
+## Lo comentado no lo dice la página
+
+Un comentario `<!-- … -->` está en el wikitexto y no en la página: es para los
+editores. Las páginas en curso lo usan para dejar escrita la fase que falta —sus
+títulos, las `{{Partido}}` vacías, el cuadro— y destaparla cuando se juega. MediaWiki
+los borra antes de mirar nada, y el parser los leía: sólo el lector de `{{Partido}}`
+los sacaba, de su propio cuerpo y de la prosa de su sección.
+
+Medido sobre el catálogo con las páginas en curso del 15/10/2026: `270` comentarios en
+`87` páginas, con `49` títulos, `50` plantillas, `89` tablas y `162` enlaces adentro.
+Ahora `build` limpia la página una vez, antes de que la lea nadie, con las reglas del
+preprocesador: el comentario termina en el primer `-->`, uno que no cierra tapa todo lo
+que sigue —y lo avisa, porque lo que se deja de leer no avisa solo—, y adentro de
+`<nowiki>` y `<pre>` un `<!--` es texto. La caché sigue guardando el crudo.
+
+Los partidos que salen son los mismos, y no cambia una fila del dataset. Lo único que
+se movía era a qué artículo enlaza cada club: `335` lados del Argentino A 2010-11 y del
+Federal A 2016 tomaban el suyo de una sección o de una tabla comentadas, y en uno solo
+eso cambiaba el club. Es `Douglas Haig 1-0 Rivadavia`, Fecha 13 del 2010-11: la grilla
+escribe «Rivadavia» a secas, y el único `[[Rivadavia de Lincoln|Rivadavia]]` de la
+página estaba en una sección de cambios de entrenadores que un editor dejó comentada.
+Sin él, el nombre no se resuelve, y al rehacer la página frena el build. Es Rivadavia
+de Lincoln —lo dicen las dos citas de la fila, la grilla de la zona, donde es el único
+que no juega esa fecha, y RSSSF— y va a `correcciones.py` con los otros nueve nombres
+de esa página.
+
 ## Tests
 
-1360 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1514 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 655 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 787 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py
@@ -4022,10 +4152,10 @@ La base es Wikipedia en español, vía la API de MediaWiki, pidiendo el **wikite
 HTML: es lo que editan las personas, y las plantillas vienen con sus parámetros
 nombrados en vez de aplastadas en un `<table>`.
 
-No es la única fuente. Hoy 9 699 filas nombran en `source` una segunda:
+No es la única fuente. Hoy 9 704 filas nombran en `source` una segunda:
 [RSSSF](https://www.rsssf.org/) (8 122), [worldfootball](https://www.worldfootball.net/)
-(1 519), el blog de José Carluccio (90) y cinco filas con una cita
-propia; 37 de las 9 699 nombran dos. En la mayoría esa segunda fuente pone la fecha y nada más. La excepción es
+(1 519), el blog de José Carluccio (90) y diez filas con una cita
+propia; 37 de las 9 704 nombran dos. En la mayoría esa segunda fuente pone la fecha y nada más. La excepción es
 RSSSF en los once torneos cuya página no publica los partidos —la Primera División de
 1985-86 a 1989-90, el Apertura 1990, el Clausura 1991 y los Argentino A de 2006-07 a
 2009-10—: ahí las 3 812 filas salen enteras de RSSSF, y lo que pone Wikipedia es la
@@ -4066,7 +4196,7 @@ de Wikipedia en español. Lo que sale de [RSSSF](https://www.rsssf.org/) se toma
 el permiso de su pie y con su condición, que es reconocer al autor de cada archivo:
 qué se toma de cada fuente, el reconocimiento y la atribución sugerida están en
 [`LICENSE-DATOS.md`](LICENSE-DATOS.md). La columna `source` lleva la procedencia
-fila por fila, así que viaja con el dato. Las 9 699 filas que usan otra fuente
+fila por fila, así que viaja con el dato. Las 9 704 filas que usan otra fuente
 —RSSSF, worldfootball, el blog de José Carluccio o una cita— la nombran ahí
 mismo, después de un ` + `.
 
