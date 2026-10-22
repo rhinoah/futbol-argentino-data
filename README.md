@@ -18,7 +18,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina),
 ```
 
-**Estado:** **50 021 partidos entre julio de 1985 y hoy**, de ocho competencias.
+**Estado:** **50 087 partidos entre julio de 1985 y hoy**, de ocho competencias.
 **217 clubes**, 170 torneos, cero partidos sin fecha o sin marcador. Se actualiza
 solo, todos los días.
 
@@ -39,7 +39,7 @@ falta, medido era por era, está en [`TODO.md`](TODO.md).
 
 Ojo si contás partidos: quince de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
-`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 006 partidos
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 072 partidos
 distintos. Las dos copias de cada uno dicen lo mismo en todo lo que describe al
 partido —fecha, hora, marcador, penales, cancha, `neutral` y `status`— y difieren sólo
 en lo que es de cada torneo. Lo que una página no trae se toma de la otra, y donde las
@@ -120,7 +120,7 @@ siempre ponen sólo una fecha. Qué se toma de cada una, con qué condición y a
 se reconoce está en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
 
 **Wikipedia en español** es la fuente de casi todo: equipos, marcadores, jornadas,
-estadios. **40 317 filas de 50 021** (80,6 %) no nombran ninguna otra fuente. El
+estadios. **40 383 filas de 50 087** (80,6 %) no nombran ninguna otra fuente. El
 dataset se publica bajo [CC BY-SA 4.0](LICENSE-DATOS.md), que es la licencia que
 esas filas heredan, y la columna `source` de cada fila lleva la URL exacta de la
 página de Wikipedia de su torneo, así que la atribución viaja con el dato.
@@ -273,12 +273,12 @@ el mismo: acá `time` va segunda.
 | `date` `time` | ISO (`2026-01-22`) y hora local |
 | `home_team` `away_team` | los equipos |
 | `home_score` `away_score` | el marcador de los 90 (más alargue si hubo) |
-| `home_pens` `away_pens` | la tanda de penales, vacío si no hubo. En la Primera División 1988-89 la llevan también los partidos de **liga**: ese campeonato definía cada empate por penales, con un punto más para el que ganaba la tanda. Son 131; al empate que falta (`Rosario Central 1-1 Instituto`) la fuente no le publica la tanda |
+| `home_pens` `away_pens` | la tanda de penales, vacío si no hubo. En una serie de ida y vuelta va en la vuelta, que es donde se pateó, y esa vuelta no tiene por qué haber terminado empatada: lo que empató es el global. En la Primera División 1988-89 la llevan también los partidos de **liga**: ese campeonato definía cada empate por penales, con un punto más para el que ganaba la tanda. Son 131; al empate que falta (`Rosario Central 1-1 Instituto`) la fuente no le publica la tanda |
 | `tournament` `season` | `Primera Division - Apertura`, `Copa Argentina`, `2026` |
 | | ojo: `season` es la **temporada**, no el año del partido. La 2016-17 lleva `season=2016` y sus partidos van de agosto de 2016 a junio de 2017. La fecha real está en `date`. Dos salvedades: la Copa Argentina lleva el año en que se definió (la 2016-17 es `season=2017`), y `season=2016` junta dos campeonatos en cinco categorías —el corto de 2016 y el 2016-17—. Para separar un torneo de otro usá la URL de Wikipedia de `source` (lo que va antes del primer ` + `), no `tournament` + `season`. |
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
-| `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales` |
+| `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales`, `Segunda etapa`. En una serie de ida y vuelta de Wikipedia las dos patas llevan la misma ronda —si la tabla rotula sólo la pata (`Partidos de ida`), la ronda es la que dice el encabezado de arriba o el título de la sección—, y cuál es la ida lo dice `date` |
 | `venue` | el estadio, tal como figura; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
@@ -286,8 +286,9 @@ el mismo: acá `time` va segunda.
 
 Pueden venir vacías, además de los penales: `time` (11 047 filas) y `venue`
 (10 129), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
-cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 245); y `matchday` en 15
-partidos sueltos. En las filas que salen de RSSSF los rótulos quedaron en inglés:
+cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 278); y `matchday` en 16
+filas de eliminación, que son 15 partidos sueltos: uno está en dos páginas. En las
+filas que salen de RSSSF los rótulos quedaron en inglés:
 `Zone 1` o `Group A` en `group` (1 239 filas del Argentino A) y
 `Semifinals - First leg` en `matchday` (127).
 
@@ -335,7 +336,7 @@ un marcador **indistinguible de uno jugado en cancha**.
 
 | valor | qué afirma | filas |
 |---|---|---:|
-| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 49 917 |
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 49 983 |
 | `suspendido` | la fuente dice que el partido **no llegó al final** | 82 |
 | `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 16 |
 | `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Cinco lo dicen en una nota y conservan el día para el que estaban programados, como el `Instituto 0-1 San Lorenzo` de la 1987-88; los seis de `sin-fecha/` no tienen día | 6 |
@@ -4109,11 +4110,11 @@ de esa página.
 
 ## Tests
 
-1514 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1558 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 787 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 830 maneras y exige que la suite se dé cuenta de cada una.
 
 ```bash
 python mutar.py

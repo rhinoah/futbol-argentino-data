@@ -7,9 +7,9 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 50 021 | 6 | 170 | 1514 | 787 |
+| 50 087 | 6 | 170 | 1558 | 830 |
 
-Medidos el 15 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
+Medidos el 22 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
 al código a propósito para comprobar que algún test los detecta.
 
 Las marcas de cada era: **cerrado** = está en el CSV, aunque le queden cosas por
@@ -18,8 +18,8 @@ la fuente lo publica y hoy no se lee.
 
 ## 2004–2026 — Cerrado
 
-`43 033` partidos de los torneos que están en el catálogo. De los `185` avisos del
-build —`165` de esta era—, ninguno es grave. Hay `59` verificaciones a mano. `176` clubes
+`43 099` partidos de los torneos que están en el catálogo. De los `195` avisos del
+build —`175` de esta era—, ninguno es grave. Hay `59` verificaciones a mano. `176` clubes
 de `9` temporadas tienen el respaldo de una fuente independiente: sus partidos son de
 Wikipedia y cierran con la tabla de RSSSF. Otros `75`, del Argentino A 2006-07 a
 2009-10, también cierran con la tabla de RSSSF, pero sus partidos salen de ahí mismo:
@@ -74,23 +74,16 @@ sin fecha no se jugaron.
   los 21´ dos días después», y no coincide con RSSSF ni en el motivo ni en la demora.
   Un partido completado otro día se fecha por el día en que empezó: falta una fuente del
   día que diga cuál de los dos es.
-- **Faltan `22` tandas de penales del Federal A, de 2014 a 2018-19.**
-  - Son `3` en 2014 (`CAI 4-3 Juventud Unida Universitario`, `Unión (VK) 3-4 Gimnasia y
-    Esgrima (M)` y `Talleres (C) 4-3 Mitre (SdE)`, que RSSSF confirma), `10` en 2016-17,
-    `6` en 2017-18 y `3` en 2018-19. 2015 y 2016 no tienen.
-  - La página las publica sólo en la tabla «Global» de cada fase, no en la fila de la
-    vuelta.
-  - Cargadas, chocan con `serie_igualada`, que no reconoce «Partidos de ida» y «Partidos
-    de vuelta» como una serie: dos de las tres de 2014 dan grave. Van después del ítem que
-    sigue.
-- **`matchday` no dice de qué fase es un partido cuando la página rotula sólo la pata.**
-  `368` filas de `11` páginas dicen «Partido(s) de ida» o «Partido(s) de vuelta» y nada
-  más (`352` en plural y `16` en singular), y el Federal A 2026 suma más cada fecha. La
-  ronda está en el título de la sección, y el lector lo pisa con el encabezado de la
-  tabla. En el Federal A 2014 eso deja además el cuadro sin revisar: `cadena_de_llaves` no
-  puede separar tres fases con el mismo rótulo, así que se revisó a mano. Aparte, `15`
-  filas de eliminación de `9` páginas salen con `matchday` vacío, todas de una plantilla
-  `{{Partido}}`.
+- **`16` filas de eliminación de `10` páginas salen con `matchday` vacío.** Son `15`
+  partidos —`Sarmiento (LB) 0-1 Los Andes`, el tercer ascenso de 2024, está en dos
+  páginas—, todos de una plantilla `{{Partido}}` (`7`) o `{{Partidos}}` (`9`) colgada de
+  un título que no es un nombre de ronda, como `Desempate del primer puesto`, `Partido por la
+  permanencia`, `Desempate del octavo puesto`. Si la plantilla sin ronda tomara la del
+  título más cercano que la contiene y no es de relleno (`Resultados`, `Partidos`,
+  `Tabla de posiciones`), cambiarían las `15` que había el 16 de octubre y ningún aviso, pero algunos
+  rótulos quedan por decidir: la final del tercer ascenso de la Transición 2020 saldría
+  `Partido final` en la página de la Primera B, y su copia en la del Federal A dice
+  `Tercer ascenso`.
 - **`venue` copia el estadio que declara la página, y al menos `18` filas del Federal A
   2014 y 2015 se jugaron en otra cancha** según el blog de José Carluccio y, donde se
   fue a buscar, la crónica del día. Catorce son localías de Unión Aconquija, que figuran
@@ -520,7 +513,7 @@ sigue ya se puede revisar.
 
 | era | partidos | fuente | estado |
 |---|---:|---|---|
-| 2004–2026 | 37 838 | Wikipedia sola | cerrado |
+| 2004–2026 | 37 904 | Wikipedia sola | cerrado |
 | 2004–2026, con segunda fuente | 5 195 | Wikipedia + RSSSF / worldfootball / otras | cerrado |
 | 1997–2003 | 2 469 | Wikipedia | cerrado |
 | 1991–1996 | 2 470 | Wikipedia (partidos) + RSSSF (fechas) | cerrado |
@@ -529,6 +522,6 @@ sigue ya se puede revisar.
 | 1967–1984 | 5 570 | Wikipedia | al alcance, falta padrón |
 | 1933–1966 | 8 903 | RSSSF, con Wikipedia de testigo | falta el lector |
 
-Las cinco primeras filas suman los `50 021` del dataset. Las tres últimas suman `14 791`
+Las cinco primeras filas suman los `50 087` del dataset. Las tres últimas suman `14 791`
 y son un piso de lo que falta: la fila 1967–1984 cuenta sólo lo que el parser ya lee con
 fecha, sin los 342 del Metropolitano 1982 ni los 1 215 resultados en lista.
