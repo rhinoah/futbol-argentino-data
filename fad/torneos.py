@@ -333,10 +333,12 @@ ASCENSO_VIEJO = [
     # Patria - Atlético Paraná`: la pagina publica el 1-3 que habia en la cancha
     # cuando se suspendio, a los 75 minutos, y el Tribunal lo registro 0-3. Entra
     # 0-3 y `suspendido`, arbitrado por `correcciones.MARCADORES`.
-    # De los cuatro avisos que da la pagina, uno es que el cuadro de eliminacion no
-    # se pudo revisar: rotula solo la pata --`Partidos de ida` y `Partidos de
-    # vuelta`-- en sus tres fases, y `validar.cadena_de_llaves` no las puede separar.
-    # Esa cadena se reviso a mano.
+    # El cuadro de eliminacion rotula la pata --`Partidos de ida` y `Partidos de
+    # vuelta`-- en sus tres fases, y la fase va en el titulo de cada seccion, que
+    # es de donde la toma el parser: con eso `validar.cadena_de_llaves` revisa las
+    # tres y no tiene nada que decir. Las tres tandas de esas fases la pagina las
+    # publica solo en la tabla del global (ver `parser.tandas_de_las_series`), y son
+    # las de RSSSF.
     Torneo("Torneo Federal A 2014", "Torneo Federal A", 2014),
 
     # El Federal A 2015: 40 clubes y 652 partidos, todos con fecha en la pagina, del

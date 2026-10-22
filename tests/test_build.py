@@ -2359,3 +2359,106 @@ def test_un_neutral_que_la_pagina_ya_marca_avisa_sin_frenar(monkeypatch):
     sobra = [a for a in avisos if "neutral que la pagina ya marca" in a.que]
     assert len(sobra) == 1 and not sobra[0].grave
     assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
+
+
+# --------------------------------------------------------------------------
+# la tanda que la pagina publica solo en la tabla del global
+# --------------------------------------------------------------------------
+# Una etapa de la Revalida como la escribe el Federal A 2016-17: arriba la tabla del
+# global, con la tanda, y abajo las dos tablas de resultados, rotuladas solo por la
+# pata. Los nombres no son los mismos en las dos: la del global escribe el largo.
+_REVALIDA = """== Reválida ==
+=== Cuarta etapa ===
+==== Enfrentamientos ====
+{| class="wikitable"
+|- style="background:#dddddd;"
+|-
+!width=40|Llave
+!width=160|Equipo 1
+!width=30|Global
+!width=160|Equipo 2
+|-align=center
+|'''4
+|bgcolor=#ccffcc|'''Cipolletti
+|{{small|(3)}} 1 - 1 {{small|(1)}}
+|Juventud Antoniana
+|}
+
+==== Resultados ====
+{|class="wikitable collapsible collapsed"
+!colspan="6"|Partidos de ida
+|-
+!width="150"|Local
+!width="65"|Resultado
+!width="150"|Visitante
+!width="150"|Estadio
+!width="75"|Fecha
+!width="40"|Hora
+|-align=center
+|Juventud Antoniana
+|1 - 1
+|Cipolletti
+|Padre Ernesto Martearena
+|24 de mayo
+|21:30
+|}
+{|class="wikitable collapsible collapsed"
+!colspan="6"|Partidos de vuelta
+|-
+!width="150"|Local
+!width="65"|Resultado
+!width="150"|Visitante
+!width="150"|Estadio
+!width="75"|Fecha
+!width="40"|Hora
+|-align=center
+|Cipolletti
+|0 - 0
+|Juventud Antoniana
+|La Visera de Cemento
+|28 de mayo
+|16:00
+|}
+"""
+REVALIDA = Torneo("Anexo:Prueba", "Prueba", 2016, anio_fin=2017, cerrado=False)
+
+
+def test_la_tanda_de_la_tabla_del_global_llega_a_la_vuelta():
+    """La vuelta empato, asi que la tanda se explica sola. RSSSF la da igual:
+    `Cipolletti [3] 0-0 [1] Juventud Antoniana`, el 28 de mayo de 2017."""
+    ps, avisos = build.procesar(_REVALIDA, REVALIDA)
+    vuelta = [p for p in ps if p.fecha == "2017-05-28"]
+    assert [(p.local, p.penales_local, p.penales_visita) for p in vuelta] == [
+        ("Cipolletti", 3, 1)]
+    assert [p.penales_local for p in ps if p.fecha == "2017-05-24"] == [None]
+    assert not [a for a in avisos if "tabla del global" in a.que]
+    assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
+
+
+def test_la_tanda_de_una_vuelta_que_no_empato_entra_porque_las_patas_son_una_serie():
+    """Cipolletti 1-0 en la vuelta despues de perder 2-1 la ida: 2-2 global, y la
+    tanda se pateo al final de una vuelta que no empato. La explica la serie, y
+    `serie_igualada` la reconoce porque las dos patas llevan la ronda del titulo,
+    `Cuarta etapa`, y no la pata. Con `Partidos de ida` y `Partidos de vuelta` en la
+    jornada no la reconocia, y escribirla era un grave: asi esperaban 10 de las 22
+    tandas del Federal A."""
+    sin_empate = _REVALIDA.replace("|Cipolletti\n|0 - 0\n", "|Cipolletti\n|1 - 0\n").replace(
+        "{{small|(3)}} 1 - 1 {{small|(1)}}", "{{small|(3)}} 2 - 2 {{small|(1)}}").replace(
+        "|Juventud Antoniana\n|1 - 1\n", "|Juventud Antoniana\n|2 - 1\n")
+    ps, avisos = build.procesar(sin_empate, REVALIDA)
+    assert sorted((p.fecha, p.jornada, p.penales_local, p.penales_visita) for p in ps) == [
+        ("2017-05-24", "Cuarta etapa", None, None), ("2017-05-28", "Cuarta etapa", 3, 1)]
+    assert not [a for a in avisos if "tabla del global" in a.que]
+    assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
+
+
+def test_la_tanda_que_no_cierra_con_la_grilla_se_avisa_y_no_frena():
+    """Si las patas de la grilla no suman el global de la tabla, una de las dos tablas
+    esta mal y no hay como saber cual: la tanda queda afuera, con un aviso que no
+    frena el build."""
+    otra = _REVALIDA.replace("|Cipolletti\n|0 - 0\n", "|Cipolletti\n|1 - 0\n")
+    ps, avisos = build.procesar(otra, REVALIDA)
+    assert all(p.penales_local is None for p in ps)
+    espera = [a for a in avisos if "tabla del global" in a.que]
+    assert len(espera) == 1 and not espera[0].grave and "suman 2-1" in espera[0].detalle
+    assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]

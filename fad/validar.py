@@ -792,12 +792,13 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
                           grave=False)]
         # ULTIMO INTENTO: RECONSTRUIR LAS RONDAS POR EL PLANTEL. Si dos rotulos
         # tienen el MISMO plantel exacto, no son dos rondas: son la misma ronda
-        # jugada dos veces. Es lo que pasa con nueve de las diez paginas que
-        # rotulan la PATA en vez de la ronda -- "Partidos de ida" y "Partidos de
-        # vuelta" tienen identico plantel, y "Partido de ida" y "Partido de
-        # vuelta" tambien --, asi que cuatro rotulos colapsan en las dos rondas de
-        # verdad: la de varias llaves y la final. Se midio en las nueve; la decima
-        # es el Federal A 2014 y cae en el `else` de abajo.
+        # jugada dos veces. Es lo que pasa con un cuadro que rotula la PATA en vez
+        # de la ronda -- "Partidos de ida" y "Partidos de vuelta" tienen identico
+        # plantel, y "Partido de ida" y "Partido de vuelta" tambien --, asi que
+        # cuatro rotulos colapsan en las dos rondas de verdad: la de varias llaves
+        # y la final. Asi pasaban nueve paginas hasta que el parser les leyo la
+        # ronda del titulo (ver `parser._ES_PATA`); hoy no pasa por aca ningun
+        # cuadro de la cache, y la rama queda para el que no tenga titulo.
         #
         # El agrupado es ESTRUCTURAL, no por fecha: solo junta rotulos, nunca
         # parte uno. Por eso no puede repetir el error que este modulo ya cometio
@@ -816,7 +817,7 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
                        for rots in porplantel.values()]
             grupos = sorted(armados, key=lambda kv: min(x.fecha for x in kv[1]))
         else:
-            # DE LOS CINCO QUE QUEDAN, CUATRO NO SON CADENAS, y no se puede probar
+            # LOS CUATRO QUE QUEDAN NO SON CADENAS, y no se puede probar
             # que no lo sean, asi que el chequeo se abstiene en vez de acusar. `Llave 1..6`
             # (Primera Division 2015) y `Partido 1/2/3` (B Nacional 2014) son
             # llaves PARALELAS: cada rotulo es una serie distinta jugandose al
@@ -827,14 +828,9 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
             # ronda anterior, y el modelo de este chequeo es "el que juega gano lo
             # anterior" -- meterlo en el vocabulario generaria acusaciones falsas.
             #
-            # EL QUINTO SI ES UNA CADENA y aca no se la puede armar: la `Segunda a
-            # cuarta fase` del Torneo Federal A 2014, 16 -> 8 -> 4 -> 2 en 28
-            # partidos. La pagina rotula solo la pata y su ultima fase son DOS
-            # series, asi que no hay un `Partido de ida` en singular que separe
-            # nada: quedan dos rotulos con el mismo plantel. Con la abstencion, un
-            # club mal atribuido en ese cuadro no se veria. Se reviso a mano al
-            # cargarlo --todo el que sigue jugando gano su serie o la empato y paso
-            # por penales-- y los 28 marcadores coinciden con los de RSSSF.
+            # Hubo un quinto que SI era una cadena: la `Segunda a cuarta fase` del
+            # Federal A 2014, que rotulaba solo la pata en sus tres fases. Con la
+            # ronda leida del titulo se revisa, y no dice nada.
             return [Aviso("no se pudo revisar el cuadro de eliminacion",
                           "hay partidos sin ronda reconocida; el chequeo se salteo",
                           grave=False)]
@@ -962,6 +958,14 @@ _SINONIMOS = {
     "segunda instancia": "segunda fase",
     "tercera instancia": "tercera fase",
     "cuarta instancia": "cuarta fase",
+    # Y "etapa", que es como numera la Revalida del Federal A desde 2016-17. Su
+    # llave es la Revalida y ahi no hay ninguna "fase", asi que no junta nada.
+    "segunda etapa": "segunda fase",
+    "tercera etapa": "tercera fase",
+    "cuarta etapa": "cuarta fase",
+    "quinta etapa": "quinta fase",
+    "sexta etapa": "sexta fase",
+    "séptima etapa": "séptima fase",
     "cuartos de final": "cuartos",
     "octavos de final": "octavos",
     "dieciseisavos de final": "dieciseisavos",

@@ -1215,6 +1215,38 @@ def test_instancia_es_lo_mismo_que_fase():
     assert validar._ronda("Tercera instancia") == "tercera fase"
 
 
+@pytest.mark.parametrize("numero", ["Segunda", "Tercera", "Cuarta", "Quinta", "Sexta",
+                                    "Séptima"])
+def test_etapa_es_lo_mismo_que_fase(numero):
+    """La cuarta forma, la de la Revalida del Federal A desde 2016-17, en las seis
+    etapas que tiene. Con una que falte, el cuadro de cada pagina que la juega queda
+    sin revisar: sin la cuarta, la quinta o la sexta, el de cinco Revalidas."""
+    assert validar._ronda(f"{numero} etapa") == f"{numero.lower()} fase"
+
+
+def test_la_sexta_y_la_septima_van_despues_de_la_quinta():
+    """El Argentino A 2013-14 llega a la sexta fase y el Federal A 2015 a la
+    septima. Sin esos escalones `_por_ronda` no las ordena y el cuadro entero se
+    queda sin revisar."""
+    ps = [llave("Boca", "River", 1, 0, "2015-12-06", ronda="Séptima fase"),
+          llave("Boca", "Colón", 1, 0, "2015-11-22", ronda="Quinta fase"),
+          llave("Boca", "Tigre", 1, 0, "2015-11-29", ronda="Sexta fase")]
+    grupos = validar._por_ronda(ps)
+    assert grupos is not None, "las tres rondas tienen que reconocerse"
+    assert [r for r, _ in grupos] == ["Quinta fase", "Sexta fase", "Séptima fase"]
+
+
+def test_un_cuadro_por_etapas_se_revisa():
+    """Y con las etapas reconocidas, la Revalida se revisa de verdad: Boca pierde
+    las dos patas de la segunda etapa y aparece en la tercera."""
+    ps = [llave("Boca", "River", 0, 1, "2017-04-01", ronda="Segunda etapa"),
+          llave("River", "Boca", 1, 0, "2017-04-08", ronda="Segunda etapa"),
+          llave("Boca", "Colón", 1, 0, "2017-04-15", ronda="Tercera etapa"),
+          llave("Colón", "Boca", 0, 1, "2017-04-22", ronda="Tercera etapa")]
+    avisos = validar.cadena_de_llaves(ps)
+    assert any("sin haber ganado" in a.que and "Boca" in a.detalle for a in avisos), avisos
+
+
 def test_la_ronda_se_despega_de_la_rama_del_torneo():
     """El Argentino A numera las rondas de su revalida con la rama adelante."""
     assert validar._ronda("Revalida - Segunda ronda") == "segunda fase"
@@ -1231,11 +1263,13 @@ def test_pelar_la_etiqueta_solo_vale_si_abajo_hay_una_ronda():
 
 
 def _cuadro_rotulado_por_pata():
-    """Como rotula la Revalida del Federal A: la PATA en vez de la ronda.
+    """Un cuadro que rotula la PATA en vez de la ronda.
 
     Cuatro rotulos para dos rondas. "Partidos de ida" y "Partidos de vuelta"
     tienen el mismo plantel exacto --son la misma ronda jugada dos veces-- y lo
-    mismo el par en singular, que es la final.
+    mismo el par en singular, que es la final. Es como salian la Revalida del
+    Federal A y otras ocho paginas antes de que el parser les leyera la ronda del
+    titulo; hoy no sale asi ninguna, y la rama queda para la que no tenga titulo.
     """
     return [llave("Boca", "River", 2, 0, "2026-05-01", ronda="Partidos de ida"),
             llave("Racing", "Colón", 1, 0, "2026-05-01", ronda="Partidos de ida"),
@@ -1246,9 +1280,9 @@ def _cuadro_rotulado_por_pata():
 
 
 def test_las_rondas_se_reconstruyen_por_el_plantel():
-    """Diez paginas rotulan la pata y nunca dicen que ronda es, asi que el dato no
-    esta en ningun campo. Pero se puede deducir: dos rotulos con el MISMO plantel
-    exacto no son dos rondas, son la misma jugada dos veces."""
+    """Si un cuadro rotula la pata y nada dice que ronda es, el dato no esta en
+    ningun campo. Pero se puede deducir: dos rotulos con el MISMO plantel exacto
+    no son dos rondas, son la misma jugada dos veces."""
     avisos = validar.cadena_de_llaves(_cuadro_rotulado_por_pata())
     assert avisos == [], f"el cuadro esta bien jugado, no deberia decir nada: {avisos}"
 

@@ -1557,6 +1557,22 @@ _ES_RONDA = re.compile(
     r"|semifinal(es)?|final\b|primera ronda|segunda ronda|tercera ronda"
     r"|partidos? de (ida|vuelta|desempate)|promoci[oó]n)")
 
+# LA PATA NO ES LA RONDA. `Partidos de ida` y `Partido de vuelta` dicen cual de los
+# dos partidos de la serie es, y la ronda la dice otro rotulo: el encabezado de
+# arriba en la misma tabla (`Semifinales`, en el reducido de la Primera B 2011-12)
+# o el titulo de la seccion (`=== Segunda fase ===`, en el Federal A). El
+# encabezado de la pata pisaba a los dos: 368 filas de 11 paginas salian con la
+# pata en el `matchday`, y las dos patas de cada serie con dos rotulos distintos.
+#
+# No era solo un rotulo feo. `validar.serie_igualada` arma la serie por la ronda,
+# y con la ida y la vuelta rotuladas distinto veia 1 de las 47 series igualadas de
+# esas paginas: de las 22 tandas que publica la tabla del global (ver
+# `colgar_tandas`), las 10 de una vuelta que no empato salian graves. Y
+# `cadena_de_llaves` no podia separar las tres fases del Federal A 2014, que
+# rotulaban igual. La pata queda en la fecha: en las 178 series con las dos patas,
+# la ida es la primera.
+_ES_PATA = re.compile(r"(?i)^partidos? de (ida|vuelta)$")
+
 
 def _zonas_ambiguas(texto: str) -> frozenset[str]:
     """Rotulos de zona que la pagina reusa en MAS DE UNA fase.
@@ -1794,6 +1810,168 @@ def partidos_de_llave(bloque: str, anio: int, torneo: str,
     return salida
 
 
+# --------------------------------------------------------------------------
+# la tanda de una serie, en la tabla del global
+# --------------------------------------------------------------------------
+# Las fases a doble partido del Federal A publican cada serie DOS veces: en
+# `Enfrentamientos`, un renglon por serie con el global -- `Llave | Equipo 1 |
+# Global | Equipo 2` --, y en `Resultados`, un renglon por partido. La tanda vive
+# SOLO en la primera, pegada al global (`{{small|(4)}} 2 - 2 {{small|(3)}}`), y la
+# fila de la vuelta trae nada mas que los noventa minutos. Sin leerla, la serie
+# queda en el CSV como si no se hubiera definido: son las 22 tandas del Federal A
+# de 2014 a 2018-19, y RSSSF da las 13 que publica con el mismo numero.
+#
+# Se reconoce por el encabezado y no por el titulo de la seccion: las dos columnas
+# de club rotuladas `Equipo 1` y `Equipo 2`, y `Global` en el medio. MEDIDO SOBRE
+# LAS 309 PAGINAS DE LA CACHE: son 47 tablas en 10 paginas, todas del catalogo -- el
+# Federal A de 2014 a 2018-19 y de 2024 a 2026, y el Argentino A 2013-14 --, y traen
+# tandas solo las de 2014, 2016-17, 2017-18 y 2018-19. Diez de las 47, las cinco del
+# Federal A 2025 y las cinco del 2026, no cierran con `|}` sino con la plantilla de
+# la leyenda, y salen porque `_tablas` la cuenta como cierre: las de 2025 no tienen
+# tandas porque esas series las desempataba la ventaja deportiva, y en 2026 pasa lo
+# mismo de la Segunda a la Quinta etapa --el 22/10/2026 la Segunda ya tenia sus 12
+# globales, cuatro empatados y sin tanda-- y la pagina dice que solo la Sexta se
+# define por penales. Las otras 24 tablas con una columna
+# `Global` son de otro tipo: 13 de la fase regional de la Copa Argentina, que rotulan
+# `Local en la ida | Global | Local en la vuelta` y cuyas patas no entran al dataset;
+# 9 del Argentino A de 2010 a 2013, que lee `partidos_de_llave` con la tanda en la
+# celda de la pata, y 2 de una pagina que no esta en el catalogo.
+_COLUMNAS_DE_SERIE = frozenset({"equipo 1", "global", "equipo 2"})
+
+
+@dataclass(frozen=True)
+class Tanda:
+    """La tanda de una serie como la publica la tabla del global: los dos clubes en
+    el orden de las columnas, el global y los penales en ese mismo orden, y la
+    seccion de nivel 2 que contiene a la tabla, que es la `llave` de sus partidos."""
+    equipo1: str
+    equipo2: str
+    global1: int
+    global2: int
+    penales1: int
+    penales2: int
+    llave: str = ""
+    art1: str = field(default="", repr=False)
+    art2: str = field(default="", repr=False)
+
+
+def _columnas_en_orden(tabla: str) -> list[str]:
+    """Los nombres de columna del encabezado, en minuscula y en el orden de la tabla."""
+    columnas = []
+    for linea in re.findall(r"^!(.+)$", tabla, re.M):
+        for celda in linea.split("!!"):
+            columnas.append(_celda(celda.lstrip("!"))[1].lower())
+    return columnas
+
+
+def tandas_de_las_series(texto: str) -> list[Tanda]:
+    """Las tandas que publica la tabla del global de cada fase a doble partido.
+
+    Solo las filas que TRAEN tanda: la que no la trae no tiene nada que agregar a
+    los partidos de `Resultados`, que ya dicen el marcador de cada pata. La tanda se
+    lee con `_penales`, el mismo lector de la celda del marcador, sobre la celda
+    cruda: `limpiar` se lleva las plantillas y con ellas el dato.
+
+    No le pone la tanda a ningun partido: eso lo hace `colgar_tandas`, que necesita
+    los nombres ya canonicos. La tabla del global escribe el nombre largo y la
+    grilla el corto -- `Defensores de Belgrano (Villa Ramallo)` contra `Defensores de
+    Belgrano (VR)`, `Juventud Unida Universitario` contra `Juventud U. U.` --, asi
+    que comparadas como cadena no se encuentran nunca.
+    """
+    arts = articulos_de_la_pagina(texto)
+    fuera: list[Tanda] = []
+    for pos, tabla in _tablas(texto):
+        cols = _columnas_en_orden(tabla)
+        if not _COLUMNAS_DE_SERIE <= set(cols):
+            continue
+        i1, ig, i2 = cols.index("equipo 1"), cols.index("global"), cols.index("equipo 2")
+        llave = _contexto(pos, 3, texto)
+        for fila in _CORTE_DE_FILA.split(tabla)[1:]:
+            if fila.lstrip().startswith("!"):
+                continue
+            celdas = _partir(fila)
+            if len(celdas) <= max(i1, ig, i2):
+                continue
+            pen = _penales(celdas[ig])
+            glob = _marcador(_celda(celdas[ig])[1])
+            e1, e2 = _celda(celdas[i1])[1], _celda(celdas[i2])[1]
+            if not pen or not glob or not e1 or not e2:
+                continue
+            fuera.append(Tanda(e1, e2, glob[0], glob[1], pen[0], pen[1], llave,
+                               arts.get(e1, ""), arts.get(e2, "")))
+    return fuera
+
+
+def colgar_tandas(ps: list[Partido], tandas: list[Tanda]) -> list[str]:
+    """Le pone a la VUELTA de cada serie la tanda que publica la tabla del global.
+
+    Va en la vuelta porque ahi se pateo, y es donde la cuelgan las plantillas de
+    Wikipedia y el lector de RSSSF: el dataset guarda los penales por partido. Los
+    numeros se dan vuelta si el local de la vuelta es el `Equipo 2` de la tabla.
+
+    LA SERIE SE PIDE ESTRECHA, y cada condicion que falta es un aviso y una tanda
+    que no se escribe: exactamente dos partidos de eliminacion entre esos dos clubes
+    en la llave de la tabla, en dos dias distintos, cuya suma es el global que la
+    tabla publica y que esta igualado. La ida y la vuelta salen de la FECHA, no del
+    rotulo: las dos patas llevan la misma ronda en `jornada` (ver `_ES_PATA`).
+
+    Y LA ULTIMA PALABRA LA TIENE `validar.serie_igualada`, la misma que audita la
+    tanda despues, como en `rsssf._resolver_tandas`: si este lector y el chequeo
+    opinaran distinto sobre la misma fila, el build la escribiria para frenarse
+    acto seguido. Una vuelta que quedo empatada no la necesita -- la tanda se
+    explica sola --; una que no, si, y la reconoce porque las dos patas comparten
+    la ronda. Si no la compartieran -- una tabla que rotula solo la pata y no tiene
+    ninguna ronda arriba --, la tanda queda afuera con su aviso. En la cache no hay
+    ninguna asi: entran las 22, y 10 son de una vuelta que no empato.
+
+    Corre con los nombres ya canonicos y con las fechas ya puestas por todos los
+    completadores: ver `build.procesar`.
+    """
+    from fad import validar
+
+    avisos: list[str] = []
+    for t in tandas:
+        a, b = equipos.canonizar(t.equipo1, t.art1), equipos.canonizar(t.equipo2, t.art2)
+        cruce = f"{a} {t.global1}-{t.global2} {b} (pen {t.penales1}-{t.penales2})"
+        serie = [p for p in ps if p.fase == "eliminacion" and p.llave == t.llave
+                 and {p.local, p.visita} == {a, b}]
+        if len(serie) != 2:
+            avisos.append(f"{cruce}: la tabla del global publica la tanda y la grilla "
+                          f"tiene {len(serie)} partidos entre los dos en `{t.llave}`, "
+                          f"no 2; queda afuera")
+            continue
+        ida, vuelta = sorted(serie, key=lambda p: p.fecha)
+        if not ida.fecha or ida.fecha == vuelta.fecha:
+            avisos.append(f"{cruce}: las dos patas no tienen dos dias distintos y no se "
+                          f"sabe cual es la vuelta; queda afuera")
+            continue
+        suma = tuple(sum(p.goles_local if p.local == c else p.goles_visita for p in serie)
+                     for c in (a, b))
+        if suma != (t.global1, t.global2):
+            avisos.append(f"{cruce}: las dos patas de la grilla suman {suma[0]}-{suma[1]}, "
+                          f"no el global de la tabla; queda afuera")
+            continue
+        if t.global1 != t.global2:
+            avisos.append(f"{cruce}: el global no quedo igualado, asi que la tanda no "
+                          f"tiene donde vivir; queda afuera")
+            continue
+        pl, pv = ((t.penales1, t.penales2) if vuelta.local == a
+                  else (t.penales2, t.penales1))
+        if vuelta.penales_local is not None:
+            if (vuelta.penales_local, vuelta.penales_visita) != (pl, pv):
+                avisos.append(f"{cruce}: la vuelta ya trae la tanda "
+                              f"{vuelta.penales_local}-{vuelta.penales_visita}; no se toca")
+            continue
+        if vuelta.goles_local != vuelta.goles_visita and not validar.serie_igualada(vuelta, ps):
+            avisos.append(f"{cruce}: la vuelta {vuelta.local} {vuelta.goles_local}-"
+                          f"{vuelta.goles_visita} {vuelta.visita} no empato y "
+                          f"`serie_igualada` no reconoce a las dos patas como una serie "
+                          f"({ida.jornada!r} y {vuelta.jornada!r}); queda afuera")
+            continue
+        vuelta.penales_local, vuelta.penales_visita = pl, pv
+    return avisos
+
+
 # Una hora VALIDA con algo pegado atras. Es el canal que lo transmitio -- la Primera
 # B, la C y el Argentino A de 2009 a 2012 escriben `15:30 [[TyC Sports|(TV)]]`, que
 # `limpiar` deja en `15:30 (TV)` -- o un parentesis suelto, `18:00 )`, que dejo una
@@ -1816,7 +1994,8 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
                       arts: dict[str, str] | None = None,
                       fuera_de_la_liga: bool = False,
                       ambiguas: frozenset[str] = frozenset(),
-                      notas: dict[str, str] | None = None) -> list[Partido]:
+                      notas: dict[str, str] | None = None,
+                      ronda_de_la_seccion: str = "") -> list[Partido]:
     """`fuera_de_la_liga` marca las tablas que NO cuelgan de un "Resultados".
 
     Ahi no hay fechas del calendario: son reducidos, promociones, finales y
@@ -1825,6 +2004,9 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
     de irlas agregando a una lista se decide por el lugar: si la tabla esta
     afuera de la seccion de resultados, su encabezado es una ronda y el partido
     es de eliminacion.
+
+    `ronda_de_la_seccion` es la que se le pone a un encabezado que nombra solo la
+    pata, si arriba en el bloque no hay otro que nombre la ronda: ver `_ES_PATA`.
     """
     partidos: list[Partido] = []
     pendientes: dict[str, list] = {}        # columna -> [valor, filas restantes]
@@ -1832,6 +2014,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
     # titulo de la seccion que contiene a esta tabla, que es como lo hace el
     # ascenso. Si aparece un encabezado, pisa al de la seccion.
     jornada, zona, ronda = "", zona_defecto, ""
+    ronda_dicha = ""        # la ultima ronda que nombro un encabezado o un titulo
     sin_local = False       # hasta que un encabezado diga "Equipo 1"
     if fuera_de_la_liga:
         # Sin encabezado propio, la ronda es el titulo de la seccion. Se prefiere
@@ -1871,8 +2054,13 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             pendientes.clear()      # un rowspan no cruza de una seccion a otra
             if re.match(r"(?i)fecha\s*\d+", cab) and not fuera_de_la_liga:
                 jornada, ronda = cab, ""
+            elif _ES_PATA.match(cab):
+                # La pata se lleva la ronda de arriba: la del encabezado o el
+                # titulo anterior, o la de la seccion. Solo si no hay ninguna queda
+                # la pata, que es lo que se hacia antes.
+                jornada = ronda = ronda_dicha or ronda_de_la_seccion or cab
             elif fuera_de_la_liga or _ES_RONDA.match(cab):
-                jornada, ronda = cab, cab
+                jornada = ronda = ronda_dicha = cab
             else:
                 z = _seccion(cab)
                 # Si la pagina usa ese mismo rotulo en otra fase, no alcanza con
@@ -1907,8 +2095,17 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             # del titulo de la B Nacional 2017-18 como fase de zonas: un partido
             # de mas para Aldosivi y Almagro, que la tabla no les contaba.
             nombre = limpiar(titulo.group(0).strip("=" + chr(32) + chr(10)))
+            ronda_dicha = ""
             if _ES_RONDA.match(nombre):
                 jornada = ronda = nombre
+                # Y si nombra la RONDA y no solo la pata, vale tambien para la
+                # tabla de abajo cuando esa rotula solo la pata: dos rondas como
+                # titulos ADENTRO del `Resultados` (`===== Cuartos de final =====`
+                # y `===== Semifinales =====`, cada una con su `Partidos de ida`)
+                # salian las dos con la ronda de la seccion de afuera. En la cache
+                # no hay ninguna pagina asi: no cambia ninguna fila.
+                if not _ES_PATA.match(nombre):
+                    ronda_dicha = nombre
 
         celdas = _partir(fila)
         if len(celdas) < 3:
@@ -2282,6 +2479,11 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
 RONDAS = ("Preclasificatorio", "Ronda previa",
           "Primera fase", "Segunda fase", "Tercera fase", "Cuarta fase",
           "Quinta fase",
+          # La sexta y la septima son las del Argentino A 2013-14 y el Federal A
+          # 2015, y las de la Revalida del Federal A desde 2016-17 (que dice
+          # `etapa`; ver `validar._SINONIMOS`). No hacian falta mientras esas
+          # paginas salian con la pata en el `matchday` en vez de la ronda.
+          "Sexta fase", "Séptima fase",
           # Van ANTES de los treintaidosavos aunque se llamen "final", y no es
           # un error de tipeo: la Copa Argentina 2013-14 tiene una fase
           # preliminar regional y despues la "Fase final", cuyas dos primeras
@@ -2642,6 +2844,36 @@ def _contexto(pos: int, nivel: int, texto: str) -> str:
     return ctx
 
 
+# Los titulos que rotulan lo que trae la seccion y no una parte del torneo. El
+# Federal A 2024 cuelga los resultados de `==== Enfrentamientos ====`, y la ronda
+# es el titulo de arriba, `=== Segunda etapa ===`.
+_TITULO_DE_CONTENIDO = re.compile(r"(?i)^(resultados|enfrentamientos?)$")
+
+
+def _ronda_de_la_seccion(pos: int, texto: str) -> str:
+    """El titulo mas cercano que CONTIENE a `pos` y nombra una parte del torneo.
+
+    Lo que le hace falta a un encabezado que nombra solo la pata: ver `_ES_PATA`.
+    Si en `pos` empieza un titulo, se miran los de nivel mas alto que el; si no,
+    todos los de arriba. Se saltean los de relleno (`Resultados`, `Enfrentamientos`,
+    `Partidos de ida`) y los que no son del torneo (`Goleadores`), y no se pasa por
+    `_como_zona`: `Octavos de final` es justo lo que hace falta y esa funcion lo
+    vacia, porque como ZONA no sirve.
+    """
+    aca = _TITULO.match(texto, pos)
+    nivel = len(aca.group(1)) if aca else 99
+    ruta: list[tuple[int, str]] = []
+    for m in _TITULO.finditer(texto, 0, pos):
+        n = len(m.group(1))
+        if n < nivel:
+            ruta = [x for x in ruta if x[0] < n] + [(n, _seccion(limpiar(m.group(2))))]
+    for _, titulo in reversed(ruta):
+        if not (_TITULO_DE_CONTENIDO.match(titulo) or _TITULO_DE_RELLENO.match(titulo)
+                or titulo.lower() in _NO_SON_FASE):
+            return titulo
+    return ""
+
+
 # Una tabla se declara a si misma. Estas tres columnas juntas no aparecen en una
 # tabla de posiciones, ni en una de promedios, ni en una lista de goleadores.
 _COLUMNAS_DE_PARTIDO = ({"local", "resultado", "visitante"},
@@ -2660,6 +2892,10 @@ _ENCABEZADO_SIN_LOCAL = re.compile(r"(?i)\bequipos?\s*1\b")
 _ENCABEZADO_CON_LOCAL = re.compile(r"(?i)\blocal\b")
 
 _ABRE_TABLA = re.compile(r"\{\|")
+# La plantilla que cierra una tabla con la leyenda de colores abajo,
+# `{{Tabla de posiciones fin|color1=...}}`, en vez del `|}`. Es el mismo cierre que
+# ya acepta `posiciones._WIKITABLA`.
+_CIERRE_CON_LEYENDA = re.compile(r"\{\{\s*Tabla de posiciones fin\b", re.I)
 
 
 def _tablas(texto: str):
@@ -2678,6 +2914,16 @@ def _tablas(texto: str):
     ninguna pagina depende de eso para que un partido entre. Va escrito porque
     la primera version de este comentario decia que sin balance "se pierde la
     mitad de los partidos", y al medirlo resulto que no.
+
+    CIERRA TAMBIEN EN `{{Tabla de posiciones fin}}`, la plantilla de la leyenda,
+    que hace de `|}`. Sin contarla, una tabla que termina asi no cierra nunca y no
+    sale: le pasaba a la tabla del global del Federal A 2025 y del 2026 (ver
+    `tandas_de_las_series`). El cuerpo termina ANTES de la plantilla, como en
+    `posiciones._WIKITABLA`: adentro, sus parametros quedarian pegados a la ultima
+    celda. MEDIDO SOBRE LAS 309 PAGINAS DE LA CACHE: salen 124 tablas mas, en 46
+    paginas, y ninguna que ya salia cambia de largo. Son 10 de series y 114 de
+    posiciones, promedios y ordenamiento, que ningun lector de partidos acepta: no
+    cambia ninguna fila ni ningun aviso.
     """
     for m in _ABRE_TABLA.finditer(texto):
         i, hondo = m.end(), 1
@@ -2686,6 +2932,9 @@ def _tablas(texto: str):
                 hondo, i = hondo + 1, i + 2
             elif texto.startswith("|}", i):
                 hondo, i = hondo - 1, i + 2
+            elif cierre := _CIERRE_CON_LEYENDA.match(texto, i):
+                hondo -= 1
+                i = cierre.start() if not hondo else cierre.end()
             else:
                 i += 1
         if hondo == 0:
@@ -2771,7 +3020,8 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
                                        fuera_de_la_liga=(bool(_ES_RONDA.match(titulo))
                                                          and not _rotula_fechas(cuerpo))
                                                         or bool(_LLAVE_ELIMINATORIA.search(fase)),
-                                       ambiguas=ambiguas)
+                                       ambiguas=ambiguas,
+                                       ronda_de_la_seccion=_ronda_de_la_seccion(ini, texto))
 
     # Las tablas de partidos que NO cuelgan de un "Resultados". Los reducidos,
     # las promociones y las finales de ascenso viven bajo titulos propios --
@@ -2850,7 +3100,8 @@ def partidos(texto: str, anio: int, torneo: str, formato: str = "liga",
                                    llave=llave, arts=arts, notas=notas,
                                    zona_defecto=("" if fuera_de_la_liga else
                                                  _como_zona(_contexto(pos, 4, texto))),
-                                   fuera_de_la_liga=fuera_de_la_liga):
+                                   fuera_de_la_liga=fuera_de_la_liga,
+                                   ronda_de_la_seccion=_ronda_de_la_seccion(pos, texto)):
             k = (p.fecha, p.local, p.visita, p.goles_local, p.goles_visita)
             if k in ya:
                 continue

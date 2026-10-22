@@ -3292,6 +3292,184 @@ MUTANTES = [
      r'                      re.compile(rf"</{m.group(1)}\s*>", re.I).search(texto, m.end()))',
      r'                      re.compile(rf"</{m.group(1)}>", re.I).search(texto, m.end()))'),
 
+    ("fad/parser.py", "que la pata pise la ronda",
+     "                jornada = ronda = ronda_dicha or ronda_de_la_seccion or cab",
+     "                jornada = ronda = cab"),
+
+    ("fad/parser.py", "que la pata no mire el encabezado de arriba",
+     "                jornada = ronda = ronda_dicha or ronda_de_la_seccion or cab",
+     "                jornada = ronda = ronda_de_la_seccion or cab"),
+
+    ("fad/parser.py", "que un titulo no corte la ronda del encabezado",
+     '            ronda_dicha = ""' + chr(10) + "            if _ES_RONDA.match(nombre):",
+     "            if _ES_RONDA.match(nombre):"),
+
+    ("fad/parser.py", "tomar por ronda un titulo de relleno como `Enfrentamientos`",
+     "        if not (_TITULO_DE_CONTENIDO.match(titulo) or _TITULO_DE_RELLENO.match(titulo)",
+     "        if not (_TITULO_DE_RELLENO.match(titulo)"),
+
+    ("fad/parser.py", "tomar por ronda el titulo de al lado de los resultados",
+     "        if n < nivel:" + chr(10) + "            ruta = [x for x in ruta if x[0] < n]",
+     "        if True:" + chr(10) + "            ruta = [x for x in ruta if x[0] < n]"),
+
+    ("fad/parser.py", "no pasarle la ronda de la seccion a los resultados",
+     "                                       ronda_de_la_seccion=_ronda_de_la_seccion(ini, texto))",
+     '                                       ronda_de_la_seccion="")'),
+
+    ("fad/parser.py", "no pasarle la ronda de la seccion a una tabla suelta",
+     "                                   ronda_de_la_seccion=_ronda_de_la_seccion(pos, texto)):",
+     '                                   ronda_de_la_seccion=""):'),
+
+    ("fad/parser.py", "cortar las rondas en la quinta fase",
+     '          "Sexta fase", "Séptima fase",' + chr(10),
+     ""),
+
+    ("fad/validar.py", "no entender la etapa de la Revalida",
+     '    "segunda etapa": "segunda fase",',
+     ""),
+
+    # La tanda que la pagina publica solo en la tabla del global de cada serie.
+    ("fad/parser.py", "reconocer la tabla del global sin pedir la columna Global",
+     '_COLUMNAS_DE_SERIE = frozenset({"equipo 1", "global", "equipo 2"})',
+     '_COLUMNAS_DE_SERIE = frozenset({"equipo 1", "equipo 2"})'),
+
+    ("fad/parser.py", "leer la tanda de la celda del global ya limpia",
+     "            pen = _penales(celdas[ig])",
+     "            pen = _penales(_celda(celdas[ig])[1])"),
+
+    ("fad/parser.py", "no decir de que llave es la tabla del global",
+     "        llave = _contexto(pos, 3, texto)\n        for fila in _CORTE_DE_FILA.split(tabla)[1:]:",
+     '        llave = ""\n        for fila in _CORTE_DE_FILA.split(tabla)[1:]:'),
+
+    ("fad/parser.py", "comparar los clubes de la tabla del global sin canonizar",
+     "        a, b = equipos.canonizar(t.equipo1, t.art1), equipos.canonizar(t.equipo2, t.art2)",
+     "        a, b = t.equipo1, t.equipo2"),
+
+    ("fad/parser.py", "buscar la serie en cualquier llave de la pagina",
+     '        serie = [p for p in ps if p.fase == "eliminacion" and p.llave == t.llave\n',
+     '        serie = [p for p in ps if p.fase == "eliminacion"\n'),
+
+    ("fad/parser.py", "aceptar una serie de mas de dos partidos",
+     "        if len(serie) != 2:",
+     "        if len(serie) < 2:"),
+
+    ("fad/parser.py", "colgar la tanda de la ida",
+     "        ida, vuelta = sorted(serie, key=lambda p: p.fecha)",
+     "        vuelta, ida = sorted(serie, key=lambda p: p.fecha)"),
+
+    ("fad/parser.py", "aceptar dos patas del mismo dia",
+     "        if not ida.fecha or ida.fecha == vuelta.fecha:",
+     "        if not ida.fecha:"),
+
+    ("fad/parser.py", "no pedir que las patas sumen el global de la tabla",
+     "        if suma != (t.global1, t.global2):",
+     "        if False:"),
+
+    ("fad/parser.py", "colgar la tanda de un global que no quedo igualado",
+     "        if t.global1 != t.global2:",
+     "        if False:"),
+
+    ("fad/parser.py", "no dar vuelta la tanda cuando el local de la vuelta es el Equipo 2",
+     "        pl, pv = ((t.penales1, t.penales2) if vuelta.local == a\n"
+     "                  else (t.penales2, t.penales1))",
+     "        pl, pv = t.penales1, t.penales2"),
+
+    ("fad/parser.py", "pisar la tanda que la vuelta ya trae",
+     "        if vuelta.penales_local is not None:\n"
+     "            if (vuelta.penales_local, vuelta.penales_visita) != (pl, pv):",
+     "        if False:\n"
+     "            if (vuelta.penales_local, vuelta.penales_visita) != (pl, pv):"),
+
+    ("fad/parser.py", "colgar la tanda sin preguntarle a serie_igualada",
+     "        if vuelta.goles_local != vuelta.goles_visita and not validar.serie_igualada(vuelta, ps):",
+     "        if False:"),
+
+    ("fad/parser.py", "pedirle a serie_igualada tambien la vuelta que empato",
+     "        if vuelta.goles_local != vuelta.goles_visita and not validar.serie_igualada(vuelta, ps):",
+     "        if not validar.serie_igualada(vuelta, ps):"),
+
+    ("build.py", "no colgar las tandas de la tabla del global",
+     "               for d in parser.colgar_tandas(ps, parser.tandas_de_las_series(texto))]",
+     "               for d in []]"),
+
+    ("build.py", "hacer grave la tanda de la tabla del global que queda afuera",
+     'validar.Aviso(f"{t.pagina}: una tanda de la tabla del global", d, grave=False)',
+     'validar.Aviso(f"{t.pagina}: una tanda de la tabla del global", d)'),
+
+    # Las ramas de la ronda de la pata que tienen casos en la cache y que la suite
+    # dejaba pasar, y las que no los tienen y se fijan igual.
+    ("fad/parser.py", "que la ronda de la seccion no saque de la ruta a los hermanos",
+     "            ruta = [x for x in ruta if x[0] < n] + [(n, _seccion(limpiar(m.group(2))))]",
+     "            ruta = ruta + [(n, _seccion(limpiar(m.group(2))))]"),
+
+    ("fad/parser.py", "tomar por ronda el `Enfrentamiento` en singular",
+     '_TITULO_DE_CONTENIDO = re.compile(r"(?i)^(resultados|enfrentamientos?)$")',
+     '_TITULO_DE_CONTENIDO = re.compile(r"(?i)^(resultados|enfrentamientos)$")'),
+
+    ("fad/parser.py", "tomar por ronda un titulo que solo dice `Partidos`",
+     "        if not (_TITULO_DE_CONTENIDO.match(titulo) or _TITULO_DE_RELLENO.match(titulo)",
+     "        if not (_TITULO_DE_CONTENIDO.match(titulo)"),
+
+    ("fad/parser.py", "tomar por pata un encabezado que dice algo mas que la pata",
+     '_ES_PATA = re.compile(r"(?i)^partidos? de (ida|vuelta)$")',
+     '_ES_PATA = re.compile(r"(?i)^partidos? de (ida|vuelta)")'),
+
+    ("fad/parser.py", "que un titulo de ronda no le deje la ronda a la pata de abajo",
+     "                if not _ES_PATA.match(nombre):\n                    ronda_dicha = nombre",
+     "                if False:\n                    ronda_dicha = nombre"),
+
+    ("fad/parser.py", "que un titulo que nombra solo la pata quede como la ronda",
+     "                if not _ES_PATA.match(nombre):\n                    ronda_dicha = nombre",
+     "                if True:\n                    ronda_dicha = nombre"),
+
+    ("fad/validar.py", "no entender la tercera etapa de la Revalida",
+     '    "tercera etapa": "tercera fase",',
+     ""),
+
+    ("fad/validar.py", "no entender la cuarta etapa de la Revalida",
+     '    "cuarta etapa": "cuarta fase",',
+     ""),
+
+    ("fad/validar.py", "no entender la quinta etapa de la Revalida",
+     '    "quinta etapa": "quinta fase",',
+     ""),
+
+    ("fad/validar.py", "no entender la sexta etapa de la Revalida",
+     '    "sexta etapa": "sexta fase",',
+     ""),
+
+    ("fad/validar.py", "no entender la septima etapa de la Revalida",
+     '    "séptima etapa": "séptima fase",',
+     ""),
+
+    ("fad/parser.py", "no cerrar una tabla en la plantilla de la leyenda",
+     "            elif cierre := _CIERRE_CON_LEYENDA.match(texto, i):",
+     "            elif False:"),
+
+    ("fad/parser.py", "dejar la plantilla de la leyenda adentro del cuerpo de la tabla",
+     "                i = cierre.start() if not hondo else cierre.end()",
+     "                i = cierre.end()"),
+
+    ("fad/parser.py", "leer la tanda de una fila de la tabla del global sin global",
+     "            if not pen or not glob or not e1 or not e2:",
+     "            if not pen or not e1 or not e2:"),
+
+    ("fad/parser.py", "leer la tanda de una fila de la tabla del global sin el Equipo 1",
+     "            if not pen or not glob or not e1 or not e2:",
+     "            if not pen or not glob or not e2:"),
+
+    ("fad/parser.py", "leer la tanda de una fila de la tabla del global sin el Equipo 2",
+     "            if not pen or not glob or not e1 or not e2:",
+     "            if not pen or not glob or not e1:"),
+
+    ("fad/parser.py", "colgar la tanda aunque una de las patas no tenga fecha",
+     "        if not ida.fecha or ida.fecha == vuelta.fecha:",
+     "        if ida.fecha == vuelta.fecha:"),
+
+    ("fad/parser.py", "contar como pata de la serie un partido de zonas entre los dos",
+     '        serie = [p for p in ps if p.fase == "eliminacion" and p.llave == t.llave\n',
+     '        serie = [p for p in ps if p.llave == t.llave\n'),
+
 ]
 
 

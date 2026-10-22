@@ -1953,7 +1953,7 @@ MARCADORES: tuple[Marcador, ...] = (
     # mismo, leido en una fuente de la epoca que no depende de Wikipedia.
     Marcador(
         pagina="Torneo Federal A 2014",
-        jornada="Partidos de vuelta", local="Sportivo Patria", visita="Atlético Paraná",
+        jornada="Cuarta fase", local="Sportivo Patria", visita="Atlético Paraná",
         dice=(1, 3), debe=(0, 3),
         status_debe="suspendido",
         porque=(
@@ -2796,7 +2796,7 @@ CANCHAS: tuple[Cancha, ...] = (
     ),
     Cancha(
         pagina="Torneo Federal A 2025",
-        jornada="Partidos de vuelta", local="Sarmiento (LB)", visita="San Martín (SM)",
+        jornada="Segunda etapa", local="Sarmiento (LB)", visita="San Martín (SM)",
         dice="Centenario", debe="Ciudad de La Banda",
         porque=(
             "El Centenario es de Sarmiento de RESISTENCIA. La tabla de participantes "

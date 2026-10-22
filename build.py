@@ -1024,6 +1024,15 @@ def procesar(texto: str, t) -> tuple[list, list]:
             "si la fuente cambio de fecha, sacalos de fad/correcciones.py: "
             + "; ".join(f"{j} {l} vs {v} ({n} contra {o})"
                         for j, l, v, n, o in sobran[:3]), grave=False))
+    # LAS TANDAS QUE LA PAGINA PUBLICA SOLO EN LA TABLA DEL GLOBAL, colgadas de la
+    # vuelta de su serie. Van aca y no en el parser porque piden dos cosas que
+    # recien ahora estan: los nombres canonicos --la tabla escribe el nombre largo
+    # y la grilla el corto-- y la fecha de cada pata, que es lo que dice cual es la
+    # vuelta. Y van ANTES de validar, para que `penales_solo_en_empates` y
+    # `cadena_de_llaves` miren la tanda como miran cualquier otra. Ver
+    # `parser.colgar_tandas`.
+    avisos += [validar.Aviso(f"{t.pagina}: una tanda de la tabla del global", d, grave=False)
+               for d in parser.colgar_tandas(ps, parser.tandas_de_las_series(texto))]
     avisos += validar.revisar(ps, en_curso=not t.cerrado,
                               divididos=correcciones.pares_divididos(t.pagina))
     # La tabla de posiciones de la propia pagina, contra la suma de los partidos.

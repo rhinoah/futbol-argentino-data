@@ -848,6 +848,137 @@ def test_una_fase_de_grupos_del_federal_sigue_siendo_zona():
 
 
 # --------------------------------------------------------------------------
+# la pata no es la ronda
+# --------------------------------------------------------------------------
+def _patas(ida="Partidos de ida", vuelta="Partidos de vuelta", arriba=""):
+    """Una serie en una tabla que rotula la pata: Boca-River a la ida, River-Boca a
+    la vuelta. `arriba` va antes del primer encabezado."""
+    cols = "!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n"
+    return ('{|class="wikitable"\n' + arriba
+            + f"!colspan=6|{ida}\n|-\n{cols}"
+            + "|-\n|Boca Juniors\n|2 - 1\n|River Plate\n|Un Estadio\n|23 de enero\n|20:00\n"
+            + f"|-\n!colspan=6|{vuelta}\n|-\n{cols}"
+            + "|-\n|River Plate\n|1 - 0\n|Boca Juniors\n|Otro Estadio\n|30 de enero\n|20:00\n|}\n")
+
+
+def _rondas_de(texto):
+    return [(p.fase, p.zona, p.jornada) for p in parser.partidos(texto, 2014, "x")]
+
+
+def test_la_pata_se_lleva_la_ronda_del_titulo():
+    """Como lo escribe el Federal A 2014: la fase en el titulo y la pata en el
+    encabezado. El encabezado la pisaba y las tres fases quedaban con los mismos dos
+    rotulos, que `cadena_de_llaves` no podia separar. El titulo de al lado
+    (`Tabla de ordenamiento`) no contiene a los resultados y no cuenta."""
+    texto = ("== Segunda a cuarta fase ==\n=== Segunda fase ===\n"
+             "==== Tabla de ordenamiento ====\nLos dieciseis.\n"
+             "==== Resultados ====\n" + _patas())
+    assert _rondas_de(texto) == [("eliminacion", "", "Segunda fase")] * 2
+
+
+def test_la_pata_saltea_los_titulos_de_relleno():
+    """El Federal A 2024 cuelga los resultados de `Enfrentamientos`, que no nombra
+    nada: la ronda es el titulo de arriba."""
+    texto = ("== Reválida ==\n=== Segunda etapa ===\n==== Enfrentamientos ====\n"
+             "===== Resultados =====\n" + _patas())
+    assert _rondas_de(texto) == [("eliminacion", "", "Segunda etapa")] * 2
+
+
+def test_la_pata_se_lleva_una_ronda_que_no_sirve_de_zona():
+    """`Octavos de final` no es una zona y `_como_zona` lo vacia, pero como ronda es
+    lo que hace falta. Sin el, quedaba la fase entera: `Etapa Eliminatoria`."""
+    texto = ("== Etapa Eliminatoria ==\n=== Octavos de final ===\n"
+             "==== Resultados ====\n" + _patas())
+    assert _rondas_de(texto) == [("eliminacion", "", "Octavos de final")] * 2
+
+
+def test_la_pata_se_lleva_la_ronda_del_encabezado_de_arriba():
+    """El reducido de la Primera B 2011-12 no tiene titulo por ronda: pone la ronda
+    en un encabezado y debajo, en la misma tabla, la pata."""
+    texto = "== Torneo reducido ==\n" + _patas(arriba="!colspan=6|Semifinales\n|-\n")
+    assert _rondas_de(texto) == [("eliminacion", "", "Semifinales")] * 2
+
+
+def test_la_pata_de_una_tabla_suelta_se_lleva_su_titulo():
+    """La sexta fase del Argentino A 2013-14 no tiene `Resultados`: la tabla cuelga
+    del titulo de la fase, y la lee el camino de las tablas sueltas."""
+    texto = ("== Tercera a sexta fase ==\n=== Sexta fase ===\n"
+             + _patas("Partido de ida", "Partido de vuelta"))
+    assert _rondas_de(texto) == [("eliminacion", "", "Sexta fase")] * 2
+
+
+def test_un_titulo_corta_la_ronda_del_encabezado():
+    """Lo que dijo un encabezado vale hasta el proximo titulo, igual que la jornada:
+    la pata que viene despues de `Revancha` es de la `Final`, no del `Desempate`."""
+    cols = "!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n"
+    texto = ("== Final ==\n==== Resultados ====\n"
+             '{|class="wikitable"\n!colspan=6|Desempate\n|-\n' + cols
+             + "|-\n|Racing Club\n|1 - 0\n|Huracán\n|Cancha\n|16 de enero\n|20:00\n|}\n"
+             + "===== Revancha =====\n" + _patas())
+    rondas = {p.local: p.jornada for p in parser.partidos(texto, 2014, "x")}
+    assert rondas == {"Racing Club": "Desempate", "Boca Juniors": "Final",
+                      "River Plate": "Final"}
+
+
+def test_la_pata_no_se_lleva_el_titulo_hermano():
+    """Como lo escribe el Federal A 2024: `Tabla de ordenamiento` y `Enfrentamientos`
+    son hermanos y los resultados cuelgan del segundo, un nivel mas abajo. El
+    hermano de al lado no contiene a los resultados: sin sacarlo de la ruta, las 62
+    filas de la Revalida de 2024 y 2025 salian `Tabla de ordenamiento`."""
+    texto = ("== Reválida ==\n=== Segunda etapa ===\n==== Tabla de ordenamiento ====\n"
+             "Los dieciseis.\n==== Enfrentamientos ====\nLas llaves.\n"
+             "===== Resultados =====\n" + _patas())
+    assert _rondas_de(texto) == [("eliminacion", "", "Segunda etapa")] * 2
+
+
+def test_la_final_saltea_el_enfrentamiento_en_singular():
+    """La ultima etapa de la Revalida es una serie sola, y su titulo de relleno va en
+    singular: `==== Enfrentamiento ====`. Asi las finales del Federal A 2024 y 2025."""
+    texto = ("== Reválida ==\n=== Sexta etapa ===\n==== Tabla de ordenamiento ====\n"
+             "Los dos.\n==== Enfrentamiento ====\nLa llave.\n===== Resultados =====\n"
+             + _patas("Partido de ida", "Partido de vuelta"))
+    assert _rondas_de(texto) == [("eliminacion", "", "Sexta etapa")] * 2
+
+
+def test_la_pata_saltea_un_titulo_que_solo_dice_partidos():
+    """`=== Partidos ===` es relleno igual que `Resultados`: la tabla suelta de una
+    final colgada de ahi es de la `Final`, no de los `Partidos`."""
+    texto = ("== Final ==\n=== Partidos ===\n"
+             + _patas("Partido de ida", "Partido de vuelta"))
+    assert _rondas_de(texto) == [("eliminacion", "", "Final")] * 2
+
+
+def test_un_encabezado_que_dice_mas_que_la_pata_no_se_pisa():
+    """Solo la pata a secas se cambia por la ronda. `Partido de ida de la final` ya
+    dice la ronda, y la seccion de arriba (`Torneo reducido`) dice menos: queda como
+    lo escribe la pagina."""
+    texto = "== Torneo reducido ==\n" + _patas("Partido de ida de la final",
+                                               "Partido de vuelta de la final")
+    assert [j for _, _, j in _rondas_de(texto)] == [
+        "Partido de ida de la final", "Partido de vuelta de la final"]
+
+
+def test_un_titulo_de_ronda_adentro_de_los_resultados_vale_para_su_pata():
+    """Dos rondas como titulos ADENTRO del `Resultados`, cada una con su tabla que
+    rotula solo la pata. Cada pata es de la ronda de su titulo, no de la seccion de
+    afuera: con la ronda del titulo sin recordar, las cuatro salian `Fase final`."""
+    texto = ("== Fase final ==\n==== Resultados ====\n===== Cuartos de final =====\n"
+             + _patas() + "===== Semifinales =====\n"
+             + _patas().replace("Boca Juniors", "Racing Club").replace("River Plate", "Huracán"))
+    rondas = {p.local: p.jornada for p in parser.partidos(texto, 2014, "x")}
+    assert rondas == {"Boca Juniors": "Cuartos de final", "River Plate": "Cuartos de final",
+                      "Racing Club": "Semifinales", "Huracán": "Semifinales"}
+
+
+def test_un_titulo_que_nombra_solo_la_pata_no_es_la_ronda():
+    """Un titulo `Partidos de ida` no le deja la pata como ronda a la tabla de abajo:
+    la tabla que repite la pata en su encabezado se lleva la de la seccion."""
+    texto = ("== Final ==\n==== Resultados ====\n===== Partidos de ida =====\n"
+             + _patas())
+    assert _rondas_de(texto) == [("eliminacion", "", "Final")] * 2
+
+
+# --------------------------------------------------------------------------
 # tablas que no cuelgan de un "Resultados"
 # --------------------------------------------------------------------------
 def test_una_tabla_fuera_de_resultados_se_lee():
@@ -1750,6 +1881,218 @@ def test_la_tanda_sobrevive_a_un_rowspan():
     assert [p.local for p in ps] == ["San Martín (T)", "San Martín (T)"], "el rowspan se rompio"
     assert (ps[0].penales_local, ps[0].penales_visita) == (None, None)
     assert (ps[1].penales_local, ps[1].penales_visita) == (3, 4)
+
+
+# --------------------------------------------------------------------------
+# la tanda de una serie, en la tabla del global
+# --------------------------------------------------------------------------
+# La tercera etapa de la Revalida del Federal A 2016-17, recortada: la primera llave
+# se definio por penales y la tanda esta SOLO aca, pegada al global y adentro de un
+# `{{nowrap}}`; la segunda no tuvo tanda.
+_ENFRENTAMIENTOS = """== Reválida ==
+=== Tercera etapa ===
+==== Enfrentamientos ====
+{| class="wikitable" style="margin: 0 auto; text-align: center;" width="85%"
+|- style="background:#dddddd;"
+|-
+!width=40|Llave
+!width=160|Equipo 1
+!width=30|Global
+!width=160|Equipo 2
+|-align=center
+|'''1
+|bgcolor=#ccffcc|'''Defensores de Belgrano (Villa Ramallo)
+|{{nowrap|{{small|(4)}} 1 - 1 {{small|(3)}}}}
+|Guaraní Antonio Franco
+|-align=center
+|'''2
+|Sportivo Patria
+|2 - 3
+|bgcolor=#ccffcc|'''Gutiérrez SC
+|}
+"""
+
+
+def test_la_tanda_de_la_tabla_del_global_se_lee():
+    """Con los clubes en el orden de las columnas, el global y la tanda en ese mismo
+    orden, y la seccion de nivel 2 como llave. La fila sin tanda no aporta nada."""
+    assert parser.tandas_de_las_series(_ENFRENTAMIENTOS) == [parser.Tanda(
+        "Defensores de Belgrano (Villa Ramallo)", "Guaraní Antonio Franco", 1, 1, 4, 3,
+        "Reválida")]
+
+
+def test_la_tabla_del_global_sin_columna_de_llave():
+    """El Federal A 2014 no numera las llaves: la columna `Global` es la segunda."""
+    texto = """== Segunda a cuarta fase ==
+=== Segunda fase ===
+==== Enfrentamientos ====
+{| class="wikitable" style="text-align: center;" width="70%"
+|- style="background:#dddddd;"
+!width="100"|Equipo 1
+!width="30"|Global
+!width="100"|Equipo 2
+|-align=center
+|bgcolor=#CCFFCC|'''CAI
+|{{small|(4)}} 2 - 2 {{small|(3)}}
+|Juventud Unida Universitario
+|}
+"""
+    assert parser.tandas_de_las_series(texto) == [parser.Tanda(
+        "CAI", "Juventud Unida Universitario", 2, 2, 4, 3, "Segunda a cuarta fase")]
+
+
+@pytest.mark.parametrize("tabla", [
+    # La fase regional de la Copa Argentina: tiene `Global` y tandas, pero las
+    # columnas de club dicen quien fue local en cada pata.
+    """{| class="wikitable"
+!Fecha !! Estadio !! Local en la ida !! !! Global !! !! Local en la vuelta
+|-
+| 10 de febrero || El Fortín || Villa Mitre || 2 || <small>(5)</small> 2 - 2 <small>(4)</small> || 0 || Juventud Unida Universitario
+|}""",
+    # Un desempate a partido unico: `Equipo 1` y `Equipo 2` sin `Global`.
+    """{| class="wikitable"
+!Equipo 1
+!Resultado
+!Equipo 2
+|-
+|Boca Juniors
+|{{small|(4)}} 1 - 1 {{small|(3)}}
+|River Plate
+|}""",
+])
+def test_una_tabla_que_no_es_de_series_no_da_tandas(tabla):
+    assert parser.tandas_de_las_series(tabla) == []
+
+
+def test_la_tabla_del_global_que_cierra_con_la_leyenda():
+    """El Federal A 2025 y el 2026 cierran la tabla del global con la plantilla de la
+    leyenda, `{{Tabla de posiciones fin|...}}`, y no con `|}`. Sin contarla como
+    cierre la tabla no termina nunca y su tanda no se lee. La fila de la tanda va
+    ULTIMA a proposito: la plantilla no se le pega al `Equipo 2`."""
+    texto = _ENFRENTAMIENTOS.replace(
+        "|-align=center\n|'''2\n|Sportivo Patria\n|2 - 3\n|bgcolor=#ccffcc|'''Gutiérrez SC\n", "")
+    texto = texto.replace("|'''1\n", "|'''2\n|Sportivo Patria\n|2 - 3\n"
+                          "|bgcolor=#ccffcc|'''Gutiérrez SC\n|-align=center\n|'''1\n")
+    texto = texto.replace("|}\n", "{{Tabla de posiciones fin\n|color1= #cfc|texto1="
+                          "Clasificados a la [[#Cuarta etapa|Cuarta etapa]].\n}}\n")
+    assert "|}" not in texto
+    assert parser.tandas_de_las_series(texto) == [parser.Tanda(
+        "Defensores de Belgrano (Villa Ramallo)", "Guaraní Antonio Franco", 1, 1, 4, 3,
+        "Reválida")]
+
+
+@pytest.mark.parametrize("fila", [
+    "|Sportivo Patria\n|{{small|(4)}} - {{small|(3)}}\n|Gutiérrez SC",
+    "|\n|{{small|(4)}} 1 - 1 {{small|(3)}}\n|Gutiérrez SC",
+    "|Sportivo Patria\n|{{small|(4)}} 1 - 1 {{small|(3)}}\n|",
+], ids=["sin global", "sin equipo 1", "sin equipo 2"])
+def test_una_fila_a_medio_llenar_no_da_tanda(fila):
+    """Una serie que todavia no se jugo, o que la pagina dejo a medias: la tanda sin el
+    global o sin uno de los dos clubes no se puede colgar de ninguna vuelta."""
+    texto = ("== Reválida ==\n{| class=\"wikitable\"\n!Llave\n!Equipo 1\n!Global\n"
+             "!Equipo 2\n|-\n|'''1\n" + fila + "\n|}\n")
+    assert parser.tandas_de_las_series(texto) == []
+
+
+def _pata(local, visita, gl, gv, fecha, jornada, llave="Reválida", pl=None, pv=None):
+    return parser.Partido(fecha=fecha, local=local, visita=visita, goles_local=gl,
+                          goles_visita=gv, penales_local=pl, penales_visita=pv,
+                          fase="eliminacion", jornada=jornada, llave=llave)
+
+
+DDB, GAF = "Defensores de Belgrano (VR)", "Guaraní Antonio Franco"
+# Como la escribe la tabla del global: el nombre largo, que no es el de la grilla.
+TANDA_DDB = parser.Tanda("Defensores de Belgrano (Villa Ramallo)", GAF, 1, 1, 4, 3, "Reválida")
+
+
+def test_la_tanda_va_a_la_vuelta_y_se_da_vuelta_si_hace_falta():
+    """La vuelta es la del dia mas tarde, no la del rotulo, y su local es el
+    `Equipo 2` de la tabla: los penales se escriben al reves que en la tabla. Con la
+    pata en la jornada y la vuelta empatada, la tanda entra igual: se explica sola."""
+    ida = _pata(DDB, GAF, 1, 1, "2017-05-15", "Partidos de ida")
+    vuelta = _pata(GAF, DDB, 0, 0, "2017-05-20", "Partidos de vuelta")
+    assert parser.colgar_tandas([vuelta, ida], [TANDA_DDB]) == []
+    assert (vuelta.penales_local, vuelta.penales_visita) == (3, 4)
+    assert (ida.penales_local, ida.penales_visita) == (None, None)
+
+
+def test_una_vuelta_que_no_empato_lleva_la_tanda_si_las_patas_son_una_serie():
+    """Defensores de Belgrano 1-0 Guarani Antonio Franco despues de perder la ida
+    1-0: la tanda se pateo al final de una vuelta que no empato."""
+    ida = _pata(GAF, DDB, 1, 0, "2017-05-15", "Tercera etapa")
+    vuelta = _pata(DDB, GAF, 1, 0, "2017-05-20", "Tercera etapa")
+    assert parser.colgar_tandas([ida, vuelta], [TANDA_DDB]) == []
+    assert (vuelta.penales_local, vuelta.penales_visita) == (4, 3)
+
+
+def test_si_la_jornada_no_junta_a_las_patas_la_tanda_espera():
+    """Una tabla que rotula solo la pata y no tiene ninguna ronda arriba deja
+    `Partidos de ida` y `Partidos de vuelta` en la jornada (ver `_ES_PATA`), y con
+    eso `serie_igualada` no ve una serie: escribirla igual frenaria el build con un
+    `penales en un partido que no fue empate`. Queda afuera, y lo dice."""
+    from fad import validar
+
+    ps = [_pata(GAF, DDB, 1, 0, "2017-05-15", "Partidos de ida"),
+          _pata(DDB, GAF, 1, 0, "2017-05-20", "Partidos de vuelta")]
+    avisos = parser.colgar_tandas(ps, [TANDA_DDB])
+    assert len(avisos) == 1 and "serie_igualada" in avisos[0]
+    assert all(p.penales_local is None for p in ps)
+    assert validar.penales_solo_en_empates(ps) == []
+
+
+@pytest.mark.parametrize("ps, tanda, dice", [
+    # las patas suman otro global
+    ([_pata(GAF, DDB, 1, 0, "2017-05-15", "Tercera etapa"),
+      _pata(DDB, GAF, 2, 0, "2017-05-20", "Tercera etapa")], TANDA_DDB, "suman"),
+    # la tabla publica una tanda sobre un global que no empato
+    ([_pata(GAF, DDB, 1, 0, "2017-05-15", "Tercera etapa"),
+      _pata(DDB, GAF, 1, 1, "2017-05-20", "Tercera etapa")],
+     parser.Tanda(DDB, GAF, 1, 2, 4, 3, "Reválida"), "igualado"),
+    # una sola pata en la grilla
+    ([_pata(DDB, GAF, 1, 1, "2017-05-20", "Tercera etapa")], TANDA_DDB, "tiene 1"),
+    # el mismo par tres veces en la llave
+    ([_pata(GAF, DDB, 0, 0, "2017-05-15", "Tercera etapa"),
+      _pata(DDB, GAF, 1, 1, "2017-05-20", "Tercera etapa"),
+      _pata(DDB, GAF, 0, 0, "2017-06-20", "Sexta etapa")], TANDA_DDB, "tiene 3"),
+    # las dos patas el mismo dia
+    ([_pata(GAF, DDB, 0, 0, "2017-05-20", "Tercera etapa"),
+      _pata(DDB, GAF, 1, 1, "2017-05-20", "Tercera etapa")], TANDA_DDB, "dias distintos"),
+    # una pata sin fecha: ordenada por fecha queda primera, y no se sabe si es la ida
+    ([_pata(GAF, DDB, 0, 0, "", "Tercera etapa"),
+      _pata(DDB, GAF, 1, 1, "2017-05-20", "Tercera etapa")], TANDA_DDB, "dias distintos"),
+    # la serie es de otra llave de la pagina
+    ([_pata(GAF, DDB, 0, 0, "2017-05-15", "Tercera etapa", llave="Primera fase"),
+      _pata(DDB, GAF, 1, 1, "2017-05-20", "Tercera etapa", llave="Primera fase")],
+     TANDA_DDB, "tiene 0"),
+])
+def test_una_serie_que_no_cierra_no_se_lleva_la_tanda(ps, tanda, dice):
+    avisos = parser.colgar_tandas(ps, [tanda])
+    assert len(avisos) == 1 and dice in avisos[0]
+    assert all(p.penales_local is None for p in ps)
+
+
+def test_un_partido_de_zonas_entre_los_dos_no_es_una_pata():
+    """La Revalida del Federal A arranca con una etapa de zonas y sigue con las
+    series, todo bajo `== Reválida ==`: dos clubes que se cruzaron en la zona y
+    despues en una serie tienen tres partidos en la misma llave. La serie son los
+    dos de eliminacion."""
+    zona = _pata(DDB, GAF, 2, 0, "2017-03-12", "Fecha 3")
+    zona.fase = "zonas"
+    ida = _pata(DDB, GAF, 1, 1, "2017-05-15", "Tercera etapa")
+    vuelta = _pata(GAF, DDB, 0, 0, "2017-05-20", "Tercera etapa")
+    assert parser.colgar_tandas([zona, ida, vuelta], [TANDA_DDB]) == []
+    assert (vuelta.penales_local, vuelta.penales_visita) == (3, 4)
+    assert zona.penales_local is None and ida.penales_local is None
+
+
+@pytest.mark.parametrize("trae, avisa", [((4, 3), False), ((5, 4), True)])
+def test_la_vuelta_que_ya_trae_su_tanda_no_se_toca(trae, avisa):
+    """Si es la misma no hay nada que decir; si es otra, la pagina se contradice y no
+    hay como saber cual de las dos tablas tiene razon."""
+    vuelta = _pata(DDB, GAF, 1, 1, "2017-05-20", "Tercera etapa", pl=trae[0], pv=trae[1])
+    ps = [_pata(GAF, DDB, 0, 0, "2017-05-15", "Tercera etapa"), vuelta]
+    assert bool(parser.colgar_tandas(ps, [TANDA_DDB])) == avisa
+    assert (vuelta.penales_local, vuelta.penales_visita) == trae
 
 
 # --------------------------------------------------------------------------
