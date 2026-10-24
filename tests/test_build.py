@@ -1006,6 +1006,31 @@ def test_una_fecha_fuera_de_la_temporada_no_entra(monkeypatch):
     assert any("caen fuera" in a.que for a in avisos)
 
 
+def test_se_vacian_todas_las_fechas_fuera_de_la_temporada(monkeypatch):
+    """El aviso dice que se descartan, y se vaciaban las tres primeras: con cuatro,
+    la cuarta seguia con su fecha y su credito. El aviso es grave y el build no
+    escribe nada, asi que no llegaba a ningun dato; lo que no cerraba era el
+    mensaje con lo que se hacia."""
+    from fad import fechas
+    from fad.parser import Partido
+
+    ps = [Partido(local=f"Local {i}", visita=f"Visita {i}", goles_local=1,
+                  goles_visita=0, fase="zonas", jornada="Fecha 1") for i in range(4)]
+
+    def completar(nuestros, *a, **k):
+        for p in nuestros:
+            p.fecha, p.fuente_fecha = "2013-08-09", "la otra fuente"
+        return len(nuestros), []
+
+    monkeypatch.setattr(fechas, "descargar", lambda *a, **k: "")
+    monkeypatch.setattr(fechas, "partidos_de", lambda *a, **k: ["un partido"])
+    monkeypatch.setattr(fechas, "derivar_padron", lambda *a, **k: ({}, []))
+    monkeypatch.setattr(fechas, "completar", completar)
+    avisos = build._completar_fechas(ps, CON_WF)
+    assert [(p.fecha, p.fuente_fecha) for p in ps] == [("", "")] * 4
+    assert any("4 fechas importadas caen fuera" in a.que for a in avisos)
+
+
 def test_una_fecha_del_anio_siguiente_si_entra(monkeypatch):
     """La temporada 2007-08 cruza el calendario: junio de 2008 es de esa
     temporada y tiene que pasar. El rango sale de `anio_fin`, no del anio a secas
@@ -1763,8 +1788,8 @@ def test_el_aviso_se_entera_de_que_la_pagina_TIENE_grilla(monkeypatch):
 
 
 def test_y_de_que_NO_la_tiene_cuando_los_partidos_son_de_RSSSF(monkeypatch):
-    """El mismo cableado del otro lado. Es el unico camino del repo por el que una
-    fila no viene de Wikipedia, y el aviso que le corresponde es el otro: ahi el
+    """El mismo cableado del otro lado. Es el camino por el que un torneo entero no
+    viene de Wikipedia, y el aviso que le corresponde es el otro: ahi el
     respaldo deja un desacuerdo ENTRE FUENTES, que pide una tercera para arbitrar.
 
     La fuente se monkeypatchea vacia a proposito -- lo que se mira es el cableado,
@@ -2117,6 +2142,64 @@ def test_el_build_fecha_las_llaves_de_la_pagina_que_vienen_sin_dia(monkeypatch):
     assert sorted(p.fecha for p in ps) == ["2013-05-22", "2013-05-26"]
 
 
+# EL ANIO DE CIERRE QUE SE LE PASA A RSSSF. Un torneo que arranca en un anio que no
+# es el de su etiqueta y no cruza el calendario: el parser le pone `primer_anio` a
+# todo, y RSSSF tiene que hacer lo mismo con lo que cae antes de `mes_inicio` (el 8
+# de siempre). Se le pasaba `anio_fin or temporada`, que es la ETIQUETA, y un partido
+# de marzo salia 2012 de RSSSF y 2011 de la pagina. Hoy no lo pisa ningun torneo del
+# catalogo: el unico con `anio_inicio` tiene `anio_fin`. Son tres llamadas y van tres.
+_ARRANCA_ANTES = {"anio_inicio": 2011}
+
+
+def test_el_completador_de_rsssf_fecha_con_el_anio_de_la_pagina(monkeypatch):
+    from fad import rsssf
+    from fad.parser import Partido
+
+    documento = "Round 1\n[Mar 2]\nRacing                       3-0 Talleres\n"
+    mapa = {"": {"Racing": "Racing (C)", "Talleres": "Talleres (C)"}}
+    t = Torneo("Anexo:Prueba", "Prueba", 2012, **_ARRANCA_ANTES)
+    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: documento)
+    monkeypatch.setitem(rsssf.FUENTES, "Anexo:Prueba", ("cualquiera", mapa))
+
+    ps = [Partido(local="Racing (C)", visita="Talleres (C)", goles_local=3,
+                  goles_visita=0, fase="zonas", jornada="Fecha 1")]
+    build._completar_fechas_rsssf(ps, t)
+    assert ps[0].fecha == "2011-03-02", "no el anio de la etiqueta"
+
+
+def test_la_rama_sin_grilla_fecha_con_el_anio_de_la_pagina(monkeypatch):
+    from fad import rsssf
+
+    documento = "Round 1\n[Mar 2]\nBoca Juniors            1-0 River Plate\n"
+    t = Torneo("Anexo:Prueba", "Prueba", 2012, cerrado=False, sin_grilla=True,
+               **_ARRANCA_ANTES)
+    monkeypatch.setattr(rsssf, "FUENTES", {t.pagina: ("archivo", {"": {
+        "Boca Juniors": "Boca Juniors", "River Plate": "River Plate"}})})
+    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: documento)
+    ps, _ = build.procesar("", t)
+    assert [p.fecha for p in ps] == ["2011-03-02"], "no el anio de la etiqueta"
+
+
+def test_las_llaves_de_rsssf_fechan_con_el_anio_de_la_pagina(monkeypatch):
+    from fad import rsssf
+
+    documento = ("Zona Unica\n"
+                 "Third Phase Reválida\n"
+                 "First leg [Mar 2]\n"
+                 "Racing                       1-1 Talleres\n"
+                 "Second leg [Mar 6]\n"
+                 "Talleres                     2-0 Racing\n")
+    mapa = {"Zona Unica": {"Racing": "Racing (C)", "Talleres": "Talleres (C)"}}
+    t = Torneo("Anexo:Prueba", "Prueba", 2012, rsssf_llaves=True, **_ARRANCA_ANTES)
+    monkeypatch.setattr(rsssf, "descargar", lambda *a, **k: documento)
+    monkeypatch.setitem(rsssf.FUENTES, "Anexo:Prueba", ("cualquiera", mapa))
+
+    ps, _ = build.procesar(_cuadro(("Racing (C)", "Talleres (C)", 1, 1),
+                                   ("Talleres (C)", "Racing (C)", 2, 0)), t)
+    assert sorted(p.fecha for p in ps) == ["2011-03-02", "2011-03-06"], (
+        "no el anio de la etiqueta")
+
+
 def test_procesar_le_dice_a_los_chequeos_si_el_torneo_esta_en_curso(monkeypatch):
     """EL CABLE. `en_curso` sale de `Torneo.cerrado` y de ningun otro lado, por una
     sola linea. Los tests del validador prueban de `revisar` para adentro: si esa
@@ -2318,6 +2401,25 @@ def test_dos_paginas_que_no_coinciden_avisan_y_no_frenan(monkeypatch, tmp_path, 
     assert sorted(f["time"] for f in build.dataset.leer_carpeta(tmp_path / "data")) == [
         "15:00", "15:30"]
     assert "15:00 / 15:30" in capsys.readouterr().err
+
+
+def test_un_club_en_dias_seguidos_en_dos_paginas_avisa_y_no_frena(monkeypatch, tmp_path,
+                                                                  capsys):
+    """Cada pagina ve uno solo de los dos partidos: River juega el 23 la promocion
+    que publican las dos, y el 24 la Fecha 2 de la C. Lo ve el chequeo de dataset
+    entero, y avisa una vez -- la promocion es UN partido, no dos el mismo dia -- sin
+    frenar la escritura."""
+    fecha_2 = tabla(("Independiente", "River Plate")).replace(
+        "Fecha 1", "Fecha 2").replace("23 de enero", "24 de enero")
+    paginas = {PROMO_B.pagina: _promo("20:00", sin_local=False),
+               PROMO_C.pagina: _promo("20:00", sin_local=False) + fecha_2}
+    _dos_paginas(monkeypatch, tmp_path, paginas)
+    assert build.main([]) == 0
+    assert len(build.dataset.leer_carpeta(tmp_path / "data")) == 3
+    dichos = [ln for ln in capsys.readouterr().err.splitlines() if "juega dos partidos" in ln]
+    assert len(dichos) == 1, dichos
+    assert dichos[0].startswith("  aviso: River Plate juega dos partidos en dias seguidos: "
+                                "2026-01-23 Boca Juniors 2-1 River Plate")
 
 
 # --------------------------------------------------------------------------

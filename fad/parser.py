@@ -1123,6 +1123,16 @@ _ENLACE_DEL_CUADRO = re.compile(r"\[\[\s*([^\]|#]+?)\s*(?:\|([^\]]*))?\]\]")
 # `w/o` es walkover y `p.` es "por penales": marcas, no clubes.
 _NO_ES_CLUB = re.compile(r"(?i)^(w/?o|p\.?|libre|bye)$")
 
+# UN LUGAR RESERVADO, que tampoco es un club: el cuadro de una pagina en curso
+# escribe quien VA a ocupar el lugar cuando se juegue lo anterior. Es un lugar
+# vacio y se lee como vacio. Las formas son las que hay en los cuadros de la cache:
+# "Perdedor Final" (la Primera C 2026, que el build avisaba todos los dias como un
+# nombre que el padron no reconoce), "Perdedor de la final 2.º asc." (dos
+# revisiones de la Primera C 2025) y "Posición 2" a "Posición 9" (seis revisiones
+# de la Primera B 2010-11). "Ganador ..." no aparece y va igual: es la otra mitad
+# del mismo cuadro, y ningun club se llama asi.
+_LUGAR_RESERVADO = re.compile(r"(?i)^(?:ganador|perdedor)\b|^posici[oó]n\s*\d")
+
 # La SIEMBRA que algunas copas escriben pegada al club: `1: Gimnasia y Tiro (S)`.
 # El numero es el orden de la siembra, no parte del nombre, y sin sacarlo esos
 # trece nombres no resuelven contra el padron y el cuadro se queda sin cruzar a
@@ -1304,6 +1314,8 @@ def clubes_del_cuadro(texto: str) -> dict[str, str]:
             if articulo in _ARTICULOS_QUE_NO_SON_CLUB:
                 continue
             if not club or _NO_ES_CLUB.match(club) or re.fullmatch(r"[\d\s.:-]*", club):
+                continue
+            if _LUGAR_RESERVADO.match(club):
                 continue
             fuera[club] = articulo
     return fuera

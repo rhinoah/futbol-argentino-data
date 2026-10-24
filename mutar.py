@@ -14,6 +14,11 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent
 
 # (archivo, descripcion, texto original, texto mutado)
+#
+# EL TEXTO ORIGINAL TIENE QUE ESTAR UNA SOLA VEZ EN SU ARCHIVO. Se muta la primera
+# aparicion, y cuando entra codigo parecido mas arriba el mutante se corre solo a
+# otra funcion que la que dice su descripcion, sin que nada lo note: asi quedaron
+# cuatro renglones sin mutante. Lo exige tests/test_mutar.py.
 MUTANTES = [
     ("fad/parser.py", "no cortar entre tablas (el bug de las fechas corridas)",
      'for fila in re.split(r"\\n\\|-", _cortar_en_tablas(bloque)):',
@@ -133,8 +138,8 @@ MUTANTES = [
      '        if True:'),
 
     ("fad/posiciones.py", 'no cortar el bloque en el proximo encabezado',
-     '        sig = _CUALQUIER_ENCABEZADO.search(texto, m.end())',
-     '        sig = None'),
+     '        sig = _CUALQUIER_ENCABEZADO.search(texto, m.end())\n        yield ',
+     '        sig = None\n        yield '),
 
     ("fad/posiciones.py", 'no cerrar la wikitabla en la plantilla de leyenda',
      r'_WIKITABLA = re.compile(r"\{\|.*?(?=\n\|\}|\{\{\s*Tabla de posiciones fin)", re.S | re.I)',
@@ -149,8 +154,10 @@ MUTANTES = [
      '        enlace = None'),
 
     ("fad/posiciones.py", 'dejar la nota al pie pegada al nombre del club',
-     '            club = parser.limpiar(enlace.group(2) or articulo)',
-     '            club = parser.limpiar(eq.group(1))'),
+     '            club = parser.limpiar(enlace.group(2) or articulo)\n        else:\n'
+     '            # Sin wikilink',
+     '            club = parser.limpiar(eq.group(1))\n        else:\n'
+     '            # Sin wikilink'),
 
     ("fad/posiciones.py", 'no cortar el eq= en un |#color de mas',
      r'    r"(?<![a-zA-Z])eq\s*=\s*(.*?)(?:\|\s*#?\s*(?:color|desc|ref)\s*=|$)", re.S)',
@@ -260,8 +267,12 @@ MUTANTES = [
      "        enlace = _EQ_WIKILINK.search(crudas[nombres[-1]])",
      "        enlace = None"),
 
+    # El renglon de arriba va en el ancla porque `if len(candidatos) != 1:` esta
+    # cuatro veces en el archivo, y solo, este mutante caia en `corregir_fechas`.
     ("fad/correcciones.py", "aplicar un marcador arbitrado que ya no engancha",
+     "                           or (p.penales_local, p.penales_visita) == m.penales_dice)]\n"
      "        if len(candidatos) != 1:",
+     "                           or (p.penales_local, p.penales_visita) == m.penales_dice)]\n"
      "        if False:"),
 
     ("fad/posiciones.py", "buscar la tabla solo por el titulo de la seccion",
@@ -288,8 +299,13 @@ MUTANTES = [
      "                      if p.llave == r.llave and p.jornada == r.jornada",
      "                      if p.jornada == r.jornada"),
 
+    # Con el renglon de arriba, que es el de los `REEMPLAZOS`: el del marcador solo
+    # esta tambien en las `CORRECCIONES`, que estan antes, y este mutante era el
+    # mismo que "corregir sin mirar el marcador".
     ("fad/correcciones.py", "reemplazar sin exigir que el marcador viejo coincida",
+     "                      and p.local == local and p.visita == visita\n"
      "                      and (p.goles_local, p.goles_visita) == (gl, gv)]",
+     "                      and p.local == local and p.visita == visita\n"
      "                      ]"),
 
     ("fad/correcciones.py", "aplicar un reemplazo que engancha con varios partidos",
@@ -474,6 +490,10 @@ MUTANTES = [
      "    fuera = [p for p in ps if p.fuente_fecha and int(p.fecha[:4]) not in validos]",
      "    fuera = []"),
 
+    ("build.py", "vaciar solo las tres primeras fechas fuera de la temporada",
+     "    for p in fuera:\n        p.fecha, p.fuente_fecha = \"\", \"\"",
+     "    for p in fuera[:3]:\n        p.fecha, p.fuente_fecha = \"\", \"\""),
+
     ("fad/fechas.py", "no deduplicar los enlaces del mismo equipo",
      "        vistos.setdefault(id_eq, html.unescape(nombre).strip())",
      "        vistos[id_eq + str(len(vistos))] = html.unescape(nombre).strip()"),
@@ -515,12 +535,14 @@ MUTANTES = [
      "    avisos += []"),
 
     ("fad/correcciones.py", "corregir sin mirar el marcador",
+     "                      and p.visita == visita\n"
      "                      and (p.goles_local, p.goles_visita) == (gl, gv)]",
+     "                      and p.visita == visita\n"
      "                      ]"),
 
     ("fad/correcciones.py", "corregir sin mirar de que pagina es",
-     "        if c.pagina != pagina:",
-     "        if False:"),
+     "    for c in CORRECCIONES:\n        if c.pagina != pagina:",
+     "    for c in CORRECCIONES:\n        if False:"),
 
     ("fad/correcciones.py", "corregir el primero cuando engancha con varios",
      "        if len(candidatos) > 1:",
@@ -729,8 +751,10 @@ MUTANTES = [
      '    r")[^=' + chr(92) + 'n]*=+' + chr(92) + 's*$", re.M | re.I)'),
 
     ("fad/parser.py", "leer dos veces una ronda anidada dentro de otra",
-     "        if m.start() < hasta:" + chr(10) + "            continue",
-     "        if False:" + chr(10) + "            continue"),
+     "        if m.start() < hasta:" + chr(10) + "            continue" + chr(10)
+     + "        # La seccion termina",
+     "        if False:" + chr(10) + "            continue" + chr(10)
+     + "        # La seccion termina"),
 
     # --- la tanda escrita en la celda, y la raya larga ---
     ("fad/parser.py", "no leer la tanda escrita con la palabra Pen.",
@@ -1001,9 +1025,11 @@ MUTANTES = [
      "    fuera, hasta = [], 0",
      "    fuera, hasta = [], 10**9"),
 
+    # Con el renglon de abajo: la misma guarda esta en `partidos_de_rondas`, mas
+    # arriba, y este mutante era el mismo que "leer dos veces una ronda anidada".
     ("fad/parser.py", "contar dos veces una seccion Resultados anidada",
-     "        if m.start() < hasta:\n            continue",
-     "        if False:\n            continue"),
+     "        if m.start() < hasta:\n            continue\n        nivel = len(m.group(1))",
+     "        if False:\n            continue\n        nivel = len(m.group(1))"),
 
     ("fad/parser.py", "confundir la zona con la fase del torneo",
      "                      _contexto(m.start(), nivel, texto),\n"
@@ -1379,8 +1405,10 @@ MUTANTES = [
      '_LLAVE_PEGADO = re.compile(r"(?!x)x()")'),
 
     ("build.py", "comparar sin canonizar al buscar repetidos",
-     "        l, v = uno(x.local, x.local_art), uno(x.visita, x.visita_art)",
-     "        l, v = x.local, x.visita"),
+     "        l, v = uno(x.local, x.local_art), uno(x.visita, x.visita_art)\n"
+     "        return frozenset(",
+     "        l, v = x.local, x.visita\n"
+     "        return frozenset("),
 
     # El formato compacto, por donde puede mentir: el marcador de la vuelta y la
     # localia de la vuelta son lo que hay que dar vuelta, y la casilla sin fecha es
@@ -1548,9 +1576,11 @@ MUTANTES = [
      "    tablas = rsssf.leer_tabla(crudo, mapa, fases, desde=desde, hasta=hasta)",
      "    tablas = rsssf.leer_tabla(crudo, mapa, fases)"),
 
+    # Con el salto de renglon adelante: con cuatro espacios es tambien un pedazo del
+    # renglon de ocho que tiene `procesar`.
     ("build.py", "no acotar la seccion al completar fechas",
-     '    desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))',
-     '    desde, hasta = "", ""'),
+     '\n    desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))',
+     '\n    desde, hasta = "", ""'),
 
     # El credito de la fecha: el de la FILA manda sobre el del lector. Sin eso, una
     # fecha que salio del segundo blog queda atribuida al primero -- que es el que la
@@ -2153,8 +2183,8 @@ MUTANTES = [
      '        if club not in contada:\n            continue'),
 
     ("fad/correcciones.py", "no denunciar la verificacion que caduco",
-     "        if r.pagina != pagina:\n            continue",
-     "        if True:\n            continue"),
+     "    for r in REVISADOS:\n        if r.pagina != pagina:\n            continue",
+     "    for r in REVISADOS:\n        if True:\n            continue"),
 
     ("fad/correcciones.py", "dar por huerfano al que si engancha",
      '        if r.club not in desviados:',
@@ -2235,9 +2265,20 @@ MUTANTES = [
      "        hermanos = sorted(_homonimos_de(club) & juegan)",
      "        hermanos = []"),
 
+    # Los dos con el `startswith` adelante, que es lo unico que distingue las dos
+    # cuentas de llaves: con el `if hondo == 0:` solo, el del cuadro caia en la de
+    # `_desenvolver_nowrap`, que esta antes en el archivo.
     ("fad/parser.py", "cerrar el cuadro en el primer }} y no por balance",
-     "                if hondo == 0:",
-     "                if True:"),
+     '            if texto.startswith("}}", i):\n                hondo -= 1\n'
+     "                i += 2\n                if hondo == 0:",
+     '            if texto.startswith("}}", i):\n                hondo -= 1\n'
+     "                i += 2\n                if True:"),
+
+    ("fad/parser.py", "desenvolver el nowrap en el primer }} y no por balance",
+     '            if s.startswith("}}", i):\n                hondo -= 1\n'
+     "                i += 2\n                if hondo == 0:",
+     '            if s.startswith("}}", i):\n                hondo -= 1\n'
+     "                i += 2\n                if True:"),
 
     ("fad/parser.py", "dejarle el cierre de la plantilla al ultimo parametro",
      "                    yield texto[m.start():i - 2]",
@@ -2272,6 +2313,18 @@ MUTANTES = [
     ("fad/parser.py", "tomar por club las marcas del cuadro (w/o, penales)",
      '            if not club or _NO_ES_CLUB.match(club) or re.fullmatch(r\"[\\d\\s.:-]*\", club):',
      "            if not club:"),
+
+    ("fad/parser.py", "tomar por club un lugar reservado del cuadro (Perdedor Final)",
+     "            if _LUGAR_RESERVADO.match(club):\n                continue",
+     "            if False:\n                continue"),
+
+    ("fad/parser.py", "no reconocer como reservado el lugar del perdedor",
+     r'_LUGAR_RESERVADO = re.compile(r"(?i)^(?:ganador|perdedor)\b|^posici[oó]n\s*\d")',
+     r'_LUGAR_RESERVADO = re.compile(r"(?i)^(?:ganador)\b|^posici[oó]n\s*\d")'),
+
+    ("fad/parser.py", "no reconocer como reservado el lugar por posicion",
+     r'_LUGAR_RESERVADO = re.compile(r"(?i)^(?:ganador|perdedor)\b|^posici[oó]n\s*\d")',
+     r'_LUGAR_RESERVADO = re.compile(r"(?i)^(?:ganador|perdedor)\b")'),
 
     # --- los cuatro chequeos del cruce, y el que mira la grilla ---
     ("fad/posiciones.py", "no denunciar el nombre pelado de la grilla",
@@ -2445,8 +2498,8 @@ MUTANTES = [
      "        if False:"),
 
     ("fad/correcciones.py", "corregir la fecha aunque enganche varios partidos",
-     "        if len(candidatos) != 1:",
-     "        if len(candidatos) < 1:"),
+     "                      and p.visita == d.visita]\n        if len(candidatos) != 1:",
+     "                      and p.visita == d.visita]\n        if len(candidatos) < 1:"),
 
     ("fad/correcciones.py", "corregir la fecha y dejarle el credito viejo",
      "        p.fecha, p.fuente_fecha = d.debe, d.fuente",
@@ -2637,6 +2690,19 @@ MUTANTES = [
      "        ps = parser.partidos(texto, t.primer_anio, t.torneo, formato=t.formato,",
      "        ps = parser.partidos(texto, t.temporada, t.torneo, formato=t.formato,"),
 
+    # Y el anio de cierre que se le pasa a RSSSF, en sus tres llamadas.
+    ("build.py", "cerrar con la etiqueta las fechas que completa RSSSF",
+     "    ajenos, avisos = rsssf.leer(crudo, mapa, t.primer_anio, t.anio_fin or t.primer_anio,",
+     "    ajenos, avisos = rsssf.leer(crudo, mapa, t.primer_anio, t.anio_fin or t.temporada,"),
+
+    ("build.py", "cerrar con la etiqueta las fechas de la rama sin grilla",
+     "                                 t.anio_fin or t.primer_anio, t.mes_inicio,",
+     "                                 t.anio_fin or t.temporada, t.mes_inicio,"),
+
+    ("build.py", "cerrar con la etiqueta las fechas de las llaves de RSSSF",
+     "                    crudo, mapa, t.primer_anio, t.anio_fin or t.primer_anio,",
+     "                    crudo, mapa, t.primer_anio, t.anio_fin or t.temporada,"),
+
     ("fad/torneos.py", "ignorar el anio de arranque declarado",
      "        return self.anio_inicio or self.temporada",
      "        return self.temporada"),
@@ -2699,8 +2765,10 @@ MUTANTES = [
      "    identidad_utilizable = False"),
 
     ("fad/posiciones.py", "que `clubes_desviados` devuelva el club sin su firma",
-     "                fuera[club] = correcciones.firma_del_desvio(datos, propios[club])",
-     "                fuera[club] = str(club)"),
+     "                fuera[club] = correcciones.firma_del_desvio(datos, propios[club])\n"
+     "                continue",
+     "                fuera[club] = str(club)\n"
+     "                continue"),
 
     # `24 septiembre`, sin el `de`. La segunda regla de `a_iso` por sus cuatro lados:
     # que exista, que no le gane a la de siempre, y las dos puntas que la separan de
@@ -3470,6 +3538,174 @@ MUTANTES = [
      '        serie = [p for p in ps if p.fase == "eliminacion" and p.llave == t.llave\n',
      '        serie = [p for p in ps if p.llave == t.llave\n'),
 
+    ("fad/dataset.py", "avisar solo los dos partidos del mismo dia, y no los de dias seguidos",
+     "            if dias <= 1:\n",
+     "            if dias < 1:\n"),
+
+    ("fad/dataset.py", "avisar tambien los partidos a dos dias",
+     "            if dias <= 1:\n",
+     "            if dias <= 2:\n"),
+
+    ("fad/dataset.py", "contar dos veces el partido que publican dos paginas",
+     "        if clave in escritos_dos_veces and escritos_dos_veces[clave][0] is not f:\n",
+     "        if False:\n"),
+
+    ("fad/dataset.py", "saltear las DOS copias del partido que publican dos paginas",
+     "        if clave in escritos_dos_veces and escritos_dos_veces[clave][0] is not f:\n",
+     "        if clave in escritos_dos_veces:\n"),
+
+    ("fad/dataset.py", "que una fecha que no existe tumbe el chequeo de los dias seguidos",
+     '            dia = date.fromisoformat(_valor(f.get("date")))\n        except ValueError:\n',
+     '            dia = date.fromisoformat(_valor(f.get("date")))\n        except TypeError:\n'),
+
+    ("build.py", "no correr el chequeo de los dias seguidos",
+     "              + dataset.dias_seguidos(filas)):\n",
+     "              + []):\n"),
+
+    # Borrar del catalogo un torneo cuyo (tournament, season) comparte otro: la guarda
+    # contra achicarse lo ve recien al dia siguiente, y cruzando por el par no se veia.
+    ("fad/torneos.py", "borrar del catalogo la Primera Division 2016-17",
+     '    Torneo("Campeonato de Primera División 2016-17 (Argentina)",\n'
+     '           "Primera Division", 2016, anio_fin=2017),\n',
+     ""),
+
+    ("fad/torneos.py", "cambiarle la etiqueta a un torneo en curso sin rehacerlo",
+     '    Torneo("Torneo Federal A 2026", "Torneo Federal A", 2026, cerrado=False),\n',
+     '    Torneo("Torneo Federal A 2026", "Federal A", 2026, cerrado=False),\n'),
+
+]
+
+
+# QUE `revisar` NO CORRA UN CHEQUEO, uno por vez. El build llama a `revisar` y no a
+# cada chequeo, y de los catorce habia siete que se podian caer de `CHEQUEOS` sin que la
+# suite lo notara; con este mutante sobrevivian nueve, porque a dos mas los cuidaba solo
+# un test de que estan en la lista. Van escritos a mano y no sacados de
+# `validar.CHEQUEOS`: si salieran de ahi, el que se cae de la lista se llevaria su
+# mutante.
+_LOS_CHEQUEOS = ("campos_completos", "fechas_presentes", "nombres_en_el_padron",
+                 "penales_solo_en_empates", "sin_duplicados", "nadie_juega_contra_si_mismo",
+                 "todos_tienen_zona", "zonas_completas", "una_vez_por_jornada",
+                 "jornadas_sin_huecos", "anios_bien_asignados", "una_zona_por_club",
+                 "localias_repartidas", "cadena_de_llaves")
+MUTANTES += [("fad/validar.py", f"que `revisar` no corra `{nombre}`",
+              "    for chequeo in CHEQUEOS:\n",
+              f"    for chequeo in [c for c in CHEQUEOS if c.__name__ != {nombre!r}]:\n")
+             for nombre in _LOS_CHEQUEOS]
+
+
+# LAS DECLARACIONES A MANO, contra tests/test_declaraciones.py. CI no tiene las
+# paginas y no puede ver que sin una declaracion la fila saldria distinta, asi que
+# cada una se cuida por los dos lados que si tiene, y cada lado tiene sus mutantes:
+#
+# * SACARLA, una de cada coleccion. Lo publicado no cambia -- el CSV ya salio con
+#   ella --, asi que la tiene que ver el testigo, tests/huellas_correcciones.txt: si
+#   un dia ese archivo sale de las declaraciones en cada corrida, estos sobreviven.
+#   La entrada no se borra entera. Se la envuelve en una llamada que devuelve la
+#   tupla vacia, y el `*` no deja nada: sale de la coleccion igual que borrada, y el
+#   ancla es solo su principio, asi la evidencia que sigue se puede reescribir sin
+#   que el mutante quede huerfano.
+# * ROMPER LO PUBLICADO como lo dejaria un rehacer en el que la declaracion dejo de
+#   aplicarse: el renglon del CSV vuelve a lo que dice la pagina. Son de torneos
+#   cerrados, que la corrida diaria no reescribe.
+MUTANTES += [
+    ("fad/correcciones.py", "sacar de `CORRECCIONES` el espejo de Union (MdP)-Racing (C), Argentino A 2011-12",
+     '    _llave_espejada("Tercera fase", "Unión (MdP)", "Racing (C)", 1, 1),\n',
+     '    *(lambda *a, **k: ())("Tercera fase", "Unión (MdP)", "Racing (C)", 1, 1),\n'),
+    ("fad/correcciones.py", "sacar de `MARCADORES` el arbitraje de Aldosivi-Boca Unidos, Primera B Nacional 2009-10",
+     '    _arbitrado("2009 Fecha 38", "Aldosivi", "Boca Unidos", (3, 4), (3, 1),\n',
+     '    *(lambda *a, **k: ())("2009 Fecha 38", "Aldosivi", "Boca Unidos", (3, 4), (3, 1),\n'),
+    ("fad/correcciones.py", "sacar de `DIVIDIDOS` el dividido Deportivo Espanol-Sacachispas, Primera B 2017-18",
+     "    Dividido(\n"
+     '        pagina="Campeonato de Primera B 2017-18 (Argentina)",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        pagina="Campeonato de Primera B 2017-18 (Argentina)",\n'),
+    ("fad/correcciones.py", "sacar de `FALTANTES` el faltante Defensores de Cambaceres-Sportivo Barracas, Primera C 2016",
+     "    Faltante(\n"
+     '        pagina="Campeonato de Primera C 2016 (Argentina)", jornada="Fecha 1",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        pagina="Campeonato de Primera C 2016 (Argentina)", jornada="Fecha 1",\n'),
+    ("fad/correcciones.py", "sacar de `LOCALIA_RESUELTA` la localia resuelta del Argentino A 2011-12",
+     '    "Torneo Argentino A 2011-12": (\n',
+     "    **(lambda *a, **k: {})(\n"),
+    ("fad/correcciones.py", "sacar de `HOMONIMOS` el homonimo Juventud Unida, Argentino A 2005-06",
+     "    Homonimo(\n"
+     '        pagina="Torneo Argentino A 2005-06", dice="Juventud Unida",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        pagina="Torneo Argentino A 2005-06", dice="Juventud Unida",\n'),
+    ("fad/correcciones.py", "sacar de `CANCHAS` la cancha de Sarmiento (LB)-San Martin (SM), Federal A 2025",
+     "    Cancha(\n"
+     '        pagina="Torneo Federal A 2025",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        pagina="Torneo Federal A 2025",\n'),
+    ("fad/correcciones.py", "sacar de `COPIAS` la cancha copiada de San Telmo-Deportivo Madryn, 2021",
+     "    Copia(\n"
+     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'),
+    ("fad/correcciones.py", "sacar de `NEUTRALES` el neutral Huracan-Platense, Copa de la Liga 2023",
+     '    _CLP_2023("2023-12-02", "Huracán", "Platense", 1, 1),\n',
+     '    *(lambda *a, **k: ())("2023-12-02", "Huracán", "Platense", 1, 1),\n'),
+    ("fad/correcciones.py", "sacar de `REEMPLAZOS` el reemplazo de Douglas Haig-Cipolletti, Argentino A 2005-06",
+     '    _copiado("Fecha 5", ("Douglas Haig", "Cipolletti", 5, 3),\n',
+     '    *(lambda *a, **k: ())("Fecha 5", ("Douglas Haig", "Cipolletti", 5, 3),\n'),
+    ("fad/correcciones.py", "sacar de `REVISADOS` la verificacion de Concepcion FC, Federal A 2015",
+     "    Revisado(\n"
+     '        pagina="Torneo Federal A 2015", club="Concepción FC", desvio="GF+1",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        pagina="Torneo Federal A 2015", club="Concepción FC", desvio="GF+1",\n'),
+    ("fad/correcciones.py", "sacar de `FECHADOS` el desacuerdo verificado de Union (MdP)-Rivadavia (L), Argentino A 2012-13",
+     '    Fechado(pagina="Torneo Argentino A 2012-13", jornada="Fecha 17",\n'
+     '            local="Unión (MdP)", visita="Rivadavia (L)",\n',
+     '    *(lambda *a, **k: ())(pagina="Torneo Argentino A 2012-13", jornada="Fecha 17",\n'
+     '            local="Unión (MdP)", visita="Rivadavia (L)",\n'),
+    ("fad/correcciones.py", "sacar de `DIAS` el dia de Sacachispas-Ferrocarril Midland, Primera C 2009-10",
+     '    Dia(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 13",\n'
+     '        local="Sacachispas", visita="Ferrocarril Midland",\n',
+     '    *(lambda *a, **k: ())(pagina="Campeonato de Primera C 2009-10 (Argentina)", jornada="Fecha 13",\n'
+     '        local="Sacachispas", visita="Ferrocarril Midland",\n'),
+    ("fad/citadas.py", "sacar de `FECHAS` la cita de Nunorco-La Florida, Argentino A 2004-05",
+     '        Cita("2004-10-03", "Ñuñorco", "La Florida", 2, 1, "Torneo Apertura"),\n',
+     '        *(lambda *a, **k: ())("2004-10-03", "Ñuñorco", "La Florida", 2, 1, "Torneo Apertura"),\n'),
+    ("fad/citadas.py", "sacar de `LLAVES` la pata citada de Ferrocarril Midland-Dock Sud del 2012-06-06",
+     '        _c2011("2012-06-06", "Ferrocarril Midland", 1, 0, "Dock Sud", "Semifinal"),\n',
+     '        *(lambda *a, **k: ())("2012-06-06", "Ferrocarril Midland", 1, 0, "Dock Sud", "Semifinal"),\n'),
+    ("data/partidos-2019.csv", "publicar el marcador de la pagina y no el arbitrado: Newell's-Villa Mitre, Copa Argentina 2019",
+     "2019-03-24,,Newell's Old Boys,Villa Mitre,1,2,,,Copa Argentina,2019,eliminacion,,Treintaidosavos,15 de abril,true,https://es.wikipedia.org/wiki/Copa_Argentina_2018-19,\n",
+     "2019-03-24,,Newell's Old Boys,Villa Mitre,0,0,,,Copa Argentina,2019,eliminacion,,Treintaidosavos,15 de abril,true,https://es.wikipedia.org/wiki/Copa_Argentina_2018-19,\n"),
+    ("data/partidos-2019.csv", "publicar la tanda de la pagina y no la arbitrada: Almagro-Atletico de Rafaela, Copa Argentina 2019",
+     "2019-03-07,,Almagro,Atlético de Rafaela,1,1,4,2,Copa Argentina,2019,eliminacion,,Treintaidosavos,Centenario Ciudad de Quilmes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2018-19,\n",
+     "2019-03-07,,Almagro,Atlético de Rafaela,1,1,3,4,Copa Argentina,2019,eliminacion,,Treintaidosavos,Centenario Ciudad de Quilmes,true,https://es.wikipedia.org/wiki/Copa_Argentina_2018-19,\n"),
+    ("data/partidos-2009.csv", "publicar con la localia de la pagina el espejo de Instituto-Belgrano, Primera B Nacional 2009-10",
+     "2010-03-05,,Instituto,Belgrano,1,1,,,Primera Nacional,2009,zonas,,Fecha 25,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2009-10 + https://www.worldfootball.net/,\n",
+     "2010-03-05,,Belgrano,Instituto,1,1,,,Primera Nacional,2009,zonas,,Fecha 25,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2009-10 + https://www.worldfootball.net/,\n"),
+    ("data/partidos-1988.csv", "publicar el partido dividido de Newell's-Rosario Central, Primera Division 1988",
+     "1988-09-11,,Boca Juniors,Deportivo Armenio,0,1,,,Primera Division,1988,zonas,,Fecha 1,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_1988-89_(Argentina) + https://www.rsssf.org/,\n",
+     "1988-09-11,,Boca Juniors,Deportivo Armenio,0,1,,,Primera Division,1988,zonas,,Fecha 1,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_1988-89_(Argentina) + https://www.rsssf.org/,\n"
+     "1988-09-11,,Newell's Old Boys,Rosario Central,0,1,,,Primera Division,1988,zonas,,Fecha 1,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_1988-89_(Argentina) + https://www.rsssf.org/,\n"),
+    ("data/partidos-2016.csv", "no publicar el faltante Defensores de Cambaceres-Sportivo Barracas, Primera C 2016",
+     "2016-02-05,17:00,Defensores de Cambaceres,Sportivo Barracas,0,0,,,Primera C,2016,zonas,,Fecha 1,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2016_(Argentina),\n",
+     ""),
+    ("data/partidos-2016.csv", "publicar sin resolver el homonimo Juventud Unida, Copa Argentina 2016",
+     "2016-08-16,,Juventud Unida (G),Vélez Sarsfield,1,1,4,3,Copa Argentina,2016,eliminacion,,Dieciseisavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16,\n",
+     "2016-08-16,,Juventud Unida,Vélez Sarsfield,1,1,4,3,Copa Argentina,2016,eliminacion,,Dieciseisavos,Julio Humberto Grondona,true,https://es.wikipedia.org/wiki/Copa_Argentina_2015-16,\n"),
+    ("data/partidos-2022.csv", "publicar la cancha de la pagina en Gimnasia y Esgrima (J)-San Martin (T), Primera Nacional 2022",
+     "2022-09-30,21:10,Gimnasia y Esgrima (J),San Martín (T),1,1,,,Primera Nacional,2022,zonas,,Fecha 36,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2022,\n",
+     "2022-09-30,21:10,Gimnasia y Esgrima (J),San Martín (T),1,1,,,Primera Nacional,2022,zonas,,Fecha 36,Víctor Antonio Legrotaglie,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_Nacional_2022,\n"),
+    ("data/partidos-2005.csv", "publicar el partido copiado y no el reemplazo: Cipolletti-Douglas Haig, Argentino A 2005-06",
+     "2005-09-18,,Cipolletti,Douglas Haig,1,2,,,Torneo Argentino A,2005,zonas,Zona Sur,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06 + https://www.rsssf.org/,\n",
+     "2005-09-18,,Douglas Haig,Cipolletti,5,3,,,Torneo Argentino A,2005,zonas,Zona Sur,Fecha 5,,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2005-06 + https://www.rsssf.org/,\n"),
+    ("data/partidos-2012.csv", "publicar la otra fecha de un desacuerdo verificado: Cipolletti-Gimnasia (CdU), Argentino A 2012-13",
+     "2013-01-27,21:05,Cipolletti,Gimnasia y Esgrima (CdU),3,0,,,Torneo Argentino A,2012,zonas,Zona Sur,Fecha 17,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13,\n",
+     "2013-01-26,21:05,Cipolletti,Gimnasia y Esgrima (CdU),3,0,,,Torneo Argentino A,2012,zonas,Zona Sur,Fecha 17,La Visera de Cemento,false,https://es.wikipedia.org/wiki/Torneo_Argentino_A_2012-13,\n"),
+    ("data/partidos-2010.csv", "publicar sin su credito la fecha de una `Dia`: Platense-Estudiantes (BA), Primera B 2010",
+     "2010-08-30,,Platense,Estudiantes (BA),0,0,,,Primera B,2010,zonas,,Fecha 6,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina) + https://es.wikipedia.org/w/index.php?oldid=39894064,\n",
+     "2010-08-30,,Platense,Estudiantes (BA),0,0,,,Primera B,2010,zonas,,Fecha 6,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2010-11_(Argentina),\n"),
+    ("data/partidos-1993.csv", "publicar sin su credito una fecha citada: Gimnasia (LP)-Boca, Apertura 1993",
+     "1994-03-19,,Gimnasia y Esgrima (LP),Boca Juniors,1,1,,,Primera Division - Apertura,1993,zonas,,Fecha 19,,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_1993_(Argentina) + https://hemerotecadigital.bn.gob.ar/collection/001207768/pagina-12,\n",
+     "1994-03-19,,Gimnasia y Esgrima (LP),Boca Juniors,1,1,,,Primera Division - Apertura,1993,zonas,,Fecha 19,,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_1993_(Argentina),\n"),
+    ("data/partidos-2011.csv", "publicar sin su credito una pata citada: Midland-Cambaceres, Primera C 2011-12",
+     "2012-05-28,,Ferrocarril Midland,Defensores de Cambaceres,4,1,,,Primera C,2011,eliminacion,,Cuartos de final,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina) + http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html,\n",
+     "2012-05-28,,Ferrocarril Midland,Defensores de Cambaceres,4,1,,,Primera C,2011,eliminacion,,Cuartos de final,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina),\n"),
 ]
 
 
@@ -3588,10 +3824,17 @@ def correr_suite() -> str:
 
 
 def como_salio(codigo: int, salida: str) -> str:
-    """Lo que dice una corrida de pytest: "pasa", "falla" o "no corrio"."""
+    """Lo que dice una corrida de pytest: "pasa", "falla" o "no corrio".
+
+    SOLO EL 1 PUEDE SER UN TEST QUE FALLO. Los otros codigos de pytest dicen que la
+    corrida no llego a juzgar nada: 2 que se interrumpio, 3 un error interno, 4 uno
+    de uso, 5 que no junto ningun test. Por el 4 sale un `tests/conftest.py` que no
+    se puede importar, y lo escribe en stderr, donde `_NO_JUNTO` no mira: con
+    "todo lo que no es 0 es falla" se contaba como muerto.
+    """
     if codigo == 0:
         return "pasa"
-    return "no corrio" if _NO_JUNTO.search(salida) else "falla"
+    return "falla" if codigo == 1 and not _NO_JUNTO.search(salida) else "no corrio"
 
 
 def main():
@@ -3602,13 +3845,17 @@ def main():
     sobrevivientes = []
     for archivo, desc, viejo, nuevo in MUTANTES:
         ruta = RAIZ / archivo
-        original = ruta.read_text(encoding="utf-8")
-        if viejo not in original:
+        # EN BYTES, para que el fuente vuelva como estaba. En modo texto Windows
+        # escribe CRLF, y cada fuente mutado quedaba con otros finales de renglon
+        # que los que se le leyeron.
+        original = ruta.read_bytes()
+        texto = original.decode("utf-8")
+        if viejo not in texto:
             print(f"  ??  NO APLICA  {desc}")
             print(f"      (no se encontro el texto en {archivo})")
             sobrevivientes.append((desc, "no aplico"))
             continue
-        mutado = original.replace(viejo, nuevo, 1)
+        mutado = texto.replace(viejo, nuevo, 1)
         # UN MUTANTE QUE NO COMPILA NO MURIO: no se puede importar, pytest corta en
         # la colecta y sale con error, que desde aca se ve igual que un test que
         # falla. Pero ningun test llego a mirar nada. Hubo dos asi durante meses,
@@ -3621,11 +3868,11 @@ def main():
                 print(f"      ({archivo}, linea {e.lineno}: {e.msg})")
                 sobrevivientes.append((desc, "no compila"))
                 continue
-        ruta.write_text(mutado, encoding="utf-8")
+        ruta.write_bytes(mutado.encode("utf-8"))
         try:
             como = correr_suite()
         finally:
-            ruta.write_text(original, encoding="utf-8")
+            ruta.write_bytes(original)
         if como == "pasa":
             print(f"  !!  SOBREVIVE  {desc}")
             sobrevivientes.append((desc, archivo))

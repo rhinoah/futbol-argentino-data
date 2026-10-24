@@ -6,7 +6,8 @@ Errores de la fuente que se corrigen a mano, uno por uno y con la evidencia.
 
 ESTE MODULO ES PELIGROSO Y POR ESO ES ASI DE ESTRICTO
 -----------------------------------------------------
-Todo el dataset sale de Wikipedia. Un lugar donde se puede escribir "este partido
+Casi todo el dataset sale de Wikipedia, y lo que no, de otras fuentes publicadas
+que `source` nombra fila por fila. Un lugar donde se puede escribir "este partido
 en realidad fue asi" es exactamente la puerta por la que se cuela un dataset que
 dice lo que a uno le gustaria que dijera. La regla del proyecto es que el parser
 no adivine; esto es lo mas cerca que se esta de romperla.

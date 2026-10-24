@@ -343,7 +343,7 @@ def test_el_articulo_de_rivadavia_de_lincoln():
 def test_los_nombres_ambiguos_NO_se_agregaron_como_alias(ambiguo):
     """Y esto es lo que hay que sostener, no lo de arriba.
 
-    "Gimnasia y Esgrima" a secas tiene SEIS candidatos en el padron. Y
+    "Gimnasia y Esgrima" a secas tiene CINCO candidatos en el padron. Y
     "Central Norte (SE)" no es un typo de escritura sino un desambiguador
     equivocado: en esa misma pagina "(SE)" significa Santiago del Estero -- ahi
     esta "Central Córdoba (SE)", que resuelve bien -- asi que darselo al de

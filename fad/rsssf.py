@@ -1646,12 +1646,14 @@ def leer_llaves_compacto(texto: str, mapa: dict) -> tuple[list, list[str]]:
 def a_partidos(ajenos: list, torneo: str, temporada: int) -> list:
     """Los `Ajeno` de RSSSF convertidos en filas del dataset.
 
-    ES EL UNICO LUGAR DEL REPO DONDE UNA FILA NO SALE DE WIKIPEDIA, y por eso vale
-    decir cuando corresponde usarlo: cuando la pagina de Wikipedia NO TIENE
-    GRILLA. Pasa con el Argentino A entre 2006-07 y 2009-10, cuyos articulos
-    publican los equipos, la tabla final de cada zona y la fase final, y ningun
-    resultado fecha por fecha. Ahi no hay un segundo testigo que elegir: hay una
-    sola fuente o no hay temporada.
+    ES EL LUGAR DEL REPO DONDE UN TORNEO ENTERO NO SALE DE WIKIPEDIA -- partidos
+    sueltos entran tambien por las llaves de RSSSF y las citadas a mano --, y por
+    eso vale decir cuando corresponde usarlo: cuando la pagina de Wikipedia NO
+    TIENE GRILLA. Pasa en once torneos: el Argentino A entre 2006-07 y 2009-10,
+    cuyos articulos publican los equipos, la tabla final de cada zona y la fase
+    final, y ningun resultado fecha por fecha, y la Primera de 1985-86 al Clausura
+    1991. Ahi no hay un segundo testigo que elegir: hay una sola fuente o no hay
+    temporada.
 
     LOS CAMPOS QUE `Ajeno` NO TRAE QUEDAN VACIOS, no inventados. RSSSF publica
     fecha, jornada, clubes y marcador, y casi nada mas: no trae hora ni cancha.

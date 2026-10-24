@@ -29,8 +29,13 @@ from __future__ import annotations
 
 import dataclasses
 import re
+from collections import Counter
+from pathlib import Path
 
-from fad import torneos
+import pytest
+
+import build
+from fad import dataset, torneos
 from fad.torneos import Torneo
 
 # LOS TORNEOS CUYO TITULO NOMBRA UN SOLO ANIO Y LLEVAN `anio_fin`: terminan en el
@@ -274,3 +279,53 @@ def test_un_titulo_sin_anio_no_pasa_callado():
     entre una, estas reglas no tienen contra que mirarla: que lo digan."""
     sin_anio = dataclasses.replace(_uno("Copa Argentina 2026"), pagina="Copa Suecia")
     assert faltas(sin_anio)
+
+
+# --------------------------------------------------------------------------
+# el catalogo contra lo publicado
+# --------------------------------------------------------------------------
+# Borrar un torneo de aca pasaba la suite y frenaba al build del dia siguiente: sus
+# filas siguen en el CSV, nadie las vuelve a escribir y la guarda contra achicarse
+# ve un torneo que DESAPARECIO. Se cruza por PAGINA -- la URL de `source`, que es
+# por donde el build reusa lo cerrado -- y no por (tournament, season): cinco de
+# esos pares los comparten dos torneos -- la 2016 y la 2016-17 son las dos "Primera
+# Division 2016" --, y borrar uno de esos diez no movia ningun par.
+#
+# Al reves -- cada torneo CERRADO con sus filas publicadas, bajo su etiqueta -- ya
+# lo pide `test_ningun_torneo_CERRADO_del_dataset_tiene_la_fase_final_antes_del_arranque`,
+# en tests/test_validar.py, para saber que esta mirando. A uno en curso no se le
+# pide: puede entrar al catalogo antes de su primer partido.
+#
+# Mira data/ tal como esta commiteado, que es lo que CI tiene. Lo rompe un commit
+# a mano y no la corrida diaria: el bot escribe las filas de lo que esta en el
+# catalogo, con su etiqueta, y lo que no esta lo frena la guarda antes de escribir.
+DATOS = Path(__file__).resolve().parent.parent / "data"
+
+
+@pytest.fixture(scope="module")
+def publicado() -> dict[str, Counter]:
+    """{pagina: Counter((tournament, season))}, de data/ y de data/sin-fecha/."""
+    filas = dataset.leer_carpeta(DATOS) + dataset.leer_carpeta(build.sin_fecha_en(DATOS))
+    if not filas:
+        pytest.skip("hace falta el dataset")
+    por_pagina: dict[str, Counter] = {}
+    for f in filas:
+        por_pagina.setdefault(dataset.pagina_de(f), Counter())[
+            (f["tournament"], f["season"])] += 1
+    return por_pagina
+
+
+def test_cada_pagina_publicada_tiene_su_torneo_en_el_catalogo(publicado):
+    sobran = sorted(set(publicado) - {t.url for t in torneos.TODOS})
+    assert sobran == [], "hay filas publicadas de paginas que no estan en el catalogo"
+
+
+def test_las_filas_de_cada_pagina_dicen_el_torneo_y_la_temporada_del_catalogo(publicado):
+    """La guarda contra achicarse cuenta por (tournament, season). Si el catalogo le
+    cambia la etiqueta a un torneo cerrado y no se lo rehace, lo publicado sigue con
+    la vieja y nada lo dice; si es uno en curso, al dia siguiente la vieja
+    DESAPARECE y el build frena."""
+    suya = {t.url: (t.torneo, str(t.temporada)) for t in torneos.TODOS}
+    otras = {u: sorted(set(c) - {suya[u]}) for u, c in publicado.items()
+             if u in suya and set(c) != {suya[u]}}
+    assert otras == {}

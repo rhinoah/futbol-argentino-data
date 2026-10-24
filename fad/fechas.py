@@ -89,8 +89,9 @@ CREDITO = "https://www.worldfootball.net/"
 
 @dataclass(frozen=True)
 class Ajeno:
-    """Un partido segun la otra fuente. Nada de esto entra al dataset salvo la
-    fecha: lo demas esta para poder verificar que hablamos del mismo partido."""
+    """Un partido segun la otra fuente. Cuando completa una fecha, de aca entra la
+    fecha y nada mas: lo demas esta para poder verificar que hablamos del mismo
+    partido. En un torneo sin grilla entra entero -- ver `rsssf.a_partidos` --."""
     fecha: str                # ISO, ya en hora argentina
     jornada: int
     local: str

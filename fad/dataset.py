@@ -33,6 +33,7 @@ import os
 import re
 import unicodedata
 from collections import Counter
+from datetime import date
 from pathlib import Path
 
 from fad.parser import Partido
@@ -299,7 +300,7 @@ _NIVEL = {
 def categorias_incompatibles(filas: list[dict]) -> list[str]:
     """Un club en dos divisiones que no se pueden encadenar, la misma temporada.
 
-    El otro chequeo de dataset entero que no mira nombres ni canchas: mira DONDE
+    Otro chequeo de dataset entero, que no mira nombres ni canchas: mira DONDE
     juega cada club. Un club mal atribuido termina jugando torneos que su club de
     verdad nunca jugo, y eso se ve sin saber nada de futbol.
 
@@ -459,6 +460,65 @@ def reconciliar_copias(filas: list[dict], declaradas=(),
             avisos.append(f"la declaracion de `{d.campo}` de {d.local} - {d.visita} del "
                           f"{d.fecha} no encuentra las dos copias: sacala de "
                           f"fad/correcciones.py")
+    return avisos
+
+
+# --------------------------------------------------------------------------
+# nadie juega dos dias seguidos
+# --------------------------------------------------------------------------
+def dias_seguidos(filas: list[dict]) -> list[str]:
+    """Un club con dos partidos distintos el mismo dia o en dias seguidos.
+
+    El tercer chequeo de dataset entero, y el que mira CUANDO juega cada club. Un
+    club no juega dos dias seguidos, asi que una de las dos fechas esta mal: la
+    fila, la pagina o la segunda fuente que la puso. Va sobre el dataset entero y
+    no por pagina porque un club juega mas de un torneo a la vez -- la liga y la
+    Copa Argentina --, y dos paginas no se ven entre si.
+
+    El umbral es un dia y no se puede correr. Sobre lo publicado, a un dia hay dos
+    pares -- Belgrano el 5 y el 6 de mayo de 1994, Gimnasia y Esgrima (LP) el 23 y
+    el 24 de mayo de 1999 --, y los dos son fechas que ya estaban anotadas como
+    sospechosas. A dos dias hay 117: con ese umbral, el aviso de todos los dias
+    serian 119 renglones y no lo leeria nadie.
+
+    UN PARTIDO ESCRITO DOS VECES SE CUENTA UNA. Una promocion la publican las
+    paginas de las dos divisiones -- son las `copias` --, y sin saltearla los dos
+    clubes quedan jugando dos partidos el mismo dia: eran 30 avisos de mentira, dos
+    por cada una de las 15. Una fila sin fecha, o con una que no existe, no se puede
+    restar y se saltea.
+
+    No es grave, como los otros dos: una fecha dudosa no es razon para frenar la
+    actualizacion de todo lo demas. Dice "mira esto".
+    """
+    escritos_dos_veces = copias(filas)
+    por_club: dict[str, list[tuple]] = {}
+    for f in filas:
+        clave = (f["date"], f["home_team"], f["away_team"])
+        if clave in escritos_dos_veces and escritos_dos_veces[clave][0] is not f:
+            continue          # la otra copia del mismo partido
+        try:
+            dia = date.fromisoformat(_valor(f.get("date")))
+        except ValueError:
+            continue
+        for club in (f["home_team"], f["away_team"]):
+            por_club.setdefault(club, []).append((dia, f))
+
+    def partido(f) -> str:
+        return (f"{f['date']} {f['home_team']} {f['home_score']}-{f['away_score']} "
+                f"{f['away_team']} ({f['tournament']} {f['season']}"
+                f"{', ' + f['matchday'] if _valor(f.get('matchday')) else ''})")
+
+    avisos = []
+    for club, suyos in sorted(por_club.items()):
+        suyos.sort(key=lambda x: x[0])
+        for (antes, a), (despues, b) in zip(suyos, suyos[1:]):
+            dias = (despues - antes).days
+            if dias <= 1:
+                cuando = "el mismo dia" if not dias else "en dias seguidos"
+                avisos.append(
+                    f"{club} juega dos partidos {cuando}: {partido(a)} y {partido(b)}. "
+                    f"Un club no juega dos dias seguidos, asi que una de las dos fechas "
+                    f"esta mal")
     return avisos
 
 

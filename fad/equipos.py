@@ -31,9 +31,11 @@ hay uno solo de cada uno. Fuera de ese contexto son ambiguos: en la Copa
 Argentina juegan tambien Sarmiento (LB), Gimnasia y Esgrima (C) y (J), y
 Estudiantes (BA).
 
-Por que no molesta hoy: la unica fuente que se PARSEA es Wikipedia, que siempre
-los escribe desambiguados, y el CSV sale siempre con el nombre canonico. Los
-alias pelados se usan nada mas para cruzar contra la AFA, que es Primera.
+Por que no molesta hoy: Wikipedia siempre los escribe desambiguados, y las otras
+dos fuentes que se parsean, RSSSF y worldfootball, le preguntan al padron solo
+cuando su propio mapa no tiene el nombre (`rsssf._por_el_padron`,
+`fechas.completar`). El CSV sale siempre con el nombre canonico. Los alias pelados
+se usan nada mas para cruzar contra la AFA, que es Primera.
 
 Si algun dia se parsea una fuente de ascenso que escriba "Sarmiento" a secas, hay
 que resolver el alias por contexto y no globalmente. Queda anotado porque es la
@@ -52,8 +54,10 @@ wikilink, asi que no hay articulo con que resolverla y el club se queda sin
 arbitro -- la tabla no se puede comparar contra los partidos de un club que el
 padron no reconoce.
 
-Son 34 nombres, todos del Argentino A y el Federal A, que es donde los clubes
-comparten nombre. No se emparejaron por parecido sino por cardinalidad: la tabla
+Son 40 nombres, todos del Argentino A y el Federal A, que es donde los clubes
+comparten nombre: los 34 de la primera tanda, los cinco del Federal A 2014 y 2015
+y `San Martín (Mendoza)`, que es como lo escribe RSSSF. Los 34 no se emparejaron
+por parecido sino por cardinalidad: la tabla
 tiene tantas filas como clubes el plantel, asi que si en una zona sobra un solo
 nombre desconocido y falta un solo club, la identidad esta forzada. Los tres que
 no cerraban asi se resolvieron uno por uno, y uno de ellos ("Juventud Unida (SL)")

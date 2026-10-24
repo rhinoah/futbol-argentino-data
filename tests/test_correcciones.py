@@ -402,6 +402,19 @@ def test_un_reemplazo_que_ya_no_engancha_avisa():
     assert any("Douglas Haig" in a and "no se aplica" in a for a in avisos)
 
 
+def test_un_reemplazo_exige_el_marcador_que_declaro():
+    """La fila copiada se reconoce por los cuatro datos, el marcador tambien: el
+    mismo cruce con otro resultado es otro partido, y reemplazarlo seria pisar uno
+    que nadie miro. Nadie lo pedia: el mutante que saca ese filtro caia en el de
+    las `CORRECCIONES`, que esta antes en el archivo, y sobrevivio en cuanto se lo
+    puso en su renglon."""
+    p = _fila("Torneo Apertura", "Fecha 5", "Douglas Haig", "Cipolletti", 0, 0)
+    _, avisos = correcciones.aplicar([p], "Torneo Argentino A 2005-06")
+    assert (p.local, p.visita, p.goles_local, p.goles_visita) == (
+        "Douglas Haig", "Cipolletti", 0, 0), "otro marcador: no es la fila copiada"
+    assert any("Douglas Haig vs Cipolletti" in a and "no se aplica" in a for a in avisos)
+
+
 def test_los_reemplazos_nombran_su_testigo():
     """Cambiar un partido entero es lo mas fuerte que hace este modulo, asi que
     cada uno tiene que decir con que evidencia. La de estos es la tabla de

@@ -75,8 +75,10 @@ class Torneo:
     # Argentino A viejo y la Primera B y C de esos anios. Lo que ninguna de las dos
     # puede fechar se copia a mano de una fuente citada, partido por partido, y eso
     # no se marca aca: vive en `fad/citadas.py`, indexado por pagina.
-    # Todo lo demas -- equipos, marcador, jornada -- sigue saliendo de Wikipedia,
-    # y `source` dice fila por fila quien puso la fecha.
+    # Cuando solo fechan, todo lo demas -- equipos, marcador, jornada -- sigue
+    # saliendo de Wikipedia, y `source` dice fila por fila quien puso la fecha. No
+    # siempre solo fechan: con `sin_grilla`, `rsssf_llaves` y `rsssf_compacto`,
+    # mas abajo, RSSSF pone tambien partidos enteros.
     #
     # HUBO UNA TERCERA, el feed de ESPN, y se saco entera: sus condiciones de uso
     # no autorizan a extraer contenido para armar una base de datos. Ponia 21
@@ -108,8 +110,9 @@ class Torneo:
     # en una importacion silenciosa.
     rsssf_llaves: bool = False
     # El archivo de RSSSF esta en el formato COMPACTO -- las dos patas en un
-    # renglon y la fecha como RANGO --, asi que sus filas entran sin fecha y
-    # terminan en `data/sin-fecha`. Va aparte de `rsssf_llaves` porque la
+    # renglon y la fecha como RANGO --, asi que sus filas entran sin fecha: el dia
+    # se lo pone una cita a mano (`fad/citadas.py`), y la que no tiene cita
+    # termina en `data/sin-fecha`. Va aparte de `rsssf_llaves` porque la
     # diferencia no es de formato sino de lo que se puede afirmar.
     rsssf_compacto: bool = False
 
@@ -257,11 +260,12 @@ ASCENSO = [
     Torneo("Torneo Federal A 2026", "Torneo Federal A", 2026, cerrado=False),
 ]
 
-# El ascenso 2011-2015. Las temporadas anteriores a 2011 quedan pendientes: la
-# mitad de esas paginas no trae fechas y la otra mitad usa otro formato.
+# El ascenso hasta 2015: la B Nacional desde la 2007-08, y las otras tres
+# divisiones desde la 2011-12. Lo anterior que se pudo cargar esta en
+# `ASCENSO_HISTORICO`, mas abajo.
 ASCENSO_VIEJO = [
-    # Las cuatro mas viejas son las UNICAS del catalogo que necesitan una segunda
-    # fuente. Sus paginas publican los resultados en tablas de tres columnas
+    # Las cuatro mas viejas son las UNICAS del catalogo que fechan con
+    # worldfootball. Sus paginas publican los resultados en tablas de tres columnas
     # -- Local | Resultado | Visitante -- sin ninguna columna de fecha, asi que
     # el parser saca los 1520 partidos completos y ninguno con dia. Como el
     # esquema promete una fecha en cada fila, sin eso los 1520 se descartan
@@ -269,7 +273,8 @@ ASCENSO_VIEJO = [
     #
     # `wf` son los ids de worldfootball, de donde sale ese unico campo. El resto
     # -- equipos, marcador, jornada -- sigue siendo de Wikipedia, y la columna
-    # `source` de esas filas nombra a las dos.
+    # `source` de esas filas nombra a las dos. La excepcion es la promocion de la
+    # 2007-08, que entra entera de RSSSF:
     # `rsssf_llaves` SIN `rsssf`: de ese archivo se lee solo la seccion de la
     # promocion, acotada en `rsssf.SECCION`. La fase regular ya la fecha
     # worldfootball entera y no hay nada que ir a buscarle.
@@ -312,9 +317,9 @@ ASCENSO_VIEJO = [
     # los otros 34 que RSSSF tambien trae ya estan y no se duplican.
     Torneo("Torneo Argentino A 2011-12", "Torneo Argentino A", 2011, anio_fin=2012,
            rsssf="arg2012", rsssf_llaves=True),
-    # Con grilla propia en Wikipedia; RSSSF entra solo a FECHAR los 28 partidos
-    # que la pagina publica sin fecha y que por eso quedaban afuera.
-    # De su Revalida la pagina publica el cuadro y no la grilla, asi que dos
+    # Con grilla propia en Wikipedia; RSSSF entra a FECHAR los 28 partidos que la
+    # pagina publica sin fecha y que por eso quedaban afuera, y a poner los de dos
+    # llaves. De su Revalida la pagina publica el cuadro y no la grilla, asi que dos
     # llaves --Sportivo Belgrano-San Martin (T) y Santamarina-Deportivo Maipu--
     # no tenian partido. RSSSF las tiene, y en el formato expandido.
     Torneo("Torneo Argentino A 2012-13", "Torneo Argentino A", 2012, anio_fin=2013,
@@ -526,17 +531,16 @@ VIEJO = [
     # temporada, que es veinte clubes todos contra todos una vez.
     #
     # La linea esta en 1997 y es nitida: desde el Apertura de ese anio las tablas
-    # traen la fecha de cada partido, y antes no. Las de 1991 al Clausura 1997
-    # quedan afuera a proposito -- 2270 partidos sin una sola fecha --, porque una
-    # fila sin fecha no se escribe. Necesitan segunda fuente; RSSSF publica
-    # Primera de esos anios. El Clausura 1997 esta de ese lado: de sus 190
-    # partidos, 10 traen fecha.
+    # traen la fecha de cada partido, y antes no. A las de 1991 al Clausura 1997 las
+    # fecha RSSSF, que es la capa que sigue: trece torneos y 2470 partidos, todos
+    # con fecha. El Clausura 1997 esta de ese lado: de sus 190 partidos, 10 traen
+    # fecha.
     # La capa 1991-1996, que Wikipedia publica SIN UNA SOLA FECHA. RSSSF publica
     # Primera de estos anios con sus rondas y sus dias, y el archivo del anio trae
     # las dos ruedas: el recorte que las separa se declara en `rsssf.SECCION_LIGA`.
     #
-    # Van LOS DOCE, de `arg92` a `arg97`. La capa entera menos el Clausura 1991, que
-    # Wikipedia deja en un stub de 83 bytes y hay que buscar en otro lado.
+    # Van LOS DOCE, de `arg92` a `arg97`, con su grilla de Wikipedia. El Clausura
+    # 1991, el que hace trece, entra de otra forma: ver mas abajo.
     #
     # La fuente escribe estos anios de tres maneras y las tres estan cubiertas:
     # `arg92`-`arg95` separan con tabs, `arg97` alinea por espacios y abrevia los

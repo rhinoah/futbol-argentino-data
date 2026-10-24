@@ -1,0 +1,411 @@
+# Testigo externo de fad/correcciones.py y fad/citadas.py. Lo lee
+# tests/test_declaraciones.py.
+#
+# Un renglon por declaracion: la coleccion y los campos que llegan al dato, sin
+# la evidencia (`porque`, `testigos`) y sin los que valen su default. El orden no
+# importa; se compara como multiconjunto.
+#
+# NO SE REGENERA. Es una foto, como tests/afa_snapshot.py: sacar, agregar o
+# cambiar una declaracion hace fallar el test, que dice que renglon falta y cual
+# sobra, y el renglon se edita a mano en el mismo commit. Si saliera de las
+# declaraciones en cada corrida, compararlas con el no probaria nada.
+
+CORRECCIONES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 25' | dice=('Belgrano', 'Instituto', 1, 1) | debe=('Instituto', 'Belgrano')
+CORRECCIONES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 25' | dice=('Ferro Carril Oeste', 'Unión', 2, 2) | debe=('Unión', 'Ferro Carril Oeste')
+CORRECCIONES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 35' | dice=('Deportivo Merlo', 'Platense', 2, 2) | debe=('Platense', 'Deportivo Merlo')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | dice=('Libertad (S)', 'Cipolletti', 2, 0) | debe=('Cipolletti', 'Libertad (S)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | dice=('Cipolletti', 'Libertad (S)', 2, 2) | debe=('Libertad (S)', 'Cipolletti')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | dice=('Central Norte (S)', 'Gimnasia y Esgrima (CdU)', 0, 0) | debe=('Gimnasia y Esgrima (CdU)', 'Central Norte (S)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | dice=('Gimnasia y Esgrima (CdU)', 'Central Norte (S)', 1, 3) | debe=('Central Norte (S)', 'Gimnasia y Esgrima (CdU)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | dice=('Rivadavia (L)', 'Gimnasia y Tiro (S)', 1, 0) | debe=('Gimnasia y Tiro (S)', 'Rivadavia (L)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | dice=('Gimnasia y Tiro (S)', 'Rivadavia (L)', 0, 2) | debe=('Rivadavia (L)', 'Gimnasia y Tiro (S)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Tercera ronda' | dice=('Juventud Unida Universitario', 'Rivadavia (L)', 0, 1) | debe=('Rivadavia (L)', 'Juventud Unida Universitario')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Tercera ronda' | dice=('Rivadavia (L)', 'Juventud Unida Universitario', 0, 3) | debe=('Juventud Unida Universitario', 'Rivadavia (L)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Tercera fase' | dice=('San Martín (T)', 'Central Norte (S)', 0, 2) | debe=('Central Norte (S)', 'San Martín (T)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Tercera fase' | dice=('Central Norte (S)', 'San Martín (T)', 2, 1) | debe=('San Martín (T)', 'Central Norte (S)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Tercera fase' | dice=('Defensores de Belgrano (VR)', 'Juventud Unida Universitario', 1, 4) | debe=('Juventud Unida Universitario', 'Defensores de Belgrano (VR)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Tercera fase' | dice=('Juventud Unida Universitario', 'Defensores de Belgrano (VR)', 0, 2) | debe=('Defensores de Belgrano (VR)', 'Juventud Unida Universitario')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Tercera fase' | dice=('Racing (O)', 'Central Córdoba (SdE)', 0, 2) | debe=('Central Córdoba (SdE)', 'Racing (O)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Tercera fase' | dice=('Central Córdoba (SdE)', 'Racing (O)', 1, 3) | debe=('Racing (O)', 'Central Córdoba (SdE)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Tercera fase' | dice=('Unión (MdP)', 'Racing (C)', 1, 1) | debe=('Racing (C)', 'Unión (MdP)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Tercera fase' | dice=('Racing (C)', 'Unión (MdP)', 2, 0) | debe=('Unión (MdP)', 'Racing (C)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Cuarta fase' | dice=('Sportivo Belgrano', 'Central Norte (S)', 2, 3) | debe=('Central Norte (S)', 'Sportivo Belgrano')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Cuarta fase' | dice=('Central Norte (S)', 'Sportivo Belgrano', 1, 2) | debe=('Sportivo Belgrano', 'Central Norte (S)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Cuarta fase' | dice=('Crucero del Norte', 'Juventud Unida Universitario', 1, 0) | debe=('Juventud Unida Universitario', 'Crucero del Norte')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Cuarta fase' | dice=('Juventud Unida Universitario', 'Crucero del Norte', 1, 2) | debe=('Crucero del Norte', 'Juventud Unida Universitario')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | dice=('Juventud Unida Universitario', 'Juventud Antoniana', 0, 1) | debe=('Juventud Antoniana', 'Juventud Unida Universitario')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | dice=('Juventud Antoniana', 'Juventud Unida Universitario', 0, 1) | debe=('Juventud Unida Universitario', 'Juventud Antoniana')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Tercera ronda' | dice=('Libertad (S)', 'Central Norte (S)', 1, 2) | debe=('Central Norte (S)', 'Libertad (S)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Tercera ronda' | dice=('Central Norte (S)', 'Libertad (S)', 0, 1) | debe=('Libertad (S)', 'Central Norte (S)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Cuarta fase' | dice=('Ramón Santamarina', 'Racing (O)', 2, 2) | debe=('Racing (O)', 'Ramón Santamarina')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Cuarta fase' | dice=('Racing (O)', 'Ramón Santamarina', 2, 2) | debe=('Ramón Santamarina', 'Racing (O)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Cuarta fase' | dice=('Talleres (C)', 'Racing (C)', 1, 1) | debe=('Racing (C)', 'Talleres (C)')
+CORRECCIONES | pagina='Torneo Argentino A 2011-12' | jornada='Cuarta fase' | dice=('Racing (C)', 'Talleres (C)', 1, 1) | debe=('Talleres (C)', 'Racing (C)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Tercera Fase' | dice=('Unión (MdP)', 'Desamparados', 2, 3) | debe=('Desamparados', 'Unión (MdP)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Tercera Fase' | dice=('Desamparados', 'Unión (MdP)', 1, 1) | debe=('Unión (MdP)', 'Desamparados')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 4' | dice=('Ramón Santamarina', 'Unión (S)', 0, 0) | debe=('Ramón Santamarina', 'Unión (MdP)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 17' | dice=('Unión (S)', 'Guillermo Brown', 1, 1) | debe=('Unión (MdP)', 'Guillermo Brown')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 20' | dice=('Cipolletti', 'Unión (S)', 2, 2) | debe=('Cipolletti', 'Unión (MdP)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 22' | dice=('Villa Mitre', 'Unión (S)', 0, 1) | debe=('Villa Mitre', 'Unión (MdP)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 21' | dice=('Unión (MdP)', 'Douglas Haig', 2, 0) | debe=('Unión (MdP)', 'Huracán (TA)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 11' | dice=('Unión', '9 de Julio (R)', 1, 1) | debe=('Unión (S)', '9 de Julio (R)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 22' | dice=('Gimnasia y Esgrima', 'Unión (S)', 1, 1) | debe=('Gimnasia y Esgrima (CdU)', 'Unión (S)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 28' | dice=('Central Norte (S)', 'Gimnasia y Esgrima', 2, 0) | debe=('Central Norte (S)', 'Gimnasia y Esgrima (CdU)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 22' | dice=('Juventud Antoniana', 'Central Norte (SE)', 1, 1) | debe=('Juventud Antoniana', 'Central Norte (S)')
+CORRECCIONES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 13' | dice=('Douglas Haig', 'Rivadavia', 1, 0) | debe=('Douglas Haig', 'Rivadavia (L)')
+CORRECCIONES | pagina='Torneo Argentino A 2005-06' | jornada='Fecha 6' | dice=('Desamparados', 'Racing (O)', 3, 1) | debe=('Desamparados', 'Cipolletti')
+CORRECCIONES | pagina='Torneo Argentino A 2005-06' | jornada='Fecha 6' | dice=('9 de Julio', 'La Florida', 0, 2) | debe=('9 de Julio (R)', 'La Florida')
+CORRECCIONES | pagina='Torneo Argentino A 2005-06' | jornada='Promoción' | dice=('Alumni', 'General Paz Juniors', 5, 0) | debe=('Alumni (VM)', 'General Paz Juniors')
+CORRECCIONES | pagina='Torneo Argentino A 2005-06' | jornada='Promoción' | dice=('General Paz Juniors', 'Alumni', 2, 0) | debe=('General Paz Juniors', 'Alumni (VM)')
+CORRECCIONES | pagina='Torneo Federal A 2016-17' | jornada='Fecha 5' | dice=('Ferro Carril Oeste', 'Deportivo Roca', 2, 1) | debe=('Ferro Carril Oeste (GP)', 'Deportivo Roca')
+CORRECCIONES | pagina='Torneo Federal A 2014' | jornada='Fecha 5' | dice=('San Jorge', 'Altos Hornos Zapla', 1, 1) | debe=('San Jorge (T)', 'Altos Hornos Zapla')
+CORRECCIONES | pagina='Campeonato de Primera Nacional 2022' | jornada='Fecha 5' | dice=('Alvarado', 'San Martín', 3, 1) | debe=('Alvarado', 'San Martín (T)')
+CORRECCIONES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 12' | dice=('All Boys', 'Belgrano', 0, 0) | debe=('All Boys', 'Gimnasia y Esgrima (J)')
+CORRECCIONES | pagina='Anexo:Torneo Clausura 1994 (Argentina)' | jornada='Fecha 8' | dice=('Deportivo Maniyú', 'Platense', 1, 1) | debe=('Deportivo Mandiyú', 'Platense')
+CORRECCIONES | pagina='Anexo:Torneo Clausura 1995 (Argentina)' | jornada='Fecha 6' | dice=('Ferro Carril Oeste', 'Gimnasia J)', 2, 2) | debe=('Ferro Carril Oeste', 'Gimnasia y Esgrima (J)')
+MARCADORES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local='Almagro' | visita='Atlético de Rafaela' | dice=(1, 1) | debe=(1, 1) | penales_dice=(3, 4) | penales_debe=(4, 2)
+MARCADORES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local="Newell's Old Boys" | visita='Villa Mitre' | dice=(0, 0) | debe=(1, 2) | penales_dice=(5, 3)
+MARCADORES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local='Nueva Chicago' | visita='Central Córdoba (SdE)' | dice=(1, 2) | debe=(0, 1)
+MARCADORES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local='Defensa y Justicia' | visita='Gimnasia y Tiro (S)' | dice=(2, 1) | debe=(1, 0)
+MARCADORES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local='Mitre (SdE)' | visita='Deportivo Roca' | dice=(2, 1) | debe=(1, 0)
+MARCADORES | pagina='Campeonato de Primera C 2025 (Argentina)' | jornada='Primera fase' | local='J. J. de Urquiza' | visita='Sportivo Barracas' | dice=(0, 3) | debe=(0, 2)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2011-12' | jornada='Fecha 17' | local='Huracán' | visita='Defensa y Justicia' | dice=(1, 3) | debe=(2, 3)
+MARCADORES | pagina='Torneo Argentino A 2011-12' | jornada='Fecha 1' | local='Crucero del Norte' | visita='Tiro Federal' | dice=(0, 0) | debe=(1, 1)
+MARCADORES | pagina='Campeonato de Primera Nacional 2021' | jornada='Fecha 19' | local='Almirante Brown' | visita='Mitre (SdE)' | dice=(1, 1) | debe=(0, 0)
+MARCADORES | pagina='Torneo Federal A 2017-18' | jornada='Fecha 15' | local='Guaraní Antonio Franco' | visita='Deportivo Mandiyú' | dice=(2, 1) | debe=(4, 1)
+MARCADORES | pagina='Torneo Federal A 2022' | jornada='Fecha 2' | local='San Martín (F)' | visita='Central Norte (S)' | dice=(2, 2) | debe=(0, 0)
+MARCADORES | pagina='Campeonato de Primera B 2024 (Argentina)' | jornada='Fecha 8' | local='Deportivo Armenio' | visita='Argentino de Quilmes' | dice=(3, 1) | debe=(2, 1)
+MARCADORES | pagina='Torneo Federal A 2024' | jornada='Fecha 10' | local='Atenas (RC)' | visita='Ferro Carril Oeste (GP)' | dice=(2, 0) | debe=(1, 0)
+MARCADORES | pagina='Campeonato de Primera B 2021 (Argentina)' | jornada='Fecha 5' | local='Defensores Unidos' | visita='Los Andes' | dice=(0, 1) | debe=(0, 2)
+MARCADORES | pagina='Torneo Argentino A 2011-12' | jornada='Fecha 1' | local='Talleres (C)' | visita='Libertad (S)' | dice=(2, 0) | debe=(1, 1)
+MARCADORES | pagina='Torneo Federal A 2024' | jornada='Fecha 11' | local='Independiente (C)' | visita='El Linqueño' | dice=(0, 0) | debe=(0, 1)
+MARCADORES | pagina='Torneo Federal A 2023' | jornada='Fecha 11' | local='Douglas Haig' | visita='Independiente (C)' | dice=(1, 0) | debe=(0, 1)
+MARCADORES | pagina='Torneo Federal A 2023' | jornada='Fecha 11' | local='Unión (S)' | visita='Sportivo Las Parejas' | dice=(0, 1) | debe=(1, 0)
+MARCADORES | pagina='Torneo Federal A 2023' | jornada='Fecha 34' | local='Crucero del Norte' | visita='Central Norte (S)' | dice=(1, 2) | debe=(1, 1)
+MARCADORES | pagina='Torneo Argentino A 2011-12' | jornada='Fecha 14' | local='Defensores de Belgrano (VR)' | visita='Racing (O)' | dice=(1, 0) | debe=(0, 1)
+MARCADORES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | local='Juventud Antoniana' | visita='Juventud Unida Universitario' | dice=(1, 0) | debe=(1, 1)
+MARCADORES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Segunda ronda' | local='Juventud Unida Universitario' | visita='Juventud Antoniana' | dice=(1, 0) | debe=(0, 0)
+MARCADORES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Tercera ronda' | local='Central Norte (S)' | visita='Libertad (S)' | dice=(2, 1) | debe=(2, 0)
+MARCADORES | pagina='Torneo Argentino A 2011-12' | jornada='Reválida - Tercera ronda' | local='Libertad (S)' | visita='Central Norte (S)' | dice=(1, 0) | debe=(1, 1)
+MARCADORES | pagina='Torneo Argentino A 2004-05' | jornada='Zona Reválida - Final' | local='Luján de Cuyo' | visita='Atlético Candelaria' | dice=(2, 0) | debe=(4, 1)
+MARCADORES | pagina='Campeonato de Primera B 2010-11 (Argentina)' | jornada='Fecha 6' | local='Platense' | visita='Estudiantes (BA)' | dice=(1, 1) | debe=(0, 0)
+MARCADORES | pagina='Campeonato de Primera Nacional 2021' | jornada='Fecha 17' | local='Gimnasia y Esgrima (J)' | visita='Defensores de Belgrano' | dice=(3, 1) | debe=(1, 3)
+MARCADORES | pagina='Campeonato de Primera B 2022 (Argentina)' | jornada='Fecha 12' | local='Cañuelas' | visita='Ituzaingó' | dice=(2, 2) | debe=(3, 2)
+MARCADORES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 7' | local='Gimnasia y Esgrima (CdU)' | visita='Central Norte (S)' | dice=(2, 0) | debe=(1, 0)
+MARCADORES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 21' | local='Unión (MdP)' | visita='Huracán (TA)' | dice=(2, 0) | debe=(0, 1)
+MARCADORES | pagina='Torneo Argentino A 2010-11' | jornada='Fecha 28' | local='Villa Mitre' | visita='Ramón Santamarina' | dice=(0, 2) | debe=(0, 1)
+MARCADORES | pagina='Torneo Federal A 2019-20' | jornada='Fecha 14' | local='San Martín (F)' | visita='Unión (S)' | dice=(2, 0) | debe=(3, 0)
+MARCADORES | pagina='Campeonato de Primera B 2018-19 (Argentina)' | jornada='Fecha 15' | local='San Telmo' | visita='UAI Urquiza' | dice=(1, 0) | debe=(0, 1)
+MARCADORES | pagina='Campeonato de Primera Nacional 2023' | jornada='Fecha 31' | local='Aldosivi' | visita='Villa Dálmine' | dice=(0, 0) | debe=(1, 1)
+MARCADORES | pagina='Campeonato de Primera C 2015 (Argentina)' | jornada='Fecha 32' | local='Argentino de Merlo' | visita='Cañuelas' | dice=(0, 2) | debe=(1, 2)
+MARCADORES | pagina='Campeonato de Primera C 2026 (Argentina)' | jornada='Fecha 14' | local='Claypole' | visita='Central Córdoba (R)' | dice=(0, 0) | debe=(2, 2)
+MARCADORES | pagina='Campeonato de Primera Nacional 2022' | jornada='Fecha 19' | local='Estudiantes (RC)' | visita='Deportivo Riestra' | dice=(2, 1) | debe=(2, 0)
+MARCADORES | pagina='Campeonato de Primera Nacional 2022' | jornada='Fecha 26' | local='Ramón Santamarina' | visita='Chacarita Juniors' | dice=(1, 1) | debe=(2, 1)
+MARCADORES | pagina='Anexo:Torneo Clausura 2007 (Argentina)' | jornada='Fecha 2' | local="Newell's Old Boys" | visita='River Plate' | dice=(1, 2) | debe=(0, 2)
+MARCADORES | pagina='Campeonato de Primera Nacional 2024' | jornada='Fecha 15' | local='Alvarado' | visita='Talleres (RdE)' | dice=(1, 0) | debe=(2, 0)
+MARCADORES | pagina='Campeonato de Primera C 2023 (Argentina)' | jornada='Fecha 33' | local='Deportivo Laferrere' | visita='Excursionistas' | dice=(1, 0) | debe=(1, 1)
+MARCADORES | pagina='Torneo Federal A 2022' | jornada='Fecha 14' | local='Ciudad de Bolívar' | visita='Juventud Unida Universitario' | dice=(1, 1) | debe=(2, 1)
+MARCADORES | pagina='Anexo:Torneo Clausura 2008 (Argentina)' | jornada='Fecha 2' | local='Gimnasia y Esgrima (J)' | visita='Estudiantes (LP)' | dice=(1, 2) | debe=(0, 2)
+MARCADORES | pagina='Anexo:Torneo Clausura 2008 (Argentina)' | jornada='Fecha 7' | local='Racing Club' | visita='Estudiantes (LP)' | dice=(1, 2) | debe=(0, 2)
+MARCADORES | pagina='Campeonato de Primera Nacional 2019-20' | jornada='Fecha 2' | local='Agropecuario' | visita='Belgrano' | dice=(1, 3) | debe=(1, 0)
+MARCADORES | pagina='Campeonato de Primera Nacional 2019-20' | jornada='Fecha 4' | local='Deportivo Morón' | visita='Belgrano' | dice=(1, 3) | debe=(1, 1)
+MARCADORES | pagina='Campeonato de Primera Nacional 2019-20' | jornada='Fecha 6' | local='Platense' | visita='Belgrano' | dice=(1, 4) | debe=(1, 0)
+MARCADORES | pagina='Campeonato de Primera C 2011-12 (Argentina)' | jornada='Fecha 1' | local='Villa Dálmine' | visita='Defensores de Cambaceres' | dice=(1, 0) | debe=(0, 1)
+MARCADORES | pagina='Torneo Federal A 2021' | jornada='Fecha 22' | local='Juventud Unida Universitario' | visita='Olimpo' | dice=(2, 2) | debe=(0, 0)
+MARCADORES | pagina='Torneo Federal A 2021' | jornada='Fecha 30' | local='Juventud Unida Universitario' | visita='Desamparados' | dice=(2, 1) | debe=(2, 0)
+MARCADORES | pagina='Torneo Federal A 2022' | jornada='Fecha 26' | local='Crucero del Norte' | visita='San Martín (F)' | dice=(1, 0) | debe=(3, 1)
+MARCADORES | pagina='Campeonato de Primera C 2024 (Argentina)' | jornada='Fecha 9' | local='Leandro N. Alem' | visita='Atlas' | dice=(1, 2) | debe=(2, 1)
+MARCADORES | pagina='Campeonato de Primera C 2024 (Argentina)' | jornada='Fecha 19' | local='Juventud Unida' | visita='Muñiz' | dice=(1, 1) | debe=(1, 2)
+MARCADORES | pagina='Campeonato de Primera C 2024 (Argentina)' | jornada='Fecha 20' | local='Yupanqui' | visita='Defensores de Cambaceres' | dice=(0, 3) | debe=(1, 3)
+MARCADORES | pagina='Campeonato de Primera C 2024 (Argentina)' | jornada='Fecha 11' | local='Yupanqui' | visita='Lugano' | dice=(0, 0) | debe=(1, 1)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2007-08' | jornada='Fecha 1' | local='Independiente Rivadavia' | visita='Tiro Federal' | dice=(0, 1) | debe=(1, 0)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2008-09' | jornada='Fecha 36 (6/06/2009)' | local='Talleres (C)' | visita='Atlético Tucumán' | dice=(0, 4) | debe=(0, 4)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 1' | local='Defensa y Justicia' | visita='Tiro Federal' | dice=(2, 2) | debe=(2, 0)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 17' | local='Platense' | visita='Aldosivi' | dice=(1, 0) | debe=(0, 0)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 23' | local='Gimnasia y Esgrima (J)' | visita='Quilmes' | dice=(0, 1) | debe=(1, 2)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 38' | local='San Martín (SJ)' | visita='Ferro Carril Oeste' | dice=(1, 0) | debe=(1, 1)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 38' | local='Aldosivi' | visita='Boca Unidos' | dice=(3, 4) | debe=(3, 1)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2010-11' | jornada='Fecha 22' | local='Ferro Carril Oeste' | visita='Defensa y Justicia' | dice=(0, 3) | debe=(0, 0)
+MARCADORES | pagina='Campeonato de Primera B Nacional 2010-11' | jornada='Fecha 22' | local='San Martín (T)' | visita='Patronato' | dice=(1, 3) | debe=(1, 2)
+MARCADORES | pagina='Anexo:Torneo Clausura 1993 (Argentina)' | jornada='Fecha 16' | local='Talleres (C)' | visita='River Plate' | dice=(2, 2) | debe=(0, 2) | status_debe='suspendido'
+MARCADORES | pagina='Anexo:Torneo Clausura 1993 (Argentina)' | jornada='Fecha 17' | local="Newell's Old Boys" | visita='Talleres (C)' | dice=(0, 1) | debe=(1, 0) | status_debe='escritorio'
+MARCADORES | pagina='Anexo:Torneo Clausura 1993 (Argentina)' | jornada='Fecha 18' | local='Talleres (C)' | visita='Gimnasia y Esgrima (LP)' | dice=(1, 0) | debe=(0, 1) | status_debe='escritorio'
+MARCADORES | pagina='Torneo Federal A 2014' | jornada='Cuarta fase' | local='Sportivo Patria' | visita='Atlético Paraná' | dice=(1, 3) | debe=(0, 3) | status_debe='suspendido'
+MARCADORES | pagina='Anexo:Torneo Clausura 1991 (Argentina)' | jornada='Fecha 15' | local='Lanús' | visita='Platense' | dice=(0, 0) | debe=(0, 1)
+DIVIDIDOS | pagina='Campeonato de Primera División 1988-89 (Argentina)' | local="Newell's Old Boys" | visita='Rosario Central' | dice=(0, 1) | llave='Torneo Apertura 1988-89'
+DIVIDIDOS | pagina='Campeonato de Primera División 1989-90 (Argentina)' | local='Rosario Central' | visita="Newell's Old Boys" | dice=(0, 1)
+DIVIDIDOS | pagina='Campeonato de Primera División 1990-91 (Argentina)' | local='Boca Juniors' | visita='San Lorenzo' | dice=(0, 1)
+DIVIDIDOS | pagina='Campeonato de Primera B Nacional 2011-12' | local='Chacarita Juniors' | visita='Atlanta' | dice=(0, 1)
+DIVIDIDOS | pagina='Anexo:Torneo Clausura 2005 (Argentina)' | local='Almagro' | visita='Boca Juniors' | dice=(0, 2)
+DIVIDIDOS | pagina='Campeonato de Primera C 2015 (Argentina)' | local='Deportivo Laferrere' | visita='Dock Sud' | dice=(2, 2)
+DIVIDIDOS | pagina='Campeonato de Primera B Nacional 2016-17' | local='Atlético Paraná' | visita='All Boys' | dice=(0, 0)
+DIVIDIDOS | pagina='Campeonato de Primera B 2017-18 (Argentina)' | local='Deportivo Español' | visita='Sacachispas' | dice=(0, 0)
+DIVIDIDOS | pagina='Torneo Argentino A 2005-06' | local='La Florida' | visita='Sportivo Patria' | dice=(2, 2) | llave='Torneo Clausura'
+DIVIDIDOS | pagina='Anexo:Torneo Apertura 1997 (Argentina)' | local='San Lorenzo' | visita='Huracán' | dice=None
+DIVIDIDOS | pagina='Torneo Federal A 2018-19' | local='Independiente (N)' | visita='Deportivo Roca' | dice=None | llave='Reválida'
+DIVIDIDOS | pagina='Torneo Argentino A 2006-07' | local='Central Norte (S)' | visita='9 de Julio (R)' | dice=None | llave='Torneo Clausura'
+DIVIDIDOS | pagina='Torneo Argentino A 2006-07' | local='San Martín (SM)' | visita='Desamparados' | dice=None | llave='Torneo Clausura'
+DIVIDIDOS | pagina='Torneo Federal A 2014' | local='Deportivo Roca' | visita='Cipolletti' | dice=None
+FALTANTES | pagina='Campeonato de Primera C 2016 (Argentina)' | jornada='Fecha 1' | local='Defensores de Cambaceres' | visita='Sportivo Barracas' | goles=(0, 0) | fecha='2016-02-05' | hora='17:00' | estadio='12 de Octubre'
+FALTANTES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local='Godoy Cruz' | visita='Deportivo Armenio' | goles=(2, 1) | fecha='2019-03-23' | hora='' | estadio='Juan Domingo Perón'
+LOCALIA_RESUELTA | 'Torneo Argentino A 2011-12'
+HOMONIMOS | pagina='Copa Argentina 2015-16' | dice='Juventud Unida' | debe='Juventud Unida (G)'
+HOMONIMOS | pagina='Torneo Argentino A 2004-05' | dice='Talleres (C)' | debe='Talleres (P)'
+HOMONIMOS | pagina='Torneo Argentino A 2004-05' | dice='Juventud Unida' | debe='Juventud Unida Universitario'
+HOMONIMOS | pagina='Campeonato de Primera B 2015 (Argentina)' | dice='Estudiantes (LP)' | debe='Estudiantes (BA)'
+HOMONIMOS | pagina='Campeonato de Primera B 2017-18 (Argentina)' | dice='Estudiantes (LP)' | debe='Estudiantes (BA)'
+HOMONIMOS | pagina='Torneo Argentino A 2005-06' | dice='Talleres (C)' | debe='Talleres (P)'
+HOMONIMOS | pagina='Torneo Argentino A 2010-11' | dice='Juventud Unida' | debe='Juventud Unida Universitario'
+HOMONIMOS | pagina='Torneo Argentino A 2005-06' | dice='Juventud Unida' | debe='Juventud Unida Universitario'
+HOMONIMOS | pagina='Torneo Federal A 2014' | dice='Mitre (S)' | debe='Mitre (SdE)'
+CANCHAS | pagina='Campeonato de Primera Nacional 2022' | jornada='Fecha 36' | local='Gimnasia y Esgrima (J)' | visita='San Martín (T)' | dice='Víctor Antonio Legrotaglie' | debe='23 de Agosto'
+CANCHAS | pagina='Torneo Federal A 2025' | jornada='Segunda etapa' | local='Sarmiento (LB)' | visita='San Martín (SM)' | dice='Centenario' | debe='Ciudad de La Banda'
+COPIAS | fecha='2011-06-25' | local='Los Andes' | visita='Central Córdoba (R)' | campo='time' | valor='15:00'
+COPIAS | fecha='2012-06-27' | local='Crucero del Norte' | visita='Guillermo Brown' | campo='venue' | valor='Comandante A. Guacurarí'
+COPIAS | fecha='2021-02-04' | local='San Telmo' | visita='Deportivo Madryn' | campo='venue' | valor='Marcelo Bielsa'
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Defensores de Belgrano', 'Instituto', 2, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Atlanta', 'San Martín (T)', 2, 2)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Gimnasia y Esgrima (M)', 'Ferro Carril Oeste', 1, 4)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Deportivo Morón', 'Villa Dálmine', 2, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Estudiantes (BA)', 'Barracas Central', 2, 2)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Tigre', 'San Martín (SJ)', 1, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Deportivo Riestra', 'Temperley', 1, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-18' | dice=('Agropecuario', 'Quilmes', 0, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-21' | dice=('Estudiantes (BA)', 'San Martín (SJ)', 3, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-21' | dice=('Deportivo Morón', 'Deportivo Riestra', 0, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-21' | dice=('Atlanta', 'Ferro Carril Oeste', 2, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-21' | dice=('Defensores de Belgrano', 'Quilmes', 0, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-24' | dice=('Atlético de Rafaela', 'Quilmes', 2, 2)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-24' | dice=('Estudiantes (BA)', 'Atlanta', 1, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-24' | dice=('Platense', 'Deportivo Riestra', 0, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-27' | dice=('Estudiantes (RC)', 'Estudiantes (BA)', 1, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-27' | dice=('Atlético de Rafaela', 'Platense', 0, 2)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-31' | dice=('Estudiantes (RC)', 'Platense', 1, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-16' | dice=('Sarmiento (J)', 'Estudiantes (RC)', 1, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera B 2020 (Argentina)' | fecha='2021-01-12' | dice=('Tristán Suárez', 'Argentino de Quilmes', 1, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera B 2020 (Argentina)' | fecha='2021-01-12' | dice=('Villa San Carlos', 'San Telmo', 2, 4)
+NEUTRALES | pagina='Campeonato Transición de Primera B 2020 (Argentina)' | fecha='2021-01-12' | dice=('Comunicaciones', 'Acassuso', 2, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera B 2020 (Argentina)' | fecha='2021-01-18' | dice=('Tristán Suárez', 'Comunicaciones', 1, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera B 2020 (Argentina)' | fecha='2021-01-18' | dice=('J. J. de Urquiza', 'San Telmo', 0, 4)
+NEUTRALES | pagina='Campeonato Transición de Primera B 2020 (Argentina)' | fecha='2021-01-25' | dice=('Tristán Suárez', 'San Telmo', 1, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera C 2020 (Argentina)' | fecha='2021-01-23' | dice=('Real Pilar', 'Ituzaingó', 0, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera C 2020 (Argentina)' | fecha='2021-01-23' | dice=('Dock Sud', 'Luján', 1, 1)
+NEUTRALES | pagina='Campeonato Transición de Primera C 2020 (Argentina)' | fecha='2021-01-23' | dice=('General Lamadrid', 'Deportivo Laferrere', 2, 2)
+NEUTRALES | pagina='Campeonato Transición de Primera C 2020 (Argentina)' | fecha='2021-01-23' | dice=('Argentino de Merlo', 'Deportivo Merlo', 1, 3)
+NEUTRALES | pagina='Campeonato Transición de Primera C 2020 (Argentina)' | fecha='2021-01-27' | dice=('Dock Sud', 'Ituzaingó', 1, 0)
+NEUTRALES | pagina='Campeonato Transición de Primera C 2020 (Argentina)' | fecha='2021-01-27' | dice=('General Lamadrid', 'Deportivo Merlo', 2, 2)
+NEUTRALES | pagina='Campeonato Transición de Primera C 2020 (Argentina)' | fecha='2021-01-31' | dice=('Dock Sud', 'Deportivo Merlo', 1, 2)
+NEUTRALES | pagina='Copa de la Liga Profesional 2020' | fecha='2021-01-17' | dice=('Boca Juniors', 'Banfield', 1, 1)
+NEUTRALES | pagina='Copa de la Liga Profesional 2020' | fecha='2021-01-16' | dice=('Rosario Central', 'Vélez Sarsfield', 1, 3)
+NEUTRALES | pagina='Copa de la Liga Profesional 2020' | fecha='2021-03-31' | dice=('Banfield', 'Vélez Sarsfield', 3, 2)
+NEUTRALES | pagina='Copa de la Liga Profesional 2021' | fecha='2021-05-31' | dice=('Racing Club', 'Boca Juniors', 0, 0)
+NEUTRALES | pagina='Copa de la Liga Profesional 2021' | fecha='2021-05-31' | dice=('Colón', 'Independiente', 2, 0)
+NEUTRALES | pagina='Copa de la Liga Profesional 2021' | fecha='2021-06-04' | dice=('Colón', 'Racing Club', 3, 0)
+NEUTRALES | pagina='Copa de la Liga Profesional 2022' | fecha='2022-05-14' | dice=('Racing Club', 'Boca Juniors', 0, 0)
+NEUTRALES | pagina='Copa de la Liga Profesional 2022' | fecha='2022-05-15' | dice=('Tigre', 'Argentinos Juniors', 1, 1)
+NEUTRALES | pagina='Copa de la Liga Profesional 2022' | fecha='2022-05-22' | dice=('Boca Juniors', 'Tigre', 3, 0)
+NEUTRALES | pagina='Copa de la Liga Profesional 2023' | fecha='2023-12-02' | dice=('Huracán', 'Platense', 1, 1)
+NEUTRALES | pagina='Copa de la Liga Profesional 2023' | fecha='2023-12-02' | dice=('Godoy Cruz', 'Banfield', 0, 0)
+NEUTRALES | pagina='Copa de la Liga Profesional 2023' | fecha='2023-12-03' | dice=('River Plate', 'Belgrano', 2, 1)
+NEUTRALES | pagina='Copa de la Liga Profesional 2023' | fecha='2023-12-03' | dice=('Racing Club', 'Rosario Central', 2, 2)
+NEUTRALES | pagina='Copa de la Liga Profesional 2023' | fecha='2023-12-09' | dice=('Platense', 'Godoy Cruz', 1, 1)
+NEUTRALES | pagina='Copa de la Liga Profesional 2023' | fecha='2023-12-09' | dice=('Rosario Central', 'River Plate', 0, 0)
+NEUTRALES | pagina='Copa de la Liga Profesional 2023' | fecha='2023-12-16' | dice=('Platense', 'Rosario Central', 0, 1)
+NEUTRALES | pagina='Copa de la Liga Profesional 2024' | fecha='2024-04-20' | dice=('Argentinos Juniors', 'Defensa y Justicia', 1, 1)
+NEUTRALES | pagina='Copa de la Liga Profesional 2024' | fecha='2024-04-20' | dice=('Estudiantes (LP)', 'Barracas Central', 3, 0)
+NEUTRALES | pagina='Copa de la Liga Profesional 2024' | fecha='2024-04-20' | dice=('Godoy Cruz', 'Vélez Sarsfield', 1, 2)
+NEUTRALES | pagina='Copa de la Liga Profesional 2024' | fecha='2024-04-21' | dice=('River Plate', 'Boca Juniors', 2, 3)
+NEUTRALES | pagina='Copa de la Liga Profesional 2024' | fecha='2024-04-28' | dice=('Argentinos Juniors', 'Vélez Sarsfield', 0, 0)
+NEUTRALES | pagina='Copa de la Liga Profesional 2024' | fecha='2024-04-30' | dice=('Estudiantes (LP)', 'Boca Juniors', 1, 1)
+NEUTRALES | pagina='Copa de la Liga Profesional 2024' | fecha='2024-05-05' | dice=('Estudiantes (LP)', 'Vélez Sarsfield', 1, 1)
+NEUTRALES | pagina='Anexo:Torneo Apertura 2008 (Argentina)' | fecha='2008-12-17' | dice=('Tigre', 'San Lorenzo', 1, 2)
+NEUTRALES | pagina='Anexo:Torneo Apertura 2008 (Argentina)' | fecha='2008-12-20' | dice=('San Lorenzo', 'Boca Juniors', 1, 3)
+NEUTRALES | pagina='Anexo:Torneo Apertura 2008 (Argentina)' | fecha='2008-12-23' | dice=('Boca Juniors', 'Tigre', 0, 1)
+NEUTRALES | pagina='Campeonato de Primera C 2023 (Argentina)' | fecha='2023-10-14' | dice=('Excursionistas', 'San Martín (B)', 1, 0)
+NEUTRALES | pagina='Torneo Federal A 2026' | fecha='2026-09-27' | dice=('Círculo Deportivo', 'Sol de Mayo (V)', 1, 1)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 5' | dice=('Douglas Haig', 'Cipolletti', 5, 3) | debe=('Cipolletti', 'Douglas Haig', 1, 2)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 5' | dice=('Juventud Unida Universitario', 'Desamparados', 2, 2) | debe=('Desamparados', 'Juventud Unida Universitario', 1, 1)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 5' | dice=('La Plata FC', 'Villa Mitre', 1, 1) | debe=('Villa Mitre', 'La Plata FC', 2, 1)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 5' | dice=('Luján de Cuyo', 'Juventud (P)', 1, 1) | debe=('Juventud (P)', 'Luján de Cuyo', 1, 0)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 5' | dice=('Guillermo Brown', 'Independiente Rivadavia', 1, 0) | debe=('Independiente Rivadavia', 'Guillermo Brown', 1, 0)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 5' | dice=('Racing (O)', 'Huracán (CR)', 0, 0) | debe=('Racing (O)', 'Huracán (CR)', 1, 0)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 6' | dice=('Racing (O)', 'Guillermo Brown', 0, 1) | debe=('Guillermo Brown', 'Racing (O)', 2, 0)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 6' | dice=('Juventud (P)', 'La Plata FC', 1, 2) | debe=('La Plata FC', 'Juventud (P)', 1, 0)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 6' | dice=('Juventud Unida Universitario', 'Luján de Cuyo', 2, 1) | debe=('Luján de Cuyo', 'Juventud Unida Universitario', 5, 2)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 6' | dice=('Independiente Rivadavia', 'Douglas Haig', 1, 1) | debe=('Douglas Haig', 'Independiente Rivadavia', 0, 1)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 6' | dice=('Desamparados', 'Cipolletti', 3, 1) | debe=('Cipolletti', 'Desamparados', 3, 0)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 1' | dice=('Unión (S)', 'La Florida', 2, 0) | debe=('Unión (S)', 'La Florida', 2, 1)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 4' | dice=('Guillermo Brown', 'Cipolletti', 3, 0) | debe=('Guillermo Brown', 'Cipolletti', 3, 1)
+REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 5' | dice=('Unión (S)', 'Talleres (P)', 2, 0) | debe=('Unión (S)', 'Talleres (P)', 1, 0)
+REVISADOS | pagina='Torneo Argentino A 2004-05' | club='Luján de Cuyo' | contra='Atlético Candelaria'
+REVISADOS | pagina='Campeonato de Primera B 2010-11 (Argentina)' | club='Platense' | desvio='GF+1 GC+1'
+REVISADOS | pagina='Campeonato de Primera B 2010-11 (Argentina)' | club='Estudiantes (BA)' | desvio='GF+1 GC+1'
+REVISADOS | pagina='Campeonato de Primera C 2011-12 (Argentina)' | club='J. J. de Urquiza' | desvio='GF+2 GC-3'
+REVISADOS | pagina='Campeonato de Primera C 2011-12 (Argentina)' | club='Sacachispas' | desvio='GF-1'
+REVISADOS | pagina='Campeonato de Primera C 2011-12 (Argentina)' | club='San Miguel' | desvio='GF-2 GC+2'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Ramón Santamarina' | desvio='GF+3 G+1 P-1'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Alvarado' | desvio='GC+3 G-1 P+1'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Villa Mitre' | desvio='GF+2'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Rivadavia (L)' | desvio='GC+2'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Cipolletti' | desvio='GF+1'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Real Arroyo Seco' | desvio='GC+1'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Gimnasia y Esgrima (M)' | desvio='GF+1'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Juventud Unida Universitario' | desvio='GF+1 E+1 P-1'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Central Córdoba (SdE)' | desvio='GC+1 G-1 E+1'
+REVISADOS | pagina='Torneo Argentino A 2008-09' | club='Deportivo Maipú' | desvio='GC+1'
+REVISADOS | pagina='Torneo Argentino A 2007-08' | club='Juventud Unida Universitario' | desvio='GF-1'
+REVISADOS | pagina='Torneo Argentino A 2007-08' | club='Luján de Cuyo' | desvio='GC-1'
+REVISADOS | pagina='Torneo Federal A 2025' | club='9 de Julio (R)' | contra='Germinal'
+REVISADOS | pagina='Torneo Federal A 2024' | club='Círculo Deportivo' | desvio='GC-1'
+REVISADOS | pagina='Torneo Federal A 2024' | club='Deportivo Camioneros' | desvio='GC+1'
+REVISADOS | pagina='Campeonato de Primera Nacional 2021' | club='Deportivo Maipú' | desvio='GF-1 GC-1'
+REVISADOS | pagina='Campeonato de Primera C 2015 (Argentina)' | club='Talleres (RdE)' | desvio='GF+2 GC+1'
+REVISADOS | pagina='Campeonato de Primera C 2015 (Argentina)' | club='Argentino de Quilmes' | desvio='GF+1 GC+2'
+REVISADOS | pagina='Torneo Argentino A 2012-13' | club='Ramón Santamarina' | desvio='GF+2 GC+2'
+REVISADOS | pagina='Torneo Argentino A 2012-13' | club='Deportivo Maipú' | desvio='GF+2 GC+2'
+REVISADOS | pagina='Torneo Argentino A 2012-13' | club='Juventud Unida Universitario' | desvio='GF-1'
+REVISADOS | pagina='Torneo Argentino A 2012-13' | club='Guillermo Brown' | desvio='GC-1'
+REVISADOS | pagina='Campeonato de Primera B Nacional 2012-13' | club='Atlético Tucumán' | desvio='GF+1'
+REVISADOS | pagina='Campeonato de Primera B Nacional 2012-13' | club='Olimpo' | desvio='GC+1'
+REVISADOS | pagina='Campeonato de Primera B Nacional 2013-14' | club='Talleres (C)' | desvio='GC+4'
+REVISADOS | pagina='Campeonato de Primera B Nacional 2013-14' | club='Brown de Adrogué' | desvio='GF+4'
+REVISADOS | pagina='Campeonato de Primera B Nacional 2014' | club='Instituto' | desvio='GC-1'
+REVISADOS | pagina='Campeonato de Primera B Nacional 2014' | club='Guaraní Antonio Franco' | desvio='GF-1'
+REVISADOS | pagina='Campeonato de Primera C 2015 (Argentina)' | club='Central Córdoba (R)' | desvio='GF-1'
+REVISADOS | pagina='Campeonato de Primera C 2015 (Argentina)' | club='Sacachispas' | desvio='GC-1'
+REVISADOS | pagina='Torneo Argentino A 2010-11' | club='Sportivo Belgrano' | desvio='GF+1 GC+2'
+REVISADOS | pagina='Torneo Argentino A 2010-11' | club='Central Norte (S)' | desvio='GF+2 GC+1'
+REVISADOS | pagina='Campeonato de Primera B Nacional 2009-10' | club='Platense' | desvio='GF-1 GC-1'
+REVISADOS | pagina='Anexo:Torneo Final 2013 (Argentina)' | club='Unión' | desvio='GC+1'
+REVISADOS | pagina='Copa de la Liga Profesional 2023' | club='Racing Club' | desvio='GF-1'
+REVISADOS | pagina='Campeonato de Primera C 2024 (Argentina)' | club='J. J. de Urquiza' | desvio='GC-1'
+REVISADOS | pagina='Torneo Federal A 2016-17' | club='Gutiérrez' | desvio='GF+2 GC+2'
+REVISADOS | pagina='Torneo Federal A 2025' | club='Cipolletti' | desvio='GF+2 GC-1 G+1 P-1'
+REVISADOS | pagina='Torneo Federal A 2025' | club='Villa Mitre' | desvio='GF+1 GC-2 G+1 P-1'
+REVISADOS | pagina='Torneo Federal A 2025' | club='Círculo Deportivo' | desvio='GF-1 GC+2 G-1 P+1'
+REVISADOS | pagina='Torneo Federal A 2025' | club='Sol de Mayo (V)' | desvio='GF-2 GC+1 G-1 P+1'
+REVISADOS | pagina='Campeonato de Primera Nacional 2025' | club='Defensores de Belgrano' | desvio='E+1 P-1'
+REVISADOS | pagina='Torneo Argentino A 2006-07' | club='Central Norte (S)' | desvio='PJ+1 GC+1 P+1'
+REVISADOS | pagina='Torneo Argentino A 2006-07' | club='9 de Julio (R)' | desvio='PJ+1 GC+1 P+1'
+REVISADOS | pagina='Torneo Argentino A 2006-07' | club='San Martín (SM)' | desvio='PJ+1 P+1'
+REVISADOS | pagina='Torneo Argentino A 2006-07' | club='Desamparados' | desvio='PJ+1 GC+1 P+1'
+REVISADOS | pagina='Torneo Argentino A 2006-07' | club='Sportivo Patria' | desvio='E+1 P-1'
+REVISADOS | pagina='Torneo Argentino A 2006-07' | club='Atlético Tucumán' | desvio='G+1 P-1'
+REVISADOS | pagina='Torneo Argentino A 2005-06' | club='La Florida' | desvio='PJ+1 GC+1 P+1'
+REVISADOS | pagina='Torneo Argentino A 2005-06' | club='Sportivo Patria' | desvio='PJ+1 GC+1 P+1'
+REVISADOS | pagina='Torneo Federal A 2015' | club='Concepción FC' | desvio='GF+1'
+REVISADOS | pagina='Torneo Federal A 2015' | club='San Martín (T)' | desvio='GC+1'
+REVISADOS | pagina='Torneo Federal A 2015' | club='Talleres (C)' | desvio='E+1 P-1'
+FECHADOS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 17' | local='Cipolletti' | visita='Gimnasia y Esgrima (CdU)' | nuestra='2013-01-27' | otra='2013-01-26'
+FECHADOS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 17' | local='Ramón Santamarina' | visita='Alvarado' | nuestra='2013-01-27' | otra='2013-01-26'
+FECHADOS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 17' | local='Guillermo Brown' | visita='Deportivo Maipú' | nuestra='2013-01-27' | otra='2013-01-26'
+FECHADOS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 17' | local='Defensores de Belgrano (VR)' | visita='Juventud Unida Universitario' | nuestra='2013-01-27' | otra='2013-01-26'
+FECHADOS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 17' | local='Unión (MdP)' | visita='Rivadavia (L)' | nuestra='2013-01-27' | otra='2013-01-26'
+FECHADOS | pagina='Torneo Argentino A 2012-13' | jornada='Cuarta fase' | local='San Jorge (T)' | visita='San Martín (T)' | nuestra='2013-06-09' | otra='2013-06-08'
+FECHADOS | pagina='Campeonato de Primera B Nacional 2007-08' | jornada='Fecha 19' | local='Ferro Carril Oeste' | visita='Independiente Rivadavia' | nuestra='2008-02-28' | otra='2008-02-29'
+DIAS | pagina='Campeonato de Primera B 2010-11 (Argentina)' | jornada='Fecha 6' | local='Platense' | visita='Estudiantes (BA)' | dice='2010-08-31' | debe='2010-08-30' | fuente='https://es.wikipedia.org/w/index.php?oldid=39894064'
+DIAS | pagina='Campeonato de Primera B 2010-11 (Argentina)' | jornada='Fecha 35' | local='Estudiantes (BA)' | visita='Sarmiento (J)' | dice='2011-04-16' | debe='2011-04-15' | fuente='https://es.wikipedia.org/w/index.php?oldid=45663491'
+DIAS | pagina='Campeonato de Primera B 2010-11 (Argentina)' | jornada='Fecha 14' | local='Flandria' | visita='Colegiales' | dice='2010-10-17' | debe='2010-10-18' | fuente='http://josecarluccio.blogspot.com/2015/03/argentina-1ra-b-afa-201011.html'
+DIAS | pagina='Campeonato de Primera B 2010-11 (Argentina)' | jornada='Fecha 36' | local='Almagro' | visita='Barracas Central' | dice='2011-04-25' | debe='2011-04-26' | fuente='http://josecarluccio.blogspot.com/2015/03/argentina-1ra-b-afa-201011.html'
+DIAS | pagina='Campeonato de Primera C 2008-09 (Argentina)' | jornada='Fecha 26' | local='Villa Dálmine' | visita='Argentino de Rosario' | dice='2009-03-07' | debe='2009-03-08' | fuente='http://josecarluccio.blogspot.com/2014/08/argentina-1ra-c-afa-200809.html'
+DIAS | pagina='Campeonato de Primera C 2008-09 (Argentina)' | jornada='Fecha 26' | local='Deportivo Laferrere' | visita='Luján' | dice='2009-03-07' | debe='2009-03-08' | fuente='http://josecarluccio.blogspot.com/2014/08/argentina-1ra-c-afa-200809.html'
+DIAS | pagina='Campeonato de Primera C 2008-09 (Argentina)' | jornada='Fecha 26' | local='Fénix' | visita='Villa San Carlos' | dice='2009-03-07' | debe='2009-03-08' | fuente='http://josecarluccio.blogspot.com/2014/08/argentina-1ra-c-afa-200809.html'
+DIAS | pagina='Campeonato de Primera C 2008-09 (Argentina)' | jornada='Fecha 28' | local='Excursionistas' | visita='Luján' | dice='2009-03-22' | debe='2009-03-21' | fuente='http://josecarluccio.blogspot.com/2014/08/argentina-1ra-c-afa-200809.html'
+DIAS | pagina='Campeonato de Primera C 2008-09 (Argentina)' | jornada='Fecha 30' | local='Villa San Carlos' | visita='Luján' | dice='2009-04-04' | debe='2009-04-06' | fuente='http://josecarluccio.blogspot.com/2014/08/argentina-1ra-c-afa-200809.html'
+DIAS | pagina='Campeonato de Primera C 2008-09 (Argentina)' | jornada='Fecha 38' | local='Excursionistas' | visita='Barracas Bolívar' | dice='2009-05-30' | debe='2009-06-01' | fuente='http://josecarluccio.blogspot.com/2014/08/argentina-1ra-c-afa-200809.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 3' | local='Luján' | visita='Defensores de Cambaceres' | dice='2009-09-07' | debe='2009-09-08' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 3' | local='Berazategui' | visita='Leandro N. Alem' | dice='2009-09-07' | debe='2009-09-08' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 8' | local='Ferrocarril Midland' | visita='Villa Dálmine' | dice='2009-10-03' | debe='2009-10-05' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 9' | local='Luján' | visita='Barracas Bolívar' | dice='2009-10-11' | debe='2009-10-09' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 11' | local='General Lamadrid' | visita='Barracas Bolívar' | dice='2009-10-18' | debe='2009-10-17' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 12' | local='El Porvenir' | visita='Defensores Unidos' | dice='2009-10-24' | debe='2009-10-23' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 13' | local='San Miguel' | visita='Leandro N. Alem' | dice='2009-11-01' | debe='2009-11-02' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 13' | local='Deportivo Laferrere' | visita='J. J. de Urquiza' | dice='2009-11-01' | debe='2009-11-02' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 13' | local='Sacachispas' | visita='Ferrocarril Midland' | dice='2009-11-01' | debe='2009-11-02' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2009-10 (Argentina)' | jornada='Fecha 25' | local='Argentino de Merlo' | visita='Deportivo Laferrere' | dice='2010-02-06' | debe='2010-02-08' | fuente='http://josecarluccio.blogspot.com/2014/11/argentina-1ra-c-afa-200910.html'
+DIAS | pagina='Campeonato de Primera C 2010-11 (Argentina)' | jornada='Fecha 13' | local='Deportivo Laferrere' | visita='Berazategui' | dice='2010-10-18' | debe='2010-10-19' | fuente='http://josecarluccio.blogspot.com/2015/04/argentina-1ra-c-afa-201011.html'
+DIAS | pagina='Campeonato de Primera C 2010-11 (Argentina)' | jornada='Fecha 16' | local='San Miguel' | visita='Leandro N. Alem' | dice='2011-02-23' | debe='2011-02-22' | fuente='http://josecarluccio.blogspot.com/2015/04/argentina-1ra-c-afa-201011.html'
+DIAS | pagina='Copa de la Liga Profesional 2020' | jornada='Fecha 1' | local='River Plate' | visita='Banfield' | dice='2020-11-01' | debe='2020-11-03' | fuente='https://www.rsssf.org/tablesa/arg2020.html' | hora='21:00'
+DIAS | pagina='Campeonato de Primera B 2014 (Argentina)' | jornada='Fecha 19' | local='Platense' | visita='Deportivo Morón' | dice='2014-11-31' | debe='2014-10-31' | fuente='https://www.rsssf.org/tablesa/arg2015.html'
+DIAS | pagina='Campeonato de Primera B 2015 (Argentina)' | jornada='Fecha 21' | local='Colegiales' | visita='Fénix' | dice='2015-06-31' | debe='2015-07-01' | fuente='https://www.rsssf.org/tablesa/arg2015a.html'
+DIAS | pagina='Campeonato de Primera B 2015 (Argentina)' | jornada='Fecha 21' | local='UAI Urquiza' | visita='Platense' | dice='2015-06-31' | debe='2015-07-01' | fuente='https://www.rsssf.org/tablesa/arg2015a.html'
+DIAS | pagina='Campeonato de Primera B 2015 (Argentina)' | jornada='Fecha 21' | local='Deportivo Merlo' | visita='Tristán Suárez' | dice='2015-06-31' | debe='2015-07-01' | fuente='https://www.rsssf.org/tablesa/arg2015a.html'
+DIAS | pagina='Anexo:Torneo Apertura 1995 (Argentina)' | jornada='Fecha 8' | local='Gimnasia y Esgrima (LP)' | visita='Boca Juniors' | dice='1995-11-11' | debe='1995-11-09' | fuente='https://historiadeboca.com.ar/partido/gimnasia-lp-0-boca-1-torneo-apertura-1995/2569/1995/41/13.html'
+DIAS | pagina='Campeonato de Primera B 2012-13 (Argentina)' | jornada='Final' | local='Almagro' | visita='Brown de Adrogué' | dice='2013-06-23' | debe='2013-06-22' | fuente='https://www.lanueva.com/nota/2013-6-22-14-44-0-brown-de-adrogue-consiguio-por-penales-el-ascenso-a-la-b-nacional'
+DIAS | pagina='Campeonato de Primera B 2025 (Argentina)' | jornada='Primera fase' | local='Acassuso' | visita='Villa San Carlos' | dice='2025-11-29' | debe='2025-12-02' | fuente='https://www.soloascenso.com.ar/sintesis/acassuso-villa-san-carlos/43840' | hora='17:00'
+DIAS | pagina='Campeonato de Primera B 2024 (Argentina)' | jornada='Fecha 12' | local='Cañuelas' | visita='Colegiales' | dice='2024-08-31' | debe='2024-09-02' | fuente='https://www.soloascenso.com.ar/sintesis/canuelas-fc-colegiales/40098' | hora='15:00'
+DIAS | pagina='Campeonato de Primera B 2024 (Argentina)' | jornada='Fecha 12' | local='Ferrocarril Midland' | visita='Flandria' | dice='2024-08-31' | debe='2024-09-02' | fuente='https://www.soloascenso.com.ar/sintesis/ferrocarril-midland-flandria/40100' | hora='20:00'
+DIAS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 5' | local='Central Norte (S)' | visita='Juventud Antoniana' | dice='2012-09-16' | debe='2012-10-03' | fuente='http://ascensodelinterior.com.ar/noticias/1689/central-norte-3-0-juventud-antoniana' | hora='21:35'
+FECHAS | 'Anexo:Torneo Apertura 1993 (Argentina)' | fecha='1994-03-19' | local='Gimnasia y Esgrima (LP)' | visita='Boca Juniors' | goles_local=1 | goles_visita=1 | fuente='https://hemerotecadigital.bn.gob.ar/collection/001207768/pagina-12'
+FECHAS | 'Campeonato de Primera C 2024 (Argentina)' | fecha='2024-10-26' | local='Luján' | visita='Victoriano Arenas' | goles_local=3 | goles_visita=1 | llave='Torneo Clausura' | fuente='https://www.rsssf.org/tablesa/arg2024.html'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-09-12' | local='Atlético Tucumán' | visita='La Florida' | goles_local=2 | goles_visita=0 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-09-12' | local='Talleres (P)' | visita='Ñuñorco' | goles_local=1 | goles_visita=2 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-09-19' | local='La Florida' | visita='Gimnasia y Tiro (S)' | goles_local=1 | goles_visita=0 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-09-19' | local='Ñuñorco' | visita='Atlético Tucumán' | goles_local=1 | goles_visita=2 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-09-26' | local='Atlético Tucumán' | visita='Talleres (P)' | goles_local=2 | goles_visita=3 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-09-26' | local='Gimnasia y Tiro (S)' | visita='Ñuñorco' | goles_local=1 | goles_visita=0 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-03' | local='Talleres (P)' | visita='Gimnasia y Tiro (S)' | goles_local=0 | goles_visita=0 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-03' | local='Ñuñorco' | visita='La Florida' | goles_local=2 | goles_visita=1 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-10' | local='Gimnasia y Tiro (S)' | visita='Atlético Tucumán' | goles_local=2 | goles_visita=1 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-10' | local='La Florida' | visita='Talleres (P)' | goles_local=2 | goles_visita=1 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-17' | local='La Florida' | visita='Atlético Tucumán' | goles_local=0 | goles_visita=2 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-17' | local='Ñuñorco' | visita='Talleres (P)' | goles_local=1 | goles_visita=0 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-22' | local='Gimnasia y Tiro (S)' | visita='La Florida' | goles_local=2 | goles_visita=0 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-24' | local='Atlético Tucumán' | visita='Ñuñorco' | goles_local=2 | goles_visita=0 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-31' | local='Talleres (P)' | visita='Atlético Tucumán' | goles_local=0 | goles_visita=0 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-10-31' | local='Ñuñorco' | visita='Gimnasia y Tiro (S)' | goles_local=0 | goles_visita=1 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-05' | local='Gimnasia y Tiro (S)' | visita='Talleres (P)' | goles_local=2 | goles_visita=3 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-06' | local='La Florida' | visita='Ñuñorco' | goles_local=0 | goles_visita=1 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-14' | local='Atlético Tucumán' | visita='Gimnasia y Tiro (S)' | goles_local=4 | goles_visita=2 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-14' | local='Talleres (P)' | visita='La Florida' | goles_local=4 | goles_visita=0 | llave='Torneo Apertura'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-20' | local='Aldosivi' | visita='Luján de Cuyo' | goles_local=0 | goles_visita=1 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-21' | local='Desamparados' | visita='Cipolletti' | goles_local=2 | goles_visita=0 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-21' | local='Douglas Haig' | visita='Atlético Tucumán' | goles_local=3 | goles_visita=1 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-27' | local='Atlético Tucumán' | visita='Douglas Haig' | goles_local=4 | goles_visita=0 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-27' | local='Ben Hur' | visita='Talleres (P)' | goles_local=3 | goles_visita=1 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-28' | local='Cipolletti' | visita='Desamparados' | goles_local=0 | goles_visita=1 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-01' | local='Ben Hur' | visita='Atlético Tucumán' | goles_local=2 | goles_visita=1 | llave='Torneo Apertura - Zona Campeonato' | fuente='http://soybh.blogspot.com/p/argentino-200405.html'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-05' | local='Atlético Tucumán' | visita='Ben Hur' | goles_local=2 | goles_visita=2 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-12' | local='Ben Hur' | visita='Desamparados' | goles_local=3 | goles_visita=0 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-15' | local='Atlético Candelaria' | visita='Desamparados' | goles_local=2 | goles_visita=2 | llave='Torneo Apertura - Zona Reválida'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-15' | local='Atlético Tucumán' | visita='Luján de Cuyo' | goles_local=0 | goles_visita=0 | llave='Torneo Apertura - Zona Reválida'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-22' | local='Atlético Candelaria' | visita='Luján de Cuyo' | goles_local=1 | goles_visita=0 | llave='Torneo Apertura - Zona Reválida'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-28' | local='Luján de Cuyo' | visita='Atlético Candelaria' | goles_local=4 | goles_visita=1 | llave='Torneo Apertura - Zona Reválida'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-04-03' | local='Aldosivi' | visita='Juventud Unida Universitario' | goles_local=5 | goles_visita=2 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-04-03' | local='Atlético Tucumán' | visita='Douglas Haig' | goles_local=3 | goles_visita=0 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-04-10' | local='Atlético Tucumán' | visita='Unión (S)' | goles_local=2 | goles_visita=3 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-04-17' | local='Aldosivi' | visita='Luján de Cuyo' | goles_local=3 | goles_visita=1 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-04-24' | local='Aldosivi' | visita='Unión (S)' | goles_local=3 | goles_visita=0 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-21' | local='Talleres (P)' | visita='Ben Hur' | goles_local=0 | goles_visita=1 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-11-28' | local='Luján de Cuyo' | visita='Aldosivi' | goles_local=3 | goles_visita=1 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-01' | local='Desamparados' | visita='Luján de Cuyo' | goles_local=1 | goles_visita=0 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-08' | local='Desamparados' | visita='Ben Hur' | goles_local=0 | goles_visita=1 | llave='Torneo Apertura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-19' | local='Desamparados' | visita='Atlético Candelaria' | goles_local=1 | goles_visita=2 | llave='Torneo Apertura - Zona Reválida'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-12-19' | local='Luján de Cuyo' | visita='Atlético Tucumán' | goles_local=1 | goles_visita=0 | llave='Torneo Apertura - Zona Reválida'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-03-27' | local='Douglas Haig' | visita='Atlético Tucumán' | goles_local=1 | goles_visita=1 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-03-27' | local='Guillermo Brown' | visita='Luján de Cuyo' | goles_local=1 | goles_visita=0 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-03-27' | local='Juventud Unida Universitario' | visita='Aldosivi' | goles_local=1 | goles_visita=0 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-03-27' | local='La Florida' | visita='Unión (S)' | goles_local=3 | goles_visita=1 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-04-03' | local='Luján de Cuyo' | visita='Guillermo Brown' | goles_local=3 | goles_visita=1 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-04-03' | local='Unión (S)' | visita='La Florida' | goles_local=2 | goles_visita=0 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-04-10' | local='Luján de Cuyo' | visita='Aldosivi' | goles_local=1 | goles_visita=2 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-04-17' | local='Unión (S)' | visita='Atlético Tucumán' | goles_local=1 | goles_visita=0 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-05-01' | local='Unión (S)' | visita='Aldosivi' | goles_local=2 | goles_visita=2 | llave='Torneo Clausura - Zona Campeonato'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-05-08' | local='Douglas Haig' | visita='Unión (S)' | goles_local=3 | goles_visita=0 | llave='Torneo Clausura - Zona Reválida'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-05-08' | local='Luján de Cuyo' | visita='Atlético Tucumán' | goles_local=0 | goles_visita=0 | llave='Torneo Clausura - Zona Reválida'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-05-15' | local='Atlético Tucumán' | visita='Luján de Cuyo' | goles_local=2 | goles_visita=2 | llave='Torneo Clausura - Zona Reválida'
+FECHAS | 'Torneo Argentino A 2004-05' | fecha='2005-05-15' | local='Unión (S)' | visita='Douglas Haig' | goles_local=2 | goles_visita=1 | llave='Torneo Clausura - Zona Reválida'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-05-28' | local='Ferrocarril Midland' | visita='Defensores de Cambaceres' | goles_local=4 | goles_visita=1 | ronda='Cuartos de final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-05-28' | local='Dock Sud' | visita='J. J. de Urquiza' | goles_local=1 | goles_visita=0 | ronda='Cuartos de final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-05-28' | local='Central Córdoba (R)' | visita='Deportivo Laferrere' | goles_local=1 | goles_visita=1 | ronda='Cuartos de final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-05-29' | local='Berazategui' | visita='UAI Urquiza' | goles_local=1 | goles_visita=1 | ronda='Cuartos de final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-03' | local='UAI Urquiza' | visita='Berazategui' | goles_local=1 | goles_visita=3 | ronda='Cuartos de final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-03' | local='Defensores de Cambaceres' | visita='Ferrocarril Midland' | goles_local=1 | goles_visita=0 | ronda='Cuartos de final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-03' | local='J. J. de Urquiza' | visita='Dock Sud' | goles_local=0 | goles_visita=1 | ronda='Cuartos de final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-03' | local='Deportivo Laferrere' | visita='Central Córdoba (R)' | goles_local=1 | goles_visita=3 | ronda='Cuartos de final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-06' | local='Berazategui' | visita='Central Córdoba (R)' | goles_local=0 | goles_visita=1 | ronda='Semifinal' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-06' | local='Ferrocarril Midland' | visita='Dock Sud' | goles_local=1 | goles_visita=0 | ronda='Semifinal' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-09' | local='Dock Sud' | visita='Ferrocarril Midland' | goles_local=0 | goles_visita=0 | ronda='Semifinal' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-10' | local='Central Córdoba (R)' | visita='Berazategui' | goles_local=1 | goles_visita=0 | ronda='Semifinal' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-17' | local='Ferrocarril Midland' | visita='Central Córdoba (R)' | goles_local=1 | goles_visita=2 | ronda='Final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'
+LLAVES | 'Campeonato de Primera C 2011-12 (Argentina)' | fecha='2012-06-21' | local='Central Córdoba (R)' | visita='Ferrocarril Midland' | goles_local=0 | goles_visita=0 | ronda='Final' | llave='Reducido' | fuente='http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html'

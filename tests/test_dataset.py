@@ -772,6 +772,62 @@ def test_reconciliar_dos_veces_es_reconciliar_una():
     assert fs == antes
 
 
+# --------------------------------------------------------------------------
+# nadie juega dos dias seguidos
+# --------------------------------------------------------------------------
+def _jugado(fecha, local, visita, fuente=PB):
+    return _copia(fuente, date=fecha, home_team=local, away_team=visita,
+                  tournament="Primera Division - Clausura", season="1994",
+                  matchday="Fecha 7")
+
+
+def test_dos_partidos_en_dias_seguidos_es_aviso():
+    """Belgrano en el Clausura 1994: el 5 de mayo contra Velez y el 6 contra River.
+    Uno de los dos dias esta mal."""
+    filas = [_jugado("1994-05-05", "Belgrano", "Vélez Sarsfield"),
+             _jugado("1994-05-06", "River Plate", "Belgrano")]
+    (aviso,) = dataset.dias_seguidos(filas)
+    assert aviso.startswith(
+        "Belgrano juega dos partidos en dias seguidos: 1994-05-05 Belgrano 0-0 Vélez "
+        "Sarsfield (Primera Division - Clausura 1994, Fecha 7) y 1994-05-06 River Plate")
+
+
+def test_dos_partidos_distintos_el_mismo_dia_tambien():
+    filas = [_jugado("1994-05-05", "Belgrano", "Vélez Sarsfield"),
+             _jugado("1994-05-05", "River Plate", "Belgrano")]
+    (aviso,) = dataset.dias_seguidos(filas)
+    assert aviso.startswith("Belgrano juega dos partidos el mismo dia")
+
+
+def test_a_dos_dias_no_es_aviso():
+    """A dos dias hay 117 pares en lo publicado; a uno, dos."""
+    filas = [_jugado("1994-05-05", "Belgrano", "Vélez Sarsfield"),
+             _jugado("1994-05-07", "River Plate", "Belgrano")]
+    assert dataset.dias_seguidos(filas) == []
+
+
+def test_el_partido_que_publican_dos_paginas_es_uno_solo():
+    """Las `copias`: una promocion, en la pagina de cada division. Sin saltearla,
+    los dos clubes jugaban dos partidos el mismo dia."""
+    fs = [_copia(PB), _copia(FA)]
+    assert len(dataset.copias(fs)) == 1
+    assert dataset.dias_seguidos(fs) == []
+
+
+def test_y_saltear_la_copia_no_tapa_el_partido_del_dia_siguiente():
+    fs = [_copia(PB), _copia(FA), _jugado("2021-02-05", "Atlanta", "San Telmo")]
+    (aviso,) = dataset.dias_seguidos(fs)
+    assert aviso.startswith("San Telmo juega dos partidos en dias seguidos: 2021-02-04")
+
+
+def test_una_fila_sin_fecha_o_con_una_que_no_existe_no_se_cuenta():
+    """No se pueden restar. Y no tumban el build: corre todos los dias."""
+    filas = [_jugado("", "Belgrano", "Vélez Sarsfield"),
+             _jugado("1994-06-31", "Belgrano", "Boca Juniors"),
+             _jugado("1994-07-01", "River Plate", "Belgrano")]
+    assert dataset.dias_seguidos(filas) == []
+
+
 # ---- sobre lo publicado ------------------------------------------------------
 from pathlib import Path  # noqa: E402
 

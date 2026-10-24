@@ -5,7 +5,7 @@ build.py
 Arma el dataset: baja las paginas, las parsea, las valida y escribe el CSV.
 
     python build.py                 # todo, usando la cache si hay
-    python build.py --sin-cache     # vuelve a pedirle todo a Wikipedia
+    python build.py --sin-cache     # vuelve a pedirle a Wikipedia las paginas que parsea
     python build.py --dry-run       # parsea y valida, no escribe nada
 
 Un aviso GRAVE no escribe el archivo. Es a proposito: este script se va a correr
@@ -66,7 +66,10 @@ def _completar_fechas_rsssf(ps, t, usadas: set | None = None) -> list:
                               f"{archivo}: {e}; los partidos quedan sin fecha",
                               grave=False)]
     desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))
-    ajenos, avisos = rsssf.leer(crudo, mapa, t.primer_anio, t.anio_fin or t.temporada,
+    # El anio de cierre es el que usa el parser para fechar la pagina, y no la
+    # etiqueta: sin `anio_fin`, todo cae en `primer_anio`. Lo mismo en las otras
+    # dos llamadas a RSSSF, en `procesar`.
+    ajenos, avisos = rsssf.leer(crudo, mapa, t.primer_anio, t.anio_fin or t.primer_anio,
                                 t.mes_inicio, desde=desde, hasta=hasta)
     # `arbitrados` va aca por la misma razon que en la rama de worldfootball, y
     # faltaba: un partido que termino en un escritorio tiene DOS marcadores ciertos
@@ -212,7 +215,8 @@ def _completar_fechas(ps, t, usadas: set | None = None) -> list:
     # cual seria el rango.
     validos = {t.primer_anio, t.temporada, t.anio_fin or t.temporada}
     fuera = [p for p in ps if p.fuente_fecha and int(p.fecha[:4]) not in validos]
-    for p in fuera[:3]:
+    # TODAS, que es lo que dice el aviso. Se vaciaban las tres primeras.
+    for p in fuera:
         p.fecha, p.fuente_fecha = "", ""
 
     faltan = sum(1 for p in ps if not p.fecha)
@@ -794,9 +798,11 @@ def procesar(texto: str, t) -> tuple[list, list]:
     llaves_rsssf: list = []
     if t.sin_grilla:
         # La pagina no publica resultados y los partidos salen de RSSSF. Es el
-        # unico camino del repo por el que una fila NO viene de Wikipedia, y va
-        # detras de un flag escrito a mano -- ver `Torneo.sin_grilla` -- para que
-        # nunca se dispare por accidente cuando una grilla real deje de parsearse.
+        # camino por el que un torneo ENTERO no viene de Wikipedia -- partidos
+        # sueltos entran tambien por las llaves de RSSSF, su formato compacto y las
+        # llaves citadas a mano, mas abajo --, y va detras de un flag escrito a mano
+        # -- ver `Torneo.sin_grilla` -- para que nunca se dispare por accidente
+        # cuando una grilla real deje de parsearse.
         #
         # Todo lo que sigue -- canonizar, corregir, y los chequeos contra la tabla
         # de posiciones de la propia pagina -- corre igual sobre estas filas. La
@@ -817,7 +823,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
         # cortar entran los 381 partidos de los dos torneos bajo el rotulo de uno.
         desde, hasta = rsssf.SECCION_LIGA.get(t.pagina, ("", ""))
         ajenos, mas = rsssf.leer(crudo, mapa, t.primer_anio,
-                                 t.anio_fin or t.temporada, t.mes_inicio,
+                                 t.anio_fin or t.primer_anio, t.mes_inicio,
                                  desde=desde, hasta=hasta)
         importados = [validar.Aviso(f"{t.pagina}: RSSSF", d, grave=False) for d in mas]
         # La llave de las rondas que la pagina trata como un torneo aparte, para
@@ -849,7 +855,7 @@ def procesar(texto: str, t) -> tuple[list, list]:
                     f"queda sin partidos", repr(e), grave=False))
             else:
                 llaves, mas = rsssf.leer_llaves(
-                    crudo, mapa, t.primer_anio, t.anio_fin or t.temporada,
+                    crudo, mapa, t.primer_anio, t.anio_fin or t.primer_anio,
                     t.mes_inicio, *rsssf.SECCION.get(t.pagina, ("", "")))
                 for p_ in llaves:
                     p_.torneo = t.torneo
@@ -875,7 +881,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
                 importados += [validar.Aviso(f"{t.pagina}: RSSSF llaves", d,
                                              grave=False) for d in mas]
         # El formato compacto va aparte: sus filas salen SIN FECHA -- el archivo
-        # da un rango que cubre las dos patas -- y por eso terminan en
+        # da un rango que cubre las dos patas --, y el dia se lo pone despues una
+        # cita a mano (`fad/citadas.py`). La que no tiene cita termina en
         # `data/sin-fecha`, que es la carpeta que existe para esto.
         if t.rsssf_compacto:
             from fad import rsssf
@@ -1266,11 +1273,14 @@ def main(argv=None) -> int:
     # Los chequeos que miran el dataset ENTERO, y que por eso van aca y no en
     # `validar`: lo que buscan es invisible desde una pagina sola. Un club mal
     # atribuido no rompe ninguna regla del fixture y adentro de su pagina es
-    # perfectamente coherente; se lo ve por donde juega y por donde es local.
+    # perfectamente coherente; se lo ve por donde juega y por donde es local. Y
+    # una fecha mal puesta, por cuando: un club que juega la liga y la copa no
+    # juega dos dias seguidos, y cada pagina ve solo uno de los dos partidos.
     #
-    # Los dos van como aviso y no frenan nada: un club puede alquilar la cancha
-    # de otro, y una categoria rara puede ser un torneo que el catalogo rotula
-    # distinto. Dicen "mira esto", no "esto esta mal".
+    # Los tres van como aviso y no frenan nada: un club puede alquilar la cancha
+    # de otro, una categoria rara puede ser un torneo que el catalogo rotula
+    # distinto, y una fecha dudosa no es razon para no actualizar el resto.
+    # Dicen "mira esto", no "esto esta mal".
     #
     # Antes que esos dos, que miran `neutral` y `venue`, los partidos escritos dos
     # veces se reconcilian. Tambien es solo aviso, y por la razon de cualquier
@@ -1278,7 +1288,8 @@ def main(argv=None) -> int:
     # frenar la actualizacion de todas las demas.
     for a in dataset.reconciliar_copias(filas, correcciones.COPIAS, frozenset(leidas)):
         print(f"  aviso: {a}", file=sys.stderr)
-    for a in dataset.casas_compartidas(filas) + dataset.categorias_incompatibles(filas):
+    for a in (dataset.casas_compartidas(filas) + dataset.categorias_incompatibles(filas)
+              + dataset.dias_seguidos(filas)):
         print(f"  aviso: {a}", file=sys.stderr)
 
     # Y la que importa cuando esto corre solo: que el dataset no se achique.

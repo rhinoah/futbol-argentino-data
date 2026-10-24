@@ -1744,3 +1744,64 @@ def test_revisar_le_pasa_los_divididos_al_chequeo():
     falta = _rueda("ABCD", "Zona B", saltear=[("C", "B")])
     assert not any("no todos jugaron" in a.que
                    for a in validar.revisar(falta, divididos=[("C", "B", "")]))
+
+
+# --------------------------------------------------------------------------
+# cada chequeo, por el camino que lo corre el build
+# --------------------------------------------------------------------------
+# El build no llama a ningun chequeo por su nombre: llama a `revisar`, que recorre
+# `CHEQUEOS`. Casi todos los tests de arriba los llaman a mano, asi que sacar uno
+# de la lista dejaba la suite verde -- pasaba con siete de los catorce -- y el
+# build dejaba de mirarlo sin que nadie se enterara.
+#
+# Un caso por chequeo, con lo minimo que lo dispara. Lo que dice el chequeo
+# llamado a mano tiene que llegar entero por `revisar`: asi el caso queda atado a
+# SU chequeo, y no pasa porque otro diga algo parecido.
+POR_REVISAR = {
+    "campos_completos": lambda: [zona("Boca Juniors", "River Plate", gl=None)],
+    "fechas_presentes": lambda: [zona("Boca Juniors", "River Plate", fecha="")],
+    "nombres_en_el_padron": lambda: [zona("Boca Juniors", "Club Inventado")],
+    "penales_solo_en_empates": lambda: [
+        llave("River Plate", "San Lorenzo", 2, 0, "2026-05-17", pl=4, pv=3)],
+    "sin_duplicados": lambda: [zona("Boca Juniors", "River Plate"),
+                               zona("Boca Juniors", "River Plate")],
+    "nadie_juega_contra_si_mismo": lambda: [zona("Boca Juniors", "Boca Juniors")],
+    "todos_tienen_zona": lambda: [zona("Boca Juniors", "River Plate"),
+                                  zona("Racing Club", "Independiente", z="")],
+    "zonas_completas": lambda: torneo_de(4),
+    "una_vez_por_jornada": lambda: [zona("Boca Juniors", "River Plate"),
+                                    zona("Boca Juniors", "Racing Club")],
+    "jornadas_sin_huecos": lambda: torneo_de(4, "Fecha 1") + torneo_de(4, "Fecha 3"),
+    "anios_bien_asignados": lambda: _jornada(1, "2020-07-26") + _jornada(2, "2019-08-02"),
+    "una_zona_por_club": lambda: [zona("Boca Juniors", "River Plate", z="Zona A"),
+                                  zona("Boca Juniors", "Racing Club", z="Zona B")],
+    "localias_repartidas": lambda: [
+        zona("Boca Juniors", "River Plate", j="Fecha 1"),
+        zona("Boca Juniors", "River Plate", fecha="2026-03-08", j="Fecha 2")],
+    # Gana Boca la semi, y la final la juega River.
+    "cadena_de_llaves": lambda: [
+        llave("Boca Juniors", "River Plate", 1, 0, "2026-05-01", ronda="Semifinales"),
+        llave("Racing Club", "Platense", 2, 0, "2026-05-02", ronda="Semifinales"),
+        llave("River Plate", "Racing Club", 1, 0, "2026-05-10", ronda="Final")],
+}
+
+
+def _dichos(avisos) -> list[tuple]:
+    return [(a.que, a.detalle, a.grave) for a in avisos]
+
+
+@pytest.mark.parametrize("nombre", list(POR_REVISAR))
+def test_cada_chequeo_avisa_por_revisar(nombre):
+    ps = POR_REVISAR[nombre]()
+    suyos = _dichos(getattr(validar, nombre)(ps))
+    assert suyos, f"el caso de {nombre} no lo dispara"
+    llegan = _dichos(validar.revisar(ps))
+    assert [d for d in suyos if d not in llegan] == [], \
+        f"{nombre} avisa llamado a mano y no por revisar: ¿salio de CHEQUEOS?"
+
+
+def test_cada_chequeo_de_la_lista_tiene_su_caso():
+    """Los nombres de arriba van escritos a mano, y no sacados de `CHEQUEOS`: si
+    salieran de ahi, el que se cae de la lista se llevaria su caso con el. Y al
+    reves, un chequeo nuevo en la lista sin su caso tambien se ve."""
+    assert sorted(c.__name__ for c in validar.CHEQUEOS) == sorted(POR_REVISAR)

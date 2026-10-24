@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Fechas copiadas a mano de una fuente citada, cuando ningun lector puede.
 
-ES EL UNICO LUGAR DEL REPO DONDE UN DATO SE COPIA A MANO, y por eso conviene
-decir con precision cuando corresponde y que lo sostiene.
+ES UNO DE LOS POCOS LUGARES DEL REPO DONDE UN DATO SE COPIA A MANO --los otros son
+la `Dia` y el `Faltante` de fad/correcciones.py--, y por eso conviene decir con
+precision cuando corresponde y que lo sostiene.
 
 SON DOS TABLAS Y NO PROMETEN LO MISMO. `FECHAS` le pone el dia a un partido que
 la pagina ya trae, y de eso habla casi todo este docstring. `LLAVES` es mas: pone
@@ -60,12 +61,14 @@ Y LA FUENTE PUEDE ERRARLE AL DIA aunque el marcador coincida. El blog escribe
 01/12/2004 y otro del 05/12/2004, en las semifinales de un torneo que empezo en
 septiembre: los clubes y el marcador son los correctos y el dia esta diez meses
 afuera. Por eso hay un test que exige que toda cita caiga en la ventana de su
-temporada; ese partido NO entra, y sigue sin fecha.
+temporada; ese dia NO entra, y la fecha de ese partido la pone otra fuente.
 
-LO QUE NO CUBRE. De los 57 partidos sin fecha de esa temporada, esto fecha 55.
-Los 2 que quedan estan en `data/sin-fecha/`, que es donde tienen que estar: el de
-la errata de arriba, y la vuelta de la final de la Revalida del Apertura, cuyo
-marcador el blog da 4-1 contra el 2-0 de la pagina.
+LO QUE CUBRE. Los 57 partidos sin fecha de esa temporada, y hoy los 57 tienen la
+suya. Los dos ultimos tardaron: el de la errata de arriba lo fecha una segunda
+fuente, `CREDITO_SOYBH`, y la vuelta de la final de la Revalida del Apertura entro
+cuando se arbitro su marcador, que el blog da 4-1 contra el 2-0 de la pagina.
+`data/sin-fecha/` ya no tiene ninguno de esta temporada: sus 6 filas son de
+Sansinena en el Federal A 2024, y son partidos que no se jugaron.
 
 Un control mas, que no costo nada y vale: la llave de la fila que cada cita
 engancha coincide con el POST del que se copio, en las treinta y seis. Si una

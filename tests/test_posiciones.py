@@ -1421,6 +1421,20 @@ def test_las_marcas_no_entran_ni_al_leer_el_cuadro():
     assert _p.clubes_del_cuadro(texto) == {}
 
 
+def test_un_lugar_reservado_no_es_un_club():
+    """El cuadro de una pagina en curso escribe, donde todavia no hay club, quien va
+    a ocupar el lugar. La Primera C 2026 pone "Perdedor Final", y el build avisaba
+    todos los dias que el padron no lo reconoce: es un lugar vacio. Las tres
+    primeras formas son las que hay en los cuadros de la cache; "Ganador ..." no
+    esta, y es la otra mitad del mismo cuadro."""
+    for lugar in ("Perdedor Final", "Perdedor de la final 2.º asc.", "Posición 2",
+                  "Ganador Semifinal 1"):
+        texto = _con_cuadro(lugar, "Boca Juniors")
+        assert set(parser.clubes_del_cuadro(texto)) == {"Boca Juniors"}, lugar
+        assert posiciones.fuera_del_cuadro(
+            [zona("Boca Juniors", "River Plate", 1, 0)], texto) == [], lugar
+
+
 # --------------------------------------------------------------------------
 def _tabla_gep(*filas: str) -> str:
     """Una tabla con las ocho columnas: PTS PJ G E P GF GC DIF."""
