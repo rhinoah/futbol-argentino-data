@@ -2192,6 +2192,21 @@ wikitexto, así que **sólo corre cuando la página se re-parsea**. Un torneo te
 sale del CSV sin bajarse, y ahí no opina hasta el próximo `--rehacer`. Es la misma
 propiedad que tiene el cruce contra la tabla de posiciones.
 
+### Y uno que mira cuándo
+
+[`dataset.dias_seguidos`](fad/dataset.py) mira lo que los otros no miran, la fecha: un
+club no juega dos partidos distintos el mismo día ni en días seguidos, así que si los
+tiene, una de las dos fechas está mal. Va sobre el dataset entero por la misma razón
+que los otros —un club juega la liga y la Copa Argentina a la vez, y cada página ve uno
+solo de los dos partidos— y, como ellos, avisa y no frena.
+
+Sobre lo publicado da dos pares, y los dos ya estaban anotados como fechas
+sospechosas: Belgrano el 5 y el 6 de mayo de 1994, y Gimnasia y Esgrima (LP) el 23 y
+el 24 de mayo de 1999. A dos días hay 117, así que el umbral no se puede correr: el
+aviso de todos los días tendría 119 renglones y no lo leería nadie. El partido escrito
+dos veces se cuenta una: sin saltear las 15 copias —una promoción, en la página de cada
+división— eran 32 avisos, y 30 eran de dos clubes jugando «dos partidos» el mismo día.
+
 ## El corrimiento que escondía 373 fechas
 
 Salió buscando otra cosa. Yendo a ver si se podían reponer las fechas que faltaban
@@ -2969,10 +2984,12 @@ Al estrenarlo, 23 avisos, en dos niveles porque son dos cosas distintas:
   noventa y seis. El capítulo que sigue lo cierra: hoy trae 63.
 
 De esos 23 hoy queda uno, y no es de homónimo: Los Andes en la Copa Argentina
-2022, que no se presentó y no tiene marcador que escribir. El otro aviso que hoy
-deja el chequeo es de una clase que entonces no existía —el nombre que el padrón no
-reconoce—: el `Perdedor Final` que el cuadro de la Primera C 2026 escribe donde
-todavía no hay club.
+2022, que no se presentó y no tiene marcador que escribir. Hubo otro, de una clase
+que entonces no existía —el nombre que el padrón no reconoce—: el `Perdedor Final`
+que el cuadro de la Primera C 2026 escribe donde todavía no hay club, y que el build
+avisaba todos los días. No era un nombre sino un **lugar reservado**, y hoy el lector
+del cuadro lo lee como vacío, igual que «Perdedor de la final…» y «Posición 2», las
+otras formas que hay en la caché, y que «Ganador…», la otra mitad del mismo cuadro.
 
 ### Lo que se resigna, dicho
 
@@ -2983,8 +3000,9 @@ que al padrón le falte. El costo era no ver las grafías que **sólo** aparecen
 cuadro: `Sarmiento (Junín)` y `San Martin (F)` sin tilde son clubes de verdad
 escritos de una forma que el padrón no tenía, y como no entran por ningún partido,
 `nombres_en_el_padron` tampoco los veía. Era una elección, no una propiedad, y se
-dio vuelta: hoy `clubes_del_cuadro` saca la siembra y las marcas, el nombre que el
-padrón no reconoce se avisa, y de los 1 434 que traen los cuadros de 76 páginas queda uno solo.
+dio vuelta: hoy `clubes_del_cuadro` saca la siembra, las marcas y los lugares
+reservados, el nombre que el padrón no reconoce se avisa, y de los 1 437 que traen los
+cuadros de 75 páginas no queda ninguno.
 
 ## 240 partidos que las copas no entregaban
 
@@ -4110,11 +4128,12 @@ de esa página.
 
 ## Tests
 
-1558 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1608 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 830 maneras y exige que la suite se dé cuenta de cada una.
+propósito de 887 maneras —doce de ellas rompen el CSV publicado— y exige que la suite
+se dé cuenta de cada una.
 
 ```bash
 python mutar.py
@@ -4146,6 +4165,41 @@ sin ver que el archivo ya tenía uno igual doce tests más arriba, y el original
 correr. Se notó de casualidad, y para no depender de la casualidad quedó
 [`tests/test_suite.py`](tests/test_suite.py), que parsea cada archivo de tests y
 falla si hay un nombre repetido.
+
+Y otra, la del test que mira la pieza y no **el camino por el que la usa el build**. Casi
+todos los tests del validador llaman a cada chequeo por su nombre; el build no, llama a
+`revisar`, que recorre `CHEQUEOS`. Sacando de la lista cada uno de los catorce, la suite
+seguía verde con siete. Hoy cada chequeo tiene un caso que pasa por `revisar`, y la lista
+se compara con los catorce nombres escritos a mano en el test. Con el catálogo pasaba lo
+mismo: borrar un torneo de `fad/torneos.py` dejaba la suite verde en 130 de los 170, y
+frenaba al build del día siguiente, porque sus filas seguían en el CSV y la guarda contra
+achicarse veía un torneo que desaparecía. Ahora el CSV publicado se cruza con el
+catálogo página por página.
+
+Y la que ninguna de las otras ve: que lo que se borra sea un **dato**. CI no tiene las
+páginas, así que no puede ver que sin una corrección a mano la fila saldría distinta, y
+el CSV publicado ya salió con ella: sacar una entrada de `fad/correcciones.py` o de
+`fad/citadas.py` no mueve nada. Sacándolas de a una, sin la caché, la suite quedaba
+verde con 297 de las 399. Ahora cada declaración de un torneo cerrado se ata a la fila
+que publica, y todas a un testigo que no sale de ellas:
+[`tests/huellas_correcciones.txt`](tests/huellas_correcciones.txt), un renglón por
+declaración, escrito una vez y revisado, que no se regenera. Sacar o cambiar cualquiera
+la deja en rojo; reescribir la evidencia (`porque`), que no llega al dato, no. Y
+`mutar.py` lo cuida de los dos lados: saca una declaración de cada una de las quince
+colecciones —si el testigo un día saliera de las declaraciones, esos mutantes
+sobreviven— y rompe doce filas publicadas como las dejaría un rehacer en el que la
+declaración dejó de aplicarse.
+
+Y del lado de los mutantes, que el mutante **no caiga donde dice**. `mutar.py` reemplaza
+la primera aparición de su ancla, así que cuando entra código parecido más arriba en el
+archivo el mutante se corre solo a otra función. Eran 14 con el ancla repetida: dos
+caían en otra función que la de su descripción, otros dos eran iguales a un vecino, y
+quedaban cuatro renglones que no mutaba nadie. Puesto en su renglón, uno de ellos
+sobrevivió —nada exigía que un `Reemplazo` mirara el marcador viejo de la fila—. Hoy un
+test de `tests/test_mutar.py` exige que cada ancla esté una sola vez en su archivo. De
+paso, `mutar.py` lee y escribe los fuentes en bytes —en Windows los dejaba en CRLF— y
+ya no cuenta como muerto un `tests/conftest.py` que no se puede importar: ahí pytest
+sale con 4, y sólo el 1 es un test que falló.
 
 ## De dónde salen los datos
 

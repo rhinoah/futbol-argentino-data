@@ -7,9 +7,9 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 50 087 | 6 | 170 | 1558 | 830 |
+| 50 087 | 6 | 170 | 1608 | 887 |
 
-Medidos el 22 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
+Medidos el 24 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
 al código a propósito para comprobar que algún test los detecta.
 
 Las marcas de cada era: **cerrado** = está en el CSV, aunque le queden cosas por
@@ -18,8 +18,8 @@ la fuente lo publica y hoy no se lee.
 
 ## 2004–2026 — Cerrado
 
-`43 099` partidos de los torneos que están en el catálogo. De los `195` avisos del
-build —`175` de esta era—, ninguno es grave. Hay `59` verificaciones a mano. `176` clubes
+`43 099` partidos de los torneos que están en el catálogo. De los `196` avisos del
+build —`174` de esta era—, ninguno es grave. Hay `59` verificaciones a mano. `176` clubes
 de `9` temporadas tienen el respaldo de una fuente independiente: sus partidos son de
 Wikipedia y cierran con la tabla de RSSSF. Otros `75`, del Argentino A 2006-07 a
 2009-10, también cierran con la tabla de RSSSF, pero sus partidos salen de ahí mismo:
@@ -186,7 +186,7 @@ sin fecha no se jugaron.
 - **Una corrección a mano que hay que sacar a tiempo:** Wikipedia sigue mostrando
   `Claypole 0-0 Central Córdoba (R)` (Primera C 2026) y el dataset publica el `2-2`.
   Cuando la página lo corrija el build va a avisar, y ahí se saca la entrada de
-  `fad/correcciones.py`.
+  `fad/correcciones.py` y su renglón de `tests/huellas_correcciones.txt`.
 - **El `Argentino A 2004-05` no se puede cruzar contra la tabla de posiciones que
   publica RSSSF.** Son tres cosas:
   - `leer_tabla` no lee las 12 tablas de zona de `arg3-int05` por tres trabas a la vez:
@@ -199,23 +199,6 @@ sin fecha no se jugaron.
   - El cruce no va a cerrar entero: la tabla de esa zona en Wikipedia está rota —21 o 22
     PJ por club en una fase de 10—, y las de RSSSF no cierran consigo mismas (en el
     Clausura, 74 ganados contra 75 perdidos).
-- **Comentarios que quedaron viejos en el código:**
-  - Tres de `fad/torneos.py`, en el bloque de 1997–2003, dan por afuera la capa 1991–1996
-    y al Clausura 1991 por un stub.
-  - `fad/citadas.py` dice que quedan 2 filas en `data/sin-fecha/`: hay `6`, todas de
-    Sansinena. `build.py` dice que hay un único camino por el que una fila no viene de
-    Wikipedia, y también entran las llaves citadas a mano y el RSSSF compacto.
-  - Dicen que de la segunda fuente sale sólo la fecha, o que hay un único lugar por el
-    que una fila no viene de Wikipedia: `fad/fechas.py` (`Ajeno`),
-    `fad/torneos.py` (dos bloques), `fad/rsssf.py` (`a_partidos`),
-    `fad/correcciones.py`, `fad/equipos.py` y un docstring de `tests/test_build.py`.
-  - El docstring de `build.py` —lo que muestra `--help`— dice que `--sin-cache` «vuelve a
-    pedirle todo a Wikipedia»: pide sólo las páginas que parsea.
-  - Un docstring de `tests/test_equipos.py` cuenta seis Gimnasia y Esgrima donde hay
-    cinco.
-  - `fad/equipos.py` dice que los alias con el desambiguador desplegado «son 34
-    nombres». Desde ese recuento se sumaron seis: los cinco del Federal A 2014 y 2015 y
-    `San Martín (Mendoza)`.
 - **`anios_bien_asignados` tiene tres comparaciones medidas y sin poner.** Es el chequeo
   que frena el build cuando una jornada cae medio año antes que la anterior. Falta
   decidir si se agregan:
@@ -235,47 +218,17 @@ sin fecha no se jugaron.
   `tests/test_torneos.py`: las Copa Argentina 2012-13 a 2018-19 (`7`), que se pueden
   correr adentro de los dos años de su título, y el Clausura 1991, cuyo título es una
   redirección y lo que se mira es el alias.
-- **A siete de los catorce chequeos del validador no los cuida ningún test que pase por
-  `revisar`:** `campos_completos`, `penales_solo_en_empates`, `sin_duplicados`,
-  `nadie_juega_contra_si_mismo`, `todos_tienen_zona`, `jornadas_sin_huecos` y
-  `cadena_de_llaves`. Sacándolos de `CHEQUEOS` la suite pasa igual, porque sus tests los
-  llaman a mano. Falta un test por cada uno que pase por el recorrido completo.
-- **Falta escribir el chequeo de dataset entero «nadie juega dos partidos distintos en
-  días seguidos».** Hoy daría dos casos, los de 1994 y 1999 que están más abajo. Tiene
-  que saltear los 15 partidos escritos dos veces, que `dataset.copias` ya junta.
-- **`build.py` le pasa a RSSSF la etiqueta de temporada como año de cierre**
-  (`t.anio_fin or t.temporada`, en tres lugares), y tendría que pasarle el año con que se
-  fecha. Hoy no produce nada mal porque el test del catálogo ata la etiqueta al título.
-- **Un aviso que dice más de lo que hace.** Cuando una segunda fuente trae fechas fuera de
-  la temporada, `build` avisa que «se descartan», y vacía sólo las tres primeras. El
-  aviso es grave, así que el build no escribe nada: lo que está mal es el mensaje.
-- **Las correcciones a mano casi no tienen test propio.** Sacar el `Dividido` del
-  Federal A 2014 o cualquiera de los tres `Revisado` del 2015, o cambiarles el club o la
-  firma, deja la suite verde: lo nota el build con un aviso que no frena, y sólo con
-  `--rehacer`. De los `59` `Revisado`, a lo sumo `7` tienen su página y su club nombrados
-  juntos en un test. Tampoco se mira el CSV contra el catálogo: borrar una entrada pasa
-  los tests y frena al build del día siguiente por la guarda contra achicarse.
 - **Cuatro formas de `_HABLA_DE_FALLO` no tienen mutante:** `suspendid`, `otorgandole`,
   `inclusion indebida` y `mala inclusion`. El clasificador también las lee, así que una
   nota que las dice ya sale con `status` y el detector no decide nada con ellas: sacarlas
   no cambia ninguna salida. Siguen ahí como red por si el clasificador deja de leerlas.
-- **`mutar.py`:**
-  - Dos mutantes tienen el mismo texto que otros dos, en `fad/correcciones.py` y en
-    `fad/parser.py`; como se reemplaza la primera aparición, el segundo sitio de cada par
-    queda sin mutar.
-  - Hay `14` mutantes cuya ancla —el texto que `mutar.py` busca para aplicar el cambio—
-    aparece más de una vez en su archivo. Además de los dos pares de arriba, otros dos caen
-    en una función distinta de la que nombra su descripción: «aplicar un marcador
-    arbitrado que ya no engancha» cae en `corregir_fechas`, y «cerrar el cuadro en el
-    primer `}}`» cae en `_desenvolver_nowrap`. Se corrieron cuando entró código más arriba
-    en el mismo archivo. Así quedan cuatro renglones sin ningún mutante encima:
-    - en `fad/correcciones.py`, el `len(candidatos) != 1` de `aplicar` y el filtro por
-      marcador de `REEMPLAZOS`;
-    - en `fad/parser.py`, el `hondo == 0` de `_cuerpos_de_cuadro` y el
-      `m.start() < hasta` de `_secciones_con_span`.
-  - En Windows deja en CRLF los fuentes que muta: los lee y los escribe en modo texto.
-  - Un import roto en `tests/conftest.py` sale por un camino que el detector de «no se
-    pudo importar» no ve, y lo contaría como muerto. Hoy no se alcanza: no muta `tests/`.
+- **Cuatro renglones que repiten el texto de uno mutado no los cuida ningún test.** Son
+  el otro sitio de anclas que estaban repetidas en `mutar.py`, y el mismo cambio puesto
+  ahí sobrevive: el corte del bloque en `_alcance_de_cada_tabla` y la firma del desvío
+  de goles en `clubes_desviados` (`fad/posiciones.py`), el `len(candidatos) != 1` de
+  las `CANCHAS` en `correcciones.aplicar` y el canonizar de `corregida` en `build.py`.
+  Otros tres —la nota al pie en `_por_wikitabla` y la página de las `CANCHAS` y de los
+  `REEMPLAZOS`— mueren con la suite de hoy.
 
 ## 1997–2003 — Cerrado
 
@@ -286,7 +239,7 @@ perdieron los dos y una fila no puede escribir.
 - **Dos fechas sospechosas:**
   - `Racing 2-1 Gimnasia (LP)` del `1999-05-24`, con Gimnasia jugando el clásico el 23.
     La página lo anota postergado y RSSSF lo fecha igual. Falta prensa del día: Página/12
-    de esos años está en la Hemeroteca Digital.
+    de esos años está en la Hemeroteca Digital. El build lo avisa en cada corrida.
   - `River Plate 3-1 Racing Club`, Fecha 16 del Apertura 2003, figura el `2004-06-03`:
     casi seis meses después de terminado el torneo y cinco días después del River–Racing
     del Clausura 2004. La celda dice «3 de junio de 2004», postergado por la Copa
@@ -313,7 +266,7 @@ esas fuentes no las publican.
 - **Dos fechas sospechosas:** `Belgrano 2-0 Vélez` del `1994-05-05` y `River 4-0 Belgrano`
   del `1994-05-06`. El CSV copia lo que dice RSSSF. Falta prensa del día, o las planillas
   de la AFA (*Torneos y Certámenes Oficiales 1990-91 … 1994-95*), que además darían la
-  hora y la cancha.
+  hora y la cancha. El build avisa el par en cada corrida.
 
 ## 1985–1990 — La liga, cerrada
 
