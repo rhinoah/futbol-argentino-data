@@ -683,6 +683,319 @@ def test_en_la_1988_89_las_tandas_cierran_contra_la_tabla_de_penales():
         assert tuple(cuenta[club]) == esperado, club
 
 
+# --------------------------------------------------------------------------
+# el Nacional 1985: ocho zonas y doble eliminacion
+# --------------------------------------------------------------------------
+# Las ocho tablas de zona tal como las publica la pagina: G, E, P, GF, GC. Son el
+# testigo de los 96 partidos de la fase, y la de la Zona C es ademas la que arbitra
+# el `Guarani Antonio Franco - Talleres (C)` de la fecha 5; ver el `Marcador` en
+# fad/correcciones.py. Copiadas de la revision 175539170, la de las filas.
+_ZONAS_1985 = {
+    "Zona A": {
+        "Estudiantes (LP)": (4, 1, 1, 12, 4),
+        "Ramón Santamarina": (2, 1, 3, 5, 6),
+        "Racing (C)": (2, 1, 3, 5, 8),
+        "Platense": (2, 1, 3, 5, 9),
+    },
+    "Zona B": {
+        "Boca Juniors": (3, 2, 1, 13, 6),
+        "Estudiantes (RC)": (3, 1, 2, 12, 12),
+        "Temperley": (2, 1, 3, 8, 11),
+        "Altos Hornos Zapla": (2, 0, 4, 5, 9),
+    },
+    "Zona C": {
+        "Independiente": (3, 1, 2, 11, 6),
+        "Talleres (C)": (3, 1, 2, 6, 6),
+        "Guaraní Antonio Franco": (3, 1, 2, 6, 8),
+        "Huracán": (0, 3, 3, 7, 10),
+    },
+    "Zona D": {
+        "River Plate": (4, 2, 0, 10, 4),
+        "Unión": (1, 3, 2, 9, 6),
+        "Gimnasia y Esgrima (LP)": (1, 3, 2, 4, 10),
+        "Cipolletti": (0, 4, 2, 5, 8),
+    },
+    "Zona E": {
+        "Newell's Old Boys": (2, 4, 0, 9, 6),
+        "San Lorenzo": (2, 3, 1, 10, 5),
+        "Huracán Las Heras": (2, 3, 1, 8, 8),
+        "Círculo Deportivo": (1, 0, 5, 6, 14),
+    },
+    "Zona F": {
+        "Argentinos Juniors": (3, 3, 0, 16, 5),
+        "Chacarita Juniors": (3, 1, 2, 11, 6),
+        "Central Norte (S)": (1, 3, 2, 4, 14),
+        "Belgrano": (0, 3, 3, 8, 14),
+    },
+    "Zona G": {
+        "San Martín (T)": (3, 2, 1, 12, 4),
+        "Vélez Sarsfield": (3, 2, 1, 11, 6),
+        "Argentino (F)": (2, 1, 3, 5, 10),
+        "Juventud Alianza": (1, 1, 4, 4, 12),
+    },
+    "Zona H": {
+        "Ferro Carril Oeste": (4, 1, 1, 8, 2),
+        "Deportivo Español": (3, 1, 2, 9, 6),
+        "Instituto": (3, 0, 3, 9, 9),
+        "Juventud Antoniana": (1, 0, 5, 4, 13),
+    },
+}
+
+# El dia de cada fecha de zonas, y los cinco partidos que se jugaron otro. Salen de
+# "Futbol Argentino: Cronicas y Estadisticas", que encabeza cada fecha con su dia
+# --"1a FECHA (17 de febrero)"-- y anota "(Se jugo el ...)" arriba de la ficha del
+# partido que no fue ese dia. RSSSF da los mismos seis dias, por ronda.
+_DIA_DE_LA_FECHA_1985 = {"Fecha 1": "1985-02-17", "Fecha 2": "1985-02-24",
+                         "Fecha 3": "1985-03-03", "Fecha 4": "1985-03-06",
+                         "Fecha 5": "1985-03-10", "Fecha 6": "1985-03-17"}
+_JUGADOS_OTRO_DIA_1985 = {
+    ("Cipolletti", "Gimnasia y Esgrima (LP)"): "1985-02-23",
+    ("Círculo Deportivo", "Newell's Old Boys"): "1985-02-23",
+    ("Newell's Old Boys", "San Lorenzo"): "1985-03-01",
+    ("Unión", "Cipolletti"): "1985-03-02",
+    ("Newell's Old Boys", "Círculo Deportivo"): "1985-03-07",
+}
+
+# Las tres finales del torneo, fila por fila: fecha, local, goles, penales, visitante,
+# cancha y `neutral`. En el CSV las cinco dicen `matchday=Final`, y lo unico que las
+# separa es la fecha. Las da la obra --"RONDA DE GANADORES / FINAL - IDA" y "- VUELTA",
+# "RONDA DE PERDEDORES / FINAL - PARTIDO UNICO" y "FINAL GANADORES - PERDEDORES"--, y
+# RSSSF las mismas, con "Champion: Asociacion Atletica Argentinos Juniors".
+_FINALES_1985 = {
+    "ganadores": [
+        ("1985-07-09", "Argentinos Juniors", "2", "0", "", "", "Vélez Sarsfield",
+         "Estadio La Bombonera", "false"),
+        ("1985-07-17", "Vélez Sarsfield", "2", "0", "2", "4", "Argentinos Juniors",
+         "Estadio José Amalfitani", "false"),
+    ],
+    "perdedores": [
+        ("1985-08-07", "Vélez Sarsfield", "2", "1", "", "", "River Plate",
+         "Estadio Tomás Adolfo Ducó", "true"),
+    ],
+    "campeonato": [
+        ("1985-08-28", "Argentinos Juniors", "1", "1", "3", "4", "Vélez Sarsfield",
+         "Estadio Monumental", "true"),
+        ("1985-09-04", "Vélez Sarsfield", "1", "2", "", "", "Argentinos Juniors",
+         "Estadio Monumental", "true"),
+    ],
+}
+
+
+def _filas_del_nacional_1985():
+    import csv
+    import pathlib
+    datos = pathlib.Path(__file__).resolve().parent.parent / "data" / "partidos-1985.csv"
+    if not datos.exists():
+        pytest.skip("hace falta el dataset")
+    with datos.open(encoding="utf-8") as fh:
+        return [f for f in csv.DictReader(fh)
+                if f["tournament"] == "Primera Division - Nacional"]
+
+
+def _posiciones_por_zona(filas):
+    """{club: (zona, puesto)} con 2 puntos por triunfo y, a igual puntaje, la
+    diferencia de gol. En 1985 no hacia falta mas: ningun primero ni segundo empata
+    en las dos cosas."""
+    suma = {}
+    for f in filas:
+        if f["phase"] != "zonas":
+            continue
+        gl, gv = int(f["home_score"]), int(f["away_score"])
+        for club, gf, gc in ((f["home_team"], gl, gv), (f["away_team"], gv, gl)):
+            zona, pts, dif = suma.get(club, (f["group"], 0, 0))
+            suma[club] = (zona, pts + (2 if gf > gc else 1 if gf == gc else 0), dif + gf - gc)
+    puesto = {}
+    for zona in {z for z, _, _ in suma.values()}:
+        orden = sorted((c for c in suma if suma[c][0] == zona),
+                       key=lambda c: suma[c][1:], reverse=True)
+        assert suma[orden[1]][1:] != suma[orden[2]][1:], f"{zona}: empate en el corte"
+        puesto.update({c: (zona, i + 1) for i, c in enumerate(orden)})
+    return puesto
+
+
+def test_el_nacional_1985_esta_entero():
+    """160 partidos, que es lo que publican la pagina y `arg85`: 8 zonas de 4 a dos
+    ruedas, y 64 de eliminacion entre las dos rondas y la final. Sin la Sexta fase en
+    el vocabulario del parser, el `River 2-0 Newell's` del 31 de julio salia en la
+    Quinta y nada lo decia."""
+    filas = _filas_del_nacional_1985()
+    assert len(filas) == 160
+    zonas = [f for f in filas if f["phase"] == "zonas"]
+    assert sorted({(f["group"], sum(g["group"] == f["group"] for g in zonas))
+                   for f in zonas}) == [(f"Zona {z}", 12) for z in "ABCDEFGH"]
+    rondas = {}
+    for f in filas:
+        if f["phase"] == "eliminacion":
+            rondas[f["matchday"]] = rondas.get(f["matchday"], 0) + 1
+    assert rondas == {"Octavos": 16, "Cuartos": 4, "Semifinales": 2, "Primera fase": 16,
+                      "Segunda fase": 8, "Tercera fase": 6, "Cuarta fase": 4,
+                      "Quinta fase": 2, "Sexta fase": 1, "Final": 5}
+    assert all("1985-02-17" <= f["date"] <= "1985-09-04" for f in filas)
+    clubes = {}
+    for f in filas:
+        for c in (f["home_team"], f["away_team"]):
+            clubes[c] = clubes.get(c, 0) + 1
+    assert len(clubes) == 32
+    # Los dos que el padron no tenia: seis de zona y los dos de la primera fase.
+    assert clubes["Argentino (F)"] == clubes["Juventud Alianza"] == 8
+
+
+def test_las_ocho_zonas_del_nacional_1985_cierran_contra_su_tabla():
+    """LAS TABLAS DE LA PAGINA CONTRA LOS PARTIDOS PUBLICADOS, club por club: cierran
+    los 32 en las cinco cifras, asi que un marcador cualquiera de los 96 que se mueva
+    descuadra a sus dos clubes. En la Zona C, con el 2-2 que publica la grilla
+    cerraban 30 de 32: a Guarani y a Talleres les sobraba un empate, y ademas a Guarani
+    dos goles en contra y a Talleres dos a favor."""
+    suma = {}
+    for f in _filas_del_nacional_1985():
+        if f["phase"] != "zonas":
+            continue
+        gl, gv = int(f["home_score"]), int(f["away_score"])
+        for club, gf, gc in ((f["home_team"], gl, gv), (f["away_team"], gv, gl)):
+            r = suma.setdefault(f["group"], {}).setdefault(club, [0, 0, 0, 0, 0])
+            r[0 if gf > gc else 1 if gf == gc else 2] += 1
+            r[3] += gf
+            r[4] += gc
+    assert {z: {c: tuple(r) for c, r in cs.items()} for z, cs in suma.items()} == _ZONAS_1985
+
+
+def test_los_dias_de_las_zonas_del_nacional_1985():
+    """El dia de su fecha, salvo los cinco que la obra anota jugados otro dia; los 96
+    lo cumplen. Que la grilla los fechara asi es una de las cosas que dicen que copia a
+    la obra y no a RSSSF: a esos cinco RSSSF les da el dia de la ronda."""
+    for f in _filas_del_nacional_1985():
+        if f["phase"] != "zonas":
+            continue
+        esperado = _JUGADOS_OTRO_DIA_1985.get((f["home_team"], f["away_team"]),
+                                             _DIA_DE_LA_FECHA_1985[f["matchday"]])
+        assert f["date"] == esperado, (f["matchday"], f["home_team"], f["away_team"])
+
+
+def test_en_las_zonas_del_nacional_1985_cada_club_es_local_en_una_cancha():
+    """Los tres partidos de local de cada club, en la misma cancha. Tres usaron dos, y
+    la obra lo dice en la ficha del que se mudo: 'CANCHA: Centro Siderurgico Palpala.'
+    para Altos Hornos Zapla, 'CANCHA: Villa Dalmine (Campana).' para dos de Chacarita y
+    'CANCHA: Central Norte (Salta).' para Juventud Antoniana. Una cancha cambiada en
+    cualquier otra fila deja a su club con dos."""
+    canchas = {}
+    for f in _filas_del_nacional_1985():
+        if f["phase"] == "zonas":
+            c = canchas.setdefault(f["home_team"], {})
+            c[f["venue"]] = c.get(f["venue"], 0) + 1
+    assert len(canchas) == 32
+    assert {club: c for club, c in canchas.items() if len(c) != 1} == {
+        "Altos Hornos Zapla": {"Emilio Fabrizzi": 2, "Centro Siderúrgico": 1},
+        "Chacarita Juniors": {"El Coliseo de Mitre y Puccini": 2, "Chacarita Juniors": 1},
+        "Juventud Antoniana": {"Fray Honorato Pistoia": 2, "Doctor Luis Güemes": 1},
+    }
+
+
+def test_las_tres_finales_del_nacional_1985_y_su_campeon():
+    """LA DE GANADORES, ida y vuelta: 2-0 y 0-2, y la ganaron los penales de Argentinos.
+    LA DE PERDEDORES, a partido unico: la gano Velez. Y LA DEL CAMPEONATO: el que venia
+    de perdedores tenia que ganar dos veces, gano la primera por penales, y Argentinos
+    fue campeon en el desempate. Las dos ultimas, en cancha neutral; la de ganadores no,
+    porque fue de ida y vuelta: la ida la jugo Argentinos de local en la Bombonera."""
+    filas = [(f["date"], f["home_team"], f["home_score"], f["away_score"], f["home_pens"],
+              f["away_pens"], f["away_team"], f["venue"], f["neutral"])
+             for f in _filas_del_nacional_1985() if f["matchday"] == "Final"]
+    assert sorted(filas) == sorted(sum(_FINALES_1985.values(), []))
+
+    def ganador(fila):
+        _, local, gl, gv, pl, pv, visita, _, _ = fila
+        a, b = (int(gl), int(gv)) if gl != gv else (int(pl), int(pv))
+        return local if a > b else visita
+
+    ida, vuelta = _FINALES_1985["ganadores"]
+    assert int(ida[2]) + int(vuelta[3]) == int(ida[3]) + int(vuelta[2]), "quedo igualada"
+    # La tanda, despues del 2-2 global, es de la serie y no del partido de vuelta.
+    assert int(vuelta[4]) < int(vuelta[5]) and vuelta[6] == "Argentinos Juniors"
+    assert ganador(_FINALES_1985["perdedores"][0]) == "Vélez Sarsfield"
+    primera, desempate = _FINALES_1985["campeonato"]
+    assert ganador(primera) == "Vélez Sarsfield" and ganador(desempate) == "Argentinos Juniors"
+
+
+def test_las_zonas_del_nacional_1985_no_son_neutrales():
+    """La fase de zonas se jugo en la cancha de cada local: la pagina no dice neutral en
+    ninguna de sus secciones, y la regla de la seccion no tiene que marcar ninguna."""
+    zonas = [f for f in _filas_del_nacional_1985() if f["phase"] == "zonas"]
+    assert len(zonas) == 96
+    assert [f for f in zonas if f["neutral"] != "false"] == []
+
+
+def test_el_neutral_de_la_eliminacion_del_nacional_1985():
+    """CADA FILA DE LA ELIMINACION CON EL `neutral` QUE DICE EL REGLAMENTO, como lo
+    cuentan la pagina y la obra. Ida y vuelta, `false`: los octavos, la primera fase de
+    perdedores y la final de ganadores. Partido unico en cancha neutral, `true`, salvo
+    en la tercera y la cuarta fase de perdedores, donde los que llegaban de la ronda de
+    ganadores --los perdedores de cuartos y de semifinales-- jugaron de local. Diez de
+    estas filas salian `false` y seis `true` hasta que se declararon; ver los `Neutral`
+    del Nacional 1985 en fad/correcciones.py."""
+    filas = _filas_del_nacional_1985()
+
+    def perdedor(f):
+        gl, gv = int(f["home_score"]), int(f["away_score"])
+        if gl == gv:
+            gl, gv = int(f["home_pens"]), int(f["away_pens"])
+        return f["away_team"] if gl > gv else f["home_team"]
+
+    de_ganadores = {"Tercera fase": {perdedor(f) for f in filas if f["matchday"] == "Cuartos"},
+                    "Cuarta fase": {perdedor(f) for f in filas
+                                    if f["matchday"] == "Semifinales"}}
+    ida_y_vuelta = {"Octavos", "Primera fase"}
+    final_de_ganadores = {fila[0] for fila in _FINALES_1985["ganadores"]}
+    neutrales = 0
+    for f in filas:
+        if f["phase"] != "eliminacion":
+            continue
+        neutral = not (f["matchday"] in ida_y_vuelta
+                       or (f["matchday"] == "Final" and f["date"] in final_de_ganadores)
+                       or f["home_team"] in de_ganadores.get(f["matchday"], ()))
+        assert f["neutral"] == str(neutral).lower(), (f["date"], f["matchday"],
+                                                       f["home_team"], f["away_team"])
+        neutrales += neutral
+    assert len(de_ganadores["Tercera fase"]) == 4 and len(de_ganadores["Cuarta fase"]) == 2
+    assert neutrales == 24
+
+
+def test_los_octavos_del_nacional_1985_cruzan_primero_contra_segundo():
+    """EL TESTIGO QUE NO ES NINGUNA TABLA: el cuadro. La pagina y RSSSF publican los
+    mismos cruces de octavos, y los seis que no tocan la Zona C son del primero de
+    una zona contra el segundo de su pareja. Los otros dos cumplen solo si la Zona C
+    la termina primera Independiente, y eso pasa con el 2-0 --tres clubes en 7
+    puntos, Independiente con +5 y Talleres con 0--: con el 2-2 Talleres seria
+    primero con 8, y quedarian un primero contra primero y un segundo contra segundo."""
+    filas = _filas_del_nacional_1985()
+    puesto = _posiciones_por_zona(filas)
+    cruces = {frozenset((f["home_team"], f["away_team"])) for f in filas
+              if f["matchday"] == "Octavos"}
+    assert len(cruces) == 8
+    parejas = set()
+    for cruce in cruces:
+        a, b = sorted(cruce, key=lambda c: puesto[c][1])
+        assert (puesto[a][1], puesto[b][1]) == (1, 2), (a, puesto[a], b, puesto[b])
+        parejas.add(frozenset((puesto[a][0][-1], puesto[b][0][-1])))
+    assert parejas == {frozenset(p) for p in ("AC", "BG", "DH", "EF")}
+    assert puesto["Independiente"] == ("Zona C", 1) and puesto["Talleres (C)"] == ("Zona C", 2)
+
+
+def test_el_independiente_boca_del_nacional_1985_sale_suspendido():
+    """Tercera fase de la ronda de perdedores, 7 de abril. La plantilla trae el suceso
+    --suspendido a los 40 minutos del segundo tiempo, 1-0, y la AFA lo dio por
+    terminado con ese resultado-- y el parser lo lee: sale `suspendido` con el 1-0, sin
+    ninguna correccion a mano. RSSSF dice lo mismo, `(Abandoned at 85')`.
+
+    Es lo que dice la pagina y nada mas: si esa fila tiene que decir otra cosa es una
+    decision sobre el `status`, no sobre este partido. Y es el unico de los 160 con
+    `status`."""
+    filas = _filas_del_nacional_1985()
+    con_status = [(f["date"], f["matchday"], f["home_team"], f["home_score"],
+                   f["away_score"], f["away_team"], f["status"])
+                  for f in filas if f["status"]]
+    assert con_status == [("1985-04-07", "Tercera fase", "Independiente", "1", "0",
+                           "Boca Juniors", "suspendido")]
+
+
 def test_las_rondas_declaradas_como_torneo_aparte_SALEN_CON_SU_LLAVE(monkeypatch):
     """El cableado de `rsssf.con_llaves`. La llave no va al CSV, asi que si
     `procesar` deja de pedirla ninguna fila cambia y ningun otro test se entera: lo
@@ -2458,8 +2771,42 @@ def test_un_neutral_que_la_pagina_ya_marca_avisa_sin_frenar(monkeypatch):
                  .replace("!Local", "!Equipo 1").replace("!Visitante", "!Equipo 2"))
     ps, avisos = build.procesar(sin_local, T)
     assert [p.neutral for p in ps] == [True]
-    sobra = [a for a in avisos if "neutral que la pagina ya marca" in a.que]
+    sobra = [a for a in avisos if "neutral declarado que la pagina ya da" in a.que]
     assert len(sobra) == 1 and not sobra[0].grave
+    assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
+
+
+def _de_local(monkeypatch, dice=("Boca Juniors", "River Plate", 2, 1)):
+    from fad import correcciones
+    from fad.correcciones import Neutral
+    monkeypatch.setattr(correcciones, "NEUTRALES", (
+        Neutral(pagina=T.pagina, fecha="2026-01-23", dice=dice, porque="x" * 90,
+                neutral=False),))
+
+
+def _sin_local(texto: str) -> str:
+    return texto.replace("!Local", "!Equipo 1").replace("!Visitante", "!Equipo 2")
+
+
+def test_un_partido_declarado_de_local_sale_de_local(monkeypatch):
+    """El otro lado: la pagina lo da por neutral -- aca, con "Equipo 1 / Equipo 2" -- y
+    la declaracion lo desmarca. Es lo que pasa en la tercera y la cuarta fase de
+    perdedores del Nacional 1985."""
+    _de_local(monkeypatch)
+    ps, avisos = build.procesar(_sin_local(tabla(("Boca Juniors", "River Plate"))), T)
+    assert [p.neutral for p in ps] == [False]
+    assert any("corregidos a mano" in a.que for a in avisos)
+    assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
+
+
+def test_un_de_local_que_la_pagina_ya_da_avisa_sin_frenar(monkeypatch):
+    """La pagina dejo de darlo por neutral: la fila sale sin marcar con la entrada o
+    sin ella, y se pide sacarla."""
+    _de_local(monkeypatch)
+    ps, avisos = build.procesar(tabla(("Boca Juniors", "River Plate")), T)
+    assert [p.neutral for p in ps] == [None]
+    sobra = [a for a in avisos if "neutral declarado que la pagina ya da" in a.que]
+    assert len(sobra) == 1 and not sobra[0].grave and "de local" in sobra[0].detalle
     assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
 
 

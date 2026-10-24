@@ -494,3 +494,51 @@ def test_los_dos_de_la_rioja_no_se_cruzan_por_el_articulo():
     assert equipos.canonizar("Américo Tesorieri (LR)", "Andino Sport Club") == "Andino"
     assert equipos.canonizar("Andino",
                              "Club Atlético Américo Tesorieri") == "Américo Tesorieri (LR)"
+
+
+# --------------------------------------------------------------------------
+# Los del Nacional 1985
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("escrito, club", [
+    ("Argentino (F)", "Argentino (F)"),
+    ("Juventud Alianza", "Juventud Alianza"),
+])
+def test_las_grafias_del_nacional_1985_resuelven(escrito, club):
+    """Las dos aparecen asi, sin enlace, en la grilla de la Zona G y en las llaves:
+    resuelven por el nombre o no resuelven. Con `canonical` por lo mismo que el test
+    del Federal A: `canonizar` devuelve intacto al que no conoce."""
+    assert equipos.canonical(escrito) == club
+
+
+def test_el_argentino_de_firmat_resuelve_por_sus_dos_titulos():
+    """La tabla de participantes muestra "Argentino" a secas, enlazado a la
+    redireccion; la de posiciones, "Argentino (F)" enlazado al articulo."""
+    for titulo in ("Club Atlético Argentino (Firmat)", "Club Atlético Argentino de Firmat"):
+        assert equipos.canonizar("Argentino", titulo) == "Argentino (F)"
+
+
+def test_el_argentino_de_firmat_no_se_come_a_los_otros_cuatro():
+    """Cinco Argentino, y "Argentino" a secas no es de ninguno. El "(F)" es Firmat
+    aunque en este padron tambien quiera decir Formosa: la base difiere."""
+    otros = {"Argentino de Merlo", "Argentino (MM)", "Argentino de Quilmes",
+             "Argentino de Rosario"}
+    assert equipos.canonical("Argentino (F)") not in otros
+    assert {equipos.canonical(n) for n in ("Argentino (M)", "Argentino (MM)",
+                                           "Argentino de Quilmes", "Argentino (R)")} == otros
+    assert equipos.buscar("Argentino", "") is None
+    # Manda el articulo: el de Rosario sigue siendo el de Rosario.
+    assert equipos.canonizar("Argentino (F)",
+                             "Club Atlético Argentino (Rosario)") == "Argentino de Rosario"
+    assert equipos.canonical("San Martín (F)") == "San Martín (F)"
+    assert equipos.canonizar("San Martín (F)",
+                             "Club Sportivo General San Martín") == "San Martín (F)"
+
+
+def test_juventud_alianza_no_es_otro_juventud_ni_otro_alianza():
+    """Y el "(SJ)" de las Copa Argentina entra por el articulo, sin alias."""
+    otros = {"Juventud Antoniana", "Juventud Unida", "Juventud Unida (G)",
+             "Juventud Unida Universitario", "Juventud (P)", "Alianza (CC)",
+             "Alianza de Moldes"}
+    assert equipos.canonical("Juventud Alianza") not in otros
+    assert equipos.canonizar("Juventud Alianza (SJ)",
+                             "Club Atlético de la Juventud Alianza") == "Juventud Alianza"

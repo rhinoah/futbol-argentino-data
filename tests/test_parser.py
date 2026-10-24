@@ -2922,6 +2922,22 @@ def test_la_cuarta_y_la_quinta_fase_tambien_son_rondas():
     assert _rondas("== Cuarta fase ==\n== Quinta fase ==") == ["Cuarta fase", "Quinta fase"]
 
 
+def test_la_sexta_fase_no_hereda_la_ronda_de_arriba():
+    """La ronda de perdedores del Nacional 1985. Sin la sexta en el vocabulario el
+    partido no quedaba sin ronda: quedaba con la QUINTA, que es el ultimo titulo
+    reconocido que tenia arriba, y el error no se veia como hueco."""
+    texto = ("=== Quinta fase ===\n"
+             "{{Partido\n|local = River Plate\n|resultado = 4:1\n"
+             "|visita = Estudiantes (LP)\n|fecha = 17 de julio\n}}\n"
+             "=== Sexta fase ===\n"
+             "{{Partido\n|local = River Plate\n|resultado = 2:0\n"
+             "|visita = Newell's Old Boys\n|fecha = 31 de julio\n}}\n")
+    assert _rondas(texto) == ["Quinta fase", "Sexta fase"]
+    ps = parser.partidos_de_plantillas(texto, 1985, "Primera Division - Nacional")
+    assert [(p.visita, p.jornada) for p in ps] == [("Estudiantes (LP)", "Quinta fase"),
+                                                   ("Newell's Old Boys", "Sexta fase")]
+
+
 def test_un_titulo_que_no_es_una_ronda_no_entra():
     """El testigo: si el vocabulario se abriera de mas, cualquier seccion pasaria
     a ser una ronda y el cuadro se llenaria de rondas inventadas."""

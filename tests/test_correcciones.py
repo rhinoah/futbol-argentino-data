@@ -913,6 +913,68 @@ def test_los_neutrales_cumplidos_se_preguntan_ANTES_de_aplicar(monkeypatch):
     assert correcciones.neutrales_cumplidos("Una Pagina", ps)
 
 
+# El otro lado: `neutral=False`, para la frase que reparte la cancha adentro de una
+# seccion --"Estos cuatro ultimos disputaron sus partidos en condicion de local,
+# mientras que los otros encuentros se desarrollaron en campo neutral"-- y que la
+# regla del parser lee como si dijera neutral para todos.
+UN_DE_LOCAL = replace(UN_NEUTRAL, neutral=False)
+
+
+def test_un_partido_declarado_de_local_se_desmarca(monkeypatch):
+    """La fila viene marcada por la regla y la declaracion la deja en `False`: no en
+    `None`, que en un torneo neutral entero volveria a salir `true`."""
+    _con_neutral(monkeypatch, UN_DE_LOCAL)
+    ps = [partido("All Boys", "Belgrano", 2, 1)]
+    ps[0].neutral = True
+    assert correcciones.aplicar(ps, "Una Pagina") == (1, [])
+    assert ps[0].neutral is False
+
+
+def test_un_de_local_sobre_una_fila_sin_marca_no_hace_nada(monkeypatch):
+    """Sin marca y `False` dan la misma fila: no se cuenta como aplicada, y es el
+    cumplido de abajo el que pide sacarla."""
+    _con_neutral(monkeypatch, UN_DE_LOCAL)
+    ps = [partido("All Boys", "Belgrano", 2, 1)]
+    assert correcciones.aplicar(ps, "Una Pagina") == (0, [])
+    assert ps[0].neutral is None
+
+
+def test_el_de_local_que_la_pagina_ya_da_sobra_sin_ser_grave(monkeypatch):
+    """EL CUMPLIDO DE UN `False`: la pagina dejo de escribir "neutral" donde la regla
+    lo leia, y la fila ya sale sin marcar. Con la fila marcada no sobra nada: es justo
+    lo que la declaracion viene a desmarcar."""
+    _con_neutral(monkeypatch, UN_DE_LOCAL)
+    p = partido("All Boys", "Belgrano", 2, 1)
+    dichos = correcciones.neutrales_cumplidos("Una Pagina", [p])
+    assert len(dichos) == 1 and "YA NO HACE FALTA" in dichos[0] and "de local" in dichos[0]
+    p.neutral = True
+    assert correcciones.neutrales_cumplidos("Una Pagina", [p]) == []
+    # Y el `True` no se confunde con el: la misma fila marcada es su cumplido.
+    _con_neutral(monkeypatch, UN_NEUTRAL)
+    assert len(correcciones.neutrales_cumplidos("Una Pagina", [p])) == 1
+
+
+def test_un_de_local_que_ya_no_engancha_avisa(monkeypatch):
+    _con_neutral(monkeypatch, UN_DE_LOCAL)
+    ps = [partido("All Boys", "Belgrano", 1, 1)]
+    ps[0].neutral = True
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 0 and ps[0].neutral is True
+    assert len(avisos) == 1 and "de local" in avisos[0] and "engancha con 0" in avisos[0]
+
+
+def test_ningun_de_local_va_en_un_torneo_neutral_entero():
+    """En un torneo neutral entero, como la Copa Argentina, la fila sin marca sale
+    `true` por el torneo. Un `False` declarado ahi se veria «cumplido» sobre la fila
+    sin marca, el build pediria sacarlo, y la fila se publicaria `true` igual."""
+    from fad import torneos
+    neutrales = {t.pagina for t in torneos.TODOS if t.neutral}
+    de_local = [n for n in correcciones.NEUTRALES if not n.neutral]
+    assert de_local, "no hay ningun `False` que mirar"
+    for n in de_local:
+        assert n.pagina not in neutrales, (n.pagina, n.fecha, n.dice)
+
+
 def test_los_neutrales_declarados_citan_su_testigo():
     """La frase de la pagina o la prensa, citadas y con su direccion; una pagina del
     catalogo, nombres del padron, y ninguno declarado dos veces."""

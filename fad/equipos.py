@@ -376,6 +376,26 @@ PADRON: tuple[Equipo, ...] = (
     # difiere, igual que pasa con "(P)".
     Equipo("Vélez Sarsfield (SR)", alias=("Vélez Sarsfield (San Ramón)",)),
 
+    # --- los del Nacional 1985 ---
+    # Dos clubes que el padron no tenia, los dos llegados por el Torneo Regional
+    # 1985. Mismo criterio que los de arriba: cada uno sale del ARTICULO que enlaza
+    # la tabla de participantes de la pagina, que ademas da la ciudad, y el canonico
+    # es como lo escriben la grilla y la tabla de su zona, la G, en sus 8 partidos.
+    # RSSSF (`arg85`) los escribe igual.
+    #
+    # Firmat, Santa Fe. Es el quinto Argentino del padron, con el de Merlo, el de
+    # Monte Maiz, el de Quilmes y el de Rosario --que tambien es santafesino--, asi
+    # que "Argentino" a secas, que es como lo muestra la tabla de participantes,
+    # sigue sin ser alias de nadie: resuelve por el articulo. Y "(F)" ya es Formosa
+    # en este padron --`San Martín (F)` y `Sol de América (F)`--; no choca porque
+    # la base difiere, igual que pasa con "(P)" y con "(SR)".
+    Equipo("Argentino (F)"),
+    # Santa Lucia, San Juan. Sin alias: las Copa Argentina 2011-12 y 2014-15 lo
+    # muestran una vez cada una como "Juventud Alianza (SJ)", pero enlazado a este
+    # mismo articulo, y por ahi resuelve. El nombre no choca con los otros cinco
+    # Juventud ni con los dos Alianza: la base es otra.
+    Equipo("Juventud Alianza"),
+
     # --- el ascenso: Primera Nacional, Primera B, Primera C y Federal A ---
     # Sin id de AFA: el feed del que salieron los ids es el de Primera y no los
     # tiene. Casi todos sin alias tampoco -- solo llevan los que hicieron falta,
@@ -776,6 +796,12 @@ ARTICULOS: dict[str, str] = {
     'Asociación Deportiva 9 de Julio (Morteros)': '9 de Julio (M)',
     'Asociación Deportiva 9 de Julio': '9 de Julio (M)',
     'Club Atlético Vélez Sarsfield (San Ramón)': 'Vélez Sarsfield (SR)',
+    # Los dos del Nacional 1985. El de Firmat tiene dos titulos y la pagina usa los
+    # dos: la tabla de participantes enlaza "de Firmat", que es redireccion, y la
+    # tabla de posiciones de la Zona G enlaza "(Firmat)", que es el articulo.
+    'Club Atlético Argentino (Firmat)': 'Argentino (F)',
+    'Club Atlético Argentino de Firmat': 'Argentino (F)',
+    'Club Atlético de la Juventud Alianza': 'Juventud Alianza',
     # El de La Rioja, que ya estaba en el padron por la Copa Argentina 2014-15 y
     # resolvia solo por el nombre. No cambia ningun partido: es la clave estable
     # para los 30 lados que el Federal A 2015 le enlaza.

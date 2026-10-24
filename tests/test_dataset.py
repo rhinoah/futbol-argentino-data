@@ -917,9 +917,9 @@ def test_lo_que_dicen_las_dos_copias_lo_dice_un_testigo_de_afuera(publicadas, cl
 
 def test_los_partidos_declarados_neutrales_salen_neutrales():
     """Lo mismo que `test_lo_declarado_es_lo_que_se_publica`, para
-    `correcciones.NEUTRALES`: se aplican al rehacer, y el CSV es lo que queda. Mira
-    solo los torneos cerrados; los de uno en curso los aplica el bot despues de la
-    suite."""
+    `correcciones.NEUTRALES`: se aplican al rehacer, y el CSV es lo que queda, con el
+    valor declarado -- `true`, o `false` para los de local --. Mira solo los torneos
+    cerrados; los de uno en curso los aplica el bot despues de la suite."""
     from fad import correcciones, torneos
     filas = dataset.leer_carpeta(DATOS)
     if not filas:
@@ -936,9 +936,10 @@ def test_los_partidos_declarados_neutrales_salen_neutrales():
             continue
         local, visita, gl, gv = n.dice
         k = (cerradas[n.pagina], n.fecha, local, visita, str(gl), str(gv))
-        assert por_partido.get(k) == ["true"], (n.pagina, n.fecha, local, visita)
+        assert por_partido.get(k) == [str(n.neutral).lower()], (n.pagina, n.fecha, local,
+                                                                 visita)
         vistas += 1
-    assert vistas >= 59, f"son 59 de torneos cerrados y vio {vistas}: no esta mirando"
+    assert vistas >= 75, f"son 75 de torneos cerrados y vio {vistas}: no esta mirando"
 
 
 @pytest.fixture(scope="module")

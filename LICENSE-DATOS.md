@@ -40,10 +40,12 @@ Las filas sin ` + ` en `source` no toman de otra fuente ni el partido ni el día
 medio centenar de ellas, eso sí, el marcador —o la tanda de penales— no es el que
 trae la página: se corrigió a mano, casi siempre contra testigos de afuera que la
 fila no nombra. Cada caso está declarado, con su evidencia, en
-`fad/correcciones.py`. Ahí también están los 60 partidos de fases finales cuyo
-`neutral` dice `true` por una declaración a mano: en 55 lo dice la propia página, en una
-sección que habla de varias rondas, y en los otros cinco sólo la prensa; las 60 citan un
-testigo de afuera. Y en los quince partidos que publican las páginas de dos
+`fad/correcciones.py`. Ahí también están los 70 partidos de fases finales cuyo
+`neutral` dice `true` por una declaración a mano —en 61 lo dice la propia página, en una
+sección que habla de varias rondas, y en los otros nueve sólo la prensa o la ficha del
+partido en una obra de estadística—, y los seis del Nacional 1985 que dicen `false`
+aunque la frase de su sección hable de campo neutral, porque la misma frase los da de
+local. Los 76 citan un testigo de afuera. Y en los quince partidos que publican las páginas de dos
 torneos, lo que una de las dos no trae —la hora, la cancha, `neutral`—, o lo que
 escribe distinto, puede venir de la otra, que también es Wikipedia, aunque `source`
 nombre sólo la suya.
@@ -58,12 +60,12 @@ nombre sólo la suya.
 | [worldfootball](https://www.worldfootball.net/) | sólo el día | 1 519 |
 | el [blog de José Carluccio](http://josecarluccio.blogspot.com/) | sólo el día | 76 |
 | | el día y la localía | 14 |
-| diez citas sueltas | sólo el día | 6 |
+| doce citas sueltas | sólo el día | 8 |
 | | el día y la hora | 4 |
 
-Medido el 15 de octubre de 2026. Ninguno de esos números se mueve con la
-actualización de todos los días: son de torneos terminados. Son 9 704 filas y la
-tabla suma 9 741 porque en 37 —las llaves del Torneo Argentino A 2004-05— el
+Medido el 24 de octubre de 2026. Ninguno de esos números se mueve con la
+actualización de todos los días: son de torneos terminados. Son 9 706 filas y la
+tabla suma 9 743 porque en 37 —las llaves del Torneo Argentino A 2004-05— el
 partido sale de RSSSF y el día de un blog, y están contadas en los dos.
 
 ### Wikipedia en español
@@ -133,7 +135,7 @@ una va nombrada en el `source` de las filas a las que les puso el día o la loca
   los 14 del Reducido de la Primera C 2011-12, también a mano: cada pata entra sólo
   si el cuadro de Wikipedia publica ese cruce con ese marcador. El blog no publica
   condiciones de uso ni licencia; esas 14 filas nombran el post del que se copió.
-- **Diez citas sueltas** — el día de 10 partidos, cada uno con su URL en `source`:
+- **Doce citas sueltas** — el día de 12 partidos, cada uno con su URL en `source`:
   Página/12 en la [Hemeroteca Digital](https://hemerotecadigital.bn.gob.ar/) de la
   Biblioteca Nacional, [historiadeboca.com.ar](https://historiadeboca.com.ar/),
   [soybh.blogspot.com](http://soybh.blogspot.com/) —la página de un hincha de Ben
@@ -142,9 +144,11 @@ una va nombrada en el `source` de las filas a las que les puso el día o la loca
   2012-13, la síntesis de [Solo Ascenso](https://www.soloascenso.com.ar/) en tres
   partidos de la Primera B 2024 y 2025 que se jugaron otro día que el programado y
   la crónica de [Ascenso del Interior](http://ascensodelinterior.com.ar/) en uno del
-  Torneo Argentino A 2012-13 que tampoco se jugó el día de la celda. Las síntesis
-  de Solo Ascenso dan también la hora; la del partido del Argentino A sale de la nota
-  de la página.
+  Torneo Argentino A 2012-13 que tampoco se jugó el día de la celda, y
+  [La Capital de Mar del Plata](https://www.lacapitalmdp.com/) y
+  [La Capital de Rosario](https://www.lacapital.com.ar/) en dos del Nacional 1985 que
+  la página fecha tres días tarde. Las síntesis de Solo Ascenso dan también la hora;
+  la del partido del Argentino A sale de la nota de la página.
 
 Este proyecto no persigue ningún fin comercial.
 

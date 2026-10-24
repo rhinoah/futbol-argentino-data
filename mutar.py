@@ -2068,6 +2068,10 @@ MUTANTES = [
      "|Cuarta fase|Quinta fase",
      ""),
 
+    ("fad/parser.py", "no leer la sexta fase (la del Nacional 1985)",
+     "|Quinta fase|Sexta fase",
+     "|Quinta fase"),
+
     ("fad/validar.py", "no saber que instancia es fase",
      '    "primera instancia": "primera fase",',
      '    "primera instancia": "primera instancia",'),
@@ -2389,6 +2393,10 @@ MUTANTES = [
     ("fad/equipos.py", "resolver por el nombre visible y no por el articulo",
      "    if articulo:",
      "    if False:"),
+
+    ("fad/equipos.py", "no conocer la redireccion del Argentino de Firmat",
+     "    'Club Atlético Argentino de Firmat': 'Argentino (F)',\n",
+     ""),
 
     ("fad/parser.py", "aceptar un nombre visible que apunta a dos articulos",
      "    return {v: next(iter(d.values())) for v, d in vistos.items() if len(d) == 1}",
@@ -3239,9 +3247,21 @@ MUTANTES = [
      "    if not arriba:\n        return True\n    cerca = arriba[-1]"),
 
     # Y la que no se puede leer por regla, declarada a mano.
-    ("fad/correcciones.py", "no marcar los partidos declarados neutrales",
-     "            cuales[0].neutral = True",
+    ("fad/correcciones.py", "no escribir el valor de los partidos declarados",
+     "            cuales[0].neutral = n.neutral",
      "            pass"),
+
+    ("fad/correcciones.py", "marcar neutral tambien al declarado de local",
+     "            cuales[0].neutral = n.neutral",
+     "            cuales[0].neutral = True"),
+
+    ("fad/correcciones.py", "aplicar el declarado solo si la fila no viene marcada",
+     "        if (cuales[0].neutral is True) != n.neutral:",
+     "        if cuales[0].neutral is not True:"),
+
+    ("fad/correcciones.py", "que la declaracion no pase su valor a la fila",
+     'else ""), neutral=neutral)',
+     'else ""))'),
 
     ("fad/correcciones.py", "identificar el partido neutral sin la fecha",
      "    return [p for p in ps if p.fecha == n.fecha and p.local == local",
@@ -3259,17 +3279,21 @@ MUTANTES = [
      "            and p.visita == visita and (p.goles_local, p.goles_visita) == (gl, gv)]",
      "            and (p.goles_local, p.goles_visita) == (gl, gv)]"),
 
-    ("fad/correcciones.py", "no avisar el neutral declarado que la pagina ya marca",
-     "            if n.pagina == pagina and any(p.neutral is True for p in _los_de(n, ps))]",
-     "            if False]"),
+    ("fad/correcciones.py", "no avisar el neutral declarado que la pagina ya da",
+     "            and any((p.neutral is True) == n.neutral for p in _los_de(n, ps))]",
+     "            and False]"),
+
+    ("fad/correcciones.py", "no ver el cumplido de un declarado de local",
+     "            and any((p.neutral is True) == n.neutral for p in _los_de(n, ps))]",
+     "            and any(p.neutral is True for p in _los_de(n, ps))]"),
 
     ("build.py", "no preguntar por los neutrales declarados que sobran",
      "    neutrales_de_mas = correcciones.neutrales_cumplidos(t.pagina, ps)",
      "    neutrales_de_mas = []"),
 
     ("build.py", "hacer grave el neutral declarado que sobra",
-     'validar.Aviso("un partido neutral que la pagina ya marca", d, grave=False)',
-     'validar.Aviso("un partido neutral que la pagina ya marca", d)'),
+     'validar.Aviso("un neutral declarado que la pagina ya da", d, grave=False)',
+     'validar.Aviso("un neutral declarado que la pagina ya da", d)'),
 
     ("fad/parser.py", "dejar la plantilla en el dia programado aunque se jugo otro",
      '            fecha=dia, hora=hora,',
@@ -3706,6 +3730,44 @@ MUTANTES += [
     ("data/partidos-2011.csv", "publicar sin su credito una pata citada: Midland-Cambaceres, Primera C 2011-12",
      "2012-05-28,,Ferrocarril Midland,Defensores de Cambaceres,4,1,,,Primera C,2011,eliminacion,,Cuartos de final,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina) + http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html,\n",
      "2012-05-28,,Ferrocarril Midland,Defensores de Cambaceres,4,1,,,Primera C,2011,eliminacion,,Cuartos de final,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina),\n"),
+    # El Nacional 1985: el marcador arbitrado, el unico `status` del torneo y la fila
+    # que sin la Sexta fase salia en la Quinta.
+    ("data/partidos-1985.csv", "publicar el 2-2 de la grilla y no el arbitrado: Guarani-Talleres (C), Nacional 1985",
+     "1985-03-10,,Guaraní Antonio Franco,Talleres (C),2,0,",
+     "1985-03-10,,Guaraní Antonio Franco,Talleres (C),2,2,"),
+    ("data/partidos-1985.csv", "publicar sin su status el Independiente-Boca suspendido, Nacional 1985",
+     "Tercera fase,Estadio La Doble Visera,false,https://es.wikipedia.org/wiki/Campeonato_Nacional_1985_(Argentina),suspendido\n",
+     "Tercera fase,Estadio La Doble Visera,false,https://es.wikipedia.org/wiki/Campeonato_Nacional_1985_(Argentina),\n"),
+    ("data/partidos-1985.csv", "publicar en la Quinta fase el River-Newell's de la Sexta, Nacional 1985",
+     "1985-07-31,,River Plate,Newell's Old Boys,2,0,,,Primera Division - Nacional,1985,eliminacion,,Sexta fase,",
+     "1985-07-31,,River Plate,Newell's Old Boys,2,0,,,Primera Division - Nacional,1985,eliminacion,,Quinta fase,"),
+    # Y lo publicado que ningun otro mutante tocaba, uno por cada red: las tablas de
+    # zona, los dias de zona, la cancha de local, las tres finales y el `neutral` de
+    # la eliminacion, para los dos lados.
+    ("data/partidos-1985.csv", "un marcador de zona cualquiera: River 3-1 Cipolletti a 3-2, Nacional 1985",
+     "1985-02-17,,River Plate,Cipolletti,3,1,",
+     "1985-02-17,,River Plate,Cipolletti,3,2,"),
+    ("data/partidos-1985.csv", "un dia de zona corrido: River-Cipolletti al 18 de febrero, Nacional 1985",
+     "1985-02-17,,River Plate,Cipolletti,3,1,",
+     "1985-02-18,,River Plate,Cipolletti,3,1,"),
+    ("data/partidos-1985.csv", "una cancha de zona cambiada: River-Cipolletti fuera del Monumental, Nacional 1985",
+     "Zona D,Fecha 1,Monumental,",
+     "Zona D,Fecha 1,Libertadores de América,"),
+    ("data/partidos-1985.csv", "la tanda de la final de ganadores dada vuelta, Nacional 1985",
+     "Vélez Sarsfield,Argentinos Juniors,2,0,2,4,",
+     "Vélez Sarsfield,Argentinos Juniors,2,0,4,2,"),
+    ("data/partidos-1985.csv", "la final del campeonato dada vuelta: Velez campeon, Nacional 1985",
+     "1985-09-04,,Vélez Sarsfield,Argentinos Juniors,1,2,",
+     "1985-09-04,,Vélez Sarsfield,Argentinos Juniors,2,1,"),
+    ("data/partidos-1985.csv", "la final del campeonato fuera de cancha neutral, Nacional 1985",
+     "Argentinos Juniors,1,2,,,Primera Division - Nacional,1985,eliminacion,,Final,Estadio Monumental,true,",
+     "Argentinos Juniors,1,2,,,Primera Division - Nacional,1985,eliminacion,,Final,Estadio Monumental,false,"),
+    ("data/partidos-1985.csv", "publicar neutral el Independiente-Boca, que fue de local, Nacional 1985",
+     "Independiente,Boca Juniors,1,0,,,Primera Division - Nacional,1985,eliminacion,,Tercera fase,Estadio La Doble Visera,false,",
+     "Independiente,Boca Juniors,1,0,,,Primera Division - Nacional,1985,eliminacion,,Tercera fase,Estadio La Doble Visera,true,"),
+    ("data/partidos-1985.csv", "publicar de local un cuarto de final de ganadores, Nacional 1985",
+     "River Plate,Estudiantes (LP),2,0,,,Primera Division - Nacional,1985,eliminacion,,Cuartos,Estadio La Doble Visera,true,",
+     "River Plate,Estudiantes (LP),2,0,,,Primera Division - Nacional,1985,eliminacion,,Cuartos,Estadio La Doble Visera,false,"),
 ]
 
 

@@ -2015,6 +2015,53 @@ MARCADORES: tuple[Marcador, ...] = (
             "por otra razon que no es un partido: la tabla de Wikipedia no cierra "
             "consigo misma, publica 22 puntos para un 7-7-5 que da 21."),
     ),
+
+    # ------------------------------------------------------------------
+    # EL NACIONAL 1985, Zona C. Es el caso del aviso que pide "una cronica que
+    # nombre a los goleadores": la grilla y la tabla de la misma pagina dan a dos
+    # clubes desviados en espejo, y la tabla sola no alcanza para corregir. Aca
+    # sobra con que: la ficha del partido en "Futbol Argentino: Cronicas y
+    # Estadisticas" y el blog de Jose Carluccio dan los dos goles con su autor, y el
+    # cuadro de octavos, que no es ninguna de las dos tablas, solo cierra con el 2-0.
+    # ------------------------------------------------------------------
+    Marcador(
+        pagina="Campeonato Nacional 1985 (Argentina)",
+        jornada="Fecha 5", local="Guaraní Antonio Franco", visita="Talleres (C)",
+        dice=(2, 2), debe=(2, 0),
+        porque=(
+            "10 de marzo de 1985, en Posadas. La grilla publica 2-2. Fue 2-0, con los "
+            "dos goles de Juan Carlos Ferreyra.\n"
+            "LA PROPIA PAGINA SE DESMIENTE: su tabla de la Zona C cierra en los cuatro "
+            "clubes con el 2-0 y en dos con el 2-2. Guarani publica 3-1-2 y GF6 GC8, y "
+            "la grilla le da 2-2-2 y GF6 GC10; Talleres publica 3-1-2 y GF6 GC6, y la "
+            "grilla le da 3-2-1 y GF8 GC6. Y la tabla es la mas vieja de las dos: ya "
+            "decia eso en la revision 174653761, del 1 de agosto de 2026, cuando la "
+            "pagina no tenia grilla de zonas.\n"
+            "EL CUADRO TAMBIEN LO PIDE, y no es ninguna de las dos tablas. Los octavos "
+            "cruzan al primero de una zona con el segundo de su pareja --A con C, B con "
+            "G, D con H, E con F--, y la pagina y RSSSF publican los mismos cruces. Con "
+            "el 2-0 la Zona C termina con tres clubes en 7 puntos, la diferencia de gol "
+            "pone primero a Independiente (+5) y segundo a Talleres (0), y los ocho "
+            "cruces son de primero contra segundo: Estudiantes (LP), primero de la A, "
+            "contra Talleres, e Independiente contra Ramon Santamarina, segundo de la "
+            "A. Con el 2-2 Talleres seria primero con 8 y esos dos cruces quedarian "
+            "primero contra primero y segundo contra segundo.\n"
+            "\"Futbol Argentino: Cronicas y Estadisticas\" (Colussi, Guris y Kurhy), "
+            "que la pagina enlaza, publica la ficha: 5a fecha, 10 de marzo, `GUARANI A. "
+            "FRANCO (Posadas) 2`, `TALLERES (Cordoba) 0`, `24 m. 1-0 FERREYRA` y `67 m. "
+            "2-0 FERREYRA`, arbitro Mario Luis Gallina, 6287 entradas. "
+            "https://www.historical-lineups.com/wp-content/uploads/2019/11/1985-86-1.pdf\n"
+            "El blog de Jose Carluccio dice lo mismo: `10/03/1985 en Posadas: Guarani "
+            "Antonio Franco de Posadas 2 (Juan C. Ferreyra 2), Talleres de Cordoba 0`. "
+            "http://josecarluccio.blogspot.com/2011/04/argentina-1ra-division-afa-1985_2690.html\n"
+            "NO COPIA A LA GRILLA: esa obra coincide con la pagina y con RSSSF en el "
+            "marcador de los otros 159 partidos del torneo y difiere solo en este.\n"
+            "OJO CON RSSSF: `arg85` publica `Guarani Antonio Franco 2-2 Talleres (C)` y "
+            "no publica la tabla de la fase, asi que su aritmetica no se puede mirar. Y "
+            "no es de donde sale la grilla: en los 20 partidos en que la pagina y `arg85` "
+            "difieren, 17 en el dia y 4 en quien fue local --uno en las dos cosas--, la "
+            "pagina dice lo de la obra."),
+    ),
 )
 
 
@@ -2889,7 +2936,7 @@ COPIAS: tuple[Copia, ...] = (
 
 @dataclass(frozen=True)
 class Neutral:
-    """Un partido en cancha NEUTRAL que la pagina no marca donde el parser lo lee.
+    """El `neutral` de un partido que el parser no puede leer bien de su pagina.
 
     El parser marca `neutral` con lo que la pagina dice DEL PARTIDO: el encabezado
     "Equipo 1 / Equipo 2" de una tabla, o la prosa de la seccion de una `{{Partido}}`
@@ -2902,37 +2949,58 @@ class Neutral:
     se jugaron en la cancha del local. Aca esa frase se lee a mano, partido por
     partido.
 
+    Y LA REGLA TAMBIEN MARCA DE MAS adentro de una sola seccion, cuando la frase
+    reparte la cancha entre los partidos de la ronda. La tercera y la cuarta fase de
+    perdedores del Nacional 1985 dicen que los que llegaban de la ronda de ganadores
+    "disputaron sus partidos en condicion de local, mientras que los otros encuentros
+    se desarrollaron en campo neutral": la palabra esta en la seccion, la regla marca
+    los diez, y seis fueron de local. Para eso esta `neutral`: la declaracion pone el
+    valor que dice, `True` o `False`, traiga lo que traiga la fila. Es lo unico del
+    repo que desmarca; el parser sigue sin desmarcar nunca. Ojo con un partido escrito
+    dos veces: `dataset.reconciliar_copias` marca neutral si una de las dos copias lo
+    dice, asi que un `False` declarado sobre una lo pisaria la otra. Hoy ningun `False`
+    cae en un partido escrito dos veces.
+
     NO CUMPLE LA CONDICION 1 DEL MODULO, y no la puede cumplir: la fuente no se
-    contradice, lo dice en otra seccion o -- en cinco -- no lo dice en ninguna. Lo
+    contradice, lo dice en otra seccion o -- en nueve -- no lo dice en ninguna. Lo
     que la reemplaza es la vara de `Cancha` y `Copia`: la frase de la propia pagina,
-    citada, y la prensa que nombra la cancha, con su direccion. En 59 de los 60 la
-    cancha de la plantilla no es la de ninguno de los dos clubes; la otra es el
-    Kempes del River-Belgrano de 2023, neutral por reglamento en la ciudad de
-    Belgrano. Los 60 tienen un testigo de afuera: la cronica de ESE partido, o una
-    nota que habla de toda su ronda.
+    citada, y un testigo de afuera de la cancha de ESE partido, con su direccion. En
+    69 de los 70 `True` la cancha de la plantilla no es la de ninguno de los dos
+    clubes; la otra es el Kempes del River-Belgrano de 2023, neutral por reglamento en
+    la ciudad de Belgrano. En los 6 `False` es la del local. Los 76 tienen un testigo
+    de afuera: la cronica de ese partido, una nota que habla de toda su ronda, o su
+    ficha en "Futbol Argentino: Cronicas y Estadisticas".
 
     Se identifica por FECHA y no por jornada, porque varias de estas filas no tienen
     `matchday`; con los dos clubes y el marcador, como `Correccion`. Si deja de
-    enganchar es grave, como cualquier correccion. Si la fila ya viene `neutral` --
-    la pagina paso a decirlo donde el parser lo lee --, la entrada sobra y se avisa
-    sin frenar nada: ver `neutrales_cumplidos`. Y solo MARCA, igual que el parser.
+    enganchar es grave, como cualquier correccion. Si la fila ya trae el valor
+    declarado -- la pagina paso a decirlo donde el parser lo lee, o dejo de escribir
+    "neutral" donde la regla lo agarraba --, la entrada sobra y se avisa sin frenar
+    nada: ver `neutrales_cumplidos`.
+
+    Lo que se compara es lo que la pagina dice DEL PARTIDO, marcado o no, y no lo que
+    pone el torneo para los que no dicen nada. Por eso un `False` no va en un torneo
+    neutral entero, la Copa Argentina: ahi la fila sin marca sale `true` y el
+    cumplido no lo veria. Lo exige `tests/test_correcciones.py`.
     """
     pagina: str
     fecha: str                          # ISO
     dice: tuple[str, str, int, int]     # local, visitante y goles, ya canonicos
     porque: str
+    neutral: bool = True                # el valor que se publica
 
 
-def _neutrales_de(pagina: str, porque: str):
+def _neutrales_de(pagina: str, porque: str, neutral: bool = True):
     """Las entradas de una pagina comparten el testigo: es la misma frase para todas.
 
     La cronica de un partido que la prensa de toda la ronda no cubre va en `prensa`,
-    y se suma al final del `porque` de ese partido solo.
+    y se suma al final del `porque` de ese partido solo. Lo mismo la ficha de un
+    partido, cuando el testigo es una obra que da una por partido.
     """
     def una(fecha: str, local: str, visita: str, gl: int, gv: int,
             prensa: str = "") -> Neutral:
         return Neutral(pagina=pagina, fecha=fecha, dice=(local, visita, gl, gv),
-                       porque=porque + ("\n" + prensa if prensa else ""))
+                       porque=porque + ("\n" + prensa if prensa else ""), neutral=neutral)
     return una
 
 
@@ -3053,6 +3121,64 @@ _TRIANGULAR_2008 = _neutrales_de("Anexo:Torneo Apertura 2008 (Argentina)", (
     "23/12/2008, de Boca-Tigre: 'Estadio: Racing'. "
     "https://www.pagina12.com.ar/diario/deportes/8-117215-2008-12-23.html"))
 
+# EL NACIONAL 1985: dieciseis filas de su eliminacion, para los dos lados. El testigo
+# de afuera de cada una es su ficha en "Futbol Argentino: Cronicas y Estadisticas",
+# que da la cancha de cada partido; la medicion de que la cancha es o no es la de
+# uno de los dos clubes sale de la tabla de participantes de la propia pagina, que
+# pone a cada club en su estadio de 1985.
+_NAC85 = "Campeonato Nacional 1985 (Argentina)"
+_OBRA_85 = "https://www.historical-lineups.com/wp-content/uploads/2019/11/1985-86-1.pdf"
+_SIN_CANCHA_85 = (
+    "SIN CANCHA QUIERE DECIR LA DEL LOCAL: 'Futbol Argentino: Cronicas y Estadisticas' "
+    "(Colussi, Guris y Kurhy), que la pagina enlaza, imprime la CANCHA de una ficha "
+    "solo cuando el partido no fue en la propia del local. Medido en las 160 fichas del "
+    "torneo: las 64 que la imprimen son de un tercero (31) o de una cancha en la que el "
+    "local jugaba esa temporada sin que fuera suya (33: Argentinos en Ferro, Boca en "
+    "Huracan, San Lorenzo en Atlanta, Talleres en el estadio de la provincia), y las 96 "
+    "que no la imprimen, de la cancha del local. RSSSF (`arg85`) "
+    "tampoco le pone cancha a este partido. " + _OBRA_85)
+_LOCAL_TERCERA_85 = _neutrales_de(_NAC85, (
+    "LA PROPIA SECCION LO DICE, Y LA REGLA LA LEE MAL. `=== Tercera fase ===` de la "
+    "ronda de perdedores: 'La disputaron los ocho ganadores de la segunda fase, y los "
+    "cuatro eliminados de los cuartos de final de la ronda de ganadores. Estos cuatro "
+    "ultimos disputaron sus partidos en condicion de local, mientras que los otros "
+    "encuentros se desarrollaron en campo neutral'. La regla del parser ve 'neutral' en "
+    "la prosa de la seccion y marca los seis; estos cuatro son los de los que cayeron en "
+    "cuartos --San Martin (T), Independiente, Estudiantes (LP) y Newell's--, cada uno en "
+    "la cancha que la tabla de participantes le da. Los otros dos si fueron neutrales, y "
+    "la obra les pone 'CANCHA: Ferro Carril Oeste.' y 'CANCHA: Altos Hornos Zapla "
+    "(Jujuy).'.\n" + _SIN_CANCHA_85), neutral=False)
+_LOCAL_CUARTA_85 = _neutrales_de(_NAC85, (
+    "LA PROPIA SECCION LO DICE, Y LA REGLA LA LEE MAL. `=== Cuarta fase ===` de la ronda "
+    "de perdedores: 'La disputaron los seis ganadores de la tercera fase, y los dos "
+    "eliminados de las semifinales de la ronda de ganadores. Estos dos ultimos "
+    "disputaron sus partidos en condicion de local, mientras que los otros encuentros se "
+    "desarrollaron en campo neutral'. La regla marca los cuatro; estos dos son los de "
+    "Ferro y River, que cayeron en semifinales, cada uno en su cancha. A los otros dos la "
+    "obra les pone '(neutral)': 'CANCHA: Rosario Central (neutral).' y 'CANCHA: Estadio "
+    "Cordoba (neutral).'.\n" + _SIN_CANCHA_85), neutral=False)
+_GANADORES_85 = _neutrales_de(_NAC85, (
+    "LA ENTRADILLA DE LA RONDA DE GANADORES: `== Ronda de ganadores ==` abre con 'Los "
+    "octavos de final y la final se disputaron en series de ida y vuelta, mientras que "
+    "los cuartos de final y las semifinales fueron a partido unico en campo neutral'. Es "
+    "una frase de varias rondas, y la regla del parser no sube hasta ahi.\n"
+    "LA OBRA LO DICE RONDA POR RONDA: 'Futbol Argentino: Cronicas y Estadisticas' "
+    "(Colussi, Guris y Kurhy), que la pagina enlaza, titula los cuartos '2a FASE - "
+    "PARTIDO UNICO en cancha neutral' y las semifinales '3a FASE - PARTIDO UNICO en "
+    "cancha neutral', y la ficha de cada partido nombra su cancha, que no es la de "
+    "ninguno de los dos clubes en la tabla de participantes de la pagina. RSSSF "
+    "(`arg85`) da las mismas seis canchas. " + _OBRA_85))
+_PERDEDORES_85 = _neutrales_de(_NAC85, (
+    "LA PAGINA NO DICE NADA DE LA CANCHA en estas tres rondas de la de perdedores: "
+    "`=== Quinta fase ===` es 'La disputaron los cuatro ganadores de la cuarta fase', la "
+    "sexta y la final dicen lo mismo de las suyas, y la entradilla de `== Ronda de "
+    "perdedores ==` solo que 'el resto de las instancias fueron a partido unico'. Lo "
+    "dicen la plantilla, que pone los cuatro partidos en la cancha de un tercero --Ferro, "
+    "Velez y Huracan, de ninguno de los dos clubes en la tabla de participantes--, y la "
+    "ficha de cada uno en 'Futbol Argentino: Cronicas y Estadisticas', que la pagina "
+    "enlaza: la cancha, con '(neutral)'. RSSSF (`arg85`) da las mismas canchas. "
+    + _OBRA_85))
+
 
 NEUTRALES: tuple[Neutral, ...] = (
     _REDUCIDO_PN_2020("2021-01-17", "Defensores de Belgrano", "Instituto", 2, 0),
@@ -3169,6 +3295,69 @@ NEUTRALES: tuple[Neutral, ...] = (
     _TRIANGULAR_2008("2008-12-17", "Tigre", "San Lorenzo", 1, 2),
     _TRIANGULAR_2008("2008-12-20", "San Lorenzo", "Boca Juniors", 1, 3),
     _TRIANGULAR_2008("2008-12-23", "Boca Juniors", "Tigre", 0, 1),
+
+    # El Nacional 1985. Los cuartos y las semifinales de ganadores, y la quinta, la
+    # sexta y la final de perdedores, salian `false`; los seis de local de la tercera y
+    # la cuarta de perdedores salian `true`. La final de ganadores no va: fue de ida y
+    # vuelta, y la ida, en la Bombonera, la jugo Argentinos de local en cancha ajena
+    # --la obra le pone 'CANCHA: Boca Juniors.' sin '(neutral)'--, igual que un partido
+    # de liga mudado. Y la final por el campeonato ya sale `true`: la seccion lo dice.
+    _GANADORES_85("1985-03-30", "San Martín (T)", "Argentinos Juniors", 0, 2, (
+        "Este partido, pagina 31 de la obra: 'CANCHA: Estadio Cordoba.'. La plantilla lo "
+        "pone en el Estadio Ciudad de Cordoba; la tabla de participantes, a San Martin (T) "
+        "en La Ciudadela y a Argentinos Juniors en el Arquitecto Ricardo Etcheverri.")),
+    _GANADORES_85("1985-03-31", "Ferro Carril Oeste", "Independiente", 3, 0, (
+        "Este partido, pagina 31 de la obra: 'CANCHA: Velez Sarsfield.'. La plantilla, en "
+        "el Jose Amalfitani; Ferro jugaba en el Arquitecto Ricardo Etcheverri e "
+        "Independiente en La Doble Visera.")),
+    _GANADORES_85("1985-03-31", "Newell's Old Boys", "Vélez Sarsfield", 1, 2, (
+        "Este partido, pagina 31 de la obra: 'CANCHA: Sarmiento (Junin).'. La plantilla, "
+        "en el Eva Peron de Junin; Newell's jugaba en El Coloso del Parque y Velez en el "
+        "Jose Amalfitani.")),
+    _GANADORES_85("1985-03-31", "River Plate", "Estudiantes (LP)", 2, 0, (
+        "Este partido, pagina 31 de la obra: 'CANCHA: Independiente.'. La plantilla, en "
+        "La Doble Visera; River jugaba en el Monumental y Estudiantes (LP) en el Jorge "
+        "Luis Hirschi.")),
+    _GANADORES_85("1985-04-07", "Ferro Carril Oeste", "Argentinos Juniors", 0, 3, (
+        "Este partido, pagina 34 de la obra: 'CANCHA: Velez Sarsfield.'. La plantilla, en "
+        "el Jose Amalfitani; los dos clubes jugaban en el Arquitecto Ricardo Etcheverri, "
+        "el de Ferro.")),
+    _GANADORES_85("1985-04-16", "Vélez Sarsfield", "River Plate", 3, 0, (
+        "Este partido, pagina 34 de la obra: 'CANCHA: Huracan.'. La plantilla, en el "
+        "Tomas Adolfo Duco; Velez jugaba en el Jose Amalfitani y River en el Monumental.")),
+    _LOCAL_TERCERA_85("1985-04-07", "Estudiantes (LP)", "Deportivo Español", 1, 1, (
+        "Este partido, pagina 35 de la obra: la ficha sin CANCHA. La plantilla, en el Jorge "
+        "Luis Hirschi, que es la cancha de Estudiantes (LP) en la tabla de participantes.")),
+    _LOCAL_TERCERA_85("1985-04-07", "Independiente", "Boca Juniors", 1, 0, (
+        "Este partido, paginas 35 y 36 de la obra: la ficha sin CANCHA. La plantilla, en La "
+        "Doble Visera, que es la cancha de Independiente en la tabla de participantes.")),
+    _LOCAL_TERCERA_85("1985-04-07", "Newell's Old Boys", "Temperley", 2, 1, (
+        "Este partido, pagina 36 de la obra: la ficha sin CANCHA. La plantilla, en El "
+        "Coloso del Parque, que es la cancha de Newell's en la tabla de participantes.")),
+    _LOCAL_TERCERA_85("1985-04-07", "San Martín (T)", "Instituto", 0, 0, (
+        "Este partido, pagina 35 de la obra: la ficha sin CANCHA. La plantilla, en La "
+        "Ciudadela, que es la cancha de San Martin (T) en la tabla de participantes.")),
+    _LOCAL_CUARTA_85("1985-07-09", "Ferro Carril Oeste", "Independiente", 0, 0, (
+        "Este partido, pagina 37 de la obra: la ficha sin CANCHA. La plantilla, en el "
+        "Estadio Ferro Carril Oeste, el Arquitecto Ricardo Etcheverri de la tabla de "
+        "participantes.")),
+    _LOCAL_CUARTA_85("1985-07-09", "River Plate", "Unión", 1, 0, (
+        "Este partido, pagina 37 de la obra: la ficha sin CANCHA. La plantilla, en el "
+        "Monumental, que es la cancha de River en la tabla de participantes.")),
+    _PERDEDORES_85("1985-07-17", "River Plate", "Estudiantes (LP)", 4, 1, (
+        "Este partido, quinta fase, pagina 39 de la obra: 'CANCHA: Ferro Carril Oeste "
+        "(neutral).'. River jugaba en el Monumental y Estudiantes (LP) en el Jorge Luis "
+        "Hirschi.")),
+    _PERDEDORES_85("1985-07-24", "Independiente", "Newell's Old Boys", 0, 2, (
+        "Este partido, quinta fase, pagina 39 de la obra: 'CANCHA: Ferro Carril Oeste "
+        "(neutral).'. Independiente jugaba en La Doble Visera y Newell's en El Coloso del "
+        "Parque.")),
+    _PERDEDORES_85("1985-07-31", "River Plate", "Newell's Old Boys", 2, 0, (
+        "Este partido, sexta fase, pagina 39 de la obra: 'CANCHA: Velez Sarsfield "
+        "(neutral).'. River jugaba en el Monumental y Newell's en El Coloso del Parque.")),
+    _PERDEDORES_85("1985-08-07", "Vélez Sarsfield", "River Plate", 2, 1, (
+        "Este partido, la final de perdedores, pagina 40 de la obra: 'CANCHA: Huracan "
+        "(neutral).'. Velez jugaba en el Jose Amalfitani y River en el Monumental.")),
 
     Neutral(
         pagina="Campeonato de Primera C 2023 (Argentina)", fecha="2023-10-14",
@@ -4352,19 +4541,23 @@ def _los_de(n: Neutral, ps: list) -> list:
 
 
 def neutrales_cumplidos(pagina: str, ps: list) -> list[str]:
-    """Los `Neutral` de esta pagina cuya fila YA viene marcada.
+    """Los `Neutral` de esta pagina cuya fila YA trae el valor declarado.
 
     Es el `marcadores_cumplidos` de esta familia, y por lo mismo corre ANTES que
-    `aplicar`, que es quien marca: despues, una declaracion que se aplico y una que
-    sobraba se ven igual. Sobra cuando la pagina paso a decirlo donde el parser lo
-    lee -- un "Equipo 1 / Equipo 2", o la frase en la seccion de la plantilla --, y
-    eso NO es grave: el dato sale bien con la entrada o sin ella. Pero una entrada
-    que no hace nada es un permiso abierto, asi que se pide sacarla.
+    `aplicar`, que es quien escribe el valor: despues, una declaracion que se aplico
+    y una que sobraba se ven igual. Un `True` sobra cuando la pagina paso a decirlo
+    donde el parser lo lee -- un "Equipo 1 / Equipo 2", o la frase en la seccion de
+    la plantilla --; un `False`, cuando la fila ya no viene marcada, porque la pagina
+    dejo de escribir "neutral" donde la regla lo leia. Eso NO es grave: el dato sale
+    bien con la entrada o sin ella. Pero una entrada que no hace nada es un permiso
+    abierto, asi que se pide sacarla.
     """
-    return [f"el partido neutral del {n.fecha} ({n.dice[0]} vs {n.dice[1]}) YA NO HACE "
-            f"FALTA: la pagina lo marca sola. Sacalo de fad/correcciones.py"
+    return [f"el partido {'neutral' if n.neutral else 'de local'} del {n.fecha} "
+            f"({n.dice[0]} vs {n.dice[1]}) YA NO HACE FALTA: la pagina ya lo da "
+            f"{'marcado' if n.neutral else 'sin marcar'}. Sacalo de fad/correcciones.py"
             for n in NEUTRALES
-            if n.pagina == pagina and any(p.neutral is True for p in _los_de(n, ps))]
+            if n.pagina == pagina
+            and any((p.neutral is True) == n.neutral for p in _los_de(n, ps))]
 
 
 def revisados_huerfanos(pagina: str, desviados, llaves: set | None = None) -> list[str]:
@@ -5132,6 +5325,47 @@ DIAS: tuple[Dia, ...] = (
                "minuto'; no es un testigo de afuera, y no se usa.\n"
                "http://ascensodelinterior.com.ar/noticias/1689/"
                "central-norte-3-0-juventud-antoniana"),
+
+    # LA VUELTA DE LA PRIMERA FASE DE PERDEDORES DEL NACIONAL 1985, y solo DOS de sus
+    # ocho partidos. La pagina fecha los ocho el miercoles 27 de marzo, que es el
+    # encabezado de esa ronda en "Futbol Argentino: Cronicas y Estadisticas" --de
+    # donde la pagina toma fechas y canchas, asi que esa obra no arbitra--, y RSSSF
+    # los fecha por ronda el domingo 24. Estos dos tienen un testigo propio, la prensa
+    # de cada ciudad, y los dos dicen el 24. Los otros seis no tienen ninguno y siguen
+    # con el dia de la pagina: un encabezado que falla en los dos partidos que se
+    # pudieron mirar es una sospecha sobre los demas, no un testigo.
+    Dia(pagina="Campeonato Nacional 1985 (Argentina)", jornada="Primera fase",
+        local="Círculo Deportivo", visita="Central Norte (S)",
+        dice="1985-03-27", debe="1985-03-24",
+        fuente="https://www.lacapitalmdp.com/a-35-anos-del-ultimo-partido-en-la-ciudad-"
+               "del-viejo-nacional/",
+        porque="La vuelta, 2-3, que dejo afuera a Circulo Deportivo. La Capital de Mar "
+               "del Plata publico el 24 de marzo de 2020 'A 35 años del último partido "
+               "en la ciudad del viejo Nacional': 'Se cumplieron este martes 35 años', y "
+               "'Fue un 24 de marzo de 1985 en el estadio Mundialista', con el 2-3 y la "
+               "formacion de Circulo. RSSSF da el mismo dia: `Round 2.2: 24 Mar`, "
+               "`Círculo Deportivo 2-3 Central Norte Ciudad de Mar del Plata`.\n"
+               "La CANCHA no se toca aca: la pagina dice Estadio General San Martin, y "
+               "el diario y RSSSF, el Mundialista. `Cancha` acepta solo a la propia "
+               "pagina de testigo.\n"
+               "https://www.lacapitalmdp.com/a-35-anos-del-ultimo-partido-en-la-ciudad-"
+               "del-viejo-nacional/"),
+    Dia(pagina="Campeonato Nacional 1985 (Argentina)", jornada="Primera fase",
+        local="Argentino (F)", visita="Altos Hornos Zapla",
+        dice="1985-03-27", debe="1985-03-24",
+        fuente="https://www.lacapital.com.ar/ovacion/hace-35-anos-argentino-firmat-"
+               "jugaba-un-nacional-afa-n2575643.html",
+        porque="La vuelta, 2-1, que no le alcanzo a Argentino de Firmat. La Capital de "
+               "Rosario, 5 de abril de 2020: el club 'se despediría el domingo 24 de "
+               "marzo' en el Felix Oriola, con 'un triunfo que no alcanzó ante Altos "
+               "Hornos Zapla', y da los tres goles con su minuto (a los 8 y a los 31 "
+               "para Argentino, a los 44 para Zapla). Cuenta tambien la ida, en el "
+               "Centro Siderurgico 'tres días después del encuentro en Liniers', que es "
+               "la sexta fecha de la zona, el 17: el 20, que es el dia de la pagina, y "
+               "la vuelta 'al domingo siguiente'. RSSSF da el mismo dia: `Round 2.2: "
+               "24 Mar`.\n"
+               "https://www.lacapital.com.ar/ovacion/hace-35-anos-argentino-firmat-"
+               "jugaba-un-nacional-afa-n2575643.html"),
 )
 
 
@@ -5416,14 +5650,16 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
             continue
         cuales = _los_de(n, ps)
         if len(cuales) != 1:
-            avisos.append(f"el partido neutral del {n.fecha} ({n.dice[0]} vs {n.dice[1]}) "
+            avisos.append(f"el partido {'neutral' if n.neutral else 'de local'} del "
+                          f"{n.fecha} ({n.dice[0]} vs {n.dice[1]}) "
                           f"engancha con {len(cuales)} partidos y no se aplica: si la "
                           f"fuente se corrigio, sacalo de fad/correcciones.py")
             continue
-        # Si ya viene marcado no hay nada que hacer aca: lo denuncia, sin frenar,
-        # `neutrales_cumplidos`.
-        if cuales[0].neutral is not True:
-            cuales[0].neutral = True
+        # Si ya trae el valor declarado no hay nada que hacer aca: lo denuncia, sin
+        # frenar, `neutrales_cumplidos`. La fila se lee como la lee ese, marcada o no:
+        # sin marca y `False` salen igual en un torneo que no es neutral entero.
+        if (cuales[0].neutral is True) != n.neutral:
+            cuales[0].neutral = n.neutral
             aplicadas += 1
 
     for r in REEMPLAZOS:

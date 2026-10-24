@@ -132,6 +132,7 @@ MARCADORES | pagina='Anexo:Torneo Clausura 1993 (Argentina)' | jornada='Fecha 17
 MARCADORES | pagina='Anexo:Torneo Clausura 1993 (Argentina)' | jornada='Fecha 18' | local='Talleres (C)' | visita='Gimnasia y Esgrima (LP)' | dice=(1, 0) | debe=(0, 1) | status_debe='escritorio'
 MARCADORES | pagina='Torneo Federal A 2014' | jornada='Cuarta fase' | local='Sportivo Patria' | visita='Atlético Paraná' | dice=(1, 3) | debe=(0, 3) | status_debe='suspendido'
 MARCADORES | pagina='Anexo:Torneo Clausura 1991 (Argentina)' | jornada='Fecha 15' | local='Lanús' | visita='Platense' | dice=(0, 0) | debe=(0, 1)
+MARCADORES | pagina='Campeonato Nacional 1985 (Argentina)' | jornada='Fecha 5' | local='Guaraní Antonio Franco' | visita='Talleres (C)' | dice=(2, 2) | debe=(2, 0)
 DIVIDIDOS | pagina='Campeonato de Primera División 1988-89 (Argentina)' | local="Newell's Old Boys" | visita='Rosario Central' | dice=(0, 1) | llave='Torneo Apertura 1988-89'
 DIVIDIDOS | pagina='Campeonato de Primera División 1989-90 (Argentina)' | local='Rosario Central' | visita="Newell's Old Boys" | dice=(0, 1)
 DIVIDIDOS | pagina='Campeonato de Primera División 1990-91 (Argentina)' | local='Boca Juniors' | visita='San Lorenzo' | dice=(0, 1)
@@ -221,6 +222,22 @@ NEUTRALES | pagina='Copa de la Liga Profesional 2024' | fecha='2024-05-05' | dic
 NEUTRALES | pagina='Anexo:Torneo Apertura 2008 (Argentina)' | fecha='2008-12-17' | dice=('Tigre', 'San Lorenzo', 1, 2)
 NEUTRALES | pagina='Anexo:Torneo Apertura 2008 (Argentina)' | fecha='2008-12-20' | dice=('San Lorenzo', 'Boca Juniors', 1, 3)
 NEUTRALES | pagina='Anexo:Torneo Apertura 2008 (Argentina)' | fecha='2008-12-23' | dice=('Boca Juniors', 'Tigre', 0, 1)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-03-30' | dice=('San Martín (T)', 'Argentinos Juniors', 0, 2)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-03-31' | dice=('Ferro Carril Oeste', 'Independiente', 3, 0)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-03-31' | dice=("Newell's Old Boys", 'Vélez Sarsfield', 1, 2)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-03-31' | dice=('River Plate', 'Estudiantes (LP)', 2, 0)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-04-07' | dice=('Ferro Carril Oeste', 'Argentinos Juniors', 0, 3)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-04-16' | dice=('Vélez Sarsfield', 'River Plate', 3, 0)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-04-07' | dice=('Estudiantes (LP)', 'Deportivo Español', 1, 1) | neutral=False
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-04-07' | dice=('Independiente', 'Boca Juniors', 1, 0) | neutral=False
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-04-07' | dice=("Newell's Old Boys", 'Temperley', 2, 1) | neutral=False
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-04-07' | dice=('San Martín (T)', 'Instituto', 0, 0) | neutral=False
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-07-09' | dice=('Ferro Carril Oeste', 'Independiente', 0, 0) | neutral=False
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-07-09' | dice=('River Plate', 'Unión', 1, 0) | neutral=False
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-07-17' | dice=('River Plate', 'Estudiantes (LP)', 4, 1)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-07-24' | dice=('Independiente', "Newell's Old Boys", 0, 2)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-07-31' | dice=('River Plate', "Newell's Old Boys", 2, 0)
+NEUTRALES | pagina='Campeonato Nacional 1985 (Argentina)' | fecha='1985-08-07' | dice=('Vélez Sarsfield', 'River Plate', 2, 1)
 NEUTRALES | pagina='Campeonato de Primera C 2023 (Argentina)' | fecha='2023-10-14' | dice=('Excursionistas', 'San Martín (B)', 1, 0)
 NEUTRALES | pagina='Torneo Federal A 2026' | fecha='2026-09-27' | dice=('Círculo Deportivo', 'Sol de Mayo (V)', 1, 1)
 REEMPLAZOS | pagina='Torneo Argentino A 2005-06' | llave='Torneo Apertura' | jornada='Fecha 5' | dice=('Douglas Haig', 'Cipolletti', 5, 3) | debe=('Cipolletti', 'Douglas Haig', 1, 2)
@@ -336,6 +353,8 @@ DIAS | pagina='Campeonato de Primera B 2025 (Argentina)' | jornada='Primera fase
 DIAS | pagina='Campeonato de Primera B 2024 (Argentina)' | jornada='Fecha 12' | local='Cañuelas' | visita='Colegiales' | dice='2024-08-31' | debe='2024-09-02' | fuente='https://www.soloascenso.com.ar/sintesis/canuelas-fc-colegiales/40098' | hora='15:00'
 DIAS | pagina='Campeonato de Primera B 2024 (Argentina)' | jornada='Fecha 12' | local='Ferrocarril Midland' | visita='Flandria' | dice='2024-08-31' | debe='2024-09-02' | fuente='https://www.soloascenso.com.ar/sintesis/ferrocarril-midland-flandria/40100' | hora='20:00'
 DIAS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 5' | local='Central Norte (S)' | visita='Juventud Antoniana' | dice='2012-09-16' | debe='2012-10-03' | fuente='http://ascensodelinterior.com.ar/noticias/1689/central-norte-3-0-juventud-antoniana' | hora='21:35'
+DIAS | pagina='Campeonato Nacional 1985 (Argentina)' | jornada='Primera fase' | local='Círculo Deportivo' | visita='Central Norte (S)' | dice='1985-03-27' | debe='1985-03-24' | fuente='https://www.lacapitalmdp.com/a-35-anos-del-ultimo-partido-en-la-ciudad-del-viejo-nacional/'
+DIAS | pagina='Campeonato Nacional 1985 (Argentina)' | jornada='Primera fase' | local='Argentino (F)' | visita='Altos Hornos Zapla' | dice='1985-03-27' | debe='1985-03-24' | fuente='https://www.lacapital.com.ar/ovacion/hace-35-anos-argentino-firmat-jugaba-un-nacional-afa-n2575643.html'
 FECHAS | 'Anexo:Torneo Apertura 1993 (Argentina)' | fecha='1994-03-19' | local='Gimnasia y Esgrima (LP)' | visita='Boca Juniors' | goles_local=1 | goles_visita=1 | fuente='https://hemerotecadigital.bn.gob.ar/collection/001207768/pagina-12'
 FECHAS | 'Campeonato de Primera C 2024 (Argentina)' | fecha='2024-10-26' | local='Luján' | visita='Victoriano Arenas' | goles_local=3 | goles_visita=1 | llave='Torneo Clausura' | fuente='https://www.rsssf.org/tablesa/arg2024.html'
 FECHAS | 'Torneo Argentino A 2004-05' | fecha='2004-09-12' | local='Atlético Tucumán' | visita='La Florida' | goles_local=2 | goles_visita=0 | llave='Torneo Apertura'

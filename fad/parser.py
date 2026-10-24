@@ -2314,8 +2314,16 @@ def _hora_de_la_plantilla(campos: dict[str, str]) -> str:
 # hasta ahi se marcaban sus 42 partidos que no son la final -- 14 de cada torneo --,
 # jugados todos en la cancha del local. Medido sobre las 514 plantillas con
 # resultado: asi marca 14, las 14 en cancha neutral, y deja afuera 60 que tambien
-# lo fueron pero cuya frase vive en la seccion de formato o en ninguna parte. Esas
+# lo fueron pero cuya frase vive en la seccion de formato o en ninguna parte (con el
+# Nacional 1985 son 70). Esas
 # van declaradas, una por una: ver `correcciones.Neutral`.
+#
+# Y LA SECCION TAMBIEN PUEDE REPARTIR LA CANCHA. Con el Nacional 1985 la regla marca
+# 20 plantillas mas, y 6 son de local: su tercera y su cuarta fase de perdedores dicen
+# que los que llegaban de ganadores "disputaron sus partidos en condicion de local,
+# mientras que los otros encuentros se desarrollaron en campo neutral". Esas seis van
+# declaradas con `neutral=False`, y la regla no se toca: leer quien es "los otros" es
+# leer el cuadro, no la frase.
 #
 # Los comentarios HTML se sacan antes de leer, titulos incluidos: las paginas en
 # curso dejan comentada la seccion de la final que todavia no se jugo, con la
@@ -2533,8 +2541,18 @@ RONDAS = ("Preclasificatorio", "Ronda previa",
 # estaba: sus quince partidos de eliminacion salian con la ronda VACIA, o sea
 # con el `matchday` vacio en el CSV. La cuarta y la quinta fase tampoco
 # estaban, y son las del Federal A 2024 y 2025.
+#
+# La SEXTA es la de la ronda de perdedores del Nacional 1985, y sin ella el
+# partido no salia vacio sino peor: con la ronda de ARRIBA. `_ronda_en` toma el
+# ultimo titulo que reconoce, asi que el `River 2-0 Newell's` del 31 de julio, que
+# esta bajo `=== Sexta fase ===`, salia como de la Quinta, junto con los dos que
+# lo habian clasificado. Medido sobre las 171 paginas del catalogo con la cache:
+# cambia esa fila y ninguna otra. Las otras tres con una sexta fase no la leen por
+# aca: la del Argentino A 2013-14 y la del Federal A 2015 estan en tablas, y la
+# 1988-89 sale de RSSSF. La septima no va: la unica del catalogo, la del Federal A
+# 2015, tambien es una tabla.
 _TITULO_RONDA = re.compile(
-    r"^=+\s*(Primera fase|Segunda fase|Tercera fase|Cuarta fase|Quinta fase"
+    r"^=+\s*(Primera fase|Segunda fase|Tercera fase|Cuarta fase|Quinta fase|Sexta fase"
     r"|Primera ronda|Segunda ronda|Tercera ronda|Cuarta ronda"
     r"|Primera instancia|Segunda instancia|Tercera instancia|Cuarta instancia"
     r"|Treintaidosavos|Dieciseisavos"

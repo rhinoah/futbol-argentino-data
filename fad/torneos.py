@@ -587,6 +587,31 @@ VIEJO = [
            "Primera Division - Apertura", 1990,
            rsssf="arg91", sin_grilla=True, seccion="Torneo Apertura"),
 
+    # EL NACIONAL 1985, el ultimo Nacional y el unico torneo de la capa que no es una
+    # liga: ocho zonas de cuatro a dos ruedas (96 partidos) y despues doble
+    # eliminacion --ronda de ganadores (24), ronda de perdedores (38) y la final por
+    # el campeonato, que fueron dos partidos--, del 17 de febrero al 4 de septiembre.
+    # Un solo anio: sin `anio_fin`.
+    #
+    # A diferencia del resto de la capa entra CON GRILLA: la pagina publica y fecha
+    # los 160 desde las ediciones del 10 y el 11 de septiembre de 2026 --la copia de
+    # agosto daba 64, sin la fase de zonas--. Las filas son de la revision 175539170,
+    # del 26 de septiembre, bajada el 24 de octubre; como torneo cerrado, el bot no la
+    # vuelve a pedir.
+    #
+    # RSSSF tiene los mismos 160 en `arg85`, en un formato que el lector todavia no
+    # lee, asi que no lleva `rsssf`: hoy no fecharia ni respaldaria nada. Cruzados a
+    # mano, 140 son identicos y 20 difieren en el dia o en quien figura de local,
+    # ninguno en el marcador. La pagina toma fechas y canchas de "Futbol Argentino:
+    # Cronicas y Estadisticas", que enlaza, asi que esa obra no arbitra esos 20; los dos
+    # que corrige un testigo de afuera estan en `fad/correcciones.py`, igual que el
+    # unico marcador en que la pagina se contradice sola y los 16 `neutral` de la
+    # eliminacion que la regla del parser no puede leer bien.
+    #
+    # Comparte `season=1985` con la 1985-86, que es otro campeonato de Primera: los
+    # separa la etiqueta y, fila por fila, la pagina de `source`.
+    Torneo("Campeonato Nacional 1985 (Argentina)", "Primera Division - Nacional", 1985),
+
     # LA CAPA 1985-1990: cinco campeonatos unicos, de agosto a junio, que Wikipedia
     # publica con su tabla y sin sus partidos. Entran como el Clausura 1991 --los
     # partidos de RSSSF, la tabla de Wikipedia de arbitro-- y cada uno trae lo suyo;
