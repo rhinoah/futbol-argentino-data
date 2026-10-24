@@ -7,7 +7,7 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 50 087 | 6 | 170 | 1608 | 887 |
+| 50 251 | 6 | 171 | 1630 | 904 |
 
 Medidos el 24 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
 al código a propósito para comprobar que algún test los detecta.
@@ -18,7 +18,7 @@ la fuente lo publica y hoy no se lee.
 
 ## 2004–2026 — Cerrado
 
-`43 099` partidos de los torneos que están en el catálogo. De los `196` avisos del
+`43 103` partidos de los torneos que están en el catálogo. De los `201` avisos del
 build —`174` de esta era—, ninguno es grave. Hay `59` verificaciones a mano. `176` clubes
 de `9` temporadas tienen el respaldo de una fuente independiente: sus partidos son de
 Wikipedia y cierran con la tabla de RSSSF. Otros `75`, del Argentino A 2006-07 a
@@ -268,29 +268,45 @@ esas fuentes no las publican.
   de la AFA (*Torneos y Certámenes Oficiales 1990-91 … 1994-95*), que además darían la
   hora y la cancha. El build avisa el par en cada corrida.
 
-## 1985–1990 — La liga, cerrada
+## 1985–1990 — La liga y el Nacional 1985, cerrados
 
-`2 049` partidos, todos con su día: el Apertura 1990 (`189`) y los cinco campeonatos de
-1985-86 a 1989-90 (`342`, `380`, `380`, `379` y `379`). Los partidos salen de RSSSF y la
-tabla de Wikipedia arbitra. Tres no tienen fila porque el fallo fue contra los dos clubes:
+`2 209` partidos, todos con su día: el Nacional 1985 (`160`), el Apertura 1990 (`189`) y
+los cinco campeonatos de 1985-86 a 1989-90 (`342`, `380`, `380`, `379` y `379`). Los de la
+liga salen de RSSSF y la tabla de Wikipedia arbitra; los del Nacional, de la grilla de su
+página. Tres no tienen fila porque el fallo fue contra los dos clubes:
 `Boca – San Lorenzo` (Apertura 1990, fecha 18), `Newell's – Rosario Central` (1988-89,
 fecha 13) y `Rosario Central – Newell's` (1989-90, fecha 38).
 
-- **Falta el Nacional 1985: `160` partidos.** La página `Campeonato Nacional 1985
-  (Argentina)` de hoy parsea los 160 con fecha; la copia de la caché, del 14 de agosto,
-  da `64`, así que hay que bajarla de nuevo. Para entrar le faltan dos clubes en el
-  padrón (`Argentino (F)` y `Juventud Alianza`). El `arg85` de RSSSF trae los mismos 160
-  con el día en cada encabezado de ronda (`Round 1.1.1: 17 Feb`), formato que el lector no
-  reconoce. Cruzados club por club, `140` son idénticos y `20` difieren: 16 sólo en el día
-  —8 de ellos una ronda entera, 24 contra 27 de marzo—, 3 sólo en quién figura de local, 1
-  en las dos cosas y ninguno en el marcador. Al cargarlo quedan dos cosas por arbitrar:
-  - la tabla de la Zona C cuenta el `Guaraní Antonio Franco 2-2 Talleres (C)` de la fecha
-    5 como un 2-0; la grilla y RSSSF dan 2-2;
-  - `Independiente 1-0 Boca` figura en RSSSF como abandonado a los 85 minutos y la página
-    lo publica sin estado.
-
-  Y el cruce no vale por dos testigos: la página enlaza a `arg85`, y RSSSF fecha por
-  ronda —sólo 5 partidos llevan día propio—.
+- **`16` partidos del Nacional 1985 difieren de `arg85` en el día o en quién figura de
+  local, y no tienen un testigo que desempate.** La página toma fechas y canchas de
+  «Fútbol Argentino: Crónicas y Estadísticas», así que esa obra no cuenta. Son:
+  - `6` de la vuelta de la primera fase de perdedores: la página y la obra dicen
+    miércoles 27 de marzo y RSSSF, que fecha por ronda, domingo 24. Los otros `2` de los
+    `8` de esa ronda tienen prensa —La Capital de Mar del Plata y La Capital de
+    Rosario—, fueron el 24 y ya están corregidos. Falta decidir si estos `6` pasan al 24
+    como ronda, que es lo que se hizo con las llaves del Argentino A 2011-12
+    (`_LLAVES_2011_12` en `fad/correcciones.py`): ahí se corrigió el encabezado entero
+    y no sólo las filas que tenían testigo;
+  - `4` de la cuarta fase de perdedores, 9 o 10 de julio; uno, `Newell's 1-0
+    Chacarita`, difiere además en quién fue local;
+  - la localía de `Central Norte (S) – Ramón Santamarina` y la de `Gimnasia y Esgrima
+    (LP) – Deportivo Español`, las dos en cancha neutral;
+  - `4` días de zona en los que la página, la obra y el blog de José Carluccio dicen lo
+    mismo y RSSSF da el de la ronda; el blog puede salir de la misma obra.
+- **`matchday=Final` no dice de qué cuadro es.** En el Nacional 1985 lo llevan `5` filas
+  de tres finales —la de ganadores (`2`), la de perdedores (`1`) y la del campeonato
+  (`2`)—, y desde el CSV sólo las separa la fecha. La página las distingue por el título
+  de nivel 2 (`== Ronda de ganadores ==`, `== Ronda de perdedores ==`, `== Final ==`), que
+  el parser ya lee como `llave` y que no va al CSV. No es sólo de este torneo: en `11`
+  páginas hay filas `Final` de más de un cuadro, `33` en total, y en `13` páginas `227`
+  filas de eliminación tienen una ronda que se repite en otro cuadro de su página. Hay
+  precedente: `157` filas de `7` páginas ya llevan el cuadro adelante («Zona Campeonato
+  - Final», de las llaves de RSSSF). Llevarlo también a las plantillas cambia esas `33`
+  filas `Final`, o las `227` si va en toda ronda repetida.
+- **La cancha de `Círculo Deportivo 2-3 Central Norte (S)`** (Nacional 1985, 24 de
+  marzo): la página dice Estadio General San Martín; La Capital de Mar del Plata y
+  RSSSF, el Mundialista. `correcciones.Cancha` acepta como testigo sólo a la propia
+  página.
 - **Faltan las liguillas, los desempates y las finales: `158` partidos**, todos con día
   en RSSSF —`37`, `15`, `34`, `49` y `7` de 1985-86 a 1989-90 y `16` de 1990-91—. 15 de
   los 37 son el Octogonal de la Primera B 1986, que no está en la página de Primera:
@@ -347,13 +363,13 @@ Nacional, que sumaba equipos del interior. Nada de esto está cargado.
 - **Renovar la cache antes que nada.** Once archivos son la redirección sin seguir, y
   Wikipedia cambió desde agosto: el Nacional 1983 pasó de 30 partidos a 198. Con la cache
   de hoy el mismo parser da `4 564` y no `5 570`.
-- **Padrón: faltan `21` clubes, y van antes que todo lo demás:** `nombres_en_el_padron`
-  es grave. Son `17` en el Nacional 1967-82 —`494` apariciones, `140` de ellas de `San
-  Lorenzo (MdP)`— y 4 más en 1983-85; los dos que pide el Nacional 1985 están entre estos
-  21. Hay que decidir además con qué nombre entra `Alianza Juventud Pringles`, que pasa
-  sin aviso porque la página lo enlaza a otro club (entraría como `Juventud Unida
-  Universitario`), y mirar lo mismo en `Los Andes (SJ)`, que enlaza a `Club Atlético
-  Trinidad`, y en `Huracán (IW)`, que aparece 15 de sus 29 veces sin enlace.
+- **Padrón: faltan `19` clubes, y van antes que todo lo demás:** `nombres_en_el_padron`
+  es grave. Son `16` en el Nacional 1967-82 —`478` apariciones, `140` de ellas de `San
+  Lorenzo (MdP)`— y 3 más en 1983-84. Hay que decidir además con qué nombre entra
+  `Alianza Juventud Pringles`, que pasa sin aviso porque la página lo enlaza a otro club
+  (entraría como `Juventud Unida Universitario`), y mirar lo mismo en `Los Andes (SJ)`,
+  que enlaza a `Club Atlético Trinidad`, y en `Huracán (IW)`, que aparece 15 de sus 29
+  veces sin enlace.
 - **Campeonato Nacional 1967-1984: `3 839` con fecha** (`3 515` en las 16 páginas de
   1967-82, `198` en 1983 y `126` en 1984). Con el padrón completo entran todos salvo 1973,
   que pide una corrección a mano: la página escribe `Atlético Tucumán 4-0 San Martín (T)`
@@ -466,15 +482,15 @@ sigue ya se puede revisar.
 
 | era | partidos | fuente | estado |
 |---|---:|---|---|
-| 2004–2026 | 37 904 | Wikipedia sola | cerrado |
+| 2004–2026 | 37 908 | Wikipedia sola | cerrado |
 | 2004–2026, con segunda fuente | 5 195 | Wikipedia + RSSSF / worldfootball / otras | cerrado |
 | 1997–2003 | 2 469 | Wikipedia | cerrado |
 | 1991–1996 | 2 470 | Wikipedia (partidos) + RSSSF (fechas) | cerrado |
-| 1985–1990 | 2 049 | RSSSF (partidos) + Wikipedia (tabla) | cerrado |
-| 1985–1990, Nacional 1985 y liguillas | 318 | Wikipedia + RSSSF | al alcance 254; 34 sin fecha legible; 30 sin lector |
+| 1985–1990 | 2 209 | RSSSF (partidos) + Wikipedia (tabla); el Nacional 1985, Wikipedia | cerrado |
+| 1985–1990, liguillas | 158 | Wikipedia + RSSSF | al alcance 94; 34 sin fecha legible; 30 sin lector |
 | 1967–1984 | 5 570 | Wikipedia | al alcance, falta padrón |
 | 1933–1966 | 8 903 | RSSSF, con Wikipedia de testigo | falta el lector |
 
-Las cinco primeras filas suman los `50 087` del dataset. Las tres últimas suman `14 791`
+Las cinco primeras filas suman los `50 251` del dataset. Las tres últimas suman `14 631`
 y son un piso de lo que falta: la fila 1967–1984 cuenta sólo lo que el parser ya lee con
 fecha, sin los 342 del Metropolitano 1982 ni los 1 215 resultados en lista.
