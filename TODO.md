@@ -7,9 +7,9 @@ reales, no estimados.
 
 | partidos | sin fecha | torneos | tests | mutantes |
 |---|---|---|---|---|
-| 50 251 | 6 | 171 | 1630 | 904 |
+| 50 357 | 6 | 171 | 1633 | 906 |
 
-Medidos el 24 de octubre de 2026. Los mutantes son los cambios que `mutar.py` le hace
+Medidos el 2 de noviembre de 2026. Los mutantes son los cambios que `mutar.py` le hace
 al código a propósito para comprobar que algún test los detecta.
 
 Las marcas de cada era: **cerrado** = está en el CSV, aunque le queden cosas por
@@ -18,7 +18,7 @@ la fuente lo publica y hoy no se lee.
 
 ## 2004–2026 — Cerrado
 
-`43 103` partidos de los torneos que están en el catálogo. De los `201` avisos del
+`43 209` partidos de los torneos que están en el catálogo. De los `201` avisos del
 build —`174` de esta era—, ninguno es grave. Hay `59` verificaciones a mano. `176` clubes
 de `9` temporadas tienen el respaldo de una fuente independiente: sus partidos son de
 Wikipedia y cierran con la tabla de RSSSF. Otros `75`, del Argentino A 2006-07 a
@@ -482,7 +482,7 @@ sigue ya se puede revisar.
 
 | era | partidos | fuente | estado |
 |---|---:|---|---|
-| 2004–2026 | 37 908 | Wikipedia sola | cerrado |
+| 2004–2026 | 38 014 | Wikipedia sola | cerrado |
 | 2004–2026, con segunda fuente | 5 195 | Wikipedia + RSSSF / worldfootball / otras | cerrado |
 | 1997–2003 | 2 469 | Wikipedia | cerrado |
 | 1991–1996 | 2 470 | Wikipedia (partidos) + RSSSF (fechas) | cerrado |
@@ -491,6 +491,6 @@ sigue ya se puede revisar.
 | 1967–1984 | 5 570 | Wikipedia | al alcance, falta padrón |
 | 1933–1966 | 8 903 | RSSSF, con Wikipedia de testigo | falta el lector |
 
-Las cinco primeras filas suman los `50 251` del dataset. Las tres últimas suman `14 631`
+Las cinco primeras filas suman los `50 357` del dataset. Las tres últimas suman `14 631`
 y son un piso de lo que falta: la fila 1967–1984 cuenta sólo lo que el parser ya lee con
 fecha, sin los 342 del Metropolitano 1982 ni los 1 215 resultados en lista.

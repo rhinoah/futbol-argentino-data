@@ -18,20 +18,20 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2026-01-22,17:00,Aldosivi,Defensa y Justicia,0,0,,,Primera Division - Apertura,2026,zonas,Interzonal,Fecha 1,José María Minella,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_2026_(Argentina),
 ```
 
-**Estado:** **50 251 partidos entre febrero de 1985 y hoy**, de ocho competencias.
-**219 clubes**, 171 torneos, cero partidos sin fecha o sin marcador. Se actualiza
+**Estado:** **50 357 partidos entre febrero de 1985 y hoy**, de ocho competencias.
+**220 clubes**, 171 torneos, cero partidos sin fecha o sin marcador. Se actualiza
 solo, todos los días.
 
 | competencia | `tournament` | temporadas | filas |
 |---|---|---|---:|
-| Primera División | `Primera Division`, y `Primera Division - Nacional` / `Apertura` / `Clausura` / `Inicial` / `Final` | 41, del Nacional 1985 a 2026 | 15 878 |
+| Primera División | `Primera Division`, y `Primera Division - Nacional` / `Apertura` / `Clausura` / `Inicial` / `Final` | 41, del Nacional 1985 a 2026 | 15 901 |
 | Copa de la Liga | `Copa de la Liga` | 5, de 2020 a 2024 | 921 |
-| Primera Nacional (ex B Nacional) | `Primera Nacional` | 20, de 2007-08 a 2026 | 9 223 |
-| Primera B | `Primera B` | 17, de 2010-11 a 2026 | 6 192 |
-| Primera C | `Primera C` | 19, de 2008-09 a 2026 | 7 094 |
+| Primera Nacional (ex B Nacional) | `Primera Nacional` | 20, de 2007-08 a 2026 | 9 259 |
+| Primera B | `Primera B` | 17, de 2010-11 a 2026 | 6 214 |
+| Primera C | `Primera C` | 19, de 2008-09 a 2026 | 7 106 |
 | Torneo Argentino A | `Torneo Argentino A` | 10, de 2004-05 a 2013-14 | 3 721 |
-| Torneo Federal A | `Torneo Federal A` | 13, de 2014 a 2026 | 6 354 |
-| Copa Argentina | `Copa Argentina` | 14 ediciones, de 2011-12 a 2026 | 868 |
+| Torneo Federal A | `Torneo Federal A` | 13, de 2014 a 2026 | 6 366 |
+| Copa Argentina | `Copa Argentina` | 14 ediciones, de 2011-12 a 2026 | 869 |
 
 Lo que no está: de 1985 a 1991-92 la Primera División es sólo la liga y el Nacional
 1985 —faltan las liguillas, desempates y finales—, y no hay Primera D. Lo que falta,
@@ -39,7 +39,7 @@ medido era por era, está en [`TODO.md`](TODO.md).
 
 Ojo si contás partidos: quince de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
-`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 236 partidos
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 342 partidos
 distintos. Las dos copias de cada uno dicen lo mismo en todo lo que describe al
 partido —fecha, hora, marcador, penales, cancha, `neutral` y `status`— y difieren sólo
 en lo que es de cada torneo. Lo que una página no trae se toma de la otra, y donde las
@@ -120,7 +120,7 @@ siempre ponen sólo una fecha. Qué se toma de cada una, con qué condición y a
 se reconoce está en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
 
 **Wikipedia en español** es la fuente de casi todo: equipos, marcadores, jornadas,
-estadios. **40 545 filas de 50 251** (80,7 %) no nombran ninguna otra fuente. El
+estadios. **40 651 filas de 50 357** (80,7 %) no nombran ninguna otra fuente. El
 dataset se publica bajo [CC BY-SA 4.0](LICENSE-DATOS.md), que es la licencia que
 esas filas heredan, y la columna `source` de cada fila lleva la URL exacta de la
 página de Wikipedia de su torneo, así que la atribución viaja con el dato.
@@ -286,10 +286,10 @@ el mismo: acá `time` va segunda.
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
 
-Pueden venir vacías, además de los penales: `time` (11 207 filas) y `venue`
+Pueden venir vacías, además de los penales: `time` (11 208 filas) y `venue`
 (10 129), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
-cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 343); y `matchday` en 16
-filas de eliminación, que son 15 partidos sueltos: uno está en dos páginas. En las
+cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 390); y `matchday` en 18
+filas de eliminación, que son 17 partidos sueltos: uno está en dos páginas. En las
 filas que salen de RSSSF los rótulos quedaron en inglés:
 `Zone 1` o `Group A` en `group` (1 239 filas del Argentino A) y
 `Semifinals - First leg` en `matchday` (127).
@@ -340,7 +340,7 @@ un marcador **indistinguible de uno jugado en cancha**.
 
 | valor | qué afirma | filas |
 |---|---|---:|
-| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 50 146 |
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 50 252 |
 | `suspendido` | la fuente dice que el partido **no llegó al final** | 82 |
 | `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 16 |
 | `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Cinco lo dicen en una nota y conservan el día para el que estaban programados, como el `Instituto 0-1 San Lorenzo` de la 1987-88; los seis de `sin-fecha/` no tienen día | 6 |
@@ -1706,7 +1706,7 @@ entraban **cuatro** Gimnasia y Esgrima (LP, M, C, J) más un Gimnasia y Tiro que
 otro club, **tres** San Martín (F, SJ, T), **tres** Estudiantes (LP, RC, BA) y
 **dos** Sarmiento (J, LB).
 
-Hoy, con el ascenso y las capas viejas adentro, el padrón tiene **219 clubes y 180
+Hoy, con el ascenso y las capas viejas adentro, el padrón tiene **220 clubes y 181
 alias**, y las familias crecieron: **cinco** Gimnasia y Esgrima (se sumó el de
 Concepción del Uruguay), **cinco** San Martín (B, F, SJ, SM, T), tres Estudiantes y
 **tres** Sarmiento (J, LB, R). Con el Federal A 2014 y 2015 entraron además un segundo
@@ -4196,11 +4196,11 @@ de esa página.
 
 ## Tests
 
-1630 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1633 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 904 maneras —veintitrés de ellas rompen el CSV publicado— y exige que la suite
+propósito de 906 maneras —veintitrés de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash
