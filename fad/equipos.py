@@ -112,7 +112,9 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Estudiantes (RC)", 834, ("Estudiantes RC", "Estudiantes de Río Cuarto",
                                      "Estudiantes (Río Cuarto)")),
     Equipo("Gimnasia y Esgrima (LP)", 8,
-           ("Gimnasia", "Gimnasia y Esgrima La Plata", "Gimnasia (LP)")),
+           ("Gimnasia", "Gimnasia y Esgrima La Plata", "Gimnasia (LP)",
+            # El Clausura 2026, desde el 31/10/2026.
+            "Gimnasia y Esgrima L. P.")),
     Equipo("Gimnasia y Esgrima (M)", 816,
            ("Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza",
             "Gimnasia y Esgrima (Mendoza)")),
@@ -456,6 +458,8 @@ PADRON: tuple[Equipo, ...] = (
            # Argentina 2015-16 juega en la MISMA pagina.
            alias=('Defensores de Belgrano (Villa Ramallo)', 'Def. de Belgrano (VR)')),
     Equipo("Defensores de Cambaceres", alias=("Cambaceres",)),
+    # Viene del Torneo Promocional Amateur: jugo y perdio la promocion de la Primera C 2026.
+    Equipo("Defensores de Glew"),
     Equipo("Defensores de Pronunciamiento",
            alias=("Defensores de Pronunciamento", "Def. de Pronunciamiento", "DEPRO")),
     Equipo('Defensores de Vilelas'),

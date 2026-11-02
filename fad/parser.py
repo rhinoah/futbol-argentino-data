@@ -282,6 +282,9 @@ def limpiar(texto: str) -> str:
     # wikilink adentro, que es prosa de un articulo de club y no una celda.
     s = re.sub(r"<sup[^>]*>.*?</sup>", "", s, flags=re.S | re.I)
     s = re.sub(r"<[^>]+>", " ", s)
+    # El espacio duro escrito como entidad: "Gimnasia y Esgrima L.&nbsp;P." es un
+    # club con un espacio adentro, no con cinco letras de mas.
+    s = s.replace("&nbsp;", " ")
     s = re.sub(r"\s+", " ", s).strip()
     # Un superindice de nota al pie no es parte del nombre: "Atlético Tucumán¹"
     # es el mismo club que "Atlético Tucumán", pero como cadena es otro, y entra

@@ -27,6 +27,7 @@ from tests.conftest import LLAVES, TABLA
     ("{{bandera|ARG}} Racing", "Racing"),
     ("Vélez<br/>Sarsfield", "Vélez Sarsfield"),
     ("  Huracán   ", "Huracán"),
+    ("Gimnasia y Esgrima L.&nbsp;P.", "Gimnasia y Esgrima L. P."),
 ])
 def test_limpiar(crudo, limpio):
     assert parser.limpiar(crudo) == limpio

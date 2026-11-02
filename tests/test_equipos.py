@@ -93,6 +93,8 @@ def test_los_ids_de_afa_no_se_repiten():
 # --------------------------------------------------------------------------
 @pytest.mark.parametrize("nombre, canonico", [
     ("Gimnasia", "Gimnasia y Esgrima (LP)"),
+    ("Gimnasia y Esgrima L. P.", "Gimnasia y Esgrima (LP)"),
+    ("Defensores de Glew", "Defensores de Glew"),
     ("Gimnasia (Mendoza)", "Gimnasia y Esgrima (M)"),
     ("Gimnasia (M)", "Gimnasia y Esgrima (M)"),
     ("Estudiantes", "Estudiantes (LP)"),

@@ -2125,15 +2125,26 @@ MUTANTES = [
     # --- el padron ---
     ("fad/equipos.py", "darle el alias 'Gimnasia' al club equivocado (el de Mendoza)",
      '    Equipo("Gimnasia y Esgrima (LP)", 8,\n'
-     '           ("Gimnasia", "Gimnasia y Esgrima La Plata", "Gimnasia (LP)")),\n'
+     '           ("Gimnasia", "Gimnasia y Esgrima La Plata", "Gimnasia (LP)",\n'
+     '            # El Clausura 2026, desde el 31/10/2026.\n'
+     '            "Gimnasia y Esgrima L. P.")),\n'
      '    Equipo("Gimnasia y Esgrima (M)", 816,\n'
      '           ("Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza",\n'
      '            "Gimnasia y Esgrima (Mendoza)")),',
      '    Equipo("Gimnasia y Esgrima (LP)", 8,\n'
-     '           ("Gimnasia y Esgrima La Plata", "Gimnasia (LP)")),\n'
+     '           ("Gimnasia y Esgrima La Plata", "Gimnasia (LP)",\n'
+     '            # El Clausura 2026, desde el 31/10/2026.\n'
+     '            "Gimnasia y Esgrima L. P.")),\n'
      '    Equipo("Gimnasia y Esgrima (M)", 816,\n'
      '           ("Gimnasia", "Gimnasia (Mendoza)", "Gimnasia (M)", "Gimnasia y Esgrima de Mendoza",\n'
      '            "Gimnasia y Esgrima (Mendoza)")),'),
+
+    ("fad/parser.py", "dejar el espacio duro escrito como entidad",
+     's = s.replace("&nbsp;", " ")',
+     's = s'),
+    ("fad/equipos.py", "sacarle al padron el club del Promocional Amateur",
+     '    Equipo("Defensores de Glew"),\n',
+     ''),
 
     # --- el partido que la pagina tiene y no se puede leer ---
     # --- el resaltado contra sus propios digitos ---
