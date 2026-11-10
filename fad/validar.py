@@ -512,8 +512,27 @@ _SECCION_ATRAS_DE_MAS = 160
 _JORNADA_CHICA = 3
 _ATRAS_DE_MAS_CHICA = 240
 
+# HACIA ADELANTE, 300: lo simetrico. Un tramo que se va un anio para adelante cae mas
+# de 365 dias despues del anterior --y lo que va despues de el ya lo agarra la
+# comparacion para atras--. Lo mas largo que es legitimo, medido el 10/11/2026 sobre
+# `procesar` de las 171 paginas: 164 dias entre secciones (el Apertura y el Clausura
+# del Argentino A 2006-07), 149 entre rondas (los treintaidosavos y los dieciseisavos
+# de la Copa Argentina 2018-19). Y una ronda de eliminacion despues del cierre de la
+# fase de zonas, 231 (las promociones del Argentino A 2004-05, cuya fase de zonas del
+# Clausura no tiene fechas). Ninguna llega a 300.
+_ADELANTE_DE_MAS = 300
 
-def anios_bien_asignados(ps: list[Partido], en_curso: bool = False) -> list[Aviso]:
+# CONTRA LA FICHA, 30: ninguna fila mas de un mes antes de la `fecha de inicio` que
+# da la ficha de la pagina. Mide el torneo entero contra un dato que no sale de las
+# filas, que es lo unico que ve un torneo corrido un anio cuando adentro no desentona
+# nada. Lo mas temprano que es legitimo son 8 dias, en el Argentino A 2008-09 --la
+# ficha dice 30 de agosto y la primera fila es del 22--, sobre las 67 paginas cuya
+# ficha escribe el anio (10/11/2026).
+_ANTES_DEL_INICIO = 30
+
+
+def anios_bien_asignados(ps: list[Partido], en_curso: bool = False,
+                         inicio: str = "") -> list[Aviso]:
     """Nada puede caer medio anio ANTES de lo que lo precede.
 
     Las paginas escriben el dia y el mes pero no el anio, asi que en una
@@ -538,6 +557,14 @@ def anios_bien_asignados(ps: list[Partido], en_curso: bool = False) -> list[Avis
 
     Las tres primeras son GRAVES siempre. La cuarta es grave en un torneo cerrado
     y solo avisa en uno en curso; por que, en `_fase_final_antes_del_arranque`.
+
+    Y DESDE EL 10/11/2026, PARA ADELANTE Y CONTRA LA FICHA, con la misma regla que la
+    cuarta: la punta de cada una de las tres primeras pistas, si cae mas de 300 dias
+    despues de lo anterior (`_saltos_para_adelante`); la eliminacion, si cae mas de 300
+    dias despues del cierre de la fase de zonas (`_fase_final_despues_del_cierre`); y
+    cualquier partido mas de 30 dias antes de la `fecha de inicio` de la ficha, cuando
+    la ficha escribe el anio (`_antes_del_inicio_de_la_ficha`). Sobre el dataset sano
+    no dicen nada; los margenes estan al lado de cada umbral.
 
     HASTA EL 10/10/2026 HABIA UNA SOLA, Y MAL ARMADA: se juntaba por NUMERO de
     jornada todo lo que hubiera en la pagina. Una pagina que reusa "Fecha 1" --
@@ -568,12 +595,14 @@ def anios_bien_asignados(ps: list[Partido], en_curso: bool = False) -> list[Avis
 
       * El torneo ENTERO corrido un anio. Adentro no desentona nada. La mayor
         parte la frena `tests/test_torneos.py`, que corre antes que el build: el
-        anio con que se fecha tiene que ser el del titulo de la pagina.
+        anio con que se fecha tiene que ser el del titulo de la pagina. Y para
+        atras, la ficha, en las 67 paginas que la escriben con el anio.
       * Un bloque que se ALEJA en vez de encimarse: con un `anio_fin` un anio mas
         grande de lo que va, la segunda mitad queda catorce meses despues de la
         primera y nada cae antes de nada. Tambien lo frena ese test.
-      * Una llave de una sola ronda: no hay contra que comparar. Si la pagina
-        tiene fase de zonas la ve la pista 4, y solo para atras. Son 55 llaves y
+      * Una llave de una sola ronda: no hay contra que comparar adentro. Si la
+        pagina tiene fase de zonas la ven la pista 4 para atras y el cierre de las
+        zonas para adelante; si no, como en la Copa Argentina, nada. Son 55 llaves y
         125 partidos.
       * Un grupo ENTERO corrido respecto de los otros grupos de su llave: la
         pista 1 mira adentro de cada grupo, la 3 compara llaves y la 4 solo filas
@@ -617,6 +646,25 @@ def anios_bien_asignados(ps: list[Partido], en_curso: bool = False) -> list[Avis
         [(llave or "la fase de zonas", fechas) for llave, fechas in secciones.items()],
         "una seccion entera cae medio anio antes que la anterior",
         umbral=_SECCION_ATRAS_DE_MAS)
+    # LAS DOS QUE VAN PARA ADELANTE Y LA DE LA FICHA frenan en un torneo cerrado y
+    # avisan en uno en curso, como la pista 4. Las de atras se midieron tambien sobre
+    # 53 mil revisiones del historial; estas, sobre el dataset de hoy. Hasta que haya
+    # mas, un falso positivo en una pagina viva no puede cortar la corrida diaria.
+    for (llave, zona), jornadas in grupos.items():
+        numeros = sorted(jornadas)
+        avisos += _saltos_para_adelante(
+            [(f"Fecha {n}", jornadas[n]) for n in numeros],
+            "una jornada cae casi un anio despues que la anterior", en_curso,
+            _donde(llave, zona))
+    for llave in rondas:
+        avisos += _saltos_para_adelante(
+            list(rondas[llave].items()), "una ronda cae casi un anio despues que la anterior",
+            en_curso, llave)
+    avisos += _saltos_para_adelante(
+        [(k or "la fase de zonas", v) for k, v in secciones.items()],
+        "una seccion entera cae casi un anio despues que la anterior", en_curso)
+    avisos += _fase_final_despues_del_cierre(ps, en_curso)
+    avisos += _antes_del_inicio_de_la_ficha(ps, inicio, en_curso)
     return avisos + _fase_final_antes_del_arranque(ps, en_curso)
 
 
@@ -648,6 +696,83 @@ def _saltos_para_atras(pista: list[tuple[str, list[str]]], que: str, donde: str 
                     f"y parece un anio mal asignado"))
         previo = (etiqueta, medio, len(fechas))
     return avisos
+
+
+def _saltos_para_adelante(pista: list[tuple[str, list[str]]], que: str, en_curso: bool,
+                          donde: str = "") -> list[Aviso]:
+    """La PUNTA de `pista` --el ultimo tramo: la ultima jornada de un grupo, la ultima
+    ronda de una llave, la ultima seccion-- si cae mas de `_ADELANTE_DE_MAS` dias
+    despues de todo lo anterior. Con la fecha del medio de cada tramo, como para atras.
+
+    SOLO LA PUNTA, porque es lo unico que la de atras no ve. Un tramo del medio que se
+    va un anio para adelante deja al que sigue un anio atras, y ese aviso ya sale. Y
+    mirando cada par, un tramo que se iba para ATRAS daba dos avisos: el suyo, y uno
+    para adelante en el siguiente, que esta bien.
+
+    CONTRA LO MAS TARDE DE LO ANTERIOR, y no contra el tramo de al lado, por lo mismo:
+    si el anteultimo se fue para atras, la punta sana no queda lejos de nada."""
+    medios = [(etiqueta, sorted(fs)[len(fs) // 2]) for etiqueta, fs in pista]
+    if len(medios) < 2:
+        return []
+    antes, f_antes = max(medios[:-1], key=lambda m: m[1])
+    etiqueta, medio = medios[-1]
+    if _dias(f_antes, medio) <= _ADELANTE_DE_MAS:
+        return []
+    return [Aviso(que, f"{donde + ': ' if donde else ''}{etiqueta} en {medio} contra {antes} "
+                       f"en {f_antes}; son las fechas del medio de cada una y parece un anio "
+                       f"mal asignado", grave=not en_curso)]
+
+
+def _fase_final_despues_del_cierre(ps: list[Partido], en_curso: bool) -> list[Aviso]:
+    """Las rondas de eliminacion que caen casi un anio despues de que termina la fase
+    de zonas: lo simetrico de `_fase_final_antes_del_arranque`, para adelante.
+
+    Es la unica comparacion que tiene una LLAVE DE UNA SOLA RONDA --una final, una
+    promocion--, que adentro de su pista no tiene contra que compararse. El cierre es
+    el que deja adelante al 5% de la fase de zonas, por lo mismo que el arranque, y se
+    calla con la misma regla: si menos de la mitad de la fase de zonas tiene fecha.
+
+    Lo que no ve: una ronda que se jugaba ANTES del cierre --la final del Apertura en
+    una pagina que trae tambien el Clausura-- y se va un anio para adelante puede
+    quedar a menos de 300 dias del cierre del Clausura. Y una pagina sin fase de zonas,
+    como la Copa Argentina, no tiene cierre.
+    """
+    de_zonas = [p for p in ps if p.fase == "zonas"]
+    con_dia = sorted(p.fecha for p in de_zonas if _existe(p.fecha))
+    if not con_dia or 2 * len(con_dia) < len(de_zonas):
+        return []
+    cierre = con_dia[-1 - len(con_dia) // 20]
+    rondas: dict[tuple[str, str], list[str]] = {}
+    for p in ps:
+        if p.fase == "eliminacion" and _existe(p.fecha):
+            rondas.setdefault((p.llave, p.jornada), []).append(p.fecha)
+    avisos = []
+    for (llave, ronda), fechas in rondas.items():
+        mitad = sorted(fechas)[len(fechas) // 2]
+        if _dias(cierre, mitad) > _ADELANTE_DE_MAS:
+            avisos.append(Aviso(
+                "una ronda de eliminacion casi un anio despues de que termina la fase de zonas",
+                f"{_donde(llave, ronda) or 'sin rotulo'}: la fecha del medio es el {mitad}, "
+                f"y la fase de zonas cierra el {cierre}; parece un anio mal asignado",
+                grave=not en_curso))
+    return avisos
+
+
+def _antes_del_inicio_de_la_ficha(ps: list[Partido], inicio: str,
+                                  en_curso: bool) -> list[Aviso]:
+    """Los partidos que caen mas de `_ANTES_DEL_INICIO` dias antes de la `fecha de
+    inicio` de la ficha (`parser.inicio_de_la_ficha`; vacia si la ficha no escribe el
+    anio, y entonces no se mira nada)."""
+    if not inicio:
+        return []
+    antes = sorted(p.fecha for p in ps if _existe(p.fecha) and _dias(p.fecha, inicio) >
+                   _ANTES_DEL_INICIO)
+    if not antes:
+        return []
+    return [Aviso("partidos antes del inicio que da la ficha",
+                  f"{len(antes)} partido{'s' if len(antes) != 1 else ''} desde el "
+                  f"{antes[0]}, y la ficha de la pagina dice que el torneo empieza el "
+                  f"{inicio}; parece un anio mal asignado", grave=not en_curso)]
 
 
 def _fase_final_antes_del_arranque(ps: list[Partido], en_curso: bool) -> list[Aviso]:
@@ -1102,19 +1227,22 @@ CHEQUEOS = [campos_completos, horas_legibles, fechas_presentes, nombres_en_el_pa
 
 
 def revisar(ps: list[Partido], en_curso: bool = False,
-            divididos: tuple = ()) -> list[Aviso]:
+            divididos: tuple = (), inicio: str = "") -> list[Aviso]:
     """Corre todos los chequeos. Devuelve los avisos, graves primero.
 
     `en_curso` dice que el torneo todavia se esta jugando. Lo miran dos --
     `zonas_completas` y `anios_bien_asignados` --, y va como parametro y no como
     una deteccion por fecha para que se vea en la lista de torneos quien lo declara.
+
+    `inicio` es la `fecha de inicio` de la ficha de la pagina, si escribe el anio
+    (`parser.inicio_de_la_ficha`), y la mira `anios_bien_asignados`.
     """
     avisos = []
     for chequeo in CHEQUEOS:
         if chequeo is zonas_completas:
             avisos += chequeo(ps, en_curso, divididos)
         elif chequeo is anios_bien_asignados:
-            avisos += chequeo(ps, en_curso)
+            avisos += chequeo(ps, en_curso, inicio)
         else:
             avisos += chequeo(ps)
     return sorted(avisos, key=lambda a: not a.grave)

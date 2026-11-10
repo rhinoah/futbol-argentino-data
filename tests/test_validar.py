@@ -726,8 +726,12 @@ def test_una_fase_final_que_queda_ANTES_de_que_empiece_el_torneo():
     """Una fase final corrida un anio para atras no cae lejos: en una temporada de
     agosto a junio, la final de junio queda mes y medio ANTES del primer partido.
     Las rondas entre si estan en orden y la fase de zonas tambien; lo unico que no
-    cierra es que se defina un torneo que todavia no empezo."""
-    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10")
+    cierra es que se defina un torneo que todavia no empezo.
+
+    La fase de zonas va de agosto a mayo, como una temporada de verdad: con dos
+    jornadas de agosto solas, la final buena de junio quedaria diez meses despues del
+    cierre de las zonas, y eso lo ve `_fase_final_despues_del_cierre`."""
+    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2020-05-09")
     avisos = validar.anios_bien_asignados(zonas + _ronda("Final", "2019-06-20", partidos=1))
     assert [(a.que, a.grave) for a in avisos] == [(QUE_FINAL, True)]
     assert "2019-06-20" in avisos[0].detalle
@@ -866,8 +870,9 @@ def test_la_guarda_de_la_mitad_en_sus_dos_bordes():
 
 
 def test_alcanza_con_UN_partido_de_la_ronda_antes_del_arranque():
-    """La ronda avisa por los partidos que quedaron antes, aunque no sean todos."""
-    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10")
+    """La ronda avisa por los partidos que quedaron antes, aunque no sean todos. Con
+    la fase de zonas de agosto a mayo, por lo mismo que en el test de arriba."""
+    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2020-05-09")
     promo = _ronda("Promoción", "2019-06-20")
     promo[1].fecha = "2020-06-27"
     avisos = validar.anios_bien_asignados(zonas + promo)
@@ -934,6 +939,122 @@ def test_lo_que_no_tiene_numero_de_jornada_no_es_una_Fecha_0_pero_cuenta_para_el
     ps = (_jornada(1, "2020-09-05", llave="Torneo Apertura")
           + sin_numero("2020-02-08", llave="Torneo Clausura"))
     assert [a.que for a in validar.anios_bien_asignados(ps)] == [QUE_SECCION]
+
+
+# ---- hacia adelante: la punta de cada pista -----------------------------------
+QUE_JORNADA_ADELANTE = "una jornada cae casi un anio despues que la anterior"
+QUE_RONDA_ADELANTE = "una ronda cae casi un anio despues que la anterior"
+QUE_SECCION_ADELANTE = "una seccion entera cae casi un anio despues que la anterior"
+QUE_FINAL_ADELANTE = ("una ronda de eliminacion casi un anio despues de que termina la "
+                      "fase de zonas")
+
+
+@pytest.mark.parametrize("en_curso", [False, True])
+def test_la_ultima_jornada_corrida_un_anio_para_adelante(en_curso):
+    """Lo que la comparacion para atras no veia: no hay nada despues de la punta. Frena
+    en un torneo cerrado y avisa en uno en curso."""
+    ps = _jornada(1, "2019-08-03") + _jornada(2, "2019-08-10") + _jornada(3, "2020-08-17")
+    avisos = validar.anios_bien_asignados(ps, en_curso)
+    assert [(a.que, a.grave) for a in avisos] == [(QUE_JORNADA_ADELANTE, not en_curso)]
+    assert "Fecha 3 en 2020-08-17 contra Fecha 2 en 2019-08-10" in avisos[0].detalle
+
+
+def test_una_jornada_del_medio_para_atras_no_da_dos_avisos():
+    """Contra lo mas tarde de lo anterior y no contra la de al lado: la Fecha 3, que esta
+    bien, no queda lejos de la 1 aunque la 2 se haya ido un anio para atras."""
+    ps = _jornada(1, "2019-08-03") + _jornada(2, "2018-08-10") + _jornada(3, "2019-08-17")
+    assert [a.que for a in validar.anios_bien_asignados(ps)] == [QUE_JORNADA]
+
+
+def test_una_jornada_del_medio_para_adelante_la_ve_la_de_atras_y_nada_mas():
+    ps = _jornada(1, "2019-08-03") + _jornada(2, "2020-08-10") + _jornada(3, "2019-08-17")
+    assert [a.que for a in validar.anios_bien_asignados(ps)] == [QUE_JORNADA]
+
+
+def test_300_dias_despues_todavia_no_es_un_anio_corrido():
+    """El borde: 300 dias pasan, 301 no. Lo mas largo que es legitimo fueron 164."""
+    base = _jornada(1, "2019-01-01") + _jornada(2, "2019-01-08")
+    assert validar.anios_bien_asignados(base + _jornada(3, "2019-11-04")) == []
+    assert [a.que for a in validar.anios_bien_asignados(base + _jornada(3, "2019-11-05"))] \
+        == [QUE_JORNADA_ADELANTE]
+
+
+def test_la_ultima_ronda_de_una_llave_corrida_para_adelante():
+    ps = (_ronda("Cuartos", "2019-10-01", llave="Copa") + _ronda("Semifinal", "2019-10-08", llave="Copa")
+          + _ronda("Final", "2020-10-15", llave="Copa", partidos=1))
+    avisos = validar.anios_bien_asignados(ps)
+    assert [a.que for a in avisos] == [QUE_RONDA_ADELANTE]
+    assert avisos[0].detalle.startswith("Copa: Final en 2020-10-15")
+
+
+def test_la_ultima_seccion_corrida_para_adelante():
+    ps = (_jornada(1, "2019-02-02", llave="Torneo Apertura")
+          + _jornada(1, "2020-08-03", llave="Torneo Clausura"))
+    assert [a.que for a in validar.anios_bien_asignados(ps)] == [QUE_SECCION_ADELANTE]
+
+
+@pytest.mark.parametrize("en_curso", [False, True])
+def test_una_final_suelta_un_anio_despues_de_las_zonas(en_curso):
+    """Una llave de una sola ronda no tiene contra que compararse adentro de su pista:
+    la unica referencia es la fase de zonas. Son 55 llaves y 125 partidos."""
+    zonas = _jornada(1, "2019-08-03") + _jornada(2, "2020-05-09")
+    assert validar.anios_bien_asignados(
+        zonas + _ronda("Final", "2020-06-20", llave="Final", partidos=1), en_curso) == []
+    avisos = validar.anios_bien_asignados(
+        zonas + _ronda("Final", "2021-06-20", llave="Final", partidos=1), en_curso)
+    assert [(a.que, a.grave) for a in avisos] == [(QUE_FINAL_ADELANTE, not en_curso)]
+    assert "2021-06-20" in avisos[0].detalle and "2020-05-09" in avisos[0].detalle
+
+
+def test_la_final_suelta_no_se_mira_si_la_fase_de_zonas_casi_no_tiene_fecha():
+    zonas = _jornada(1, "2019-08-03") + _jornada(2, "") + _jornada(3, "")
+    assert validar.anios_bien_asignados(
+        zonas + _ronda("Final", "2021-06-20", llave="Final", partidos=1)) == []
+
+
+def test_el_cierre_no_lo_mueve_un_partido_de_zonas_suelto():
+    """El cierre deja adelante al 5% de la fase de zonas, como el arranque: un partido
+    de zonas postergado al lado de la final no tapa una final corrida."""
+    zonas = []
+    for n in range(1, 21):
+        zonas += _jornada(n, f"2019-{8 + (n - 1) // 4:02d}-{1 + (n - 1) % 4 * 7:02d}")
+    zonas[0].fecha = "2021-06-01"
+    avisos = validar.anios_bien_asignados(
+        zonas + _ronda("Final", "2021-06-20", llave="Final", partidos=1))
+    assert QUE_FINAL_ADELANTE in [a.que for a in avisos]
+
+
+# ---- contra la fecha de inicio de la ficha -----------------------------------
+QUE_FICHA = "partidos antes del inicio que da la ficha"
+
+
+@pytest.mark.parametrize("en_curso", [False, True])
+def test_un_torneo_que_empieza_antes_de_lo_que_dice_su_ficha(en_curso):
+    """El torneo entero corrido un anio: adentro no desentona nada, y lo unico que lo
+    ve es un dato que no sale de las filas."""
+    ps = _jornada(1, "2018-08-03") + _jornada(2, "2018-08-10")
+    avisos = validar.anios_bien_asignados(ps, en_curso, inicio="2019-08-01")
+    assert [(a.que, a.grave) for a in avisos] == [(QUE_FICHA, not en_curso)]
+    assert avisos[0].detalle.startswith("6 partidos desde el 2018-08-03")
+
+
+def test_hasta_30_dias_antes_de_la_ficha_esta_bien():
+    """Lo mas temprano que es legitimo fueron 8 dias, en el Argentino A 2008-09."""
+    ps = _jornada(1, "2019-07-02") + _jornada(2, "2019-07-09")
+    assert validar.anios_bien_asignados(ps, inicio="2019-08-01") == []
+    ps[0].fecha = "2019-07-01"
+    assert [a.que for a in validar.anios_bien_asignados(ps, inicio="2019-08-01")] == [QUE_FICHA]
+
+
+def test_sin_el_anio_en_la_ficha_no_se_mira():
+    ps = _jornada(1, "2018-08-03") + _jornada(2, "2018-08-10")
+    assert validar.anios_bien_asignados(ps) == []
+
+
+def test_revisar_le_pasa_la_ficha_al_chequeo_de_los_anios():
+    """Es por donde pasa el build."""
+    ps = _jornada(1, "2018-08-03") + _jornada(2, "2018-08-10")
+    assert QUE_FICHA in [a.que for a in validar.revisar(ps, inicio="2019-08-01")]
 
 
 # ---- pista 4, sobre lo que ya esta publicado ---------------------------------

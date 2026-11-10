@@ -2020,6 +2020,38 @@ def colgar_tandas(ps: list[Partido], tandas: list[Tanda]) -> list[str]:
 _HORA_LEGIBLE = re.compile(r"^\s*(\d{1,2})(?::{1,2}|\.)(\d{2})(?![\d.:])")
 
 
+# LA FECHA DE INICIO DE LA FICHA, para `validar.anios_bien_asignados`: es un dato que
+# no sale de las filas, y por eso es lo unico que ve un torneo entero corrido un anio.
+# Las 171 paginas del catalogo la tienen; 67 la escriben con el anio --`9 de agosto de
+# 2007`, `{{fecha|30|8|2008}}`-- y las otras solo con el dia y el mes, y ahi no dice
+# nada: sin el anio no hay contra que comparar. Se toma la primera, que es la de la
+# ficha de la pagina.
+# Con `[ \t]` y no `\s`: un `\s` cruza el salto de linea, y una `fecha de inicio`
+# vacia se quedaba con el renglon de abajo, que es la `fecha de cierre`.
+_INICIO_DE_LA_FICHA = re.compile(r"(?im)^[ \t]*\|[ \t]*fecha de inicio[ \t]*=[ \t]*(.*)$")
+_DIA_DE_MES_DE_ANIO = re.compile(r"(?i)\b(\d{1,2})\s+de\s+([a-záéíóúñ]+)\s+del?\s+(\d{4})\b")
+_PLANTILLA_DE_FECHA = re.compile(r"(?i)\{\{\s*fecha\s*\|\s*(\d{1,2})\s*\|\s*(\d{1,2})\s*\|\s*(\d{4})")
+
+
+def inicio_de_la_ficha(texto: str) -> str:
+    """La `fecha de inicio` de la ficha en ISO, o vacio si no escribe el anio."""
+    from datetime import date
+    m = _INICIO_DE_LA_FICHA.search(texto)
+    if not m:
+        return ""
+    crudo = m.group(1)
+    if d := _DIA_DE_MES_DE_ANIO.search(crudo):
+        dia, mes, anio = int(d.group(1)), MESES.get(d.group(2).lower()), int(d.group(3))
+    elif d := _PLANTILLA_DE_FECHA.search(crudo):
+        dia, mes, anio = int(d.group(1)), int(d.group(2)), int(d.group(3))
+    else:
+        return ""
+    try:
+        return date(anio, mes, dia).isoformat() if mes else ""
+    except ValueError:
+        return ""
+
+
 def _hora(celda: str) -> str:
     m = _HORA_LEGIBLE.match(celda)
     if not m or int(m.group(1)) > 23 or int(m.group(2)) > 59:

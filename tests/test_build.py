@@ -2998,3 +2998,18 @@ def test_la_tanda_que_no_cierra_con_la_grilla_se_avisa_y_no_frena():
     espera = [a for a in avisos if "tabla del global" in a.que]
     assert len(espera) == 1 and not espera[0].grave and "suman 2-1" in espera[0].detalle
     assert not [a for a in avisos if a.grave], [a.que for a in avisos if a.grave]
+
+
+def test_el_build_le_pasa_al_chequeo_de_los_anios_el_inicio_de_la_ficha():
+    """Una pagina cuya ficha dice que el torneo empieza un anio despues de sus filas:
+    adentro no desentona nada, y lo ve solo la ficha. Con `cerrado=False` avisa y no
+    frena."""
+    def ficha(inicio):
+        return ("{{Ficha de competición deportiva\n"
+                f"|fecha de inicio = {inicio}\n}}}}\n")
+
+    _, avisos = build.procesar(ficha("1 de enero de 2027") + tabla(("Boca Juniors", "River Plate")), T)
+    de_la_ficha = [a for a in avisos if a.que == "partidos antes del inicio que da la ficha"]
+    assert len(de_la_ficha) == 1 and not de_la_ficha[0].grave
+    _, avisos = build.procesar(ficha("1 de enero de 2026") + tabla(("Boca Juniors", "River Plate")), T)
+    assert not [a for a in avisos if a.que == "partidos antes del inicio que da la ficha"]

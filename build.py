@@ -1041,7 +1041,8 @@ def procesar(texto: str, t) -> tuple[list, list]:
     avisos += [validar.Aviso(f"{t.pagina}: una tanda de la tabla del global", d, grave=False)
                for d in parser.colgar_tandas(ps, parser.tandas_de_las_series(texto))]
     avisos += validar.revisar(ps, en_curso=not t.cerrado,
-                              divididos=correcciones.pares_divididos(t.pagina))
+                              divididos=correcciones.pares_divididos(t.pagina),
+                              inicio=parser.inicio_de_la_ficha(texto))
     # La tabla de posiciones de la propia pagina, contra la suma de los partidos.
     # Va como aviso: lo que denuncia es una contradiccion DE LA FUENTE consigo
     # misma, y frenar el build de todos los dias por eso seria desproporcionado.

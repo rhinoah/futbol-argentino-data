@@ -1639,6 +1639,8 @@ automático no es tirar una excepción, es escribir un CSV plausible y equivocad
 | no faltan jornadas en el medio | huecos, propios o de la fuente (aviso, no error) |
 | ninguna jornada, ronda ni sección cae medio año antes que la anterior | el año mal asignado en temporadas que cruzan |
 | ninguna ronda de eliminación antes de que arranque la fase de zonas (error en un torneo cerrado, aviso en uno en curso) | una fase final corrida un año para atrás — o una eliminatoria previa de verdad |
+| la última jornada, ronda o sección no cae casi un año después de lo anterior, ni la eliminación casi un año después de que cierra la fase de zonas, ni ningún partido más de un mes antes de la fecha de inicio que da la ficha de la página (error en un torneo cerrado, aviso en uno en curso) | lo mismo para adelante: una final suelta, o la punta de una pista, corrida un año; y el torneo entero corrido, que adentro no desentona |
+| la hora es `HH:MM` | una celda que no se entiende, como `18:5` (aviso, no error: se publica como figura) |
 | todos los clubes están en el padrón | un ascenso, un torneo nuevo, un alias sin cargar |
 | penales sólo en empates (salvo serie ida y vuelta igualada) | haber leído el entretiempo como si fuera la tanda |
 | sin duplicados, nadie contra sí mismo | filas leídas dos veces, columnas corridas |
@@ -4216,11 +4218,11 @@ de esa página.
 
 ## Tests
 
-1687 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1714 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 969 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 991 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

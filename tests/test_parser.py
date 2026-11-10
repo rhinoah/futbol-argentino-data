@@ -3944,3 +3944,36 @@ def test_la_cancha_de_la_frase_del_dia_es_corta():
 def test_una_hora_que_no_existe_en_la_nota_no_es_una_hora():
     p = _reprogramado("Se jugó el 29 de julio, a partir de las 24:30.")
     assert (p.fecha, p.hora) == ("2015-07-29", "")
+
+
+# --------------------------------------------------------------------------
+# la fecha de inicio de la ficha, para el chequeo de los anios
+# --------------------------------------------------------------------------
+def _ficha(inicio: str) -> str:
+    return ("{{Ficha de competición deportiva\n|nombre = Algo\n"
+            f"|fecha de inicio = {inicio}\n|fecha de cierre = 14 de junio de 2008\n}}}}\n"
+            "== Resultados ==\n")
+
+
+@pytest.mark.parametrize("inicio, iso", [
+    ("9 de agosto de 2007", "2007-08-09"),            # B Nacional 2007-08
+    ("30 de agosto de 2008<ref>algo</ref>", "2008-08-30"),
+    ("1 de Septiembre del 2016", "2016-09-01"),
+    ("{{fecha|30|8|2008}}", "2008-08-30"),
+    ("13 de febrero", ""),                            # 104 de las 171: sin el anio
+    ("31 de noviembre de 2014", ""),                  # un dia que no existe
+    ("9 de agostto de 2007", ""),                     # un mes que no es
+    ("", ""),
+])
+def test_la_fecha_de_inicio_de_la_ficha(inicio, iso):
+    assert parser.inicio_de_la_ficha(_ficha(inicio)) == iso
+
+
+def test_sin_ficha_no_hay_inicio():
+    assert parser.inicio_de_la_ficha("== Resultados ==\n") == ""
+
+
+def test_el_inicio_es_el_de_la_primera_ficha():
+    """La de la pagina va arriba; otra mas abajo, de otra cosa, no cuenta."""
+    texto = _ficha("9 de agosto de 2007") + _ficha("1 de marzo de 2009")
+    assert parser.inicio_de_la_ficha(texto) == "2007-08-09"

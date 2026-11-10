@@ -146,26 +146,17 @@ sin fecha no se jugaron.
   - El cruce no va a cerrar entero: la tabla de esa zona en Wikipedia está rota —21 o 22
     PJ por club en una fase de 10—, y las de RSSSF no cierran consigo mismas (en el
     Clausura, 74 ganados contra 75 perdidos).
-- **`anios_bien_asignados` necesita dos comparaciones más, ya medidas.** Es el chequeo
-  que frena el build cuando una jornada cae medio año antes que la anterior.
-  - **Hacia adelante.** Hoy sólo se mira lo que cae antes: un tramo o una llave de una
-    sola ronda (`55` llaves, `125` partidos) que se van un año para adelante no se ven. La
-    comparación simétrica —más de 300 días después del tramo anterior— dio 0 avisos sobre
-    el dataset sano.
-  - **Contra la fecha de inicio que trae la ficha de cada página.** «Ninguna fila más de
-    30 días antes» dio 0 avisos en las `67` páginas que escriben el año.
-
-  Queda afuera, por ahora, la comparación entre los grupos de una misma sección. Es la
-  única que vería un grupo entero con el año corrido, como el `Interzonal` de una sola
-  fecha de la Copa de la Liga 2022, 2023 y 2024 (`42` partidos), y dio 0 avisos de más en
-  el catálogo, en `659` páginas de afuera y en `52 997` revisiones; pero en el peor caso
-  medido queda a `13` días del umbral (`147` contra `160`), y sería grave también en un
-  torneo en curso.
-
-  Aparte quedan `8` torneos donde el año corrido no lo frena nadie, ni el chequeo ni
+- **El chequeo de años no ve un grupo entero con el año corrido respecto de los otros
+  grupos de su llave**, como el `Interzonal` de una sola fecha de la Copa de la Liga 2022,
+  2023 y 2024 (`42` partidos). La comparación entre los grupos de una misma sección lo
+  vería, y dio 0 avisos de más en el catálogo, en `659` páginas de afuera y en `52 997`
+  revisiones; pero en el peor caso medido queda a `13` días del umbral (`147` contra
+  `160`), y sería grave también en un torneo en curso.
+- **`8` torneos donde el año corrido no lo frena nadie**, ni el chequeo ni
   `tests/test_torneos.py`: las Copa Argentina 2012-13 a 2018-19 (`7`), que se pueden
-  correr adentro de los dos años de su título, y el Clausura 1991, cuyo título es una
-  redirección y lo que se mira es el alias.
+  correr adentro de los dos años de su título y no tienen fase de zonas contra la que
+  comparar, y el Clausura 1991, cuyo título es una redirección y lo que se mira es el
+  alias.
 - **Cuatro formas de `_HABLA_DE_FALLO` no tienen mutante:** `suspendid`, `otorgandole`,
   `inclusion indebida` y `mala inclusion`. El clasificador también las lee, así que una
   nota que las dice ya sale con `status` y el detector no decide nada con ellas: sacarlas
