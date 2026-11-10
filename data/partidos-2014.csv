@@ -393,7 +393,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-08-25,15:30,Estudiantes (BA),Tristán Suárez,0,0,,,Primera B,2014,zonas,Zona A,Fecha 5,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina),
 2014-08-25,16:00,San Jorge (T),San Martín (T),0,1,,,Torneo Federal A,2014,zonas,Zona 3,Fecha 1,Monumental José Fierro,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2014,
 2014-08-25,20:30,Colón,Nueva Chicago,3,0,,,Primera Nacional,2014,zonas,Zona A,Fecha 3,Brigadier Estanislao López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014,
-2014-08-25,21:00,Platense,Almagro,0,3,,,Primera B,2014,zonas,Zona B,Fecha 5,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina),
+2014-08-25,21:00,Platense,Almagro,0,3,,,Primera B,2014,zonas,Zona B,Fecha 5,Ciudad de Vicente López,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina),suspendido
 2014-08-25,21:10,Chacarita Juniors,Fénix,0,1,,,Primera B,2014,zonas,Zona A,Fecha 5,Chacarita Juniors,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina),
 2014-08-26,15:30,Deportivo Armenio,Deportivo Morón,1,1,,,Primera B,2014,zonas,Zona B,Fecha 5,Armenia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina),
 2014-08-26,16:30,Belgrano,Gimnasia y Esgrima (LP),0,0,,,Primera Division,2014,zonas,,Fecha 4,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina),
@@ -633,7 +633,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-09-17,21:30,Gimnasia y Esgrima (J),Instituto,1,2,,,Primera Nacional,2014,zonas,Zona A,Fecha 8,23 de Agosto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014,
 2014-09-17,21:30,Independiente Rivadavia,All Boys,0,0,,,Primera Nacional,2014,zonas,Zona B,Fecha 8,Bautista Gargantini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014,
 2014-09-18,,Racing Club,Argentinos Juniors,0,1,,,Copa Argentina,2014,eliminacion,,Octavos,Tomás Adolfo Ducó,true,https://es.wikipedia.org/wiki/Copa_Argentina_2013-14,
-2014-09-18,15:40,Excursionistas,Juventud Unida,0,0,,,Primera C,2014,zonas,Zona B,Fecha 2,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina),suspendido
+2014-09-18,15:40,Excursionistas,Juventud Unida,0,0,,,Primera C,2014,zonas,Zona B,Fecha 2,Ramón Roque Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina),
 2014-09-18,21:00,Temperley,Unión,1,1,,,Primera Nacional,2014,zonas,Zona B,Fecha 8,Alfredo Beranger,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014,
 2014-09-19,14:00,Alvarado,Libertad (S),2,2,,,Torneo Federal A,2014,zonas,Zona 5,Fecha 5,Aguas Corrientes,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2014,
 2014-09-19,15:30,Defensores de Cambaceres,Sacachispas,0,1,,,Primera C,2014,zonas,Zona B,Fecha 9,12 de Octubre,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2014_(Argentina),
@@ -1169,7 +1169,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-11-08,17:00,Independiente (C),Alvarado,2,1,,,Torneo Federal A,2014,zonas,Zona 5,Fecha 14,Raúl Orlando Lungarzo,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2014,
 2014-11-08,17:05,Villa Dálmine,Fénix,2,0,,,Primera B,2014,zonas,Zona A,Fecha 21,El Coliseo de Mitre y Puccini,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina),
 2014-11-08,18:10,Belgrano,Defensa y Justicia,3,0,,,Primera Division,2014,zonas,,Fecha 15,Mario Alberto Kempes,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina),
-2014-11-08,19:00,Alianza (CC),General Belgrano (SR),1,1,,,Torneo Federal A,2014,zonas,Zona 1,Fecha 14,Coloso de Ruca Quimey,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2014,
+2014-11-08,19:00,Alianza (CC),General Belgrano (SR),1,1,,,Torneo Federal A,2014,zonas,Zona 1,Fecha 14,Coloso de Ruca Quimey,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2014,suspendido
 2014-11-08,20:00,Sportivo Estudiantes (SL),Américo Tesorieri (LR),4,1,,,Torneo Federal A,2014,zonas,Zona 2,Fecha 14,Héctor Odicino - Pedro Benoza,false,https://es.wikipedia.org/wiki/Torneo_Federal_A_2014,
 2014-11-08,20:30,Independiente,Gimnasia y Esgrima (LP),0,1,,,Primera Division,2014,zonas,,Fecha 15,Libertadores de América,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina),
 2014-11-09,11:00,Brown de Adrogué,Almirante Brown,1,2,,,Primera B,2014,zonas,Zona A,Fecha 21,Lorenzo Arandilla,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2014_(Argentina),
@@ -1374,7 +1374,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2014-12-08,18:10,Huracán,Independiente Rivadavia,4,0,,,Primera Nacional,2014,zonas,Zona B,Fecha 22,Tomás Adolfo Ducó,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014,
 2014-12-11,17:00,Nueva Chicago,Aldosivi,0,0,,,Primera Nacional,2014,eliminacion,,Partido 1,Juan Carmelo Zerillo,true,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014,
 2014-12-14,17:15,Huracán,Atlético Tucumán,4,1,,,Primera Nacional,2014,eliminacion,,Desempate,Malvinas Argentinas,true,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014,
-2014-12-14,20:30,Quilmes,River Plate,0,1,,,Primera Division,2014,zonas,,Fecha 19,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina),
+2014-12-14,20:30,Quilmes,River Plate,0,1,,,Primera Division,2014,zonas,,Fecha 19,Centenario,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina),suspendido
 2014-12-14,20:30,Racing Club,Godoy Cruz,1,0,,,Primera Division,2014,zonas,,Fecha 19,El Cilindro,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2014_(Argentina),
 2014-12-15,20:15,Aldosivi,Gimnasia y Esgrima (J),1,0,,,Primera Nacional,2014,eliminacion,,Partido 2,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014,
 2014-12-19,20:15,Gimnasia y Esgrima (J),Nueva Chicago,0,1,,,Primera Nacional,2014,eliminacion,,Partido 3,Juan Domingo Perón,true,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2014,

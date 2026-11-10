@@ -121,9 +121,10 @@ Reducido de la Primera C 2011-12, que Wikipedia trae sólo como cuadro: los club
 el marcador de cada uno salen de ese cuadro, y el día y quién fue local, del blog de
 José Carluccio. En algunas pesaron además en otro campo: worldfootball en
 doce de las suyas —el marcador en 8, la localía en 3 y el rival en 1—, el blog de
-José Carluccio en el marcador de una y una revisión vieja de Wikipedia en el de
-otra. Cada caso está declarado, con su evidencia, en `fad/correcciones.py`. Cada
-una va nombrada en el `source` de las filas a las que les puso el día o la localía.
+José Carluccio en el marcador de una y en el `status` de otra, y una revisión vieja de
+Wikipedia en el marcador de otra más. Cada caso está declarado, con su evidencia, en
+`fad/correcciones.py`. Cada una va nombrada en el `source` de las filas a las que les
+puso el día o la localía.
 
 - **[worldfootball](https://www.worldfootball.net/)** — el día de 1 519 partidos de
   la Primera B Nacional de 2007-08 a 2010-11, que Wikipedia publica en tablas de
@@ -187,6 +188,7 @@ fecha.
 | 2009-10 | [`arg3-int2010`](https://www.rsssf.org/tablesa/arg3-int2010.html) | Torneo Argentino A 2009-10 | 439 | | Juan Pablo Andrés |
 | 2010-11 | [`arg2011`](https://www.rsssf.org/tablesa/arg2011.html) | Primera B 2010-11 y Primera C 2010-11: el día. Torneo Argentino A 2010-11: 14 partidos de la fase final enteros y el día de otros 8 | 14 | 844 | Juan Pablo Andrés |
 | 2011-12 | [`arg2012`](https://www.rsssf.org/tablesa/arg2012.html) | Torneo Argentino A 2011-12: las semifinales y la final enteras y el día de 28 partidos de eliminación | 6 | 28 | Ian King, Pablo Ciullini y Osvaldo José Gorgazzi |
+| 2012-13 | [`arg2013`](https://www.rsssf.org/tablesa/arg2013.html) | Torneo Final 2013: el `status` de un partido, el `River Plate 3-1 San Martín (SJ)` | | | Osvaldo José Gorgazzi y Pablo Ciullini |
 | 2012-13 | [`arg3-int2013`](https://www.rsssf.org/tablesa/arg3-int2013.html) | Torneo Argentino A 2012-13: las semifinales y la final enteras y el día de 20 partidos de eliminación | 6 | 20 | Pablo Ciullini |
 | 2014 | [`arg2015`](https://www.rsssf.org/tablesa/arg2015.html) | Primera B 2014: un día corregido a mano | | 1 | Osvaldo José Gorgazzi |
 | 2015 | [`arg2015a`](https://www.rsssf.org/tablesa/arg2015a.html) | Primera B 2015: tres días corregidos a mano | | 3 | Osvaldo José Gorgazzi |
@@ -197,7 +199,10 @@ fecha.
 En algunas de las de «sólo el día» RSSSF pesó además en la localía o en el
 marcador; cada caso está declarado, con su evidencia, en `fad/correcciones.py`.
 Fue además uno de los testigos en una decena de los marcadores corregidos a mano,
-en filas que no la nombran.
+en filas que no la nombran. Y es el testigo del `status` de 22 filas, que tampoco la
+nombran en `source`: diecinueve que no llegaron al final y que su página publica sin
+nota, y tres que se jugaron enteras y cuya nota dice «suspendido» por otra cosa. Están
+declaradas en `correcciones.ESTADOS`, cada una con su renglón de RSSSF.
 
 Los nombres son los que firman el pie de cada archivo, copiados de ahí y cotejados
 contra la página publicada el 13 de octubre de 2026.

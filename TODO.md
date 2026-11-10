@@ -30,40 +30,6 @@ sin fecha no se jugaron.
   partidos.** Medida la temporada anterior de cada una, la B Nacional 2006-07 da 7 sin
   fecha, la Primera B 2009-10 y la Primera C 2007-08 dan 4, y el Argentino A 2003-04 da
   195, 8 con fecha. Para ir más atrás hace falta otra fuente.
-- **`status`: cuatro filas que ninguna regla arregla.** La página no dice lo que pasó,
-  o lo dice con una palabra que en las demás filas significa otra cosa. Desde 2004 hay
-  `54` `suspendido`.
-  - `Deportivo Riestra 0-1 UAI Urquiza` (Primera B 2015, «Partidos suspendidos debido a
-    la muerte del futbolista Cristian Gómez») y `Excursionistas 0-0 Juventud Unida`
-    (Primera C 2014, cuya única nota es un enlace rotulado «Suspendido» a una nota de
-    Mundo Ascenso del 15/08/2014: «Por falta de escenario, fue suspendido») salen
-    `suspendido` y se postergaron antes de empezar. RSSSF los da jugados sin nota el
-    10/06/2015 y el 18/09/2014, que es el día de cada fila.
-  - `Arsenal 3-0 Newell's Old Boys` (Primera 2015) sale `suspendido` porque el
-    suspendido era un jugador. RSSSF: `orgnl 3-0, awd 0-1 May 22, rvk Jul 23`.
-  - `San Martín (T) 0-2 Alumni (VM)` (Argentino A 2011-12) sale vacío, y el build lo
-    avisa: la única nota es una cita titulada «AFA decide darle por perdido 0-2». El
-    blog de José Carluccio lo da «Suspendido a los 40', con el marcador 0-2 [...]. No
-    continuó ni se modificó el resultado».
-
-  Las cuatro piden una corrección a mano que toque sólo el `status`; ver el ítem que
-  sigue.
-- **`status`: al menos `19` filas que RSSSF da sin terminar salen vacías**, porque su
-  página no lo dice: `10` de 1991–1997 (de `arg91` a `arg97`) y `9` de 2005–2024.
-  - `Sportivo Patria 0-3 Villa Mitre` (`2005-12-11`), `Cipolletti 1-2 Guillermo Brown`
-    (`2006-02-05`) y `Gimnasia y Esgrima (CdU) 2-1 Atlético Candelaria` (`2006-02-12`), los
-    tres de `arg3-int06`, que el build ya lee;
-  - `Deportivo Español 0-0 Sportivo Italiano` (`2011-05-09`);
-  - `River Plate 3-1 San Martín (SJ)` (`2013-06-23`, abandonado en el 90+1);
-  - `Quilmes 0-1 River` y `Platense 0-3 Almagro`, de 2014;
-  - `Alianza (CC) 1-1 General Belgrano (SR)` (`2014-11-08`), que el Boletín 79/14 del
-    Tribunal del Interior da por suspendido a los 84' por un corte de luz;
-  - `Central Norte (S) 2-0 Sarmiento (LB)` (`2024-07-21`, «abandoned at 2-0 in 90m,
-    awarded»).
-
-  El marcador no cambia. Van, como las cuatro del ítem anterior, con una corrección a
-  mano que toque sólo el `status` y un testigo obligatorio: la nota de la página o RSSSF.
-  Esa rama se sacó porque ningún dato la recorría, y vuelve con estas `23` filas.
 - **Una nota que es un plan cuenta como un partido completado.** `_SE_COMPLETO` acepta
   «Se jugará el…» y «Se juega el…», así que una nota que termine en el plan y siga con
   un abandono saldría sin `status` y sin aviso. Hoy hay `4` notas así en el catálogo
@@ -125,6 +91,11 @@ sin fecha no se jugaron.
   el nombre coincide con el pie del archivo en la caché.
 - **El lector de RSSSF no espera entre un pedido y el siguiente.** Con la caché no se
   nota; un `--rehacer` sin caché le pide 24 archivos seguidos a RSSSF.
+- **El lector de RSSSF no ve una suspensión escrita en otro renglón.** En `arg96` la
+  nota va debajo de los goles (`Argentinos Juniors 0-3 Huracán` y `Newell's 2-0 Rosario
+  Central`, de 1996), y en las llaves de `arg3-int06` sigue en el renglón de abajo
+  (`Sportivo Patria 0-3 Villa Mitre`). Hoy no afecta a ninguna fila: los tres son de
+  torneos con grilla, y su `status` está puesto a mano.
 - **Un partido escrito dos veces se reconoce sólo por `(date, home_team, away_team)`.**
   Si las dos páginas lo publicaran con la localía dada vuelta o en días distintos,
   `dataset.reconciliar_copias` no vería que es el mismo, y las dos copias podrían decir

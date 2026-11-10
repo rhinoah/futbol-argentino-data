@@ -1137,8 +1137,13 @@ def procesar(texto: str, t) -> tuple[list, list]:
     # Y la guarda del default de `status`: una fila que habla de un fallo y que
     # no se supo clasificar no puede quedar en vacio callada, porque vacio
     # significa "la pagina no dijo nada".
+    # Salvo las que ya tienen el status puesto a mano, que ni quedan vacias ni
+    # calladas. La pagina las escribe con sus nombres, y `ESTADOS` en canonico.
+    a_mano = correcciones.estados_de(t.pagina)
     avisos += [validar.Aviso(f"{t.pagina}: un fallo que no se supo leer", d, grave=False)
-               for d in parser.fallos_sin_leer(texto)]
+               for d in parser.fallos_sin_leer(
+                   texto, lambda local, visita: (equipos.canonizar(local),
+                                                 equipos.canonizar(visita)) in a_mano)]
     # El resaltado de la grilla contra sus propios digitos. Es el UNICO uso
     # legitimo de ese color: acusa, nunca absuelve. Medido contra los 33
     # marcadores ya arbitrados, cuando el color acompania al numero banco al

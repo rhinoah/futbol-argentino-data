@@ -3856,6 +3856,33 @@ def test_la_guarda_de_los_fallos_sin_leer_mira_tambien_las_plantillas():
     assert len(avisos) == 1 and "Boca Juniors vs River Plate" in avisos[0], avisos
 
 
+_DOS_FALLOS_SIN_LEER = (
+    '{|class="wikitable"\n|-\n|San Martín (T)\n|0 - 2<ref>AFA decide darle por perdido '
+    "0-2 a San Martín de Tucuman frente a Alumni</ref>\n|Alumni (VM)\n"
+    "|-\n|Racing Club\n|1 - 0<ref>El Tribunal de Disciplina resolvió el caso.</ref>\n"
+    "|Independiente\n|}\n")
+
+
+def test_la_guarda_calla_la_fila_que_tiene_el_status_puesto_a_mano():
+    """El `San Martín (T) 0-2 Alumni (VM)` del Argentino A 2011-12: el aviso dice que la
+    fila queda vacia callada, y con su `Estado` ya no queda. La otra se sigue avisando:
+    se calla la fila declarada, no la pagina."""
+    assert len(parser.fallos_sin_leer(_DOS_FALLOS_SIN_LEER)) == 2
+    avisos = parser.fallos_sin_leer(
+        _DOS_FALLOS_SIN_LEER, lambda local, visita: (local, visita) == ("San Martín (T)",
+                                                                        "Alumni (VM)"))
+    assert len(avisos) == 1 and avisos[0].startswith("Racing Club vs Independiente"), avisos
+
+
+def test_y_tambien_en_las_plantillas():
+    texto = _con_fecha("21 de diciembre, 17:00",
+                       "\n|suceso = El Tribunal de Disciplina resolvió el caso.")
+    assert parser.fallos_sin_leer(
+        texto, lambda local, visita: (local, visita) == ("Boca Juniors", "River Plate")) == []
+    assert len(parser.fallos_sin_leer(
+        texto, lambda local, visita: (local, visita) == ("River Plate", "Boca Juniors"))) == 1
+
+
 # --------------------------------------------------------------------------
 # los bordes de las reglas de la nota
 # --------------------------------------------------------------------------

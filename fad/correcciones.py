@@ -2965,6 +2965,195 @@ COPIAS: tuple[Copia, ...] = (
 
 
 @dataclass(frozen=True)
+class Estado:
+    """El `status` de un partido que su pagina no dice, o dice mal, puesto a mano.
+
+    El eje de la columna es si el partido LLEGO AL FINAL (ver
+    `parser.status_de_la_fila`), y hay dos formas de que la pagina no lo deje leer:
+
+      * no lo dice. RSSSF da el partido cortado antes del final con el marcador que
+        quedo -- `[Suspended in 88'; not continued]` --, y la grilla de Wikipedia
+        publica ese numero sin nota. La fila sale vacia, que quiere decir "nadie
+        dijo lo contrario", justo donde alguien lo dijo;
+      * lo dice con una palabra que en esta fila significa otra cosa. Un
+        "suspendido" que era la fecha postergada antes de empezar, o el jugador que
+        estaba suspendido, hace salir `suspendido` a un partido que se jugo entero.
+
+    No toca el marcador: para eso esta `Marcador`, cuyo `status_debe` solo
+    acompania a un marcador que cambia. Aca el numero es el bueno y lo unico que
+    cambia es si llego al final.
+
+    `dice` es el status que sale de la pagina y es parte de la identificacion: si
+    un dia la pagina lo arregla, la declaracion deja de enganchar y el build lo
+    dice. El testigo es obligatorio y va en `porque`: el renglon de RSSSF, con su
+    direccion, o la nota de la propia pagina (decidido el 9/11/2026).
+    """
+    pagina: str
+    jornada: str
+    local: str
+    visita: str
+    goles: tuple[int, int]
+    dice: str
+    debe: str
+    porque: str
+
+
+def _no_termino(pagina: str, jornada: str, local: str, visita: str,
+                goles: tuple[int, int], archivo: str, renglon: str) -> Estado:
+    """Un partido que RSSSF da cortado antes del final y que la pagina publica sin
+    nota. `renglon` es lo que dice RSSSF, tal cual."""
+    return Estado(
+        pagina=pagina, jornada=jornada, local=local, visita=visita, goles=goles,
+        dice="", debe="suspendido",
+        porque=(f"RSSSF lo da cortado antes del final, y la pagina publica el marcador "
+                f"sin ninguna nota: \"{renglon}\" "
+                f"(https://www.rsssf.org/tablesa/{archivo}.html). El marcador es el del "
+                f"momento del corte y no cambia; lo que cambia es que no llego al final."))
+
+
+ESTADOS: tuple[Estado, ...] = (
+    # --- Primera Division 1991-1997: diez que la grilla publica sin nota ---
+    _no_termino("Anexo:Torneo Apertura 1991 (Argentina)", "Fecha 10",
+                "Talleres (C)", "Vélez Sarsfield", (1, 0), "arg92",
+                "Talleres (Cba.) 1-0 Vélez Sarsfield [Suspended in 88'; not continued]"),
+    _no_termino("Anexo:Torneo Clausura 1992 (Argentina)", "Fecha 3",
+                "Newell's Old Boys", "Rosario Central", (1, 0), "arg92",
+                "Newell's Old Boys 1-0 Rosario Central [Suspended in 88'; not continued]"),
+    _no_termino("Anexo:Torneo Apertura 1992 (Argentina)", "Fecha 6",
+                "San Lorenzo", "Lanús", (1, 0), "arg93",
+                "San Lorenzo 1-0 Lanús [at Huracán][Suspended in 79'; not continued]"),
+    _no_termino("Anexo:Torneo Clausura 1995 (Argentina)", "Fecha 19",
+                "Rosario Central", "San Lorenzo", (0, 1), "arg95",
+                "Rosario Central 0-1 San Lorenzo [Suspended in 89'; not continued]"),
+    # Las dos de `arg96` tienen la nota en un renglon aparte, debajo de los goles, y
+    # por eso el lector de RSSSF no las ve como suspendidas: estan aca por la misma
+    # nota leida a mano.
+    _no_termino("Anexo:Torneo Clausura 1996 (Argentina)", "Fecha 5",
+                "Argentinos Juniors", "Huracán", (0, 3), "arg96",
+                "Argentinos Juniors 0 - 3 Huracán (BA) [played at Atlanta] [...] "
+                "[The match was suspended at 89' due to crowd trouble]"),
+    _no_termino("Anexo:Torneo Clausura 1996 (Argentina)", "Fecha 14",
+                "Newell's Old Boys", "Rosario Central", (2, 0), "arg96",
+                "Newell's Old Boys 2 - 0 Rosario Central [played at Rosario Central] "
+                "[...] [Suspended at 64' due to crowd trouble with a penalty awarded to "
+                "Newell's Old Boys]"),
+    _no_termino("Anexo:Torneo Apertura 1996 (Argentina)", "Fecha 5",
+                "Newell's Old Boys", "Banfield", (2, 0), "arg97",
+                "Newell's OB 2-0 Banfield [at Rosario Central][abandoned in 81'; Banfield "
+                "6 players left; not continued]"),
+    _no_termino("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 1",
+                "Gimnasia y Esgrima (LP)", "River Plate", (0, 2), "arg97",
+                "Gimnasia LP 0-2 River Plate [Suspended in 87; not continued]"),
+    _no_termino("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 15",
+                "Colón", "Independiente", (0, 6), "arg97",
+                "Colón 0-6 Independiente [abandoned at 0-6 in 86']"),
+    _no_termino("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 15",
+                "Lanús", "Vélez Sarsfield", (3, 1), "arg97",
+                "Lanús 3-1 Vélez [abandoned at 3-1 in 80']"),
+
+    # --- 2005-2024: nueve, cada uno con su renglon de RSSSF ---
+    _no_termino("Torneo Argentino A 2005-06", "Semifinals - Second leg",
+                "Sportivo Patria", "Villa Mitre", (0, 3), "arg3-int06",
+                "Sportivo Patria 0-3 Villa Mitra [abandoned at 0-3 in 77', score stood]"),
+    _no_termino("Torneo Argentino A 2005-06", "Fecha 4",
+                "Cipolletti", "Guillermo Brown", (1, 2), "arg3-int06",
+                "Cipolletti 1-2 Guillermo Brown [abandoned at 1-2 in 87', score stood]"),
+    _no_termino("Torneo Argentino A 2005-06", "Fecha 5",
+                "Gimnasia y Esgrima (CdU)", "Atlético Candelaria", (2, 1), "arg3-int06",
+                "Gimnasia y Esgrima 2-1 Atlético Candelaria [abandoned at 2-1 in 85', "
+                "score stood]"),
+    _no_termino("Campeonato de Primera B 2010-11 (Argentina)", "Fecha 38",
+                "Deportivo Español", "Sportivo Italiano", (0, 0), "arg2011",
+                "Social Español 0-0 Svo. Italiano [abandoned at 0-0 in 86', result stood]"),
+    _no_termino("Anexo:Torneo Final 2013 (Argentina)", "Fecha 19",
+                "River Plate", "San Martín (SJ)", (3, 1), "arg2013",
+                "River Plate 3-1 San Martín (San Juan) [abandoned at 3-1 in 90+1m; result "
+                "allowed to stand on Jun 28]"),
+    # `arg2015` es el 2014, no el 2015: ver `torneos`.
+    _no_termino("Campeonato de Primera División 2014 (Argentina)", "Fecha 19",
+                "Quilmes", "River Plate", (0, 1), "arg2015",
+                "Quilmes Atlético Club 0-1 Club Atlético River Plate [abd at 85m, score "
+                "stood on Feb 20, Centenario Dr. José Luis Meiszner]"),
+    _no_termino("Campeonato de Primera B 2014 (Argentina)", "Fecha 5",
+                "Platense", "Almagro", (0, 3), "arg2015",
+                "Club Atlético Platense AC 0-3 Club Almagro [abd at 0-3 in 87 m, score "
+                "stood on Sep 12, Ciudad de Vicente López]"),
+    _no_termino("Torneo Federal A 2014", "Fecha 14",
+                "Alianza (CC)", "General Belgrano (SR)", (1, 1), "arg2015",
+                "Club Social y Deportivo Alianza 1-1 A. Civil Club General Belgrano [abd at "
+                "1-1 in 84m, score stood on Nov 13, at El Coloso del Ruca Quimey]. Lo mismo "
+                "dice el Boletin 79/14 del Tribunal del Interior (expediente 2695/14): "
+                "suspendido a los 84' por un corte de luz"),
+    _no_termino("Torneo Federal A 2024", "Fecha 1",
+                "Central Norte (S)", "Sarmiento (LB)", (2, 0), "arg2024",
+                "CA Central Norte 2- 0 CA Sarmiento (La Banda) abandoned at 2-0 in 90m, "
+                "awarded on 26 Jul"),
+
+    # --- Cuatro que la pagina si comenta, y con eso sale otra cosa ---
+    Estado(
+        pagina="Torneo Argentino A 2011-12", jornada="Fecha 20",
+        local="San Martín (T)", visita="Alumni (VM)", goles=(0, 2),
+        dice="", debe="suspendido",
+        porque=(
+            "La unica nota de la fila es una cita titulada 'AFA decide darle por perdido "
+            "0-2 a San Martín de Tucuman frente a Alumni' (eldiario24.com, nota 246935): "
+            "dice que hubo un fallo y no si el partido llego al final, y el build lo "
+            "avisaba sin poder clasificarlo (ver `parser._HABLA_DE_FALLO`). No llego: el "
+            "blog de Jose Carluccio lo da 'Suspendido a los 40', con el marcador 0-2, por "
+            "agresión a Silvestre de Alumni. No continuó ni se modificó el resultado'. "
+            "RSSSF (arg2012) publica el 0-2 sin nota. Es `suspendido` y no `escritorio`: "
+            "el fallo dejo el marcador que habia, y no se jugaron los noventa."),
+    ),
+    Estado(
+        pagina="Campeonato de Primera B 2015 (Argentina)", jornada="Fecha 16",
+        local="Deportivo Riestra", visita="UAI Urquiza", goles=(0, 1),
+        dice="suspendido", debe="",
+        porque=(
+            "La nota de la pagina, 'Partidos suspendidos debido a la muerte del "
+            "futbolista Cristian Gómez, de Atlético Paraná', habla de la fecha "
+            "POSTERGADA antes de empezar, y cuelga del dia en que se jugo, el 10 de "
+            "junio. RSSSF lo da jugado ese dia y sin nota: 'Deportivo Riestra "
+            "Asociación dFBC 0-1 Club Deportivo UAI Urquiza [Guillermo Laza, CABA]' "
+            "(https://www.rsssf.org/tablesa/arg2015a.html). Llego al final."),
+    ),
+    Estado(
+        pagina="Campeonato de Primera C 2014 (Argentina)", jornada="Fecha 2",
+        local="Excursionistas", visita="Juventud Unida", goles=(0, 0),
+        dice="suspendido", debe="",
+        porque=(
+            "La unica nota de la fila es un enlace rotulado 'Suspendido' a Mundo Ascenso "
+            "(noticia 30643, del 15/08/2014: 'Por falta de escenario, fue suspendido'), "
+            "o sea la postergacion antes de empezar. RSSSF lo da jugado el 18 de "
+            "septiembre, que es el dia de la fila, y sin nota: 'Club Atlético "
+            "Excursionistas 0-0 CD y Social Juventud Unida [Ramón Roque Martín]' "
+            "(https://www.rsssf.org/tablesa/arg2015.html, que es el 2014). Llego al final."),
+    ),
+    Estado(
+        pagina="Campeonato de Primera División 2015 (Argentina)", jornada="Fecha 9",
+        local="Arsenal", visita="Newell's Old Boys", goles=(3, 0),
+        dice="suspendido", debe="",
+        porque=(
+            "El 'suspendido' de la nota es el jugador: la AFA le dio el partido a "
+            "Newell's 0-1 'debido a la supuesta mala inclusión del jugador Leandro "
+            "Godoy, que se encontraba suspendido' (Telam, 22/05/2015), y despues lo "
+            "revoco. RSSSF: 'Arsenal Fútbol Club 3-0 Club Atlético Newell's Old Boys "
+            "(orgnl 3-0, awd 0-1 May 22, rvk Jul 23, Julio Humberto Grondona)' "
+            "(https://www.rsssf.org/tablesa/arg2015a.html). Se jugo entero y el 3-0 "
+            "quedo: ni `suspendido` ni `escritorio`."),
+    ),
+)
+
+
+def estados_de(pagina: str) -> set[tuple[str, str]]:
+    """Los (local, visita) de `pagina` cuyo status esta puesto a mano.
+
+    Para la guarda de los fallos sin leer: una fila de la que la pagina dice algo
+    que el parser no clasifica se avisa porque quedaria vacia callada, y si una
+    `Estado` ya la arbitro, ni queda vacia ni esta callada."""
+    return {(e.local, e.visita) for e in ESTADOS if e.pagina == pagina}
+
+
+@dataclass(frozen=True)
 class Neutral:
     """El `neutral` de un partido que el parser no puede leer bien de su pagina.
 
@@ -5673,6 +5862,24 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
                           f"fad/correcciones.py")
             continue
         candidatos[0].estadio = c.debe
+        aplicadas += 1
+
+    # Despues de `MARCADORES`: el marcador ya es el arbitrado, y un `Estado` se
+    # identifica por el que queda publicado.
+    for e in ESTADOS:
+        if e.pagina != pagina:
+            continue
+        candidatos = [p for p in ps
+                      if p.jornada == e.jornada and p.local == e.local
+                      and p.visita == e.visita
+                      and (p.goles_local, p.goles_visita) == e.goles
+                      and p.status == e.dice]
+        if len(candidatos) != 1:
+            avisos.append(f"el status puesto a mano de {e.jornada} ({e.local} vs "
+                          f"{e.visita}) engancha con {len(candidatos)} partidos y no se "
+                          f"aplica: si la pagina ya lo dice, sacalo de fad/correcciones.py")
+            continue
+        candidatos[0].status = e.debe
         aplicadas += 1
 
     for n in NEUTRALES:

@@ -74,6 +74,33 @@ def test_un_alias_no_frena_el_build():
     assert not any("padron" in a.que for a in avisos)
 
 
+def _con_un_fallo_sin_leer():
+    """Una fila cuya nota habla de un fallo y no dice si se llego al final, con los
+    nombres como los escribe la pagina, que no son los canonicos."""
+    return tabla(("Newell`s", "Gimnasia")).replace(
+        "|2 - 1\n", "|2 - 1<ref>El Tribunal de Disciplina resolvió el caso.</ref>\n", 1)
+
+
+def test_un_status_puesto_a_mano_calla_el_aviso_del_fallo_sin_leer(monkeypatch):
+    """El aviso dice que la fila queda vacia callada. Con su `Estado`, que esta en
+    canonico, ni queda vacia ni callada. Sin el `Estado`, el aviso sigue."""
+    from fad import correcciones
+    from fad.correcciones import Estado
+
+    def fallos(avisos):
+        return [a for a in avisos if "un fallo que no se supo leer" in a.que]
+
+    _, avisos = build.procesar(_con_un_fallo_sin_leer(), T)
+    assert len(fallos(avisos)) == 1
+    monkeypatch.setattr(correcciones, "ESTADOS", (Estado(
+        pagina=T.pagina, jornada="Fecha 1", local="Newell's Old Boys",
+        visita="Gimnasia y Esgrima (LP)", goles=(2, 1), dice="", debe="suspendido",
+        porque="de prueba"),))
+    ps, avisos = build.procesar(_con_un_fallo_sin_leer(), T)
+    assert fallos(avisos) == [], [str(a) for a in fallos(avisos)]
+    assert [p.status for p in ps] == ["suspendido"]
+
+
 # --------------------------------------------------------------------------
 # la pagina se lee sin comentarios
 # --------------------------------------------------------------------------

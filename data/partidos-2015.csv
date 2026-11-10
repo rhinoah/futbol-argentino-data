@@ -520,7 +520,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-04-12,21:30,Argentinos Juniors,River Plate,1,2,,,Primera Division,2015,zonas,,Fecha 9,Diego Armando Maradona,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina),
 2015-04-13,15:00,Estudiantes (BA),Atlanta,2,2,,,Primera B,2015,zonas,,Fecha 10,Ciudad de Caseros,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina),
 2015-04-13,15:30,Deportivo Riestra,Comunicaciones,1,2,,,Primera B,2015,zonas,,Fecha 10,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina),
-2015-04-13,16:00,Arsenal,Newell's Old Boys,3,0,,,Primera Division,2015,zonas,,Fecha 9,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina),suspendido
+2015-04-13,16:00,Arsenal,Newell's Old Boys,3,0,,,Primera Division,2015,zonas,,Fecha 9,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina),
 2015-04-13,18:00,All Boys,Gimnasia y Esgrima (M),2,0,,,Primera Nacional,2015,zonas,,Fecha 10,Islas Malvinas,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015,
 2015-04-13,20:10,Tigre,Estudiantes (LP),2,0,,,Primera Division,2015,zonas,,Fecha 9,Monumental de Victoria,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina),
 2015-04-13,20:30,Ramón Santamarina,Instituto,1,0,,,Primera Nacional,2015,zonas,,Fecha 10,Municipal General San Martín,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_Nacional_2015,
@@ -1042,7 +1042,7 @@ date,time,home_team,away_team,home_score,away_score,home_pens,away_pens,tourname
 2015-06-09,21:05,Defensores de Belgrano,Deportivo Merlo,1,1,,,Primera B,2015,zonas,,Fecha 18,Juan Pasquale,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina),
 2015-06-10,15:00,Defensores Unidos,Cañuelas,3,0,,,Primera C,2015,zonas,,Fecha 14,Gigante de Villa Fox,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina),
 2015-06-10,15:00,Deportivo Laferrere,Juventud Unida,1,0,,,Primera C,2015,zonas,,Fecha 14,Claudio Chiqui Tapia,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina),
-2015-06-10,15:00,Deportivo Riestra,UAI Urquiza,0,1,,,Primera B,2015,zonas,,Fecha 16,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina),suspendido
+2015-06-10,15:00,Deportivo Riestra,UAI Urquiza,0,1,,,Primera B,2015,zonas,,Fecha 16,Guillermo Laza,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina),
 2015-06-10,15:00,San Martín (B),Ferrocarril Midland,1,0,,,Primera C,2015,zonas,,Fecha 14,Francisco Boga,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2015_(Argentina),
 2015-06-10,15:15,Deportivo Morón,Deportivo Español,3,0,,,Primera B,2015,zonas,,Fecha 16,Nuevo Francisco Urbano,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_B_2015_(Argentina),
 2015-06-11,,San Martín (SJ),Estudiantes (BA),1,1,7,6,Copa Argentina,2015,eliminacion,,Treintaidosavos,San Juan del Bicentenario,true,https://es.wikipedia.org/wiki/Copa_Argentina_2014-15,

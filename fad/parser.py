@@ -1086,7 +1086,7 @@ def sin_clasificar(fila: str) -> bool:
     return bool(_HABLA_DE_FALLO.search(texto)) and not _status_de_la_nota(texto)
 
 
-def fallos_sin_leer(texto: str) -> list[str]:
+def fallos_sin_leer(texto: str, puesto_a_mano=lambda local, visita: False) -> list[str]:
     """Las filas que hablan de un fallo y a las que no se les supo poner status.
 
     Es la guarda que sostiene el default. `status` vacio quiere decir "la pagina
@@ -1094,12 +1094,18 @@ def fallos_sin_leer(texto: str) -> list[str]:
     supe leer", las 39 mil filas vacias dejarian de ser una ausencia y pasarian a
     ser una afirmacion sin verificar. Hoy son cero, y este aviso existe para que
     se note el dia que Wikipedia escriba el veredicto de otra forma.
+
+    `puesto_a_mano(local, visita)`, con los nombres como los escribe la pagina, dice
+    si la fila ya tiene su status arbitrado en `correcciones.ESTADOS`. Esa no se
+    avisa: el aviso dice que la fila queda vacia callada, y ya no queda.
     """
     fuera = []
     for bloque in re.finditer(r"\{\|.*?\n\|\}", texto, re.S):
         for fila in re.split(r"\n\|-", bloque.group(0)):
             celdas = [_celda(c)[1] for c in _partir(fila)]
             if len(celdas) < 3 or not _marcador(celdas[1]) or not sin_clasificar(fila):
+                continue
+            if puesto_a_mano(celdas[0], celdas[2]):
                 continue
             fuera.append(_FALLO_SIN_LEER.format(celdas[0], celdas[2], celdas[1]))
     # Y las `{{Partido}}`, desde que su lector tambien escribe `status`: la guarda
@@ -1108,7 +1114,8 @@ def fallos_sin_leer(texto: str) -> list[str]:
     for _, crudo in _plantillas_partido(texto):
         visible = _COMENTARIO.sub("", crudo)
         dice = {k.strip().lower(): limpiar(v) for k, v in _parametros(visible, 0, True)}
-        if _marcador(dice.get("resultado", "")) and sin_clasificar(visible):
+        if (_marcador(dice.get("resultado", "")) and sin_clasificar(visible)
+                and not puesto_a_mano(dice.get("local", ""), dice.get("visita", ""))):
             fuera.append(_FALLO_SIN_LEER.format(dice.get("local", ""), dice.get("visita", ""),
                                                 dice.get("resultado", "")))
     return list(dict.fromkeys(fuera))

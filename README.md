@@ -340,8 +340,8 @@ un marcador **indistinguible de uno jugado en cancha**.
 
 | valor | qué afirma | filas |
 |---|---|---:|
-| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 50 252 |
-| `suspendido` | la fuente dice que el partido **no llegó al final** | 82 |
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 50 257 |
+| `suspendido` | la fuente dice que el partido **no llegó al final** | 100 |
 | `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 16 |
 | `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Cinco lo dicen en una nota y conservan el día para el que estaban programados, como el `Instituto 0-1 San Lorenzo` de la 1987-88; los seis de `sin-fecha/` no tienen día | 6 |
 
@@ -363,7 +363,20 @@ keyword. Así que el eje es el único que la fuente marca siempre y sin ambigüe
 nunca puede pasar a significar "dijo algo que no supe leer" — si eso ocurriera,
 las casi 50 mil filas vacías dejarían de ser una ausencia y pasarían a ser una
 afirmación sin verificar. Por eso una fila que menciona un fallo y no se puede
-clasificar **no queda callada**: emite un aviso. Hoy son cero.
+clasificar **no queda callada**: emite un aviso, salvo que su `status` ya esté puesto a
+mano con un testigo. Hoy son cero.
+
+**Y cuando la página no lo dice, va a mano.** Hay partidos que no llegaron al final y
+cuya página publica el marcador sin ninguna nota, y partidos jugados enteros cuya nota
+dice «suspendido» por otra cosa: la fecha postergada antes de empezar o el jugador que
+estaba suspendido. Ninguna regla los distingue, así que se declaran uno por uno en
+`correcciones.ESTADOS`, cada uno con su testigo: el renglón de RSSSF con su dirección o la
+nota de la propia página. Son **23**. Veinte pasan a `suspendido`: diez de la Primera de
+1991 a 1997, nueve de 2005 a 2024 que RSSSF da cortados con el marcador que quedó
+(`[Suspended in 88'; not continued]`) y el `San Martín (T) 0-2 Alumni (VM)` del Argentino
+A 2011-12. Tres quedan vacíos porque se jugaron enteros, como el `Arsenal 3-0 Newell's`
+de 2015: la AFA se lo dio a Newell's por un jugador suspendido y después revocó el fallo.
+El marcador no cambia en ninguno.
 
 ### Los que la columna no arregla
 
@@ -3304,7 +3317,11 @@ el test validaba los valores pero nadie comprobaba que el status **llegara a la 
 el campo se podía declarar, justificar y no escribirse nunca. El segundo guardaba una
 rama que ningún dato recorre —un arbitraje que fije sólo el status sin tocar el
 marcador—, así que la rama se sacó: el test que la prohibe explica por qué, y si alguna
-vez hace falta se agrega junto con el primer caso que la use.
+vez hace falta se agrega junto con el primer caso que la use. Los casos llegaron, 23, y
+no volvieron por esa rama: van en una tabla aparte, `correcciones.ESTADOS`, que puede
+también **vaciar** un `status` —en un `Marcador`, vacío quiere decir «no lo toques»— y
+que se identifica por el que la página publica, para dejar de enganchar si la página lo
+arregla.
 
 ### Lo que la nota decía y el `status` no leía
 
@@ -3328,7 +3345,7 @@ lector no la leía por la forma en que estaba escrita.
   Federal A 2016-17 no tiene más que un enlace rotulado «Sol de América le ganó los
   puntos», y tiene razón. El precio es el `Excursionistas 0-0 Juventud Unida` de la
   Primera C 2014, cuyo único enlace dice «Suspendido» de un partido que se postergó la
-  víspera: sigue mal.
+  víspera: lo arregla a mano una declaración, con RSSSF de testigo.
 - **Cinco no empezaron**, y ahora son `no disputado`: un club que no se presentó o que
   no había médico, en la frase de la suspensión y sin minutos. RSSSF da los cuatro que
   trae como `not played` o `dns`.
@@ -3339,7 +3356,9 @@ lector no la leía por la forma en que estaba escrita.
 (VM)` del Argentino A 2011-12 es una cita titulada «AFA decide darle por perdido 0-2».
 Leída como fallo saldría `escritorio`, que afirma que se jugaron los noventa, y no se
 jugaron: el blog de José Carluccio lo da suspendido a los 40'. Así que esa forma se lee
-sólo para avisar, y el build dice que la página habló y no se supo qué.
+sólo para avisar, y el build dice que la página habló y no se supo qué. El `suspendido`
+de esa fila lo pone una declaración a mano con el blog de testigo, y con ella el aviso se
+calla.
 
 Medido sobre las 170 páginas: cambia el `status` de **18 filas**. Tres de ellas también
 estaban en el día del programado, y las mueve la fecha: `Deportivo Español 1-0
@@ -3353,8 +3372,9 @@ Fuera de esas 18, las preguntas del `status` contestan distinto en tres filas m�
 tres salen igual: dos porque la nota cuenta después que se jugó —`Juventud Unida 0-1
 Central Córdoba (R)` (Primera C 2015) y `Sportivo Peñarol (C) 1-1 Ferro Carril Oeste
 (GP)` (Federal A 2023)— y una porque la suspensión manda sobre el fallo —`Independiente
-Rivadavia 0-1 Atlanta` (Primera Nacional 2019-20)—. Cuatro siguen mal y no las arregla
-ninguna regla: están en [`TODO.md`](TODO.md).
+Rivadavia 0-1 Atlanta` (Primera Nacional 2019-20)—. Cuatro no las arregla ninguna
+regla, y van a mano con las otras diecinueve (ver «Y cuando la página no lo dice, va a
+mano», arriba).
 
 **Lo que fija las formas.** Los cuatro regex del status aceptaban alternativas que
 ningún test pedía: sacándoles una por vez, de 38 mutantes sobrevivían 32. Ahora se
@@ -4196,11 +4216,11 @@ de esa página.
 
 ## Tests
 
-1646 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1660 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 922 maneras —veintitrés de ellas rompen el CSV publicado— y exige que la suite
+propósito de 956 maneras —veinticinco de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

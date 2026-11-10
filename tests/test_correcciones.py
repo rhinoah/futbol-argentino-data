@@ -11,6 +11,8 @@ from __future__ import annotations
 
 from dataclasses import replace
 
+import pytest
+
 from fad import correcciones
 from fad.correcciones import Correccion
 from fad.parser import Partido
@@ -355,6 +357,104 @@ def test_las_canchas_corregidas_estan_justificadas():
         assert len(c.porque) > 80, f"{c.jornada} {c.local}: la evidencia es muy flaca"
         assert "participantes" in c.porque, "hay que nombrar al testigo"
         assert c.dice != c.debe
+
+
+# --------------------------------------------------------------------------
+# Estado: el status puesto a mano, con el marcador intacto
+# --------------------------------------------------------------------------
+from fad.correcciones import Estado  # noqa: E402
+
+UN_ESTADO = Estado(pagina="Una Pagina", jornada="Fecha 12", local="All Boys",
+                   visita="Belgrano", goles=(2, 1), dice="", debe="suspendido",
+                   porque="de prueba")
+
+
+def _con_estado(monkeypatch, *es):
+    monkeypatch.setattr(correcciones, "ESTADOS", es)
+
+
+def _jugado(status="", gl=2, gv=1, jornada="Fecha 12"):
+    p = partido("All Boys", "Belgrano", gl, gv, jornada=jornada)
+    p.status = status
+    return p
+
+
+def test_pone_el_status_y_no_toca_el_marcador(monkeypatch):
+    _con_estado(monkeypatch, UN_ESTADO)
+    ps = [_jugado()]
+    assert correcciones.aplicar(ps, "Una Pagina") == (1, [])
+    assert (ps[0].status, ps[0].goles_local, ps[0].goles_visita) == ("suspendido", 2, 1)
+
+
+def test_tambien_lo_puede_vaciar(monkeypatch):
+    """Un `suspendido` que era la fecha postergada antes de empezar: el partido se
+    jugo entero. Vacio es un valor que se declara, no "no lo toques"."""
+    _con_estado(monkeypatch, replace(UN_ESTADO, dice="suspendido", debe=""))
+    ps = [_jugado("suspendido")]
+    assert correcciones.aplicar(ps, "Una Pagina") == (1, [])
+    assert ps[0].status == ""
+
+
+@pytest.mark.parametrize("fila, por", [
+    (dict(status="suspendido"), "la pagina ya dice el status"),
+    (dict(status="escritorio"), "la pagina dice otro status"),
+    (dict(gl=1, gv=1), "otro marcador"),
+    (dict(jornada="Fecha 13"), "otra jornada"),
+])
+def test_no_engancha_si_la_fila_no_es_la_que_dice(monkeypatch, fila, por):
+    """`dice` y `goles` son parte de la identificacion: si la pagina cambio, la
+    declaracion no se aplica a ciegas y el build pide sacarla."""
+    _con_estado(monkeypatch, UN_ESTADO)
+    ps = [_jugado(**fila)]
+    antes = ps[0].status
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 0 and ps[0].status == antes, por
+    assert len(avisos) == 1 and "engancha con 0" in avisos[0], por
+
+
+def test_no_toca_el_status_de_otra_pagina(monkeypatch):
+    _con_estado(monkeypatch, UN_ESTADO)
+    ps = [_jugado()]
+    assert correcciones.aplicar(ps, "Otra Pagina") == (0, [])
+    assert ps[0].status == ""
+
+
+def test_va_despues_del_marcador_arbitrado(monkeypatch):
+    """Se identifica por el marcador que queda publicado: si un `Marcador` lo
+    cambia, el `Estado` engancha con el nuevo."""
+    _con_marcador(monkeypatch, Marcador(pagina="Una Pagina", jornada="Fecha 12",
+                                        local="All Boys", visita="Belgrano", dice=(1, 1),
+                                        debe=(2, 1), porque="de prueba"))
+    _con_estado(monkeypatch, UN_ESTADO)
+    ps = [_jugado(gl=1, gv=1)]
+    assert correcciones.aplicar(ps, "Una Pagina") == (2, [])
+    assert ps[0].status == "suspendido"
+
+
+def test_estados_de_dice_que_filas_de_la_pagina_estan_puestas(monkeypatch):
+    _con_estado(monkeypatch, UN_ESTADO, replace(UN_ESTADO, pagina="Otra Pagina",
+                                                local="Racing Club"))
+    assert correcciones.estados_de("Una Pagina") == {("All Boys", "Belgrano")}
+
+
+def test_los_estados_puestos_a_mano_estan_justificados():
+    """La condicion decidida: un testigo obligatorio, el renglon de RSSSF con su
+    direccion o la nota de la pagina, y un status del esquema distinto del que
+    sale. Ninguno toca el marcador, que ni es campo de la declaracion."""
+    from fad import equipos
+    assert correcciones.ESTADOS, "nadie lo usa: se perdio el mecanismo"
+    vistos = set()
+    for e in correcciones.ESTADOS:
+        quien = f"{e.pagina} {e.jornada} {e.local}"
+        assert len(e.porque) > 80, f"{quien}: la evidencia es muy flaca"
+        assert "rsssf.org" in e.porque or "nota" in e.porque, f"{quien}: falta el testigo"
+        assert e.debe in ("", "suspendido", "escritorio", "no disputado"), quien
+        assert e.dice in ("", "suspendido", "escritorio", "no disputado"), quien
+        assert e.dice != e.debe, f"{quien}: no cambia nada"
+        for n in (e.local, e.visita):
+            assert equipos.buscar(n) is not None, f"{n!r} no esta en el padron"
+        assert (e.pagina, e.jornada, e.local, e.visita) not in vistos, f"{quien}: repetido"
+        vistos.add((e.pagina, e.jornada, e.local, e.visita))
 
 
 # --------------------------------------------------------------------------

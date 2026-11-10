@@ -24,16 +24,20 @@ _ARCHIVO_DE_RSSSF = re.compile(r"rsssf\.org/tablesa/([\w-]+)\.html")
 
 
 def _archivos_de_rsssf_que_se_usan() -> set[str]:
-    """Los del catalogo y los que cita a mano una fecha, corregida o puesta.
+    """Los del catalogo, los que cita a mano una fecha, corregida o puesta, y los que
+    son testigo de un `status` puesto a mano.
 
-    Son dos listas a mano y no una: `correcciones.DIAS` pisa un dia que estaba mal y
-    `citadas.FECHAS` le pone uno a la fila que no lo tenia. Las dos escriben la URL
-    del archivo en el `source` de la fila, asi que las dos cuentan."""
+    Son tres listas a mano y no una: `correcciones.DIAS` pisa un dia que estaba mal y
+    `citadas.FECHAS` le pone uno a la fila que no lo tenia, y las dos escriben la URL
+    del archivo en el `source` de la fila. `correcciones.ESTADOS` no la escribe ahi
+    --el `source` dice de donde salieron el partido y su dia--, pero el `status` de la
+    fila es de ese archivo igual, y su URL va en el `porque`."""
     del_catalogo = {archivo for archivo, _ in rsssf.FUENTES.values()}
     fuentes = [d.fuente or "" for d in correcciones.DIAS]
     fuentes += [c.fuente for citas in citadas.FECHAS.values() for c in citas]
     citados = {m.group(1) for f in fuentes for m in [_ARCHIVO_DE_RSSSF.search(f)] if m}
-    return del_catalogo | citados
+    testigos = {a for e in correcciones.ESTADOS for a in _ARCHIVO_DE_RSSSF.findall(e.porque)}
+    return del_catalogo | citados | testigos
 
 
 def _sitio(url: str) -> str:
@@ -42,11 +46,12 @@ def _sitio(url: str) -> str:
 
 def test_cada_archivo_de_rsssf_que_se_usa_tiene_su_reconocimiento():
     """El testigo es el catalogo: `rsssf.FUENTES` dice de que archivo sale cada
-    torneo, las `Dia` de que archivo salio cada fecha corregida a mano y las `Cita`
-    de cual salio cada fecha puesta a mano. Son 28, y los 28 tienen que tener su
-    renglon, con la URL que lleva a su autor."""
+    torneo, las `Dia` de que archivo salio cada fecha corregida a mano, las `Cita`
+    de cual salio cada fecha puesta a mano y las `Estado` de cual salio cada status
+    puesto a mano. Son 29, y los 29 tienen que tener su renglon, con la URL que lleva
+    a su autor."""
     usados = _archivos_de_rsssf_que_se_usan()
-    assert len(usados) >= 28, "si son menos, este test dejo de mirar el catalogo"
+    assert len(usados) >= 29, "si son menos, este test dejo de mirar el catalogo"
     sin_renglon = sorted(a for a in usados
                          if f"https://www.rsssf.org/tablesa/{a}.html" not in LICENCIA)
     assert not sin_renglon, (

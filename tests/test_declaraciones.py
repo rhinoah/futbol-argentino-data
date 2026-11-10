@@ -192,6 +192,15 @@ def test_cada_cancha_corregida_esta_publicada(de):
         assert [f["venue"] for f in fs] == [c.debe], (c.pagina, c.jornada, c.local)
 
 
+def test_cada_status_puesto_a_mano_esta_publicado(de):
+    for e in correcciones.ESTADOS:
+        if _en_curso(e.pagina):
+            continue
+        fs = [f for f in _del_partido(de, e.pagina, e.jornada, e.local, e.visita)
+              if _goles(f) == e.goles]
+        assert [f["status"] for f in fs] == [e.debe], (e.pagina, e.jornada, e.local)
+
+
 def test_cada_reemplazo_esta_publicado(de):
     vistas = 0
     for r in correcciones.REEMPLAZOS:

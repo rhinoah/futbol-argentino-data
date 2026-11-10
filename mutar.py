@@ -3753,6 +3753,171 @@ MUTANTES += [
      '        fecha="2011-06-26", local="San Martín (T)", visita="Desamparados",\n',
      "    *(lambda *a, **k: ())(\n"
      '        fecha="2011-06-26", local="San Martín (T)", visita="Desamparados",\n'),
+    # --- ESTADOS: el status puesto a mano, y la guarda que calla esas filas ---
+    ("fad/correcciones.py", "un `Estado` engancha aunque la pagina ya diga otro status",
+     '                      and (p.goles_local, p.goles_visita) == e.goles\n'
+     '                      and p.status == e.dice]\n',
+     '                      and (p.goles_local, p.goles_visita) == e.goles]\n'),
+    ("fad/correcciones.py", "un `Estado` engancha con otro marcador",
+     '                      and p.visita == e.visita\n'
+     '                      and (p.goles_local, p.goles_visita) == e.goles\n'
+     '                      and p.status == e.dice]\n',
+     '                      and p.visita == e.visita\n'
+     '                      and p.status == e.dice]\n'),
+    ("fad/correcciones.py", "un `Estado` engancha en otra jornada",
+     '                      if p.jornada == e.jornada and p.local == e.local\n'
+     '                      and p.visita == e.visita\n'
+     '                      and (p.goles_local, p.goles_visita) == e.goles\n',
+     '                      if p.local == e.local\n'
+     '                      and p.visita == e.visita\n'
+     '                      and (p.goles_local, p.goles_visita) == e.goles\n'),
+    ("fad/correcciones.py", "un `Estado` se aplica a otra pagina",
+     '    for e in ESTADOS:\n'
+     '        if e.pagina != pagina:\n'
+     '            continue\n',
+     '    for e in ESTADOS:\n'
+     '        if False:\n'
+     '            continue\n'),
+    ("fad/correcciones.py", "un `Estado` no escribe el status",
+     '        candidatos[0].status = e.debe\n',
+     '        pass\n'),
+    ("fad/correcciones.py", "`estados_de` no filtra por pagina",
+     '    return {(e.local, e.visita) for e in ESTADOS if e.pagina == pagina}\n',
+     '    return {(e.local, e.visita) for e in ESTADOS}\n'),
+    ("fad/parser.py", "la guarda de los fallos sin leer no calla la fila puesta a mano",
+     '            if puesto_a_mano(celdas[0], celdas[2]):\n',
+     '            if False:\n'),
+    ("fad/parser.py", "la guarda de las plantillas no calla la fila puesta a mano",
+     '        if (_marcador(dice.get("resultado", "")) and sin_clasificar(visible)\n'
+     '                and not puesto_a_mano(dice.get("local", ""), dice.get("visita", ""))):\n',
+     '        if (_marcador(dice.get("resultado", "")) and sin_clasificar(visible)):\n'),
+    ("build.py", "el build no canoniza los nombres antes de buscar el status puesto a mano",
+     '                   texto, lambda local, visita: (equipos.canonizar(local),\n'
+     '                                                 equipos.canonizar(visita)) in a_mano)]\n',
+     '                   texto, lambda local, visita: (local, visita) in a_mano)]\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Talleres (C)-Velez Sarsfield, Anexo:Torneo Apertura 1991 (Argentina)",
+     '    _no_termino("Anexo:Torneo Apertura 1991 (Argentina)", "Fecha 10",\n'
+     '                "Talleres (C)", "Vélez Sarsfield", (1, 0), "arg92",\n',
+     '    *(lambda *a, **k: ())("Anexo:Torneo Apertura 1991 (Argentina)", "Fecha 10",\n'
+     '                "Talleres (C)", "Vélez Sarsfield", (1, 0), "arg92",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Newell's Old Boys-Rosario Central, Anexo:Torneo Clausura 1992 (Argentina)",
+     '    _no_termino("Anexo:Torneo Clausura 1992 (Argentina)", "Fecha 3",\n'
+     "                \"Newell's Old Boys\", \"Rosario Central\", (1, 0), \"arg92\",\n",
+     '    *(lambda *a, **k: ())("Anexo:Torneo Clausura 1992 (Argentina)", "Fecha 3",\n'
+     "                \"Newell's Old Boys\", \"Rosario Central\", (1, 0), \"arg92\",\n"),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de San Lorenzo-Lanus, Anexo:Torneo Apertura 1992 (Argentina)",
+     '    _no_termino("Anexo:Torneo Apertura 1992 (Argentina)", "Fecha 6",\n'
+     '                "San Lorenzo", "Lanús", (1, 0), "arg93",\n',
+     '    *(lambda *a, **k: ())("Anexo:Torneo Apertura 1992 (Argentina)", "Fecha 6",\n'
+     '                "San Lorenzo", "Lanús", (1, 0), "arg93",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Rosario Central-San Lorenzo, Anexo:Torneo Clausura 1995 (Argentina)",
+     '    _no_termino("Anexo:Torneo Clausura 1995 (Argentina)", "Fecha 19",\n'
+     '                "Rosario Central", "San Lorenzo", (0, 1), "arg95",\n',
+     '    *(lambda *a, **k: ())("Anexo:Torneo Clausura 1995 (Argentina)", "Fecha 19",\n'
+     '                "Rosario Central", "San Lorenzo", (0, 1), "arg95",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Argentinos Juniors-Huracan, Anexo:Torneo Clausura 1996 (Argentina)",
+     '    _no_termino("Anexo:Torneo Clausura 1996 (Argentina)", "Fecha 5",\n'
+     '                "Argentinos Juniors", "Huracán", (0, 3), "arg96",\n',
+     '    *(lambda *a, **k: ())("Anexo:Torneo Clausura 1996 (Argentina)", "Fecha 5",\n'
+     '                "Argentinos Juniors", "Huracán", (0, 3), "arg96",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Newell's Old Boys-Rosario Central, Anexo:Torneo Clausura 1996 (Argentina)",
+     '    _no_termino("Anexo:Torneo Clausura 1996 (Argentina)", "Fecha 14",\n'
+     "                \"Newell's Old Boys\", \"Rosario Central\", (2, 0), \"arg96\",\n",
+     '    *(lambda *a, **k: ())("Anexo:Torneo Clausura 1996 (Argentina)", "Fecha 14",\n'
+     "                \"Newell's Old Boys\", \"Rosario Central\", (2, 0), \"arg96\",\n"),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Newell's Old Boys-Banfield, Anexo:Torneo Apertura 1996 (Argentina)",
+     '    _no_termino("Anexo:Torneo Apertura 1996 (Argentina)", "Fecha 5",\n'
+     "                \"Newell's Old Boys\", \"Banfield\", (2, 0), \"arg97\",\n",
+     '    *(lambda *a, **k: ())("Anexo:Torneo Apertura 1996 (Argentina)", "Fecha 5",\n'
+     "                \"Newell's Old Boys\", \"Banfield\", (2, 0), \"arg97\",\n"),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Gimnasia y Esgrima (LP)-River Plate, Anexo:Torneo Clausura 1997 (Argentina)",
+     '    _no_termino("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 1",\n'
+     '                "Gimnasia y Esgrima (LP)", "River Plate", (0, 2), "arg97",\n',
+     '    *(lambda *a, **k: ())("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 1",\n'
+     '                "Gimnasia y Esgrima (LP)", "River Plate", (0, 2), "arg97",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Colon-Independiente, Anexo:Torneo Clausura 1997 (Argentina)",
+     '    _no_termino("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 15",\n'
+     '                "Colón", "Independiente", (0, 6), "arg97",\n',
+     '    *(lambda *a, **k: ())("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 15",\n'
+     '                "Colón", "Independiente", (0, 6), "arg97",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Lanus-Velez Sarsfield, Anexo:Torneo Clausura 1997 (Argentina)",
+     '    _no_termino("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 15",\n'
+     '                "Lanús", "Vélez Sarsfield", (3, 1), "arg97",\n',
+     '    *(lambda *a, **k: ())("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 15",\n'
+     '                "Lanús", "Vélez Sarsfield", (3, 1), "arg97",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Sportivo Patria-Villa Mitre, Torneo Argentino A 2005-06",
+     '    _no_termino("Torneo Argentino A 2005-06", "Semifinals - Second leg",\n'
+     '                "Sportivo Patria", "Villa Mitre", (0, 3), "arg3-int06",\n',
+     '    *(lambda *a, **k: ())("Torneo Argentino A 2005-06", "Semifinals - Second leg",\n'
+     '                "Sportivo Patria", "Villa Mitre", (0, 3), "arg3-int06",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Cipolletti-Guillermo Brown, Torneo Argentino A 2005-06",
+     '    _no_termino("Torneo Argentino A 2005-06", "Fecha 4",\n'
+     '                "Cipolletti", "Guillermo Brown", (1, 2), "arg3-int06",\n',
+     '    *(lambda *a, **k: ())("Torneo Argentino A 2005-06", "Fecha 4",\n'
+     '                "Cipolletti", "Guillermo Brown", (1, 2), "arg3-int06",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Gimnasia y Esgrima (CdU)-Atletico Candelaria, Torneo Argentino A 2005-06",
+     '    _no_termino("Torneo Argentino A 2005-06", "Fecha 5",\n'
+     '                "Gimnasia y Esgrima (CdU)", "Atlético Candelaria", (2, 1), "arg3-int06",\n',
+     '    *(lambda *a, **k: ())("Torneo Argentino A 2005-06", "Fecha 5",\n'
+     '                "Gimnasia y Esgrima (CdU)", "Atlético Candelaria", (2, 1), "arg3-int06",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Deportivo Espanol-Sportivo Italiano, Campeonato de Primera B 2010-11 (Argentina)",
+     '    _no_termino("Campeonato de Primera B 2010-11 (Argentina)", "Fecha 38",\n'
+     '                "Deportivo Español", "Sportivo Italiano", (0, 0), "arg2011",\n',
+     '    *(lambda *a, **k: ())("Campeonato de Primera B 2010-11 (Argentina)", "Fecha 38",\n'
+     '                "Deportivo Español", "Sportivo Italiano", (0, 0), "arg2011",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de River Plate-San Martin (SJ), Anexo:Torneo Final 2013 (Argentina)",
+     '    _no_termino("Anexo:Torneo Final 2013 (Argentina)", "Fecha 19",\n'
+     '                "River Plate", "San Martín (SJ)", (3, 1), "arg2013",\n',
+     '    *(lambda *a, **k: ())("Anexo:Torneo Final 2013 (Argentina)", "Fecha 19",\n'
+     '                "River Plate", "San Martín (SJ)", (3, 1), "arg2013",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Quilmes-River Plate, Campeonato de Primera Division 2014 (Argentina)",
+     '    _no_termino("Campeonato de Primera División 2014 (Argentina)", "Fecha 19",\n'
+     '                "Quilmes", "River Plate", (0, 1), "arg2015",\n',
+     '    *(lambda *a, **k: ())("Campeonato de Primera División 2014 (Argentina)", "Fecha 19",\n'
+     '                "Quilmes", "River Plate", (0, 1), "arg2015",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Platense-Almagro, Campeonato de Primera B 2014 (Argentina)",
+     '    _no_termino("Campeonato de Primera B 2014 (Argentina)", "Fecha 5",\n'
+     '                "Platense", "Almagro", (0, 3), "arg2015",\n',
+     '    *(lambda *a, **k: ())("Campeonato de Primera B 2014 (Argentina)", "Fecha 5",\n'
+     '                "Platense", "Almagro", (0, 3), "arg2015",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Alianza (CC)-General Belgrano (SR), Torneo Federal A 2014",
+     '    _no_termino("Torneo Federal A 2014", "Fecha 14",\n'
+     '                "Alianza (CC)", "General Belgrano (SR)", (1, 1), "arg2015",\n',
+     '    *(lambda *a, **k: ())("Torneo Federal A 2014", "Fecha 14",\n'
+     '                "Alianza (CC)", "General Belgrano (SR)", (1, 1), "arg2015",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Central Norte (S)-Sarmiento (LB), Torneo Federal A 2024",
+     '    _no_termino("Torneo Federal A 2024", "Fecha 1",\n'
+     '                "Central Norte (S)", "Sarmiento (LB)", (2, 0), "arg2024",\n',
+     '    *(lambda *a, **k: ())("Torneo Federal A 2024", "Fecha 1",\n'
+     '                "Central Norte (S)", "Sarmiento (LB)", (2, 0), "arg2024",\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de San Martin (T)-Alumni (VM), Torneo Argentino A 2011-12",
+     '    Estado(\n'
+     '        pagina="Torneo Argentino A 2011-12", jornada="Fecha 20",\n'
+     '        local="San Martín (T)", visita="Alumni (VM)", goles=(0, 2),\n',
+     '    *(lambda *a, **k: ())(\n'
+     '        pagina="Torneo Argentino A 2011-12", jornada="Fecha 20",\n'
+     '        local="San Martín (T)", visita="Alumni (VM)", goles=(0, 2),\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Deportivo Riestra-UAI Urquiza, Campeonato de Primera B 2015 (Argentina)",
+     '    Estado(\n'
+     '        pagina="Campeonato de Primera B 2015 (Argentina)", jornada="Fecha 16",\n'
+     '        local="Deportivo Riestra", visita="UAI Urquiza", goles=(0, 1),\n',
+     '    *(lambda *a, **k: ())(\n'
+     '        pagina="Campeonato de Primera B 2015 (Argentina)", jornada="Fecha 16",\n'
+     '        local="Deportivo Riestra", visita="UAI Urquiza", goles=(0, 1),\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Excursionistas-Juventud Unida, Campeonato de Primera C 2014 (Argentina)",
+     '    Estado(\n'
+     '        pagina="Campeonato de Primera C 2014 (Argentina)", jornada="Fecha 2",\n'
+     '        local="Excursionistas", visita="Juventud Unida", goles=(0, 0),\n',
+     '    *(lambda *a, **k: ())(\n'
+     '        pagina="Campeonato de Primera C 2014 (Argentina)", jornada="Fecha 2",\n'
+     '        local="Excursionistas", visita="Juventud Unida", goles=(0, 0),\n'),
+    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Arsenal-Newell's Old Boys, Campeonato de Primera Division 2015 (Argentina)",
+     '    Estado(\n'
+     '        pagina="Campeonato de Primera División 2015 (Argentina)", jornada="Fecha 9",\n'
+     "        local=\"Arsenal\", visita=\"Newell's Old Boys\", goles=(3, 0),\n",
+     '    *(lambda *a, **k: ())(\n'
+     '        pagina="Campeonato de Primera División 2015 (Argentina)", jornada="Fecha 9",\n'
+     "        local=\"Arsenal\", visita=\"Newell's Old Boys\", goles=(3, 0),\n"),
     ("fad/correcciones.py", "sacar de `NEUTRALES` el neutral Huracan-Platense, Copa de la Liga 2023",
      '    _CLP_2023("2023-12-02", "Huracán", "Platense", 1, 1),\n',
      '    *(lambda *a, **k: ())("2023-12-02", "Huracán", "Platense", 1, 1),\n'),
@@ -3817,6 +3982,12 @@ MUTANTES += [
     ("data/partidos-2011.csv", "publicar sin su credito una pata citada: Midland-Cambaceres, Primera C 2011-12",
      "2012-05-28,,Ferrocarril Midland,Defensores de Cambaceres,4,1,,,Primera C,2011,eliminacion,,Cuartos de final,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina) + http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html,\n",
      "2012-05-28,,Ferrocarril Midland,Defensores de Cambaceres,4,1,,,Primera C,2011,eliminacion,,Cuartos de final,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina),\n"),
+    ("data/partidos-1991.csv", "publicar sin el status puesto a mano el Talleres (C)-Velez suspendido, Apertura 1991",
+     "1991-11-03,,Talleres (C),Vélez Sarsfield,1,0,,,Primera Division - Apertura,1991,zonas,,Fecha 10,,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_1991_(Argentina) + https://www.rsssf.org/,suspendido\n",
+     "1991-11-03,,Talleres (C),Vélez Sarsfield,1,0,,,Primera Division - Apertura,1991,zonas,,Fecha 10,,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_1991_(Argentina) + https://www.rsssf.org/,\n"),
+    ("data/partidos-2015.csv", "publicar el `suspendido` de la nota en el Arsenal-Newell's que se jugo entero, Primera 2015",
+     "2015-04-13,16:00,Arsenal,Newell's Old Boys,3,0,,,Primera Division,2015,zonas,,Fecha 9,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina),\n",
+     "2015-04-13,16:00,Arsenal,Newell's Old Boys,3,0,,,Primera Division,2015,zonas,,Fecha 9,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina),suspendido\n"),
     # El Nacional 1985: el marcador arbitrado, el unico `status` del torneo y la fila
     # que sin la Sexta fase salia en la Quinta.
     ("data/partidos-1985.csv", "publicar el 2-2 de la grilla y no el arbitrado: Guarani-Talleres (C), Nacional 1985",
