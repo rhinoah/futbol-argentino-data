@@ -4248,16 +4248,23 @@ promoción CAI – Ramón Santamarina, que ahora está también en el Argentino 
 la B Nacional la pone a las 15:00 y la del Argentino A a las 14:00; la previa de La Nueva
 de esa mañana la programa a las 14.05.
 
+**Y quedaron dos guardas.** Fuera de una promoción o una permanencia —que cruzan
+divisiones—, un club del cuadro que no juega ninguna zona del torneo no entra: el
+`Union` de 2009-10 no habría pasado callado. Y el cruce de la cadena —el que juega una
+ronda ganó la anterior— corre ahora en las cuatro páginas: cada torneo junta su cuadro
+(`Apertura 2006` abre el del Apertura), las series sueltas van en su propia llave y las
+dos patas de una son una sola ronda. Antes se salteaba las cuatro.
+
 Falta un partido: la vuelta `Sportivo Desamparados – Deportivo Maipú` de la promoción
 por la permanencia de 2006-07, que RSSSF publica `[tba]` y la página no trae.
 
 ## Tests
 
-1729 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1734 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 1009 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1014 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

@@ -920,7 +920,11 @@ def cadena_de_llaves(ps: list[Partido]) -> list[Aviso]:
         # se salteo manda a buscar un problema que no existe, y son ocho llaves
         # -- promociones, permanencias, desempates -- que rotulan su unica ronda
         # con algo que no es un nombre de ronda ("Promocion", "Partidos", vacio).
-        if len({p.jornada for p in elim}) < 2:
+        #
+        # Y LAS DOS PATAS DE UNA SERIE SON UNA RONDA: RSSSF rotula `Relegation Playoff
+        # - First leg` y `- Second leg`, y contadas como dos, una promocion suelta
+        # parecia un cuadro que no se podia revisar.
+        if len({_PATA_AL_FINAL.sub("", p.jornada or "") for p in elim}) < 2:
             return []
         # NI TAMPOCO EL QUE SON VARIAS LLAVES EN PARALELO. En una cadena el que gana
         # sigue, asi que dos rondas seguidas comparten por lo menos un club. Si

@@ -3035,12 +3035,16 @@ _FINAL_DE_RSSSF = (
     "Promotion/Relegation Playoff\n\nFirst Leg [Jun 25]\nPatronato               0-2 C.A.I.\n")
 
 
+# Los clubes de las zonas: los que pueden jugar el cuadro (ver `rsssf.leer_llaves`).
+_MAPA_SIN_GRILLA = {"Zone 1": {"Patronato": "Patronato", "Boca Unidos": "Boca Unidos"}}
+
+
 def test_la_fase_final_sin_grilla_es_la_de_la_pagina_mas_lo_que_le_falta():
     """Lo de la pagina primero, con cancha; de RSSSF, lo que la pagina no tiene -- la
     promocion -- y la tanda de la vuelta, que la plantilla no trae. Lo repetido no se
     escribe dos veces."""
     ps, avisos, llaves = build.fase_final_sin_grilla(_FINAL_DE_LA_PAGINA, _SIN_GRILLA,
-                                                     _FINAL_DE_RSSSF, {})
+                                                     _FINAL_DE_RSSSF, _MAPA_SIN_GRILLA)
     assert [(p.fecha, equipos.canonizar(p.local), p.goles_local, p.goles_visita,
              p.penales_local, p.penales_visita, p.estadio) for p in ps] == [
         ("2009-06-14", "Patronato", 1, 0, None, None, "Bartolomé Grella"),
@@ -3054,14 +3058,14 @@ def test_la_fase_final_sin_grilla_es_la_de_la_pagina_mas_lo_que_le_falta():
 def test_la_tanda_de_rsssf_no_va_a_otro_partido():
     """Solo con el par, el dia y el marcador iguales: con otro dia no es ese partido."""
     pagina = _FINAL_DE_LA_PAGINA.replace("21 de junio de 2009", "22 de junio de 2009")
-    ps, _, _ = build.fase_final_sin_grilla(pagina, _SIN_GRILLA, _FINAL_DE_RSSSF, {})
+    ps, _, _ = build.fase_final_sin_grilla(pagina, _SIN_GRILLA, _FINAL_DE_RSSSF, _MAPA_SIN_GRILLA)
     assert [p.penales_local for p in ps if p.fecha == "2009-06-22"] == [None]
 
 
 def test_la_tanda_de_la_pagina_no_se_pisa():
     pagina = _FINAL_DE_LA_PAGINA.replace("resultado = 1:0 |\nvisita = Patronato",
                                          "resultado = 1:0 |\nresultado penalti = 5:4 |\nvisita = Patronato")
-    ps, _, _ = build.fase_final_sin_grilla(pagina, _SIN_GRILLA, _FINAL_DE_RSSSF, {})
+    ps, _, _ = build.fase_final_sin_grilla(pagina, _SIN_GRILLA, _FINAL_DE_RSSSF, _MAPA_SIN_GRILLA)
     vuelta = [p for p in ps if p.fecha == "2009-06-21"]
     assert [(p.penales_local, p.penales_visita) for p in vuelta] == [(5, 4)], \
         "piso la de la pagina"

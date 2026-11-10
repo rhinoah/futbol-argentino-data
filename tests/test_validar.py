@@ -1949,3 +1949,12 @@ def test_cada_chequeo_de_la_lista_tiene_su_caso():
     salieran de ahi, el que se cae de la lista se llevaria su caso con el. Y al
     reves, un chequeo nuevo en la lista sin su caso tambien se ve."""
     assert sorted(c.__name__ for c in validar.CHEQUEOS) == sorted(POR_REVISAR)
+
+
+def test_las_dos_patas_de_una_serie_suelta_no_son_un_cuadro():
+    """`Relegation Playoff - First leg` y `- Second leg`: una sola ronda, sin cadena que
+    revisar. Contadas como dos, la pagina entera quedaba sin revisar."""
+    ps = [llave("River Plate", "San Lorenzo", 1, 0, "2026-06-10", ronda="Relegation Playoff - First leg"),
+          llave("San Lorenzo", "River Plate", 2, 0, "2026-06-17", ronda="Relegation Playoff - Second leg"),
+          llave("Boca Juniors", "Racing Club", 0, 0, "2026-06-10", ronda="Relegation Playoff - First leg")]
+    assert validar.cadena_de_llaves(ps) == []

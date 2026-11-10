@@ -166,6 +166,10 @@ _RONDA = re.compile(r"^Round\s+(\d+)(?:\s*" + _DIA + r")?"
 # equivocado si uno cree que el problema son los nombres.
 _LLAVE_PELADA = re.compile(r"^(Apertura|Clausura)(?:\s+\d{4})?$")
 
+# Las rondas de RSSSF que son una serie suelta y no una ronda del cuadro: las
+# promociones, las permanencias y la final entre los campeones de los dos torneos.
+_SERIE_SUELTA = re.compile(r"(?i)promotion|relegation|championship")
+
 # La fecha tambien la trae adentro: `[Sep 27, interzonal 1-2]`.
 # El separador despues del dia es una coma... o un PUNTO, que es lo que tipeo la
 # fuente una vez: `[Mar 23. Fri]` en `arg90`. Con la coma sola ese renglon no era
@@ -1411,6 +1415,8 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
     zona = llave = ronda = pata = ""
     fecha: tuple[int, int] | None = None
     vistos: dict[str, None] = {}
+    # Los clubes del torneo: los de sus zonas, que son los que pueden jugar su cuadro.
+    del_torneo = {c for zona_ in mapa.values() for c in zona_.values()}
     for cruda in texto.split("\n"):
         linea = cruda.rstrip()
         pelada = linea.strip()
@@ -1418,6 +1424,13 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             continue
         if pelada.startswith("Torneo "):
             llave, zona, ronda, pata, fecha = pelada, "", "", "", None
+            continue
+        # Y LA LLAVE ESCRITA SIN EL "Torneo", como la lee `leer`: `Apertura 2006` y
+        # `Clausura 2007` en el Argentino A 2006-07. Sin esto cada ronda quedaba en su
+        # propia llave -- y los cuartos del Apertura con los del Clausura en la misma
+        # --, y el cruce de la cadena no tenia ninguna que revisar.
+        if (m_llave := _LLAVE_PELADA.match(pelada)) and "Torneo " + m_llave.group(1) != llave:
+            llave, zona, ronda, pata, fecha = "Torneo " + m_llave.group(1), "", "", "", None
             continue
         if pelada in mapa:
             zona, ronda, pata, fecha = pelada, "", "", None
@@ -1487,6 +1500,21 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
         if not cl or not cv:
             raros.append(f"{ronda}: {porque1 or porque2}; el partido queda afuera")
             continue
+        # UN CLUB DEL CUADRO QUE NO JUGO EL TORNEO. Un nombre que el mapa no tiene lo
+        # resuelve el padron, y un nombre corto puede tener otro dueño: en las
+        # semifinales del Argentino A 2009-10 RSSSF escribe `Union` sin tilde, y eso
+        # daba Union de SANTA FE, que no jugo ese torneo. Se vio solo porque la pagina
+        # tenia el mismo partido. Fuera de una serie suelta -- que cruza divisiones y
+        # trae clubes que no estan en las zonas --, el que juega el cuadro jugo las
+        # zonas: si no, el partido no entra y se dice. Medido el 10/11/2026: en las
+        # diez paginas que leen llaves de RSSSF no pasa en ningun partido.
+        if not _SERIE_SUELTA.search(ronda):
+            de_afuera = [c for c in (cl, cv) if c not in del_torneo]
+            if de_afuera:
+                raros.append(f"{ronda}: {de_afuera[0]} no juega ninguna zona de este torneo; "
+                             f"el padron resolvio asi un nombre que el mapa no tiene, y puede "
+                             f"ser otro club con el mismo nombre corto. El partido queda afuera")
+                continue
         # LA TANDA ES DE LA SERIE, NO DEL PARTIDO. En una llave a doble partido se
         # patea cuando el GLOBAL queda igualado, y para eso la vuelta no tiene que
         # haber empatado: Racing (C) 2-1 San Martin (T) fue a penales porque la ida
@@ -1527,7 +1555,11 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             penales_local=pl, penales_visita=pv,
             fase="eliminacion",
             jornada=f"{ronda} - {pata} leg" if pata else ronda,
-            llave=llave or ronda,
+            # Una serie SUELTA -- una promocion, una permanencia, la final entre los
+            # campeones del Apertura y del Clausura -- no es una ronda del cuadro del
+            # torneo abierto: va en su propia llave, para que la cadena de ese cuadro
+            # no tenga que saltar por ella.
+            llave=ronda if _SERIE_SUELTA.search(ronda) else (llave or ronda),
             fuente_fecha=CREDITO))
         vistos[cl] = vistos[cv] = None
         # `[at Quilmes]` dice que se jugo en cancha de un tercero. NO se marca

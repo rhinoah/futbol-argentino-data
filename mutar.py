@@ -1432,8 +1432,28 @@ MUTANTES = [
     # excepcion mal puesta se come al chequeo entero: con "< 1" no se cumple nunca
     # y vuelve el aviso en las ocho llaves de una sola ronda.
     ("fad/validar.py", "una sola ronda tampoco se libra del aviso",
-     "if len({p.jornada for p in elim}) < 2:",
-     "if len({p.jornada for p in elim}) < 1:"),
+     'if len({_PATA_AL_FINAL.sub("", p.jornada or "") for p in elim}) < 2:',
+     'if len({_PATA_AL_FINAL.sub("", p.jornada or "") for p in elim}) < 1:'),
+
+    ("fad/validar.py", "contar como dos rondas las dos patas de una serie suelta",
+     'if len({_PATA_AL_FINAL.sub("", p.jornada or "") for p in elim}) < 2:',
+     'if len({p.jornada for p in elim}) < 2:'),
+
+    ("fad/rsssf.py", "no reconocer en las llaves el `Apertura` sin el `Torneo`",
+     '        if (m_llave := _LLAVE_PELADA.match(pelada)) and "Torneo " + m_llave.group(1) != llave:\n',
+     '        if False:\n'),
+
+    ("fad/rsssf.py", "meter una serie suelta en el cuadro del torneo abierto",
+     "            llave=ronda if _SERIE_SUELTA.search(ronda) else (llave or ronda),\n",
+     "            llave=llave or ronda,\n"),
+
+    ("fad/rsssf.py", "dejar entrar al cuadro un club que no jugo el torneo",
+     "            if de_afuera:\n                raros.append(f\"{ronda}: {de_afuera[0]} no juega ninguna zona",
+     "            if False:\n                raros.append(f\"{ronda}: {de_afuera[0]} no juega ninguna zona"),
+
+    ("fad/rsssf.py", "pedirle tambien a una serie suelta que sus clubes jueguen las zonas",
+     "        if not _SERIE_SUELTA.search(ronda):\n            de_afuera = ",
+     "        if True:\n            de_afuera = "),
 
     # El guard de las llaves paralelas, de los dos lados: si nunca se cumple vuelve
     # el aviso equivocado en diez llaves, y si se cumple siempre se come al aviso

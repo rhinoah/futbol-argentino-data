@@ -118,17 +118,6 @@ sin fecha no se jugaron.
   promoción por la permanencia `Sportivo Desamparados 2-2 Deportivo Maipú`, que RSSSF
   (`arg3-int07`) publica con la fecha `[tba]` y la página no trae. La ida fue el
   `2007-07-01`. Falta una fuente con el día.
-- **El cruce contra el cuadro de llaves no corre en las cuatro páginas del Argentino A
-  2006-07 a 2009-10:** sus rondas de eliminación salen de RSSSF con el rótulo en inglés
-  (`Quarterfinals - First leg`, `Relegation Playoff - Second leg`) o del título de la
-  sección (`Ascenso y promoción con la Primera B Nacional`), y `cadena_de_llaves` se
-  saltea la página entera cuando una ronda no se reconoce.
-- **Un nombre corto de una llave de RSSSF que el mapa no tiene se resuelve en silencio
-  por el padrón.** En las semifinales del Argentino A 2009-10 RSSSF escribe `Union` sin
-  tilde, que resolvía a Unión de Santa Fe y no a Unión de Sunchales; se vio sólo porque la
-  página tenía el partido. Ya está en el mapa, pero el riesgo sigue para cualquier llave
-  que la página no publique: falta un control que avise cuando un club de una llave no
-  jugó ninguna otra ronda del torneo.
 - **La promoción `Luján – Argentino de Quilmes` de 2012 tiene los dos días en duda.** El
   CSV pone la ida el `2012-06-26` y la vuelta el `2012-07-01`; la previa de Infobae del
   sábado 30 de junio dice que la ida fue «el miércoles último» (27) y que la vuelta se

@@ -2106,3 +2106,45 @@ def test_la_llave_de_la_zona_separa_las_dos_fases(monkeypatch):
                            _MAPA_FINAL, 2007, 2008, 8)
     assert [a.llave for a in rsssf.con_llaves(ajenos, "Una Pagina")] == ["Fase Final"]
     assert [a.llave for a in rsssf.con_llaves(ajenos, "Otra Pagina")] == [""]
+
+
+def test_la_llave_sin_el_torneo_tambien_abre_el_cuadro():
+    """`Apertura 2006` y `Clausura 2007`, como en el Argentino A 2006-07: cada torneo
+    junta su cuadro, y los cuartos de uno no se mezclan con los del otro."""
+    ps, raros = _llaves(
+        "Apertura 2006\nZona A - Sur\nQuarterfinals\nFirst Legs [Nov 16]\n"
+        "Cipolletti                   1-0 Villa Mitre\n"
+        "Clausura 2007\nZona A - Sur\nQuarterfinals\nFirst Legs [May 5]\n"
+        "Villa Mitre                  2-0 Cipolletti\n")
+    assert raros == []
+    assert [(p.llave, p.fecha) for p in ps] == [("Torneo Apertura", "2005-11-16"),
+                                                ("Torneo Clausura", "2006-05-05")]
+
+
+def test_una_serie_suelta_va_en_su_propia_llave():
+    """La promocion que viene despues del cuadro del Clausura no es una ronda de ese
+    cuadro: si cayera en su llave, la cadena tendria que saltar por ella."""
+    ps, _ = _llaves(
+        "Clausura 2007\nZona A - Sur\nFinal\nFirst Leg [Jun 1]\n"
+        "Cipolletti                   1-0 Villa Mitre\n"
+        "Relegation Playoff\nFirst Leg [Jun 10]\n"
+        "Villa Mitre                  0-0 Cipolletti\n")
+    assert [p.llave for p in ps] == ["Torneo Clausura", "Relegation Playoff"]
+
+
+def test_un_club_del_cuadro_que_no_jugo_el_torneo_no_entra():
+    """`Union` sin tilde, en las semifinales del Argentino A 2009-10: el mapa no lo
+    tenia y el padron daba Union de Santa Fe, que no jugo ese torneo."""
+    ps, raros = _llaves(
+        "Zona A - Sur\nSemifinals\nFirst Leg [May 9]\n"
+        "Cipolletti                   2-1 Union\n")
+    assert ps == []
+    assert len(raros) == 1 and "Unión no juega ninguna zona de este torneo" in raros[0]
+
+
+def test_pero_en_una_serie_suelta_si_puede_venir_de_otra_division():
+    """La promocion cruza divisiones: el rival no esta en las zonas, y es lo esperado."""
+    ps, raros = _llaves(
+        "Zona A - Sur\nPromotion/Relegation Playoff\nFirst Leg [Jun 25]\n"
+        "Cipolletti                   0-2 Ben Hur\n")
+    assert raros == [] and [(p.local, p.visita) for p in ps] == [("Cipolletti", "Ben Hur")]
