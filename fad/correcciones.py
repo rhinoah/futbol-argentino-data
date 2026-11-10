@@ -3129,9 +3129,6 @@ ESTADOS: tuple[Estado, ...] = (
                 "Lanús 3-1 Vélez [abandoned at 3-1 in 80']"),
 
     # --- 2005-2024: nueve, cada uno con su renglon de RSSSF ---
-    _no_termino("Torneo Argentino A 2005-06", "Semifinals - Second leg",
-                "Sportivo Patria", "Villa Mitre", (0, 3), "arg3-int06",
-                "Sportivo Patria 0-3 Villa Mitra [abandoned at 0-3 in 77', score stood]"),
     _no_termino("Torneo Argentino A 2005-06", "Fecha 4",
                 "Cipolletti", "Guillermo Brown", (1, 2), "arg3-int06",
                 "Cipolletti 1-2 Guillermo Brown [abandoned at 1-2 in 87', score stood]"),

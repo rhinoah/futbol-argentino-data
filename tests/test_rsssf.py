@@ -8,6 +8,8 @@ invente un club.
 """
 from __future__ import annotations
 
+import pytest
+
 from fad import rsssf
 
 MAPA = {
@@ -476,6 +478,7 @@ def test_la_pagina_se_lee_como_latin1_y_no_como_utf8(monkeypatch, tmp_path):
         def __exit__(self, *a): return False
 
     monkeypatch.setattr(rsssf, "_CACHE", tmp_path)
+    monkeypatch.setattr(rsssf, "_ULTIMO_PEDIDO", 0.0)    # sin la pausa: no hay red
     monkeypatch.setattr(urllib.request, "urlopen", lambda *a, **k: Respuesta(crudo))
     assert rsssf.descargar("loquesea") == "Ñuñorco vs Luján de Cuyo"
 
@@ -494,6 +497,7 @@ def test_lo_descargado_queda_cacheado_y_no_se_vuelve_a_pedir(monkeypatch, tmp_pa
         return Respuesta("Round 1 [Aug 21]".encode("latin-1"))
 
     monkeypatch.setattr(rsssf, "_CACHE", tmp_path)
+    monkeypatch.setattr(rsssf, "_ULTIMO_PEDIDO", 0.0)    # sin la pausa: no hay red
     monkeypatch.setattr(urllib.request, "urlopen", espiar)
     rsssf.descargar("arg3-int06")
     rsssf.descargar("arg3-int06")
@@ -2148,3 +2152,44 @@ def test_pero_en_una_serie_suelta_si_puede_venir_de_otra_division():
         "Zona A - Sur\nPromotion/Relegation Playoff\nFirst Leg [Jun 25]\n"
         "Cipolletti                   0-2 Ben Hur\n")
     assert raros == [] and [(p.local, p.visita) for p in ps] == [("Cipolletti", "Ben Hur")]
+
+
+def test_entre_dos_pedidos_a_rsssf_hay_una_pausa(monkeypatch, tmp_path):
+    """Un reprocesado sin la copia le pedia veinticuatro archivos seguidos. El segundo
+    pedido espera lo que falte para la pausa; lo que sale de la copia no espera."""
+    import io as _io
+    import urllib.request
+
+    class Respuesta(_io.BytesIO):
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+
+    esperas = []
+    reloj = iter([100.0, 100.0, 100.5, 100.5])
+    monkeypatch.setattr(rsssf, "_CACHE", tmp_path)
+    monkeypatch.setattr(rsssf, "_ULTIMO_PEDIDO", 0.0)
+    monkeypatch.setattr(rsssf.time, "monotonic", lambda: next(reloj))
+    monkeypatch.setattr(rsssf.time, "sleep", esperas.append)
+    monkeypatch.setattr(urllib.request, "urlopen", lambda *a, **k: Respuesta(b"x"))
+    rsssf.descargar("uno")
+    rsssf.descargar("dos")
+    rsssf.descargar("uno")                       # de la copia: no pide, no espera
+    assert esperas == [rsssf.PAUSA_MIN - 0.5]
+
+
+@pytest.mark.parametrize("renglones, status", [
+    # en el mismo renglon
+    ("Cipolletti                   1-0 Villa Mitre       [abandoned at 1-0 in 80']\n", "suspendido"),
+    # partida en dos: el cierre cae a la derecha del renglon de abajo
+    ("Cipolletti                   0-3 Villa Mitre       [abandoned at 0-3 in 77',\n"
+     "Villa Mitre                  1-1 Cipolletti         score stood]\n", "suspendido"),
+    # se suspendio y siguio otro dia: llego al final
+    ("Cipolletti                   2-0 Villa Mitre       [Suspended in 45'; continued Mar 14]\n", ""),
+    ("Cipolletti                   2-0 Villa Mitre\n", ""),
+])
+def test_la_nota_de_una_llave_dice_si_el_partido_llego_al_final(renglones, status):
+    """Como en las zonas: si la nota dice que no llego al final, `suspendido`. Era la
+    semifinal Sportivo Patria 0-3 Villa Mitre del Argentino A 2005-06, con la nota
+    partida en dos renglones, que entraba como jugada entera."""
+    ps, _ = _llaves("Zona A - Sur\nSemifinals\nFirst Leg [Nov 23]\n" + renglones)
+    assert ps[0].status == status

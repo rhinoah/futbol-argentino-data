@@ -90,6 +90,7 @@ from __future__ import annotations
 
 import html
 import re
+import time
 import urllib.request
 from pathlib import Path
 
@@ -502,15 +503,29 @@ def _sin_etiquetas(texto: str) -> str:
     return html.unescape(re.sub(r"<[^>]+>", "", texto))
 
 
+# UNA PAUSA ENTRE PEDIDO Y PEDIDO, como la de `wiki._pedir`. Con la copia guardada no
+# se nota, pero un reprocesado sin ella le pedia veinticuatro archivos seguidos a un
+# sitio que mantienen voluntarios. Lo que sale de la copia no espera.
+PAUSA_MIN = 2.0          # segundos entre dos pedidos a RSSSF
+_ULTIMO_PEDIDO = 0.0
+
+
 def descargar(archivo: str, usar_cache: bool = True) -> str:
     """El texto de la pagina de RSSSF, en latin-1."""
+    global _ULTIMO_PEDIDO
     destino = _CACHE / f"{archivo}.txt"
     if usar_cache and destino.exists():
         return _sin_etiquetas(destino.read_text(encoding="utf-8"))
+    espera = PAUSA_MIN - (time.monotonic() - _ULTIMO_PEDIDO)
+    if espera > 0:
+        time.sleep(espera)
     url = f"https://www.rsssf.org/tablesa/{archivo}.html"
     req = urllib.request.Request(url, headers={"User-Agent": wiki.UA})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        crudo = r.read()
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            crudo = r.read()
+    finally:
+        _ULTIMO_PEDIDO = time.monotonic()
     # La pagina no declara charset y no es UTF-8.
     texto = crudo.decode("latin-1")
     destino.parent.mkdir(parents=True, exist_ok=True)
@@ -1417,7 +1432,8 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
     vistos: dict[str, None] = {}
     # Los clubes del torneo: los de sus zonas, que son los que pueden jugar su cuadro.
     del_torneo = {c for zona_ in mapa.values() for c in zona_.values()}
-    for cruda in texto.split("\n"):
+    lineas = texto.split("\n")
+    for idx, cruda in enumerate(lineas):
         linea = cruda.rstrip()
         pelada = linea.strip()
         if not pelada:
@@ -1495,6 +1511,20 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             raros.append(f"{ronda}: {pelada[:60]} viene sin fecha; queda afuera")
             continue
         nota = m.group(5) or m.group(6) or ""
+        # LA NOTA QUE NO CIERRA EN SU RENGLON sigue en el de abajo: RSSSF corta las
+        # notas largas por ancho de columna, y el resto cae a la derecha del renglon
+        # siguiente -- `[abandoned at 0-3 in 77',` arriba y `score stood]` abajo, en
+        # la semifinal Sportivo Patria - Villa Mitre del Argentino A 2005-06 --. Sin
+        # esto la nota no se leia y el partido entraba como jugado entero.
+        if not nota and (abierta := re.search(r"\[([^\]]*)$", m.group(4))):
+            sigue = lineas[idx + 1] if idx + 1 < len(lineas) else ""
+            cierra = re.search(r"(?:^|\s{2,})([^\[\]]*)\]\s*$", sigue)
+            nota = abierta.group(1) + " " + (cierra.group(1) if cierra else "")
+        # Y SE LEE COMO EN LAS ZONAS: si dice que el partido no llego al final, y no
+        # que siguio otro dia, es `suspendido`. El marcador no se toca: un fallo que
+        # cambia el numero sigue pidiendo su `correcciones.Marcador`.
+        de_la_nota = ("suspendido" if _NO_LLEGO_AL_FINAL.search(nota)
+                      and not _CONTINUA.search(nota) else "")
         cl, porque1 = _club(m.group(1), mapa, zona, vistos)
         cv, porque2 = _club(m.group(4), mapa, zona, vistos)
         if not cl or not cv:
@@ -1560,6 +1590,7 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             # torneo abierto: va en su propia llave, para que la cadena de ese cuadro
             # no tenga que saltar por ella.
             llave=ronda if _SERIE_SUELTA.search(ronda) else (llave or ronda),
+            status=de_la_nota,
             fuente_fecha=CREDITO))
         vistos[cl] = vistos[cv] = None
         # `[at Quilmes]` dice que se jugo en cancha de un tercero. NO se marca

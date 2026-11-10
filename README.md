@@ -372,12 +372,14 @@ cuya página publica el marcador sin ninguna nota, y partidos jugados enteros cu
 dice «suspendido» por otra cosa: la fecha postergada antes de empezar o el jugador que
 estaba suspendido. Ninguna regla los distingue, así que se declaran uno por uno en
 `correcciones.ESTADOS`, cada uno con su testigo: el renglón de RSSSF con su dirección o la
-nota de la propia página. Son **23**. Veinte pasan a `suspendido`: diez de la Primera de
-1991 a 1997, nueve de 2005 a 2024 que RSSSF da cortados con el marcador que quedó
+nota de la propia página. Son **22**. Diecinueve pasan a `suspendido`: diez de la Primera
+de 1991 a 1997, ocho de 2005 a 2024 que RSSSF da cortados con el marcador que quedó
 (`[Suspended in 88'; not continued]`) y el `San Martín (T) 0-2 Alumni (VM)` del Argentino
 A 2011-12. Tres quedan vacíos porque se jugaron enteros, como el `Arsenal 3-0 Newell's`
 de 2015: la AFA se lo dio a Newell's por un jugador suspendido y después revocó el fallo.
-El marcador no cambia en ninguno.
+El marcador no cambia en ninguno. Eran 23: la semifinal `Sportivo Patria 0-3 Villa Mitre`
+del Argentino A 2005-06, que entra de RSSSF, la lee ahora el lector de llaves, que
+aprendió a seguir una nota partida en dos renglones.
 
 ### Los que la columna no arregla
 
@@ -3320,7 +3322,7 @@ el test validaba los valores pero nadie comprobaba que el status **llegara a la 
 el campo se podía declarar, justificar y no escribirse nunca. El segundo guardaba una
 rama que ningún dato recorre —un arbitraje que fije sólo el status sin tocar el
 marcador—, así que la rama se sacó: el test que la prohibe explica por qué, y si alguna
-vez hace falta se agrega junto con el primer caso que la use. Los casos llegaron, 23, y
+vez hace falta se agrega junto con el primer caso que la use. Los casos llegaron, 22, y
 no volvieron por esa rama: van en una tabla aparte, `correcciones.ESTADOS`, que puede
 también **vaciar** un `status` —en un `Marcador`, vacío quiere decir «no lo toques»— y
 que se identifica por el que la página publica, para dejar de enganchar si la página lo
@@ -3376,7 +3378,7 @@ tres salen igual: dos porque la nota cuenta después que se jugó —`Juventud U
 Central Córdoba (R)` (Primera C 2015) y `Sportivo Peñarol (C) 1-1 Ferro Carril Oeste
 (GP)` (Federal A 2023)— y una porque la suspensión manda sobre el fallo —`Independiente
 Rivadavia 0-1 Atlanta` (Primera Nacional 2019-20)—. Cuatro no las arregla ninguna
-regla, y van a mano con las otras diecinueve (ver «Y cuando la página no lo dice, va a
+regla, y van a mano con las otras dieciocho (ver «Y cuando la página no lo dice, va a
 mano», arriba).
 
 **Lo que fija las formas.** Los cuatro regex del status aceptaban alternativas que
@@ -4260,11 +4262,11 @@ por la permanencia de 2006-07, que RSSSF publica `[tba]` y la página no trae.
 
 ## Tests
 
-1734 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1739 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 1014 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1018 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

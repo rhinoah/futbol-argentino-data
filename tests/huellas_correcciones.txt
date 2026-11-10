@@ -181,7 +181,6 @@ ESTADOS | pagina='Anexo:Torneo Apertura 1996 (Argentina)' | jornada='Fecha 5' | 
 ESTADOS | pagina='Anexo:Torneo Clausura 1997 (Argentina)' | jornada='Fecha 1' | local='Gimnasia y Esgrima (LP)' | visita='River Plate' | goles=(0, 2) | dice='' | debe='suspendido'
 ESTADOS | pagina='Anexo:Torneo Clausura 1997 (Argentina)' | jornada='Fecha 15' | local='Colón' | visita='Independiente' | goles=(0, 6) | dice='' | debe='suspendido'
 ESTADOS | pagina='Anexo:Torneo Clausura 1997 (Argentina)' | jornada='Fecha 15' | local='Lanús' | visita='Vélez Sarsfield' | goles=(3, 1) | dice='' | debe='suspendido'
-ESTADOS | pagina='Torneo Argentino A 2005-06' | jornada='Semifinals - Second leg' | local='Sportivo Patria' | visita='Villa Mitre' | goles=(0, 3) | dice='' | debe='suspendido'
 ESTADOS | pagina='Torneo Argentino A 2005-06' | jornada='Fecha 4' | local='Cipolletti' | visita='Guillermo Brown' | goles=(1, 2) | dice='' | debe='suspendido'
 ESTADOS | pagina='Torneo Argentino A 2005-06' | jornada='Fecha 5' | local='Gimnasia y Esgrima (CdU)' | visita='Atlético Candelaria' | goles=(2, 1) | dice='' | debe='suspendido'
 ESTADOS | pagina='Campeonato de Primera B 2010-11 (Argentina)' | jornada='Fecha 38' | local='Deportivo Español' | visita='Sportivo Italiano' | goles=(0, 0) | dice='' | debe='suspendido'

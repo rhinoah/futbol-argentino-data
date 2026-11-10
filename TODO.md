@@ -89,13 +89,10 @@ sin fecha no se jugaron.
   puede mirar que el nombre sea el del pie: los archivos no se versionan, y tres
   —`arg2015`, `arg2015a` y `arg2020`— ni siquiera están en la caché. En los otros `25`,
   el nombre coincide con el pie del archivo en la caché.
-- **El lector de RSSSF no espera entre un pedido y el siguiente.** Con la caché no se
-  nota; un `--rehacer` sin caché le pide 24 archivos seguidos a RSSSF.
-- **El lector de RSSSF no ve una suspensión escrita en otro renglón.** En `arg96` la
-  nota va debajo de los goles (`Argentinos Juniors 0-3 Huracán` y `Newell's 2-0 Rosario
-  Central`, de 1996), y en las llaves de `arg3-int06` sigue en el renglón de abajo
-  (`Sportivo Patria 0-3 Villa Mitre`). Hoy no afecta a ninguna fila: los tres son de
-  torneos con grilla, y su `status` está puesto a mano.
+- **El lector de zonas de RSSSF no ve una suspensión escrita debajo de los goles.** En
+  `arg96` la nota va dos renglones abajo del partido (`Argentinos Juniors 0-3 Huracán` y
+  `Newell's 2-0 Rosario Central`, de 1996). Hoy no afecta a ninguna fila: el torneo tiene
+  grilla, y su `status` está puesto a mano.
 - **Un partido escrito dos veces se reconoce sólo por `(date, home_team, away_team)`.**
   Si las dos páginas lo publicaran con la localía dada vuelta o en días distintos,
   `dataset.reconciliar_copias` no vería que es el mismo, y las dos copias podrían decir

@@ -1439,6 +1439,25 @@ MUTANTES = [
      'if len({_PATA_AL_FINAL.sub("", p.jornada or "") for p in elim}) < 2:',
      'if len({p.jornada for p in elim}) < 2:'),
 
+    ("fad/rsssf.py", "no leer la nota de una llave que sigue en el renglon de abajo",
+     '        if not nota and (abierta := re.search(r"\\[([^\\]]*)$", m.group(4))):\n',
+     '        if False and (abierta := re.search(r"\\[([^\\]]*)$", m.group(4))):\n'),
+
+    ("fad/rsssf.py", "no sacar de la nota el status de un partido de llave",
+     "            status=de_la_nota,\n", "            status=\"\",\n"),
+
+    ("fad/rsssf.py", "dar por suspendido un partido de llave que siguio otro dia",
+     "                      and not _CONTINUA.search(nota) else \"\")\n",
+     "                      else \"\")\n"),
+
+    ("fad/rsssf.py", "no esperar entre un pedido a RSSSF y el siguiente",
+     "    if espera > 0:\n        time.sleep(espera)\n    url = f\"https://www.rsssf.org/tablesa/{archivo}.html\"\n",
+     "    url = f\"https://www.rsssf.org/tablesa/{archivo}.html\"\n"),
+
+    ("fad/rsssf.py", "no anotar cuando fue el ultimo pedido a RSSSF",
+     "    finally:\n        _ULTIMO_PEDIDO = time.monotonic()\n",
+     "    finally:\n        pass\n"),
+
     ("fad/rsssf.py", "no reconocer en las llaves el `Apertura` sin el `Torneo`",
      '        if (m_llave := _LLAVE_PELADA.match(pelada)) and "Torneo " + m_llave.group(1) != llave:\n',
      '        if False:\n'),
@@ -4032,11 +4051,6 @@ MUTANTES += [
      '                "Lanús", "Vélez Sarsfield", (3, 1), "arg97",\n',
      '    *(lambda *a, **k: ())("Anexo:Torneo Clausura 1997 (Argentina)", "Fecha 15",\n'
      '                "Lanús", "Vélez Sarsfield", (3, 1), "arg97",\n'),
-    ("fad/correcciones.py", "sacar de `ESTADOS` el status de Sportivo Patria-Villa Mitre, Torneo Argentino A 2005-06",
-     '    _no_termino("Torneo Argentino A 2005-06", "Semifinals - Second leg",\n'
-     '                "Sportivo Patria", "Villa Mitre", (0, 3), "arg3-int06",\n',
-     '    *(lambda *a, **k: ())("Torneo Argentino A 2005-06", "Semifinals - Second leg",\n'
-     '                "Sportivo Patria", "Villa Mitre", (0, 3), "arg3-int06",\n'),
     ("fad/correcciones.py", "sacar de `ESTADOS` el status de Cipolletti-Guillermo Brown, Torneo Argentino A 2005-06",
      '    _no_termino("Torneo Argentino A 2005-06", "Fecha 4",\n'
      '                "Cipolletti", "Guillermo Brown", (1, 2), "arg3-int06",\n',

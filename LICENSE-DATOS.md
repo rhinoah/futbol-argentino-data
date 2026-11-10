@@ -202,8 +202,8 @@ fecha.
 En algunas de las de «sólo el día» RSSSF pesó además en la localía o en el
 marcador; cada caso está declarado, con su evidencia, en `fad/correcciones.py`.
 Fue además uno de los testigos en una decena de los marcadores corregidos a mano,
-en filas que no la nombran. Y es el testigo del `status` de 22 filas, que tampoco la
-nombran en `source`: diecinueve que no llegaron al final y que su página publica sin
+en filas que no la nombran. Y es el testigo del `status` de 21 filas, que tampoco la
+nombran en `source`: dieciocho que no llegaron al final y que su página publica sin
 nota, y tres que se jugaron enteras y cuya nota dice «suspendido» por otra cosa. Están
 declaradas en `correcciones.ESTADOS`, cada una con su renglón de RSSSF.
 
