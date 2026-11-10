@@ -3632,6 +3632,14 @@ MUTANTES = [
      '        for campo in _SE_COMPLETAN + tuple(c for c in _SOLO_SI_SE_DECLARA if c in suyas):',
      '        for campo in _SE_COMPLETAN + _SOLO_SI_SE_DECLARA:'),
 
+    ("fad/parser.py", "leer como ronda el encabezado que dice solo `Partidos`",
+     '            elif _ES_PATA.match(cab) or _SOLO_ROTULA.match(cab):',
+     '            elif _ES_PATA.match(cab):'),
+
+    ("fad/parser.py", "tomar por rotulo cualquier encabezado que empiece con `Partidos`",
+     '_SOLO_ROTULA = re.compile(r"(?i)^partidos$")',
+     '_SOLO_ROTULA = re.compile(r"(?i)^partidos")'),
+
     # --- un dia que no existe en el calendario ---
     ("fad/validar.py", "dar por buena una fecha que no existe",
      '    return [p for p in ps if p.fecha and not _existe(p.fecha)]',

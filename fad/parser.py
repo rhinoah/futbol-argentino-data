@@ -1588,6 +1588,15 @@ _ES_RONDA = re.compile(
 # la ida es la primera.
 _ES_PATA = re.compile(r"(?i)^partidos? de (ida|vuelta)$")
 
+# Y UN ENCABEZADO QUE DICE SOLO `Partidos` TAMPOCO ES LA RONDA: rotula lo que trae
+# la tabla, como el titulo `=== Partidos ===` que `_ronda_de_la_seccion` saltea.
+# Lo escriben las promociones y las finales del ascenso de 2010-11 a 2023 --
+# `== Promociones ==` > `=== Promocion Primera B Nacional-Primera B ===` y una
+# tabla con `!colspan=6|Partidos` arriba --, y salian 26 filas de 8 paginas con
+# `Partidos` en el `matchday`. Se lee como la pata: la ronda de arriba, o la de la
+# seccion. `Partido`, en singular, ni llega: es un nombre de columna.
+_SOLO_ROTULA = re.compile(r"(?i)^partidos$")
+
 
 def _zonas_ambiguas(texto: str) -> frozenset[str]:
     """Rotulos de zona que la pagina reusa en MAS DE UNA fase.
@@ -2069,7 +2078,7 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
             pendientes.clear()      # un rowspan no cruza de una seccion a otra
             if re.match(r"(?i)fecha\s*\d+", cab) and not fuera_de_la_liga:
                 jornada, ronda = cab, ""
-            elif _ES_PATA.match(cab):
+            elif _ES_PATA.match(cab) or _SOLO_ROTULA.match(cab):
                 # La pata se lleva la ronda de arriba: la del encabezado o el
                 # titulo anterior, o la de la seccion. Solo si no hay ninguna queda
                 # la pata, que es lo que se hacia antes.

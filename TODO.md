@@ -68,11 +68,6 @@ sin fecha no se jugaron.
   «Se jugará el…» y «Se juega el…», así que una nota que termine en el plan y siga con
   un abandono saldría sin `status` y sin aviso. Hoy hay `4` notas así en el catálogo
   —`3` en futuro y `1` en presente— y ninguna cuenta nada después del plan.
-- **`26` filas de eliminación llevan `Partidos` en `matchday`**, un título de relleno que
-  no nombra ninguna ronda. Son de `8` páginas —promociones y definiciones del ascenso, de
-  2010-11 a 2023— y salen de tablas, no de plantillas, así que la regla de la plantilla
-  suelta no las toca. Con la misma regla tomarían el título de arriba que sí nombra algo;
-  falta medir cuál le toca a cada una.
 - **`Villa Dálmine 0-0 Ferrocarril Midland` (Primera C 2009-10) figura el día en que se
   terminó.** Está el `2010-03-31`, el día en que RSSSF da jugados los 21 minutos que
   faltaban; empezó el 19 de febrero (`abandoned at 0-0 in 69'`). La nota dice «jugados

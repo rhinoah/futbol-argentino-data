@@ -280,7 +280,7 @@ el mismo: acá `time` va segunda.
 | | ojo: `season` es la **temporada**, no el año del partido. La 2016-17 lleva `season=2016` y sus partidos van de agosto de 2016 a junio de 2017. La fecha real está en `date`. Dos salvedades: la Copa Argentina lleva el año en que se definió (la 2016-17 es `season=2017`), y `season=2016` junta dos campeonatos en cinco categorías —el corto de 2016 y el 2016-17—. Para separar un torneo de otro usá la URL de Wikipedia de `source` (lo que va antes del primer ` + `), no `tournament` + `season`. |
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
-| `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales`, `Segunda etapa`. En una serie de ida y vuelta de Wikipedia las dos patas llevan la misma ronda —si la tabla rotula sólo la pata (`Partidos de ida`), la ronda es la que dice el encabezado de arriba o el título de la sección—, y cuál es la ida lo dice `date`. Un partido suelto que no es de ningún cuadro —un desempate, una promoción— lleva el título de su sección tal como lo escribe la página: `Partido por la permanencia`, `Desempate del primer puesto` |
+| `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales`, `Segunda etapa`. En una serie de ida y vuelta de Wikipedia las dos patas llevan la misma ronda —si la tabla rotula sólo la pata (`Partidos de ida`) o lo que trae (`Partidos`), la ronda es la que dice el encabezado de arriba o el título de la sección—, y cuál es la ida lo dice `date`. Un partido suelto que no es de ningún cuadro —un desempate, una promoción— lleva el título de su sección tal como lo escribe la página: `Partido por la permanencia`, `Desempate del primer puesto` |
 | `venue` | el estadio, tal como figura; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
@@ -4195,11 +4195,11 @@ de esa página.
 
 ## Tests
 
-1644 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1646 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 918 maneras —veintitrés de ellas rompen el CSV publicado— y exige que la suite
+propósito de 920 maneras —veintitrés de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

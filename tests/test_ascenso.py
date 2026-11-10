@@ -110,6 +110,40 @@ def test_la_ronda_no_se_arrastra_de_un_cuadro_al_siguiente():
     assert [p.llave for p in ps] == ["Final", "Torneo reducido"]
 
 
+def _tabla_de_promocion(local, visita, dia, cabecera="Partidos"):
+    return (f'{{|class="wikitable"\n!colspan=6 style="with: 100%;" align=center | {cabecera}\n'
+            "|-\n!Local\n!Resultado\n!Visitante\n!Estadio\n!Fecha\n!Hora\n"
+            f"|-\n|{local}\n|1 - 0\n|{visita}\n|Un Estadio\n|{dia} de junio\n|18:00\n|}}\n")
+
+
+def test_un_encabezado_que_dice_solo_partidos_toma_la_ronda_de_su_seccion():
+    """Las promociones del ascenso de 2010-11 a 2023 ponen `!colspan=6|Partidos`
+    arriba de la tabla: rotula lo que trae, no la ronda. Salian 26 filas de 8
+    paginas con `Partidos` en el `matchday`; la ronda es el titulo de la seccion,
+    como con un encabezado que nombra solo la pata."""
+    pagina = ("== Promociones ==\n"
+              "=== Promoción Primera B Nacional-Primera B ===\n"
+              + _tabla_de_promocion("Defensores de Belgrano", "Independiente Rivadavia", 22)
+              + "=== Promoción Primera B Nacional-Torneo Argentino A ===\n"
+              + _tabla_de_promocion("Desamparados", "San Martín (T)", 23)
+              + "== Goleadores ==\n")
+    ps = parser.partidos(pagina, 2011, "X")
+    assert [(p.local, p.fase, p.jornada) for p in ps] == [
+        ("Defensores de Belgrano", "eliminacion", "Promoción Primera B Nacional-Primera B"),
+        ("Desamparados", "eliminacion", "Promoción Primera B Nacional-Torneo Argentino A")]
+
+
+def test_pero_uno_que_dice_algo_mas_si_es_la_ronda():
+    """`Partidos de desempate` nombra la ronda, y le gana al titulo de la seccion: lo
+    que se saltea es el rotulo que no dice nada mas que `Partidos`."""
+    pagina = ("== Promociones ==\n=== Promoción Primera B Nacional-Primera B ===\n"
+              + _tabla_de_promocion("Defensores de Belgrano", "Independiente Rivadavia", 22,
+                                    cabecera="Partidos de desempate")
+              + "== Goleadores ==\n")
+    (p,) = parser.partidos(pagina, 2011, "X")
+    assert p.jornada == "Partidos de desempate"
+
+
 def test_una_ronda_desconocida_es_su_titulo_y_no_hereda_la_de_al_lado():
     """El caso que de verdad distingue arrastrar de no arrastrar.
 
