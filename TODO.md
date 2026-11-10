@@ -61,9 +61,9 @@ sin fecha no se jugaron.
   - `Central Norte (S) 2-0 Sarmiento (LB)` (`2024-07-21`, «abandoned at 2-0 in 90m,
     awarded»).
 
-  El marcador no cambia. No hay cómo arbitrar sólo el `status`: esa rama se sacó a
-  propósito, y falta decidir si se vuelve a poner, con un testigo obligatorio. La otra
-  salida es cruzar las notas de RSSSF en los torneos que tienen grilla.
+  El marcador no cambia. Van, como las cuatro del ítem anterior, con una corrección a
+  mano que toque sólo el `status` y un testigo obligatorio: la nota de la página o RSSSF.
+  Esa rama se sacó porque ningún dato la recorría, y vuelve con estas `23` filas.
 - **Una nota que es un plan cuenta como un partido completado.** `_SE_COMPLETO` acepta
   «Se jugará el…» y «Se juega el…», así que una nota que termine en el plan y siga con
   un abandono saldría sin `status` y sin aviso. Hoy hay `4` notas así en el catálogo
@@ -74,23 +74,23 @@ sin fecha no se jugaron.
   los 21´ dos días después», y no coincide con RSSSF ni en el motivo ni en la demora.
   Un partido completado otro día se fecha por el día en que empezó: falta una fuente del
   día que diga cuál de los dos es.
-- **`16` filas de eliminación de `10` páginas salen con `matchday` vacío.** Son `15`
-  partidos —`Sarmiento (LB) 0-1 Los Andes`, el tercer ascenso de 2024, está en dos
-  páginas—, todos de una plantilla `{{Partido}}` (`7`) o `{{Partidos}}` (`9`) colgada de
-  un título que no es un nombre de ronda, como `Desempate del primer puesto`, `Partido por la
-  permanencia`, `Desempate del octavo puesto`. Si la plantilla sin ronda tomara la del
-  título más cercano que la contiene y no es de relleno (`Resultados`, `Partidos`,
-  `Tabla de posiciones`), cambiarían las `15` que había el 16 de octubre y ningún aviso, pero algunos
-  rótulos quedan por decidir: la final del tercer ascenso de la Transición 2020 saldría
-  `Partido final` en la página de la Primera B, y su copia en la del Federal A dice
-  `Tercer ascenso`.
+- **`18` filas de eliminación de `10` páginas salen con `matchday` vacío** (medido el 9
+  de noviembre). Son `17` partidos —`Sarmiento (LB) 0-1 Los Andes`, el tercer ascenso de
+  2024, está en dos páginas—, todos de una plantilla colgada de un título que no es un
+  nombre de ronda, como `Desempate del primer puesto`, `Partido por la permanencia` o
+  `Desempate del octavo puesto`. La plantilla sin ronda tiene que tomar el título más
+  cercano que la contiene, tal como lo escribe la página, salteando los de relleno
+  (`Resultados`, `Partidos`, `Tabla de posiciones`, `Tabla de posiciones final`). La final
+  del tercer ascenso de la Transición 2020, que en la página de la Primera B saldría
+  `Partido final`, lleva en sus dos copias el `Tercer ascenso` de la del Federal A.
 - **`venue` copia el estadio que declara la página, y al menos `18` filas del Federal A
   2014 y 2015 se jugaron en otra cancha** según el blog de José Carluccio y, donde se
   fue a buscar, la crónica del día. Catorce son localías de Unión Aconquija, que figuran
   en «Municipal de Aconquija» y fueron en Andalgalá; las otras cuatro son de 2015. RSSSF
   acompaña a la página cancha por cancha, así que para este campo no es testigo.
-  `correcciones.Cancha` acepta como testigo sólo a la misma página: falta decidir si una
-  crónica del día alcanza. En el Federal A 2016 y 2016-17 la página ya pone Andalgalá en
+  `correcciones.Cancha` acepta como testigo sólo a la misma página: tiene que aceptar
+  también la crónica del día —el blog solo no alcanza—, y falta buscar la de cada partido.
+  En el Federal A 2016 y 2016-17 la página ya pone Andalgalá en
   `11` de las `23` localías de Unión Aconquija; las otras `12` no se revisaron.
 - **Dos marcadores del Federal A 2015 tienen un testigo en contra:** `Deportivo Madryn
   2-1 Cipolletti` (el blog de Carluccio da 2-0) y `Sportivo Patria 2-0 Andino` (da 2-1 y
@@ -118,14 +118,8 @@ sin fecha no se jugaron.
   dos empates iguales. Falta en las que salen de RSSSF y en las de la página.
 - **El blog de José Carluccio no publica condiciones de uso.** `90` filas lo nombran: en
   `76` puso el día y en las `14` del Reducido de la Primera C 2011-12, el día y la
-  localía. No prohíbe nada, pero tampoco autoriza por escrito.
-- **ESPN sigue nombrada como testigo en `36` correcciones a mano**, en `31` renglones de
-  `fad/correcciones.py`: `24` `Dia`, `10` `Marcador`, un `Dividido` y un `Revisado`. `18`
-  de las `Dia` lo heredan del texto compartido sobre el blog de José Carluccio, que
-  arbitra entre RSSSF y ESPN. En al menos dos marcadores es el primer testigo nombrado:
-  `Platense 1-0 Belgrano` (2019) y `Gimnasia y Esgrima (J) 0-2 Estudiantes` (2008).
-  Ninguna fila sale de ahí ni la nombra en `source`. Falta decidir si se buscan otros
-  testigos.
+  localía. No prohíbe nada, pero tampoco autoriza por escrito: se le pide permiso,
+  también para los `10` interzonales del Argentino A 2004-05 que van a salir de ahí.
 - **`fuente_fecha` guarda dos créditos distintos en un campo:** de dónde sale la fila y
   quién le puso el día. Tres lugares lo escriben y sólo uno los distingue.
   `corregir_fechas` —una `Dia`— lo reemplaza entero, y el completador de worldfootball
@@ -140,10 +134,10 @@ sin fecha no se jugaron.
   el nombre coincide con el pie del archivo en la caché.
 - **El lector de RSSSF no espera entre un pedido y el siguiente.** Con la caché no se
   nota; un `--rehacer` sin caché le pide 24 archivos seguidos a RSSSF.
-- **No hay chequeo de que una fecha exista en el calendario**, y falta decidir cómo
-  falla. `a_iso` arma `2014-11-31` sin validarlo. Si es grave, un día mal tipeado en una
-  página en curso frena la actualización de todas hasta que alguien cargue la corrección;
-  si no lo es, la fila sale publicada con una fecha que no existe.
+- **No hay chequeo de que una fecha exista en el calendario.** `a_iso` arma `2014-11-31`
+  sin validarlo. En un torneo en curso la fila tiene que quedar afuera, con un aviso, hasta
+  que la página se arregle, sin frenar la actualización de las demás; en uno terminado,
+  que sólo se relee con `--rehacer`, es grave.
 - **Un partido escrito dos veces se reconoce sólo por `(date, home_team, away_team)`.**
   Si las dos páginas lo publicaran con la localía dada vuelta o en días distintos,
   `dataset.reconciliar_copias` no vería que es el mismo, y las dos copias podrían decir
@@ -158,9 +152,8 @@ sin fecha no se jugaron.
   Primera C 2021: «Se jugó en el estadio Enrique Sexto», y figura en `Nueva España`—.
   Leerla de esa oración, como el día y la hora, es otra regla y pide su propia medición.
 - **Los `5` `no disputado` que salen de una nota publican la hora y la cancha del
-  programado**, de 2013 a 2025. El día es el del programado, como el `Instituto 0-1 San
-  Lorenzo` de la 1987-88, que no tiene ni hora ni cancha; las de estos cinco son las de un
-  partido que no se jugó. Falta decidir si se vacían.
+  programado**, de 2013 a 2025, igual que el día. Quedan así, y falta decirlo en el README:
+  en un `no disputado`, el día, la hora y la cancha son los del programa.
 - **Dos dudas que piden una fuente de afuera,** las dos de `{{Partido}}`:
   - la hora de `Fénix 1-1 Deportivo Español`, ida de la final de la Primera C 2012-13: la
     plantilla dice `15:30` y la AFA, `15:00`. En esa programación otras dos horas difieren
@@ -177,8 +170,9 @@ sin fecha no se jugaron.
   en el renglón del nombre: `_ARRANQUE_PARTIDO` no ve ese arranque, y las páginas sin
   grilla no pasan por el lector de plantillas. Son `12` partidos por el ascenso; los otros
   `2` (`Ramón Santamarina – CAI`) ya entran por la B Nacional 2009-10. La final de 2006-07
-  difiere en el día: 5 de julio en la plantilla, 8 en `arg3-int07`. Falta decidir si una
-  página `sin_grilla` puede traer también sus llaves de RSSSF, como el 2005-06.
+  difiere en el día: 5 de julio en la plantilla, 8 en `arg3-int07`. Una página
+  `sin_grilla` tiene que poder traer también sus llaves de RSSSF, como el 2005-06, con sus
+  plantillas de testigo: cada diferencia se arbitra antes de cargar.
 - **La promoción `Luján – Argentino de Quilmes` de 2012 tiene los dos días en duda.** El
   CSV pone la ida el `2012-06-26` y la vuelta el `2012-07-01`; la previa de Infobae del
   sábado 30 de junio dice que la ida fue «el miércoles último» (27) y que la vuelta se
@@ -194,25 +188,26 @@ sin fecha no se jugaron.
     ningún rótulo abre la tabla.
   - Aun leídas no cierran: el CSV tiene `20` de los `200` partidos de zonas, y a cada club
     de la Zona Norte del Apertura le faltan sus 2 interzonales. Esos 10 están en el blog
-    que ya fecha esas filas, y con ellos cierran 4 de 5 clubes. Hasta hoy de ahí sale la
-    fecha y nada más: falta decidir si también puede sumar partidos.
+    que ya fecha esas filas, y con ellos cierran 4 de 5 clubes: entran de ahí, con el
+    blog en `source` y en `LICENSE-DATOS.md`.
   - El cruce no va a cerrar entero: la tabla de esa zona en Wikipedia está rota —21 o 22
     PJ por club en una fase de 10—, y las de RSSSF no cierran consigo mismas (en el
     Clausura, 74 ganados contra 75 perdidos).
-- **`anios_bien_asignados` tiene tres comparaciones medidas y sin poner.** Es el chequeo
-  que frena el build cuando una jornada cae medio año antes que la anterior. Falta
-  decidir si se agregan:
-  - **Entre los grupos de una misma sección.** Es la única que vería un grupo entero con
-    el año corrido, como el `Interzonal` de una sola fecha de la Copa de la Liga 2022,
-    2023 y 2024 (`42` partidos). Medida: 0 avisos de más en el catálogo, en `659` páginas
-    de afuera y en `52 997` revisiones. En contra: en el peor caso medido queda a `13`
-    días del umbral (`147` contra `160`), y sería un grave también en un torneo en curso.
+- **`anios_bien_asignados` necesita dos comparaciones más, ya medidas.** Es el chequeo
+  que frena el build cuando una jornada cae medio año antes que la anterior.
   - **Hacia adelante.** Hoy sólo se mira lo que cae antes: un tramo o una llave de una
     sola ronda (`55` llaves, `125` partidos) que se van un año para adelante no se ven. La
     comparación simétrica —más de 300 días después del tramo anterior— dio 0 avisos sobre
     el dataset sano.
   - **Contra la fecha de inicio que trae la ficha de cada página.** «Ninguna fila más de
     30 días antes» dio 0 avisos en las `67` páginas que escriben el año.
+
+  Queda afuera, por ahora, la comparación entre los grupos de una misma sección. Es la
+  única que vería un grupo entero con el año corrido, como el `Interzonal` de una sola
+  fecha de la Copa de la Liga 2022, 2023 y 2024 (`42` partidos), y dio 0 avisos de más en
+  el catálogo, en `659` páginas de afuera y en `52 997` revisiones; pero en el peor caso
+  medido queda a `13` días del umbral (`147` contra `160`), y sería grave también en un
+  torneo en curso.
 
   Aparte quedan `8` torneos donde el año corrido no lo frena nadie, ni el chequeo ni
   `tests/test_torneos.py`: las Copa Argentina 2012-13 a 2018-19 (`7`), que se pueden
