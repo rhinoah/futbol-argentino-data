@@ -782,6 +782,26 @@ def test_una_plantilla_adentro_no_corta_el_partido():
     assert len(ps) == 1 and ps[0].visita == "River Plate"
 
 
+@pytest.mark.parametrize("titulos, ronda", [
+    ("== Partido por la permanencia ==\n", "Partido por la permanencia"),
+    # los de relleno se saltean: la ronda es la de arriba
+    ("== Promoción con el Torneo Promocional Amateur ==\n=== Partidos ===\n",
+     "Promoción con el Torneo Promocional Amateur"),
+    # el Apertura 2008 pone la tabla del triangular entre el titulo y los partidos
+    ("== Desempate del primer puesto ==\n=== Tabla de posiciones final ===\n"
+     "==== Resultados ====\n", "Desempate del primer puesto"),
+    # y uno que nombra una ronda le gana al de la seccion, aunque este mas lejos
+    ("== Torneo reducido ==\n=== Semifinales ===\n==== Llave A ====\n", "Semifinales"),
+])
+def test_una_plantilla_suelta_toma_la_ronda_del_titulo_de_su_seccion(titulos, ronda):
+    """Un partido de una sola pata que no es de ningun cuadro -- un desempate, una
+    promocion -- cuelga de un titulo que dice que es. Sin esto salian 18 filas con el
+    `matchday` vacio."""
+    (p,) = parser.partidos_de_plantillas(
+        titulos + _plantilla("Puerto Nuevo", "Central Ballester", "0:2"), 2025, "x")
+    assert p.jornada == ronda
+
+
 def test_una_plantilla_sin_cerrar_se_descarta():
     """Adivinar donde termina es exactamente lo que hacia el regex."""
     texto = "{{Partido\n|local = Boca Juniors\n|resultado = 2:1\n|visita = River Plate\n"

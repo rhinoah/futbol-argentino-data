@@ -164,6 +164,7 @@ CANCHAS | pagina='Torneo Federal A 2025' | jornada='Segunda etapa' | local='Sarm
 COPIAS | fecha='2011-06-25' | local='Los Andes' | visita='Central Córdoba (R)' | campo='time' | valor='15:00'
 COPIAS | fecha='2012-06-27' | local='Crucero del Norte' | visita='Guillermo Brown' | campo='venue' | valor='Comandante A. Guacurarí'
 COPIAS | fecha='2021-02-04' | local='San Telmo' | visita='Deportivo Madryn' | campo='venue' | valor='Marcelo Bielsa'
+COPIAS | fecha='2021-02-04' | local='San Telmo' | visita='Deportivo Madryn' | campo='matchday' | valor='Tercer ascenso'
 NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Defensores de Belgrano', 'Instituto', 2, 0)
 NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Atlanta', 'San Martín (T)', 2, 2)
 NEUTRALES | pagina='Campeonato Transición de Primera Nacional 2020' | fecha='2021-01-17' | dice=('Gimnasia y Esgrima (M)', 'Ferro Carril Oeste', 1, 4)

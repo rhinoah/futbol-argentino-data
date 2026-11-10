@@ -422,7 +422,8 @@ MUTANTES = [
 
     # --- correr solo ---
     ("fad/dataset.py", "no mirar si el dataset se achico",
-     "        if tenia_ahora < cuantos and clave not in salvo:",
+     "        if (tenia_ahora + (descontar or {}).get(clave, 0) < cuantos\n"
+     "                and clave not in salvo):",
      "        if False:"),
 
     ("fad/dataset.py", "comparar season como entero de un lado y texto del otro",
@@ -3608,6 +3609,54 @@ MUTANTES = [
      '    Torneo("Torneo Federal A 2026", "Torneo Federal A", 2026, cerrado=False),\n',
      '    Torneo("Torneo Federal A 2026", "Federal A", 2026, cerrado=False),\n'),
 
+    # --- la plantilla suelta toma la ronda del titulo de su seccion ---
+    ("fad/parser.py", "dejar sin ronda a la plantilla suelta",
+     '                     or _ronda_de_la_seccion(pos, texto)),',
+     '                     or ""),'),
+
+    ("fad/parser.py", "preferir el titulo de la seccion al de la ronda",
+     '            jornada=(_ronda_en(pos, titulos, _inicio_de_llave(pos, texto))\n'
+     '                     or _ronda_de_la_seccion(pos, texto)),',
+     '            jornada=(_ronda_de_la_seccion(pos, texto)\n'
+     '                     or _ronda_en(pos, titulos, _inicio_de_llave(pos, texto))),'),
+
+    ("fad/parser.py", "tomar la tabla de posiciones por la ronda",
+     '                or _TITULO_DE_TABLA.match(titulo) or titulo.lower() in _NO_SON_FASE):',
+     '                or titulo.lower() in _NO_SON_FASE):'),
+
+    ("fad/dataset.py", "no aplicar la declaracion de la ronda de una copia",
+     '        for campo in _SE_COMPLETAN + tuple(c for c in _SOLO_SI_SE_DECLARA if c in suyas):',
+     '        for campo in _SE_COMPLETAN:'),
+
+    ("fad/dataset.py", "completar la ronda de una copia sin declaracion",
+     '        for campo in _SE_COMPLETAN + tuple(c for c in _SOLO_SI_SE_DECLARA if c in suyas):',
+     '        for campo in _SE_COMPLETAN + _SOLO_SI_SE_DECLARA:'),
+
+    # --- un dia que no existe en el calendario ---
+    ("fad/validar.py", "dar por buena una fecha que no existe",
+     '    return [p for p in ps if p.fecha and not _existe(p.fecha)]',
+     '    return []'),
+
+    ("build.py", "sacar la fila tambien en un torneo terminado",
+     '    if t.cerrado:\n        return ps, [validar.Aviso(que,',
+     '    if False:\n        return ps, [validar.Aviso(que,'),
+
+    ("build.py", "frenar tambien en un torneo en curso",
+     '                                f"la corrija", grave=False)',
+     '                                f"la corrija", grave=True)'),
+
+    ("build.py", "no contarle a la guarda las filas sacadas",
+     '            afuera[clave] = afuera.get(clave, 0) + n - len(ps)',
+     '            pass'),
+
+    ("fad/dataset.py", "no descontar las filas sacadas por un dia que no existe",
+     '        if (tenia_ahora + (descontar or {}).get(clave, 0) < cuantos',
+     '        if (tenia_ahora < cuantos'),
+
+    ("fad/dataset.py", "descontar el torneo entero y no las filas",
+     '        if (tenia_ahora + (descontar or {}).get(clave, 0) < cuantos',
+     '        if (tenia_ahora + (10**6 if (descontar or {}).get(clave) else 0) < cuantos'),
+
 ]
 
 
@@ -3674,9 +3723,18 @@ MUTANTES += [
      '        pagina="Torneo Federal A 2025",\n'),
     ("fad/correcciones.py", "sacar de `COPIAS` la cancha copiada de San Telmo-Deportivo Madryn, 2021",
      "    Copia(\n"
-     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n',
+     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'
+     '        campo="venue", valor="Marcelo Bielsa",\n',
      "    *(lambda *a, **k: ())(\n"
-     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'),
+     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'
+     '        campo="venue", valor="Marcelo Bielsa",\n'),
+    ("fad/correcciones.py", "sacar de `COPIAS` la ronda de San Telmo-Deportivo Madryn, 2021",
+     "    Copia(\n"
+     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'
+     '        campo="matchday", valor="Tercer ascenso",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'
+     '        campo="matchday", valor="Tercer ascenso",\n'),
     ("fad/correcciones.py", "sacar de `NEUTRALES` el neutral Huracan-Platense, Copa de la Liga 2023",
      '    _CLP_2023("2023-12-02", "Huracán", "Platense", 1, 1),\n',
      '    *(lambda *a, **k: ())("2023-12-02", "Huracán", "Platense", 1, 1),\n'),

@@ -123,7 +123,8 @@ def escribir(filas: list[dict], destino: Path) -> int:
 
 
 def regresiones(nuevas: list[dict], anteriores: list[dict],
-                salvo: frozenset = frozenset()) -> list[str]:
+                salvo: frozenset = frozenset(),
+                descontar: dict | None = None) -> list[str]:
     """Torneos que perdieron partidos respecto del CSV que ya estaba.
 
     Existe por el modo de fallar de una tarea automatica, que no es explotar. Si
@@ -160,7 +161,15 @@ def regresiones(nuevas: list[dict], anteriores: list[dict],
         # Quien sabe eso es el que tiene las dos carpetas a la vista, o sea
         # `build.py`, asi que la decision se pasa desde afuera en vez de adivinarla
         # aca.
-        if tenia_ahora < cuantos and clave not in salvo:
+        #
+        # `descontar` es por cuantas filas, no por torneo: las que el build saco a
+        # proposito, por un dia que no existe (ver `build.sin_fechas_que_no_existen`).
+        # Esa baja no es una perdida. Se descuentan todas las que se sacaron, hayan
+        # estado publicadas o no, asi que una perdida del mismo tamanio en el mismo
+        # torneo y el mismo dia no se veria; cualquier otra, si. La guarda esta para
+        # las grandes: una pagina que cambio de forma y se lee por la mitad.
+        if (tenia_ahora + (descontar or {}).get(clave, 0) < cuantos
+                and clave not in salvo):
             torneo, temporada = clave
             avisos.append(f"{torneo} {temporada}: tenia {cuantos} partidos y ahora "
                           f"{tenia_ahora}" + ("  (DESAPARECIO)" if not tenia_ahora else ""))
@@ -349,6 +358,13 @@ def categorias_incompatibles(filas: list[dict]) -> list[str]:
 # Lo que es de cada torneo (tournament, season, phase, group, matchday, source) no
 # se toca. La fecha y los equipos son la clave, asi que coinciden por definicion.
 _SE_COMPLETAN = ("time", "venue", "status")      # vacio = "esta pagina no lo dijo"
+# La RONDA es de cada torneo, pero una `Copia` la puede unificar. Cada pagina nombra
+# el partido desde su categoria -- "Promocion por el ascenso a la Primera B
+# Metropolitana" en la de la C, "Promocion por la permanencia en la Primera B" en la
+# de la B -- y las dos tienen razon: en 5 de las 15 copias difieren, y eso no es un
+# desacuerdo que avisar. Se toca solo cuando hay una declaracion, y con su regla:
+# el valor tiene que ser uno de los que publican las paginas.
+_SOLO_SI_SE_DECLARA = ("matchday",)
 _MARCADOR = ("home_score", "away_score")
 _TANDA = ("home_pens", "away_pens")
 
@@ -383,6 +399,8 @@ def reconciliar_copias(filas: list[dict], declaradas=(),
       que se completa con lo que dice la otra.
     * Dos horas o dos canchas distintas NO se eligen solas: las resuelve una
       `Copia` de `correcciones.COPIAS`, o quedan como estan y se avisa.
+    * `matchday` no se completa ni se avisa: cada pagina nombra la ronda desde su
+      categoria. Lo unifica solo una `Copia` (ver `_SOLO_SI_SE_DECLARA`).
     * El marcador y la tanda no se tocan nunca. Si la tanda difiere, se avisa. Si
       difiere el MARCADOR no se toca nada del grupo: la clave es lo unico que dice
       que las dos filas son el mismo partido, y el marcador es el unico control.
@@ -436,7 +454,7 @@ def reconciliar_copias(filas: list[dict], declaradas=(),
             for f in fs:
                 f["neutral"] = "true"
 
-        for campo in _SE_COMPLETAN:
+        for campo in _SE_COMPLETAN + tuple(c for c in _SOLO_SI_SE_DECLARA if c in suyas):
             valores = {_valor(f[campo]) for f in fs} - {""}
             d = suyas.get(campo)
             if d and d.valor not in valores:

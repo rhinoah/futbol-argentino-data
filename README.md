@@ -272,7 +272,7 @@ el mismo: acá `time` va segunda.
 
 | columna | qué trae |
 |---|---|
-| `date` `time` | ISO (`2026-01-22`) y hora local |
+| `date` `time` | ISO (`2026-01-22`) y hora local. Un día que no existe en el calendario no se publica: si la página escribe un `31 de noviembre` en un torneo en curso, la fila queda afuera hasta que la corrija, y en uno terminado el build frena |
 | `home_team` `away_team` | los equipos |
 | `home_score` `away_score` | el marcador de los 90 (más alargue si hubo) |
 | `home_pens` `away_pens` | la tanda de penales, vacío si no hubo. En una serie de ida y vuelta va en la vuelta, que es donde se pateó, y esa vuelta no tiene por qué haber terminado empatada: lo que empató es el global. En la Primera División 1988-89 la llevan también los partidos de **liga**: ese campeonato definía cada empate por penales, con un punto más para el que ganaba la tanda. Son 131; al empate que falta (`Rosario Central 1-1 Instituto`) la fuente no le publica la tanda |
@@ -280,7 +280,7 @@ el mismo: acá `time` va segunda.
 | | ojo: `season` es la **temporada**, no el año del partido. La 2016-17 lleva `season=2016` y sus partidos van de agosto de 2016 a junio de 2017. La fecha real está en `date`. Dos salvedades: la Copa Argentina lleva el año en que se definió (la 2016-17 es `season=2017`), y `season=2016` junta dos campeonatos en cinco categorías —el corto de 2016 y el 2016-17—. Para separar un torneo de otro usá la URL de Wikipedia de `source` (lo que va antes del primer ` + `), no `tournament` + `season`. |
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
-| `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales`, `Segunda etapa`. En una serie de ida y vuelta de Wikipedia las dos patas llevan la misma ronda —si la tabla rotula sólo la pata (`Partidos de ida`), la ronda es la que dice el encabezado de arriba o el título de la sección—, y cuál es la ida lo dice `date` |
+| `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales`, `Segunda etapa`. En una serie de ida y vuelta de Wikipedia las dos patas llevan la misma ronda —si la tabla rotula sólo la pata (`Partidos de ida`), la ronda es la que dice el encabezado de arriba o el título de la sección—, y cuál es la ida lo dice `date`. Un partido suelto que no es de ningún cuadro —un desempate, una promoción— lleva el título de su sección tal como lo escribe la página: `Partido por la permanencia`, `Desempate del primer puesto` |
 | `venue` | el estadio, tal como figura; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
@@ -288,9 +288,8 @@ el mismo: acá `time` va segunda.
 
 Pueden venir vacías, además de los penales: `time` (11 208 filas) y `venue`
 (10 129), sobre todo en las capas viejas —antes de 1997 no hay ni una hora ni una
-cancha—; `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 390); y `matchday` en 18
-filas de eliminación, que son 17 partidos sueltos: uno está en dos páginas. En las
-filas que salen de RSSSF los rótulos quedaron en inglés:
+cancha—, y `group`, cuando el torneo o la fase no tiene zonas —toda la eliminación va sin él— (30 390).
+`matchday` no va vacío en ninguna. En las filas que salen de RSSSF los rótulos quedaron en inglés:
 `Zone 1` o `Group A` en `group` (1 239 filas del Argentino A) y
 `Semifinals - First leg` en `matchday` (127).
 
@@ -4196,11 +4195,11 @@ de esa página.
 
 ## Tests
 
-1633 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1644 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 906 maneras —veintitrés de ellas rompen el CSV publicado— y exige que la suite
+propósito de 918 maneras —veintitrés de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

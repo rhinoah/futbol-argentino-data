@@ -2886,7 +2886,7 @@ class Copia:
     fecha: str
     local: str
     visita: str
-    campo: str          # "time" o "venue"
+    campo: str          # "time", "venue" o "matchday" (ver `dataset._SOLO_SI_SE_DECLARA`)
     valor: str
     porque: str
 
@@ -2930,6 +2930,17 @@ COPIAS: tuple[Copia, ...] = (
             "Transicion 2020 dice 'Estadio Marcelo Bielsa' y la tabla del Torneo "
             "Transicion Federal A 2020 'Marcelo Bielsa', que es como el dataset la "
             "escribia en 311 filas antes de esta declaracion; con el prefijo, en 5."),
+    ),
+    Copia(
+        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",
+        campo="matchday", valor="Tercer ascenso",
+        porque=(
+            "La final del tercer ascenso de la Transicion 2020, que publican la pagina "
+            "de la Primera B y la del Federal A. La de la Primera B la cuelga de "
+            "'== Fase tercer ascenso ==' > '=== Partido final ===', y la plantilla toma "
+            "el titulo mas cercano: 'Partido final'. La del Federal A dice 'Tercer "
+            "ascenso'. Las dos copias van con el de la Federal A, decidido el 9/11/2026: "
+            "'Partido final' nombra la pata y no la definicion, que es lo que se juega."),
     ),
 )
 

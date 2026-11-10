@@ -110,14 +110,14 @@ def test_la_ronda_no_se_arrastra_de_un_cuadro_al_siguiente():
     assert [p.llave for p in ps] == ["Final", "Torneo reducido"]
 
 
-def test_una_ronda_desconocida_queda_vacia_y_no_hereda_la_de_al_lado():
+def test_una_ronda_desconocida_es_su_titulo_y_no_hereda_la_de_al_lado():
     """El caso que de verdad distingue arrastrar de no arrastrar.
 
-    Si el cuadro siguiente empieza con un titulo que no esta en `RONDAS`, lo
-    correcto es quedarse sin ronda -- y que `cadena_de_llaves` avise que no puede
-    revisar ese cuadro. Heredando la de la seccion anterior, esos partidos pasan
-    por "Final" y el chequeo encadena cosas que no tienen nada que ver: fueron 21
-    avisos sobre datos correctos en la Primera Nacional 2024.
+    Si el cuadro siguiente empieza con un titulo que no esta en `RONDAS`, la ronda
+    es ese titulo, como la de cualquier plantilla suelta (decidido el 9/11/2026;
+    antes quedaba vacia), y nunca la de la seccion anterior. Heredandola, esos
+    partidos pasan por "Final" y el chequeo encadena cosas que no tienen nada que
+    ver: fueron 21 avisos sobre datos correctos en la Primera Nacional 2024.
     """
     texto = """
 == Final ==
@@ -138,7 +138,8 @@ def test_una_ronda_desconocida_queda_vacia_y_no_hereda_la_de_al_lado():
 }}
 """
     ps = parser.partidos_de_plantillas(texto, 2026, "X")
-    assert [p.jornada for p in ps] == ["Final", ""], "heredo la ronda del cuadro anterior"
+    assert [p.jornada for p in ps] == ["Final", "Ronda preliminar"], \
+        "heredo la ronda del cuadro anterior"
 
 
 def test_la_fase_no_se_busca_en_el_nivel_del_propio_titulo():

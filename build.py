@@ -1206,6 +1206,41 @@ def procesar(texto: str, t) -> tuple[list, list]:
     return ps, avisos
 
 
+def sin_fechas_que_no_existen(ps: list, t) -> tuple[list, list]:
+    """Las filas con un dia que no esta en el calendario. Devuelve (partidos, avisos).
+
+    `a_iso` arma lo que la pagina escribe, y una pagina puede escribir un dia que no
+    existe: en su historia hubo un `31 de noviembre` y tres `31 de junio`, y nada los
+    revisaba. Que hacer con uno se decidio el 9/11/2026:
+
+    * EN UN TORNEO EN CURSO LA FILA QUEDA AFUERA, con un aviso que no frena, hasta que
+      la pagina la corrija. Frenar dejaria sin actualizar a todas las demas por un dia
+      mal tipeado en una -- como los tres dias de fines de octubre de 2026, por dos
+      nombres --, y publicarla daria una fecha que no existe. Si ya estaba publicada,
+      sale del CSV hasta entonces: `main` le descuenta esa baja, y solo esa, a la
+      guarda contra achicarse.
+    * EN UNO TERMINADO ES GRAVE. Solo se relee con `--rehacer`, que se corre a mano y
+      mirando, y ahi una fila que se cae es un partido menos para siempre: el dia se
+      corrige con una `Dia` en `fad/correcciones.py`.
+    """
+    malas = validar.fechas_que_no_existen(ps)
+    if not malas:
+        return ps, []
+    que = f"{t.pagina}: una fecha que no existe"
+    if t.cerrado:
+        return ps, [validar.Aviso(que, f"{p.local} {p.goles_local}-{p.goles_visita} {p.visita}"
+                                       f" ({p.jornada}): {p.fecha!r}, de la celda "
+                                       f"{p.fecha_cruda!r}. Corregila con una `Dia`")
+                    for p in malas]
+    fuera = {id(p) for p in malas}
+    return ([p for p in ps if id(p) not in fuera],
+            [validar.Aviso(que, f"{p.local} {p.goles_local}-{p.goles_visita} {p.visita}"
+                                f" ({p.jornada}): {p.fecha!r}, de la celda "
+                                f"{p.fecha_cruda!r}. Queda afuera hasta que la pagina "
+                                f"la corrija", grave=False)
+             for p in malas])
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -1231,6 +1266,9 @@ def main(argv=None) -> int:
 
     filas, sin_fecha, avisos, fallo, reusados = [], [], [], False, 0
     leidas: set[str] = set()      # las paginas que se parsean hoy; ver `reconciliar_copias`
+    # Las filas que se sacan por un dia que no existe, por torneo: la guarda contra
+    # achicarse las descuenta. Ver `sin_fechas_que_no_existen`.
+    afuera: dict[tuple, int] = {}
     for t in torneos.TODOS:
         listas = guardado.get(t.url)
         if t.cerrado and not args.rehacer and listas is not None:
@@ -1245,6 +1283,12 @@ def main(argv=None) -> int:
             continue
 
         ps, propios = procesar(texto, t)
+        n = len(ps)
+        ps, de_las_fechas = sin_fechas_que_no_existen(ps, t)
+        propios += de_las_fechas
+        if len(ps) < n:
+            clave = (t.torneo, str(t.temporada))
+            afuera[clave] = afuera.get(clave, 0) + n - len(ps)
         leidas.add(t.url)
         avisos += propios
         graves = sum(a.grave for a in propios)
@@ -1321,7 +1365,7 @@ def main(argv=None) -> int:
                          if todas_fechadas
                          and ahora_sf.get(k, 0) < n
                          and ahora_d.get(k, 0) > antes_d.get(k, 0))
-    perdidos = (dataset.regresiones(filas, anterior)
+    perdidos = (dataset.regresiones(filas, anterior, descontar=afuera)
                 + dataset.regresiones(sin_fecha, anterior_sf, salvo=fechados))
     if perdidos and not args.forzar:
         print("\nEl dataset se ACHICO respecto del que ya estaba:", file=sys.stderr)

@@ -718,6 +718,16 @@ def _existe(fecha: str) -> bool:
         return False
 
 
+def fechas_que_no_existen(ps: list[Partido]) -> list[Partido]:
+    """Los partidos con un dia que no esta en el calendario, como `2014-11-31`.
+
+    No va en `CHEQUEOS` porque avisar no alcanza: en un torneo en curso la fila se
+    saca. Eso lo hace `build.sin_fechas_que_no_existen`, que sabe si el torneo esta en
+    curso, y `build.main` le descuenta la baja a la guarda contra achicarse.
+    """
+    return [p for p in ps if p.fecha and not _existe(p.fecha)]
+
+
 def _numero(jornada: str) -> int:
     m = re.search(r"(\d+)", jornada or "")
     return int(m.group(1)) if m else 0

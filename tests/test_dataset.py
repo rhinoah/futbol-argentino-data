@@ -671,6 +671,28 @@ def test_la_declaracion_elige_entre_las_dos():
     assert [f["venue"] for f in fs] == ["Marcelo Bielsa", "Marcelo Bielsa"]
 
 
+def test_la_ronda_de_cada_pagina_no_se_toca_ni_se_avisa():
+    """Cada pagina nombra la ronda desde su categoria, y en 5 de las 15 copias
+    difieren con razon: completarla, o avisar todos los dias, seria pisar lo que es
+    de cada torneo."""
+    fs = [_copia(PB, matchday="Promoción por la permanencia en la Primera B"),
+          _copia(FA, matchday="Promoción por el ascenso a la Primera B Metropolitana")]
+    assert dataset.reconciliar_copias(fs) == []
+    assert [f["matchday"] for f in fs] == ["Promoción por la permanencia en la Primera B",
+                                           "Promoción por el ascenso a la Primera B Metropolitana"]
+    vacia = [_copia(PB), _copia(FA, matchday="Tercer ascenso")]
+    assert dataset.reconciliar_copias(vacia) == []
+    assert [f["matchday"] for f in vacia] == ["", "Tercer ascenso"]
+
+
+def test_la_ronda_la_unifica_una_declaracion():
+    """El San Telmo - Deportivo Madryn de 2020: 'Partido final' en la pagina de la
+    Primera B y 'Tercer ascenso' en la del Federal A."""
+    fs = [_copia(PB, matchday="Partido final"), _copia(FA, matchday="Tercer ascenso")]
+    assert dataset.reconciliar_copias(fs, (_declarada("matchday", "Tercer ascenso"),)) == []
+    assert [f["matchday"] for f in fs] == ["Tercer ascenso", "Tercer ascenso"]
+
+
 def test_la_declaracion_no_puede_inventar_un_valor():
     """Unificar no es reescribir: el valor tiene que ser uno de los que publican."""
     fs = [_copia(PB, venue="Estadio Marcelo Bielsa"), _copia(FA, venue="Marcelo Bielsa")]

@@ -74,15 +74,6 @@ sin fecha no se jugaron.
   los 21´ dos días después», y no coincide con RSSSF ni en el motivo ni en la demora.
   Un partido completado otro día se fecha por el día en que empezó: falta una fuente del
   día que diga cuál de los dos es.
-- **`18` filas de eliminación de `10` páginas salen con `matchday` vacío** (medido el 9
-  de noviembre). Son `17` partidos —`Sarmiento (LB) 0-1 Los Andes`, el tercer ascenso de
-  2024, está en dos páginas—, todos de una plantilla colgada de un título que no es un
-  nombre de ronda, como `Desempate del primer puesto`, `Partido por la permanencia` o
-  `Desempate del octavo puesto`. La plantilla sin ronda tiene que tomar el título más
-  cercano que la contiene, tal como lo escribe la página, salteando los de relleno
-  (`Resultados`, `Partidos`, `Tabla de posiciones`, `Tabla de posiciones final`). La final
-  del tercer ascenso de la Transición 2020, que en la página de la Primera B saldría
-  `Partido final`, lleva en sus dos copias el `Tercer ascenso` de la del Federal A.
 - **`venue` copia el estadio que declara la página, y al menos `18` filas del Federal A
   2014 y 2015 se jugaron en otra cancha** según el blog de José Carluccio y, donde se
   fue a buscar, la crónica del día. Catorce son localías de Unión Aconquija, que figuran
@@ -134,10 +125,6 @@ sin fecha no se jugaron.
   el nombre coincide con el pie del archivo en la caché.
 - **El lector de RSSSF no espera entre un pedido y el siguiente.** Con la caché no se
   nota; un `--rehacer` sin caché le pide 24 archivos seguidos a RSSSF.
-- **No hay chequeo de que una fecha exista en el calendario.** `a_iso` arma `2014-11-31`
-  sin validarlo. En un torneo en curso la fila tiene que quedar afuera, con un aviso, hasta
-  que la página se arregle, sin frenar la actualización de las demás; en uno terminado,
-  que sólo se relee con `--rehacer`, es grave.
 - **Un partido escrito dos veces se reconoce sólo por `(date, home_team, away_team)`.**
   Si las dos páginas lo publicaran con la localía dada vuelta o en días distintos,
   `dataset.reconciliar_copias` no vería que es el mismo, y las dos copias podrían decir

@@ -824,7 +824,7 @@ def test_las_copias_declaradas_estan_justificadas():
     from fad import equipos
     for c in correcciones.COPIAS:
         assert len(c.porque) > 80, f"{c.fecha} {c.local}: la evidencia es muy flaca"
-        assert c.campo in ("time", "venue"), c.campo
+        assert c.campo in ("time", "venue", "matchday"), c.campo
         for n in (c.local, c.visita):
             assert equipos.buscar(n) is not None, f"{n!r} no esta en el padron"
         if c.campo == "time":

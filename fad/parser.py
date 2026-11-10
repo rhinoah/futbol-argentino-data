@@ -2474,7 +2474,17 @@ def partidos_de_plantillas(texto: str, anio: int, torneo: str, anio_fin: int | N
             penales_local=pen[0] if pen else None,
             penales_visita=pen[1] if pen else None,
             torneo=torneo, fase="eliminacion",
-            jornada=_ronda_en(pos, titulos, _inicio_de_llave(pos, texto)),
+            # UNA PLANTILLA SUELTA TOMA LA RONDA DEL TITULO DE SU SECCION, si ninguno
+            # de los que nombran una ronda la alcanza. Son los partidos de una sola
+            # pata que no son de ningun cuadro -- un desempate, una promocion, un
+            # partido por la permanencia -- y la pagina los cuelga de un titulo que
+            # dice que son: `== Partido por la permanencia ==`. Sin esto salian con
+            # el `matchday` vacio, 18 filas de 10 paginas medidas el 9/11/2026. El
+            # titulo va tal como lo escribe la pagina, aunque sea largo, salteando
+            # los de relleno (ver `_ronda_de_la_seccion`); es lo que ya hace la tabla
+            # con su `Partido de desempate del primer puesto`.
+            jornada=(_ronda_en(pos, titulos, _inicio_de_llave(pos, texto))
+                     or _ronda_de_la_seccion(pos, texto)),
             local_art=arts.get(limpiar(campos.get("local", "")), ""),
             visita_art=arts.get(limpiar(campos.get("visita", "")), ""),
             llave=_contexto(pos, 3, texto),
@@ -2882,6 +2892,12 @@ def _contexto(pos: int, nivel: int, texto: str) -> str:
 # es el titulo de arriba, `=== Segunda etapa ===`.
 _TITULO_DE_CONTENIDO = re.compile(r"(?i)^(resultados|enfrentamientos?)$")
 
+# Y la tabla de posiciones, que tampoco es una parte del torneo sino lo que trae la
+# seccion. El Apertura 2008 cuelga su triangular de `== Desempate del primer puesto
+# ==` > `=== Tabla de posiciones final ===` > `==== Resultados ====`, y sin esto la
+# ronda de esos tres partidos salia "Tabla de posiciones final".
+_TITULO_DE_TABLA = re.compile(r"(?i)^tabla de posiciones( final)?$")
+
 
 def _ronda_de_la_seccion(pos: int, texto: str) -> str:
     """El titulo mas cercano que CONTIENE a `pos` y nombra una parte del torneo.
@@ -2902,7 +2918,7 @@ def _ronda_de_la_seccion(pos: int, texto: str) -> str:
             ruta = [x for x in ruta if x[0] < n] + [(n, _seccion(limpiar(m.group(2))))]
     for _, titulo in reversed(ruta):
         if not (_TITULO_DE_CONTENIDO.match(titulo) or _TITULO_DE_RELLENO.match(titulo)
-                or titulo.lower() in _NO_SON_FASE):
+                or _TITULO_DE_TABLA.match(titulo) or titulo.lower() in _NO_SON_FASE):
             return titulo
     return ""
 

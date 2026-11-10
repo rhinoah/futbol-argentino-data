@@ -159,6 +159,66 @@ def test_forzar_deja_pasar_el_achicamiento(monkeypatch, tmp_path):
     assert len(build.dataset.leer_carpeta(tmp_path / "data")) == 1
 
 
+# ---- un dia que no existe en el calendario -----------------------------------
+def _con_un_dia_que_no_existe(*cruces):
+    """La tabla de siempre, con el segundo partido el 31 de noviembre."""
+    return tabla(*cruces).replace("|24 de enero\n", "|31 de noviembre\n")
+
+
+def test_en_un_torneo_en_curso_la_fila_queda_afuera_y_el_resto_se_escribe(
+        monkeypatch, tmp_path, capsys):
+    """Decidido el 9/11/2026. Frenar dejaria sin actualizar a todas las paginas por
+    un dia mal tipeado en una; publicarla daria una fecha que no existe."""
+    pagina = _con_un_dia_que_no_existe(("Boca Juniors", "River Plate"),
+                                       ("Racing Club", "Huracán"))
+    assert correr(monkeypatch, tmp_path, pagina) == 0
+    filas = build.dataset.leer_carpeta(tmp_path / "data")
+    assert [(f["home_team"], f["date"]) for f in filas] == [("Boca Juniors", "2026-01-23")]
+    err = capsys.readouterr().err
+    assert "una fecha que no existe" in err and "'2026-11-31'" in err
+    assert "31 de noviembre" in err, "el aviso tiene que decir como venia la celda"
+
+
+def test_si_ya_estaba_publicada_sale_sin_frenar_y_vuelve_cuando_se_corrige(
+        monkeypatch, tmp_path):
+    """La guarda contra achicarse le descuenta esa baja: si no, una fila ya publicada
+    con el dia roto frenaba el build igual que un error grave."""
+    sanos = (("Boca Juniors", "River Plate"), ("Racing Club", "Huracán"))
+    assert correr(monkeypatch, tmp_path, tabla(*sanos)) == 0
+    assert correr(monkeypatch, tmp_path, _con_un_dia_que_no_existe(*sanos)) == 0
+    assert len(build.dataset.leer_carpeta(tmp_path / "data")) == 1
+    assert correr(monkeypatch, tmp_path, tabla(*sanos)) == 0
+    assert len(build.dataset.leer_carpeta(tmp_path / "data")) == 2
+
+
+def test_el_descuento_no_tapa_otra_perdida_del_mismo_torneo(monkeypatch, tmp_path):
+    """Descuenta las filas que se sacaron, no el torneo entero: si ademas se pierde
+    otra, la guarda frena igual."""
+    tres = (("Boca Juniors", "River Plate"), ("Racing Club", "Huracán"),
+            ("Independiente", "San Lorenzo"))
+    assert correr(monkeypatch, tmp_path, tabla(*tres)) == 0
+    assert correr(monkeypatch, tmp_path, _con_un_dia_que_no_existe(*tres[:2])) == 1
+    assert len(build.dataset.leer_carpeta(tmp_path / "data")) == 3
+
+
+def test_en_un_torneo_terminado_un_dia_que_no_existe_es_grave():
+    """Solo se relee con `--rehacer`, a mano: ahi una fila que se cae es un partido
+    menos para siempre."""
+    cerrado = Torneo("Anexo:Prueba", "Prueba", 2026)
+    ps, _ = build.procesar(_con_un_dia_que_no_existe(("Boca Juniors", "River Plate"),
+                                                     ("Racing Club", "Huracán")), cerrado)
+    quedan, avisos = build.sin_fechas_que_no_existen(ps, cerrado)
+    assert len(quedan) == 2, "en uno terminado no se saca nada: frena"
+    assert [a.grave for a in avisos] == [True]
+    _, en_curso = build.sin_fechas_que_no_existen(ps, T)
+    assert [a.grave for a in en_curso] == [False]
+
+
+def test_una_fecha_que_existe_no_se_toca():
+    ps, _ = build.procesar(tabla(("Boca Juniors", "River Plate")), T)
+    assert build.sin_fechas_que_no_existen(ps, T) == (ps, [])
+
+
 def test_dry_run_no_escribe(monkeypatch, tmp_path):
     assert correr(monkeypatch, tmp_path, tabla(("Boca Juniors", "River Plate")),
                   argv=["--dry-run"]) == 0
