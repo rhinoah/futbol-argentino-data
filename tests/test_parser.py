@@ -3977,3 +3977,14 @@ def test_el_inicio_es_el_de_la_primera_ficha():
     """La de la pagina va arriba; otra mas abajo, de otra cosa, no cuenta."""
     texto = _ficha("9 de agosto de 2007") + _ficha("1 de marzo de 2009")
     assert parser.inicio_de_la_ficha(texto) == "2007-08-09"
+
+
+def test_la_plantilla_que_abre_con_el_primer_parametro_en_el_renglon_del_nombre():
+    """`{{Partidos|` y el salto: asi escriben sus 14 plantillas las paginas del Argentino
+    A 2006-07 a 2009-10, con cada `|` al final del renglon."""
+    texto = ("{{Partidos|\nlocal = [[Club Cipolletti|Cipolletti]] |\n"
+             "resultado = 3:1''' (0:0) |\nvisita = [[Club Atlético Patronato|Patronato]]|\n"
+             "fecha = 9 de mayo de 2010, 16:00 (GMT -3)|\nestadio = La Visera de Cemento|\n}}\n")
+    (p,) = parser.partidos_de_plantillas(texto, 2009, "x", anio_fin=2010)
+    assert (p.fecha, p.hora, p.local, p.goles_local, p.goles_visita, p.visita, p.estadio) == (
+        "2010-05-09", "16:00", "Cipolletti", 3, 1, "Patronato", "La Visera de Cemento")

@@ -8,7 +8,7 @@ clubes con media historia cada uno.
 from __future__ import annotations
 
 import build
-from fad import posiciones
+from fad import equipos, posiciones
 from fad.torneos import Torneo
 
 # `cerrado=False`: estos tests reconstruyen el torneo en cada corrida. Uno
@@ -3013,3 +3013,86 @@ def test_el_build_le_pasa_al_chequeo_de_los_anios_el_inicio_de_la_ficha():
     assert len(de_la_ficha) == 1 and not de_la_ficha[0].grave
     _, avisos = build.procesar(ficha("1 de enero de 2026") + tabla(("Boca Juniors", "River Plate")), T)
     assert not [a for a in avisos if a.que == "partidos antes del inicio que da la ficha"]
+
+
+
+# --------------------------------------------------------------------------
+# la fase final de una pagina sin grilla
+# --------------------------------------------------------------------------
+_SIN_GRILLA = Torneo("Torneo Argentino A 2008-09", "Torneo Argentino A", 2008, anio_fin=2009,
+                     sin_grilla=True, rsssf_llaves=True, cerrado=False)
+
+_FINAL_DE_LA_PAGINA = (
+    "== Final ==\n"
+    "{{Partidos|\nlocal = Patronato |\nresultado = 1:0 |\nvisita = Boca Unidos |\n"
+    "fecha = 14 de junio de 2009 |\nestadio = Bartolomé Grella |\n}}\n"
+    "{{Partidos|\nlocal = Boca Unidos |\nresultado = 1:0 |\nvisita = Patronato |\n"
+    "fecha = 21 de junio de 2009 |\nestadio = José Antonio Romero |\n}}\n")
+
+_FINAL_DE_RSSSF = (
+    "Final\n\nFirst Leg [Jun 14]\nPatronato               1-0 Boca Unidos\n\n"
+    "Second Leg [Jun 21]\nBoca Unidos             1-0 Patronato             [4-2 pen]\n\n"
+    "Promotion/Relegation Playoff\n\nFirst Leg [Jun 25]\nPatronato               0-2 C.A.I.\n")
+
+
+def test_la_fase_final_sin_grilla_es_la_de_la_pagina_mas_lo_que_le_falta():
+    """Lo de la pagina primero, con cancha; de RSSSF, lo que la pagina no tiene -- la
+    promocion -- y la tanda de la vuelta, que la plantilla no trae. Lo repetido no se
+    escribe dos veces."""
+    ps, avisos, llaves = build.fase_final_sin_grilla(_FINAL_DE_LA_PAGINA, _SIN_GRILLA,
+                                                     _FINAL_DE_RSSSF, {})
+    assert [(p.fecha, equipos.canonizar(p.local), p.goles_local, p.goles_visita,
+             p.penales_local, p.penales_visita, p.estadio) for p in ps] == [
+        ("2009-06-14", "Patronato", 1, 0, None, None, "Bartolomé Grella"),
+        ("2009-06-21", "Boca Unidos", 1, 0, 4, 2, "José Antonio Romero"),
+        ("2009-06-25", "Patronato", 0, 2, None, None, "")]
+    assert len(llaves) == 3
+    dicho = " | ".join(a.detalle for a in avisos)
+    assert "2 llaves de RSSSF ya estaban" in dicho and "1 tandas de penales" in dicho
+
+
+def test_la_tanda_de_rsssf_no_va_a_otro_partido():
+    """Solo con el par, el dia y el marcador iguales: con otro dia no es ese partido."""
+    pagina = _FINAL_DE_LA_PAGINA.replace("21 de junio de 2009", "22 de junio de 2009")
+    ps, _, _ = build.fase_final_sin_grilla(pagina, _SIN_GRILLA, _FINAL_DE_RSSSF, {})
+    assert [p.penales_local for p in ps if p.fecha == "2009-06-22"] == [None]
+
+
+def test_la_tanda_de_la_pagina_no_se_pisa():
+    pagina = _FINAL_DE_LA_PAGINA.replace("resultado = 1:0 |\nvisita = Patronato",
+                                         "resultado = 1:0 |\nresultado penalti = 5:4 |\nvisita = Patronato")
+    ps, _, _ = build.fase_final_sin_grilla(pagina, _SIN_GRILLA, _FINAL_DE_RSSSF, {})
+    vuelta = [p for p in ps if p.fecha == "2009-06-21"]
+    assert [(p.penales_local, p.penales_visita) for p in vuelta] == [(5, 4)], \
+        "piso la de la pagina"
+
+
+def test_la_foja_de_una_zona_suma_solo_los_partidos_de_su_fase(monkeypatch):
+    """Las fases finales por grupos del Argentino A 2007-08 y 2008-09: los mismos
+    clubes juegan las dos fases, y la tabla de la primera no cuenta los de la final.
+    Con la llave declarada por zona, la foja de `Zone 1` deja afuera el partido de la
+    `Segunda fase`; sin ella, A y B sumaban dos partidos donde la tabla dice uno."""
+    from fad import rsssf
+    monkeypatch.setitem(rsssf.LLAVE_DE_LA_ZONA, "una pagina",
+                        {"Zone 1": "Primera fase", "Group A": "Segunda fase"})
+    ps = [_zp("A", "B", 2, 0, "Zone 1"), _zp("A", "B", 1, 1, "Group A")]
+    ps[0].llave, ps[1].llave = "Primera fase", "Segunda fase"
+    respaldados, avisos = build.la_fuente_se_respalda(
+        ps, _tabla("Zone 1", [(1, 1, 0, 0, 2, 0), (1, 0, 0, 1, 0, 2)]),
+        {"Zone 1": {"A": "A", "B": "B"}, "Group A": {"A": "A", "B": "B"}}, "una pagina")
+    assert respaldados == {"A", "B"} and avisos == []
+
+
+def test_una_pagina_sin_grilla_trae_su_fase_final_por_procesar(monkeypatch):
+    """El camino entero: las zonas de RSSSF, y la fase final de las plantillas de la
+    pagina y de las llaves de RSSSF. Antes `procesar` no leia llaves sin grilla."""
+    from fad import rsssf
+    monkeypatch.setitem(rsssf.FUENTES, _SIN_GRILLA.pagina,
+                        ("falso", {"Zone 1": {"Patronato": "Patronato",
+                                              "Boca Unidos": "Boca Unidos"}}))
+    monkeypatch.setattr(rsssf, "descargar", lambda archivo, usar_cache=True: (
+        "Zone 1\nRound 1 [Sep 7]\nPatronato               2-1 Boca Unidos\n\n" + _FINAL_DE_RSSSF))
+    ps, _ = build.procesar(_FINAL_DE_LA_PAGINA, _SIN_GRILLA)
+    assert sorted((p.fase, p.fecha) for p in ps) == [
+        ("eliminacion", "2009-06-14"), ("eliminacion", "2009-06-21"),
+        ("eliminacion", "2009-06-25"), ("zonas", "2008-09-07")]

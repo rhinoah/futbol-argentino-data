@@ -63,6 +63,7 @@ CORRECCIONES | pagina='Campeonato de Primera Nacional 2022' | jornada='Fecha 5' 
 CORRECCIONES | pagina='Campeonato de Primera B Nacional 2009-10' | jornada='Fecha 12' | dice=('All Boys', 'Belgrano', 0, 0) | debe=('All Boys', 'Gimnasia y Esgrima (J)')
 CORRECCIONES | pagina='Anexo:Torneo Clausura 1994 (Argentina)' | jornada='Fecha 8' | dice=('Deportivo Maniyú', 'Platense', 1, 1) | debe=('Deportivo Mandiyú', 'Platense')
 CORRECCIONES | pagina='Anexo:Torneo Clausura 1995 (Argentina)' | jornada='Fecha 6' | dice=('Ferro Carril Oeste', 'Gimnasia J)', 2, 2) | debe=('Ferro Carril Oeste', 'Gimnasia y Esgrima (J)')
+MARCADORES | pagina='Torneo Argentino A 2006-07' | jornada='Ascenso y promoción con la Primera B Nacional' | local='Independiente Rivadavia' | visita='Guillermo Brown' | dice=(2, 1) | debe=(2, 1) | penales_debe=(3, 2)
 MARCADORES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local='Almagro' | visita='Atlético de Rafaela' | dice=(1, 1) | debe=(1, 1) | penales_dice=(3, 4) | penales_debe=(4, 2)
 MARCADORES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local="Newell's Old Boys" | visita='Villa Mitre' | dice=(0, 0) | debe=(1, 2) | penales_dice=(5, 3)
 MARCADORES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local='Nueva Chicago' | visita='Central Córdoba (SdE)' | dice=(1, 2) | debe=(0, 1)
@@ -162,6 +163,8 @@ HOMONIMOS | pagina='Torneo Federal A 2014' | dice='Mitre (S)' | debe='Mitre (SdE
 CANCHAS | pagina='Campeonato de Primera Nacional 2022' | jornada='Fecha 36' | local='Gimnasia y Esgrima (J)' | visita='San Martín (T)' | dice='Víctor Antonio Legrotaglie' | debe='23 de Agosto'
 CANCHAS | pagina='Torneo Federal A 2025' | jornada='Segunda etapa' | local='Sarmiento (LB)' | visita='San Martín (SM)' | dice='Centenario' | debe='Ciudad de La Banda'
 HORAS | pagina='Anexo:Torneo Clausura 2003 (Argentina)' | jornada='Fecha 15' | local="Newell's Old Boys" | visita='Racing Club' | dice='18:5' | debe='18:05'
+COPIAS | fecha='2010-05-30' | local='CAI' | visita='Ramón Santamarina' | campo='time' | valor='14:00'
+COPIAS | fecha='2010-05-30' | local='CAI' | visita='Ramón Santamarina' | campo='venue' | valor='Municipal de Comodoro Rivadavia'
 COPIAS | fecha='2011-06-25' | local='Los Andes' | visita='Central Córdoba (R)' | campo='time' | valor='15:00'
 COPIAS | fecha='2011-06-22' | local='Desamparados' | visita='San Martín (T)' | campo='matchday' | valor='Promoción Primera B Nacional - Torneo Argentino A'
 COPIAS | fecha='2011-06-26' | local='San Martín (T)' | visita='Desamparados' | campo='matchday' | valor='Promoción Primera B Nacional - Torneo Argentino A'
@@ -340,6 +343,7 @@ REVISADOS | pagina='Torneo Argentino A 2005-06' | club='Sportivo Patria' | desvi
 REVISADOS | pagina='Torneo Federal A 2015' | club='Concepción FC' | desvio='GF+1'
 REVISADOS | pagina='Torneo Federal A 2015' | club='San Martín (T)' | desvio='GC+1'
 REVISADOS | pagina='Torneo Federal A 2015' | club='Talleres (C)' | desvio='E+1 P-1'
+FECHADOS | pagina='Torneo Argentino A 2006-07' | jornada='Ascenso y promoción con la Primera B Nacional' | local='Independiente Rivadavia' | visita='Guillermo Brown' | nuestra='2007-07-05' | otra='2007-07-08'
 FECHADOS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 17' | local='Cipolletti' | visita='Gimnasia y Esgrima (CdU)' | nuestra='2013-01-27' | otra='2013-01-26'
 FECHADOS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 17' | local='Ramón Santamarina' | visita='Alvarado' | nuestra='2013-01-27' | otra='2013-01-26'
 FECHADOS | pagina='Torneo Argentino A 2012-13' | jornada='Fecha 17' | local='Guillermo Brown' | visita='Deportivo Maipú' | nuestra='2013-01-27' | otra='2013-01-26'

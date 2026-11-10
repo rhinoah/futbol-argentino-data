@@ -2062,6 +2062,22 @@ MARCADORES: tuple[Marcador, ...] = (
             "difieren, 17 en el dia y 4 en quien fue local --uno en las dos cosas--, la "
             "pagina dice lo de la obra."),
     ),
+
+    # --- Argentino A 2006-07: la tanda de la final del campeonato ---
+    Marcador(
+        pagina="Torneo Argentino A 2006-07",
+        jornada="Ascenso y promoción con la Primera B Nacional",
+        local="Independiente Rivadavia", visita="Guillermo Brown",
+        dice=(2, 1), debe=(2, 1), penales_debe=(3, 2),
+        porque=(
+            "El 2-1 esta bien, y con el 1-0 de la ida el global quedo 2-2: la serie se "
+            "definio por penales, y ni la plantilla ni RSSSF lo dicen. La PROPIA PAGINA "
+            "lo publica en la tabla 'Definicion por penales' que cuelga abajo de la "
+            "plantilla, tiro por tiro, y termina 3:2. Lo mismo dice la prensa: Diario "
+            "Uno, con los goles de Ruiz, Cipriani y Aranda y la tanda 3-2 (https://"
+            "www.diariouno.com.ar/ovacion/futbol/cumplieron-12-anos-ascenso-independiente-"
+            "rivadavia-07052019_B1BUt1Ter), y la cronica de Canal 26 del 5/7/2007."),
+    ),
 )
 
 
@@ -2946,6 +2962,31 @@ COPIAS: tuple[Copia, ...] = (
             "editor paso la Primera B a '25 de junio' y '15:00' en la misma edicion "
             "(rev 47457414); en la Primera C otro cambio solo el dia y dejo la hora "
             "(rev 47459380)."),
+    ),
+    # La vuelta de la promocion B Nacional - Argentino A de 2009-10, escrita dos veces
+    # desde que la fase final del Argentino A entra (10/11/2026).
+    Copia(
+        fecha="2010-05-30", local="CAI", visita="Ramón Santamarina",
+        campo="time", valor="14:00",
+        porque=(
+            "La plantilla del Argentino A 2009-10 dice 14:00 y la de la B Nacional "
+            "2009-10, 15:00. La previa de La Nueva de esa misma manana, 'CAI, con "
+            "ventaja' (30/5/2010), lo programa 'a partir de las 14.05' en el Municipal "
+            "de Comodoro Rivadavia: cinco minutos de las 14:00 y casi una hora antes de "
+            "las 15:00. https://www.lanueva.com/nota/2010-5-30-9-0-0-cai-con-ventaja\n"
+            "Va la de las dos que la fuente respalda, tal como la escribe la pagina: "
+            "una `Copia` elige entre las dos, no escribe una tercera. La ida de la serie "
+            "tiene el mismo corrimiento: las dos paginas dicen 14:00 y Diario de Cuyo, "
+            "14.10."),
+    ),
+    Copia(
+        fecha="2010-05-30", local="CAI", visita="Ramón Santamarina",
+        campo="venue", valor="Municipal de Comodoro Rivadavia",
+        porque=(
+            "La misma cancha escrita de dos formas: el Argentino A 2009-10 pone 'Estadio "
+            "Municipal de Comodoro Rivadavia' y la B Nacional 2009-10 'Municipal de "
+            "Comodoro Rivadavia', que es como el dataset la escribe en otras 41 filas; "
+            "con el prefijo, en ninguna otra (medido el 10/11/2026)."),
     ),
     Copia(
         fecha="2011-06-22", local="Desamparados", visita="San Martín (T)",
@@ -4973,6 +5014,25 @@ _BLOG_2012_13_CUARTA = (
 
 
 FECHADOS: tuple[Fechado, ...] = (
+    # La vuelta de la final del campeonato del Argentino A 2006-07: la plantilla de la
+    # pagina dice 5 de julio y RSSSF (`arg3-int07`), `Second Leg [Jul 8]`.
+    Fechado(pagina="Torneo Argentino A 2006-07",
+            jornada="Ascenso y promoción con la Primera B Nacional",
+            local="Independiente Rivadavia", visita="Guillermo Brown",
+            nuestra="2007-07-05", otra="2007-07-08",
+            porque=(
+                "Diario Uno, 'Se cumplieron 12 años del ascenso de Independiente "
+                "Rivadavia' (5/7/2019): 'El 5 de julio de 2007', con los goles de Ruiz, "
+                "Cipriani y Aranda y la tanda 3-2. "
+                "https://www.diariouno.com.ar/ovacion/futbol/cumplieron-12-anos-ascenso-"
+                "independiente-rivadavia-07052019_B1BUt1Ter\n"
+                "Lo confirma la cronica de Canal 26 del 5/7/2007, 'Independiente "
+                "Rivadavia, el campeon del escandalo', con el 2-1 y la tanda 3-2 en el "
+                "Gargantini: https://www.canal26.com/deportes/2007/07/05/independiente-"
+                "rivadavia-el-campeon-del-escandalo/\n"
+                "Y el propio dataset: Guillermo Brown juega la ida de la promocion "
+                "contra Ben Hur el 9 de julio, y con el 8 de RSSSF habria jugado dos "
+                "dias seguidos.")),
     Fechado(pagina="Torneo Argentino A 2012-13", jornada="Fecha 17",
             local="Cipolletti", visita="Gimnasia y Esgrima (CdU)",
             nuestra="2013-01-27", otra="2013-01-26", porque=_BLOG_2012_13),

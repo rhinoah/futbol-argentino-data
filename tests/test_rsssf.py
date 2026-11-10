@@ -1994,3 +1994,115 @@ def test_una_fila_de_la_tabla_no_abre_una_llave():
     # otra. Lo que cambia es que sin el guard cada fila de la tabla se denuncia
     # como un nombre que el mapa no traduce: quince en el Argentino A 2010-11.
     assert raros == [], raros
+
+
+# --------------------------------------------------------------------------
+# la fase final de las paginas sin grilla: lo que el lector no veia
+# --------------------------------------------------------------------------
+def test_tba_corta_la_fecha_que_venia():
+    """`[tba]` dice que no hay fecha. Sin esto, la vuelta `Sportivo Desamparados 2-2
+    Dep. Maipu` de la promocion del Argentino A 2006-07 se llevaba el `[Jun 17]` de los
+    partidos de arriba, dos semanas antes de su propia ida."""
+    ps, raros = _llaves(
+        "Zona A - Sur\n"
+        "Relegation Playoff\n"
+        "Second Legs\n"
+        "[Jun 17]\n"
+        "Cipolletti                   2-0 Villa Mitre\n"
+        "[tba]\n"
+        "Villa Mitre                  2-2 Cipolletti\n")
+    assert [(p.fecha, p.local) for p in ps] == [("2006-06-17", "Cipolletti")]
+    assert len(raros) == 1 and "viene sin fecha" in raros[0]
+
+
+def test_la_final_del_campeonato_es_una_ronda():
+    """`Championship Final` y `Championship Playoff`, en 2006-07 y 2007-08."""
+    for titulo in ("Championship Final", "Championship Playoff"):
+        ps, raros = _llaves(
+            "Zona A - Sur\n" + titulo + "\n"
+            "First Leg [Jul 1]\n"
+            "Cipolletti                   1-0 Villa Mitre\n")
+        assert raros == [] and [p.jornada for p in ps] == [titulo + " - First leg"], titulo
+
+
+def test_la_tanda_entre_parentesis_es_la_tanda():
+    """`(4-2 pen)`, como en la final del campeonato del Argentino A 2007-08. Sin esto
+    quedaba pegada al nombre del visitante, que el mapa no traducia."""
+    ps, raros = _llaves(
+        "Zona A - Sur\n"
+        "Final\n"
+        "First Leg [Jun 11]\n"
+        "Cipolletti                   2-1 Villa Mitre\n"
+        "Second Leg [Jun 15]\n"
+        "Villa Mitre                  2-1 Cipolletti             (4-2 pen)\n")
+    assert raros == []
+    assert [(p.local, p.penales_local, p.penales_visita) for p in ps] == [
+        ("Cipolletti", None, None), ("Villa Mitre", 4, 2)]
+
+
+def test_un_parentesis_que_no_es_tanda_sigue_siendo_parte_del_nombre():
+    """Solo la forma `(n-n pen)`: la ciudad entre parentesis no es una nota."""
+    m = rsssf._LLAVE_CRUCE.match("Gimnasia y Esgrima (M)  0-2 Sportivo Belgrano (San Francisco)")
+    assert m.group(4) == "Sportivo Belgrano (San Francisco)" and m.group(6) is None
+
+
+def test_una_nota_entera_pegada_al_nombre_no_es_el_nombre():
+    """`La Emilia (San Nicolas) [closed doors to La Emilia supporters]`, con un solo
+    espacio: el renglon no la separa, y el club no se reconocia."""
+    assert rsssf._club("Villa Mitre [closed doors to supporters]", _MAPA_LLAVES,
+                       "Zona A - Sur", {}) == ("Villa Mitre", "")
+
+
+_MAPA_FINAL = {
+    "Group A": {"Cipolletti": "Cipolletti", "Villa Mitre": "Villa Mitre",
+                "Racing": "Racing (O)", "La Plata FC": "La Plata FC"},
+    "Zona A": {"Cipolletti": "Cipolletti", "Villa Mitre": "Villa Mitre"},
+    "Zona B": {"Racing": "Racing (O)", "La Plata FC": "La Plata FC"},
+}
+
+
+def test_una_ronda_que_mezcla_los_grupos_reparte_cada_partido_al_suyo():
+    """Las fases finales del Argentino A 2007-08 y 2008-09: las tablas con las zonas y
+    despues las rondas con los partidos de las dos juntos. La zona abierta es la del
+    ultimo titulo de tabla; cada partido va a la de su familia que tiene a los dos.
+    `Group A` tambien los tiene, y es de la otra familia: no cuenta."""
+    ajenos, avisos = rsssf.leer("Zona A\n 1.Cipolletti  6\nZona B\n 1.Racing  6\n"
+                                "Round 1 (May 4)\n"
+                                "Cipolletti                   1-0 Villa Mitre\n"
+                                "Racing                       2-2 La Plata FC\n",
+                                _MAPA_FINAL, 2007, 2008, 8)
+    assert avisos == []
+    assert [(a.zona, a.local, a.visita) for a in ajenos] == [
+        ("Zona A", "Cipolletti", "Villa Mitre"), ("Zona B", "Racing (O)", "La Plata FC")]
+
+
+def test_la_zona_abierta_no_cambia_por_un_partido_de_otra():
+    """El que sigue se vuelve a preguntar desde la zona abierta, no desde la del de
+    arriba. Se nota con un par que esta en las DOS zonas -- como en la primera fase del
+    Argentino A 2007-08, donde el mapa de cada grupo trae tambien a los rivales del
+    interzonal --: ese va a la abierta, y si la de arriba la hubiera pisado, iria a la
+    otra."""
+    mapa = {"Zona A": {"Cipolletti": "Cipolletti", "Villa Mitre": "Villa Mitre",
+                       "Racing": "Racing (O)", "La Plata FC": "La Plata FC"},
+            "Zona B": {"Racing": "Racing (O)", "La Plata FC": "La Plata FC"}}
+    ajenos, _ = rsssf.leer("Zona B\n 1.Racing  6\nRound 1 (May 4)\n"
+                           "Cipolletti                   1-0 Villa Mitre\n"
+                           "Racing                       2-2 La Plata FC\n",
+                           mapa, 2007, 2008, 8)
+    assert [a.zona for a in ajenos] == ["Zona A", "Zona B"]
+
+
+def test_sin_una_zona_unica_el_partido_no_entra():
+    ajenos, avisos = rsssf.leer("Zona A\nRound 1 (May 4)\n"
+                                "Cipolletti                   1-0 La Plata FC\n",
+                                _MAPA_FINAL, 2007, 2008, 8)
+    assert ajenos == [] and avisos and "no traduce" in avisos[0]
+
+
+def test_la_llave_de_la_zona_separa_las_dos_fases(monkeypatch):
+    monkeypatch.setitem(rsssf.LLAVE_DE_LA_ZONA, "Una Pagina", {"Zona A": "Fase Final"})
+    ajenos, _ = rsssf.leer("Zona A\nRound 1 (May 4)\n"
+                           "Cipolletti                   1-0 Villa Mitre\n",
+                           _MAPA_FINAL, 2007, 2008, 8)
+    assert [a.llave for a in rsssf.con_llaves(ajenos, "Una Pagina")] == ["Fase Final"]
+    assert [a.llave for a in rsssf.con_llaves(ajenos, "Otra Pagina")] == [""]

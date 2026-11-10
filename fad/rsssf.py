@@ -807,7 +807,24 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         if _MINUTO.fullmatch(local):
             continue
         visita = _sin_sede(m.group(4).strip())
-        cl, cv = mapa[zona].get(local), mapa[zona].get(visita)
+        # UNA RONDA QUE MEZCLA LOS GRUPOS. Las fases finales del Argentino A 2007-08 y
+        # 2008-09 publican primero las tablas, con los grupos, y despues cada ronda con
+        # los partidos de los dos grupos juntos y sin encabezado: la zona abierta es la
+        # del ultimo titulo de tabla, y la mitad de los partidos no son de ella. Si los
+        # dos clubes no estan en la zona abierta, el partido va a la UNICA del mapa que
+        # tiene a los dos; si no hay ninguna, o hay mas de una, no entra, como antes.
+        # La zona abierta no se toca: el renglon que sigue la vuelve a preguntar.
+        # Y SOLO DE LA FAMILIA DE LA ABIERTA: `Zona` con `Zona`, `Group` con `Group`.
+        # Los clubes de la fase final jugaron tambien la primera, asi que estan en
+        # sus zonas, y una zona de la otra fase no es candidata aunque sea la unica.
+        suya = zona
+        if visita not in mapa[zona] or local not in mapa[zona]:
+            familia = zona.split(" ")[0]
+            las_dos = [z for z in mapa if z.split(" ")[0] == familia
+                       and local in mapa[z] and visita in mapa[z]]
+            if len(las_dos) == 1:
+                suya = las_dos[0]
+        cl, cv = mapa[suya].get(local), mapa[suya].get(visita)
         for nombre, c in ((local, cl), (visita, cv)):
             if c is None:
                 desconocidos.add(f"{zona}: {nombre}")
@@ -862,7 +879,7 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         if _RESTO.search(nota):
             abrio = [a for a in fuera
                      if (a.jornada, a.local, a.visita, a.llave, a.zona)
-                     == (ronda, cl, cv, llave, zona) and a.status == "suspendido"]
+                     == (ronda, cl, cv, llave, suya) and a.status == "suspendido"]
             if len(abrio) == 1:
                 fuera.remove(abrio[0])
                 empezados[(ronda, cl, cv)] = abrio[0].fecha
@@ -870,7 +887,7 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
         fuera.append(Ajeno(fecha=dia,
                            jornada=ronda, local=cl, visita=cv,
                            goles_local=gl, goles_visita=gv, llave=llave,
-                           zona=zona, status=estado,
+                           zona=suya, status=estado,
                            penales_local=int(tanda.group(1)) if tanda else None,
                            penales_visita=int(tanda.group(3)) if tanda else None))
     avisos = ([f"{len(desconocidos)} nombres de RSSSF que el mapa no traduce: "
@@ -955,8 +972,15 @@ def _los_que_se_pierden(caidos: list, fuera: list) -> list[str]:
 # 2012-13 no eran titulos de nada: sus dieciseis partidos no se leian, y en
 # silencio, porque un titulo que no matchea no genera aviso -- simplemente no abre
 # ninguna ronda y los renglones de abajo caen sin ronda abierta.
+#
+# Y LA FINAL DEL CAMPEONATO, que en 2006-07 y 2007-08 RSSSF titula `Championship
+# Final` y `Championship Playoff`: es el cruce entre el campeon del Apertura y el
+# del Clausura, y sin el titulo no se leia. La del 2005-06 lleva la cola
+# `(Apertura & Clausura)` y sigue sin matchear, que es lo que corresponde: esa
+# pagina publica su final y RSSSF solo la fecha.
 _LLAVE_TITULO = re.compile(
     r"^(?:Overall\s+)?(1/8\s+Finals|Quarterfinals|Semifinals|Final"
+    r"|Championship Final|Championship Playoff"
     r"|Second Round|Third Round|Third Phase|Fourth Phase"
     r"|Promotion/Relegation Playoff|Promotion Playoff|Relegation Playoff)"
     r"(?:\s+(?:\d[^\[\]]*|Reválida))?(?:\s*\[([^\]]*)\])?\s*$", re.I)
@@ -979,6 +1003,11 @@ _LLAVE_PATA = re.compile(r"^(First|Second|Secoond)\s+Legs?\s*(?:[\[(]([^\])]+)[\
 # archivos de 2007-08 usan "(Jun 21)" y los demas "[Jun 21]". Es la unica forma
 # en que RSSSF fecha las patas de la promocion de la B Nacional 2007-08.
 _LLAVE_FECHA = re.compile(r"^[\[(]\s*([A-Za-z]{3})\s+(\d{1,2})\s*[\])]$")
+# Y el renglon que dice que NO hay fecha: `[tba]`, "to be announced". Corta la fecha
+# que venia, como cualquier encabezado: sin esto, la vuelta `Sportivo Desamparados
+# 2-2 Dep. Maipú` de la promocion del Argentino A 2006-07 se llevaba el `[Jun 17]` de
+# los dos partidos de arriba, dos semanas ANTES de su propia ida.
+_LLAVE_SIN_DIA = re.compile(r"^[\[(]\s*(?:tba|tbd)\s*[\])]$", re.I)
 # Lo de adentro de un corchete puede traer mas que la fecha: "Jun 4, one leg".
 # Se lee el mes y el dia del principio y se ignora el resto.
 _LLAVE_DIA = re.compile(r"^\s*([A-Za-z]{3})\s+(\d{1,2})\b")
@@ -1004,8 +1033,14 @@ def _dia_de(corchete: str) -> tuple[int, int] | None:
 # Aflojarlo no abre la puerta a las tablas de posiciones -- que traen cosas como
 # `0  25- 6  43` y matchearian --, porque de eso no se ocupa el separador sino
 # `_LLAVE_CIERRA`: una tabla cierra la ronda abierta y sin ronda no se lee nada.
+#
+# LA NOTA PUEDE SER UNA TANDA ENTRE PARENTESIS, `(4-2 pen)`: asi la escribe la final
+# del campeonato del Argentino A 2007-08, en un archivo que pone las fechas entre
+# parentesis tambien. Se acepta solo esa forma -- dos numeros y `pen` -- y no
+# cualquier parentesis: despues de dos espacios podria venir la ciudad del club.
 _LLAVE_CRUCE = re.compile(
-    r"^(.+?)(?:\t+|[ ]+)(\d+)\s*-\s*(\d+)(?:\t+|[ ]+)(.+?)(?:(?:\t+|[ ]{2,})\[(.+)\])?\s*$")
+    r"^(.+?)(?:\t+|[ ]+)(\d+)\s*-\s*(\d+)(?:\t+|[ ]+)(.+?)"
+    r"(?:(?:\t+|[ ]{2,})(?:\[(.+)\]|\((\d+\s*-\s*\d+\s*pen)\)))?\s*$")
 # ...y a veces el separador se come, porque el nombre trae la sede entre
 # parentesis y el marcador queda pegado o a un solo espacio:
 #
@@ -1055,6 +1090,11 @@ def _club(nombre: str, mapa: dict, zona: str, vistos: dict) -> tuple[str, str]:
     # problema de tipografia, no de datos.
     limpio = re.sub(r"\s*\[[^\]]*$", "", nombre)            # abre y no cierra
     limpio = re.sub(r"\s{2,}[^\[\]]*\]\s*$", "", limpio)     # cierra y no abrio
+    # Y UNA NOTA ENTERA PEGADA AL NOMBRE, con un solo espacio en el medio, que el
+    # renglon no separa: `La Emilia (San Nicolás) [closed doors to La Emilia
+    # supporters]`, en la promocion del Argentino A 2009-10. Ningun club lleva
+    # corchetes en el nombre.
+    limpio = re.sub(r"\s*\[[^\[\]]*\]\s*$", "", limpio)
     corto = _sin_sede(limpio.strip())
     if zona in mapa and corto in mapa[zona]:
         return mapa[zona][corto], ""
@@ -1406,6 +1446,9 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             if m.group(2):
                 fecha = _dia_de(m.group(2))
             continue
+        if _LLAVE_SIN_DIA.match(pelada):
+            fecha = None
+            continue
         m = _LLAVE_FECHA.match(pelada)
         if m and m.group(1).capitalize() in _MESES:
             fecha = (_MESES[m.group(1).capitalize()], int(m.group(2)))
@@ -1438,7 +1481,7 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
         if fecha is None:
             raros.append(f"{ronda}: {pelada[:60]} viene sin fecha; queda afuera")
             continue
-        nota = m.group(5) or ""
+        nota = m.group(5) or m.group(6) or ""
         cl, porque1 = _club(m.group(1), mapa, zona, vistos)
         cv, porque2 = _club(m.group(4), mapa, zona, vistos)
         if not cl or not cv:
@@ -1885,6 +1928,23 @@ ARGENTINO_A_2008: dict[str, dict[str, str]] = {
         "Sp. Desamparados": "Desamparados",
         "Talleres": "Talleres (P)",
     },
+    # LA FASE FINAL, `Final Round - Fase Final`: dos grupos de cuatro, ida y vuelta,
+    # que entran desde el 10/11/2026. RSSSF publica las tablas con los grupos y
+    # despues las seis rondas con los partidos de LOS DOS mezclados, sin encabezado
+    # de grupo: cada partido va al grupo que tiene a sus dos clubes (ver `leer`).
+    # Los grupos salen de las propias tablas del archivo.
+    "Group A": {
+        "Patronato": "Patronato",
+        "Cipolletti": "Cipolletti",
+        "9 de Julio": "9 de Julio (R)",
+        "Svo Desamparados": "Desamparados",
+    },
+    "Group B": {
+        "Boca Unidos": "Boca Unidos",
+        "Juv. Antoniana": "Juventud Antoniana",
+        "Dvo Santamarina": "Ramón Santamarina",
+        "Racing": "Racing (C)",
+    },
 }
 
 
@@ -1982,6 +2042,22 @@ ARGENTINO_A_2007: dict[str, dict[str, str]] = {
         "Rivadavia (L)": "Rivadavia (L)",
         "Villa Mitre": "Villa Mitre",
     },
+    # LA FASE FINAL, la segunda `Fase Campeonato`: dos zonas de cuatro, ida y vuelta,
+    # que entran desde el 10/11/2026. Como en 2008-09, las tablas traen las zonas y
+    # las seis rondas mezclan los partidos de las dos: cada uno va a la zona que tiene
+    # a sus dos clubes (ver `leer`). Las zonas salen de las tablas del archivo.
+    "Zona A": {
+        "Racing (C)": "Racing (C)",
+        "Sp. Desamparados": "Desamparados",
+        "Dep. Santamarina": "Ramón Santamarina",
+        "Libertad": "Libertad (S)",
+    },
+    "Zona B": {
+        "Atl. Tucuman": "Atlético Tucumán",
+        "Cipolletti": "Cipolletti",
+        "Talleres (P)": "Talleres (P)",
+        "Unión (S)": "Unión (S)",
+    },
 }
 
 # QUE TEMPORADAS PUBLICA RSSSF, Y CON QUE NOMBRE DE ARCHIVO
@@ -2040,11 +2116,12 @@ ARGENTINO_A_2007: dict[str, dict[str, str]] = {
 # de Avellaneda, "Union-S" el de Sunchales y no el de Santa Fe.
 #
 # NO se mapean las secciones de semifinales, final y promocion, igual que en las
-# temporadas anteriores: los playoffs mezclan zonas. Queda anotado que ahi RSSSF
-# escribe "Union" SIN TILDE -- un string distinto de "Union" con tilde --, y que esa
-# cadena hoy resuelve a Union de Santa Fe. Si algun dia se mapea ese bloque, es
-# Union (S), de Sunchales: lo fuerzan el NB del Apertura y la seccion Semifinales de
-# la pagina, con los mismos 2-1, 3-2 y los penales 2:4.
+# temporadas anteriores: los playoffs mezclan zonas, y `_club` las resuelve por los
+# nombres de TODO el mapa. Ahi RSSSF escribe "Union" SIN TILDE -- un string distinto
+# de "Union" con tilde --, y esa cadena sola resolvia a Union de Santa Fe: desde que
+# la fase final entra (10/11/2026) se lee, y por eso va en el Group A junto a la
+# otra. Es Union (S), de Sunchales: lo fuerzan el NB del Apertura y la seccion
+# Semifinales de la pagina, con los mismos 2-1, 3-2 y los penales 2:4.
 ARGENTINO_A_2009: dict[str, dict[str, str]] = {
     "Group A": {
         "Crucero del Norte": "Crucero del Norte",
@@ -2057,6 +2134,7 @@ ARGENTINO_A_2009: dict[str, dict[str, str]] = {
         "Svo Desamparados": "Desamparados",
         "Talleres": "Talleres (C)",
         "Unión": "Unión (S)",
+        "Union": "Unión (S)",       # las semifinales, sin tilde: ver arriba
     },
     "Group B": {
         "Central Córdoba": "Central Córdoba (SdE)",
@@ -2709,10 +2787,33 @@ LLAVES_POR_RONDA: dict[str, tuple[tuple[int, int, str], ...]] = {
 }
 
 
+# LA LLAVE DE UNA ZONA, cuando la zona es de otra fase y sus rondas se numeran de nuevo
+# desde 1: ahi el tramo de `LLAVES_POR_RONDA` no la distingue de la primera fase. Son
+# las fases finales por grupos del Argentino A 2007-08 y 2008-09, y van las DOS fases,
+# cada una con el titulo de nivel 2 que le pone la pagina: es tambien el de sus tablas,
+# y asi `posiciones` compara cada tabla contra los partidos de SU fase. Con la final
+# sola, las tablas de la primera fase quedaban sin alcance y se comparaban contra el
+# torneo entero, fase final incluida: los clubes que jugaron las dos se desviaban en
+# seis partidos.
+LLAVE_DE_LA_ZONA: dict[str, dict[str, str]] = {
+    "Torneo Argentino A 2007-08": {"Group A": "Fase Campeonato", "Group B": "Fase Campeonato",
+                                   "Group C": "Fase Campeonato",
+                                   "Zona A": "Fase Final", "Zona B": "Fase Final"},
+    "Torneo Argentino A 2008-09": {"Zone 1": "Primera fase", "Zone 2": "Primera fase",
+                                   "Zone 3": "Primera fase",
+                                   "Group A": "Segunda fase", "Group B": "Segunda fase"},
+}
+
+
 def con_llaves(ajenos: list, pagina: str) -> list:
-    """Los mismos partidos, con la llave que `LLAVES_POR_RONDA` les declara."""
+    """Los mismos partidos, con la llave que `LLAVES_POR_RONDA` o `LLAVE_DE_LA_ZONA`
+    les declaran."""
     from dataclasses import replace
 
+    por_zona = LLAVE_DE_LA_ZONA.get(pagina, {})
+    if por_zona:
+        ajenos = [replace(a, llave=por_zona[a.zona]) if a.zona in por_zona else a
+                  for a in ajenos]
     tramos = LLAVES_POR_RONDA.get(pagina, ())
     if not tramos:
         return ajenos

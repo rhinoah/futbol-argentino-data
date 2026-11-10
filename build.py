@@ -576,10 +576,19 @@ def la_fuente_se_respalda(ps: list, crudo: str, mapa: dict,
     def nuestra(fase: str, zona: str) -> str:
         return zonas.get((fase, zona), zona)
 
+    # Y LA LLAVE QUE LA ZONA TIENE DECLARADA, que separa las fases sin separar las
+    # zonas: las fases finales por grupos del Argentino A 2007-08 y 2008-09 suman
+    # aparte, y las zonas de la primera fase siguen sumando juntas. Sin esto, desde que
+    # la fase final entro, la tabla de una zona contaba tambien los seis partidos de
+    # sus clubes en la final, y salian dos "no cierra" que eran nuestros.
+    llave_de = rsssf.LLAVE_DE_LA_ZONA.get(pagina, {})
+
     def del_pool(fase: str, zona: str) -> list:
         z = nuestra(fase, zona)
+        suya = llave_de.get(zona)
         return [p for p in ps if p.fase == "zonas"
-                and (not fase or p.llave == fase) and etapa(p.zona) == etapa(z)]
+                and (not fase or p.llave == fase) and etapa(p.zona) == etapa(z)
+                and (suya is None or p.llave == suya)]
 
     # Los clubes con un partido dividido en esta pagina, sin importar la llave: la
     # foja acumulada cubre la temporada entera, asi que el alcance no acota nada.
@@ -678,6 +687,59 @@ def fechar_con_las_llaves(ps: list, llaves: list,
          for x in llaves if x.fecha],
         credito=rsssf.CREDITO, verificadas=verificadas,
         usadas=usadas)[1]
+
+
+def fase_final_sin_grilla(texto: str, t, crudo: str, mapa: dict) -> tuple[list, list, list]:
+    """La fase final de una pagina SIN GRILLA: (filas, avisos, llaves de RSSSF).
+
+    Las cuatro sin grilla -- el Argentino A 2006-07 a 2009-10 -- traen sus zonas de
+    RSSSF y nada mas, y la fase final se quedaba afuera: `leer_llaves` solo corria
+    en la rama con grilla. Ahora entra como en una pagina con grilla:
+
+      * PRIMERO LO DE LA PAGINA, sus plantillas `{{Partidos}}` -- 14 en las cuatro,
+        con hora y cancha, que RSSSF no da --;
+      * DESPUES LAS LLAVES DE RSSSF que la pagina no tiene, por `sin_repetir`: lo
+        repetido no se escribe dos veces, y si las dos discrepan se conserva el de
+        la pagina y se avisa.
+
+    LA TANDA QUE LA PAGINA NO TRAE SE TOMA DE RSSSF, que es la regla de siempre
+    entre dos fuentes del mismo partido: las finales de 2007-08 y 2008-09 se
+    definieron por penales, y sus plantillas no lo dicen. Solo si el par, el dia y
+    el marcador coinciden; si no, no es la tanda de ese partido.
+
+    Las llaves vuelven para `fechar_con_las_llaves`, que cruza el dia de cada partido
+    de la pagina contra el de RSSSF y avisa cuando no coinciden.
+    """
+    from fad import rsssf
+
+    de_la_pagina = parser.partidos_de_plantillas(texto, t.primer_anio, t.torneo,
+                                                 anio_fin=t.anio_fin, mes_inicio=t.mes_inicio)
+    llaves, dichos = rsssf.leer_llaves(
+        crudo, mapa, t.primer_anio, t.anio_fin or t.primer_anio,
+        t.mes_inicio, *rsssf.SECCION.get(t.pagina, ("", "")))
+    for p_ in llaves:
+        p_.torneo = t.torneo
+    faltan, ya_estaban, discrepan, _ = sin_repetir(llaves, de_la_pagina, t.pagina)
+    # La tanda: por par, dia y marcador, contra la pagina ya canonizada.
+    por_casilla = {(equipos.canonizar(x.local, x.local_art), equipos.canonizar(x.visita, x.visita_art),
+                    x.fecha, x.goles_local, x.goles_visita): x for x in de_la_pagina}
+    tandas = 0
+    for p_ in llaves:
+        suyo = por_casilla.get((p_.local, p_.visita, p_.fecha, p_.goles_local, p_.goles_visita))
+        if suyo is not None and suyo.penales_local is None and p_.penales_local is not None:
+            suyo.penales_local, suyo.penales_visita = p_.penales_local, p_.penales_visita
+            tandas += 1
+    if ya_estaban:
+        dichos.append(f"{ya_estaban} llaves de RSSSF ya estaban en las plantillas de la "
+                      f"pagina y no se duplicaron")
+    if tandas:
+        dichos.append(f"{tandas} tandas de penales que la pagina no trae, tomadas de RSSSF")
+    if discrepan:
+        dichos.append(f"{len(discrepan)} partidos donde la pagina y RSSSF no coinciden; se "
+                      f"conserva el de la pagina: " + " | ".join(discrepan[:3]))
+    return (de_la_pagina + faltan,
+            [validar.Aviso(f"{t.pagina}: la fase final", d, grave=False) for d in dichos],
+            llaves)
 
 
 def sin_repetir_sin_fecha(llaves: list, ps: list,
@@ -836,6 +898,11 @@ def procesar(texto: str, t) -> tuple[list, list]:
         # `contrastar`, que es quien usa el resultado, habla en nombres
         # canonicos, y dos vocabularios no cruzan.
         foja = (crudo, mapa)
+        # Y su fase final, que la pagina publica en plantillas y RSSSF en llaves.
+        if t.rsssf_llaves:
+            de_la_fase_final, dichos, llaves_rsssf = fase_final_sin_grilla(texto, t, crudo, mapa)
+            ps += de_la_fase_final
+            importados += dichos
     else:
         importados = []
         # `primer_anio` y no `temporada`: el anio con que se fecha no es siempre el

@@ -467,25 +467,29 @@ ASCENSO_HISTORICO = [
     Torneo('Torneo Argentino A 2004-05', 'Torneo Argentino A', 2004, anio_fin=2005,
            rsssf='arg3-int05', rsssf_compacto=True),
     Torneo('Torneo Argentino A 2006-07', 'Torneo Argentino A', 2006,
-           anio_fin=2007, rsssf='arg3-int07', sin_grilla=True),
+           anio_fin=2007, rsssf='arg3-int07', sin_grilla=True,
+           rsssf_llaves=True),
     # La tercera sin grilla, y la que enseño a no dar por buena la analogia con la
     # anterior: sus `Group A` y `Group B` SI son dos zonas de 8 -- la Zona 1 y la
     # Zona 2 --, aunque cada bloque nombre 16 clubes. Los otros 8 son los rivales
     # del interzonal, que RSSSF imprime bajo los dos grupos. Lo zanja la cuenta de
     # partidos, no la de nombres: 112 + 112 + 32 + 144 = 400.
     Torneo('Torneo Argentino A 2007-08', 'Torneo Argentino A', 2007,
-           anio_fin=2008, rsssf='arg3-int08', sin_grilla=True),
+           anio_fin=2008, rsssf='arg3-int08', sin_grilla=True,
+           rsssf_llaves=True),
     # La segunda sin grilla, y la que enseño que la correspondencia de zonas no se
     # da por hecha: RSSSF la parte en `Zone 1`, `Zone 2` y `Zone 3`, pero sus dos
     # primeras son ETAPAS sobre los mismos 16 clubes y la pagina las reparte en dos
     # zonas de 8. Ver el mapa en `fad/rsssf.py`.
     Torneo('Torneo Argentino A 2008-09', 'Torneo Argentino A', 2008,
-           anio_fin=2009, rsssf='arg3-int09', sin_grilla=True),
+           anio_fin=2009, rsssf='arg3-int09', sin_grilla=True,
+           rsssf_llaves=True),
     # La cuarta sin grilla, y la primera con DOS torneos adentro: Apertura y
     # Clausura reparten los clubes distinto, asi que el mapa se forzo por (torneo,
     # zona) y despues se unio. Ver `fad/rsssf.py`.
     Torneo('Torneo Argentino A 2009-10', 'Torneo Argentino A', 2009,
-           anio_fin=2010, rsssf='arg3-int2010', sin_grilla=True),
+           anio_fin=2010, rsssf='arg3-int2010', sin_grilla=True,
+           rsssf_llaves=True),
 
     Torneo('Campeonato de Primera C 2016 (Argentina)', 'Primera C', 2016),
     Torneo('Campeonato de Primera C 2016-17 (Argentina)', 'Primera C', 2016, anio_fin=2017),

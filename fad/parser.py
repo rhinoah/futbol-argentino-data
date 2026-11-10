@@ -2263,7 +2263,10 @@ def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None 
 # la `s` no matchea -- no es whitespace -- y la plantilla no se ve. Eran 27
 # paginas del catalogo y 284 partidos de eliminacion que se caian en silencio,
 # la mayoria de ellas con la fase eliminatoria ENTERA afuera.
-_ARRANQUE_PARTIDO = re.compile(r"\{\{\s*Partidos?\s*\n", re.I)
+# Con el `|` del primer parametro en el renglon del nombre, `{{Partidos|` y salto: asi
+# escriben sus 14 plantillas las paginas del Argentino A 2006-07 a 2009-10, y en el
+# resto del catalogo esa forma no aparece (medido el 10/11/2026 sobre las 171).
+_ARRANQUE_PARTIDO = re.compile(r"\{\{\s*Partidos?\s*(?:\|[ \t]*)?\n", re.I)
 # Un comentario de wikitexto. No se renderiza, asi que lo que tenga adentro --un
 # parametro comentado, por ejemplo-- no es parte de la plantilla.
 _COMENTARIO = re.compile(r"<!--.*?-->", re.S)

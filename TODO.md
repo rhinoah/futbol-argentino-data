@@ -80,7 +80,7 @@ sin fecha no se jugaron.
 - **`fuente_fecha` guarda dos créditos distintos en un campo:** de dónde sale la fila y
   quién le puso el día. Tres lugares lo escriben y sólo uno los distingue.
   `corregir_fechas` —una `Dia`— lo reemplaza entero, y el completador de worldfootball
-  lo borra junto con la fecha cuando cae fuera de la temporada: en las `3 945` filas que
+  lo borra junto con la fecha cuando cae fuera de la temporada: en las `4 044` filas que
   salen de RSSSF se llevarían el crédito del partido. Hoy no pasa en ninguna. Y
   `fechas.completar` suma el que la fila ya traía aunque no haya puesto nada, si un
   lector devuelve un partido sin día: hoy son `0`. Arreglarlo pide un campo aparte.
@@ -114,18 +114,21 @@ sin fecha no se jugaron.
     Sacachispas`.
   - quién fue local en `Central Córdoba (R) 0-0 Cañuelas`, cuartos de la Primera C 2017-18:
     la plantilla pone local a Central Córdoba en la cancha de Cañuelas.
-- **Falta la fase final del Argentino A 2006-07 a 2009-10: entre `55` y `65` partidos.**
-  Las cuatro páginas son `sin_grilla`: sus `1 573` filas salen de RSSSF y son todas de
-  zonas. `build.procesar` llama a `rsssf.leer_llaves` sólo en la rama con grilla, y sobre
-  `arg3-int07` a `arg3-int2010` esa función ya da `53` partidos con día. Faltan 7 a 9 por
-  nombres que el mapa no traduce, y nadie lee las rondas finales por grupos de 2008-09 y
-  2009-10. Las páginas traen además `14` plantillas que arrancan `{{Partidos|`, con el `|`
-  en el renglón del nombre: `_ARRANQUE_PARTIDO` no ve ese arranque, y las páginas sin
-  grilla no pasan por el lector de plantillas. Son `12` partidos por el ascenso; los otros
-  `2` (`Ramón Santamarina – CAI`) ya entran por la B Nacional 2009-10. La final de 2006-07
-  difiere en el día: 5 de julio en la plantilla, 8 en `arg3-int07`. Una página
-  `sin_grilla` tiene que poder traer también sus llaves de RSSSF, como el 2005-06, con sus
-  plantillas de testigo: cada diferencia se arbitra antes de cargar.
+- **Falta un partido de la fase final del Argentino A 2006-07:** la vuelta de la
+  promoción por la permanencia `Sportivo Desamparados 2-2 Deportivo Maipú`, que RSSSF
+  (`arg3-int07`) publica con la fecha `[tba]` y la página no trae. La ida fue el
+  `2007-07-01`. Falta una fuente con el día.
+- **El cruce contra el cuadro de llaves no corre en las cuatro páginas del Argentino A
+  2006-07 a 2009-10:** sus rondas de eliminación salen de RSSSF con el rótulo en inglés
+  (`Quarterfinals - First leg`, `Relegation Playoff - Second leg`) o del título de la
+  sección (`Ascenso y promoción con la Primera B Nacional`), y `cadena_de_llaves` se
+  saltea la página entera cuando una ronda no se reconoce.
+- **Un nombre corto de una llave de RSSSF que el mapa no tiene se resuelve en silencio
+  por el padrón.** En las semifinales del Argentino A 2009-10 RSSSF escribe `Union` sin
+  tilde, que resolvía a Unión de Santa Fe y no a Unión de Sunchales; se vio sólo porque la
+  página tenía el partido. Ya está en el mapa, pero el riesgo sigue para cualquier llave
+  que la página no publique: falta un control que avise cuando un club de una llave no
+  jugó ninguna otra ronda del torneo.
 - **La promoción `Luján – Argentino de Quilmes` de 2012 tiene los dos días en duda.** El
   CSV pone la ida el `2012-06-26` y la vuelta el `2012-07-01`; la previa de Infobae del
   sábado 30 de junio dice que la ida fue «el miércoles último» (27) y que la vuelta se

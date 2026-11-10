@@ -105,7 +105,9 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Boca Juniors", 5, ("Boca",)),
     Equipo("Central Córdoba (SdE)", 1485,
            ("Central Córdoba (SE)", "C.Córdoba (SE)", "Central Córdoba",
-            "Central Córdoba (Santiago del Estero)")),
+            "Central Córdoba (Santiago del Estero)",
+            # RSSSF, en la promocion del Argentino A 2007-08 (`arg3-int08`).
+            "Central Córdoba (Stgo. del Estero)")),
     Equipo("Defensa y Justicia", 129, alias=("Defensa", "Def. Y Justicia", "Def. y Justicia",)),
     Equipo("Deportivo Riestra", 788, ("Dep. Riestra", "Riestra")),
     Equipo("Estudiantes (LP)", 7, ("Estudiantes", "Estudiantes de La Plata")),
@@ -192,7 +194,8 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Barracas Bolívar", alias=("Barracas Bolivar", "Barracas Bolìvar")),
     Equipo("Deportivo Camioneros"),
     Equipo("Deportivo Madryn"),
-    Equipo("Deportivo Maipú"),
+    # "Dep. Maipú (Mendoza)": RSSSF, en la promocion del Argentino A 2006-07.
+    Equipo("Deportivo Maipú", alias=("Dep. Maipú (Mendoza)",)),
     # Entro con la fase eliminatoria de la Primera C 2025, que estaba
     # invisible: su pagina usa `{{Partidos}}` y el parser solo miraba el
     # singular.
@@ -262,7 +265,8 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Deportivo Mandiyú"),
     Equipo("Deportivo Roca"),
     # "Desamprados", sin la segunda A, en un partido del Argentino A 2010-11.
-    Equipo("Desamparados", alias=("Desamprados", "Sp. Desamparados")),
+    Equipo("Desamparados", alias=("Desamprados", "Sp. Desamparados",
+                                  "Sportivo Desamparados (San Juan)")),
     Equipo("General Belgrano (SR)", alias=("General Belgrano (Santa Rosa)",)),
     # "Anotonio" es un typo del Argentino A 2012-13, en un solo partido.
     Equipo("Guaraní Antonio Franco", alias=("Guaraní Anotonio Franco",)),
@@ -319,7 +323,9 @@ PADRON: tuple[Equipo, ...] = (
     # "(P)" ya significa cuatro ciudades en este padron -- Parana, Posadas, Perico
     # y Pergamino --. No choca porque la base difiere en los cuatro, pero a ojo la
     # letra sola ya no dice nada.
-    Equipo("Juventud (P)"),
+    # Las grafias con la ciudad son de RSSSF, en la promocion del Argentino A 2006-07
+    # (`arg3-int07`): ahi cruzan clubes de dos divisiones y el nombre corto no alcanza.
+    Equipo("Juventud (P)", alias=("Juventud (Pergamino)",)),
     Equipo("La Florida"),
     # El punto importa: `normalizar` lo cambia por espacio, asi que "La Plata F.C."
     # y "La Plata FC" son dos claves distintas y hacen falta las dos.
@@ -333,7 +339,7 @@ PADRON: tuple[Equipo, ...] = (
     Equipo("Ñuñorco"),
     Equipo("Real Arroyo Seco"),
     # El cuarto Talleres del corpus, con Cordoba, Remedios de Escalada y Frias.
-    Equipo("Talleres (P)"),
+    Equipo("Talleres (P)", alias=("Talleres (Perico)",)),
 
     # --- los del Federal A 2014 y 2015 ---
     # Cinco clubes que el padron no tenia. Mismo criterio que los del Argentino A

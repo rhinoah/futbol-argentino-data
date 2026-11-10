@@ -37,9 +37,9 @@ Lo que no está: de 1985 a 1991-92 la Primera División es sólo la liga y el Na
 1985 —faltan las liguillas, desempates y finales—, y no hay Primera D. Lo que falta,
 medido era por era, está en [`TODO.md`](TODO.md).
 
-Ojo si contás partidos: quince de promoción y de definición de ascenso entre clubes
+Ojo si contás partidos: diecinueve de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
-`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 342 partidos
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 473 partidos
 distintos. Las dos copias de cada uno dicen lo mismo en todo lo que describe al
 partido —fecha, hora, marcador, penales, cancha, `neutral` y `status`— y difieren sólo
 en lo que es de cada torneo. Lo que una página no trae se toma de la otra, y donde las
@@ -140,9 +140,10 @@ una de tres cosas:
   del Nacional 1985, la vuelta de una ronda que la página fecha tres días tarde: el día
   sale de la prensa de cada ciudad. El partido, los equipos, el marcador y la jornada
   siguen saliendo de Wikipedia.
-- **El partido entero**, en 3 945. Once torneos tienen en Wikipedia la tabla de
+- **El partido entero**, en 4 044. Once torneos tienen en Wikipedia la tabla de
   posiciones y no los resultados —la Primera División de 1985-86 al Clausura 1991
-  (2 239 filas) y el Torneo Argentino A de 2006-07 a 2009-10 (1 573)—, y 133
+  (2 239 filas) y el Torneo Argentino A de 2006-07 a 2009-10 (1 672, fase final
+  incluida)—, y 133
   partidos de fases finales del ascenso están sólo como cuadro. Ahí el partido sale
   de RSSSF; en los once torneos, la tabla de Wikipedia hace de árbitro.
 - **El día y la localía**, en 14: el Reducido de la Primera C 2011-12, que también
@@ -151,7 +152,7 @@ una de tres cosas:
   llave entra sólo si el cuadro publica ese cruce con esos marcadores.
 
 Son varias y no una porque ninguna cubre todo. **[RSSSF](https://www.rsssf.org/)**
-es la principal (8 122 filas: el partido entero en 3 945 y el día en 4 177): la
+es la principal (8 221 filas: el partido entero en 4 044 y el día en 4 177): la
 Primera División de 1985 a 1997, el Argentino A viejo, la Primera C 2008-2011 y la
 Primera B 2010-11. Sus archivos no son Creative Commons: el pie de cada uno
 autoriza a copiarlo reconociendo a quien lo hizo, y ese reconocimiento, archivo
@@ -238,7 +239,7 @@ fecha, como estaban antes.
 
 Lo mismo vale para RSSSF y para los autores de sus archivos: **si piden que se
 retire lo suyo, o que el reconocimiento se escriba de otra manera, se hace**. Ahí
-el costo es otro —en 3 945 filas RSSSF no pone la fecha sino el partido, y once
+el costo es otro —en 4 044 filas RSSSF no pone la fecha sino el partido, y once
 torneos saldrían enteros—, y está dicho en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
 
 El acceso es respetuoso por diseño: caché en disco para no volver a pedir lo
@@ -340,8 +341,8 @@ un marcador **indistinguible de uno jugado en cancha**.
 
 | valor | qué afirma | filas |
 |---|---|---:|
-| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 50 257 |
-| `suspendido` | la fuente dice que el partido **no llegó al final** | 100 |
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 50 369 |
+| `suspendido` | la fuente dice que el partido **no llegó al final** | 101 |
 | `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 16 |
 | `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. El día es el del programado: el `Instituto 0-1 San Lorenzo` de la 1987-88 lo dice RSSSF, y cinco de 2013 a 2025, como el `Colón 0-1 Atlético de Rafaela` del Inicial 2013, una nota de su página. Esos cinco conservan también la hora y la cancha programadas, que es lo que publica la página: no son las de un partido que se jugó. Los seis de `sin-fecha/` no tienen día | 6 |
 
@@ -4216,13 +4217,47 @@ de Lincoln —lo dicen las dos citas de la fila, la grilla de la zona, donde es 
 que no juega esa fecha, y RSSSF— y va a `correcciones.py` con los otros nueve nombres
 de esa página.
 
+## La fase final que no tenía camino
+
+Las cuatro páginas del Argentino A de 2006-07 a 2009-10 no tienen grilla: sus
+partidos salen de RSSSF, y entraban **sólo las zonas**, 1 573 filas. Las finales, las
+promociones y los grupos finales no tenían por dónde entrar, porque las llaves de RSSSF
+se leían únicamente en las páginas con grilla. Ahora entran como en esas: primero lo que
+publica la página —14 plantillas, con hora y cancha—, después lo que RSSSF tiene y la
+página no —99 partidos—, y lo repetido no se escribe dos veces. Son **113 filas**.
+
+Cada pedazo estaba escondido por algo distinto, y ninguno avisaba:
+
+- las plantillas abren `{{Partidos|` con el primer `|` en el renglón del nombre, una
+  forma que no aparece en ninguna otra de las 171 páginas;
+- RSSSF titula la final del campeonato `Championship Final` o `Championship Playoff`,
+  escribe una tanda entre paréntesis, `(4-2 pen)`, y anota `[tba]` donde no hay fecha:
+  la vuelta de abajo se quedaba con la del renglón de arriba, dos semanas antes de su ida;
+- las rondas de los grupos finales de 2007-08 y 2008-09 traen los partidos de los dos
+  grupos mezclados y sin encabezado, así que cada uno va al grupo que tiene a sus dos
+  clubes;
+- en las semifinales de 2009-10 RSSSF escribe `Union` sin tilde, y eso resolvía a
+  **Unión de Santa Fe** en vez de Unión de Sunchales. Se vio porque la página tenía el
+  mismo partido y el cruce no lo reconocía.
+
+**Las dos fuentes se cruzaron antes de cargar.** Discrepan en un día: la vuelta de la
+final de 2006-07 es el 5 de julio de 2007 en la plantilla y el 8 en RSSSF, y la prensa
+—Diario Uno y Canal 26— le da la razón a la página. La tanda de esa final (3-2) no la trae ninguna de
+las dos, pero la página la publica tiro por tiro en una tabla aparte. Y la vuelta de la
+promoción CAI – Ramón Santamarina, que ahora está también en el Argentino A, la página de
+la B Nacional la pone a las 15:00 y la del Argentino A a las 14:00; la previa de La Nueva
+de esa mañana la programa a las 14.05.
+
+Falta un partido: la vuelta `Sportivo Desamparados – Deportivo Maipú` de la promoción
+por la permanencia de 2006-07, que RSSSF publica `[tba]` y la página no trae.
+
 ## Tests
 
-1714 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1729 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 991 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1009 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash
@@ -4298,7 +4333,7 @@ HTML: es lo que editan las personas, y las plantillas vienen con sus parámetros
 nombrados en vez de aplastadas en un `<table>`.
 
 No es la única fuente. Hoy 9 706 filas nombran en `source` una segunda:
-[RSSSF](https://www.rsssf.org/) (8 122), [worldfootball](https://www.worldfootball.net/)
+[RSSSF](https://www.rsssf.org/) (8 221), [worldfootball](https://www.worldfootball.net/)
 (1 519), el blog de José Carluccio (90) y doce filas con una cita
 propia; 37 de las 9 706 nombran dos. En la mayoría esa segunda fuente pone la fecha y nada más. La excepción es
 RSSSF en los once torneos cuya página no publica los partidos —la Primera División de
