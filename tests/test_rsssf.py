@@ -317,7 +317,12 @@ def test_el_fallo_contra_los_dos_clubes_no_entra_y_se_dice():
 
 def test_un_abandonado_sin_resultado_firme_no_entra():
     """Si no dice que el resultado quedo firme, lo mas probable es que se haya
-    completado despues -- y esa fila, la del partido completo, es la que entra."""
+    completado despues -- y esa fila, la del partido completo, es la que entra.
+
+    CON EL DIA EN QUE EMPEZO, que es la regla del repo para un partido completado
+    otro dia, y la que este lector ya seguia cuando el renglon de apertura traia
+    marcador. Con `abd` no lo traia, no quedaba en la lista, y el partido salia el
+    29 de enero, el dia de los 48 minutos que faltaban (corregido el 10/11/2026)."""
     ajenos, avisos = leer_c(
         "Zona C\n"
         "Round 1\n"
@@ -326,8 +331,18 @@ def test_un_abandonado_sin_resultado_firme_no_entra():
         "[Jan 29]\n"
         "Atl. Tucumán             1-1 La Florida               [remaining 48']\n")
     assert len(ajenos) == 1, "entra el completo y no el abandonado"
-    assert ajenos[0].fecha == "2007-01-29"
+    assert ajenos[0].fecha == "2007-01-26"
     assert any("NO entra" in a for a in avisos)
+
+
+def test_la_continuacion_de_otro_partido_no_se_lleva_el_dia_del_abandonado():
+    """El dia se toma solo del abandonado con la misma ronda y los mismos clubes."""
+    ajenos, _ = leer_c(
+        "Zona C\nRound 1\n[Jan 26]\n"
+        "Atl. Tucumán             abd La Florida               [abandoned at 1-1 in 42']\n"
+        "Round 2\n[Jan 29]\n"
+        "Atl. Tucumán             1-1 La Florida               [remaining 48']\n")
+    assert [a.fecha for a in ajenos] == ["2007-01-29"]
 
 
 def test_la_prosa_con_forma_de_partido_no_es_un_partido():
@@ -2006,7 +2021,8 @@ def test_una_fila_de_la_tabla_no_abre_una_llave():
 def test_tba_corta_la_fecha_que_venia():
     """`[tba]` dice que no hay fecha. Sin esto, la vuelta `Sportivo Desamparados 2-2
     Dep. Maipu` de la promocion del Argentino A 2006-07 se llevaba el `[Jun 17]` de los
-    partidos de arriba, dos semanas antes de su propia ida."""
+    partidos de arriba, dos semanas antes de su propia ida. El partido entra igual, SIN
+    dia: la fuente dice que no lo tiene, y un dia citado a mano se lo pone."""
     ps, raros = _llaves(
         "Zona A - Sur\n"
         "Relegation Playoff\n"
@@ -2015,8 +2031,16 @@ def test_tba_corta_la_fecha_que_venia():
         "Cipolletti                   2-0 Villa Mitre\n"
         "[tba]\n"
         "Villa Mitre                  2-2 Cipolletti\n")
-    assert [(p.fecha, p.local) for p in ps] == [("2006-06-17", "Cipolletti")]
-    assert len(raros) == 1 and "viene sin fecha" in raros[0]
+    assert [(p.fecha, p.local) for p in ps] == [("2006-06-17", "Cipolletti"), ("", "Villa Mitre")]
+    assert len(raros) == 1 and "entra sin dia" in raros[0]
+
+
+def test_pero_sin_ningun_encabezado_de_dia_no_entra():
+    """Sin un encabezado de dia, lo que tiene forma de partido puede ser prosa: eso
+    sigue afuera. Lo que entra sin fecha es solo lo que la fuente rotula `[tba]`."""
+    ps, raros = _llaves("Zona A - Sur\nRelegation Playoff\nSecond Legs\n"
+                        "Villa Mitre                  2-2 Cipolletti\n")
+    assert ps == [] and "queda afuera" in raros[0]
 
 
 def test_la_final_del_campeonato_es_una_ronda():

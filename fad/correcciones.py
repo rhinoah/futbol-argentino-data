@@ -2089,10 +2089,12 @@ class Cancha:
     `dataset.casas_compartidas` buscando otra cosa: fue a buscar clubes mal
     atribuidos y aparecieron partidos bien atribuidos con la cancha del vecino.
 
-    El testigo es la MISMA PAGINA. Las dos que hay salen de su tabla de
-    participantes, que dice en que estadio juega cada club -- o sea que la
-    pagina se contradice sola, sin traer nada de afuera. Cuando no se resuelve
-    asi, no entra: el aviso queda abierto y listo.
+    El testigo es la MISMA PAGINA o la PRENSA DE ESOS DIAS. Las dos primeras salen
+    de su tabla de participantes, que dice en que estadio juega cada club -- o sea
+    que la pagina se contradice sola, sin traer nada de afuera. Desde el 9/11/2026
+    vale tambien una previa o una cronica de esos dias, con su direccion en
+    `porque`, que diga donde se jugo; el blog de Jose Carluccio solo no alcanza
+    (decidido ese dia). Cuando no se resuelve asi, no entra: el aviso queda abierto.
     """
     pagina: str
     jornada: str
@@ -2870,6 +2872,23 @@ CANCHAS: tuple[Cancha, ...] = (
             "Que el local sea Sarmiento (LB) esta bien: la ida fue San Martin (SM) "
             "0-0 Sarmiento (LB) en el Libertador General San Martin, asi que la "
             "vuelta le toca de local, y el cuadro de la llave lo confirma."),
+    ),
+    Cancha(
+        pagina="Campeonato de Primera C 2017-18 (Argentina)",
+        jornada="Cuartos", local="Central Córdoba (R)", visita="Cañuelas",
+        dice="Estadio Jose Alfredo Arín", debe="Gabino Sosa",
+        porque=(
+            "La plantilla pone de local a Central Córdoba y la cancha de Cañuelas; lo que "
+            "esta mal es la cancha. Fue a partido unico, en Rosario, con ventaja "
+            "deportiva para Central Córdoba. La Capital del lunes 21/5/2018, la previa: "
+            "'Mañana recibirá a Cañuelas por los cuartos del reducido', y sus jugadores "
+            "van a 'saltar al verde césped del Gabino Sosa'. https://www.lacapital.com.ar/"
+            "ovacion/cordoba-los-11-confirmados-n1610077.html\n"
+            "Y la cronica de InfoCañuelas del miercoles 23: 'En Rosario empató en 0 ante "
+            "Central Córdoba'. https://www.infocanuelas.com/deportes/canuelas-quedo-"
+            "eliminado-del-reducido\n"
+            "Va 'Gabino Sosa', que es como el dataset escribe esa cancha en otras 275 "
+            "filas (medido el 10/11/2026)."),
     ),
 )
 

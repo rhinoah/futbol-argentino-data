@@ -1439,6 +1439,15 @@ MUTANTES = [
      'if len({_PATA_AL_FINAL.sub("", p.jornada or "") for p in elim}) < 2:',
      'if len({p.jornada for p in elim}) < 2:'),
 
+    ("fad/rsssf.py", "fechar el abandonado sin marcador el dia en que se termino",
+     "            elif empezo := abandonados.get((ronda, cl, cv, llave, suya)):\n",
+     "            elif False:\n"),
+
+    ("fad/rsssf.py", "darle a una continuacion el dia de un abandonado de otra ronda",
+     "            elif empezo := abandonados.get((ronda, cl, cv, llave, suya)):\n",
+     "            elif empezo := next((d for (r, l, v, ll, z), d in abandonados.items()\n"
+     "                                 if (l, v) == (cl, cv)), None):\n"),
+
     ("fad/rsssf.py", "no leer la nota de una llave que sigue en el renglon de abajo",
      '        if not nota and (abierta := re.search(r"\\[([^\\]]*)$", m.group(4))):\n',
      '        if False and (abierta := re.search(r"\\[([^\\]]*)$", m.group(4))):\n'),
@@ -3889,8 +3898,17 @@ MUTANTES += [
      '        fecha="2011-06-26", local="San Martín (T)", visita="Desamparados",\n'),
     # --- la fase final de las paginas sin grilla (Argentino A 2006-07 a 2009-10) ---
     ('fad/rsssf.py', 'dejar que `[tba]` herede la fecha del renglon de arriba',
-     '        if _LLAVE_SIN_DIA.match(pelada):\n            fecha = None\n            continue\n',
+     '        if _LLAVE_SIN_DIA.match(pelada):\n            fecha = _DIA_A_CONFIRMAR\n            continue\n',
      ''),
+    ('fad/rsssf.py', 'dejar afuera el partido que la fuente da `[tba]`',
+     '        if _LLAVE_SIN_DIA.match(pelada):\n            fecha = _DIA_A_CONFIRMAR\n            continue\n',
+     '        if _LLAVE_SIN_DIA.match(pelada):\n            fecha = None\n            continue\n'),
+    ('fad/correcciones.py', 'sacar de `CANCHAS` la cancha de Central Cordoba (R)-Canuelas, Primera C 2017-18',
+     '    Cancha(\n        pagina="Campeonato de Primera C 2017-18 (Argentina)",\n',
+     '    *(lambda *a, **k: ())(\n        pagina="Campeonato de Primera C 2017-18 (Argentina)",\n'),
+    ('fad/citadas.py', 'sacar de `FECHAS` la vuelta Desamparados-Deportivo Maipu, Argentino A 2006-07',
+     '        Cita("2007-07-08", "Desamparados", "Deportivo Maipú", 2, 2, "Relegation Playoff",\n',
+     '        *(lambda *a, **k: ())("2007-07-08", "Desamparados", "Deportivo Maipú", 2, 2, "Relegation Playoff",\n'),
     ('fad/rsssf.py', 'no leer la final del campeonato de RSSSF',
      '    r"|Championship Final|Championship Playoff"\n',
      ''),

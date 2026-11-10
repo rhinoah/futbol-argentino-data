@@ -55,7 +55,7 @@ nombre sólo la suya.
 | fuente | qué pone | filas |
 |---|---|---:|
 | [Wikipedia en español](https://es.wikipedia.org) | todo, en cuatro de cada cinco filas; en el resto, lo que no pone otra | |
-| [RSSSF](https://www.rsssf.org/) | el partido entero | 4 044 |
+| [RSSSF](https://www.rsssf.org/) | el partido entero | 4 045 |
 | | sólo el día | 4 177 |
 | [worldfootball](https://www.worldfootball.net/) | sólo el día | 1 519 |
 | el [blog de José Carluccio](http://josecarluccio.blogspot.com/) | sólo el día | 76 |
@@ -81,10 +81,10 @@ rueda: las fechas 20 a 38 cierran contra la tabla de la propia RSSSF—.
 el fútbol argentino temporada por temporada, en archivos que preparan y mantienen
 sus autores. De ahí sale lo que Wikipedia no publica:
 
-- **El partido entero, en 4 044 filas.** Once torneos de los que Wikipedia tiene la
+- **El partido entero, en 4 045 filas.** Once torneos de los que Wikipedia tiene la
   tabla de posiciones y no los resultados —la Primera División de 1985-86 al
   Clausura 1991 (2 239 filas) y el Torneo Argentino A de 2006-07 a 2009-10
-  (1 672, con 99 de su fase final); de la 1989-90 publica sólo las ocho primeras
+  (1 673, con 100 de su fase final); de la 1989-90 publica sólo las ocho primeras
   fechas—, y 133 partidos de fases finales del ascenso que Wikipedia trae sólo como
   cuadro. De la fase final de esos cuatro Argentino A, la página publica 14 en
   plantillas, y esos son de Wikipedia; RSSSF les pone la tanda a dos que la
@@ -95,7 +95,7 @@ sus autores. De ahí sale lo que Wikipedia no publica:
   corregidas a mano y una, de la Primera C 2024, puesta a mano donde la página
   deja la celda vacía.
 
-Las 8 221 la nombran en `source`.
+Las 8 222 la nombran en `source`.
 
 Lo que se toma son **resultados de partidos**: qué clubes jugaron, qué día, cómo
 salieron y quién fue local. En las filas que salen enteras de ahí viaja además lo
@@ -139,13 +139,13 @@ a las que les puso el día o la localía.
   los 14 del Reducido de la Primera C 2011-12, también a mano: cada pata entra sólo
   si el cuadro de Wikipedia publica ese cruce con ese marcador. El blog no publica
   condiciones de uso ni licencia; esas 14 filas nombran el post del que se copió.
-- **Doce citas sueltas** — el día de 12 partidos, cada uno con su URL en `source`:
+- **Trece citas sueltas** — el día de 13 partidos, cada uno con su URL en `source`:
   Página/12 en la [Hemeroteca Digital](https://hemerotecadigital.bn.gob.ar/) de la
   Biblioteca Nacional, [historiadeboca.com.ar](https://historiadeboca.com.ar/),
   [soybh.blogspot.com](http://soybh.blogspot.com/) —la página de un hincha de Ben
   Hur—, en dos una revisión vieja de la propia página de Wikipedia,
   [La Nueva](https://www.lanueva.com/) en la vuelta de la final de la Primera B
-  2012-13, la síntesis de [Solo Ascenso](https://www.soloascenso.com.ar/) en tres
+  2012-13 y en la de la permanencia del Argentino A 2006-07, la síntesis de [Solo Ascenso](https://www.soloascenso.com.ar/) en tres
   partidos de la Primera B 2024 y 2025 que se jugaron otro día que el programado y
   la crónica de [Ascenso del Interior](http://ascensodelinterior.com.ar/) en uno del
   Torneo Argentino A 2012-13 que tampoco se jugó el día de la celda, y
@@ -182,7 +182,7 @@ fecha.
 | 1996-97 | [`arg97`](https://www.rsssf.org/tablesa/arg97.html) | Apertura 1996 y Clausura 1997 | | 370 | Ian King y Pablo Ciullini |
 | 2004-05 | [`arg3-int05`](https://www.rsssf.org/tablesa/arg3-int05.html) | Torneo Argentino A 2004-05: las llaves de las dos fases finales, sin el día | 37 | | Juan Pablo Andrés |
 | 2005-06 | [`arg3-int06`](https://www.rsssf.org/tablesa/arg3-int06.html) | Torneo Argentino A 2005-06: la fase final entera y el día de la fase de zonas | 60 | 263 | Juan Pablo Andrés |
-| 2006-07 | [`arg3-int07`](https://www.rsssf.org/tablesa/arg3-int07.html) | Torneo Argentino A 2006-07, con su fase final | 369 | | Juan Pablo Andrés |
+| 2006-07 | [`arg3-int07`](https://www.rsssf.org/tablesa/arg3-int07.html) | Torneo Argentino A 2006-07, con su fase final | 370 | | Juan Pablo Andrés |
 | 2007-08 | [`arg2-08`](https://www.rsssf.org/tablesa/arg2-08.html) | Primera B Nacional 2007-08: los cuatro partidos de la promoción | | 4 | Juan Pablo Andrés |
 | 2007-08 | [`arg3-int08`](https://www.rsssf.org/tablesa/arg3-int08.html) | Torneo Argentino A 2007-08, con su fase final | 430 | | Juan Pablo Andrés |
 | 2008-09 | [`arg4-09`](https://www.rsssf.org/tablesa/arg4-09.html) | Primera C 2008-09: el Reducido entero y el día de la fase regular | 10 | 374 | Juan Pablo Andrés |
@@ -197,7 +197,7 @@ fecha.
 | 2015 | [`arg2015a`](https://www.rsssf.org/tablesa/arg2015a.html) | Primera B 2015: tres días corregidos a mano | | 3 | Osvaldo José Gorgazzi |
 | 2020 | [`arg2020`](https://www.rsssf.org/tablesa/arg2020.html) | Copa de la Liga 2020: un día corregido a mano | | 1 | Osvaldo José Gorgazzi |
 | 2024 | [`arg2024`](https://www.rsssf.org/tablesa/arg2024.html) | Primera C 2024: un día puesto a mano, el de un partido que la página publica sin fecha | | 1 | Osvaldo José Gorgazzi |
-| | | **total: 8 221 filas** | **4 044** | **4 177** | |
+| | | **total: 8 222 filas** | **4 045** | **4 177** | |
 
 En algunas de las de «sólo el día» RSSSF pesó además en la localía o en el
 marcador; cada caso está declarado, con su evidencia, en `fad/correcciones.py`.
@@ -235,7 +235,7 @@ este uso no corresponde, o quiere que el reconocimiento se escriba de otra maner
 alcanza con [abrir un
 issue](https://github.com/rhinoah/futbol-argentino-data/issues) y se corrige o se
 retira. Retirar tiene un costo y conviene decirlo: las 4 177 filas donde RSSSF pone
-el día se quedarían sin él —salvo las que pueda fechar otra fuente—, y las 4 044
+el día se quedarían sin él —salvo las que pueda fechar otra fuente—, y las 4 045
 donde pone el partido saldrían del dataset: once torneos enteros y 133 partidos de
 las fases finales de otros seis.
 

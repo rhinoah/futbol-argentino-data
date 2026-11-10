@@ -351,11 +351,13 @@ def test_no_toca_las_canchas_de_otra_pagina(monkeypatch):
 
 
 def test_las_canchas_corregidas_estan_justificadas():
-    """La condicion del modulo: la fuente se contradice sola y se dice donde. Las
-    dos que hay salen de la tabla de participantes de la propia pagina."""
+    """La condicion del modulo: la fuente se contradice sola y se dice donde --la
+    tabla de participantes de la propia pagina-- o la prensa de esos dias lo dice, con
+    su direccion. El blog solo no alcanza (decidido el 9/11/2026)."""
     for c in correcciones.CANCHAS:
         assert len(c.porque) > 80, f"{c.jornada} {c.local}: la evidencia es muy flaca"
-        assert "participantes" in c.porque, "hay que nombrar al testigo"
+        prensa = "http" in c.porque and "blogspot" not in c.porque.split("http")[1][:40]
+        assert "participantes" in c.porque or prensa, "hay que nombrar al testigo"
         assert c.dice != c.debe
 
 

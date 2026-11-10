@@ -34,12 +34,6 @@ sin fecha no se jugaron.
   «Se jugará el…» y «Se juega el…», así que una nota que termine en el plan y siga con
   un abandono saldría sin `status` y sin aviso. Hoy hay `4` notas así en el catálogo
   —`3` en futuro y `1` en presente— y ninguna cuenta nada después del plan.
-- **`Villa Dálmine 0-0 Ferrocarril Midland` (Primera C 2009-10) figura el día en que se
-  terminó.** Está el `2010-03-31`, el día en que RSSSF da jugados los 21 minutos que
-  faltaban; empezó el 19 de febrero (`abandoned at 0-0 in 69'`). La nota dice «jugados
-  los 21´ dos días después», y no coincide con RSSSF ni en el motivo ni en la demora.
-  Un partido completado otro día se fecha por el día en que empezó: falta una fuente del
-  día que diga cuál de los dos es.
 - **`venue` copia el estadio que declara la página, y al menos `18` filas del Federal A
   2014 y 2015 se jugaron en otra cancha** según el blog de José Carluccio y, donde se
   fue a buscar, la crónica del día. Catorce son localías de Unión Aconquija, que figuran
@@ -49,9 +43,6 @@ sin fecha no se jugaron.
   también la crónica del día —el blog solo no alcanza—, y falta buscar la de cada partido.
   En el Federal A 2016 y 2016-17 la página ya pone Andalgalá en
   `11` de las `23` localías de Unión Aconquija; las otras `12` no se revisaron.
-- **Dos marcadores del Federal A 2015 tienen un testigo en contra:** `Deportivo Madryn
-  2-1 Cipolletti` (el blog de Carluccio da 2-0) y `Sportivo Patria 2-0 Andino` (da 2-1 y
-  nombra al goleador). La página y RSSSF coinciden entre sí. Falta una crónica.
 - **`rsssf._por_el_padron('Mitre (Salta)')` devuelve `Mitre (SdE)`:** `Mitre` a secas
   es alias y el padrón no tiene otro Mitre que se lo dispute. Ninguna página del
   catálogo pasa por ahí —el de Salta juega rondas de la Copa Argentina que no se leen—,
@@ -60,11 +51,6 @@ sin fecha no se jugaron.
   que es redirección** (`Club Social y Deportivo Juventud Unida`). Hoy resuelve por el
   nombre. Agregar la clave a `ARTICULOS` puede dejar huérfano el `Homonimo` de la Copa
   Argentina 2015-16: falta medirlo.
-- **Dos localías del Reducido de la Primera C 2011-12 no tienen testigo fuera del
-  blog:** las de la semifinal `Ferrocarril Midland – Dock Sud`. Las otras doce patas
-  tienen una programación o una previa de esos días que nombra al local; a estas dos
-  las sostiene la regla del torneo —el mejor ubicado juega la vuelta en su cancha— y el
-  build lo avisa en cada `--rehacer`. Falta una crónica.
 - **El cruce de la grilla contra el cuadro calla cuando las dos patas de una llave
   tienen el mismo par de números.** `posiciones.marcadores_del_cuadro` pregunta si la
   grilla tiene algún partido entre los dos clubes con el marcador que el cuadro publica,
@@ -104,21 +90,20 @@ sin fecha no se jugaron.
   Perón», y figura en `Ciudad de La Plata`; `Deportivo Español 1-0 Excursionistas`,
   Primera C 2021: «Se jugó en el estadio Enrique Sexto», y figura en `Nueva España`—.
   Leerla de esa oración, como el día y la hora, es otra regla y pide su propia medición.
-- **Dos dudas que piden una fuente de afuera,** las dos de `{{Partido}}`:
-  - la hora de `Fénix 1-1 Deportivo Español`, ida de la final de la Primera C 2012-13: la
-    plantilla dice `15:30` y la AFA, `15:00`. En esa programación otras dos horas difieren
-    en cinco minutos: la ida de `Brown de Adrogué – Almagro` y `Deportivo Español –
-    Sacachispas`.
-  - quién fue local en `Central Córdoba (R) 0-0 Cañuelas`, cuartos de la Primera C 2017-18:
-    la plantilla pone local a Central Córdoba en la cancha de Cañuelas.
-- **Falta un partido de la fase final del Argentino A 2006-07:** la vuelta de la
-  promoción por la permanencia `Sportivo Desamparados 2-2 Deportivo Maipú`, que RSSSF
-  (`arg3-int07`) publica con la fecha `[tba]` y la página no trae. La ida fue el
-  `2007-07-01`. Falta una fuente con el día.
-- **La promoción `Luján – Argentino de Quilmes` de 2012 tiene los dos días en duda.** El
-  CSV pone la ida el `2012-06-26` y la vuelta el `2012-07-01`; la previa de Infobae del
-  sábado 30 de junio dice que la ida fue «el miércoles último» (27) y que la vuelta se
-  jugaba ese sábado. RSSSF no la trae. Falta una segunda fuente.
+- **Tres horas que la página escribe distinto que la programación de la AFA**, y
+  ninguna fuente da la hora real de inicio:
+  - `Fénix 1-1 Deportivo Español`, ida de la final de la Primera C 2012-13: la plantilla
+    dice `15:30`; la programación de la AFA, la previa de Pilar a Diario del día anterior
+    y Canal 26 dicen `15:00`, y probablemente salen todas de la misma programación.
+  - su vuelta, `Deportivo Español – Fénix` del 29 de junio de 2013: la plantilla dice
+    `13:00`; Pilar a Diario del 25, «el próximo sábado a las 15», y una entrevista del 29,
+    «las tres y media».
+  - `Argentino de Quilmes 1-0 Luján`, ida de la promoción de 2012: la plantilla dice
+    `15:10`, y la programación y dos previas, `15:00`.
+  Una programación dice cuándo se iba a jugar, no cuándo se jugó: falta decidir si
+  alcanza para corregir la hora de la página.
+- **La cancha de Cañuelas figura como `Estadio Jose Alfredo Arín`**, y la prensa de
+  2026 le dice «Jorge Alfredo Arín». Se vio de pasada: falta verificarlo.
 - **Una corrección a mano que hay que sacar a tiempo:** Wikipedia sigue mostrando
   `Claypole 0-0 Central Córdoba (R)` (Primera C 2026) y el dataset publica el `2-2`.
   Cuando la página lo corrija el build va a avisar, y ahí se saca la entrada de

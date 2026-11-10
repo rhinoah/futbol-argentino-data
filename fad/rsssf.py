@@ -661,6 +661,9 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
     # (ronda, local, visita) -> el dia en que EMPEZO, para los que se completan
     # despues. Ver el comentario en el cuerpo del partido.
     empezados: dict[tuple, str] = {}
+    # (ronda, local, visita, llave, zona) -> el dia de un abandonado SIN marcador, el
+    # que no entra: si su continuacion aparece abajo, se queda con este dia.
+    abandonados: dict[tuple, str] = {}
     # Los partidos que la nota deja afuera, con su ronda y sus dos clubes, para
     # poder decir al final cuales se recuperan y cuales se pierden de verdad.
     caidos: list[tuple] = []
@@ -805,6 +808,8 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
                         # sabe cuando esta leido todo. Ver `_los_que_se_pierden`.
                         caidos.append((f"{donde} NO entra -- {motivo}",
                                        ronda, llave, zona, cl2, cv2))
+                        abandonados[(ronda, cl2, cv2, llave, zona)] = _fecha_iso(
+                            *fecha, anio, anio_fin, mes_inicio)
                     else:
                         raros.append(f"{donde} entra {marcador[0]}-{marcador[1]}"
                                      f"{' (' + estado + ')' if estado else ''}"
@@ -902,6 +907,12 @@ def leer(texto: str, mapa: dict[str, dict[str, str]], anio: int, anio_fin: int,
             if len(abrio) == 1:
                 fuera.remove(abrio[0])
                 empezados[(ronda, cl, cv)] = abrio[0].fecha
+            # Y SI EL QUE LA ABRIO NO TRAIA MARCADOR -- `abd` --, no esta en la lista,
+            # pero su dia si: es el `Villa Dálmine abd FC Midland` del 19 de febrero
+            # de 2010, abandonado a los 69' por lluvia, cuyos 21' se jugaron el 31 de
+            # marzo. Sin esto el partido quedaba fechado el dia en que se termino.
+            elif empezo := abandonados.get((ronda, cl, cv, llave, suya)):
+                empezados[(ronda, cl, cv)] = empezo
         dia = empezados.pop((ronda, cl, cv), dia)
         fuera.append(Ajeno(fecha=dia,
                            jornada=ronda, local=cl, visita=cv,
@@ -1027,6 +1038,11 @@ _LLAVE_FECHA = re.compile(r"^[\[(]\s*([A-Za-z]{3})\s+(\d{1,2})\s*[\])]$")
 # 2-2 Dep. Maipú` de la promocion del Argentino A 2006-07 se llevaba el `[Jun 17]` de
 # los dos partidos de arriba, dos semanas ANTES de su propia ida.
 _LLAVE_SIN_DIA = re.compile(r"^[\[(]\s*(?:tba|tbd)\s*[\])]$", re.I)
+# Lo que queda como fecha despues de un `[tba]`: NO es "no hay fecha abierta" --eso es
+# `None`, y ahi el renglon no entra, porque sin un encabezado de dia lo que tiene forma
+# de partido puede ser prosa--, sino "la fuente dice que no tiene el dia". Ese partido
+# SI entra, sin fecha, y un dia citado a mano (`citadas.FECHAS`) se lo puede poner.
+_DIA_A_CONFIRMAR: tuple = ()
 # Lo de adentro de un corchete puede traer mas que la fecha: "Jun 4, one leg".
 # Se lee el mes y el dia del principio y se ignora el resto.
 _LLAVE_DIA = re.compile(r"^\s*([A-Za-z]{3})\s+(\d{1,2})\b")
@@ -1476,7 +1492,7 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
                 fecha = _dia_de(m.group(2))
             continue
         if _LLAVE_SIN_DIA.match(pelada):
-            fecha = None
+            fecha = _DIA_A_CONFIRMAR
             continue
         m = _LLAVE_FECHA.match(pelada)
         if m and m.group(1).capitalize() in _MESES:
@@ -1510,6 +1526,8 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
         if fecha is None:
             raros.append(f"{ronda}: {pelada[:60]} viene sin fecha; queda afuera")
             continue
+        if fecha == _DIA_A_CONFIRMAR:
+            raros.append(f"{ronda}: {pelada[:60]} viene con la fecha `[tba]`; entra sin dia")
         nota = m.group(5) or m.group(6) or ""
         # LA NOTA QUE NO CIERRA EN SU RENGLON sigue en el de abajo: RSSSF corta las
         # notas largas por ancho de columna, y el resto cae a la derecha del renglon
@@ -1579,7 +1597,7 @@ def leer_llaves(texto: str, mapa: dict, anio: int, anio_fin: int,
             # habria aceptado sin chistar.
             pendientes.append((len(fuera), int(pen.group(1)), int(pen.group(2))))
         fuera.append(Partido(
-            fecha=_fecha_iso(*fecha, anio, anio_fin, mes_inicio),
+            fecha=_fecha_iso(*fecha, anio, anio_fin, mes_inicio) if fecha else "",
             local=cl, visita=cv,
             goles_local=gl, goles_visita=gv,
             penales_local=pl, penales_visita=pv,

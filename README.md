@@ -39,7 +39,7 @@ medido era por era, está en [`TODO.md`](TODO.md).
 
 Ojo si contás partidos: diecinueve de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
-`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 473 partidos
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 474 partidos
 distintos. Las dos copias de cada uno dicen lo mismo en todo lo que describe al
 partido —fecha, hora, marcador, penales, cancha, `neutral` y `status`— y difieren sólo
 en lo que es de cada torneo. Lo que una página no trae se toma de la otra, y donde las
@@ -140,9 +140,9 @@ una de tres cosas:
   del Nacional 1985, la vuelta de una ronda que la página fecha tres días tarde: el día
   sale de la prensa de cada ciudad. El partido, los equipos, el marcador y la jornada
   siguen saliendo de Wikipedia.
-- **El partido entero**, en 4 044. Once torneos tienen en Wikipedia la tabla de
+- **El partido entero**, en 4 045. Once torneos tienen en Wikipedia la tabla de
   posiciones y no los resultados —la Primera División de 1985-86 al Clausura 1991
-  (2 239 filas) y el Torneo Argentino A de 2006-07 a 2009-10 (1 672, fase final
+  (2 239 filas) y el Torneo Argentino A de 2006-07 a 2009-10 (1 673, fase final
   incluida)—, y 133
   partidos de fases finales del ascenso están sólo como cuadro. Ahí el partido sale
   de RSSSF; en los once torneos, la tabla de Wikipedia hace de árbitro.
@@ -152,7 +152,7 @@ una de tres cosas:
   llave entra sólo si el cuadro publica ese cruce con esos marcadores.
 
 Son varias y no una porque ninguna cubre todo. **[RSSSF](https://www.rsssf.org/)**
-es la principal (8 221 filas: el partido entero en 4 044 y el día en 4 177): la
+es la principal (8 222 filas: el partido entero en 4 045 y el día en 4 177): la
 Primera División de 1985 a 1997, el Argentino A viejo, la Primera C 2008-2011 y la
 Primera B 2010-11. Sus archivos no son Creative Commons: el pie de cada uno
 autoriza a copiarlo reconociendo a quien lo hizo, y ese reconocimiento, archivo
@@ -239,7 +239,7 @@ fecha, como estaban antes.
 
 Lo mismo vale para RSSSF y para los autores de sus archivos: **si piden que se
 retire lo suyo, o que el reconocimiento se escriba de otra manera, se hace**. Ahí
-el costo es otro —en 4 044 filas RSSSF no pone la fecha sino el partido, y once
+el costo es otro —en 4 045 filas RSSSF no pone la fecha sino el partido, y once
 torneos saldrían enteros—, y está dicho en [`LICENSE-DATOS.md`](LICENSE-DATOS.md).
 
 El acceso es respetuoso por diseño: caché en disco para no volver a pedir lo
@@ -4257,16 +4257,17 @@ ronda ganó la anterior— corre ahora en las cuatro páginas: cada torneo junta
 (`Apertura 2006` abre el del Apertura), las series sueltas van en su propia llave y las
 dos patas de una son una sola ronda. Antes se salteaba las cuatro.
 
-Falta un partido: la vuelta `Sportivo Desamparados – Deportivo Maipú` de la promoción
-por la permanencia de 2006-07, que RSSSF publica `[tba]` y la página no trae.
+Y el que faltaba entró: la vuelta `Sportivo Desamparados 2-2 Deportivo Maipú` de la
+promoción por la permanencia de 2006-07, que RSSSF publica con la fecha `[tba]` y la
+página no trae. El día lo da la previa de La Nueva: el domingo 8 de julio de 2007.
 
 ## Tests
 
-1739 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1741 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 1018 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1023 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash
@@ -4342,7 +4343,7 @@ HTML: es lo que editan las personas, y las plantillas vienen con sus parámetros
 nombrados en vez de aplastadas en un `<table>`.
 
 No es la única fuente. Hoy 9 706 filas nombran en `source` una segunda:
-[RSSSF](https://www.rsssf.org/) (8 221), [worldfootball](https://www.worldfootball.net/)
+[RSSSF](https://www.rsssf.org/) (8 222), [worldfootball](https://www.worldfootball.net/)
 (1 519), el blog de José Carluccio (90) y doce filas con una cita
 propia; 37 de las 9 706 nombran dos. En la mayoría esa segunda fuente pone la fecha y nada más. La excepción es
 RSSSF en los once torneos cuya página no publica los partidos —la Primera División de

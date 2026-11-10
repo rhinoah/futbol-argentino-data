@@ -254,6 +254,21 @@ FECHAS: dict[str, tuple[Cita, ...]] = {
              fuente=CREDITO_RSSSF_2024),
     ),
 
+    # ------------------------------------------------------------------
+    # LA VUELTA DE LA PERMANENCIA DESAMPARADOS - DEPORTIVO MAIPU, Argentino A 2006-07.
+    # RSSSF (`arg3-int07`) la publica con la fecha `[tba]`, y la pagina no la trae.
+    # La previa de La Nueva del domingo 8 de julio de 2007 la juega ese dia: Desamparados
+    # `intentara hoy conservar su lugar` en el Argentino A, `a partir de las 16 en la
+    # cancha de la institucion`, despues del `0-0 ... la semana pasada en Mendoza`, que
+    # es la ida del 1 de julio. La cronica del lunes 9, del mismo diario, da el 2-2
+    # `como local`, con los goles de Larrondo y Prieto y de Delclaux y Martinez:
+    # https://www.lanueva.com/nota/2007-7-9-9-0-0-sportivo-desamparados-sigue-con-lo-justo
+    # ------------------------------------------------------------------
+    "Torneo Argentino A 2006-07": (
+        Cita("2007-07-08", "Desamparados", "Deportivo Maipú", 2, 2, "Relegation Playoff",
+             fuente="https://www.lanueva.com/nota/2007-7-8-9-0-0-ferro-saco-ventaja-con-la-igualdad"),
+    ),
+
     "Torneo Argentino A 2004-05": (
         # La fase regular de la Zona Norte, fecha por fecha. La 7 y la 9 se
         # jugaron partidas en dos dias, y la fuente lo dice asi.
@@ -500,8 +515,8 @@ LLAVES: dict[str, tuple[Pata, ...]] = {
     # jugar, no cuando se jugo.
     # http://rumoresdelascenso.blogspot.com/2012/05/reducido-de-primera-c-comienza-el.html
     #
-    # LA LOCALIA TIENE TESTIGO EN DOCE DE LAS CATORCE, y son programaciones y
-    # previas de esos dias, que escriben al local primero:
+    # LA LOCALIA TIENE TESTIGO EN LAS CATORCE. Doce son programaciones y previas de
+    # esos dias, que escriben al local primero:
     #
     #   * las cuatro idas de cuartos, en la programacion de arriba: `Berazategui-UAI
     #     Urquiza (en Villa San Carlos)`, `Midland-Defensores de Cambaceres`, `Dock
@@ -518,18 +533,16 @@ LLAVES: dict[str, tuple[Pata, ...]] = {
     #     21 de junio 21.00-- Central Córdoba-Midland`.
     #     http://rumoresdelascenso.blogspot.com/2012/06/finales-reducidas.html
     #
-    # LAS DOS QUE NO LO TIENEN son las de la semifinal Midland-Dock Sud, y conviene
-    # decirlo: fuera del post no se encontro quien escriba en que cancha se jugo
-    # cada una. Las sostiene la regla del torneo, que Pagina/12 enuncia en esa misma
-    # nota para la otra semifinal --el que tiene la ventaja deportiva juega la
-    # vuelta en su cancha--: Dock Sud termino septimo con 54 puntos y Midland
-    # octavo con 53, y la regla se cumple en las otras seis llaves, que si tienen
-    # testigo. Hay dos indicios mas, que no llegan a prueba: `Rumores del Ascenso`
-    # escribio el 13/06 `Dock Sud-Midland igualaron 0-0`, con Dock Sud primero, que
-    # es como ese blog nombra al local en sus programaciones; y en el historial de la
-    # pagina el club de arriba del cuadro era el local de la ida en las cinco llaves
-    # que si tienen testigo, y en la revision 56799618 Midland va arriba de Dock Sud.
-    # Si aparece una cronica que diga lo contrario, gana la cronica.
+    # Y LAS DOS DE LA SEMIFINAL MIDLAND-DOCK SUD las dice la cronica de Diario Popular
+    # del sabado 9 de junio, publicada esa misma noche (10/11/2026): `Midland empato
+    # hoy sin goles con Dock Sud, de visitante`, y la ida la habia `jugado como local,
+    # el ultimo miercoles`. Las expulsiones las cuenta igual, `en el local` para Dock
+    # Sud. No nombra el estadio.
+    # https://www.diariopopular.com.ar/sureno/el-doque-se-quedo-afuera-del-reducido-n119232
+    # Hasta que aparecio, las sostenia la regla del torneo, que Pagina/12 enuncia en la
+    # nota de la otra semifinal --el que tiene la ventaja deportiva juega la vuelta en
+    # su cancha--: Dock Sud termino septimo con 54 puntos y Midland octavo con 53. La
+    # cronica le da la razon.
     #
     # SE MIDIO ANTES DE CREERLE, sobre la fase regular de esta misma temporada, que
     # el blog publica en otro post: de 377 partidos leidos, los 377 marcadores son
