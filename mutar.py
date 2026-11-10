@@ -3743,6 +3743,16 @@ MUTANTES += [
      "    *(lambda *a, **k: ())(\n"
      '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'
      '        campo="matchday", valor="Tercer ascenso",\n'),
+    ("fad/correcciones.py", "sacar de `COPIAS` la ronda de la ida Desamparados-San Martin (T), 2011",
+     "    Copia(\n"
+     '        fecha="2011-06-22", local="Desamparados", visita="San Martín (T)",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        fecha="2011-06-22", local="Desamparados", visita="San Martín (T)",\n'),
+    ("fad/correcciones.py", "sacar de `COPIAS` la ronda de la vuelta San Martin (T)-Desamparados, 2011",
+     "    Copia(\n"
+     '        fecha="2011-06-26", local="San Martín (T)", visita="Desamparados",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        fecha="2011-06-26", local="San Martín (T)", visita="Desamparados",\n'),
     ("fad/correcciones.py", "sacar de `NEUTRALES` el neutral Huracan-Platense, Copa de la Liga 2023",
      '    _CLP_2023("2023-12-02", "Huracán", "Platense", 1, 1),\n',
      '    *(lambda *a, **k: ())("2023-12-02", "Huracán", "Platense", 1, 1),\n'),

@@ -44,7 +44,8 @@ distintos. Las dos copias de cada uno dicen lo mismo en todo lo que describe al
 partido —fecha, hora, marcador, penales, cancha, `neutral` y `status`— y difieren sólo
 en lo que es de cada torneo. Lo que una página no trae se toma de la otra, y donde las
 dos escriben distinto decide una declaración en `fad/correcciones.py`: una hora, con un
-testigo de afuera; la grafía de una cancha, eligiendo la de una de las dos páginas.
+testigo de afuera; la grafía de una cancha o de una ronda, eligiendo la de una de las
+dos páginas.
 
 Aparte, en [`data/sin-fecha/`](data/sin-fecha/) quedan **6 filas, y ninguna espera
 una fecha**: son los partidos que el Torneo Federal A 2024 le dio por perdidos a
@@ -4199,7 +4200,7 @@ de esa página.
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 920 maneras —veintitrés de ellas rompen el CSV publicado— y exige que la suite
+propósito de 922 maneras —veintitrés de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

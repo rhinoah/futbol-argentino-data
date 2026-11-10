@@ -2912,6 +2912,25 @@ COPIAS: tuple[Copia, ...] = (
             "(rev 47459380)."),
     ),
     Copia(
+        fecha="2011-06-22", local="Desamparados", visita="San Martín (T)",
+        campo="matchday", valor="Promoción Primera B Nacional - Torneo Argentino A",
+        porque=(
+            "La ida de la promocion entre la B Nacional y el Argentino A de 2010-11, que "
+            "publican las dos paginas con la misma ronda escrita de dos formas: "
+            "'Promoción Primera B Nacional-Torneo Argentino A' la de la B Nacional "
+            "2010-11 y 'Promoción Primera B Nacional - Torneo Argentino A' la del "
+            "Argentino A 2010-11. Va la segunda, decidido el 10/11/2026: es tambien como "
+            "la escriben LAS DOS paginas en la promocion de 2011-12."),
+    ),
+    Copia(
+        fecha="2011-06-26", local="San Martín (T)", visita="Desamparados",
+        campo="matchday", valor="Promoción Primera B Nacional - Torneo Argentino A",
+        porque=(
+            "La vuelta de la misma promocion, con la misma diferencia: la B Nacional "
+            "2010-11 escribe la ronda sin espacios alrededor del guion y el Argentino A "
+            "2010-11 con espacios. Va la del Argentino A, como en la ida."),
+    ),
+    Copia(
         fecha="2012-06-27", local="Crucero del Norte", visita="Guillermo Brown",
         campo="venue", valor="Comandante A. Guacurarí",
         porque=(
