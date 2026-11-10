@@ -101,17 +101,12 @@ sin fecha no se jugaron.
   `dataset.reconciliar_copias` no vería que es el mismo, y las dos copias podrían decir
   cosas distintas sin aviso. Hoy no pasa en ninguno de los `15`: con la localía dada
   vuelta el mismo día hay `0`, y con el mismo cruce y el mismo marcador a 1–3 días, `0`.
-- **`20` horas no tienen la forma `HH:MM`** (`11.00`, `15::00`, `9:00`): `14` son de
-  2024, `2` de 2020, `2` de 2015, una de 2011 y una de 2003.
 - **`venue` es la cancha del programado aunque la nota diga otra.** En `11` filas la
   oración que da el día también nombra la cancha en que se jugó —`Racing Club 0-1 San
   Lorenzo`, Apertura 2006: «se jugó el 21 de febrero de 2007 en el Estadio Presidente
   Perón», y figura en `Ciudad de La Plata`; `Deportivo Español 1-0 Excursionistas`,
   Primera C 2021: «Se jugó en el estadio Enrique Sexto», y figura en `Nueva España`—.
   Leerla de esa oración, como el día y la hora, es otra regla y pide su propia medición.
-- **Los `5` `no disputado` que salen de una nota publican la hora y la cancha del
-  programado**, de 2013 a 2025, igual que el día. Quedan así, y falta decirlo en el README:
-  en un `no disputado`, el día, la hora y la cancha son los del programa.
 - **Dos dudas que piden una fuente de afuera,** las dos de `{{Partido}}`:
   - la hora de `Fénix 1-1 Deportivo Español`, ida de la final de la Primera C 2012-13: la
     plantilla dice `15:30` y la AFA, `15:00`. En esa programación otras dos horas difieren

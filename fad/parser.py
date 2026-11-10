@@ -2003,20 +2003,28 @@ def colgar_tandas(ps: list[Partido], tandas: list[Tanda]) -> list[str]:
     return avisos
 
 
-# Una hora VALIDA con algo pegado atras. Es el canal que lo transmitio -- la Primera
-# B, la C y el Argentino A de 2009 a 2012 escriben `15:30 [[TyC Sports|(TV)]]`, que
-# `limpiar` deja en `15:30 (TV)` -- o un parentesis suelto, `18:00 )`, que dejo una
-# edicion de 2013 al borrar el enlace al canal. Se toma la hora y se tira la cola.
+# Una hora VALIDA, escrita como sea que la escriba la pagina, y con lo que traiga
+# pegado atras. La cola es el canal que lo transmitio -- la Primera B, la C y el
+# Argentino A de 2009 a 2012 escriben `15:30 [[TyC Sports|(TV)]]`, que `limpiar` deja
+# en `15:30 (TV)` -- o un parentesis suelto, `18:00 )`, que dejo una edicion de 2013 al
+# borrar el enlace al canal. Se toma la hora y se tira la cola.
 #
-# Lo que no EMPIEZA con una hora valida queda tal como figura: `15::00`, `18:5` o
-# `14.00` no se adivinan. Ni se borran: una celda que no se entiende sigue diciendo
-# algo, y vaciarla seria decir que la pagina no trae la hora.
-_HORA_CON_COLA = re.compile(r"^\s*(\d{1,2}:\d{2})(?!\d)\s*\S")
+# Y se escribe siempre `HH:MM`. La pagina pone a veces un punto (`14.00`, `11.00`), una
+# hora de un digito (`9:00`) o los dos puntos dos veces (`15::00`): eran 19 filas, y en
+# ninguna hay nada que adivinar, porque la hora y los minutos estan los dos y enteros.
+#
+# Lo que no se entiende queda tal como figura: en `18:5` faltan los minutos, y lo mismo
+# pueden ser 18:05 que 18:50. Ni se borra --una celda que no se entiende sigue diciendo
+# algo, y vaciarla seria decir que la pagina no trae la hora-- ni se calla: lo avisa
+# `validar.horas_legibles`.
+_HORA_LEGIBLE = re.compile(r"^\s*(\d{1,2})(?::{1,2}|\.)(\d{2})(?![\d.:])")
 
 
 def _hora(celda: str) -> str:
-    m = _HORA_CON_COLA.match(celda)
-    return m.group(1) if m else celda
+    m = _HORA_LEGIBLE.match(celda)
+    if not m or int(m.group(1)) > 23 or int(m.group(2)) > 59:
+        return celda
+    return f"{int(m.group(1)):02d}:{m.group(2)}"
 
 
 def partidos_de_tabla(bloque: str, anio: int, torneo: str, anio_fin: int | None = None,
@@ -2312,7 +2320,7 @@ def _hora_de_la_plantilla(campos: dict[str, str]) -> str:
     if campos.get("hora", "").strip():
         return _hora(limpiar(campos["hora"]))
     horas = _HORA_EN_LA_FECHA.findall(limpiar(campos.get("fecha", "")))
-    return horas[0] if len(horas) == 1 else ""
+    return _hora(horas[0]) if len(horas) == 1 else ""
 
 
 # Como dice una plantilla que el partido fue en cancha NEUTRAL. La tabla tiene

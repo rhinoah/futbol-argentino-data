@@ -121,10 +121,10 @@ Reducido de la Primera C 2011-12, que Wikipedia trae sólo como cuadro: los club
 el marcador de cada uno salen de ese cuadro, y el día y quién fue local, del blog de
 José Carluccio. En algunas pesaron además en otro campo: worldfootball en
 doce de las suyas —el marcador en 8, la localía en 3 y el rival en 1—, el blog de
-José Carluccio en el marcador de una y en el `status` de otra, y una revisión vieja de
-Wikipedia en el marcador de otra más. Cada caso está declarado, con su evidencia, en
-`fad/correcciones.py`. Cada una va nombrada en el `source` de las filas a las que les
-puso el día o la localía.
+José Carluccio en el marcador de una y en el `status` de otra, y revisiones viejas de
+Wikipedia en el marcador de otra más y en la hora de otra. Cada caso está declarado, con
+su evidencia, en `fad/correcciones.py`. Cada una va nombrada en el `source` de las filas
+a las que les puso el día o la localía.
 
 - **[worldfootball](https://www.worldfootball.net/)** — el día de 1 519 partidos de
   la Primera B Nacional de 2007-08 a 2010-11, que Wikipedia publica en tablas de

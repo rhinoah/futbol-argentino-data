@@ -3356,7 +3356,7 @@ def _con_hora(celda: str) -> str:
     ("17:30 ([[Fútbol para todos|TV]])", "17:30"),   # Argentino A 2011-12
     ("18:00 )", "18:00"),                        # Primera C 2011-12, lo que dejo una edicion
     ("21:30 hs.", "21:30"),
-    ("9:30 (TV)", "9:30"),                       # la hora de un digito tambien
+    ("9:30 (TV)", "09:30"),                      # la hora de un digito tambien
 ])
 def test_la_hora_con_el_canal_pegado_queda_en_la_hora(celda, hora):
     """Dos paginas publicaban el mismo partido a las `21:00` y a las `21:00 (TV)`:
@@ -3364,11 +3364,34 @@ def test_la_hora_con_el_canal_pegado_queda_en_la_hora(celda, hora):
     assert parser.partidos_de_tabla(_con_hora(celda), 2026, "Apertura")[0].hora == hora
 
 
-@pytest.mark.parametrize("celda", ["20:00", "9:00", "15::00", "18:5", "14.00", "123:45",
-                                   "15:300"])
-def test_la_hora_que_no_empieza_bien_queda_como_figura(celda):
-    """Lo que no empieza con una hora valida no se adivina, y tampoco se borra."""
+@pytest.mark.parametrize("celda, hora", [
+    ("20:00", "20:00"),
+    ("9:00", "09:00"),            # Primera Nacional 2020
+    ("15::00", "15:00"),          # Primera Nacional 2024
+    ("14.00", "14:00"),           # Clausura 2011
+    ("11.00", "11:00"),           # Federal A 2024, nueve de la Tercera etapa
+    ("17.40 (TV)", "17:40"),
+    ("00:30", "00:30"),
+    ("23:59", "23:59"),
+])
+def test_la_hora_se_escribe_hh_mm(celda, hora):
+    """Eran 19 filas con un punto, una hora de un digito o los dos puntos dos veces. En
+    ninguna habia nada que adivinar: la hora y los minutos estan, y enteros."""
+    assert parser.partidos_de_tabla(_con_hora(celda), 2026, "Apertura")[0].hora == hora
+
+
+@pytest.mark.parametrize("celda", ["18:5", "123:45", "15:300", "25:00", "18:75", "25.00",
+                                   "9:75", "12.05.2013", "15:30:00"])
+def test_la_hora_que_no_se_entiende_queda_como_figura(celda):
+    """`18:5` lo mismo puede ser 18:05 que 18:50: no se adivina, y tampoco se borra.
+    Ni una hora que no existe, ni el principio de un numero mas largo. `25.00` y `9:75`
+    son los que lo prueban: escritos `HH:MM` dirian una hora que no existe."""
     assert parser.partidos_de_tabla(_con_hora(celda), 2026, "Apertura")[0].hora == celda
+
+
+def test_la_hora_de_un_digito_en_la_fecha_de_la_plantilla_tambien_es_hh_mm():
+    assert parser.partidos_de_plantillas(_con_fecha("21 de diciembre, 9:30"), 2021,
+                                         "x")[0].hora == "09:30"
 
 
 # --------------------------------------------------------------------------

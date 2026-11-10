@@ -192,6 +192,14 @@ def test_cada_cancha_corregida_esta_publicada(de):
         assert [f["venue"] for f in fs] == [c.debe], (c.pagina, c.jornada, c.local)
 
 
+def test_cada_hora_corregida_esta_publicada(de):
+    for h in correcciones.HORAS:
+        if _en_curso(h.pagina):
+            continue
+        fs = _del_partido(de, h.pagina, h.jornada, h.local, h.visita)
+        assert [f["time"] for f in fs] == [h.debe], (h.pagina, h.jornada, h.local)
+
+
 def test_cada_status_puesto_a_mano_esta_publicado(de):
     for e in correcciones.ESTADOS:
         if _en_curso(e.pagina):

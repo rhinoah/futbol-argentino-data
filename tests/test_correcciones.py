@@ -360,6 +360,58 @@ def test_las_canchas_corregidas_estan_justificadas():
 
 
 # --------------------------------------------------------------------------
+# Hora: la que la pagina escribe de una forma que no se entiende
+# --------------------------------------------------------------------------
+from fad.correcciones import Hora  # noqa: E402
+
+UNA_HORA = Hora(pagina="Una Pagina", jornada="Fecha 12", local="All Boys",
+                visita="Belgrano", dice="18:5", debe="18:05", porque="de prueba")
+
+
+def _con_la_hora(hora, jornada="Fecha 12"):
+    p = partido("All Boys", "Belgrano", jornada=jornada)
+    p.hora = hora
+    return p
+
+
+def test_corrige_la_hora(monkeypatch):
+    monkeypatch.setattr(correcciones, "HORAS", (UNA_HORA,))
+    ps = [_con_la_hora("18:5")]
+    assert correcciones.aplicar(ps, "Una Pagina") == (1, [])
+    assert ps[0].hora == "18:05"
+
+
+@pytest.mark.parametrize("hora, jornada", [("18:05", "Fecha 12"), ("18:50", "Fecha 12"),
+                                           ("18:5", "Fecha 13")])
+def test_la_hora_que_ya_no_dice_lo_mismo_no_se_pisa(monkeypatch, hora, jornada):
+    """Si la pagina la arreglo -- o dice otra cosa --, la declaracion no se aplica a
+    ciegas, y el build pide sacarla."""
+    monkeypatch.setattr(correcciones, "HORAS", (UNA_HORA,))
+    ps = [_con_la_hora(hora, jornada)]
+    n, avisos = correcciones.aplicar(ps, "Una Pagina")
+    assert n == 0 and ps[0].hora == hora
+    assert len(avisos) == 1 and "sacala de fad/correcciones.py" in avisos[0]
+
+
+def test_no_toca_la_hora_de_otra_pagina(monkeypatch):
+    monkeypatch.setattr(correcciones, "HORAS", (UNA_HORA,))
+    ps = [_con_la_hora("18:5")]
+    assert correcciones.aplicar(ps, "Otra Pagina") == (0, [])
+    assert ps[0].hora == "18:5"
+
+
+def test_las_horas_corregidas_estan_justificadas():
+    """El testigo nombrado, una hora que hoy no se entiende y una que si."""
+    import re
+    assert correcciones.HORAS, "nadie lo usa: se perdio el mecanismo"
+    for h in correcciones.HORAS:
+        assert len(h.porque) > 80, f"{h.jornada} {h.local}: la evidencia es muy flaca"
+        assert "HISTORIAL" in h.porque or "http" in h.porque, "hay que nombrar al testigo"
+        assert re.fullmatch(r"\d\d:\d\d", h.debe), h.debe
+        assert not re.fullmatch(r"\d\d:\d\d", h.dice), f"{h.dice!r} ya se entiende"
+
+
+# --------------------------------------------------------------------------
 # Estado: el status puesto a mano, con el marcador intacto
 # --------------------------------------------------------------------------
 from fad.correcciones import Estado  # noqa: E402

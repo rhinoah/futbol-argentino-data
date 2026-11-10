@@ -2904,21 +2904,39 @@ MUTANTES = [
      '            anio, anio_fin, mes_inicio, programada, _hora(valores["hora"]))',
      '            anio, anio_fin, mes_inicio, programada, valores["hora"])'),
 
-    ("fad/parser.py", "pedirle dos digitos a la hora con el canal pegado",
-     r'_HORA_CON_COLA = re.compile(r"^\s*(\d{1,2}:\d{2})(?!\d)\s*\S")',
-     r'_HORA_CON_COLA = re.compile(r"^\s*(\d{2}:\d{2})(?!\d)\s*\S")'),
+    ("fad/parser.py", "pedirle dos digitos a la hora",
+     r'_HORA_LEGIBLE = re.compile(r"^\s*(\d{1,2})(?::{1,2}|\.)(\d{2})(?![\d.:])")',
+     r'_HORA_LEGIBLE = re.compile(r"^\s*(\d{2})(?::{1,2}|\.)(\d{2})(?![\d.:])")'),
+
+    ("fad/parser.py", "no aceptar el punto entre la hora y los minutos",
+     r'_HORA_LEGIBLE = re.compile(r"^\s*(\d{1,2})(?::{1,2}|\.)(\d{2})(?![\d.:])")',
+     r'_HORA_LEGIBLE = re.compile(r"^\s*(\d{1,2})(?::{1,2})(\d{2})(?![\d.:])")'),
+
+    ("fad/parser.py", "no aceptar los dos puntos repetidos",
+     r'_HORA_LEGIBLE = re.compile(r"^\s*(\d{1,2})(?::{1,2}|\.)(\d{2})(?![\d.:])")',
+     r'_HORA_LEGIBLE = re.compile(r"^\s*(\d{1,2})(?::|\.)(\d{2})(?![\d.:])")'),
 
     ("fad/parser.py", "tomar por hora el principio de un numero mas largo",
-     r'_HORA_CON_COLA = re.compile(r"^\s*(\d{1,2}:\d{2})(?!\d)\s*\S")',
-     r'_HORA_CON_COLA = re.compile(r"^\s*(\d{1,2}:\d{2})\s*\S")'),
+     r'_HORA_LEGIBLE = re.compile(r"^\s*(\d{1,2})(?::{1,2}|\.)(\d{2})(?![\d.:])")',
+     r'_HORA_LEGIBLE = re.compile(r"^\s*(\d{1,2})(?::{1,2}|\.)(\d{2})")'),
 
     ("fad/dataset.py", "aplicar la declaracion de otro dia entre los mismos clubes",
      "        suyas = {d.campo: d for d in declaradas if (d.fecha, d.local, d.visita) == clave}",
      "        suyas = {d.campo: d for d in declaradas if (d.local, d.visita) == clave[1:]}"),
 
     ("fad/parser.py", "vaciar la hora que no se entiende en vez de dejarla como figura",
-     "    return m.group(1) if m else celda",
-     '    return m.group(1) if m else ""'),
+     '    if not m or int(m.group(1)) > 23 or int(m.group(2)) > 59:\n'
+     '        return celda\n',
+     '    if not m or int(m.group(1)) > 23 or int(m.group(2)) > 59:\n'
+     '        return ""\n'),
+
+    ("fad/parser.py", "aceptar una hora que no existe",
+     '    if not m or int(m.group(1)) > 23 or int(m.group(2)) > 59:\n',
+     '    if not m:\n'),
+
+    ("fad/parser.py", "no completar con un cero la hora de un digito",
+     '    return f"{int(m.group(1)):02d}:{m.group(2)}"\n',
+     '    return f"{m.group(1)}:{m.group(2)}"\n'),
 
     ("fad/dataset.py", "no completar lo que una copia no trae",
      "                    f[campo] = unico",
@@ -3001,8 +3019,12 @@ MUTANTES = [
      '    horas = _HORA_EN_LA_FECHA.findall(campos.get("fecha", ""))'),
 
     ("fad/parser.py", "quedarse con la primera de dos horas en `fecha`",
-     '    return horas[0] if len(horas) == 1 else ""',
-     '    return horas[0] if horas else ""'),
+     '    return _hora(horas[0]) if len(horas) == 1 else ""',
+     '    return _hora(horas[0]) if horas else ""'),
+
+    ("fad/parser.py", "no normalizar la hora que viene en la `fecha` de la plantilla",
+     '    return _hora(horas[0]) if len(horas) == 1 else ""',
+     '    return horas[0] if len(horas) == 1 else ""'),
 
     ("fad/parser.py", "no leer el campo `hora` de la plantilla",
      '    if campos.get("hora", "").strip():',
@@ -3674,7 +3696,7 @@ MUTANTES = [
 # un test de que estan en la lista. Van escritos a mano y no sacados de
 # `validar.CHEQUEOS`: si salieran de ahi, el que se cae de la lista se llevaria su
 # mutante.
-_LOS_CHEQUEOS = ("campos_completos", "fechas_presentes", "nombres_en_el_padron",
+_LOS_CHEQUEOS = ("campos_completos", "horas_legibles", "fechas_presentes", "nombres_en_el_padron",
                  "penales_solo_en_empates", "sin_duplicados", "nadie_juega_contra_si_mismo",
                  "todos_tienen_zona", "zonas_completas", "una_vez_por_jornada",
                  "jornadas_sin_huecos", "anios_bien_asignados", "una_zona_por_club",
@@ -3753,6 +3775,29 @@ MUTANTES += [
      '        fecha="2011-06-26", local="San Martín (T)", visita="Desamparados",\n',
      "    *(lambda *a, **k: ())(\n"
      '        fecha="2011-06-26", local="San Martín (T)", visita="Desamparados",\n'),
+    # --- HORAS y la guarda de las horas que no se entienden ---
+    ("fad/validar.py", "avisar tambien la hora vacia",
+     '            for p in ps if p.hora and not _HH_MM.match(p.hora)]\n',
+     '            for p in ps if not _HH_MM.match(p.hora)]\n'),
+    ("fad/validar.py", "aceptar por legible una hora con punto",
+     r'_HH_MM = re.compile(r"^\d\d:\d\d$")',
+     r'_HH_MM = re.compile(r"^\d\d[:.]\d\d$")'),
+    ("fad/correcciones.py", "una `Hora` engancha aunque la pagina ya diga otra",
+     '                      and p.visita == h.visita and p.hora == h.dice]\n',
+     '                      and p.visita == h.visita]\n'),
+    ("fad/correcciones.py", "una `Hora` se aplica a otra pagina",
+     '    for h in HORAS:\n'
+     '        if h.pagina != pagina:\n',
+     '    for h in HORAS:\n'
+     '        if False:\n'),
+    ("fad/correcciones.py", "una `Hora` no escribe la hora",
+     '        candidatos[0].hora = h.debe\n',
+     '        pass\n'),
+    ("fad/correcciones.py", "sacar de `HORAS` la hora de Newell's Old Boys-Racing Club, Clausura 2003",
+     '    Hora(\n'
+     '        pagina="Anexo:Torneo Clausura 2003 (Argentina)",\n',
+     '    *(lambda *a, **k: ())(\n'
+     '        pagina="Anexo:Torneo Clausura 2003 (Argentina)",\n'),
     # --- ESTADOS: el status puesto a mano, y la guarda que calla esas filas ---
     ("fad/correcciones.py", "un `Estado` engancha aunque la pagina ya diga otro status",
      '                      and (p.goles_local, p.goles_visita) == e.goles\n'
@@ -3982,6 +4027,9 @@ MUTANTES += [
     ("data/partidos-2011.csv", "publicar sin su credito una pata citada: Midland-Cambaceres, Primera C 2011-12",
      "2012-05-28,,Ferrocarril Midland,Defensores de Cambaceres,4,1,,,Primera C,2011,eliminacion,,Cuartos de final,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina) + http://josecarluccio.blogspot.com/2015/07/argentina-1ra-c-afa-201112-torneo.html,\n",
      "2012-05-28,,Ferrocarril Midland,Defensores de Cambaceres,4,1,,,Primera C,2011,eliminacion,,Cuartos de final,,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_C_2011-12_(Argentina),\n"),
+    ("data/partidos-2003.csv", "publicar el 18:5 de la pagina y no la hora corregida: Newell's-Racing, Clausura 2003",
+     "2003-06-07,18:05,Newell's Old Boys,Racing Club,1,1,,,Primera Division - Clausura,2003,zonas,,Fecha 15,Coloso del Parque,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2003_(Argentina),\n",
+     "2003-06-07,18:5,Newell's Old Boys,Racing Club,1,1,,,Primera Division - Clausura,2003,zonas,,Fecha 15,Coloso del Parque,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Clausura_2003_(Argentina),\n"),
     ("data/partidos-1991.csv", "publicar sin el status puesto a mano el Talleres (C)-Velez suspendido, Apertura 1991",
      "1991-11-03,,Talleres (C),Vélez Sarsfield,1,0,,,Primera Division - Apertura,1991,zonas,,Fecha 10,,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_1991_(Argentina) + https://www.rsssf.org/,suspendido\n",
      "1991-11-03,,Talleres (C),Vélez Sarsfield,1,0,,,Primera Division - Apertura,1991,zonas,,Fecha 10,,false,https://es.wikipedia.org/wiki/Anexo:Torneo_Apertura_1991_(Argentina) + https://www.rsssf.org/,\n"),

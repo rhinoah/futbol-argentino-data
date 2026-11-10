@@ -52,6 +52,23 @@ def campos_completos(ps: list[Partido]) -> list[Aviso]:
     return avisos
 
 
+_HH_MM = re.compile(r"^\d\d:\d\d$")
+
+
+def horas_legibles(ps: list[Partido]) -> list[Aviso]:
+    """Una hora que no es `HH:MM`. `parser._hora` normaliza todo lo que no hay que
+    adivinar, asi que lo que llega aca es una celda que no se entiende, como el `18:5`
+    del Newell's - Racing del Clausura 2003: se publica como figura, y no callada.
+
+    No es grave: el partido esta, y la hora es lo que menos dice de el. Se arregla
+    mirando la pagina, y si la hora se sabe, con una `correcciones.Hora`."""
+    return [Aviso("una hora que no se entiende",
+                  f"{p.local} vs {p.visita} ({p.jornada}): la pagina dice {p.hora!r}, que "
+                  f"no es HH:MM. Se publica como figura; si la hora se sabe, va en "
+                  f"`correcciones.HORAS`", grave=False)
+            for p in ps if p.hora and not _HH_MM.match(p.hora)]
+
+
 def fechas_presentes(ps: list[Partido]) -> list[Aviso]:
     """Los partidos sin fecha, que NO entran al dataset.
 
@@ -1077,7 +1094,7 @@ def _ganador(p: Partido) -> str:
     return ""
 
 
-CHEQUEOS = [campos_completos, fechas_presentes, nombres_en_el_padron,
+CHEQUEOS = [campos_completos, horas_legibles, fechas_presentes, nombres_en_el_padron,
             penales_solo_en_empates, sin_duplicados,
             nadie_juega_contra_si_mismo, todos_tienen_zona, zonas_completas,
             una_vez_por_jornada, jornadas_sin_huecos, anios_bien_asignados,

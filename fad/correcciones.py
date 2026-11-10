@@ -2859,6 +2859,42 @@ CANCHAS: tuple[Cancha, ...] = (
 
 
 @dataclass(frozen=True)
+class Hora:
+    """La hora de un partido que la pagina escribe de una forma que no se entiende.
+
+    `parser._hora` normaliza todo lo que no hay que adivinar --`14.00`, `9:00`,
+    `15::00`--, y lo que queda lo avisa `validar.horas_legibles`. Esto es para cuando
+    la hora se sabe: con el historial de la propia pagina, que la tuvo bien escrita, o
+    con una fuente de afuera. `dice` es como la escribe hoy, y es parte de la
+    identificacion: si la pagina la arregla, la declaracion deja de enganchar y el
+    build pide sacarla.
+    """
+    pagina: str
+    jornada: str
+    local: str
+    visita: str
+    dice: str
+    debe: str
+    porque: str
+
+
+HORAS: tuple[Hora, ...] = (
+    Hora(
+        pagina="Anexo:Torneo Clausura 2003 (Argentina)",
+        jornada="Fecha 15", local="Newell's Old Boys", visita="Racing Club",
+        dice="18:5", debe="18:05",
+        porque=(
+            "LO DICE EL HISTORIAL DE LA PROPIA PAGINA. La columna de horas entro el "
+            "3/10/2020 (rev 129753154) con '18:05' para este partido, y asi siguio cinco "
+            "anios. La edicion de Butoro del 19/11/2025 (rev 170559962, '/* Sistema de "
+            "disputa */') lo dejo en '18:5'; la anterior, rev 170256322 del 31/10/2025, "
+            "todavia dice '18:05'. Ninguna fuente dio otra hora: la edicion toco otra "
+            "seccion y el '0' se perdio de paso."),
+    ),
+)
+
+
+@dataclass(frozen=True)
 class Copia:
     """Lo que dicen las DOS copias de un partido escrito dos veces, cuando no coinciden.
 
@@ -5862,6 +5898,20 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
                           f"fad/correcciones.py")
             continue
         candidatos[0].estadio = c.debe
+        aplicadas += 1
+
+    for h in HORAS:
+        if h.pagina != pagina:
+            continue
+        candidatos = [p for p in ps
+                      if p.jornada == h.jornada and p.local == h.local
+                      and p.visita == h.visita and p.hora == h.dice]
+        if len(candidatos) != 1:
+            avisos.append(f"la hora corregida de {h.jornada} ({h.local} vs {h.visita}) "
+                          f"engancha con {len(candidatos)} partidos y no se aplica: si la "
+                          f"pagina ya la escribe bien, sacala de fad/correcciones.py")
+            continue
+        candidatos[0].hora = h.debe
         aplicadas += 1
 
     # Despues de `MARCADORES`: el marcador ya es el arbitrado, y un `Estado` se

@@ -273,7 +273,7 @@ el mismo: acá `time` va segunda.
 
 | columna | qué trae |
 |---|---|
-| `date` `time` | ISO (`2026-01-22`) y hora local. Un día que no existe en el calendario no se publica: si la página escribe un `31 de noviembre` en un torneo en curso, la fila queda afuera hasta que la corrija, y en uno terminado el build frena |
+| `date` `time` | ISO (`2026-01-22`) y hora local, `HH:MM` (`09:00`). Un día que no existe en el calendario no se publica: si la página escribe un `31 de noviembre` en un torneo en curso, la fila queda afuera hasta que la corrija, y en uno terminado el build frena. La hora que la página escribe `14.00`, `9:00` o `15::00` se reescribe `HH:MM`; la que no se entiende, como un `18:5`, se publica como figura y el build avisa |
 | `home_team` `away_team` | los equipos |
 | `home_score` `away_score` | el marcador de los 90 (más alargue si hubo) |
 | `home_pens` `away_pens` | la tanda de penales, vacío si no hubo. En una serie de ida y vuelta va en la vuelta, que es donde se pateó, y esa vuelta no tiene por qué haber terminado empatada: lo que empató es el global. En la Primera División 1988-89 la llevan también los partidos de **liga**: ese campeonato definía cada empate por penales, con un punto más para el que ganaba la tanda. Son 131; al empate que falta (`Rosario Central 1-1 Instituto`) la fuente no le publica la tanda |
@@ -343,7 +343,7 @@ un marcador **indistinguible de uno jugado en cancha**.
 | vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 50 257 |
 | `suspendido` | la fuente dice que el partido **no llegó al final** | 100 |
 | `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 16 |
-| `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. Cinco lo dicen en una nota y conservan el día para el que estaban programados, como el `Instituto 0-1 San Lorenzo` de la 1987-88; los seis de `sin-fecha/` no tienen día | 6 |
+| `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. El día es el del programado: el `Instituto 0-1 San Lorenzo` de la 1987-88 lo dice RSSSF, y cinco de 2013 a 2025, como el `Colón 0-1 Atlético de Rafaela` del Inicial 2013, una nota de su página. Esos cinco conservan también la hora y la cancha programadas, que es lo que publica la página: no son las de un partido que se jugó. Los seis de `sin-fecha/` no tienen día | 6 |
 
 **El eje no es el que parece.** Lo natural sería distinguir "el tribunal ratificó
 el marcador de la cancha" de "el tribunal lo cambió", y no se puede: la fuente no
@@ -4216,11 +4216,11 @@ de esa página.
 
 ## Tests
 
-1660 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1687 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 956 maneras —veinticinco de ellas rompen el CSV publicado— y exige que la suite
+propósito de 969 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

@@ -64,6 +64,27 @@ def test_sano_no_avisa_nada():
     assert validar.revisar(zona_entera(4)) == []
 
 
+def _con_hora(hora: str) -> list[Partido]:
+    ps = zona_entera(4)
+    ps[0].hora = hora
+    return ps
+
+
+@pytest.mark.parametrize("hora", ["18:5", "15::00", "9:00", "14.00", "a confirmar"])
+def test_una_hora_que_no_es_hh_mm_avisa_sin_frenar(hora):
+    """`parser._hora` ya normaliza lo que no hay que adivinar: lo que llega aca sin la
+    forma `HH:MM` es una celda que no se entiende, y se publica como figura pero no
+    callada."""
+    avisos = [a for a in validar.revisar(_con_hora(hora)) if a.que == "una hora que no se entiende"]
+    assert len(avisos) == 1 and not avisos[0].grave
+    assert repr(hora) in avisos[0].detalle
+
+
+@pytest.mark.parametrize("hora", ["", "18:05", "00:30"])
+def test_una_hora_hh_mm_o_vacia_no_avisa(hora):
+    assert validar.revisar(_con_hora(hora)) == []
+
+
 def test_torneo_en_curso_avisa_pero_no_frena():
     """Un torneo a mitad de camino incumple el todos-contra-todos y esta bien:
     el Clausura 2026 va por la Fecha 4. Tiene que avisar SIN gravedad, porque un
@@ -1759,6 +1780,8 @@ def test_revisar_le_pasa_los_divididos_al_chequeo():
 # SU chequeo, y no pasa porque otro diga algo parecido.
 POR_REVISAR = {
     "campos_completos": lambda: [zona("Boca Juniors", "River Plate", gl=None)],
+    "horas_legibles": lambda: [dataclasses.replace(zona("Boca Juniors", "River Plate"),
+                                                   hora="18:5")],
     "fechas_presentes": lambda: [zona("Boca Juniors", "River Plate", fecha="")],
     "nombres_en_el_padron": lambda: [zona("Boca Juniors", "Club Inventado")],
     "penales_solo_en_empates": lambda: [
