@@ -283,7 +283,7 @@ el mismo: acá `time` va segunda.
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
 | `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales`, `Segunda etapa`. En una serie de ida y vuelta de Wikipedia las dos patas llevan la misma ronda —si la tabla rotula sólo la pata (`Partidos de ida`) o lo que trae (`Partidos`), la ronda es la que dice el encabezado de arriba o el título de la sección—, y cuál es la ida lo dice `date`. Un partido suelto que no es de ningún cuadro —un desempate, una promoción— lleva el título de su sección tal como lo escribe la página: `Partido por la permanencia`, `Desempate del primer puesto` |
-| `venue` | el estadio, tal como figura; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos; donde la página pone otro y la prensa de esos días dice dónde se jugó, el de la prensa (75 filas, en `fad/correcciones.py`) |
+| `venue` | el estadio, tal como figura; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos; donde la página pone otro y la prensa de esos días dice dónde se jugó, el de la prensa (109 filas, en `fad/correcciones.py`) |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
@@ -1979,7 +1979,7 @@ inventa canchas.
 
 Después apareció un segundo testigo: **la prensa de esos días**, una previa o una
 crónica, con su dirección, que diga dónde se jugó. El blog de José Carluccio solo no
-alcanza. Así entraron 73 canchas más. Treinta son localías de Unión Aconquija en el
+alcanza. Así entraron 107 canchas más. Treinta son localías de Unión Aconquija en el
 Federal A 2014, 2015 y 2016: las páginas las ponen en «Municipal de Aconquija», su
 cancha de Las Estancias, y el club jugaba en la de Tiro Federal y Gimnasia, en
 Andalgalá. Volvió a Las Estancias sólo en marzo y abril de 2015, con la de Tiro
@@ -1993,7 +1993,11 @@ el Martearena, Andino en el Mercado Luna, Unión (VK) en el San Juan del Bicente
 desde agosto, y cuatro sueltas. Las listas las dio el blog de Carluccio, que nombra la
 cancha de cada partido, y cada fila entró con su crónica: el blog también se equivoca
 —en al menos dos partidos de 2015 la crónica le dio la razón a la página—, y cuatro que nadie
-más nombra quedaron como estaban. La que falta es Central Córdoba (R) – Cañuelas, del
+más nombra quedaron como estaban. Treinta y cuatro son de San Jorge (T), del Argentino A
+2012-13 al Federal A 2016-17, en las mismas condiciones: la página lo pone siempre en un
+«Senador Luis Cruz» que no nombra nadie, y el club no tuvo cancha propia hasta 2017.
+Fue local en Central Norte, en La Ciudadela, en el Monumental José Fierro y en San
+Antonio de Ranchillos. La que falta es Central Córdoba (R) – Cañuelas, del
 Reducido de la Primera C 2017-18, que la plantilla ponía en la cancha del visitante.
 Cada cita se cotejó contra el texto de la nota antes de escribirla en
 `fad/correcciones.py`.
@@ -4288,7 +4292,7 @@ página no trae. El día lo da la previa de La Nueva: el domingo 8 de julio de 2
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 1032 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1034 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

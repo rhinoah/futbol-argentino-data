@@ -2879,6 +2879,29 @@ _FEDERAL_A_2015 = "Torneo Federal A 2015"
 _FEDERAL_A_2016 = "Torneo Federal A 2016"
 
 
+def _de_san_jorge(pagina: str, jornada: str, visita: str, debe: str,
+                  porque: str) -> Cancha:
+    """Una localia de San Jorge (T) que la pagina pone en el «Senador Luis Cruz».
+
+    Ese estadio no lo nombra ninguna fuente: San Jorge no tuvo cancha propia hasta
+    septiembre de 2017 («Después de nueve años tendrá su estadio propio», La Gaceta
+    del 22/9/2017, https://www.lagaceta.com.ar/nota/745522/deportes/estadio-sonado-se-
+    hizo-real.html) y fue local en canchas prestadas: la de Central Norte, en el
+    barrio El Bosque --«el estadio que figura para que San Jorge juegue de local es
+    el del barrio El Bosque», La Gaceta del 28/8/2012, https://www.lagaceta.com.ar/
+    nota/507995/deportes/jugara-visitante-pero-sera-mas-local-nunca.html--, el
+    Monumental José Fierro, La Ciudadela y la de San Antonio de Ranchillos. Cada una
+    va con la cronica o la previa de esos dias, cotejada contra el texto de la nota
+    el 11/11/2026. Cinco siguen sin testigo y quedan como estan."""
+    return Cancha(pagina=pagina, jornada=jornada, local="San Jorge (T)", visita=visita,
+                  dice="Senador Luis Cruz", debe=debe, porque=porque)
+
+
+_ARGENTINO_A_2012_13 = "Torneo Argentino A 2012-13"
+_FEDERAL_A_2016_17 = "Torneo Federal A 2016-17"
+_ADI = "https://ascensodelinterior.com.ar/noticias/"
+
+
 def _en_2015(jornada: str, local: str, visita: str, dice: str, debe: str,
              porque: str) -> Cancha:
     """Un partido del Federal A 2015 que la pagina pone en la cancha nominal del local
@@ -3445,6 +3468,197 @@ CANCHAS: tuple[Cancha, ...] = (
         "maipuacute-y-es-el-duentildeo-del-departamento/ Y la de Diario Uno que reproduce "
         "Ascenso del Interior: 'en el Estadio Malvinas Argentinas'. "
         "https://www.ascensodelinterior.com.ar/noticias/13137/gutierrez-2-deportivo-maipu-0/"),
+    # ---- San Jorge (T) en el «Senador Luis Cruz»: ver `_de_san_jorge`. Las canchas van
+    # como el dataset las escribe en sus otras filas: 'Central Norte', 'La Ciudadela'
+    # (281) y 'Monumental José Fierro' (309). Argentino A 2012-13:
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 5", "Central Córdoba (SdE)", "Central Norte",
+        "La cronica de El Siglo que reproduce Ascenso del Interior el 17/9/2012: 'Estadio: "
+        "Central Norte (local San Jorge).' " + _ADI + "1368/san-jorge-1-1-central-crdoba/"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 7", "Guaraní Antonio Franco", "Central Norte",
+        "La cronica de Tucumanesfutbol que reproduce Ascenso del Interior el 30/9/2012: "
+        "'el héroe de la calurosa mañana en el estadio de Central Norte'. "
+        + _ADI + "1612/san-jorge-1-0-guaran-a.f./"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 9", "Tiro Federal", "La Ciudadela",
+        "La cronica de Tucumanesfutbol que reproduce Ascenso del Interior el 13/10/2012: "
+        "'comenzó perdiendo en Ciudadela' y 'San Jorge festejó en Ciudadela el regreso a la "
+        "punta'. " + _ADI + "1849/san-jorge-(t)-3-2-tiro-federal-(r)/ El blog de Carluccio "
+        "dice Central Norte; la prensa, La Ciudadela."),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 12", "Talleres (C)", "Central Norte",
+        "La cronica de La Gaceta que reproduce Ascenso del Interior el 29/10/2012: el partido "
+        "'se disputó en cancha de Central Norte'. " + _ADI + "2232/san-jorge-(tucumn)-1---1-"
+        "talleres-(cordoba)/ En la misma pagina, una cronica cordobesa dice 'en el estadio de "
+        "Central Córdoba de Tucumán', pero su ficha pone 'Cancha: Central Norte (Tucumán)'."),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 15", "Alumni (VM)", "Central Norte",
+        "La previa de La Gaceta del 15/11/2012: el domingo, a las 17, 'en cancha de Central "
+        "Norte, ante Alumni de Villa María'. https://www.lagaceta.com.ar/nota/520409/"
+        "deportes/club-x-club.html Y la cronica de El Siglo que reproduce Ascenso del "
+        "Interior: la suerte 'no se había dado cita en el Barrio El Bosque'. "
+        + _ADI + "2654/san-jorge-(t)-2-1-alumni/"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 17", "Juventud Antoniana", "Central Norte",
+        "La cronica de Fulbolero que reproduce Ascenso del Interior el 2/12/2012: 'Cancha: "
+        "Central Norte de Tucumán.' " + _ADI + "2898/san-jorge-(t)-1-0-juventud-antoniana/"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 19", "Racing (C)", "Central Norte",
+        "La cronica de Ascenso del Interior del 27/1/2013: 'Estadio: Central Norte (local San "
+        "Jorge).' " + _ADI + "3557/san-jorge-1-1-racing-(c)/"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 21", "Libertad (S)", "Central Norte",
+        "La cronica de El Siglo que reproduce Ascenso del Interior el 4/2/2013: 'Estadio: "
+        "Central Norte.' " + _ADI + "3686/san-jorge-(t)-0-0-dep.-libertad/"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 24", "Central Norte (S)", "Central Norte",
+        "La cronica de Arenga Deportiva, de Salta, del lado del rival, que reproduce Ascenso "
+        "del Interior el 21/2/2013: 'Estadio: Central Norte de Tucumán'. "
+        + _ADI + "3941/san-jorge-(tucumn)-0---1-central-norte-(salta)/"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 1", "Sportivo Belgrano", "Central Norte",
+        "La cronica de Fulbolero que reproduce Ascenso del Interior el 9/3/2013: 'La sensación "
+        "térmica marcaba 40 grados en barrio El Bosque', y 'Cancha: Central Norte (local San "
+        "Jorge).' " + _ADI + "4213/san-jorge-(t)-1-2-sp.-belgrano/"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 3", "Gimnasia y Esgrima (CdU)", "Central Norte",
+        "La cronica de La Calle, de Concepción del Uruguay, del lado del rival, que reproduce "
+        "Ascenso del Interior el 31/3/2013: 'Cancha: Central Norte (local San Jorge).' "
+        + _ADI + "4596/san-jorge-(tucuman)-3---1-gimnasia-(cdu)/"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 5", "Juventud Unida Universitario", "Central Norte",
+        "La cronica de Fulbolero que reproduce Ascenso del Interior el 14/4/2013: 'un primer "
+        "tiempo como el que se vivió hoy en cancha de Central Norte'. "
+        + _ADI + "4827/san-jorge-(tucuman)-2---4-juventud-unida-(san-luis)/"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 7", "Deportivo Maipú", "Central Norte",
+        "La Gaceta del 22/4/2013: el tecnico de San Martín 'ayer estuvo en cancha de Central "
+        "Norte presenciando el partido entre San Jorge y Deportivo Maipú'. "
+        "https://www.lagaceta.com.ar/nota/541844/deportes/medico-plantel-explico-motivos-"
+        "ausencias-lopez-balvorin.html"),
+    _de_san_jorge(
+        _ARGENTINO_A_2012_13, "Fecha 10", "Ramón Santamarina", "Central Norte",
+        "La cronica de Tucumán Sports que reproduce Ascenso del Interior el 12/5/2013: "
+        "'Cancha: Central Norte-Local SJ'. "
+        + _ADI + "5192/san-jorge-(tucuman)-3---1-santamarina-(tandil)/"),
+    # Argentino A 2013-14:
+    _de_san_jorge(
+        "Torneo Argentino A 2013-14", "Fecha 10", "Gimnasia y Esgrima (CdU)", "Central Norte",
+        "La cronica de Tucumán Sports que reproduce Ascenso del Interior el 19/10/2013: 'en "
+        "el cotejo jugado en Central Norte', y 'En el Barrio El Bosque, donde San Jorge hizo "
+        "de local'. " + _ADI + "7141/san-jorge-(tucuman)-2---0-gimnasia-(c.del-uruguay)/"),
+    # Federal A 2014 y 2015:
+    _de_san_jorge(
+        _FEDERAL_A_2014, "Fecha 5", "Altos Hornos Zapla", "Central Norte",
+        "La cronica de Tucumán Sports que reproduce Ascenso del Interior el 21/9/2014: 'San "
+        "Jorge ya se desacostumbró a jugar de local en cancha de Central Norte', y 'Estadio: "
+        "Central Norte (local San Jorge).' " + _ADI + "10400/san-jorge-1-altos-h.-zapla-1/"),
+    _de_san_jorge(
+        _FEDERAL_A_2015, "Fecha 17", "Unión Aconquija", "Central Norte",
+        "No se jugo --el arbitro no lo empezo por falta de medico--, y en un `no disputado` la "
+        "cancha es la del programa. La Gaceta del 12/7/2015: 'el horario previsto para el "
+        "inicio del encuentro en el estadio de Central Norte'. https://www.lagaceta.com.ar/"
+        "nota/645497/deportes/otro-papelon.html Y la nota que reproduce Ascenso del Interior: "
+        "'el juez del encuentro que se iba a disputar en cancha de Central Norte'. "
+        + _ADI + "13633/san-jorge---aconquija,-suspendido-por-falta-de-mdico/"),
+    # Federal A 2016:
+    _de_san_jorge(
+        _FEDERAL_A_2016, "Fecha 1", "Concepción FC", "Central Norte",
+        "La previa de Interior Futbolero del 7/2/2016: 'El mismo se disputará en cancha de "
+        "Central Norte.' https://interiorfutbolero.com.ar/federal-a/el-expreso-recibe-al-"
+        "cuervo-para-poner-en-marcha-la-ilusion Y la cronica de La Gaceta del 8/2: los "
+        "cuervos 'volaron muy alto en Barrio El Bosque'. https://www.lagaceta.com.ar/nota/"
+        "670379/deportes/cuervo-volo-muy-alto.html"),
+    _de_san_jorge(
+        _FEDERAL_A_2016, "Fecha 4", "San Martín (T)", "La Ciudadela",
+        "La cronica de La Gaceta que reproduce Ascenso del Interior el 28/2/2016: San Martín, "
+        "'el hoy visitante en terreno propio'. " + _ADI + "15666/san-jorge-(tuc)-0---1-san-"
+        "martn-(tuc)/ Y la de Interior Futbolero, titulada 'El Santo gritó victoria en La "
+        "Ciudadela'. https://interiorfutbolero.com.ar/federal-a/con-gol-de-viturro-san-"
+        "martin-consiguio-su-primer-triunfo"),
+    _de_san_jorge(
+        _FEDERAL_A_2016, "Fecha 8", "Mitre (SdE)", "Central Norte",
+        "Las cronicas de La Gaceta y de ABC, de Santiago del Estero, que reproduce Ascenso "
+        "del Interior el 26/3/2016: 'El duelo se jugó en el estadio de Central Norte', y "
+        "'Estadio: Central Norte (local San Jorge).' " + _ADI + "15919/san-jorge-(tuc)-2---1-"
+        "mitre-(sde)/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016, "Fecha 10", "Güemes (SdE)", "Central Norte",
+        "La cronica de Mundo Expreso que reproduce Ascenso del Interior el 9/4/2016: 'San "
+        "Jorge recibió a Güemes en el Estadio de Central Norte'. " + _ADI + "16051/san-jorge-"
+        "(tuc)-1---1-gemes-(sde)/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016, "Fecha 11", "Concepción FC", "Central Norte",
+        "La cronica de Mundo Expreso que reproduce Ascenso del Interior el 13/4/2016: 'En el "
+        "Estadio de Central Norte, San Jorge recibía a Concepción'. " + _ADI + "16085/san-"
+        "jorge-(tuc)-1---1-concepcin-f.c.-(tuc)/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016, "Fecha 14", "San Martín (T)", "La Ciudadela",
+        "La cronica de La Gaceta que reproduce Ascenso del Interior el 30/4/2016: 'Estadio: La "
+        "Ciudadela del Club San Martín (local San Jorge).' " + _ADI + "16280/san-jorge-(tuc)-"
+        "0---0-san-martn-(tuc)/"),
+    # Federal A 2016-17. Tres en la cancha de San Antonio de Ranchillos, que solo la ficha
+    # de Ascenso del Interior nombra: 'Dr. Antonio Moreno'. Va ese nombre.
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 1", "Altos Hornos Zapla", "Monumental José Fierro",
+        "La previa de TodoJujuy, del lado del rival, del 4/9/2016: 'se jugará en el estadio "
+        "José Fierro de Atlético de Tucumán ya que al equipo local no le habilitaron su "
+        "cancha'. https://www.todojujuy.com/deportes/zapla-arranca-su-ilusion-n52122 Y la "
+        "cronica que reproduce Ascenso del Interior: 'Estadio: Monumental José Fierro de "
+        "Atlético Tucumán.' " + _ADI + "17012/san-jorge-(tuc)-0---1-altos-h.-zapla-(jujuy)/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 4", "Concepción FC", "Monumental José Fierro",
+        "La cronica de la prensa de San Jorge que reproduce Ascenso del Interior el 26/9/2016: "
+        "'Un triunfo para confirmar la levantada en el José Fierro'. "
+        + _ADI + "17200/san-jorge-(tuc)-2---0-concepcin-f.c.-(tuc)/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 8", "Gimnasia y Tiro (S)", "Dr. Antonio Moreno",
+        "La cronica que reproduce Ascenso del Interior el 23/10/2016: 'Estadio: Dr. Antonio "
+        "Moreno de San Antonio (Ranchillos) (local San Jorge).' " + _ADI + "17452/san-jorge-"
+        "(tuc)-0---2-gimnasia-y-tiro/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 10", "Juventud Antoniana", "Dr. Antonio Moreno",
+        "La previa de El Tribuno de Salta, del lado del rival, del 28/10/2016: 'se dirigirán "
+        "hacia la cancha de San Antonio de Ranchillos'. https://www.eltribuno.com/nota/2016-"
+        "10-28-23-0-0-la-ausencia-de-ring-ring-balvorin-en-tucuman Y la cronica que reproduce "
+        "Ascenso del Interior: empató 'en el Dr. Antonio Moreno de San Antonio de Ranchillos'. "
+        + _ADI + "17549/san-jorge-(tuc)-1---1-juventud-antoniana/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 11", "Altos Hornos Zapla", "Dr. Antonio Moreno",
+        "La cronica de TodoJujuy, del lado del rival, del 5/11/2016: el partido 'se jugó en la "
+        "cancha de Ranchillos'. https://www.todojujuy.com/deportes/merengue-agridulce-empato-"
+        "y-cedio-la-punta-n54481"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 14", "Concepción FC", "Monumental José Fierro",
+        "La cronica de Fulbolero que reproduce Ascenso del Interior el 20/11/2016: 'El Cuervo "
+        "derrotó al Expreso en el Monumental por 3 a 1', que en Tucumán es el José Fierro. "
+        + _ADI + "17779/san-jorge-(tuc)-1---3-concepcin-f.c.-(tuc)/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 18", "Gimnasia y Tiro (S)", "La Ciudadela",
+        "La cronica de la prensa de San Jorge que reproduce Ascenso del Interior el 7/12/2016: "
+        "pudo 'ganar en Ciudadela', y 'se festejó y mucho en la cancha de San Martín'. "
+        + _ADI + "18024/san-jorge-(tuc)-4---1-gimnasia-y-tiro/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 20", "Juventud Antoniana", "La Ciudadela",
+        "La cronica de la prensa de San Jorge que reproduce Ascenso del Interior el "
+        "18/12/2016: 'El Expreso venció 2 a 0 a Juventud Antoniana en Ciudadela.' "
+        + _ADI + "18150/san-jorge-(tuc)-2---0-juventud-antoniana/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 2", "Gutiérrez", "Central Norte",
+        "La previa de Unidiversidad, de Mendoza, del lado del rival, del 17/3/2017: viajó 'para "
+        "enfrentarse a San Jorge en cancha de Central Norte mañana desde las 17'. "
+        "https://www.unidiversidad.com.ar/el-cele-tiene-todo-listo"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 6", "Concepción FC", "Central Norte",
+        "La cronica de la prensa de San Jorge que reproduce Ascenso del Interior el 8/4/2017: "
+        "'Estadio: Central Norte.', y Concepción 'hizo negocio en Barrio El Bosque'. "
+        + _ADI + "18773/san-jorge-(tuc)-0---0-concepcin-f.c.-(tuc)/"),
+    _de_san_jorge(
+        _FEDERAL_A_2016_17, "Fecha 9", "Desamparados", "Central Norte",
+        "La cronica de Fulbolero que reproduce Ascenso del Interior el 23/4/2017: 'lo que se "
+        "vio en el estadio de Central Norte'. " + _ADI + "18945/san-jorge-(tuc)-0---0-sp.-"
+        "desamparados-(sj)/"),
 )
 
 
