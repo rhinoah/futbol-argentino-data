@@ -188,7 +188,8 @@ def test_cada_cancha_corregida_esta_publicada(de):
     for c in correcciones.CANCHAS:
         if _en_curso(c.pagina):
             continue
-        fs = _del_partido(de, c.pagina, c.jornada, c.local, c.visita)
+        fs = [f for f in _del_partido(de, c.pagina, c.jornada, c.local, c.visita)
+              if c.fecha in ("", f["date"])]
         assert [f["venue"] for f in fs] == [c.debe], (c.pagina, c.jornada, c.local)
 
 

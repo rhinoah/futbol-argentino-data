@@ -343,6 +343,22 @@ def test_una_cancha_corregida_que_ya_no_engancha_avisa(monkeypatch):
     assert n == 0 and avisos and "sacala de fad/correcciones.py" in avisos[0]
 
 
+def test_la_cancha_con_dia_elige_el_partido_de_ese_dia(monkeypatch):
+    """La misma jornada con los mismos clubes y la misma cancha escrita, dos veces: la
+    Fecha 9 de las dos fases del Federal A 2015. Sin el dia engancha con las dos y
+    no corrige ninguna; con el dia, corrige solo la suya."""
+    import dataclasses
+    con_dia = dataclasses.replace(UNA_CANCHA, fecha="2015-05-23")
+    ida, vuelta = _con_cancha("Víctor Antonio Legrotaglie"), _con_cancha("Víctor Antonio Legrotaglie")
+    ida.fecha, vuelta.fecha = "2015-05-23", "2015-09-26"
+    monkeypatch.setattr(correcciones, "CANCHAS", (UNA_CANCHA,))
+    n, avisos = correcciones.aplicar([ida, vuelta], "Una Pagina")
+    assert n == 0 and "engancha con 2" in avisos[0]
+    monkeypatch.setattr(correcciones, "CANCHAS", (con_dia,))
+    assert correcciones.aplicar([ida, vuelta], "Una Pagina") == (1, [])
+    assert (ida.estadio, vuelta.estadio) == ("23 de Agosto", "Víctor Antonio Legrotaglie")
+
+
 def test_no_toca_las_canchas_de_otra_pagina(monkeypatch):
     monkeypatch.setattr(correcciones, "CANCHAS", (UNA_CANCHA,))
     ps = [_con_cancha("Víctor Antonio Legrotaglie")]

@@ -2095,6 +2095,11 @@ class Cancha:
     vale tambien una previa o una cronica de esos dias, con su direccion en
     `porque`, que diga donde se jugo; el blog de Jose Carluccio solo no alcanza
     (decidido ese dia). Cuando no se resuelve asi, no entra: el aviso queda abierto.
+
+    `fecha`, si va, es el dia del partido, y solo hace falta cuando la jornada no
+    alcanza: en el Federal A 2015 las dos fases numeran sus fechas desde 1, y San
+    Jorge (T) recibio a Américo Tesorieri (LR) en la Fecha 9 de las dos, con la misma
+    cancha escrita.
     """
     pagina: str
     jornada: str
@@ -2103,6 +2108,7 @@ class Cancha:
     dice: str
     debe: str
     porque: str
+    fecha: str = ""
 
 
 @dataclass(frozen=True)
@@ -2873,6 +2879,18 @@ _FEDERAL_A_2015 = "Torneo Federal A 2015"
 _FEDERAL_A_2016 = "Torneo Federal A 2016"
 
 
+def _en_2015(jornada: str, local: str, visita: str, dice: str, debe: str,
+             porque: str) -> Cancha:
+    """Un partido del Federal A 2015 que la pagina pone en la cancha nominal del local
+    y la prensa de esos dias ubica en otra. Las listas de abajo salieron del blog de
+    Jose Carluccio, que nombra la cancha de cada partido; el blog solo no alcanza
+    (se equivoca, por ejemplo, en Unión Aconquija - San Lorenzo de Alem del 22/3), asi
+    que entra solo lo que tiene una previa o una cronica, cotejada contra el texto de
+    la nota el 11/11/2026."""
+    return Cancha(pagina=_FEDERAL_A_2015, jornada=jornada, local=local, visita=visita,
+                  dice=dice, debe=debe, porque=porque)
+
+
 CANCHAS: tuple[Cancha, ...] = (
     Cancha(
         pagina="Campeonato de Primera Nacional 2022",
@@ -3143,6 +3161,290 @@ CANCHAS: tuple[Cancha, ...] = (
         "deportes/2016-6-5-4-10-8-ferro-de-pico-dio-pelea-pero-quedo-eliminado Y la cronica de "
         "El Esquiú del 4/6: 'en la cancha de Tiro Federal, en Andalgalá'. https://www.elesquiu."
         "com/deportes/2016/6/4/union-aconquija-empato-ferro-clasifico-semifinales-214460.html"),
+    # ---- Federal A 2015: la que faltaba de Unión Aconquija, ya de vuelta en Andalgalá ----
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 11", "Andino",
+        "Cronica de El Esquiú del 1/6/2015: 'Cancha: Tiro Federal y Gimnasia de "
+        "Andalgalá.' https://www.elesquiu.com/deportes/2015/6/1/aconquija-vuelta-andino-"
+        "gano-182764.html Y su previa del 31/5: 'recibirá en cancha de Tiro Federal de "
+        "Andalgalá a Andino de La Rioja'. https://www.elesquiu.com/deportes/2015/5/31/"
+        "aconquija-quiere-volver-triunfo-ante-andino-182643.html"),
+    # ---- San Jorge (T): la pagina lo pone en el 'Senador Luis Cruz', que ninguna fuente
+    # nombra; San Jorge no tuvo cancha propia hasta 2017 ('Despues de nueve años tendrá
+    # su estadio propio', La Gaceta del 22/9/2017, https://www.lagaceta.com.ar/nota/
+    # 745522/deportes/estadio-sonado-se-hizo-real.html). Fue local en Central Norte --como
+    # el dataset escribe esa cancha en sus otras dos filas-- y una vez en el Monumental
+    # José Fierro. Tres localias de 2015 siguen sin testigo.
+    _en_2015(
+        "Fecha 3", "San Jorge (T)", "San Lorenzo de Alem", "Senador Luis Cruz", "Central Norte",
+        "La previa de El Esquiú del 5/4/2015: 'el partido se jugará en la cancha del Club "
+        "Central Norte', y no en la de Social Lastenia. https://www.elesquiu.com/deportes/"
+        "2015/4/5/lorenzo-primer-triunfo-177542.html Y su cronica de ese dia: 'Cancha: "
+        "Central Norte de Tucumán.' https://www.elesquiu.com/deportes/2015/4/5/lorenzo-trae-"
+        "punto-tucuman-177602.html"),
+    Cancha(
+        pagina=_FEDERAL_A_2015, fecha="2015-05-23",
+        jornada="Fecha 9", local="San Jorge (T)", visita="Américo Tesorieri (LR)",
+        dice="Senador Luis Cruz", debe="Central Norte",
+        porque=(
+            "La cronica de La Gaceta que reproduce Ascenso del Interior el 23/5/2015: el "
+            "partido 'se jugó en cancha de Central Norte'. https://ascensodelinterior.com.ar/"
+            "noticias/13082/san-jorge-(tuc)-1---0-americo-tesorieri-(lr)/ Y la previa del "
+            "22/5: 'se disputará a las 16 en Central Norte'. https://ascensodelinterior.com."
+            "ar/noticias/13054/bernasconi-confirm-a-sus-once-en-san-jorge-(t)/ Lleva el dia "
+            "porque la Fecha 9 de la Reválida, el 26/9, es el mismo cruce, y esa no tiene "
+            "testigo."),
+    ),
+    _en_2015(
+        "Fecha 10", "San Jorge (T)", "Altos Hornos Zapla", "Senador Luis Cruz", "Central Norte",
+        "La previa de Jujuy al Momento, el diario del rival, del mismo 27/5/2015: Zapla "
+        "tendrá que 'visitar a San Jorge, en la cancha de Central Norte'. "
+        "https://www.jujuyalmomento.com/federal-a/zapla-enfrenta-esta-tarde-san-jorge-n25568 "
+        "Es la unica fuente de prensa: el blog dice el Monumental José Fierro, y ninguna "
+        "cronica nombra la cancha."),
+    _en_2015(
+        "Fecha 11", "San Jorge (T)", "Juventud Antoniana", "Senador Luis Cruz", "Central Norte",
+        "Las cronicas de La Gaceta de Tucumán y de La Gaceta de Salta que reproduce "
+        "Ascenso del Interior el 1/6/2015: 'se cumplió la lógica en cancha de Central "
+        "Norte', y 'Estadio: Central Norte de Tucumán'. https://ascensodelinterior.com.ar/"
+        "noticias/13207/san-jorge-(tuc)-1---4-juventud-antoniana/"),
+    _en_2015(
+        "Fecha 13", "San Jorge (T)", "Andino", "Senador Luis Cruz", "Central Norte",
+        "La cronica de Nueva Rioja, del lado del rival, que reproduce Ascenso del Interior "
+        "el 14/6/2015: 'Estadio: Central Norte.' https://ascensodelinterior.com.ar/noticias/"
+        "13342/san-jorge-(tuc)-3---0-andino-sport-club-(lr)/"),
+    _en_2015(
+        "Fecha 1", "San Jorge (T)", "Sarmiento (R)", "Senador Luis Cruz", "Central Norte",
+        "La cronica de Entretiempo, del Chaco, que reproduce Ascenso del Interior el "
+        "26/7/2015: 'El partido se jugó en la cancha de Central Norte'. "
+        "https://ascensodelinterior.com.ar/noticias/13798/san-jorge-(tucumn)-1---0-sarmiento-"
+        "(resistencia)/"),
+    _en_2015(
+        "Fecha 3", "San Jorge (T)", "Altos Hornos Zapla", "Senador Luis Cruz", "Central Norte",
+        "La cronica de Nacional Jujuy, del lado del rival, que reproduce Ascenso del "
+        "Interior el 16/8/2015: 'Estadio: Central Norte (Tucumán).' "
+        "https://ascensodelinterior.com.ar/noticias/13988/san-jorge-(tuc)-1---1-altos-h.-"
+        "zapla-(jujuy)/"),
+    _en_2015(
+        "Fecha 12", "San Jorge (T)", "Gimnasia y Esgrima (CdU)", "Senador Luis Cruz",
+        "Monumental José Fierro",
+        "La cronica de Elonce, de Entre Ríos, el diario del rival, el 20/10/2015: 'El "
+        "partido se jugó en el Monumental del Jardín de la República', que en Tucumán es el "
+        "José Fierro. https://www.elonce.com/uid-438125 Va 'Monumental José Fierro', como el "
+        "dataset escribe esa cancha en otras 308 filas."),
+    # ---- Sol de América (F): la pagina lo pone en su cancha, pero hasta el 11/10/2015
+    # fue local en el Antonio Romero, el de la Liga Formoseña; ese dia estreno su estadio
+    # y esa fila esta bien. La prensa le dice 'Antonio Romero' o 'Liga Formoseña': las
+    # dos juntas, 'Estadio: Antonio Romero (Liga Formoseña)', en la cronica de El Tribuno
+    # del 23/8 (https://www.ascensodelinterior.com.ar/noticias/14070/sol-de-amrica-(fsa)-
+    # 1---2-gimnasia-y-tiro-(salta)). Va 'Antonio Romero', como en otras 97 filas.
+    _en_2015(
+        "Fecha 3", "Sol de América (F)", "Chaco For Ever", "Sol de América", "Antonio Romero",
+        "La cronica de Diario Norte, del Chaco, que reproduce Ascenso del Interior el "
+        "5/4/2015: 'Estadio: Liga Formoseña.' https://www.ascensodelinterior.com.ar/noticias/"
+        "12348/sol-de-amrica-(formosa)-2---1-chaco-for-ever"),
+    _en_2015(
+        "Fecha 14", "Sol de América (F)", "Mitre (SdE)", "Sol de América", "Antonio Romero",
+        "La cronica de ABC, de Santiago del Estero, que reproduce Ascenso del Interior el "
+        "22/6/2015: 'Estadio: Don Antonio Romero.' https://www.ascensodelinterior.com.ar/"
+        "noticias/13418/sol-de-amrica-(formosa)-2---0-mitre-(sde)"),
+    _en_2015(
+        "Fecha 18", "Sol de América (F)", "Vélez Sarsfield (SR)", "Sol de América", "Antonio Romero",
+        "La cronica de ABC, de Santiago del Estero, que reproduce Ascenso del Interior el "
+        "19/7/2015: 'Estadio: Antonio Romero.' https://www.ascensodelinterior.com.ar/noticias/"
+        "13719/sol-de-amrica-(formosa)-2---1-velez-(san-ramon)"),
+    _en_2015(
+        "Fecha 4", "Sol de América (F)", "Gimnasia y Tiro (S)", "Sol de América", "Antonio Romero",
+        "La cronica de El Tribuno de Salta que reproduce Ascenso del Interior el 23/8/2015: "
+        "'Estadio: Antonio Romero (Liga Formoseña)'. https://www.ascensodelinterior.com.ar/"
+        "noticias/14070/sol-de-amrica-(fsa)-1---2-gimnasia-y-tiro-(salta)"),
+    _en_2015(
+        "Fecha 6", "Sol de América (F)", "Mitre (SdE)", "Sol de América", "Antonio Romero",
+        "La cronica de Formosa Deportiva que reproduce Ascenso del Interior el 5/9/2015: "
+        "terminaron 'sin goles en el Estadio Don Antonio Romero'. "
+        "https://www.ascensodelinterior.com.ar/noticias/14212/sol-de-amrica-(fsa)-0---0-"
+        "mitre-(sde)"),
+    _en_2015(
+        "Fecha 8", "Sol de América (F)", "Chaco For Ever", "Sol de América", "Antonio Romero",
+        "La cronica que reproduce Ascenso del Interior el 19/9/2015: 'Estadio: Liga "
+        "Formoseña.' https://www.ascensodelinterior."
+        "com.ar/noticias/14361/sol-de-amrica-(formosa)-3---1-chaco-for-ever"),
+    # ---- Sportivo Patria: la pagina lo pone en el Antonio Romero, y estas tres las jugo
+    # en la cancha auxiliar de Sol de América. Va 'Sol de América', como la pagina
+    # escribe esa cancha en la localia de Patria del 3/5.
+    _en_2015(
+        "Fecha 10", "Sportivo Patria", "Unión (S)", "Antonio Romero", "Sol de América",
+        "La cronica de Formosa Deportiva que reproduce Ascenso del Interior el 27/5/2015: "
+        "'El partido se disputó en la cancha de Sol de América'. "
+        "https://www.ascensodelinterior.com.ar/noticias/13123/sp.-patria-(formosa)-1---0-"
+        "unin-(sunchales)"),
+    _en_2015(
+        "Fecha 6", "Sportivo Patria", "San Lorenzo de Alem", "Antonio Romero", "Sol de América",
+        "La cronica de Revista Botineros, de Catamarca, que reproduce Ascenso del Interior el "
+        "6/9/2015: 'ayer en la cancha auxiliar del Club Sol de América'. El Antonio Romero "
+        "lo usaba ese dia Sol de América, con Mitre. https://www.ascensodelinterior.com.ar/"
+        "noticias/14215/sportivo-patria-(formosa)-0---0--san-lorenzo-de-alem-(catamarca)"),
+    _en_2015(
+        "Fecha 10", "Sportivo Patria", "Unión (VK)", "Antonio Romero", "Sol de América",
+        "La cronica de Tapa Deportiva, de Formosa, que reproduce Ascenso del Interior el "
+        "4/10/2015: 'Estadio: Auxiliar de Sol de América.' https://www.ascensodelinterior."
+        "com.ar/noticias/14521/sp.-patria-(formosa)-2---3-unin-villa-krause-(sj)"),
+    # ---- Unión (S), en la cancha de Libertad. Va 'Dr. Plácido Tita', como en otras 60 filas.
+    _en_2015(
+        "Cuarta fase", "Unión (S)", "Unión (VK)", "De la Avenida", "Dr. Plácido Tita",
+        "La cronica de El Zonda, de San Juan, que reproduce Ascenso del Interior el "
+        "14/11/2015: 'Estadio: Dr. Plácido Tita de Libertad (local Unión de Sunchales).' "
+        "https://www.ascensodelinterior.com.ar/noticias/14922/unin-(sunchales)-1---3-unin-"
+        "villa-krause-(sj)"),
+    # ---- Juventud Antoniana: la pagina lo pone en su cancha, y en el Federal A fue local
+    # en el Martearena: 'En el Fed.A hace de local en Estadio Padre Ernesto Martearena',
+    # dice la lista de estadios de Ascenso del Interior de 2014 (noticias/10205). Va
+    # 'Padre Ernesto Martearena', como en otras 336 filas.
+    _en_2015(
+        "Fecha 5", "Juventud Antoniana", "Unión (S)", "Fray Honorato Pistoia",
+        "Padre Ernesto Martearena",
+        "La cronica de Informate Salta del 30/8/2015: 'Estadio: Padre Martearena'. "
+        "https://informatesalta.com.ar/deportes/juventud-antoniana-vencio-por-2-a-0-a-union-"
+        "sunchales-y-vuelve-a-creer_a695d4d47583e698128a2ce00"),
+    _en_2015(
+        "Fecha 6", "Juventud Antoniana", "San Martín (T)", "Fray Honorato Pistoia",
+        "Padre Ernesto Martearena",
+        "La cronica de La Gaceta de Salta que reproduce Ascenso del Interior el 6/9/2015: "
+        "'Estadio: Padre Martearena.' https://www.ascensodelinterior.com.ar/noticias/14236/"
+        "juventud-antoniana-1---1-san-martn-(tucumn)/"),
+    _en_2015(
+        "Fecha 8", "Juventud Antoniana", "Gimnasia y Tiro (S)", "Fray Honorato Pistoia",
+        "Padre Ernesto Martearena",
+        "La cronica que reproduce Ascenso del Interior el 20/9/2015: ganó el clásico 'en el "
+        "estadio Padre Martearena'. https://www.ascensodelinterior.com.ar/noticias/14368/"
+        "juventud-antoniana-2---0-gimnasia-y-tiro/ Y la previa de El Tribuno del 8/9: el "
+        "duelo con Juventud, 'en el Martearena'. https://www.eltribuno.com/salta/nota/2015-9-"
+        "8-20-2-0-el-bocha-rodriguez-con-un-cuidado-especial-para-que-llegue-al-clasico-"
+        "gimnasia-y-tiro"),
+    _en_2015(
+        "Fecha 10", "Juventud Antoniana", "Mitre (SdE)", "Fray Honorato Pistoia",
+        "Padre Ernesto Martearena",
+        "La cronica de La Gaceta de Salta que reproduce Ascenso del Interior el 4/10/2015: "
+        "'Estadio: Padre Martearena.' https://www.ascensodelinterior.com.ar/noticias/14526/"
+        "juventud-antoniana-0---1-mitre-(sde)/"),
+    _en_2015(
+        "Fecha 12", "Juventud Antoniana", "Chaco For Ever", "Fray Honorato Pistoia",
+        "Padre Ernesto Martearena",
+        "La cronica que reproduce Ascenso del Interior el 18/10/2015: el partido "
+        "'disputado en el estadio Padre Martearena'. "
+        "https://www.ascensodelinterior.com.ar/noticias/14673/juventud-antoniana-1---1-chaco-"
+        "for-ever/"),
+    _en_2015(
+        "Tercera fase", "Juventud Antoniana", "Sportivo Las Parejas", "Fray Honorato Pistoia",
+        "Padre Ernesto Martearena",
+        "La cronica que reproduce Ascenso del Interior el 8/11/2015: 'Estadio: Padre Ernesto "
+        "Martearena (local Juventud Antoniana).' https://www.ascensodelinterior.com.ar/"
+        "noticias/14853/juventud-antoniana-0---0-sportivo-a.c.-(l.-parejas)/"),
+    _en_2015(
+        "Cuarta fase", "Juventud Antoniana", "San Lorenzo de Alem", "Fray Honorato Pistoia",
+        "Padre Ernesto Martearena",
+        "La cronica de El Esquiú, del lado del rival, del 16/11/2015: 'Estadio: Padre "
+        "Martearena.' https://www.elesquiu.com/deportes/2015/11/16/santo-clasifico-salta-"
+        "197247.html"),
+    # ---- Andino: la pagina lo pone en su Polideportivo 20 de Agosto, y en el Federal A
+    # fue local en el estadio de Vargas: 'En el Fed.A juega en el Estadio Carlos Mercado
+    # Luna (de Vargas)', dice la misma lista de 2014. Va 'Carlos Mercado Luna', como en
+    # otras 38 filas. La localia del 14/8 con Concepción FC no tiene testigo y queda.
+    _en_2015(
+        "Fecha 6", "Andino", "Américo Tesorieri (LR)", "Polideportivo 20 de Agosto",
+        "Carlos Mercado Luna",
+        "La cronica de Nueva Rioja que reproduce Ascenso del Interior el 6/9/2015: el "
+        "clásico se jugó 'en el estadio Carlos Augusto Mercado Luna'. "
+        "https://www.ascensodelinterior.com.ar/noticias/14234/andino-sport-club-(lr)-2---1-"
+        "americo-tesorieri-(lr)/"),
+    _en_2015(
+        "Fecha 8", "Andino", "San Lorenzo de Alem", "Polideportivo 20 de Agosto",
+        "Carlos Mercado Luna",
+        "La previa de El Esquiú, del lado del rival, del 17/9/2015: 'Se jugará en el estadio "
+        "Carlos Augusto Mercado Luna'. https://www.elesquiu.com/deportes/2015/9/17/villa-"
+        "cubas-sabado-resto-juega-domingo-192021.html Y su cronica del 21/9: el punto 'del "
+        "Estadio de Vargas'. https://www.elesquiu.com/deportes/2015/9/21/santo-empato-sigue-"
+        "arriba-192408.html"),
+    _en_2015(
+        "Fecha 10", "Andino", "Libertad (S)", "Polideportivo 20 de Agosto", "Carlos Mercado Luna",
+        "La cronica que reproduce Ascenso del Interior el 4/10/2015: 'Estadio: Carlos A. "
+        "Mercado Luna (Liga Riojana de Fútbol) (local Andino).' https://www.ascensodelinterior."
+        "com.ar/noticias/14523/andino-sport-club-(lr)-1---0-libertad-(sunchales)/"),
+    _en_2015(
+        "Fecha 12", "Andino", "Unión (VK)", "Polideportivo 20 de Agosto", "Carlos Mercado Luna",
+        "La cronica de El Zonda, de San Juan, del lado del rival, que reproduce Ascenso del "
+        "Interior el 18/10/2015: 'Estadio: Carlos Augusto Mercado Luna (local Andino).' "
+        "https://www.ascensodelinterior.com.ar/noticias/14662/andino-sport-club-(lr)-1---3-"
+        "unin-villa-krause-(sj)/"),
+    # ---- Unión (VK): la pagina lo pone en su 12 de Octubre, y desde agosto fue local en
+    # el San Juan del Bicentenario, en Pocito, para que entraran los visitantes (Diario de
+    # Cuyo, 30/7/2015). Va 'San Juan del Bicentenario', como en otras 104 filas.
+    _en_2015(
+        "Fecha 2", "Unión (VK)", "San Jorge (T)", "12 de Octubre", "San Juan del Bicentenario",
+        "La previa de Diario de Cuyo del 30/7/2015: la dirigencia 'trasladó el encuentro a "
+        "Pocito'. https://www.diariodecuyo.com.ar/noticias/union-como-un-rompecabezas-"
+        "626752.html Y su cronica del 3/8: 'Sorpresa y media en el Bicentenario.' "
+        "https://www.diariodecuyo.com.ar/noticias/para-union-lo-mejor-del-domingo-fue-el-"
+        "resultado-593750.html"),
+    _en_2015(
+        "Fecha 4", "Unión (VK)", "Gimnasia y Esgrima (CdU)", "12 de Octubre",
+        "San Juan del Bicentenario",
+        "La cronica de Elonce, de Entre Ríos, el diario del rival, el 24/8/2015: 'Se jugó en "
+        "el estadio Bicentenario sanjuanino.' https://www.elonce.com/uid-430873 Y la de El "
+        "Zonda que reproduce Ascenso del Interior: 'Estadio: San Juan del Bicentenario.' "
+        "https://ascensodelinterior.com.ar/noticias/14068/unin-villa-krause-(sj)-4---0-"
+        "gimnasia-y-esgrima-(cdu)/"),
+    _en_2015(
+        "Fecha 6", "Unión (VK)", "Sarmiento (R)", "12 de Octubre", "San Juan del Bicentenario",
+        "La previa de Diario de Cuyo del 5/9/2015: 'cuando reciba desde las 17,30 en el "
+        "estadio del Bicentenario a Sarmiento'. https://www.diariodecuyo.com.ar/noticias/"
+        "union-tiene-la-obligacion-635634.html Y la cronica que reproduce Ascenso del "
+        "Interior: 'disputado en el estadio San Juan del Bicentenario'. "
+        "https://ascensodelinterior.com.ar/noticias/14214/unin-villa-krause-(sj)-1---0-"
+        "sarmiento-(resistencia)/"),
+    _en_2015(
+        "Fecha 9", "Unión (VK)", "Textil Mandiyú", "12 de Octubre", "San Juan del Bicentenario",
+        "La cronica de Diario de Cuyo del 25/9/2015: 'tuvo una noche soñada en el estadio "
+        "del Bicentenario'. https://www.diariodecuyo.com.ar/noticias/union-goleo-y-consiguio-"
+        "llegar-a-punta-en-el-bicentenario-640495.html"),
+    _en_2015(
+        "Fecha 11", "Unión (VK)", "Concepción FC", "12 de Octubre", "San Juan del Bicentenario",
+        "La cronica de Diario de Cuyo del 11/10/2015: 'Las cosas terminaron 1 a 0 en el "
+        "Estadio del Bicentenario.' https://www.diariodecuyo.com.ar/noticias/union-cayo-ante-"
+        "concepcion-y-dejo-pasar-la-oportunidad-de-asegurarse-el-pase-de-fase-632782.html Y la "
+        "de El Zonda que reproduce Ascenso del Interior: 'perdió en el San Juan del "
+        "Bicentenario'. https://ascensodelinterior.com.ar/noticias/14602/unin-villa-krause-"
+        "(sj)-0---1-concepcin-f.c.-(tuc)/"),
+    _en_2015(
+        "Fecha 13", "Unión (VK)", "Vélez Sarsfield (SR)", "12 de Octubre",
+        "San Juan del Bicentenario",
+        "La cronica de Diario de Cuyo del 27/10/2015, titulada 'Unión empató en el "
+        "Bicentenario y terminó liderando su grupo'. https://www.diariodecuyo.com.ar/noticias/"
+        "union-empato-en-el-bicentenario-y-termino-liderando-su-grupo-639891.html"),
+    _en_2015(
+        "Tercera fase", "Unión (VK)", "Sol de América (F)", "12 de Octubre",
+        "San Juan del Bicentenario",
+        "La cronica de El Zonda que reproduce Ascenso del Interior el 2/11/2015: el triunfo "
+        "'en el estadio San Juan del Bicentenario'. https://ascensodelinterior.com.ar/"
+        "noticias/14799/unin-villa-krause-(sj)-1---0-sol-de-amrica-(fsa)/ Y la de Diario de "
+        "Cuyo: 'en el Estadio del Bicentenario, en el partido de ida'. "
+        "https://www.diariodecuyo.com.ar/noticias/union-derroto-a-sol-de-america-y-viajara-a-"
+        "formosa-con-ventaja-615180.html"),
+    _en_2015(
+        "Cuarta fase", "Unión (VK)", "Unión (S)", "12 de Octubre", "San Juan del Bicentenario",
+        "La previa de Diario de Cuyo del 9/11/2015: 'Será primero en el Bicentenario'. "
+        "https://www.diariodecuyo.com.ar/noticias/union-se-cruza-con-un-viejo-conocido-"
+        "619790.html Y la cronica de Fútbol de Santa Fe, del lado del rival: 'Estadio: San "
+        "Juan del Bicentenario (local Unión Villa Krause).' https://futboldesantafe.com.ar/"
+        "2015/11/union-villa-krause-0-union-de-sunchales-3/"),
+    # ---- Gutiérrez, en el Malvinas Argentinas de Mendoza: el clasico con Deportivo Maipú.
+    _en_2015(
+        "Fecha 10", "Gutiérrez", "Deportivo Maipú", "General Gutiérrez", "Malvinas Argentinas",
+        "La cronica de El Sol de Mendoza del 27/5/2015: 'Estadio: Malvinas Argentinas'. "
+        "https://www.elsol.com.ar/deportes/gutieacuterrez-le-ganoacute-el-claacutesico-a-"
+        "maipuacute-y-es-el-duentildeo-del-departamento/ Y la de Diario Uno que reproduce "
+        "Ascenso del Interior: 'en el Estadio Malvinas Argentinas'. "
+        "https://www.ascensodelinterior.com.ar/noticias/13137/gutierrez-2-deportivo-maipu-0/"),
 )
 
 
@@ -6258,7 +6560,8 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
             continue
         candidatos = [p for p in ps
                       if p.jornada == c.jornada and p.local == c.local
-                      and p.visita == c.visita and p.estadio == c.dice]
+                      and p.visita == c.visita and p.estadio == c.dice
+                      and c.fecha in ("", p.fecha)]
         if len(candidatos) != 1:
             avisos.append(f"la cancha corregida de {c.jornada} ({c.local} vs "
                           f"{c.visita}) engancha con {len(candidatos)} partidos y no "

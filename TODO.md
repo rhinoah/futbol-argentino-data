@@ -34,11 +34,18 @@ sin fecha no se jugaron.
   «Se jugará el…» y «Se juega el…», así que una nota que termine en el plan y siga con
   un abandono saldría sin `status` y sin aviso. Hoy hay `4` notas así en el catálogo
   —`3` en futuro y `1` en presente— y ninguna cuenta nada después del plan.
-- **El blog de José Carluccio nombra otra cancha que la página en más partidos del
-  Federal A 2015.** Una revisión anterior contó `64`; los `16` que tenían crónica de esos
-  días ya están corregidos. Entre los otros puede haber el mismo estadio con otro nombre:
-  falta cotejarlos uno por uno y buscar la crónica de los que sean otra cancha. En 2014
-  no se contaron.
+- **Cuatro localías del Federal A 2015 en otra cancha según el blog de José Carluccio,
+  sin una crónica que lo confirme:** `San Jorge (T)` con Sportivo Patria (29/8), con
+  Andino (13/9) y con Américo Tesorieri (26/9), que la página pone en el «Senador Luis
+  Cruz», y `Andino 1-1 Concepción FC` (14/8), que pone en el Polideportivo 20 de Agosto.
+  La prensa de esos días no nombra la cancha.
+- **El «Senador Luis Cruz» figura en `39` localías de `San Jorge (T)`** —Argentino A
+  2012-13 y 2013-14, Federal A 2014, 2015, 2016 y 2016-17— y ninguna fuente lo nombra.
+  San Jorge no tuvo cancha propia hasta 2017 (La Gaceta, 22/9/2017): en 2015 fue local en
+  Central Norte y en el Monumental José Fierro. Falta la crónica de cada una.
+- **Las localías de `Unión (VK)` del Federal A 2014:** cuatro figuran en el 12 de Octubre
+  y cuatro en el San Juan del Bicentenario, y Diario de Cuyo del 11/10/2014 habla de su
+  «regreso a casa» después de jugar en el Bicentenario. Falta cotejarlas una por una.
 - **Tres localías de Unión Aconquija del Federal A 2014 pueden tener el día corrido:**
   el dataset las da el domingo 7/9, el sábado 20/9 y el domingo 28/9, y El Esquiú dice
   «esta tarde» u «hoy» en su edición del sábado 6/9, del viernes 19/9 y del sábado 27/9;

@@ -283,7 +283,7 @@ el mismo: acá `time` va segunda.
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
 | `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales`, `Segunda etapa`. En una serie de ida y vuelta de Wikipedia las dos patas llevan la misma ronda —si la tabla rotula sólo la pata (`Partidos de ida`) o lo que trae (`Partidos`), la ronda es la que dice el encabezado de arriba o el título de la sección—, y cuál es la ida lo dice `date`. Un partido suelto que no es de ningún cuadro —un desempate, una promoción— lleva el título de su sección tal como lo escribe la página: `Partido por la permanencia`, `Desempate del primer puesto` |
-| `venue` | el estadio, tal como figura; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos; donde la página pone otro y la prensa de esos días dice dónde se jugó, el de la prensa (36 filas, en `fad/correcciones.py`) |
+| `venue` | el estadio, tal como figura; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos; donde la página pone otro y la prensa de esos días dice dónde se jugó, el de la prensa (75 filas, en `fad/correcciones.py`) |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
@@ -1979,16 +1979,24 @@ inventa canchas.
 
 Después apareció un segundo testigo: **la prensa de esos días**, una previa o una
 crónica, con su dirección, que diga dónde se jugó. El blog de José Carluccio solo no
-alcanza. Así entraron 34 canchas más. Veintinueve son localías de Unión Aconquija en el
+alcanza. Así entraron 73 canchas más. Treinta son localías de Unión Aconquija en el
 Federal A 2014, 2015 y 2016: las páginas las ponen en «Municipal de Aconquija», su
 cancha de Las Estancias, y el club jugaba en la de Tiro Federal y Gimnasia, en
 Andalgalá. Volvió a Las Estancias sólo en marzo y abril de 2015, con la de Tiro
 suspendida, y en abril de 2017; esas filas estaban bien. RSSSF no sirvió de testigo:
 en 2015 acompaña a la página cancha por cancha, y en 2014 pone en Andalgalá tres de las
-nueve. Las otras cinco son de locales que jugaron en cancha prestada: cuatro del
-Federal A 2015 y Central Córdoba (R) – Cañuelas, del Reducido de la Primera C 2017-18,
-que la plantilla ponía en la cancha del visitante. Cada cita se cotejó contra el texto
-de la nota antes de escribirla en `fad/correcciones.py`.
+nueve. Otras cuarenta y dos son del Federal A 2015, de locales que la página pone en
+su cancha y jugaron en otra: San Jorge (T) en Central Norte —el «Senador Luis Cruz» que
+le pone la página no lo nombra nadie—, Sol de América en el Antonio Romero hasta que
+estrenó su estadio, Sportivo Patria en la cancha auxiliar de Sol, Juventud Antoniana en
+el Martearena, Andino en el Mercado Luna, Unión (VK) en el San Juan del Bicentenario
+desde agosto, y cuatro sueltas. Las listas las dio el blog de Carluccio, que nombra la
+cancha de cada partido, y cada fila entró con su crónica: el blog también se equivoca
+—en al menos dos partidos de 2015 la crónica le dio la razón a la página—, y cuatro que nadie
+más nombra quedaron como estaban. La que falta es Central Córdoba (R) – Cañuelas, del
+Reducido de la Primera C 2017-18, que la plantilla ponía en la cancha del visitante.
+Cada cita se cotejó contra el texto de la nota antes de escribirla en
+`fad/correcciones.py`.
 
 ### Y los dos que sí eran alquileres
 
@@ -4276,11 +4284,11 @@ página no trae. El día lo da la previa de La Nueva: el domingo 8 de julio de 2
 
 ## Tests
 
-1742 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1743 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 1029 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1032 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

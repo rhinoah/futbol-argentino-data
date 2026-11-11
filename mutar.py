@@ -85,8 +85,13 @@ MUTANTES = [
      "        filas.append(f)"),
 
     ("fad/correcciones.py", "corregir la cancha sin mirar cual dice la pagina",
-     '                      and p.visita == c.visita and p.estadio == c.dice]',
-     '                      and p.visita == c.visita]'),
+     '                      and p.visita == c.visita and p.estadio == c.dice\n'
+     '                      and c.fecha in ("", p.fecha)]',
+     '                      and p.visita == c.visita\n'
+     '                      and c.fecha in ("", p.fecha)]'),
+    ("fad/correcciones.py", "corregir la cancha sin mirar el dia que la declaracion pide",
+     '                      and c.fecha in ("", p.fecha)]',
+     '                      ]'),
 
     ("fad/dataset.py", "avisar por un salto de una sola division (todos los ascensos)",
      '            if max(niveles) - min(niveles) < 2:',
@@ -3912,6 +3917,12 @@ MUTANTES += [
     ('fad/correcciones.py', 'sacar de `CANCHAS` la cancha de Union Aconquija-San Jorge (T), Federal A 2014',
      '    _en_andalgala(\n        _FEDERAL_A_2014, "Fecha 2", "San Jorge (T)",\n',
      '    *(lambda *a, **k: ())(\n        _FEDERAL_A_2014, "Fecha 2", "San Jorge (T)",\n'),
+    ('fad/correcciones.py', 'sacar de `CANCHAS` la cancha de San Jorge (T)-Americo Tesorieri (LR), Federal A 2015',
+     '    Cancha(\n        pagina=_FEDERAL_A_2015, fecha="2015-05-23",\n',
+     '    *(lambda *a, **k: ())(\n        pagina=_FEDERAL_A_2015, fecha="2015-05-23",\n'),
+    ('fad/correcciones.py', 'sacar de `CANCHAS` la cancha de Union (VK)-San Jorge (T), Federal A 2015',
+     '    _en_2015(\n        "Fecha 2", "Unión (VK)", "San Jorge (T)",',
+     '    *(lambda *a, **k: ())(\n        "Fecha 2", "Unión (VK)", "San Jorge (T)",'),
     ('fad/correcciones.py', 'sacar de `CANCHAS` la cancha de San Jorge (T)-San Martin (T), Federal A 2015',
      '    Cancha(\n        pagina=_FEDERAL_A_2015,\n        jornada="Fecha 15", local="San Jorge (T)",',
      '    *(lambda *a, **k: ())(\n        pagina=_FEDERAL_A_2015,\n        jornada="Fecha 15", local="San Jorge (T)",'),

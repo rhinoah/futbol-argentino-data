@@ -47,8 +47,8 @@ partido en una obra de estadística—, y los seis del Nacional 1985 que dicen `
 aunque la frase de su sección hable de campo neutral, porque la misma frase los da de
 local. Los 76 citan un testigo de afuera. En dos, la hora tampoco es la de la página:
 es la de la programación de la AFA, porque no coinciden y ninguna fuente dice a qué
-hora empezó el partido. En 36, la cancha: en dos lo dice la tabla de participantes de
-la propia página, y en 34 la prensa de esos días, con su dirección en
+hora empezó el partido. En 75, la cancha: en dos lo dice la tabla de participantes de
+la propia página, y en 73 la prensa de esos días, con su dirección en
 `fad/correcciones.py`. Y en los diecinueve partidos que publican las páginas de dos
 torneos, lo que una de las dos no trae —la hora, la cancha, `neutral`—, o lo que
 escribe distinto, puede venir de la otra, que también es Wikipedia, aunque `source`
