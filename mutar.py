@@ -3977,6 +3977,19 @@ MUTANTES += [
      '        pagina="Anexo:Torneo Clausura 2003 (Argentina)",\n',
      '    *(lambda *a, **k: ())(\n'
      '        pagina="Anexo:Torneo Clausura 2003 (Argentina)",\n'),
+    ("fad/correcciones.py", "sacar de `HORAS` la hora de Fénix-Deportivo Español, final de la C 2012-13",
+     '    Hora(\n'
+     '        pagina="Campeonato de Primera C 2012-13 (Argentina)",\n',
+     '    *(lambda *a, **k: ())(\n'
+     '        pagina="Campeonato de Primera C 2012-13 (Argentina)",\n'),
+    ("fad/correcciones.py", "sacar de `HORAS` la hora de Argentino de Quilmes-Luján, promocion 2012",
+     '    Hora(\n'
+     '        pagina="Campeonato de Primera C 2011-12 (Argentina)",\n',
+     '    *(lambda *a, **k: ())(\n'
+     '        pagina="Campeonato de Primera C 2011-12 (Argentina)",\n'),
+    ("fad/correcciones.py", "corregir una hora legible sin decir que el testigo es la programacion de la AFA",
+     '            "LA PROGRAMACION DE LA AFA de las promociones, que publica Diario Jornada el "\n',
+     '            "La programacion de las promociones, que publica Diario Jornada el "\n'),
     # --- ESTADOS: el status puesto a mano, y la guarda que calla esas filas ---
     ("fad/correcciones.py", "un `Estado` engancha aunque la pagina ya diga otro status",
      '                      and (p.goles_local, p.goles_visita) == e.goles\n'

@@ -90,18 +90,17 @@ sin fecha no se jugaron.
   Perón», y figura en `Ciudad de La Plata`; `Deportivo Español 1-0 Excursionistas`,
   Primera C 2021: «Se jugó en el estadio Enrique Sexto», y figura en `Nueva España`—.
   Leerla de esa oración, como el día y la hora, es otra regla y pide su propia medición.
-- **Tres horas que la página escribe distinto que la programación de la AFA**, y
-  ninguna fuente da la hora real de inicio:
-  - `Fénix 1-1 Deportivo Español`, ida de la final de la Primera C 2012-13: la plantilla
-    dice `15:30`; la programación de la AFA, la previa de Pilar a Diario del día anterior
-    y Canal 26 dicen `15:00`, y probablemente salen todas de la misma programación.
-  - su vuelta, `Deportivo Español – Fénix` del 29 de junio de 2013: la plantilla dice
-    `13:00`; Pilar a Diario del 25, «el próximo sábado a las 15», y una entrevista del 29,
-    «las tres y media».
-  - `Argentino de Quilmes 1-0 Luján`, ida de la promoción de 2012: la plantilla dice
-    `15:10`, y la programación y dos previas, `15:00`.
-  Una programación dice cuándo se iba a jugar, no cuándo se jugó: falta decidir si
-  alcanza para corregir la hora de la página.
+- **Falta la programación de la AFA de la vuelta `Deportivo Español 1-2 Fénix`**, del
+  29 de junio de 2013, final de la Primera C 2012-13. La plantilla dice `13:00`; Pilar a
+  Diario del 25, «el próximo sábado a las 15», y una entrevista del 29, «las tres y
+  media». Donde la página y la programación no coinciden y nadie da la hora real, va
+  la de la programación; la de esa semana no apareció.
+- **Dos horas que ninguna programación de la AFA confirma:** la ida `Brown de Adrogué
+  2-0 Almagro` del 16 de junio de 2013, final de la Primera B 2012-13, figura a las
+  `11:05`, y la programación que publica Ascenso del Interior, sin la firma de la AFA,
+  la da a las `11.00` (TV); la ida `Deportivo Español 0-1 Sacachispas` del 8 de junio,
+  semifinal de la Primera C, figura a las `15:35`. Falta la programación de la AFA de
+  cada semana.
 - **La cancha de Cañuelas figura como `Estadio Jose Alfredo Arín`**, y la prensa de
   2026 le dice «Jorge Alfredo Arín». Se vio de pasada: falta verificarlo.
 - **Una corrección a mano que hay que sacar a tiempo:** Wikipedia sigue mostrando

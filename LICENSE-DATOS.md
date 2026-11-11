@@ -45,7 +45,9 @@ fila no nombra. Cada caso está declarado, con su evidencia, en
 sección que habla de varias rondas, y en los otros nueve sólo la prensa o la ficha del
 partido en una obra de estadística—, y los seis del Nacional 1985 que dicen `false`
 aunque la frase de su sección hable de campo neutral, porque la misma frase los da de
-local. Los 76 citan un testigo de afuera. Y en los quince partidos que publican las páginas de dos
+local. Los 76 citan un testigo de afuera. En dos, la hora tampoco es la de la página:
+es la de la programación de la AFA, porque no coinciden y ninguna fuente dice a qué
+hora empezó el partido. Y en los diecinueve partidos que publican las páginas de dos
 torneos, lo que una de las dos no trae —la hora, la cancha, `neutral`—, o lo que
 escribe distinto, puede venir de la otra, que también es Wikipedia, aunque `source`
 nombre sólo la suya.

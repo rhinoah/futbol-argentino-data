@@ -403,14 +403,28 @@ def test_no_toca_la_hora_de_otra_pagina(monkeypatch):
 
 
 def test_las_horas_corregidas_estan_justificadas():
-    """El testigo nombrado, una hora que hoy no se entiende y una que si."""
+    """El testigo nombrado, y una hora que hoy se entiende y no es la misma.
+
+    Una hora que se entiende solo se corrige con la programacion de la AFA a la vista:
+    con otro testigo, o con ninguno, la de la pagina queda."""
     import re
     assert correcciones.HORAS, "nadie lo usa: se perdio el mecanismo"
     for h in correcciones.HORAS:
         assert len(h.porque) > 80, f"{h.jornada} {h.local}: la evidencia es muy flaca"
         assert "HISTORIAL" in h.porque or "http" in h.porque, "hay que nombrar al testigo"
         assert re.fullmatch(r"\d\d:\d\d", h.debe), h.debe
-        assert not re.fullmatch(r"\d\d:\d\d", h.dice), f"{h.dice!r} ya se entiende"
+        assert h.dice != h.debe, f"{h.local}: no corrige nada"
+        if re.fullmatch(r"\d\d:\d\d", h.dice):
+            assert "PROGRAMACION DE LA AFA" in h.porque and "http" in h.porque, \
+                f"{h.dice!r} ya se entiende: corregirla pide la programacion de la AFA"
+
+
+def test_hay_horas_corregidas_de_las_dos_clases():
+    """Las dos razones para corregir una hora tienen al menos un caso: si una se queda
+    sin ninguno, la rama del test de arriba que la cuida no corre."""
+    import re
+    legibles = [re.fullmatch(r"\d\d:\d\d", h.dice) is not None for h in correcciones.HORAS]
+    assert any(legibles) and not all(legibles)
 
 
 # --------------------------------------------------------------------------

@@ -2895,7 +2895,7 @@ CANCHAS: tuple[Cancha, ...] = (
 
 @dataclass(frozen=True)
 class Hora:
-    """La hora de un partido que la pagina escribe de una forma que no se entiende.
+    """La hora de un partido que la pagina escribe mal: ilegible, o distinta de la AFA.
 
     `parser._hora` normaliza todo lo que no hay que adivinar --`14.00`, `9:00`,
     `15::00`--, y lo que queda lo avisa `validar.horas_legibles`. Esto es para cuando
@@ -2903,6 +2903,12 @@ class Hora:
     con una fuente de afuera. `dice` es como la escribe hoy, y es parte de la
     identificacion: si la pagina la arregla, la declaracion deja de enganchar y el
     build pide sacarla.
+
+    Tambien corrige una hora BIEN ESCRITA, en un solo caso: la pagina y la
+    programacion de la AFA no coinciden, y ninguna fuente da la hora real de inicio.
+    Una programacion dice cuando se iba a jugar, no cuando se jugo; a falta de otra
+    fuente, gana la de la AFA (decision del duenio, 10/11/2026). El `porque` lo dice
+    con las palabras «PROGRAMACION DE LA AFA» y la URL de donde se la lee.
     """
     pagina: str
     jornada: str
@@ -2925,6 +2931,39 @@ HORAS: tuple[Hora, ...] = (
             "disputa */') lo dejo en '18:5'; la anterior, rev 170256322 del 31/10/2025, "
             "todavia dice '18:05'. Ninguna fuente dio otra hora: la edicion toco otra "
             "seccion y el '0' se perdio de paso."),
+    ),
+    Hora(
+        pagina="Campeonato de Primera C 2012-13 (Argentina)",
+        jornada="Final", local="Fénix", visita="Deportivo Español",
+        dice="15:30", debe="15:00",
+        porque=(
+            "LA PROGRAMACION DE LA AFA, que reproduce Ascenso del Interior con la firma "
+            "'Gentileza AFA' el miercoles 19/6/2013: 'Domingo 23 de junio / 15.00-- "
+            "Fénix-Social Español', con Ignacio Lupani, el mismo arbitro de la pagina "
+            "(https://www.ascensodelinterior.com.ar/noticias/5527/la-programacion-de-la-"
+            "fecha/). La previa de Pilar a Diario del sabado 22 dice 'mañana a las 15' "
+            "(https://www.pilaradiario.com/sociales/2013/6/22/nica-duda-fnix-est-quin-ser-"
+            "primer-defensor-central-36798.html), y Canal 26 del 18/6, 'Domingo 23 a las "
+            "15'. Probablemente salen todas de la misma programacion, y ninguna da la "
+            "hora real de inicio; la otra hora de esa programacion que esta en el "
+            "dataset, Almagro-Brown de Adrogué a las 12.05, coincide con la pagina."),
+    ),
+    Hora(
+        pagina="Campeonato de Primera C 2011-12 (Argentina)",
+        jornada="Promoción Primera C-Primera D", local="Argentino de Quilmes",
+        visita="Luján", dice="15:10", debe="15:00",
+        porque=(
+            "LA PROGRAMACION DE LA AFA de las promociones, que publica Diario Jornada el "
+            "25/6/2012: bajo 'Martes', '15.00, Argentino de Quilmes-Luján, Hernán "
+            "Mastrángelo (no se confirmó televisación)' (https://www.diariojornada.com.ar/"
+            "46443/deportes/las_promociones_tienen_fechas_horarios_y_arbitros). Las otras "
+            "cinco promociones de esa programacion coinciden con la pagina, de Central "
+            "Córdoba (R)-Sportivo Italiano a las 18.00 a Rosario Central-San Martín (SJ) "
+            "a las 19.15; una es Nueva Chicago-Chacarita a las 15.10, que es de donde "
+            "parece copiado el 15:10. El "
+            "Dia de ese martes dice 'a partir de las 15' (https://www.eldia.com/nota/"
+            "2012-6-26-dia-de-promociones-para-equipos-del-ascenso). Ninguna da la hora "
+            "real de inicio."),
     ),
 )
 
