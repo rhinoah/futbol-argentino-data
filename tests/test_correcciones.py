@@ -965,7 +965,9 @@ def test_el_mitre_S_del_federal_a_2014_es_el_de_santiago_y_solo_ahi():
     _, avisos = correcciones.aplicar(ps, "Torneo Federal A 2014")
     # Solo los avisos de ESTOS nombres: las otras correcciones de la pagina avisan que
     # no enganchan con nada, porque el accesorio trae tres filas y no la pagina entera.
-    assert not [a for a in avisos if "Mitre" in a or "San Jorge" in a]
+    # Las canchas de Unión Aconquija tambien nombran a sus rivales, Mitre y San Jorge.
+    assert not [a for a in avisos if ("Mitre" in a or "San Jorge" in a)
+                and not a.startswith("la cancha corregida")]
     assert [(p.local, p.visita) for p in ps[:2]] == [
         ("Mitre (SdE)", "Unión Aconquija"), ("Altos Hornos Zapla", "Mitre (SdE)")]
 
@@ -976,7 +978,8 @@ def test_el_san_jorge_pelado_del_federal_a_2014_se_corrige_en_SU_fila():
     correccion se niega y lo dice."""
     ps = _zona_3_del_federal_a_2014()
     _, avisos = correcciones.aplicar(ps, "Torneo Federal A 2014")
-    assert not [a for a in avisos if "San Jorge" in a]
+    assert not [a for a in avisos if "San Jorge" in a
+                and not a.startswith("la cancha corregida")]
     assert (ps[2].local, ps[2].visita) == ("San Jorge (T)", "Altos Hornos Zapla")
 
     otra = [partido("San Jorge", "Altos Hornos Zapla", 2, 1, jornada="Fecha 5")]

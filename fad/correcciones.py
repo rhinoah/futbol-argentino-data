@@ -2846,6 +2846,33 @@ HOMONIMOS: tuple[Homonimo, ...] = (
 )
 
 
+# Unión Aconquija es de Las Estancias, en el municipio de Aconquija, departamento
+# Andalgalá (Catamarca). Su cancha de alla es la que las paginas llaman «Municipal de
+# Aconquija» --la prensa le dice «Polideportivo Municipal de Las Estancias»--, pero en
+# el Federal A fue local casi siempre en la de Tiro Federal y Gimnasia, en la ciudad
+# de Andalgalá. Lo dice la lista de estadios de Ascenso del Interior de 2014: «En el
+# Fed.A hace de local en Andalgala en el estadio de Tiro Federal y Gimnasia»
+# (https://www.ascensodelinterior.com.ar/noticias/10205/los-estadios-que-utilizan-los-
+# equipos-del-federal-a/). Volvio a Las Estancias en marzo y abril de 2015, con la
+# cancha de Tiro suspendida, y regreso a Andalgalá el 10/5/2015
+# (https://www.ascensodelinterior.com.ar/noticias/12899/unin-aconquija-vuelve-a-jugar-
+# en-andalgal/); en abril de 2017 jugo otra vez en Las Estancias, y esas filas estan
+# bien. Las paginas de 2014, 2015 y 2016 ponen «Municipal de Aconquija» en 29 partidos
+# que la prensa de esos dias ubica en Andalgalá: son los de abajo, cada uno con su
+# testigo, todos cotejados contra el texto de la nota el 11/11/2026. Va «Tiro Federal y
+# Gimnasia», que es como el dataset escribe esa cancha en las otras 9 filas.
+def _en_andalgala(pagina: str, jornada: str, visita: str, porque: str) -> Cancha:
+    """Una localia de Unión Aconquija que la pagina pone en Las Estancias y fue en Andalgalá."""
+    return Cancha(pagina=pagina, jornada=jornada, local="Unión Aconquija", visita=visita,
+                  dice="Municipal de Aconquija", debe="Tiro Federal y Gimnasia",
+                  porque=porque)
+
+
+_FEDERAL_A_2014 = "Torneo Federal A 2014"
+_FEDERAL_A_2015 = "Torneo Federal A 2015"
+_FEDERAL_A_2016 = "Torneo Federal A 2016"
+
+
 CANCHAS: tuple[Cancha, ...] = (
     Cancha(
         pagina="Campeonato de Primera Nacional 2022",
@@ -2890,6 +2917,232 @@ CANCHAS: tuple[Cancha, ...] = (
             "Va 'Gabino Sosa', que es como el dataset escribe esa cancha en otras 275 "
             "filas (medido el 10/11/2026)."),
     ),
+    # ---- Federal A 2014: las nueve localias de Unión Aconquija ----
+    _en_andalgala(
+        _FEDERAL_A_2014, "Fecha 2", "San Jorge (T)",
+        "Cronica de El Esquiú del 31/8/2014: 'Cancha: Gimnasia y Tiro de Andalgalá.' "
+        "https://www.elesquiu.com/deportes/2014/8/31/aconquija-gano-local-escolta-157513.html "
+        "Y la de Ascenso del Interior del 1/9: 'Cancha: Tiro Federal y Gimnasia de "
+        "Andalgalá.' https://www.ascensodelinterior.com.ar/noticias/10168/union-aconquija-"
+        "(cat)-2---1-san-jorge-(tuc)/"),
+    _en_andalgala(
+        _FEDERAL_A_2014, "Fecha 3", "San Martín (T)",
+        "Cronica de El Esquiú del 7/9/2014, en la ficha: 'Tiro Federal de Andalgalá'. "
+        "https://www.elesquiu.com/deportes/2014/9/7/aconquija-gano-puntero-zona-158283.html"),
+    _en_andalgala(
+        _FEDERAL_A_2014, "Fecha 5", "Central Córdoba (SdE)",
+        "Cronica de Ascenso del Interior del 21/9/2014: 'El juego tuvo lugar en cancha de "
+        "Tiro Federal de Andalgalá'. https://www.ascensodelinterior.com.ar/noticias/10399/"
+        "union-aconquija-1-central-cordoba-0/"),
+    _en_andalgala(
+        _FEDERAL_A_2014, "Fecha 7", "Juventud Antoniana",
+        "La previa de El Esquiú del 27/9/2014: 'Juventud Antoniana visitará en Andalgalá al "
+        "lider de la Zona 3', a las 17 'en cancha de Tiro Federal y Gimnasia'. "
+        "https://www.elesquiu.com/deportes/2014/9/27/aconquija-sexto-triunfo-160411.html "
+        "Las cronicas de esos dias no nombran la cancha."),
+    _en_andalgala(
+        _FEDERAL_A_2014, "Fecha 8", "Mitre (SdE)",
+        "Cronica de El Esquiú del 4/10/2014: el local propuso el juego 'en la cancha de Tiro "
+        "Federal de Andalgalá'. https://www.elesquiu.com/deportes/2014/10/4/union-aconquija-"
+        "gano-mitre-paso-fundamental-para-ascenso-nacional-161171.html"),
+    _en_andalgala(
+        _FEDERAL_A_2014, "Fecha 11", "Gimnasia y Tiro (S)",
+        "El Tribuno de Salta, el diario del rival, el 19/10/2014: 'Perdió 2 a 1 ante Unión "
+        "Aconquija en Andalgalá'. https://www.eltribuno.com/nota/2014-10-19-17-2-0-gimnasia-"
+        "en-caida-libre-y-sin-respuestas-perdio-2-a-1-con-aconquija-torneo-federal-a-"
+        "gimnasia-y-tiro Y la previa de El Esquiú de ese dia: 'en cancha de Tiro Federal de "
+        "Andalgalá desde las 16.30'. https://www.elesquiu.com/deportes/2014/10/19/aconquija-"
+        "quiere-volver-sonreir-162692.html"),
+    _en_andalgala(
+        _FEDERAL_A_2014, "Fecha 13", "Altos Hornos Zapla",
+        "La previa de El Esquiú del 2/11/2014: 'a partir de las 17 en la cancha de Tiro "
+        "Federal de Andalgalá'. https://www.elesquiu.com/deportes/2014/11/2/aconquija-quiere-"
+        "ascenso-164240.html Y su cronica del 3/11: tras ganar, el plantel 'dejó la cancha de "
+        "Tiro Federal'. https://www.elesquiu.com/deportes/2014/11/3/ojala-logremos-nuestro-"
+        "sueno-164419.html"),
+    _en_andalgala(
+        _FEDERAL_A_2014, "Segunda fase", "Chaco For Ever",
+        "El Esquiú del 19/11/2014, con la programacion: 'Unión Aconquija será local en cancha "
+        "de Tiro Federal de Andalgalá'. https://www.elesquiu.com/deportes/2014/11/19/arbitros-"
+        "dias-horarios-166189.html Y su cronica del 22/11, titulada 'Unión Aconquija empató en "
+        "Andalgalá y clasificó a las semifinales'. https://www.elesquiu.com/deportes/2014/11/"
+        "22/union-aconquija-empato-andalgala-clasifico-semifinales-166440.html"),
+    _en_andalgala(
+        _FEDERAL_A_2014, "Tercera fase", "Atlético Paraná",
+        "Cronica de El Esquiú del 1/12/2014: 'Cancha: Tiro Federal de Andalgalá.' "
+        "https://www.elesquiu.com/deportes/2014/12/1/aconquija-quedo-manos-vacias-167359.html"),
+    # ---- Federal A 2015: las doce localias de Unión Aconquija desde el 10/5 ----
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 13", "San Martín (T)",
+        "Cronica de El Esquiú del 15/6/2015: 'El encuentro se disputó en cancha de Tiro "
+        "Federal de Andalgalá'. https://www.elesquiu.com/deportes/2015/6/15/estanciero-empato-"
+        "sigue-siendo-segundo-183942.html Y la previa de El Ancasti del 14/6: 'en cancha de "
+        "Tiro Federal' será local ante San Martín. https://www.elancasti.com.ar/deportes/2015/"
+        "6/14/aconquija-casa-santo-visita-263177.html"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 16", "Américo Tesorieri (LR)",
+        "Cronica de El Esquiú del 5/7/2015: 'Cancha: Tiro Federal de Andalgalá'. "
+        "https://www.elesquiu.com/deportes/2015/7/5/aconquija-gano-clasifico-zona-campeonato-"
+        "185736.html Y la de Ascenso del Interior del 6/7: el partido 'se disputó ayer en "
+        "Andalgalá'. https://www.ascensodelinterior.com.ar/noticias/13580/unin-aconquija-(cat)-"
+        "2---0-amrico-tesorieri-(lr)/"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 18", "Juventud Antoniana",
+        "Cronica de El Esquiú del 18/7/2015: 'El partido se jugó en la cancha de Tiro "
+        "Federal de Andalgalá.' https://www.elesquiu.com/deportes/2015/7/18/union-aconquija-"
+        "empato-juventud-antoniana-salta-186819.html"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 2", "Deportivo Roca",
+        "Cronica de El Esquiú del 3/8/2015: le ganó 1 a 0 a Deportivo Roca 'en cancha de "
+        "Tiro Federal de Andalgalá'. https://www.elesquiu.com/deportes/2015/8/3/aconquija-"
+        "volvio-ganar-local-188098.html"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 4", "Juventud Unida Universitario",
+        "Cronica de El Esquiú del 23/8/2015: 'El encuentro se jugó en la cancha de Tiro "
+        "Federal de Andalgalá'. https://www.elesquiu.com/deportes/2015/8/23/aconquija-empato-"
+        "local-189874.html"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 6", "Tiro Federal (BB)",
+        "La Nueva de Bahía Blanca, el diario del rival, el 7/9/2015: 'la escuadra "
+        "aurivioleta no hizo pie en Andalgalá'. https://www.lanueva.com/nota/2015-9-7-0-57-0-"
+        "union-rompio-el-maleficio-fue-efectivo-y-tiro-lo-padecio Y la cronica de El Esquiú "
+        "de ese dia: 'Cancha: Tiro Federal de Andalgalá.' https://www.elesquiu.com/deportes/"
+        "2015/9/7/aconquija-amigo-vencio-191138.html"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 8", "Cipolletti",
+        "La cronica de Diario Río Negro que reproduce Ascenso del Interior el 20/9/2015: "
+        "'Ayer, en la lejana y calurosa Andalgalá'. https://www.ascensodelinterior.com.ar/"
+        "noticias/14369/union-aconquija-(catamarca)-2---1-cipolletti/ Y la previa de El "
+        "Ancasti de ese dia: 'en Andalgalá, Unión Aconquija será de Cipolletti' (sic). "
+        "https://www.elancasti.com.ar/deportes/2015/9/20/lorenzo-aconquija-tienen-accin-"
+        "273577.html Un titulo de El Esquiú de ese dia dice 'en Las Estancias', pero nombra "
+        "al club por su pueblo: el cuerpo no dice la cancha."),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 9", "San Martín (T)",
+        "La previa de El Esquiú del 27/9/2015: 'El encuentro se jugará en cancha de Tiro "
+        "Federal de Andalgalá'. https://www.elesquiu.com/deportes/2015/9/27/aconquija-quiere-"
+        "seguir-prendido-192886.html Y la cronica de Ascenso del Interior de ese dia: "
+        "'Cancha: Tiro Federal y Gimnasia.' https://www.ascensodelinterior.com.ar/noticias/"
+        "14449/unin-aconquija-(cat)-1---0-san-martn-(tuc.)/"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 11", "Defensores de Belgrano (VR)",
+        "Cronica de El Esquiú del 12/10/2015: 'El partido se jugó en cancha de Tiro Federal "
+        "de Andalgalá'. https://www.elesquiu.com/deportes/2015/10/12/aconquija-metio-"
+        "triunfazo-local-194216.html Y la de La Radio Ramallo, del pueblo del rival: "
+        "'Estadio: Tiro Federal y Gimnasia de Andalgala'. https://laradioramallo.com.ar/nota/"
+        "1767/principal.php"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Fecha 13", "Unión (S)",
+        "Cronica de El Esquiú del 28/10/2015: 'sigue estirando su invicto en cancha de Tiro "
+        "Federal de Andalgalá'. https://www.elesquiu.com/deportes/2015/10/28/aconquija-metio-"
+        "cuartos-final-195639.html"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Quinta fase", "Cipolletti",
+        "Cronica de LM Neuquén del 23/11/2015: Cipolletti 'en Andalgalá terminó perdiendo 2 a "
+        "0'. https://www.lmneuquen.com/fin-ano-cipo-que-perdio-union-aconquija-n495003 Y la de "
+        "El Esquiú de ese dia: 'de local en cancha de Tiro Federal en Andalgalá'. "
+        "https://www.elesquiu.com/deportes/2015/11/23/estanciero-vencio-cipolleti-clasifico-"
+        "semifinales-197986.html"),
+    _en_andalgala(
+        _FEDERAL_A_2015, "Sexta fase", "Juventud Unida Universitario",
+        "La Agencia de Noticias San Luis, del lado del rival, el 28/11/2015: 'Estadio: Tiro "
+        "Federal y Gimnasia (Andalgalá)'. https://agenciasanluis.com/2015/11/28/325669-"
+        "juventud-va-por-la-primera-semifinal-ante-union-aconquija/ Y la cronica de El Esquiú "
+        "de ese dia: 'El encuentro se jugó en la cancha de Tiro Federal de Andalgalá'. "
+        "https://www.elesquiu.com/deportes/2015/11/28/federal-derrota-union-aconquija-"
+        "198428.html"),
+    # ---- Federal A 2015: cuatro locales que jugaron en una cancha prestada ----
+    Cancha(
+        pagina=_FEDERAL_A_2015,
+        jornada="Fecha 15", local="San Jorge (T)", visita="San Martín (T)",
+        dice="Monumental José Fierro", debe="Central Norte",
+        porque=(
+            "La cronica de La Gaceta que reproduce Ascenso del Interior el 27/6/2015: el "
+            "festejo 'santo' fue 'en cancha de Central Norte'. https://ascensodelinterior.com."
+            "ar/noticias/13475/san-jorge-(tuc)-0---1-san-martn-(tuc)/ Va 'Central Norte', como "
+            "el dataset escribe esa cancha en la otra localia de San Jorge que la nombra, la "
+            "del 28/9/2014 con Mitre (SdE)."),
+    ),
+    Cancha(
+        pagina=_FEDERAL_A_2015,
+        jornada="Fecha 3", local="Juventud Antoniana", visita="Defensores de Belgrano (VR)",
+        dice="Fray Honorato Pistoia", debe="Padre Ernesto Martearena",
+        porque=(
+            "La cronica de Ascenso del Interior del 16/8/2015, con foto de El Tribuno: "
+            "'Estadio: Padre Martearena', y el empate parcial llega 'para silenciar el "
+            "Martearena'. https://ascensodelinterior.com.ar/noticias/14003/juventud-antoniana-"
+            "2---1-defensores-de-belgrano-(vr)/ Va 'Padre Ernesto Martearena', como el dataset "
+            "escribe esa cancha en otras 335 filas."),
+    ),
+    Cancha(
+        pagina=_FEDERAL_A_2015,
+        jornada="Fecha 1", local="Andino", visita="Textil Mandiyú",
+        dice="Polideportivo 20 de Agosto", debe="Carlos Mercado Luna",
+        porque=(
+            "La cronica de Nueva Rioja que reproduce Ascenso del Interior el 26/7/2015: "
+            "'Estadio: Carlos Augusto Mercado Luna'. https://www.ascensodelinterior.com.ar/"
+            "noticias/13800/andino-sport-club-(lr)-2---2-textil-mandiy/ Va 'Carlos Mercado "
+            "Luna', como el dataset escribe esa cancha en otras 37 filas, 15 de ellas de "
+            "Andino de local."),
+    ),
+    Cancha(
+        pagina=_FEDERAL_A_2015,
+        jornada="Fecha 2", local="Sol de América (F)", visita="Juventud Antoniana",
+        dice="Sol de América", debe="Antonio Romero",
+        porque=(
+            "La cronica de Formosa Deportiva que reproduce Ascenso del Interior el 2/8/2015: "
+            "vencio a Juventud Antoniana 'en el estadio Don Antonio Romero'. "
+            "https://ascensodelinterior.com.ar/noticias/13865/sol-de-amrica-(fsa)-2---1-"
+            "juventud-antoniana/ Va 'Antonio Romero', como el dataset escribe esa cancha en "
+            "otras 96 filas, 10 de ellas de Sol de América de local."),
+    ),
+    # ---- Federal A 2016: las ocho localias de Unión Aconquija que faltaban ----
+    _en_andalgala(
+        _FEDERAL_A_2016, "Fecha 3", "Altos Hornos Zapla",
+        "Cronica de El Esquiú del 21/2/2016: 'En la cancha de Tiro Federal de Andalgalá' ganó "
+        "su primer partido del torneo. https://www.elesquiu.com/deportes/2016/2/21/union-"
+        "aconquija-sumo-tres-frente-jujenos-205299.html"),
+    _en_andalgala(
+        _FEDERAL_A_2016, "Fecha 5", "Gimnasia y Tiro (S)",
+        "Cronica de El Ancasti del 6/3/2016: 'El encuentro se disputó en cancha de Gimnasia "
+        "y Tiro de Andalgalá', que es como la prensa de Catamarca le dice a veces a Tiro "
+        "Federal y Gimnasia. https://www.elancasti.com.ar/deportes/2016/3/6/unin-aconquija-"
+        "gan-sigue-bien-arriba-290595.html"),
+    _en_andalgala(
+        _FEDERAL_A_2016, "Fecha 7", "Juventud Antoniana",
+        "Cronica de El Ancasti del 20/3/2016: 'se disputó en la cancha de Tiro Federal y "
+        "Gimnasia, en la cabecera de Andalgalá'. https://www.elancasti.com.ar/deportes/2016/3/"
+        "20/unin-aconquija-perdi-juventud-antoniana-292164.html Y la de El Esquiú del 21/3: "
+        "'se jugó en cancha de Tiro Federal de Andalgalá'. https://www.elesquiu.com/deportes/"
+        "2016/3/21/aconquija-perdio-dejo-punta-207968.html Un titulo de El Esquiú del 20/3 "
+        "dice 'en Las Estancias', pero el cuerpo no nombra la cancha."),
+    _en_andalgala(
+        _FEDERAL_A_2016, "Fecha 9", "San Lorenzo de Alem",
+        "Cronica de El Esquiú del 3/4/2016: lo derrotó de local 'en la cancha de Gimnasia y "
+        "Tiro de Andalgalá'. https://www.elesquiu.com/deportes/2016/4/3/lorenzo-cayo-ante-"
+        "union-aconquija-andalgala-209132.html"),
+    _en_andalgala(
+        _FEDERAL_A_2016, "Fecha 13", "Altos Hornos Zapla",
+        "Cronica de El Esquiú del 23/4/2016: venció 2 a 1 'en la cancha de Tiro Federal de "
+        "Andalgalá'. https://www.elesquiu.com/deportes/2016/4/23/union-aconquija-vencio-altos-"
+        "hornos-zapla-210964.html"),
+    _en_andalgala(
+        _FEDERAL_A_2016, "Fecha 15", "Gimnasia y Tiro (S)",
+        "Cronica de El Esquiú del 9/5/2016: 'El partido se jugó ayer en cancha de Tiro "
+        "Federal de Andalgalá'. https://www.elesquiu.com/deportes/2016/5/9/aconquija-jugara-"
+        "concepcion-212311.html"),
+    _en_andalgala(
+        _FEDERAL_A_2016, "Octavos de final", "Concepción FC",
+        "Cronica de El Ancasti del 23/5/2016: 'Estadio: Club Tiro Federal y Gimnasia de "
+        "Andalgalá.' https://www.elancasti.com.ar/deportes/2016/5/23/aconquija-paso-"
+        "298865.html"),
+    _en_andalgala(
+        _FEDERAL_A_2016, "Cuartos de final", "Ferro Carril Oeste (GP)",
+        "La Arena de Santa Rosa, del lado del rival, el 5/6/2016: 'El partido se jugó en el "
+        "estadio de Tiro Federal y Gimnasia de Andalgalá'. https://www.laarena.com.ar/"
+        "deportes/2016-6-5-4-10-8-ferro-de-pico-dio-pelea-pero-quedo-eliminado Y la cronica de "
+        "El Esquiú del 4/6: 'en la cancha de Tiro Federal, en Andalgalá'. https://www.elesquiu."
+        "com/deportes/2016/6/4/union-aconquija-empato-ferro-clasifico-semifinales-214460.html"),
 )
 
 

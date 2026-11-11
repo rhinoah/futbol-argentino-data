@@ -34,15 +34,15 @@ sin fecha no se jugaron.
   «Se jugará el…» y «Se juega el…», así que una nota que termine en el plan y siga con
   un abandono saldría sin `status` y sin aviso. Hoy hay `4` notas así en el catálogo
   —`3` en futuro y `1` en presente— y ninguna cuenta nada después del plan.
-- **`venue` copia el estadio que declara la página, y al menos `18` filas del Federal A
-  2014 y 2015 se jugaron en otra cancha** según el blog de José Carluccio y, donde se
-  fue a buscar, la crónica del día. Catorce son localías de Unión Aconquija, que figuran
-  en «Municipal de Aconquija» y fueron en Andalgalá; las otras cuatro son de 2015. RSSSF
-  acompaña a la página cancha por cancha, así que para este campo no es testigo.
-  `correcciones.Cancha` acepta como testigo sólo a la misma página: tiene que aceptar
-  también la crónica del día —el blog solo no alcanza—, y falta buscar la de cada partido.
-  En el Federal A 2016 y 2016-17 la página ya pone Andalgalá en
-  `11` de las `23` localías de Unión Aconquija; las otras `12` no se revisaron.
+- **El blog de José Carluccio nombra otra cancha que la página en más partidos del
+  Federal A 2015.** Una revisión anterior contó `64`; los `16` que tenían crónica de esos
+  días ya están corregidos. Entre los otros puede haber el mismo estadio con otro nombre:
+  falta cotejarlos uno por uno y buscar la crónica de los que sean otra cancha. En 2014
+  no se contaron.
+- **Tres localías de Unión Aconquija del Federal A 2014 pueden tener el día corrido:**
+  el dataset las da el domingo 7/9, el sábado 20/9 y el domingo 28/9, y El Esquiú dice
+  «esta tarde» u «hoy» en su edición del sábado 6/9, del viernes 19/9 y del sábado 27/9;
+  la crónica del 7/9 dice «ayer». Falta una segunda fuente para cada una.
 - **`rsssf._por_el_padron('Mitre (Salta)')` devuelve `Mitre (SdE)`:** `Mitre` a secas
   es alias y el padrón no tiene otro Mitre que se lo dispute. Ninguna página del
   catálogo pasa por ahí —el de Salta juega rondas de la Copa Argentina que no se leen—,
