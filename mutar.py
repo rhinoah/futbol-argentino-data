@@ -4008,6 +4008,11 @@ MUTANTES += [
      '        pagina="Campeonato de Primera C 2012-13 (Argentina)",\n',
      '    *(lambda *a, **k: ())(\n'
      '        pagina="Campeonato de Primera C 2012-13 (Argentina)",\n'),
+    ("fad/correcciones.py", "sacar de `HORAS` la hora de Brown de Adrogué-Almagro, final de la B 2012-13",
+     '    Hora(\n'
+     '        pagina="Campeonato de Primera B 2012-13 (Argentina)",\n',
+     '    *(lambda *a, **k: ())(\n'
+     '        pagina="Campeonato de Primera B 2012-13 (Argentina)",\n'),
     ("fad/correcciones.py", "sacar de `HORAS` la hora de Argentino de Quilmes-Luján, promocion 2012",
      '    Hora(\n'
      '        pagina="Campeonato de Primera C 2011-12 (Argentina)",\n',

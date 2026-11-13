@@ -274,7 +274,7 @@ el mismo: acá `time` va segunda.
 
 | columna | qué trae |
 |---|---|
-| `date` `time` | ISO (`2026-01-22`) y hora local, `HH:MM` (`09:00`). Un día que no existe en el calendario no se publica: si la página escribe un `31 de noviembre` en un torneo en curso, la fila queda afuera hasta que la corrija, y en uno terminado el build frena. La hora que la página escribe `14.00`, `9:00` o `15::00` se reescribe `HH:MM`; la que no se entiende, como un `18:5`, se publica como figura y el build avisa. Donde la página y la programación de la AFA dan horas distintas y ninguna fuente dice a qué hora empezó el partido, va la de la programación: dos partidos de eliminación, de 2012 y 2013 |
+| `date` `time` | ISO (`2026-01-22`) y hora local, `HH:MM` (`09:00`). Un día que no existe en el calendario no se publica: si la página escribe un `31 de noviembre` en un torneo en curso, la fila queda afuera hasta que la corrija, y en uno terminado el build frena. La hora que la página escribe `14.00`, `9:00` o `15::00` se reescribe `HH:MM`; la que no se entiende, como un `18:5`, se publica como figura y el build avisa. Donde la página y la programación de la AFA dan horas distintas y ninguna fuente dice a qué hora empezó el partido, va la de la programación: tres partidos de eliminación, uno de 2012 y dos de 2013 |
 | `home_team` `away_team` | los equipos |
 | `home_score` `away_score` | el marcador de los 90 (más alargue si hubo) |
 | `home_pens` `away_pens` | la tanda de penales, vacío si no hubo. En una serie de ida y vuelta va en la vuelta, que es donde se pateó, y esa vuelta no tiene por qué haber terminado empatada: lo que empató es el global. En la Primera División 1988-89 la llevan también los partidos de **liga**: ese campeonato definía cada empate por penales, con un punto más para el que ganaba la tanda. Son 131; al empate que falta (`Rosario Central 1-1 Instituto`) la fuente no le publica la tanda |
@@ -4292,7 +4292,7 @@ página no trae. El día lo da la previa de La Nueva: el domingo 8 de julio de 2
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 1034 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1035 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

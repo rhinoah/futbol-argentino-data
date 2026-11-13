@@ -91,19 +91,16 @@ sin fecha no se jugaron.
   Perón», y figura en `Ciudad de La Plata`; `Deportivo Español 1-0 Excursionistas`,
   Primera C 2021: «Se jugó en el estadio Enrique Sexto», y figura en `Nueva España`—.
   Leerla de esa oración, como el día y la hora, es otra regla y pide su propia medición.
-- **Falta la programación de la AFA de la vuelta `Deportivo Español 1-2 Fénix`**, del
-  29 de junio de 2013, final de la Primera C 2012-13. La plantilla dice `13:00`; Pilar a
-  Diario del 25, «el próximo sábado a las 15», y una entrevista del 29, «las tres y
-  media». Donde la página y la programación no coinciden y nadie da la hora real, va
-  la de la programación; la de esa semana no apareció.
-- **Dos horas que ninguna programación de la AFA confirma:** la ida `Brown de Adrogué
-  2-0 Almagro` del 16 de junio de 2013, final de la Primera B 2012-13, figura a las
-  `11:05`, y la programación que publica Ascenso del Interior, sin la firma de la AFA,
-  la da a las `11.00` (TV); la ida `Deportivo Español 0-1 Sacachispas` del 8 de junio,
-  semifinal de la Primera C, figura a las `15:35`. Falta la programación de la AFA de
-  cada semana.
-- **La cancha de Cañuelas figura como `Estadio Jose Alfredo Arín`**, y la prensa de
-  2026 le dice «Jorge Alfredo Arín». Se vio de pasada: falta verificarlo.
+- **La ida `Deportivo Español 0-1 Sacachispas` del 8 de junio de 2013**, semifinal de
+  la Primera C 2012-13, figura a las `15:35`, y la programación de la AFA —Boletín
+  4780, del 5/6/2013— la pone ese sábado sin hora. Falta el horario oficial de esa
+  semana o una crónica que diga a qué hora empezó.
+- **La columna `venue` copia la grafía de cada página, así que una misma cancha queda
+  escrita de varias maneras.** La de Cañuelas se llama Jorge Alfredo Arín —así figura
+  en el padrón de clubes de APreViDe— y en 208 filas aparece de ocho: `José Alfredo
+  Arín` en 71, `Jorge Arin` en 56, `Jorge Alfredo Arín` en 46, `Jose Alfredo Arín` en
+  29 y cuatro más. Unificarlas pide un padrón de canchas, como el de clubes; cuántas
+  canchas más pasan por lo mismo no está medido.
 - **Una corrección a mano que hay que sacar a tiempo:** Wikipedia sigue mostrando
   `Claypole 0-0 Central Córdoba (R)` (Primera C 2026) y el dataset publica el `2-2`.
   Cuando la página lo corrija el build va a avisar, y ahí se saca la entrada de

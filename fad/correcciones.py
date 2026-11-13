@@ -3706,16 +3706,37 @@ HORAS: tuple[Hora, ...] = (
         jornada="Final", local="Fénix", visita="Deportivo Español",
         dice="15:30", debe="15:00",
         porque=(
-            "LA PROGRAMACION DE LA AFA, que reproduce Ascenso del Interior con la firma "
-            "'Gentileza AFA' el miercoles 19/6/2013: 'Domingo 23 de junio / 15.00-- "
-            "Fénix-Social Español', con Ignacio Lupani, el mismo arbitro de la pagina "
+            "LA PROGRAMACION DE LA AFA, en su Boletin 4784, publicado el 19/6/2013: "
+            "'Final – 1er. Partido: Domingo 23/06 Fénix c. Soc. Español, a las 15.00 "
+            "horas' (https://www.afa.com.ar/upload/boletines/BOL_Comite_Ejecutivo_4784"
+            ".pdf). 'Soc. Español' es Deportivo Español, que la AFA y RSSSF escriben "
+            "por su nombre social. Ese dia la reproduce Ascenso del Interior con la "
+            "firma 'Gentileza AFA', 'Domingo 23 de junio / 15.00-- Fénix-Social "
+            "Español', con Ignacio Lupani, el mismo arbitro de la pagina "
             "(https://www.ascensodelinterior.com.ar/noticias/5527/la-programacion-de-la-"
             "fecha/). La previa de Pilar a Diario del sabado 22 dice 'mañana a las 15' "
             "(https://www.pilaradiario.com/sociales/2013/6/22/nica-duda-fnix-est-quin-ser-"
             "primer-defensor-central-36798.html), y Canal 26 del 18/6, 'Domingo 23 a las "
             "15'. Probablemente salen todas de la misma programacion, y ninguna da la "
-            "hora real de inicio; la otra hora de esa programacion que esta en el "
-            "dataset, Almagro-Brown de Adrogué a las 12.05, coincide con la pagina."),
+            "hora real de inicio. La otra hora de ese boletin que esta en el dataset, "
+            "Almagro-Brown de Adrogué a las 12.05, coincide con la pagina, y la vuelta, "
+            "'Soc. Español c. Fénix, a las 13.00 horas (TV)' en el Boletin 4786 del "
+            "26/6, tambien."),
+    ),
+    Hora(
+        pagina="Campeonato de Primera B 2012-13 (Argentina)",
+        jornada="Final", local="Brown de Adrogué", visita="Almagro",
+        dice="11:05", debe="11:00",
+        porque=(
+            "LA PROGRAMACION DE LA AFA, en su Boletin 4782, publicado el 12/6/2013, "
+            "bajo 'TORNEO “REDUCIDO” 2º ASCENSO A 1RA. “B” NACIONAL / Final – 1er. "
+            "partido': 'Domingo 16/06 Brown (Adrogué) c. Almagro, a las 11.00 horas "
+            "(TV)' (https://www.afa.com.ar/upload/boletines/BOL_Comite_Ejecutivo_4782"
+            ".pdf). El boletin que sigue en el sitio de la AFA, el 4784 del 19/6, ya es "
+            "de despues del partido y no trae cambios para este; el 4783 no esta "
+            "publicado. La vuelta, 'Almagro c. Brown (Adrogué), a las 12.05 horas (TV)' "
+            "en el 4784, coincide con la pagina. Ninguna fuente da la hora real de "
+            "inicio."),
     ),
     Hora(
         pagina="Campeonato de Primera C 2011-12 (Argentina)",

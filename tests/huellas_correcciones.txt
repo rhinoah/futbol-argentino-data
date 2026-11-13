@@ -164,6 +164,7 @@ CANCHAS | pagina='Campeonato de Primera Nacional 2022' | jornada='Fecha 36' | lo
 CANCHAS | pagina='Torneo Federal A 2025' | jornada='Segunda etapa' | local='Sarmiento (LB)' | visita='San Martín (SM)' | dice='Centenario' | debe='Ciudad de La Banda'
 HORAS | pagina='Anexo:Torneo Clausura 2003 (Argentina)' | jornada='Fecha 15' | local="Newell's Old Boys" | visita='Racing Club' | dice='18:5' | debe='18:05'
 HORAS | pagina='Campeonato de Primera C 2012-13 (Argentina)' | jornada='Final' | local='Fénix' | visita='Deportivo Español' | dice='15:30' | debe='15:00'
+HORAS | pagina='Campeonato de Primera B 2012-13 (Argentina)' | jornada='Final' | local='Brown de Adrogué' | visita='Almagro' | dice='11:05' | debe='11:00'
 HORAS | pagina='Campeonato de Primera C 2011-12 (Argentina)' | jornada='Promoción Primera C-Primera D' | local='Argentino de Quilmes' | visita='Luján' | dice='15:10' | debe='15:00'
 CANCHAS | pagina='Campeonato de Primera C 2017-18 (Argentina)' | jornada='Cuartos' | local='Central Córdoba (R)' | visita='Cañuelas' | dice='Estadio Jose Alfredo Arín' | debe='Gabino Sosa'
 CANCHAS | pagina='Torneo Federal A 2014' | jornada='Fecha 2' | local='Unión Aconquija' | visita='San Jorge (T)' | dice='Municipal de Aconquija' | debe='Tiro Federal y Gimnasia'
