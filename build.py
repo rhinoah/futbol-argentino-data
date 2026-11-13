@@ -19,7 +19,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from fad import (citadas, correcciones, dataset, equipos, fechas, parser,
+from fad import (canchas, citadas, correcciones, dataset, equipos, fechas, parser,
                  posiciones, torneos,
                  validar, wiki)
 
@@ -1403,9 +1403,17 @@ def main(argv=None) -> int:
     # veces se reconcilian. Tambien es solo aviso, y por la razon de cualquier
     # chequeo de dataset entero: un desacuerdo entre dos paginas en curso no puede
     # frenar la actualizacion de todas las demas.
+    #
+    # Y antes que todo eso, cada cancha con el nombre del padron: dos copias que
+    # escriben la cancha con y sin "Estadio" dicen lo mismo, y para
+    # `casas_compartidas` es una cancha y no dos. Va tambien sobre las filas
+    # reusadas del CSV, para que un nombre cambiado en el padron llegue a los
+    # torneos cerrados sin --rehacer.
+    canchas.unificar(filas + sin_fecha)
     for a in dataset.reconciliar_copias(filas, correcciones.COPIAS, frozenset(leidas)):
         print(f"  aviso: {a}", file=sys.stderr)
     for a in (dataset.casas_compartidas(filas) + dataset.categorias_incompatibles(filas)
+              + canchas.sueltas(filas + sin_fecha)
               + dataset.dias_seguidos(filas)):
         print(f"  aviso: {a}", file=sys.stderr)
 

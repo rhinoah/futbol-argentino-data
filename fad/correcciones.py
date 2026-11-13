@@ -3828,15 +3828,6 @@ COPIAS: tuple[Copia, ...] = (
             "14.10."),
     ),
     Copia(
-        fecha="2010-05-30", local="CAI", visita="Ramón Santamarina",
-        campo="venue", valor="Municipal de Comodoro Rivadavia",
-        porque=(
-            "La misma cancha escrita de dos formas: el Argentino A 2009-10 pone 'Estadio "
-            "Municipal de Comodoro Rivadavia' y la B Nacional 2009-10 'Municipal de "
-            "Comodoro Rivadavia', que es como el dataset la escribe en otras 41 filas; "
-            "con el prefijo, en ninguna otra (medido el 10/11/2026)."),
-    ),
-    Copia(
         fecha="2011-06-22", local="Desamparados", visita="San Martín (T)",
         campo="matchday", valor="Promoción Primera B Nacional - Torneo Argentino A",
         porque=(
@@ -3865,15 +3856,6 @@ COPIAS: tuple[Copia, ...] = (
             "Guacurarí'. Se toma la primera porque es la que mas se parece a como el "
             "dataset escribe esa cancha en otros 203 partidos ('Comandante Andrés "
             "Guacurarí', medido el 14/10/2026), que no es ninguna de las dos."),
-    ),
-    Copia(
-        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",
-        campo="venue", valor="Marcelo Bielsa",
-        porque=(
-            "La misma cancha escrita de dos formas: la plantilla de la Primera B "
-            "Transicion 2020 dice 'Estadio Marcelo Bielsa' y la tabla del Torneo "
-            "Transicion Federal A 2020 'Marcelo Bielsa', que es como el dataset la "
-            "escribia en 311 filas antes de esta declaracion; con el prefijo, en 5."),
     ),
     Copia(
         fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",

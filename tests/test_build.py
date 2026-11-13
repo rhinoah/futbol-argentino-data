@@ -342,6 +342,46 @@ def test_un_torneo_cerrado_no_se_vuelve_a_bajar(monkeypatch, tmp_path):
     assert len(bajadas) == 2, "--rehacer tiene que volver a parsear"
 
 
+def _en(cancha: str, pagina: str) -> str:
+    """La pagina con su primer partido en `cancha` y no en "Un Estadio"."""
+    return pagina.replace("|Un Estadio\n", f"|{cancha}\n", 1)
+
+
+def test_el_build_publica_la_cancha_con_el_nombre_del_padron(monkeypatch, tmp_path):
+    pagina = _en("Estadio Raul Conti", tabla(("Boca Juniors", "River Plate")))
+    assert correr(monkeypatch, tmp_path, pagina) == 0
+    (f,) = build.dataset.leer_carpeta(tmp_path / "data")
+    assert f["venue"] == "Raúl Conti"
+
+
+def test_y_tambien_en_las_filas_que_se_reusan_del_csv(monkeypatch, tmp_path):
+    """Un torneo cerrado no se vuelve a parsear: sus filas salen del CSV. Si el
+    padron suma un nombre, tiene que llegarles igual, sin --rehacer."""
+    salida = tmp_path / "data"
+    monkeypatch.setattr(build.torneos, "TODOS", [CERRADO_A])
+    monkeypatch.setattr(build.wiki, "wikitexto", lambda *a, **k: _en(
+        "Raúl Conti", tabla(("Boca Juniors", "River Plate"))))
+    monkeypatch.setattr(build, "SALIDA", salida)
+    assert build.main([]) == 0
+    (csv_,) = salida.glob("*.csv")
+    texto = csv_.read_text(encoding="utf-8")
+    csv_.write_text(texto.replace(",Raúl Conti,", ",Raul Conti,"), encoding="utf-8")
+    assert [f["venue"] for f in build.dataset.leer_carpeta(salida)] == ["Raul Conti"]
+    assert build.main([]) == 0
+    assert [f["venue"] for f in build.dataset.leer_carpeta(salida)] == ["Raúl Conti"]
+
+
+def test_una_cancha_nueva_escrita_de_dos_formas_se_avisa_sin_frenar(monkeypatch, tmp_path,
+                                                                    capsys):
+    pagina = _en("Cancha Nueva", _en("Estadio Cancha Nueva", tabla(
+        ("Boca Juniors", "River Plate"), ("Racing Club", "Huracán"))))
+    assert correr(monkeypatch, tmp_path, pagina) == 0
+    assert "una cancha escrita de 2 formas: 'Cancha Nueva' (1) / " \
+           "'Estadio Cancha Nueva' (1)" in capsys.readouterr().err
+    assert sorted(f["venue"] for f in build.dataset.leer_carpeta(tmp_path / "data")) == [
+        "Cancha Nueva", "Estadio Cancha Nueva"]
+
+
 def test_dos_paginas_del_mismo_torneo_no_se_pisan(monkeypatch, tmp_path):
     """Varias entradas del catalogo comparten torneo y temporada -- la 2016 y la
     2016-17 son las dos "Primera Division 2016". Si las filas guardadas se
@@ -851,19 +891,19 @@ _JUGADOS_OTRO_DIA_1985 = {
 _FINALES_1985 = {
     "ganadores": [
         ("1985-07-09", "Argentinos Juniors", "2", "0", "", "", "Vélez Sarsfield",
-         "Estadio La Bombonera", "false"),
+         "La Bombonera", "false"),
         ("1985-07-17", "Vélez Sarsfield", "2", "0", "2", "4", "Argentinos Juniors",
-         "Estadio José Amalfitani", "false"),
+         "José Amalfitani", "false"),
     ],
     "perdedores": [
         ("1985-08-07", "Vélez Sarsfield", "2", "1", "", "", "River Plate",
-         "Estadio Tomás Adolfo Ducó", "true"),
+         "Tomás Adolfo Ducó", "true"),
     ],
     "campeonato": [
         ("1985-08-28", "Argentinos Juniors", "1", "1", "3", "4", "Vélez Sarsfield",
-         "Estadio Monumental", "true"),
+         "Monumental", "true"),
         ("1985-09-04", "Vélez Sarsfield", "1", "2", "", "", "Argentinos Juniors",
-         "Estadio Monumental", "true"),
+         "Monumental", "true"),
     ],
 }
 

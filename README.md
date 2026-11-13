@@ -39,7 +39,7 @@ medido era por era, está en [`TODO.md`](TODO.md).
 
 Ojo si contás partidos: diecinueve de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
-`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 474 partidos
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 475 partidos
 distintos. Las dos copias de cada uno dicen lo mismo en todo lo que describe al
 partido —fecha, hora, marcador, penales, cancha, `neutral` y `status`— y difieren sólo
 en lo que es de cada torneo. Lo que una página no trae se toma de la otra, y donde las
@@ -283,7 +283,7 @@ el mismo: acá `time` va segunda.
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
 | `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales`, `Segunda etapa`. En una serie de ida y vuelta de Wikipedia las dos patas llevan la misma ronda —si la tabla rotula sólo la pata (`Partidos de ida`) o lo que trae (`Partidos`), la ronda es la que dice el encabezado de arriba o el título de la sección—, y cuál es la ida lo dice `date`. Un partido suelto que no es de ningún cuadro —un desempate, una promoción— lleva el título de su sección tal como lo escribe la página: `Partido por la permanencia`, `Desempate del primer puesto` |
-| `venue` | el estadio, tal como figura; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos; donde la página pone otro y la prensa de esos días dice dónde se jugó, el de la prensa (109 filas, en `fad/correcciones.py`) |
+| `venue` | el estadio, tal como figura, con el nombre de [`fad/canchas.py`](fad/canchas.py) donde la página lo escribe distinto sólo en tildes, mayúsculas, comillas o un `Estadio` adelante; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos; donde la página pone otro y la prensa de esos días dice dónde se jugó, el de la prensa (109 filas, en `fad/correcciones.py`) |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
@@ -1754,6 +1754,28 @@ afuera.
 Un club que el padrón no conoce es un **aviso grave**: no se escribe el CSV. Es
 el caso de un ascenso o de un torneo que se suma, y conviene que haga ruido una
 vez en vez de colarse para siempre como un club distinto.
+
+## El padrón de canchas
+
+`venue` sale de la página de cada torneo, y cada página escribe la cancha a su manera.
+Medido el 13/11/2026 sobre las 40 265 filas con cancha: **630 grafías**, y 177 canchas
+que difieren sólo en tildes, mayúsculas, comillas o un `Estadio` adelante —`15 de
+abril` y `15 de Abril`, `Raúl Conti` y `Raul Conti`—. Quien agrupaba por cancha las
+contaba como dos.
+
+[`fad/canchas.py`](fad/canchas.py) tiene el nombre con que se publica cada una de esas
+177, y el build reescribe con él **1278 filas**. Dos grafías son la misma si
+coinciden sin tildes, mayúsculas, puntuación ni palabras como `Estadio` o `de`; eso
+no pide fuente, porque no afirma que dos nombres distintos sean la misma cancha: es
+el mismo nombre escrito de dos formas. El nombre es la grafía más común de cada una
+sin el `Estadio`, y está escrito a mano en vez de elegirse en cada build para que no
+cambie solo el día que una página nueva dé vuelta la mayoría. Una grafía nueva que
+choca con otra y no está en el padrón se avisa.
+
+Es la primera etapa. Lo que la comparación de texto no junta queda para las que
+siguen, cada alias con su fuente: un apellido mal escrito —la cancha de Atlanta
+sigue figurando de ocho maneras—, un nombre largo y uno corto —`Tomás A. Ducó` y `Tomás Adolfo
+Ducó`— y los apodos, como `La Doble Visera`, que es el Libertadores de América.
 
 ## Correr solo
 
@@ -4288,11 +4310,11 @@ página no trae. El día lo da la previa de La Nueva: el domingo 8 de julio de 2
 
 ## Tests
 
-1743 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1774 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 1035 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1043 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

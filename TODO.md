@@ -95,23 +95,18 @@ sin fecha no se jugaron.
   la Primera C 2012-13, figura a las `15:35`, y la programación de la AFA —Boletín
   4780, del 5/6/2013— la pone ese sábado sin hora. Falta el horario oficial de esa
   semana o una crónica que diga a qué hora empezó.
-- **La columna `venue` copia la grafía de cada página, así que una misma cancha queda
-  escrita de varias maneras.** Medido el 13/11/2026 sobre las 40 265 filas con cancha,
-  que la escriben de 630 maneras:
-  - 37 canchas difieren sólo en tildes, mayúsculas o comillas (`15 de abril` y `15 de
-    Abril`); contando además un `Estadio` adelante son 177, con 1277 filas fuera de la
-    grafía más común de cada una.
-  - Más allá de la tipografía hay 59 grupos de grafías que usa un mismo local y que
-    comparten un apellido, con falsos positivos mezclados. La de Cañuelas se llama
-    Jorge Alfredo Arín —así figura en el padrón de clubes de APreViDe— y en 208 filas
-    aparece de ocho maneras: `José Alfredo Arín` en 71, `Jorge Arin` en 56, `Jorge
-    Alfredo Arín` en 46, `Jose Alfredo Arín` en 29 y cuatro más. La de Atlanta aparece
-    de once maneras en 304 filas, y la de Patronato de ocho en 281.
-  - Los apodos y los nombres de club no comparten ninguna palabra con el nombre de la
-    cancha, y ninguna comparación de texto los encuentra: `La Doble Visera` en 175
-    filas de Independiente, `Nueva Chicago` en 217 de la República de Mataderos.
-
-  Unificarlas pide un padrón de canchas, como el de clubes.
+- **Las canchas que el padrón de `fad/canchas.py` todavía no junta.** Las grafías que
+  difieren sólo en tipografía ya salen con un solo nombre, y las 40 265 filas con
+  cancha la escriben de 412 maneras. Lo que queda pide decir que dos nombres distintos
+  son la misma cancha, y eso va con fuente, alias por alias:
+  - 59 grupos de grafías que usa un mismo local y que comparten un apellido, con
+    falsos positivos mezclados. La de Cañuelas se llama Jorge Alfredo Arín —así figura
+    en el padrón de clubes de APreViDe— y en 208 filas aparece como `José Alfredo
+    Arín` (102), `Jorge Arin` (58) y `Jorge Alfredo Arín` (48). La de Atlanta aparece
+    de ocho maneras en 304 filas, y la de Patronato de siete en 281.
+  - Los apodos y los nombres de club, que no comparten ninguna palabra con el nombre
+    de la cancha y que ninguna comparación de texto encuentra: `La Doble Visera` en
+    177 filas de Independiente, `Nueva Chicago` en 221 de la República de Mataderos.
 - **Una corrección a mano que hay que sacar a tiempo:** Wikipedia sigue mostrando
   `Claypole 0-0 Central Córdoba (R)` (Primera C 2026) y el dataset publica el `2-2`.
   Cuando la página lo corrija el build va a avisar, y ahí se saca la entrada de

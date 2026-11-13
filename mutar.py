@@ -3877,13 +3877,6 @@ MUTANTES += [
      '        pagina="Torneo Federal A 2025",\n',
      "    *(lambda *a, **k: ())(\n"
      '        pagina="Torneo Federal A 2025",\n'),
-    ("fad/correcciones.py", "sacar de `COPIAS` la cancha copiada de San Telmo-Deportivo Madryn, 2021",
-     "    Copia(\n"
-     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'
-     '        campo="venue", valor="Marcelo Bielsa",\n',
-     "    *(lambda *a, **k: ())(\n"
-     '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'
-     '        campo="venue", valor="Marcelo Bielsa",\n'),
     ("fad/correcciones.py", "sacar de `COPIAS` la ronda de San Telmo-Deportivo Madryn, 2021",
      "    Copia(\n"
      '        fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",\n'
@@ -3977,9 +3970,6 @@ MUTANTES += [
     ('fad/correcciones.py', 'sacar de `COPIAS` la hora de CAI-Ramon Santamarina, 2010',
      '    Copia(\n        fecha="2010-05-30", local="CAI", visita="Ramón Santamarina",\n        campo="time", valor="14:00",\n',
      '    *(lambda *a, **k: ())(\n        fecha="2010-05-30", local="CAI", visita="Ramón Santamarina",\n        campo="time", valor="14:00",\n'),
-    ('fad/correcciones.py', 'sacar de `COPIAS` la cancha de CAI-Ramon Santamarina, 2010',
-     '    Copia(\n        fecha="2010-05-30", local="CAI", visita="Ramón Santamarina",\n        campo="venue", valor="Municipal de Comodoro Rivadavia",\n',
-     '    *(lambda *a, **k: ())(\n        fecha="2010-05-30", local="CAI", visita="Ramón Santamarina",\n        campo="venue", valor="Municipal de Comodoro Rivadavia",\n'),
     # --- HORAS y la guarda de las horas que no se entienden ---
     ("fad/validar.py", "avisar tambien la hora vacia",
      '            for p in ps if p.hora and not _HH_MM.match(p.hora)]\n',
@@ -4254,14 +4244,46 @@ MUTANTES += [
     ("data/partidos-2015.csv", "publicar el `suspendido` de la nota en el Arsenal-Newell's que se jugo entero, Primera 2015",
      "2015-04-13,16:00,Arsenal,Newell's Old Boys,3,0,,,Primera Division,2015,zonas,,Fecha 9,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina),\n",
      "2015-04-13,16:00,Arsenal,Newell's Old Boys,3,0,,,Primera Division,2015,zonas,,Fecha 9,El Viaducto,false,https://es.wikipedia.org/wiki/Campeonato_de_Primera_División_2015_(Argentina),suspendido\n"),
+    # El padron de canchas: la clave que junta las grafias, el nombre que se publica,
+    # y el build que lo aplica a las filas nuevas y a las reusadas del CSV.
+    ("fad/canchas.py", "que la clave no saque las tildes",
+     "                if not unicodedata.combining(c))\n",
+     "                if True)\n"),
+    ("fad/canchas.py", "que la clave no pase a minusculas",
+     '    s = re.sub(r"[^\\w\\s]", " ", s.lower())\n',
+     '    s = re.sub(r"[^\\w\\s]", " ", s)\n'),
+    ("fad/canchas.py", "que la clave no saque la puntuacion",
+     '    s = re.sub(r"[^\\w\\s]", " ", s.lower())\n',
+     "    s = s.lower()\n"),
+    ("fad/canchas.py", "que la clave no saque el \"Estadio\" ni las palabras sin peso",
+     '    return " ".join(t for t in s.split() if t not in _SIN_PESO)\n',
+     '    return " ".join(s.split())\n'),
+    ("fad/canchas.py", "que la clave saque tambien palabras que distinguen",
+     '    return " ".join(t for t in s.split() if t not in _SIN_PESO)\n',
+     '    return " ".join(t for t in s.split() if t not in _SIN_PESO and len(t) > 3)\n'),
+    ("fad/canchas.py", "publicar la cancha como vino, sin el padron",
+     "    return _INDICE.get(clave(nombre), nombre)\n",
+     "    return nombre\n"),
+    ("fad/canchas.py", "no contar las filas que unifica",
+     "            cambiadas += 1\n",
+     "            pass\n"),
+    ("fad/canchas.py", "no avisar una cancha nueva escrita de dos formas",
+     "            for _, c in sorted(por_clave.items()) if len(c) > 1]\n",
+     "            for _, c in sorted(por_clave.items()) if len(c) > 2]\n"),
+    ("build.py", "no unificar las canchas en el build",
+     "    canchas.unificar(filas + sin_fecha)\n",
+     "    pass\n"),
+    ("build.py", "no avisar las canchas sueltas en el build",
+     "              + canchas.sueltas(filas + sin_fecha)\n",
+     "              + []\n"),
     # El Nacional 1985: el marcador arbitrado, el unico `status` del torneo y la fila
     # que sin la Sexta fase salia en la Quinta.
     ("data/partidos-1985.csv", "publicar el 2-2 de la grilla y no el arbitrado: Guarani-Talleres (C), Nacional 1985",
      "1985-03-10,,Guaraní Antonio Franco,Talleres (C),2,0,",
      "1985-03-10,,Guaraní Antonio Franco,Talleres (C),2,2,"),
     ("data/partidos-1985.csv", "publicar sin su status el Independiente-Boca suspendido, Nacional 1985",
-     "Tercera fase,Estadio La Doble Visera,false,https://es.wikipedia.org/wiki/Campeonato_Nacional_1985_(Argentina),suspendido\n",
-     "Tercera fase,Estadio La Doble Visera,false,https://es.wikipedia.org/wiki/Campeonato_Nacional_1985_(Argentina),\n"),
+     "Tercera fase,La Doble Visera,false,https://es.wikipedia.org/wiki/Campeonato_Nacional_1985_(Argentina),suspendido\n",
+     "Tercera fase,La Doble Visera,false,https://es.wikipedia.org/wiki/Campeonato_Nacional_1985_(Argentina),\n"),
     ("data/partidos-1985.csv", "publicar en la Quinta fase el River-Newell's de la Sexta, Nacional 1985",
      "1985-07-31,,River Plate,Newell's Old Boys,2,0,,,Primera Division - Nacional,1985,eliminacion,,Sexta fase,",
      "1985-07-31,,River Plate,Newell's Old Boys,2,0,,,Primera Division - Nacional,1985,eliminacion,,Quinta fase,"),
@@ -4284,14 +4306,14 @@ MUTANTES += [
      "1985-09-04,,Vélez Sarsfield,Argentinos Juniors,1,2,",
      "1985-09-04,,Vélez Sarsfield,Argentinos Juniors,2,1,"),
     ("data/partidos-1985.csv", "la final del campeonato fuera de cancha neutral, Nacional 1985",
-     "Argentinos Juniors,1,2,,,Primera Division - Nacional,1985,eliminacion,,Final,Estadio Monumental,true,",
-     "Argentinos Juniors,1,2,,,Primera Division - Nacional,1985,eliminacion,,Final,Estadio Monumental,false,"),
+     "Argentinos Juniors,1,2,,,Primera Division - Nacional,1985,eliminacion,,Final,Monumental,true,",
+     "Argentinos Juniors,1,2,,,Primera Division - Nacional,1985,eliminacion,,Final,Monumental,false,"),
     ("data/partidos-1985.csv", "publicar neutral el Independiente-Boca, que fue de local, Nacional 1985",
-     "Independiente,Boca Juniors,1,0,,,Primera Division - Nacional,1985,eliminacion,,Tercera fase,Estadio La Doble Visera,false,",
-     "Independiente,Boca Juniors,1,0,,,Primera Division - Nacional,1985,eliminacion,,Tercera fase,Estadio La Doble Visera,true,"),
+     "Independiente,Boca Juniors,1,0,,,Primera Division - Nacional,1985,eliminacion,,Tercera fase,La Doble Visera,false,",
+     "Independiente,Boca Juniors,1,0,,,Primera Division - Nacional,1985,eliminacion,,Tercera fase,La Doble Visera,true,"),
     ("data/partidos-1985.csv", "publicar de local un cuarto de final de ganadores, Nacional 1985",
-     "River Plate,Estudiantes (LP),2,0,,,Primera Division - Nacional,1985,eliminacion,,Cuartos,Estadio La Doble Visera,true,",
-     "River Plate,Estudiantes (LP),2,0,,,Primera Division - Nacional,1985,eliminacion,,Cuartos,Estadio La Doble Visera,false,"),
+     "River Plate,Estudiantes (LP),2,0,,,Primera Division - Nacional,1985,eliminacion,,Cuartos,La Doble Visera,true,",
+     "River Plate,Estudiantes (LP),2,0,,,Primera Division - Nacional,1985,eliminacion,,Cuartos,La Doble Visera,false,"),
 ]
 
 

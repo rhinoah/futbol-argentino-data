@@ -52,7 +52,9 @@ la propia página, y en 107 la prensa de esos días, con su dirección en
 `fad/correcciones.py`. Y en los diecinueve partidos que publican las páginas de dos
 torneos, lo que una de las dos no trae —la hora, la cancha, `neutral`—, o lo que
 escribe distinto, puede venir de la otra, que también es Wikipedia, aunque `source`
-nombre sólo la suya.
+nombre sólo la suya. Y en 1278 filas la cancha no se escribe como en la página sino
+con el nombre de `fad/canchas.py`: es la misma, y difiere sólo en tildes, mayúsculas,
+comillas o un «Estadio» adelante.
 
 ## Las fuentes
 
