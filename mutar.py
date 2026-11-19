@@ -4281,7 +4281,7 @@ MUTANTES += [
      "            if ya != c.nombre:\n",
      "            if False:\n"),
     ("fad/canchas.py", "publicar la cancha como vino, sin el padron",
-     "    return _INDICE.get(clave(nombre), nombre)\n",
+     "    return _indice().get(clave(nombre), nombre)\n",
      "    return nombre\n"),
     ("fad/canchas.py", "no contar las filas que unifica",
      "            cambiadas += 1\n",

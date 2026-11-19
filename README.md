@@ -1780,7 +1780,10 @@ y si los enlaces de las dos grafías llevan, redirecciones mediante, al **mismo 
 de estadio**, son la misma cancha. El artículo va en el padrón y un enlace de ejemplo
 por grafía en [`tests/testigos_canchas.txt`](tests/testigos_canchas.txt), y un test
 los cruza en los dos sentidos. Medido el 19/11/2026: **36 canchas con 40 alias**, que
-cambian **1799 filas**; las grafías bajaron de 412 a 372.
+cambian **1799 filas**; las grafías bajaron de 412 a 372. El nombre que se publica es la
+grafía más común del grupo, aunque sea el apodo —`Del Bosque` y no `Juan Carmelo
+Zerillo`—: el título del artículo daba nombres que no escribe ninguna página, como
+`León Kolbowski`.
 
 La medición dejó tres reglas:
 

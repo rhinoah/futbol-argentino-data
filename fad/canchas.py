@@ -34,7 +34,10 @@ cancha a un articulo de Wikipedia, y si los enlaces del nombre y del alias lleva
 redirecciones mediante, al MISMO articulo de estadio, son la misma cancha para
 Wikipedia. Ese articulo va en `articulo`, y un enlace de ejemplo por grafia, con
 su pagina, en `tests/testigos_canchas.txt`. Medido el 19/11/2026: 36 canchas, 40
-alias.
+alias. El nombre que se publica es, como en la primera etapa, la grafia mas comun
+del grupo, aunque sea el apodo -- `Del Bosque` y no `Juan Carmelo Zerillo`, `El
+Viaducto` y no `Julio Humberto Grondona` --: decidido el 19/11/2026. El titulo del
+articulo daba nombres que no escribe ninguna pagina, como `León Kolbowski`.
 
 Tres cosas que la medicion enseño y que la regla cuida:
   * El texto del enlace se compara con la grafia SIN sacar palabras del medio. Con
@@ -56,6 +59,7 @@ import re
 import unicodedata
 from collections import Counter
 from dataclasses import dataclass
+from functools import lru_cache
 
 # Las palabras que no distinguen una cancha de otra. `Estadio Del Bosque`,
 # `Estadio del Bosque` y `Del Bosque` son la misma; `Héctor Odicino y Pedro
@@ -303,13 +307,21 @@ def _armar_indice() -> dict[str, str]:
     return indice
 
 
-_INDICE = _armar_indice()
+# Se arma la primera vez que se usa, y no al importar. Un padron con dos canchas que
+# reclaman la misma clave revienta igual -- en el build, que unifica todas las filas,
+# y en los tests --, pero no tumba la importacion de todo lo que importa este modulo.
+# Armado al importar, un cambio en `clave` que juntara dos canchas cortaba pytest en
+# la colecta: ningun test llegaba a mirarlo, y mutar.py lo contaba, con razon, como
+# un mutante que nadie mato.
+@lru_cache(maxsize=1)
+def _indice() -> dict[str, str]:
+    return _armar_indice()
 
 
 def canonica(nombre: str) -> str:
     """Como se publica la cancha `nombre`: la del padron si es una de sus grafias,
     y si no, tal cual vino."""
-    return _INDICE.get(clave(nombre), nombre)
+    return _indice().get(clave(nombre), nombre)
 
 
 def unificar(filas: list[dict]) -> int:
