@@ -33,11 +33,12 @@ def test_la_clave_junta_el_mismo_nombre_escrito_de_dos_formas(una, otra):
 @pytest.mark.parametrize("una, otra", [
     ("Don León Kolbovsky", "Don León Kolbowsky"),         # un apellido mal escrito
     ("Tomás A. Ducó", "Tomás Adolfo Ducó"),               # un nombre largo y uno corto
-    ("La Doble Visera", "Libertadores de América"),       # un apodo
+    ("Chateau Carreras", "Mario Alberto Kempes"),         # el nombre viejo y el nuevo
     ("Malvinas Argentinas", "Islas Malvinas"),            # dos canchas distintas
 ])
 def test_la_clave_no_junta_nombres_distintos(una, otra):
-    """Juntar estos es afirmar que son la misma cancha, y eso pide fuente."""
+    """Juntar estos es afirmar que son la misma cancha, y eso pide fuente: lo hace
+    un alias del padron, no la clave."""
     assert canchas.clave(una) != canchas.clave(otra)
 
 
@@ -54,20 +55,78 @@ def test_canonica_da_el_nombre_del_padron(dice, publica):
     assert canchas.canonica(dice) == publica
 
 
-@pytest.mark.parametrize("cancha", ["Cancha Inventada", "Comandante A. Guacurarí", ""])
-def test_una_cancha_que_no_esta_en_el_padron_queda_como_vino(cancha):
+@pytest.mark.parametrize("dice, publica", [
+    ("Chateau Carreras", "Mario Alberto Kempes"),          # el nombre viejo
+    ("Estadio Don León Kolbovsky", "Don León Kolbowsky"),  # el alias, con su "Estadio"
+    ("El Viaducto", "El Viaducto"),                        # el nombre, que es el apodo
+    ("Julio Humberto Grondona", "El Viaducto"),
+    ("Coloso del Parque", "Marcelo Bielsa"),
+])
+def test_un_alias_publica_el_nombre_de_su_cancha(dice, publica):
+    assert canchas.canonica(dice) == publica
+
+
+@pytest.mark.parametrize("cancha", [
+    "Cancha Inventada", "",
+    "La Doble Visera",          # la cancha vieja de Independiente: Wikipedia la separa
+    "De la Avenida",            # la de Unión de Sunchales, no el 15 de Abril
+    "Malvinas Argentinas",      # nombra dos canchas: no se junta con nada
+])
+def test_una_cancha_sin_alias_queda_con_su_nombre(cancha):
     assert canchas.canonica(cancha) == cancha
 
 
-def test_cada_cancha_del_padron_tiene_una_sola_clave():
+def test_cada_clave_del_padron_es_de_una_sola_cancha():
     """Dos nombres con la misma clave: el ultimo pisaria al primero en el indice."""
-    repetidas = [k for k, n in Counter(canchas.clave(c) for c in canchas.PADRON).items()
-                 if n > 1]
-    assert repetidas == []
+    claves = Counter(canchas.clave(n) for c in canchas.PADRON for n in (c.nombre,) + c.alias)
+    assert [k for k, n in claves.items() if n > 1] == []
+
+
+def test_un_alias_que_reclaman_dos_canchas_revienta_al_armar_el_indice(monkeypatch):
+    monkeypatch.setattr(canchas, "PADRON", (
+        canchas.Cancha("Una", alias=("Otra",), articulo="Estadio Una"),
+        canchas.Cancha("Otra")))
+    with pytest.raises(ValueError, match="dos canchas"):
+        canchas._armar_indice()
 
 
 def test_ningun_nombre_del_padron_empieza_con_estadio():
-    assert [c for c in canchas.PADRON if c.lower().startswith("estadio")] == []
+    nombres = [n for c in canchas.PADRON for n in (c.nombre,) + c.alias]
+    assert [n for n in nombres if n.lower().startswith("estadio")] == []
+
+
+def test_una_cancha_con_alias_nombra_su_articulo_y_una_sin_alias_no():
+    assert [c.nombre for c in canchas.PADRON if bool(c.alias) != bool(c.articulo)] == []
+
+
+# ---- los testigos de los alias ----------------------------------------------------
+TESTIGOS = Path(__file__).resolve().parent / "testigos_canchas.txt"
+
+
+def _testigos() -> list[tuple[str, str, str, str]]:
+    renglones = [r for r in TESTIGOS.read_text(encoding="utf-8").splitlines()
+                 if r.strip() and not r.startswith("#")]
+    return [tuple(x.strip() for x in r.split(" | ", 3)) for r in renglones]
+
+
+def test_cada_alias_tiene_su_testigo_y_cada_testigo_su_alias():
+    """El padron y la evidencia, cruzados en los dos sentidos: un alias agregado sin
+    enlace que lo sostenga falla aca, y tambien uno que se borre del padron dejando
+    su testigo colgado."""
+    del_padron = {(n, c.articulo) for c in canchas.PADRON if c.alias
+                  for n in (c.nombre,) + c.alias}
+    de_testigos = {(g, art) for g, art, _, _ in _testigos()}
+    assert len(de_testigos) > 70
+    assert del_padron - de_testigos == set(), "alias sin testigo"
+    assert de_testigos - del_padron == set(), "testigo sin alias"
+
+
+def test_el_enlace_de_cada_testigo_muestra_su_grafia():
+    """Que el renglon diga de que grafia es no alcanza: el texto del enlace tiene que
+    ser esa grafia, con a lo sumo tildes, mayusculas o un "Estadio" de diferencia."""
+    for grafia, _, pagina, enlace in _testigos():
+        visible = enlace.strip("[]").split("|")[-1]
+        assert canchas.clave(visible) == canchas.clave(grafia), (grafia, pagina, enlace)
 
 
 def test_unificar_cambia_solo_la_cancha_y_cuenta_las_filas():

@@ -95,18 +95,21 @@ sin fecha no se jugaron.
   la Primera C 2012-13, figura a las `15:35`, y la programación de la AFA —Boletín
   4780, del 5/6/2013— la pone ese sábado sin hora. Falta el horario oficial de esa
   semana o una crónica que diga a qué hora empezó.
-- **Las canchas que el padrón de `fad/canchas.py` todavía no junta.** Las grafías que
-  difieren sólo en tipografía ya salen con un solo nombre, y las 40 265 filas con
-  cancha la escriben de 412 maneras. Lo que queda pide decir que dos nombres distintos
-  son la misma cancha, y eso va con fuente, alias por alias:
-  - 59 grupos de grafías que usa un mismo local y que comparten un apellido, con
-    falsos positivos mezclados. La de Cañuelas se llama Jorge Alfredo Arín —así figura
-    en el padrón de clubes de APreViDe— y en 208 filas aparece como `José Alfredo
-    Arín` (102), `Jorge Arin` (58) y `Jorge Alfredo Arín` (48). La de Atlanta aparece
-    de ocho maneras en 304 filas, y la de Patronato de siete en 281.
-  - Los apodos y los nombres de club, que no comparten ninguna palabra con el nombre
-    de la cancha y que ninguna comparación de texto encuentra: `La Doble Visera` en
-    177 filas de Independiente, `Nueva Chicago` en 221 de la República de Mataderos.
+- **Las canchas que el padrón de `fad/canchas.py` todavía no junta.** Las 40 285 filas
+  con cancha la escriben de 372 maneras. Queda:
+  - 51 grupos de grafías que usa un mismo local y que comparten un apellido, con
+    falsos positivos mezclados, que ninguna página enlaza a un artículo de estadio. La
+    de Cañuelas se llama Jorge Alfredo Arín —así figura en el padrón de clubes de
+    APreViDe— y aparece como `José Alfredo Arín` (102 filas), `Jorge Arin` (58) y
+    `Jorge Alfredo Arín` (49); la de Atlanta, de siete maneras, y la de Patronato, de
+    seis. Les falta un testigo que no sea el enlace.
+  - Grafías que enlazan a más de un estadio, y que por eso el padrón no junta con
+    nada: `Malvinas Argentinas` (652 filas: el de Mendoza y el de Los Polvorines),
+    `Centenario` (503), `General San Martín` (113), `El Fortín` (106) y `Talleres`
+    (81). Separarlas pediría mirar el club local de cada fila.
+  - La clave de la primera etapa saca «de» y «la» del medio, y con eso `La Avenida`
+    —el apodo del 15 de Abril de Unión— se publicaría como `De la Avenida`, que es la
+    cancha de Unión de Sunchales. Hoy ninguna fila escribe `La Avenida`.
 - **Una corrección a mano que hay que sacar a tiempo:** Wikipedia sigue mostrando
   `Claypole 0-0 Central Córdoba (R)` (Primera C 2026) y el dataset publica el `2-2`.
   Cuando la página lo corrija el build va a avisar, y ahí se saca la entrada de

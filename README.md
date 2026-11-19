@@ -283,7 +283,7 @@ el mismo: acá `time` va segunda.
 | `phase` | `zonas` o `eliminacion` |
 | `group` | `Zona A`, `Zona B`, `Interzonal` |
 | `matchday` | `Fecha 7`, o la ronda: `Dieciseisavos`, `Semifinales`, `Segunda etapa`. En una serie de ida y vuelta de Wikipedia las dos patas llevan la misma ronda —si la tabla rotula sólo la pata (`Partidos de ida`) o lo que trae (`Partidos`), la ronda es la que dice el encabezado de arriba o el título de la sección—, y cuál es la ida lo dice `date`. Un partido suelto que no es de ningún cuadro —un desempate, una promoción— lleva el título de su sección tal como lo escribe la página: `Partido por la permanencia`, `Desempate del primer puesto` |
-| `venue` | el estadio, tal como figura, con el nombre de [`fad/canchas.py`](fad/canchas.py) donde la página lo escribe distinto sólo en tildes, mayúsculas, comillas o un `Estadio` adelante; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos; donde la página pone otro y la prensa de esos días dice dónde se jugó, el de la prensa (109 filas, en `fad/correcciones.py`) |
+| `venue` | el estadio, tal como figura, con el nombre de [`fad/canchas.py`](fad/canchas.py) donde la página lo escribe distinto en tildes, mayúsculas, comillas o un `Estadio` adelante, o lo llama por otro nombre que según los enlaces de Wikipedia es la misma cancha; en un partido escrito dos veces que cada página escribe distinto, como figura en una de las dos; donde la página pone otro y la prensa de esos días dice dónde se jugó, el de la prensa (109 filas, en `fad/correcciones.py`) |
 | `neutral` | si se jugó en cancha neutral — ver abajo |
 | `source` | la URL de la página de Wikipedia del torneo; si otra fuente puso la fecha o el partido, va detrás de un ` + `, y si fueron dos, las dos |
 | `status` | de dónde salió el marcador: vacío, `suspendido`, `escritorio` o `no disputado` — ver abajo |
@@ -1772,10 +1772,31 @@ sin el `Estadio`, y está escrito a mano en vez de elegirse en cada build para q
 cambie solo el día que una página nueva dé vuelta la mayoría. Una grafía nueva que
 choca con otra y no está en el padrón se avisa.
 
-Es la primera etapa. Lo que la comparación de texto no junta queda para las que
-siguen, cada alias con su fuente: un apellido mal escrito —la cancha de Atlanta
-sigue figurando de ocho maneras—, un nombre largo y uno corto —`Tomás A. Ducó` y `Tomás Adolfo
-Ducó`— y los apodos, como `La Doble Visera`, que es el Libertadores de América.
+Esa fue la primera etapa. La segunda junta **nombres distintos** de la misma cancha
+—`Chateau Carreras` y `Mario Alberto Kempes`, `El Viaducto` y `Julio Humberto Grondona`,
+`Don León Kolbovsky` y `Don León Kolbowsky`—, y eso sí afirma algo, así que cada alias
+lleva su testigo: las páginas enlazan la celda de la cancha a un artículo de Wikipedia,
+y si los enlaces de las dos grafías llevan, redirecciones mediante, al **mismo artículo
+de estadio**, son la misma cancha. El artículo va en el padrón y un enlace de ejemplo
+por grafía en [`tests/testigos_canchas.txt`](tests/testigos_canchas.txt), y un test
+los cruza en los dos sentidos. Medido el 19/11/2026: **36 canchas con 40 alias**, que
+cambian **1799 filas**; las grafías bajaron de 412 a 372.
+
+La medición dejó tres reglas:
+
+- **El texto del enlace se compara sin sacar palabras del medio.** Con la clave de la
+  primera etapa, `[[Estadio 15 de Abril|La Avenida]]` —el apodo de la cancha de Unión—
+  quedaba igual que `De la Avenida`, que es la de Unión de Sunchales, y las juntaba.
+- **Una grafía que enlaza a dos estadios no se junta con nada.** `Malvinas Argentinas`
+  es el de Mendoza y el de Los Polvorines (652 filas), `Centenario` es tres y `El
+  Fortín` también.
+- **Manda Wikipedia, también cuando separa.** `La Doble Visera`, que el dataset tiene de
+  1985 a 2006, tiene artículo propio y no es el `Libertadores de América`, que figura
+  desde 2009 y se construyó en su lugar.
+
+Lo que no tiene enlace queda para después: la cancha de Atlanta sigue figurando de
+siete maneras y la de Patronato de seis, con apellidos mal escritos que ninguna página
+enlaza.
 
 ## Correr solo
 
@@ -4324,11 +4345,11 @@ página no trae. El día lo da la previa de La Nueva: el domingo 8 de julio de 2
 
 ## Tests
 
-1777 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1788 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 1046 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1048 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

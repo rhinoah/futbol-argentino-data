@@ -897,7 +897,7 @@ _FINALES_1985 = {
     ],
     "perdedores": [
         ("1985-08-07", "Vélez Sarsfield", "2", "1", "", "", "River Plate",
-         "Tomás Adolfo Ducó", "true"),
+         "Tomás A. Ducó", "true"),
     ],
     "campeonato": [
         ("1985-08-28", "Argentinos Juniors", "1", "1", "3", "4", "Vélez Sarsfield",

@@ -3903,17 +3903,6 @@ COPIAS: tuple[Copia, ...] = (
             "2010-11 con espacios. Va la del Argentino A, como en la ida."),
     ),
     Copia(
-        fecha="2012-06-27", local="Crucero del Norte", visita="Guillermo Brown",
-        campo="venue", valor="Comandante A. Guacurarí",
-        porque=(
-            "La misma cancha escrita de dos formas, y las dos celdas enlazan al mismo "
-            "articulo, 'Estadio Comandante Andrés Guacurarí': la B Nacional 2011-12 "
-            "pone 'Comandante A. Guacurarí' y el Argentino A 2011-12 'Cte. Andrés "
-            "Guacurarí'. Se toma la primera porque es la que mas se parece a como el "
-            "dataset escribe esa cancha en otros 203 partidos ('Comandante Andrés "
-            "Guacurarí', medido el 14/10/2026), que no es ninguna de las dos."),
-    ),
-    Copia(
         fecha="2021-02-04", local="San Telmo", visita="Deportivo Madryn",
         campo="matchday", valor="Tercer ascenso",
         porque=(
