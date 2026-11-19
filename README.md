@@ -39,7 +39,7 @@ medido era por era, está en [`TODO.md`](TODO.md).
 
 Ojo si contás partidos: diecinueve de promoción y de definición de ascenso entre clubes
 de dos categorías están una vez en cada torneo.
-`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 475 partidos
+`df.drop_duplicates(["date", "home_team", "away_team"])` deja los 50 495 partidos
 distintos. Las dos copias de cada uno dicen lo mismo en todo lo que describe al
 partido —fecha, hora, marcador, penales, cancha, `neutral` y `status`— y difieren sólo
 en lo que es de cada torneo. Lo que una página no trae se toma de la otra, y donde las
@@ -341,8 +341,8 @@ un marcador **indistinguible de uno jugado en cancha**.
 
 | valor | qué afirma | filas |
 |---|---|---:|
-| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 50 369 |
-| `suspendido` | la fuente dice que el partido **no llegó al final** | 101 |
+| vacío | **nada.** La página no dijo otra cosa. No certifica que se jugaran los 90: dice que nadie dijo lo contrario | 50 390 |
+| `suspendido` | la fuente dice que el partido **no llegó al final** | 102 |
 | `escritorio` | el partido **sí terminó** y el número publicado lo puso un fallo | 16 |
 | `no disputado` | el partido **no empezó nunca** y el número lo puso un fallo; cuenta para la tabla. El día es el del programado: el `Instituto 0-1 San Lorenzo` de la 1987-88 lo dice RSSSF, y cinco de 2013 a 2025, como el `Colón 0-1 Atlético de Rafaela` del Inicial 2013, una nota de su página. Esos cinco conservan también la hora y la cancha programadas, que es lo que publica la página: no son las de un partido que se jugó. Los seis de `sin-fecha/` no tienen día | 6 |
 
@@ -2832,12 +2832,26 @@ falta un marcador, tienen dos. Y la vara se corrió una vez: el segundo
 `Faltante`, el Godoy Cruz–Deportivo Armenio de la Copa Argentina 2018-19, saca
 su 2-1 de otra página de Wikipedia y de RSSSF.
 
-Dos detalles que el mecanismo cuida:
+Y se corrió otra, a propósito, para un caso que la primera vara no podía alcanzar: un
+partido que la página publica **sin marcador porque lo decidió un tribunal**. La ida
+`Boca Unidos – Gimnasia y Esgrima (C)` de la Tercera etapa del Federal A 2026 se
+suspendió a los 39 minutos con el 0-0, por una bomba de estruendo, y el [Boletín
+Oficial N.º 88/26](https://assets1.afa.com.ar/2026/D/OCT26/BOLETIN-NRO-88-26.pdf) del
+Tribunal de Disciplina Deportiva del Interior le dio el partido y la llave por perdidos
+a Boca Unidos, sin escribir marcador. El número no puede salir de la página porque la
+página no lo tiene. Los dos testigos son entonces **el fallo**, que dice quién pierde,
+y **el artículo 152** del Reglamento de Transgresiones y Penas, que registra una pérdida
+de partido como cero para el sancionado y uno para el otro —el mismo boletín lo aplica
+así a otro expediente—. Entra `0-1` y `suspendido`, porque no llegó al final; la única
+nota que da otro número, un 3 a 0, no cita la resolución, y queda escrita en `porque`.
+
+Tres detalles que el mecanismo cuida:
 
 - **El contexto se hereda de un hermano de la misma jornada** en vez de
   escribirse a mano. Torneo, fase y zona son de la ronda; escribirlos aparte haría
   que esta fila fuera la única del torneo que dice otra cosa, y eso no falla: sale
   al CSV con otro `group` y el que lo consuma cuenta dos zonas donde hay una.
+- **La tanda y el `status` no se heredan**: son del partido, no de la ronda.
 - **Si la página se arregla, avisa.** El día que alguien complete la celda en
   Wikipedia el parser va a leer la fila, y sin la guarda el partido entraría dos
   veces.
@@ -4310,11 +4324,11 @@ página no trae. El día lo da la previa de La Nueva: el domingo 8 de julio de 2
 
 ## Tests
 
-1774 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
+1777 tests, sin red — se prueba el parseo, y un test que depende de que Wikipedia
 esté arriba no prueba el parseo, prueba internet.
 
 Que pasen no alcanza, así que hay mutation testing: `mutar.py` rompe el código a
-propósito de 1043 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
+propósito de 1046 maneras —veintiséis de ellas rompen el CSV publicado— y exige que la suite
 se dé cuenta de cada una.
 
 ```bash

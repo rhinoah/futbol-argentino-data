@@ -766,6 +766,34 @@ def test_un_faltante_sin_tanda_no_hereda_la_del_hermano(monkeypatch):
     assert (ps[-1].penales_local, ps[-1].penales_visita) == (None, None)
 
 
+def test_un_faltante_que_decidio_un_fallo_lleva_su_status(monkeypatch):
+    monkeypatch.setattr(correcciones, "FALTANTES",
+                        (replace(UN_FALTANTE, status="suspendido"),))
+    ps = [_hermano()]
+    correcciones.aplicar(ps, "Una Pagina")
+    assert ps[-1].status == "suspendido"
+    assert ps[0].status == ""
+
+
+def test_un_faltante_sin_status_no_hereda_el_del_hermano(monkeypatch):
+    """Como la tanda, el status es del partido. Heredado, un partido que se jugo
+    entero saldria `suspendido` porque el de al lado lo fue."""
+    monkeypatch.setattr(correcciones, "FALTANTES", (UN_FALTANTE,))
+    h = _hermano()
+    h.status = "suspendido"
+    ps = [h]
+    correcciones.aplicar(ps, "Una Pagina")
+    assert ps[-1].status == ""
+
+
+def test_el_status_de_un_faltante_es_uno_de_los_que_el_esquema_conoce():
+    """Escribe en una columna publica: los mismos valores que `status_de_la_fila`."""
+    con_status = [f for f in correcciones.FALTANTES if f.status]
+    assert con_status, "nadie lo usa: se perdio el mecanismo"
+    for f in con_status:
+        assert f.status in {"suspendido", "escritorio", "no disputado"}, f.local
+
+
 def test_un_faltante_no_duplica_si_arreglaron_la_pagina(monkeypatch):
     """El dia que alguien complete la celda en Wikipedia, el parser va a leer la
     fila y esta entrada sobra. Sin la guarda, el partido entraria dos veces."""
@@ -796,7 +824,9 @@ def test_un_faltante_no_sale_de_su_pagina(monkeypatch):
 def test_los_faltantes_nombran_sus_dos_testigos():
     """Es el unico tipo que AGREGA una fila, asi que la vara es mas alta: el
     marcador tiene que salir de la pagina misma y con dos testigos que no
-    dependan uno del otro. Si hay que buscarlo afuera, no entra.
+    dependan uno del otro. Si hay que buscarlo afuera, no entra. La unica puerta
+    distinta es la de un partido que decidio un fallo, y tambien pide dos: el fallo
+    y el articulo que fija el resultado.
 
     El test cuenta los testigos en vez de buscarles palabras. Cuando hubo un solo
     Faltante alcanzaba con exigir "tabla" y "resaltado" en el `porque`, pero eso

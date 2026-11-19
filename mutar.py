@@ -2374,6 +2374,14 @@ MUTANTES = [
      "        hermanos = [p for p in ps if p.jornada == fal.jornada]",
      "        hermanos = list(ps)"),
 
+    ("fad/correcciones.py", "dejarle al faltante el status del hermano de la jornada",
+     "                          status=fal.status,\n",
+     ""),
+
+    ("fad/correcciones.py", "publicar sin su status el faltante que decidio un fallo",
+     "                          status=fal.status,\n",
+     '                          status="",\n'),
+
     # --- homonimos: el mismo nombre, dos clubes ---
     ("fad/correcciones.py", "no resolver el homonimo en los partidos",
      "            if p.local == h.dice:", "            if False:"),
@@ -3859,6 +3867,11 @@ MUTANTES += [
      '        pagina="Campeonato de Primera B 2017-18 (Argentina)",\n',
      "    *(lambda *a, **k: ())(\n"
      '        pagina="Campeonato de Primera B 2017-18 (Argentina)",\n'),
+    ("fad/correcciones.py", "sacar de `FALTANTES` el Boca Unidos-Gimnasia y Esgrima (C) que decidio el Tribunal, Federal A 2026",
+     "    Faltante(\n"
+     '        pagina="Torneo Federal A 2026", jornada="Tercera etapa",\n',
+     "    *(lambda *a, **k: ())(\n"
+     '        pagina="Torneo Federal A 2026", jornada="Tercera etapa",\n'),
     ("fad/correcciones.py", "sacar de `FALTANTES` el faltante Defensores de Cambaceres-Sportivo Barracas, Primera C 2016",
      "    Faltante(\n"
      '        pagina="Campeonato de Primera C 2016 (Argentina)", jornada="Fecha 1",\n',

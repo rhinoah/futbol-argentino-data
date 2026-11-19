@@ -54,7 +54,11 @@ torneos, lo que una de las dos no trae —la hora, la cancha, `neutral`—, o lo
 escribe distinto, puede venir de la otra, que también es Wikipedia, aunque `source`
 nombre sólo la suya. Y en 1278 filas la cancha no se escribe como en la página sino
 con el nombre de `fad/canchas.py`: es la misma, y difiere sólo en tildes, mayúsculas,
-comillas o un «Estadio» adelante.
+comillas o un «Estadio» adelante. Un partido, por último, la página lo publica sin
+marcador porque lo decidió un tribunal, y entra con el que fija el reglamento: la ida
+`Boca Unidos 0-1 Gimnasia y Esgrima (C)` del Federal A 2026, por el Boletín Oficial
+88/26 del Tribunal de Disciplina Deportiva del Interior y el art. 152 del Reglamento de
+Transgresiones y Penas del Consejo Federal.
 
 ## Las fuentes
 

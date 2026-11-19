@@ -150,6 +150,7 @@ DIVIDIDOS | pagina='Torneo Argentino A 2006-07' | local='San Martín (SM)' | vis
 DIVIDIDOS | pagina='Torneo Federal A 2014' | local='Deportivo Roca' | visita='Cipolletti' | dice=None
 FALTANTES | pagina='Campeonato de Primera C 2016 (Argentina)' | jornada='Fecha 1' | local='Defensores de Cambaceres' | visita='Sportivo Barracas' | goles=(0, 0) | fecha='2016-02-05' | hora='17:00' | estadio='12 de Octubre'
 FALTANTES | pagina='Copa Argentina 2018-19' | jornada='Treintaidosavos' | local='Godoy Cruz' | visita='Deportivo Armenio' | goles=(2, 1) | fecha='2019-03-23' | hora='' | estadio='Juan Domingo Perón'
+FALTANTES | pagina='Torneo Federal A 2026' | jornada='Tercera etapa' | local='Boca Unidos' | visita='Gimnasia y Esgrima (C)' | goles=(0, 1) | fecha='2026-10-25' | hora='' | estadio='Leoncio Benítez' | status='suspendido'
 LOCALIA_RESUELTA | 'Torneo Argentino A 2011-12'
 HOMONIMOS | pagina='Copa Argentina 2015-16' | dice='Juventud Unida' | debe='Juventud Unida (G)'
 HOMONIMOS | pagina='Torneo Argentino A 2004-05' | dice='Talleres (C)' | debe='Talleres (P)'

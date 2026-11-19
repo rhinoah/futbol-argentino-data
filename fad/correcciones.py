@@ -2523,6 +2523,16 @@ class Faltante:
 
     El resto de la fila -- fecha, hora, cancha -- se lee del wikitexto como
     cualquier otra, y no hay nada que decidir ahi.
+
+    LA OTRA PUERTA: EL MARCADOR LO PUSO UN FALLO. Hay un partido que la pagina
+    publica sin marcador porque no lo decidio la cancha sino un tribunal, y ahi el
+    numero no puede salir de la pagina: no lo tiene. Entra igual, decidido por el
+    duenio del dataset el 19/11/2026, con otros dos testigos que tampoco dependen
+    uno del otro: EL FALLO, que dice quien pierde, y EL ARTICULO del reglamento que
+    fija el resultado que se registra para esa pena. `status` dice cual de los tres
+    es, con la precedencia de siempre: `suspendido` si no llego al final,
+    `escritorio` si termino, `no disputado` si no empezo. Si un testigo escribe otro
+    marcador, va en `porque`, con su fecha.
     """
     pagina: str
     jornada: str
@@ -2541,6 +2551,9 @@ class Faltante:
     # termina empatada NO tiene ganador en el marcador, y sin esto el partido
     # entraria como un empate cualquiera.
     penales: tuple[int, int] | None = None
+    # Vacio, salvo cuando el marcador lo puso un fallo (ver arriba). Como la tanda,
+    # es del partido y no se hereda del hermano de la jornada.
+    status: str = ""
 
 
 FALTANTES: tuple[Faltante, ...] = (
@@ -2615,6 +2628,49 @@ FALTANTES: tuple[Faltante, ...] = (
             "serie no juega las dos rondas que siguen. Eso decidia el orden de la "
             "tanda; ahora decide que el ganador es el mismo aunque la tanda no "
             "haya existido ",
+        ),
+    ),
+    Faltante(
+        pagina="Torneo Federal A 2026", jornada="Tercera etapa",
+        local="Boca Unidos", visita="Gimnasia y Esgrima (C)", goles=(0, 1),
+        fecha="2026-10-25", hora="", estadio="Leoncio Benítez", status="suspendido",
+        porque=(
+            "La ida de la Tercera etapa de la Reválida. La página la publica sin "
+            "marcador -- '| - ', y en la fecha 'Suspendido' con una nota -- y la "
+            "vuelta, 'Cancelado'; el cuadro pone a Gimnasia 'w/o'. Se suspendió a los "
+            "39 minutos con el 0-0, según el informe del árbitro Fernando Jesús "
+            "Rekers que transcribe el fallo: 'el encuentro fue detenido a los 39 "
+            "minutos del partido, debido a la caída de una bomba de estruendo de la "
+            "parcialidad local'. El Litoral lo dio a los 40 el mismo 25/10. Es "
+            "`suspendido` y no `escritorio` porque no llegó al final. La vuelta no "
+            "entra: el fallo da por perdido 'el partido que se estaba disputando' y "
+            "con eso la llave, y no nombra otro.\nOTRO MARCADOR, Y POR QUÉ NO: El "
+            "Tiempo de Azul, el 18/11/2026, escribe que el Tribunal resolvió 'darle "
+            "por perdido el encuentro a Boca Unidos por 3 a 0'. No cita la "
+            "resolución, que no escribe ningún marcador, y no coincide con el art. "
+            "152. Ninguna otra nota da uno (Solo Ascenso, El Litoral, Radio Dos, El "
+            "Monterizo, Ayacucho al Día; Olé no se pudo leer). Decidido el "
+            "19/11/2026: entra con el del reglamento."),
+        testigos=(
+            "EL FALLO: el Boletín Oficial N° 88/26 del Tribunal de Disciplina "
+            "Deportiva del Interior, del 29/10/26, Expediente N° 5863/26, sanciona "
+            "a Boca Unidos 'con la pérdida del partido que se estaba disputando en "
+            "el Estadio Leoncio Benítez, el día 25 de Octubre del año 2026, "
+            "correspondiente a la fase Revalida, 3ra. Etapa, fecha 1, del Torneo "
+            "Federal A 2026, y con ello determinar la pérdida de la llave "
+            "eliminatoria' (https://assets1.afa.com.ar/2026/D/OCT26/"
+            "BOLETIN-NRO-88-26.pdf). No escribe marcador",
+            "EL REGLAMENTO: el art. 152 del Reglamento de Transgresiones y Penas "
+            "del Consejo Federal, 'PERDIDA DE PARTIDO - RESULTADO QUE SE "
+            "REGISTRA', lo registra 'con el resultado de cero gol, para el equipo "
+            "castigado y un gol a favor para el otro equipo', salvo que el otro "
+            "llevara más de uno; acá iba 0-0. El texto es el vigente desde el "
+            "01/05/2006, en la copia de la Liga Cordobesa (https://www."
+            "ligacordobesafutbol.org.ar/wp-content/uploads/2016/05/Reglamento-"
+            "Transgresiones.pdf), y sigue en pie: el mismo boletín lo aplica a otro "
+            "expediente: 'registró el resultado reglamentario de un gol a cero a "
+            "favor de Academia Pillmatún, conforme a los artículos 107 inciso a) y "
+            "152 del Reglamento de Transgresiones y Penas'",
         ),
     ),
 )
@@ -6749,6 +6805,7 @@ def aplicar(ps: list, pagina: str) -> tuple[int, list[str]]:
                           goles_visita=fal.goles[1], estadio=fal.estadio,
                           penales_local=(fal.penales or (None, None))[0],
                           penales_visita=(fal.penales or (None, None))[1],
+                          status=fal.status,
                           local_art="", visita_art="", fecha_cruda=""))
         aplicadas += 1
 
