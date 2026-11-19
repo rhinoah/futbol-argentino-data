@@ -91,6 +91,16 @@ sin fecha no se jugaron.
   Perón», y figura en `Ciudad de La Plata`; `Deportivo Español 1-0 Excursionistas`,
   Primera C 2021: «Se jugó en el estadio Enrique Sexto», y figura en `Nueva España`—.
   Leerla de esa oración, como el día y la hora, es otra regla y pide su propia medición.
+- **Falta la llave `Boca Unidos – Gimnasia y Esgrima (C)` de la Tercera etapa del
+  Torneo Federal A 2026.** La ida, del 25/10/2026 en el Leoncio Benítez, se suspendió a
+  los 40 minutos del primer tiempo con el 0-0 por una bomba de estruendo ([El
+  Litoral](https://www.ellitoral.com.ar/deportes/2026-10-25-17-7-0-se-suspendio-boca-unidos-y-gimnasia-por-agresion-con-pirotecnia)),
+  y el 29/10 el Tribunal de Disciplina del Consejo Federal se la dio por perdida a Boca
+  Unidos ([Solo Ascenso](https://www.soloascenso.com.ar/notas/san-lorenzo-alem-catamarca/boca-unidos-eliminado-de-la-competencia-por-el-tribunal/234083)).
+  La vuelta no se jugó. La página la publica sin marcador, así que no entra, y el build
+  avisa en cada partido de la Cuarta etapa que Gimnasia y Esgrima (C) juega sin haber
+  ganado la ronda anterior. Iría `suspendido`, con el marcador del fallo, que no da
+  ninguna de las notas: falta la resolución del Tribunal.
 - **La ida `Deportivo Español 0-1 Sacachispas` del 8 de junio de 2013**, semifinal de
   la Primera C 2012-13, figura a las `15:35`, y la programación de la AFA —Boletín
   4780, del 5/6/2013— la pone ese sábado sin hora. Falta el horario oficial de esa
